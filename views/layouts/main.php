@@ -38,7 +38,7 @@ AppAsset::register($this);
                 $opciones = [['label' => 'Iniciar sesión', 'url' => ['/site/login']]];
             } else {
                 $opciones = [
-                    ['label' => 'Mi cuenta', 'url' => '#'],
+                    ['label' => 'Mi cuenta', 'url' => ['/site/perfil']],
                     ['label' => 'Mi calendario', 'url' => '#'],
                     ['label' => 'Mis publicaciones', 'url' => '#'],
                     '<li class="divider"></li>',

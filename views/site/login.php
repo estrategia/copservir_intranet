@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="form-group">
             <div class="col-lg-offset-1 col-lg-11">
                 <?= Html::submitButton('Iniciar sesión', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                <?= Html::submitButton('Olvidé mi contraseña', ['class' => 'btn btn-primary', 'name' => 'forgot-button']) ?>
+                <?= Html::a('Olvidé mi contraseña',['/site/recordar-clave'], ['class' => 'btn btn-primary', 'name' => 'forgot-button']) ?>
             </div>
         </div>
 

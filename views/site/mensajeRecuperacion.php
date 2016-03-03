@@ -1,0 +1,1 @@
+Se te ha enviado un mensaje con las intrucciones para la recuperación de la contraseña, por favor revisa tu correo.

@@ -16,7 +16,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
-
+use app\models\Usuario;
 class SiteController extends Controller {
 
     public function behaviors() {
@@ -71,6 +71,46 @@ class SiteController extends Controller {
                     'model' => $model,
         ]);
     }
+    
+    public function actionRecordarClave() {
+        if (!\Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $model = new LoginForm();
+        $model->scenario = 'recuperar';
+        if ($model->load(Yii::$app->request->post())) {
+           $usuario = Usuario::findOne(['numeroDocumento' => $model->username, 'estado' => 1]);
+           
+           if(!$usuario){
+              
+               $model->addError('username', 'Usuario no existe');
+           }else{
+              // Guardar y enviar correo de recuperación
+               return $this->render('mensajeRecuperacion');
+               exit();
+           }
+           // enviar al correo electrónico el código de la recuperación.
+        }
+        return $this->render('recordarClave', [
+                    'model' => $model,
+        ]);
+    }
+    
+    public function actionCambiarClave() {
+       
+        $model = new LoginForm();
+        $model->scenario = 'cambiarClave';
+        if ($model->load(Yii::$app->request->post())) {
+           // actualizar la clave, llamando al webservice de siicop
+            
+           $model = new LoginForm();
+           $model->scenario = 'cambiarClave';
+        }
+        return $this->render('cambiarClave', [
+                    'model' => $model,
+        ]);
+    }
 
     public function actionLogout() {
         Yii::$app->user->logout();
@@ -78,8 +118,8 @@ class SiteController extends Controller {
         return $this->goHome();
     }
 
-    public function actionAbout() {
-        return $this->render('about');
+    public function actionPerfil() {
+        return $this->render('perfil');
     }
 
 }

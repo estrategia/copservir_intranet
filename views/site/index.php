@@ -3,7 +3,7 @@
 use vova07\imperavi\Widget;
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+$this->title = 'Intranet - Copservir';
 ?>
 <div class="site-index">
 
