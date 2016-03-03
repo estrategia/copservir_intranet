@@ -47,6 +47,7 @@ class Usuario extends \yii\db\ActiveRecord
             'alias' => 'Alias',
             'idPerfil' => 'Id Perfil',
             'estado' => 'Estado',
+            'imagenPerfil' => 'Imagen Perfil',
         ];
     }
     
