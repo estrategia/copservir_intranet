@@ -7,8 +7,8 @@ use yii\bootstrap\ActiveForm;
     <div class="row">
         <div class="info">
             <div class="col-md-6">
-                <div class="user-profile-pic">
-                    <img width="150" height="150" alt="" src="<?= Yii::$app->homeUrl . 'img/fotosperfil/' . \Yii::$app->user->identity->imagenPerfil ?>" >
+                <div >
+                    <img class="user-profile-pic" alt="" src="<?= Yii::$app->homeUrl . 'img/fotosperfil/' . \Yii::$app->user->identity->imagenPerfil ?>" >
                 </div>
                 <?php
                 $form = ActiveForm::begin([

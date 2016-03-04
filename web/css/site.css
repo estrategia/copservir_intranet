@@ -99,12 +99,12 @@ a.desc:after {
     width: 30px;
 }
 .user-profile-pic{
-    border-radius: 100px;
-    display: inline-block;
-    float: left;
-    height: 150px;
-    overflow: hidden;
-    width: 150px;
+//    border-radius: 100px;
+//    display: inline-block;
+//    float: left;
+//    height: auto;
+//    overflow: hidden;
+    max-width: 150px;
 }
 
 .navbar{
