@@ -36,6 +36,7 @@ use yii\bootstrap\ActiveForm;
 
       <?= Html::submitButton('Iniciar sesión', ['class' => 'btn btn-primary pull-right', 'name' => 'login-button']) ?>
 
+<<<<<<< HEAD
   </div>
 
   <div class="row p-t-10 m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
@@ -47,6 +48,14 @@ use yii\bootstrap\ActiveForm;
               <?= $form->field($model, 'rememberMe')->checkbox([
                   'template' => "{input} {label}</div>\n{error}",
               ]) ?>
+=======
+        <div class="form-group">
+            <div class="col-lg-offset-1 col-lg-11">
+                <?= Html::submitButton('Iniciar sesión', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                <?= Html::a('Olvidé mi contraseña',['/site/recordar-clave'], ['class' => 'btn btn-primary', 'name' => 'forgot-button']) ?>
+            </div>
+        </div>
+>>>>>>> e1891580887007f4b4dfcf66d4b23923522519c4
 
           </div>
 

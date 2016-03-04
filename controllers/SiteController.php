@@ -15,7 +15,11 @@ use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
-use app\models\ContactForm;
+use app\models\DatosForm;
+use app\models\Usuario;
+use app\models\FotoForm;
+use app\models\FormUpload;
+use yii\web\UploadedFile;
 
 class SiteController extends Controller {
 
@@ -75,14 +79,89 @@ class SiteController extends Controller {
         ]);
     }
 
+    public function actionRecordarClave() {
+        if (!\Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $model = new LoginForm();
+        $model->scenario = 'recuperar';
+        if ($model->load(Yii::$app->request->post())) {
+            $usuario = Usuario::findOne(['numeroDocumento' => $model->username, 'estado' => 1]);
+
+            if (!$usuario) {
+
+                $model->addError('username', 'Usuario no existe');
+            } else {
+                // Guardar y enviar correo de recuperación
+                return $this->render('mensajeRecuperacion');
+                exit();
+            }
+            // enviar al correo electrónico el código de la recuperación.
+        }
+        return $this->render('recordarClave', [
+                    'model' => $model,
+        ]);
+    }
+
+    public function actionCambiarClave() {
+
+        $model = new LoginForm();
+        $model->scenario = 'cambiarClave';
+        if ($model->load(Yii::$app->request->post())) {
+            // actualizar la clave, llamando al webservice de siicop
+
+            $model = new LoginForm();
+            $model->scenario = 'cambiarClave';
+        }
+        return $this->render('cambiarClave', [
+                    'model' => $model,
+        ]);
+    }
+
+    public function actionActualizarDatos() {
+
+        $model = new DatosForm();
+        if ($model->load(Yii::$app->request->post())) {
+            // llamar al webservice y mandar los datos
+        }
+        return $this->render('actualizarDatos', [
+                    'model' => $model,
+        ]);
+    }
+
     public function actionLogout() {
         Yii::$app->user->logout();
 
         return $this->goHome();
     }
 
-    public function actionAbout() {
-        return $this->render('about');
+    public function actionPerfil() {
+        $modelFoto = new FotoForm();
+
+        if ($modelFoto->load(Yii::$app->request->post())) {
+            // llamar al webservice y mandar los datos
+            {
+
+                $modelFoto->imagenPerfil = UploadedFile::getInstances($modelFoto, 'imagenPerfil');
+
+                if ($modelFoto->imagenPerfil) {
+                    foreach ($modelFoto->imagenPerfil as $file) {
+                        $file->saveAs('img/fotosperfil/' . $file->baseName . '.' . $file->extension);
+                        $msg = "<p><strong class='label label-info'>Enhorabuena, subida realizada con éxito</strong></p>";
+                    }
+                    $usuario = Usuario::findOne(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento, 'estado' => 1]) ;
+                    
+                    $usuario->imagenPerfil =  $file->baseName . '.' . $file->extension;
+                    
+                    $usuario->save();
+                    Yii::$app->user->identity->imagenPerfil = $file->baseName . '.' . $file->extension;
+                    
+                }
+            }
+            $modelFoto = new FotoForm();
+        }
+        return $this->render('perfil', ['modelFoto' => $modelFoto]);
     }
 
 }

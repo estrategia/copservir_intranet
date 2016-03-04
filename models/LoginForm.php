@@ -12,6 +12,9 @@ class LoginForm extends Model {
 
     public $username;
     public $password;
+    public $password2;
+    public $captcha;
+    public $form;
     public $rememberMe = true;
     private $_user = false;
 
@@ -22,6 +25,11 @@ class LoginForm extends Model {
         return [
             // username and password are both required
             [['username', 'password'], 'required'],
+         //   [["captcha",],"required", "when" => $this->form == 'recuperar'],
+            [['password','password2'], 'string', 'min' =>6],
+            ['password2', 'required', 'on' => ['cambiarClave']],
+            ['captcha', 'captcha', 'on' => ['recuperar','cambiarClave']],
+            ['password2', 'compare', 'compareAttribute'=>'password', 'message'=>'Las contraseñas deben ser iguales'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
@@ -32,7 +40,9 @@ class LoginForm extends Model {
     public function attributeLabels() {
         return [
             'username' => 'Usuario',
+            'captcha' => 'Captcha',
             'password' => 'Contraseña',
+            'password2' => 'Confirmar contraseña',
             'rememberMe' => 'Recordar',
         ];
     }
