@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 ?>
+<p>&nbsp;&nbsp;</p>
 <div class="tiles-body">
     <div class="row">
         <div class="info">
@@ -20,7 +21,7 @@ use yii\bootstrap\ActiveForm;
                 <?= $form->field($modelFoto, "imagenPerfil")->fileInput(['multiple' => false]) ?>
                 <?= Html::submitButton("Subir Foto", ["class" => "btn btn-primary btn-sm"]) ?>
                 <?php $form->end() ?>
-                
+<br/>                
 <?= Html::a('Actualizar datos', ['/site/actualizar-datos'], ['class' => 'btn btn-primary btn-sm', 'name' => 'forgot-button']) ?> 
 <?= Html::a('Cambiar contraseña', ['/site/cambiar-clave'], ['class' => 'btn btn-primary btn-sm', 'name' => 'forgot-button']) ?> 
             </div>

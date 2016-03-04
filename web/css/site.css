@@ -99,11 +99,11 @@ a.desc:after {
     width: 30px;
 }
 .user-profile-pic{
-//    border-radius: 100px;
-//    display: inline-block;
-//    float: left;
-//    height: auto;
-//    overflow: hidden;
+    border-radius: 100px;
+    display: inline-block;
+    float: left;
+    height: auto;
+    overflow: hidden;
     max-width: 150px;
 }
 
