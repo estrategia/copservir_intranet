@@ -18,9 +18,21 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/site.css',
+        //'css/site.css',
+        'libs/font-awesome/css/font-awesome.css',
+        'css/animate/animate.min.css',
+        'css/jquery-scrollbar/jquery.scrollbar.css',
+
+        'css/webarch/webarch.css',
     ];
     public $js = [
+      'js/bootstrap.min.js',
+      'js/jquery-scrollbar/jquery.scrollbar.min.js',
+      'js/jquery-numberAnimate/jquery.animateNumbers.js',
+      'js/jquery-validation/js/jquery.validate.min.js',
+
+      'js/webarch/webarch.js',
+      'js/dashboard/dashboard.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
