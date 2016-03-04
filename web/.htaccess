@@ -1,14 +1,11 @@
+Options +FollowSymLinks
+IndexIgnore */*
+
 RewriteEngine on
-                            
- 
-                            
-# Si un directorio or  fichero existe, usalo directamente
-                            
+
+# if a directory or a file exists, use it directly
 RewriteCond %{REQUEST_FILENAME} !-f
-                            
 RewriteCond %{REQUEST_FILENAME} !-d
-                            
-# De lo contrario usa index.php
-                            
+
+# otherwise forward it to index.php
 RewriteRule . index.php
-                            
