@@ -58,6 +58,11 @@ class SiteController extends Controller {
     }
 
     public function actionIndex() {
+        
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['login']);
+            exit();
+        }
         return $this->render('index');
     }
 
@@ -120,7 +125,10 @@ class SiteController extends Controller {
     }
 
     public function actionActualizarDatos() {
-
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['login']);
+            exit();
+        }
         $model = new DatosForm();
         if ($model->load(Yii::$app->request->post())) {
             // llamar al webservice y mandar los datos
@@ -131,12 +139,20 @@ class SiteController extends Controller {
     }
 
     public function actionLogout() {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['login']);
+            exit();
+        }
         Yii::$app->user->logout();
         $model = new LoginForm();
         $this->redirect('login',['model' => $model]);
     }
 
     public function actionPerfil() {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['login']);
+            exit();
+        }
         $modelFoto = new FotoForm();
 
         if ($modelFoto->load(Yii::$app->request->post())) {

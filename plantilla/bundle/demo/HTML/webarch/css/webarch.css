@@ -3888,7 +3888,6 @@ form legend,
 .form-horizontal {
   display: inline-block;
   margin-right: 10px;
-  position: relative;
   top: -4px;
 }
 .form-horizontal.form-bordered .control-group {

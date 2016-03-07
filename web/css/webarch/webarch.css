@@ -3886,9 +3886,9 @@ form legend,
   line-height: 0;
 }
 .form-horizontal {
-  display: inline-block;
+  /* display: inline-block;*/
   margin-right: 10px;
-  position: relative;
+   position: relative;
   top: -4px;
 }
 .form-horizontal.form-bordered .control-group {

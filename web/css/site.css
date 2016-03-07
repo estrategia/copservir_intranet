@@ -102,9 +102,9 @@ a.desc:after {
     border-radius: 100px;
     display: inline-block;
     float: left;
-    height: 150px;
+    height: auto;
     overflow: hidden;
-    width: 150px;
+    max-width: 150px;
 }
 
 .navbar{

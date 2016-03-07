@@ -415,7 +415,7 @@ $srcLogo = Yii::$app->homeUrl . 'img/logo_copservir.png';
     <div class="clearfix"></div>
     <div class="content ">
       <div class="page-title">
-        <h3>Dashboard </h3>
+        
       </div>
       <div id="container">
            <?= $content ?>

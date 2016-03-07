@@ -24,6 +24,7 @@ class AppAsset extends AssetBundle
         'css/jquery-scrollbar/jquery.scrollbar.css',
 
         'css/webarch/webarch.css',
+        'css/site.css'
     ];
     public $js = [
       'js/bootstrap.min.js',
@@ -32,7 +33,7 @@ class AppAsset extends AssetBundle
       'js/jquery-validation/js/jquery.validate.min.js',
 
       'js/webarch/webarch.js',
-      'js/dashboard/dashboard.js',
+     // 'js/dashboard/dashboard.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

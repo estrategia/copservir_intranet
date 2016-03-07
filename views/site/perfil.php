@@ -5,14 +5,18 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
 
 ?>
+<<<<<<< HEAD
 
 <!--
+=======
+<p>&nbsp;&nbsp;</p>
+>>>>>>> e5f90ddd808bdd42edae7961aafbe710cd0b50a0
 <div class="tiles-body">
     <div class="row">
         <div class="info">
             <div class="col-md-6">
-                <div class="user-profile-pic">
-                    <img width="150" height="150" alt="" src="<?= Yii::$app->homeUrl . 'img/fotosperfil/' . \Yii::$app->user->identity->imagenPerfil ?>" >
+                <div >
+                    <img class="user-profile-pic" alt="" src="<?= Yii::$app->homeUrl . 'img/fotosperfil/' . \Yii::$app->user->identity->imagenPerfil ?>" >
                 </div>
                 <?php
                 $form = ActiveForm::begin([
@@ -24,9 +28,15 @@ use yii\helpers\ArrayHelper;
                 <?= $form->field($modelFoto, "imagenPerfil")->fileInput(['multiple' => false]) ?>
                 <?= Html::submitButton("Subir Foto", ["class" => "btn btn-primary btn-sm"]) ?>
                 <?php $form->end() ?>
+<<<<<<< HEAD
 
 <?= Html::a('Actualizar datos', ['/site/actualizar-datos'], ['class' => 'btn btn-primary btn-sm', 'name' => 'forgot-button']) ?>
 <?= Html::a('Cambiar contraseña', ['/site/cambiar-clave'], ['class' => 'btn btn-primary btn-sm', 'name' => 'forgot-button']) ?>
+=======
+<br/>                
+<?= Html::a('Actualizar datos', ['/site/actualizar-datos'], ['class' => 'btn btn-primary btn-sm', 'name' => 'forgot-button']) ?> 
+<?= Html::a('Cambiar contraseña', ['/site/cambiar-clave'], ['class' => 'btn btn-primary btn-sm', 'name' => 'forgot-button']) ?> 
+>>>>>>> e5f90ddd808bdd42edae7961aafbe710cd0b50a0
             </div>
         </div>
     </div>
