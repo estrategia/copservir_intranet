@@ -50,5 +50,5 @@ class Usuario extends \yii\db\ActiveRecord
             'imagenPerfil' => 'Imagen Perfil',
         ];
     }
-    
+
 }

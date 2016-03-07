@@ -57,14 +57,14 @@ $this->params['breadcrumbs'][] = $this->title;
                   'options' => ['class' => 'form-horizontal', 'enableClientValidation' => true],
                   'fieldConfig' => [
                       'template' => "{label}\n<div class=\"col-md-6 controls\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
-                      'labelOptions' => ['class' => 'col-lg-1 control-label'],
+                      'labelOptions' => ['class' => 'col-lg-11'],
                   ],
       ]);
       ?>
 
       <?= $form->field($model, 'password')->passwordInput() ?>
       <?= $form->field($model, 'password2')->passwordInput()->label('Confirmar contraseña') ?>
-      <?= $form->field($model, 'captcha')->widget(Captcha::className())->label("") ?>
+      <?= $form->field($model, 'captcha')->widget(Captcha::className())->label("Ingresa el codigo") ?>
 
       <div class="form-group">
           <div class="col-lg-offset-1 col-lg-11">

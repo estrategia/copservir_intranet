@@ -40,19 +40,7 @@ $srcFondo = Yii::$app->homeUrl . 'img/work.jpg';
                   <div style="text-align: -webkit-center;">
                       <img class="" src=<?= "".$srcLogo ?> alt="" data-src=<?= "".$srcLogo ?> data-src-retina=<?= "".$srcLogo ?> style="width: 450px;"/>
                   </div>
-                  <div class="p-t-30 p-l-40 p-b-20 xs-p-t-10 xs-p-l-10 xs-p-b-10">
-                    <h2 class="normal">
-                      Ingresar Intranet
-                    </h2>
-                    <p>
-                      Utilice sus credenciales de acceso...<br>
-                    </p>
-                  </div>
-                  <div class="tiles grey p-t-20 p-b-20 no-margin text-black tab-content">
-
-                    <?= $content ?>
-
-                  </div>
+                  <?= $content ?>
                 </div>
               </div>
           </div>
