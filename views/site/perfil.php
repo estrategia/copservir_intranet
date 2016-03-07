@@ -5,12 +5,10 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
 
 ?>
-<<<<<<< HEAD
+
 
 <!--
-=======
-<p>&nbsp;&nbsp;</p>
->>>>>>> e5f90ddd808bdd42edae7961aafbe710cd0b50a0
+
 <div class="tiles-body">
     <div class="row">
         <div class="info">
@@ -28,15 +26,10 @@ use yii\helpers\ArrayHelper;
                 <?= $form->field($modelFoto, "imagenPerfil")->fileInput(['multiple' => false]) ?>
                 <?= Html::submitButton("Subir Foto", ["class" => "btn btn-primary btn-sm"]) ?>
                 <?php $form->end() ?>
-<<<<<<< HEAD
 
 <?= Html::a('Actualizar datos', ['/site/actualizar-datos'], ['class' => 'btn btn-primary btn-sm', 'name' => 'forgot-button']) ?>
 <?= Html::a('Cambiar contraseña', ['/site/cambiar-clave'], ['class' => 'btn btn-primary btn-sm', 'name' => 'forgot-button']) ?>
-=======
-<br/>                
-<?= Html::a('Actualizar datos', ['/site/actualizar-datos'], ['class' => 'btn btn-primary btn-sm', 'name' => 'forgot-button']) ?> 
-<?= Html::a('Cambiar contraseña', ['/site/cambiar-clave'], ['class' => 'btn btn-primary btn-sm', 'name' => 'forgot-button']) ?> 
->>>>>>> e5f90ddd808bdd42edae7961aafbe710cd0b50a0
+
             </div>
         </div>
     </div>
