@@ -132,8 +132,8 @@ class SiteController extends Controller {
 
     public function actionLogout() {
         Yii::$app->user->logout();
-
-        return $this->goHome();
+        $model = new LoginForm();
+        $this->redirect('login',['model' => $model]);
     }
 
     public function actionPerfil() {
@@ -151,12 +151,12 @@ class SiteController extends Controller {
                         $msg = "<p><strong class='label label-info'>Enhorabuena, subida realizada con éxito</strong></p>";
                     }
                     $usuario = Usuario::findOne(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento, 'estado' => 1]) ;
-                    
+
                     $usuario->imagenPerfil =  $file->baseName . '.' . $file->extension;
-                    
+
                     $usuario->save();
                     Yii::$app->user->identity->imagenPerfil = $file->baseName . '.' . $file->extension;
-                    
+
                 }
             }
             $modelFoto = new FotoForm();
