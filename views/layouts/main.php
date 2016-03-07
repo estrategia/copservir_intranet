@@ -31,6 +31,7 @@ $srcLogo = Yii::$app->homeUrl . 'img/logo_copservir.png';
         <?= Html::csrfMetaTags() ?>
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
+        <script> requestUrl = "<?= Yii::$app->getUrlManager()->getBaseUrl()?>";</script>
     </head>
     <body>
         <?php $this->beginBody() ?>
@@ -252,7 +253,7 @@ $srcLogo = Yii::$app->homeUrl . 'img/logo_copservir.png';
             <?= Html::a('<i class="fa fa-list-ul"></i> <span class="title">Tareas</span> <span class="selected"></span>', ['#'], []) ?>
         </li>
         <li >
-           <?= Html::a('<i class="fa fa-sitemap"></i> <span class="title">Tareas</span> <span class="selected"></span>', ['#'], []) ?>
+           <?= Html::a('<i class="fa fa-sitemap"></i> <span class="title">Organigrama</span> <span class="selected"></span>', ['#'], []) ?>
         </li>
         <li >
           <?= Html::a('<i class="fa fa-calendar"></i> <span class="title">Calendario</span> <span class="selected"></span>', ['#'], []) ?>
