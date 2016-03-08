@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\modules\intranet\models;
 
 use Yii;
 
@@ -62,29 +62,29 @@ class Contenido extends \yii\db\ActiveRecord
             'idLineaTiempo' => 'Id Linea Tiempo',
         ];
     }
-    
+
     public static function traerNoticias($idLineaTiempo){
         return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos'])->where(
-                           ['and', 
+                           ['and',
                                 ['<=', 'fechaInicioPublicacion', 'now()'],
                                 ['=', 'idLineaTiempo', $idLineaTiempo],
                                 ['=', 'idEstado', 2]
                              ]
                             )->orderBy('fechaInicioPublicacion Desc')
-                            
+
                 ->all();
     }
-    
+
     public function getListComentarios()
     {
         return $this->hasMany(ContenidosComentarios::className(), ['idContenido' => 'idContenido']);
     }
-    
+
     public function getListAdjuntos()
     {
         return $this->hasMany(ContenidosAdjuntos::className(), ['idContenido' => 'idContenido']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */

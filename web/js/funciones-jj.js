@@ -11,7 +11,7 @@ $(document).on('click', "a[data-role='cambiar-timeline']", function() {
     $.ajax({
         type: 'GET',
         async: true,
-        url: requestUrl + '/site/cambiar-linea-tiempo',
+        url: requestUrl + '/intranet/site/cambiar-linea-tiempo',
         data: {lineaTiempo: lineaTiempo},
         dataType: 'json',
         beforeSend: function() {

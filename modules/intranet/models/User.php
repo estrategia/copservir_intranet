@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\modules\intranet\models;
 
 use Yii;
 use yii\base\NotSupportedException;

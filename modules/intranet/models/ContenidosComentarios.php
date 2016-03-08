@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\modules\intranet\models;
 
 use Yii;
 
@@ -56,7 +56,7 @@ class ContenidosComentarios extends \yii\db\ActiveRecord
             'idContenido' => 'Id Contenido',
         ];
     }
-    
+
     public function getObjUsuarioPublicacionComentario()
     {
         return $this->hasOne(Usuario::className(), ['idUsuario' => 'idUsuarioComentario']);

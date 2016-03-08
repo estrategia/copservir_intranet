@@ -1,9 +1,10 @@
 <?php
 
-namespace app\models;
+namespace app\modules\intranet\models;
 
 use Yii;
 use yii\base\Model;
+//use models\User;
 
 /**
  * LoginForm is the model behind the login form.
@@ -23,12 +24,13 @@ class LoginForm extends Model {
      */
     public function rules() {
         return [
+            ['captcha', 'captcha','captchaAction'=>'/intranet/site/captcha',  'on' => ['recuperar','cambiarClave']],
             // username and password are both required
             [['username', 'password'], 'required'],
          //   [["captcha",],"required", "when" => $this->form == 'recuperar'],
             [['password','password2'], 'string', 'min' =>6],
             ['password2', 'required', 'on' => ['cambiarClave']],
-            ['captcha', 'captcha', 'on' => ['recuperar','cambiarClave']],
+            //['captcha', 'captcha', 'on' => ['recuperar','cambiarClave']],
             ['password2', 'compare', 'compareAttribute'=>'password', 'message'=>'Las contraseñas deben ser iguales'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],

@@ -176,20 +176,20 @@ $srcLogo = Yii::$app->homeUrl . 'img/logo_copservir.png';
 				</a>
 				<ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="user-options">
                   <li>
-                    <?= Html::a('Mi cuenta', ['/site/perfil']) ?>
+                    <?= Html::a('Mi cuenta', ['/intranet/site/perfil']) ?>
                   </li>
                   <li>
-                  	<?= Html::a('Mi calendario', ['/site/calendario']) ?>
+                  	<?= Html::a('Mi calendario', ['/intranet/site/calendario']) ?>
                   </li>
                   <li>
                     <?= Html::a('Mis publicaciones &nbsp;&nbsp;
-                  		<span class="badge badge-important animated bounceIn">2</span>', ['/site/publicaciones']) ?>
+                  		<span class="badge badge-important animated bounceIn">2</span>', ['/intranet/site/publicaciones']) ?>
 
                   </li>
                   <li class="divider"></li>
                   <li>
                     <?php
-                    echo Html::beginForm(['/site/logout'], 'post');
+                    echo Html::beginForm(['/intranet/site/logout'], 'post');
                     echo Html::submitButton(
                         '<i class="fa fa-power-off"></i> Salir',
                         ['class' => 'btn btn-link'
@@ -416,7 +416,7 @@ $srcLogo = Yii::$app->homeUrl . 'img/logo_copservir.png';
     <div class="clearfix"></div>
     <div class="content ">
       <div class="page-title">
-        
+
       </div>
       <div id="container">
            <?= $content ?>

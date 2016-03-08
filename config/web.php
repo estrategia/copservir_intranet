@@ -21,7 +21,7 @@ $config = [
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'intranet/site/error',
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
@@ -57,6 +57,7 @@ $config = [
         ],
         'db' => require(__DIR__ . '/db.php'),
         'urlManager' => [
+
             //'urlFormat' => 'path',
             'showScriptName' => false,
             //'caseSensitive' => true,
@@ -71,11 +72,15 @@ $config = [
     ],
     'params' => $params,
     'modules' => [
-        'gridview' => [
-            'class' => '\kartik\grid\Module',
+        'intranet' => [
+            'class' => 'app\modules\intranet\IntranetModule',
+        ],
+        /*'gridview' => [
+            //'class' => '\kartik\grid\Module',
             //'downloadAction' => '',
-        ]
+        ]*/
     ],
+
 ];
 
 if (YII_ENV_DEV) {

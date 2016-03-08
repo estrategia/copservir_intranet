@@ -1,28 +1,27 @@
 <?php
 
-namespace app\models;
+namespace app\modules\intranet\models;
 
 use Yii;
 
 /**
- * This is the model class for table "t_contenidoscomentariosadjuntos".
+ * This is the model class for table "t_contenidosadjuntos".
  *
  * @property string $idContenidoAdjunto
  * @property string $nombreAdjunto
  * @property string $rutaAdjunto
- * @property string $idContenidoComentario
- * @property string $idUsuarioPublicacion
+ * @property string $idContenido
  * @property string $fechaPublicacion
  * @property string $idTipo
  */
-class ContenidosComentariosAdjuntos extends \yii\db\ActiveRecord
+class ContenidosAdjuntos extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 't_contenidoscomentariosadjuntos';
+        return 't_contenidosadjuntos';
     }
 
     /**
@@ -31,9 +30,10 @@ class ContenidosComentariosAdjuntos extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombreAdjunto', 'rutaAdjunto', 'idContenidoComentario', 'idUsuarioPublicacion', 'fechaPublicacion', 'idTipo'], 'required'],
-            [['idContenidoComentario', 'idTipo'], 'integer'],
-            [['nombreAdjunto', 'rutaAdjunto', 'idUsuarioPublicacion', 'fechaPublicacion'], 'string', 'max' => 45]
+            [['nombreAdjunto', 'rutaAdjunto', 'idContenido', 'fechaPublicacion'], 'required'],
+            [['idContenido', 'idTipo'], 'integer'],
+            [['fechaPublicacion'], 'safe'],
+            [['nombreAdjunto', 'rutaAdjunto'], 'string', 'max' => 45]
         ];
     }
 
@@ -46,8 +46,7 @@ class ContenidosComentariosAdjuntos extends \yii\db\ActiveRecord
             'idContenidoAdjunto' => 'Id Contenido Adjunto',
             'nombreAdjunto' => 'Nombre Adjunto',
             'rutaAdjunto' => 'Ruta Adjunto',
-            'idContenidoComentario' => 'Id Contenido Comentario',
-            'idUsuarioPublicacion' => 'Id Usuario Publicacion',
+            'idContenido' => 'Id Contenido',
             'fechaPublicacion' => 'Fecha Publicacion',
             'idTipo' => 'Id Tipo',
         ];
