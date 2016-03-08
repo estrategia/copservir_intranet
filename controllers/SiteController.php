@@ -11,6 +11,7 @@ use yii\helpers\VarDumper;
 use yii\helpers\ArrayHelper;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
+use vova07\imperavi\Widget;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -57,7 +58,17 @@ class SiteController extends Controller {
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
+            'image-upload' => [
+                'class' => 'vova07\imperavi\actions\UploadAction',
+                'url' => 'http://localhost/copservir_intranet/imagenes/post/',//Yii::$app->realpath().'/imagenes', // Directory URL address, where files are stored.
+                'path' => '@app/imagenes/post' // Or absolute path to directory where files are stored.
+            ],
         ];
+        
+        
+       
+            
+       
     }
 
     public function actionIndex() {

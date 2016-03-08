@@ -23,7 +23,7 @@ echo $form->field($contenidoModel, 'contenido')->widget(Widget::className(), [
     'settings' => [
         'lang' => 'es',
         'minHeight' => 200,
-        'imageUpload' => Url::toRoute('plantilla-protocolaria/image-upload'),
+        'imageUpload' => Url::toRoute('site/image-upload'),
         'plugins' => [
             //'clips',
             'imagemanager',
