@@ -1,11 +1,11 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
 $(document).on('click', "a[data-role='cambiar-timeline']", function() {
-   
+
     var lineaTiempo = $(this).attr('data-timeline');
     var href = $(this).attr('href');
     $.ajax({
@@ -17,13 +17,14 @@ $(document).on('click', "a[data-role='cambiar-timeline']", function() {
         beforeSend: function() {
         //    Loading.show();
         },
-        
+
         complete: function(data) {
          //   Loading.hide();
         },
         success: function(data) {
             if (data.result == "ok") {
                 $(".lineastiempo").html("");
+                console.log('success');
                 $(href).html(data.response);
             }
         },
@@ -35,7 +36,7 @@ $(document).on('click', "a[data-role='cambiar-timeline']", function() {
 
 
 $(document).on('click', "button[data-role='guardar-contenido']", function() {
-   
+
     var form = $("#nuevoPOST");
     var href = $(this).attr('data-href');
     $.ajax({
@@ -47,7 +48,7 @@ $(document).on('click', "button[data-role='guardar-contenido']", function() {
         beforeSend: function() {
         //    Loading.show();
         },
-        
+
         complete: function(data) {
          //   Loading.hide();
         },
