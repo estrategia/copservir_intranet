@@ -64,7 +64,7 @@ class Contenido extends \yii\db\ActiveRecord
     }
     
     public static function traerNoticias($idLineaTiempo){
-        return $noticias = Contenido::find()->where(
+        return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos'])->where(
                            ['and', 
                                 ['<=', 'fechaInicioPublicacion', 'now()'],
                                 ['=', 'idLineaTiempo', $idLineaTiempo],
@@ -73,5 +73,23 @@ class Contenido extends \yii\db\ActiveRecord
                             )->orderBy('fechaInicioPublicacion Desc')
                             
                 ->all();
+    }
+    
+    public function getListComentarios()
+    {
+        return $this->hasMany(ContenidosComentarios::className(), ['idContenido' => 'idContenido']);
+    }
+    
+    public function getListAdjuntos()
+    {
+        return $this->hasMany(ContenidosAdjuntos::className(), ['idContenido' => 'idContenido']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getObjUsuarioPublicacion()
+    {
+        return $this->hasOne(Usuario::className(), ['idUsuario' => 'idUsuarioPublicacion']);
     }
 }

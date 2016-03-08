@@ -60,15 +60,10 @@ class SiteController extends Controller {
             ],
             'image-upload' => [
                 'class' => 'vova07\imperavi\actions\UploadAction',
-                'url' => 'http://localhost/copservir_intranet/imagenes/post/',//Yii::$app->realpath().'/imagenes', // Directory URL address, where files are stored.
+                'url' => 'http://localhost/copservir_intranet/imagenes/post/', //Yii::$app->realpath().'/imagenes', // Directory URL address, where files are stored.
                 'path' => '@app/imagenes/post' // Or absolute path to directory where files are stored.
             ],
         ];
-        
-        
-       
-            
-       
     }
 
     public function actionIndex() {
@@ -106,7 +101,7 @@ class SiteController extends Controller {
 
     public function actionRecordarClave() {
 
-      $this->layout = 'loginLayout' ;
+        $this->layout = 'loginLayout';
 
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
@@ -122,13 +117,11 @@ class SiteController extends Controller {
                 $model->addError('username', 'Usuario no existe');
             } else {
                 // Guardar y enviar correo de recuperación
-
-
                 // se genera el codigo de recuperacion
                 $fecha = new \DateTime();
                 $fecha->modify('+ 1 day');
                 //$fecha
-                $codigoRecuperacion = md5($usuario->numeroDocumento.'~'.$fecha->format('YmdHis'));
+                $codigoRecuperacion = md5($usuario->numeroDocumento . '~' . $fecha->format('YmdHis'));
 
                 //se guarda el codigo y la fecha de recuperacion
                 $usuario->codigoRecuperacion = $codigoRecuperacion;
@@ -136,9 +129,9 @@ class SiteController extends Controller {
                 $usuario->save();
 
                 //enlace para reestablecer la contraseña
-                $enlace = yii::$app->urlManager->createAbsoluteUrl(['/site/reestablecer-clave','codigo'=>$codigoRecuperacion]);
+                $enlace = yii::$app->urlManager->createAbsoluteUrl(['/site/reestablecer-clave', 'codigo' => $codigoRecuperacion]);
                 //contenido del email
-                $contenido_mail = "Ingresa a la siguiente direccion para reestalecer tu contraseña.\n".$enlace;
+                $contenido_mail = "Ingresa a la siguiente direccion para reestalecer tu contraseña.\n" . $enlace;
                 // sacar el correo del usuario del web service para enviar el email
                 // envia correo
                 $value = yii::$app->mailer->compose()->setFrom('donberna-93@hotmail.com')->setTo('miguel.bernal@eiso.com.co')->setSubject('prueba')->setHtmlBody($contenido_mail)->send();
@@ -167,8 +160,7 @@ class SiteController extends Controller {
         ]);
     }
 
-    public function actionReestablecerClave($codigo)
-    {
+    public function actionReestablecerClave($codigo) {
         $this->layout = 'loginLayout';
         $model = new LoginForm();
         $model->scenario = 'cambiarClave';
@@ -177,14 +169,15 @@ class SiteController extends Controller {
             $fecha = new \DateTime();
             $fecha = $fecha->format('YmdHis');
             //$usuario = Usuario::findOne(['codigoRecuperacion' => $codigo, 'estado' => 1, ]);
-            $usuario = Usuario::find()->where(["codigoRecuperacion"=> $codigo, 'estado'=> 1])->andWhere(['>=', 'fechaRecuperacion', $fecha])->one();;
+            $usuario = Usuario::find()->where(["codigoRecuperacion" => $codigo, 'estado' => 1])->andWhere(['>=', 'fechaRecuperacion', $fecha])->one();
+            ;
             if ($usuario === null) {
-              throw new \yii\web\HttpException(404, 'usuario sin codigo');
+                throw new \yii\web\HttpException(404, 'usuario sin codigo');
             }
             //echo $usuario->numeroDocumento;
             $model->username = $usuario->numeroDocumento;
             if ($model->login()) {
-              return $this->goBack();
+                return $this->goBack();
             }
         }
         return $this->render('reestablecerClave', [
