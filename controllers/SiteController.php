@@ -168,9 +168,8 @@ class SiteController extends Controller {
             // actualizar la clave, llamando al webservice de siicop
             $fecha = new \DateTime();
             $fecha = $fecha->format('YmdHis');
-            //$usuario = Usuario::findOne(['codigoRecuperacion' => $codigo, 'estado' => 1, ]);
-            $usuario = Usuario::find()->where(["codigoRecuperacion" => $codigo, 'estado' => 1])->andWhere(['>=', 'fechaRecuperacion', $fecha])->one();
-            ;
+
+            $usuario = Usuario::find()->where(["codigoRecuperacion"=> $codigo, 'estado'=> 1])->andWhere(['>=', 'fechaRecuperacion', $fecha])->one();;
             if ($usuario === null) {
                 throw new \yii\web\HttpException(404, 'usuario sin codigo');
             }
@@ -249,10 +248,11 @@ class SiteController extends Controller {
         $items = [
             'result' => 'ok',
             'response' => $this->renderAjax('_lineaTiempo', [
-                'contenidoModel' => $contenidoModel,
-                'linea' => $linea,
+                //'contenidoModel' => $contenidoModel,
+                //'linea' => $linea,
                 'noticias' => $noticias
-        ])];
+        ]
+        )];
         return $items;
     }
 
