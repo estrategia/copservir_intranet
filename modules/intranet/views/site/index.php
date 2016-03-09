@@ -92,17 +92,22 @@ $this->title = 'Intranet - Copservir';
       </div>
     </div>
   </div>
+
+  <div class="col-md-12 col-sm-12">
+    BANNER
+  </div>
 </div>
 
 <!-- END ESTADISTICAS -->
 
 <!-- begin OFERTAS LABORALES Y TAREAS -->
   <div class="col-md-8">
+    <br><br><br>
     <div class="row">
       <div class="col-md-12">
         <div class="grid simple ">
             <div class="grid-title no-border">
-                	<h4 style="color:#fff !important;">Ofertas <span class="semi-bold">Laborales</span></h4>
+                	<h4>Ofertas <span class="semi-bold">Laborales</span></h4>
                 <div class="tools">
                   <a href="javascript:;" class="collapse"></a>
         					<a href="#grid-config" data-toggle="modal" class="config"></a>
@@ -160,6 +165,7 @@ $this->title = 'Intranet - Copservir';
   </div>
 
   <div class="col-md-4">
+    <br><br><br>
     <div class="col-md-12 col-sm-12 spacing-bottom">
       <div class="widget">
         <div class="widget-title dark">
