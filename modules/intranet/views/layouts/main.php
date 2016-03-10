@@ -8,7 +8,9 @@ use yii\bootstrap\NavBar;
 use yii\bootstrap\Dropdown;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
-
+use app\modules\intranet\models\Menu;
+use app\modules\intranet\models\Opcion;
+use app\modules\intranet\models\OpcionesUsuario;
 AppAsset::register($this);
 
 $srcPictureUser = "''";
@@ -20,6 +22,10 @@ if (!Yii::$app->user->isGuest) {
 }
 
 $srcLogo = Yii::$app->homeUrl . 'img/logo_copservir.png';
+
+$menu = Menu::find()->with('listSubMenu')->where('idPadre is NULL')->all();
+$opciones = new OpcionesUsuario();
+$opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
 
 ?>
 <?php $this->beginPage() ?>
@@ -259,6 +265,11 @@ $srcLogo = Yii::$app->homeUrl . 'img/logo_copservir.png';
         <li >
           <?= Html::a('<i class="fa fa-calendar"></i> <span class="title">Calendario</span> <span class="selected"></span>', ['/intranet/site/calendario'], []) ?>
         </li>
+        
+        <?php foreach($menu as $subMenu):?>
+           <?php Menu::menuHtml($subMenu,$opciones->getOpcionesUsuario());?>
+        <?php endforeach;?>
+       
         <!--
         <li > <a href="javascript:;"> <i class="icon-custom-ui"></i> <span class="title">UI Elements</span> <span class=" arrow" ></span> </a>
           <ul class="sub-menu">
