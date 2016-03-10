@@ -247,16 +247,17 @@ $srcLogo = Yii::$app->homeUrl . 'img/logo_copservir.png';
           <?= Html::a('<i class="icon-custom-home"></i> <span class="title">Panel de control</span> <span class="selected"></span>', ['#'], []) ?>
 		    </li>
         <li >
-            <?= Html::a('<i class="fa fa-list-alt"></i> <span class="title">Publicaciones</span> <span class="selected"></span>', ['#'], []) ?>
+
+            <?= Html::a('<i class="fa fa-list-alt"></i> <span class="title">Publicaciones</span> <span class="selected"></span>', ['/intranet/site/publicaciones'], []) ?>
         </li>
         <li >
-            <?= Html::a('<i class="fa fa-list-ul"></i> <span class="title">Tareas</span> <span class="selected"></span>', ['#'], []) ?>
+            <?= Html::a('<i class="fa fa-list-ul"></i> <span class="title">Tareas</span> <span class="selected"></span>', ['/intranet/site/tareas'], []) ?>
         </li>
         <li >
-           <?= Html::a('<i class="fa fa-sitemap"></i> <span class="title">Organigrama</span> <span class="selected"></span>', ['#'], []) ?>
+           <?= Html::a('<i class="fa fa-sitemap"></i> <span class="title">Organigrama</span> <span class="selected"></span>', ['/intranet/site/organigrama'], []) ?>
         </li>
         <li >
-          <?= Html::a('<i class="fa fa-calendar"></i> <span class="title">Calendario</span> <span class="selected"></span>', ['#'], []) ?>
+          <?= Html::a('<i class="fa fa-calendar"></i> <span class="title">Calendario</span> <span class="selected"></span>', ['/intranet/site/calendario'], []) ?>
         </li>
         <!--
         <li > <a href="javascript:;"> <i class="icon-custom-ui"></i> <span class="title">UI Elements</span> <span class=" arrow" ></span> </a>

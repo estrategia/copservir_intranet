@@ -7,7 +7,6 @@ use yii\helpers\Html;
 
 // importancion necesaria para el modal
 use yii\bootstrap\Modal;
-use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 
@@ -35,25 +34,16 @@ $this->title = 'Intranet - Copservir';
   <div class="tab-content">
     <div class="tab-pane active">
 
-      <?= Html::a('<i class="fa fa-pencil"></i> Publicar <i><small>Requiere Aprobación</small></i>', '#', [
-            'id' => 'show-publications',
-            'class' => 'btn btn-primary btn-lg btn-large',
-            'data-toggle' => 'modal',
-            'data-target' => '#modal',
-            //'data-url' => Url::to(['guardarContenido']),
-        ]); ?>
-
-
     <?php
-        Modal::begin([
-            'id' => 'modal',
-            'header' => '<h4 class="modal-title">Complete</h4>',
-            'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Cerrar</a>',
-        ]);
+    Modal::begin([
+      'header'=>'<h2>Noticia a publicar</h2>',
+      'id'=>'modal',
+      //'size'=>'modal-lg'
+      ]);
 
-        echo "<div class=''>hola</div>";
+      print '<div id="modal-content"></div>';
 
-        Modal::end();
+    Modal::end();
     ?>
 
       <!--<a data-toggle="modal" data-target="#modal_formulario_noticias" type="button" class="btn btn-primary btn-lg btn-large"> <i class="fa fa-pencil"></i> Publicar <i><small>Requiere Aprobación</small></i></a>-->
@@ -106,8 +96,8 @@ $this->title = 'Intranet - Copservir';
     <div class="row">
       <div class="col-md-12">
         <div class="grid simple ">
-            <div class="grid-title no-border">
-                	<h4>Ofertas <span class="semi-bold">Laborales</span></h4>
+            <div class="grid-title no-border" style='background-color:#0AA699 !important'>
+                	<h4 style='color:#fff !important;'>Ofertas <span class="semi-bold">Laborales</span></h4>
                 <div class="tools">
                   <a href="javascript:;" class="collapse"></a>
         					<a href="#grid-config" data-toggle="modal" class="config"></a>
@@ -116,8 +106,7 @@ $this->title = 'Intranet - Copservir';
                 </div>
             </div>
             <div class="grid-body no-border">
-                    <p>La Oficina de Talento Humano tiene a disposició los siguientes ofertas.  Más información en la linea +571 33009845 o a <a href="rrhh@copservir.com">rrhh@copservir.com</a>
-					</p>
+                    <p>La Oficina de Talento Humano ...</p>
                     <br>
                     <table class="table table-hover no-more-tables">
                         <thead>
@@ -137,23 +126,6 @@ $this->title = 'Intranet - Copservir';
                                 <td>Bogotá</td>
                                 <td>16/01/2015</td>
                                 <td>Telemercadeo</td>
-                                <td><a href="http://clasificados.elempleo.com/Forms/view_jobOffer.aspx?jo=DEPENDIENTE-CHIQUINQUIRA-_1881720409" type="button" class="btn btn-primary btn-sm btn-small" target="_blank">Postularse</a></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Técnico Soporte (Nivel 2)</td>
-                                <td>Cali</td>
-                                <td>10/12/2015</td>
-                                <td>Sistemas y Tecnología</td>
-                                <td><a href="http://clasificados.elempleo.com/Forms/view_jobOffer.aspx?jo=DEPENDIENTE-CHIQUINQUIRA-_1881720409" type="button" class="btn btn-primary btn-sm btn-small" target="_blank">Postularse</a></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>ASESOR COMERCIAL EXTERNO </td>
-                                <td>Medellín</td>
-                                <td>10/12/2015</td>
-                                <td>Comercial</td>
-
                                 <td><a href="http://clasificados.elempleo.com/Forms/view_jobOffer.aspx?jo=DEPENDIENTE-CHIQUINQUIRA-_1881720409" type="button" class="btn btn-primary btn-sm btn-small" target="_blank">Postularse</a></td>
                             </tr>
                         </tbody>
@@ -213,30 +185,8 @@ $this->title = 'Intranet - Copservir';
 <!-- END OFERTAS LABORALES Y TAREAS -->
 <!-- begin DOWN BANNER -->
   <div class="col-md-12">
-      BANNER
+      BANNER ..............
   </div>
 
 
 <!-- END DOWN BANNER -->
-
-<?php
-        $this->registerJs(
-            " //aria-expanded='true'
-            $( document ).ready(function() {
-                //console.log($('nav-tabs:first-child')[0]) ;
-                console.log($('#lt1')[0]);
-                console.log($('.hola')[0])
-            });
-
-
-            $(document).on('click', '#activity-index-link', (function() {
-                $.get(
-                    $(this).data('url'),
-                    function (data) {
-                        $('.modal-body').html(data);
-                        $('#modal').modal();
-                    }
-                );
-            }));"
-        );
-    ?>

@@ -243,7 +243,7 @@ class SiteController extends Controller {
     }
 
     public function actionCambiarLineaTiempo($lineaTiempo) {
-        $contenidoModel = new Contenido();
+        //$contenidoModel = new Contenido();
         $linea = LineaTiempo::find()->where(['idLineaTiempo' => $lineaTiempo])->one();
 
         $noticias = Contenido::traerNoticias($lineaTiempo);
@@ -252,7 +252,7 @@ class SiteController extends Controller {
             'result' => 'ok',
             'response' => $this->renderAjax('_lineaTiempo', [
                 //'contenidoModel' => $contenidoModel,
-                //'linea' => $linea,
+                'linea' => $linea,
                 'noticias' => $noticias
         ]
         )];
@@ -293,6 +293,38 @@ class SiteController extends Controller {
         } else {
             echo "error";
         }
+    }
+
+    public function actionFormNoticia($lineaTiempo)
+    {
+      $contenidoModel = new Contenido();
+      $linea = LineaTiempo::find()->where(['idLineaTiempo' => $lineaTiempo])->one();
+
+      echo $this->renderAjax('formNoticia', [
+                  'contenidoModel' => $contenidoModel,
+                  'linea' => $linea,
+      ]);
+    }
+
+
+    public function actionTareas()
+    {
+        return $this->render('tareas', []);
+    }
+
+    public function actionCalendario()
+    {
+        return $this->render('calendario', []);
+    }
+
+    public function actionPublicaciones()
+    {
+        return $this->render('publicaciones', []);
+    }
+
+    public function actionOrganigrama()
+    {
+        return $this->render('organigrama', []);
     }
 
 }

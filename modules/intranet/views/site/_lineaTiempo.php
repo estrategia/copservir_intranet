@@ -40,8 +40,15 @@ echo $form->field($contenidoModel, 'contenido')->widget(Widget::className(), [
 <?php //ActiveForm::end(); ?>
 
 <!-- las noticias -->
+<?= Html::button('<i class="fa fa-pencil"></i> Publicar <i><small>Requiere Aprobación</small></i>', [
+      'id' => 'showFormPublications'.$linea->idLineaTiempo,
+      'class' => 'btn btn-primary btn-lg btn-large',
+      'data-role'=>'showFormPublications',
+      'value'=>Url::to(['site/form-noticia', 'lineaTiempo'=>$linea->idLineaTiempo])
+  ]); ?>
 
 <?php foreach($noticias as $noticia):?>
+
 
     <ul class="cbp_tmtimeline">
       <li>
@@ -76,3 +83,17 @@ echo $form->field($contenidoModel, 'contenido')->widget(Widget::className(), [
       </ul>
 
 <?php endforeach; ?>
+
+<?php
+        $this->registerJs(
+            " //aria-expanded='true'
+
+            $(document).on('click', '#showFormPublications".$linea->idLineaTiempo."', (function() {
+
+                console.log('dio click')
+                $('#modal').modal('show').find('#modal-content').load($(this).attr('value'));
+                console.log($('#modal').modal('show').find('#modal-content').load($(this).attr('value')))
+              }));
+              "
+        );
+    ?>
