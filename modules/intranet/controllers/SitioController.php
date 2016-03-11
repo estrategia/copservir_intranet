@@ -14,12 +14,10 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use app\modules\intranet\models\Contenido;
 use app\modules\intranet\models\LineaTiempo;
-<<<<<<< HEAD
-=======
 use app\modules\intranet\models\UsuariosOpcionesFavoritos;
 use app\modules\intranet\models\MeGustaContenidos;
 use app\modules\intranet\models\ContenidosComentarios;
->>>>>>> 487f0b37f8424bdf0c1fe4c3e2d9a34eba88ddc9
+
 
 class SitioController extends Controller {
 
@@ -113,9 +111,6 @@ class SitioController extends Controller {
             echo "error";
         }
     }
-<<<<<<< HEAD
-
-=======
 
     public function actionMenu() {
         return $this->render('menu');
@@ -157,24 +152,24 @@ class SitioController extends Controller {
             return $items;
         }
     }
-    
+
     public function actionGuardarComentario(){
         if (Yii::$app->request->post()) {
             $post = Yii::$app->request->post();
-            
+
             $comentario = new ContenidosComentarios();
-            
+
             $comentario->idContenido = $post['idContenido'];
             $comentario->contenido = $post['comentario'];
             $comentario->idUsuarioComentario = Yii::$app->user->identity->numeroDocumento;
             $comentario->fechaComentario = Date("Y-m-d h:i:s");
             $comentario->fechaActualizacion = $comentario->fechaComentario;
             $comentario->estado = 1;
-            
+
             if($comentario->save()){
                 $noticia = Contenido::traerNoticiaEspecifica($comentario->idContenido);
                 $linea = LineaTiempo::find()->where(['idLineaTiempo' => $noticia->idLineaTiempo])->one();
-                
+
                  $items = [
                   'result' => 'ok',
                    'response' => $this->renderAjax('_contenido',['noticia' => $noticia, 'linea' => $linea])
@@ -189,35 +184,21 @@ class SitioController extends Controller {
         }
     }
 
->>>>>>> 487f0b37f8424bdf0c1fe4c3e2d9a34eba88ddc9
     /*
       accion para renderizar el formulario para publicar un contenido en una linea de tiempo
      */
-
     public function actionFormNoticia($lineaTiempo) {
         $contenidoModel = new Contenido();
         $linea = LineaTiempo::find()->where(['idLineaTiempo' => $lineaTiempo])->one();
-
-<<<<<<< HEAD
-=======
         echo $this->renderAjax('formNoticia', [
             'contenidoModel' => $contenidoModel,
             'linea' => $linea,
         ]);
     }
 
-    public function actionTareas()
-    /*
-      accion para renderizar la vista tareas
-     */ {
-        return $this->render('tareas', []);
-    }
-
->>>>>>> 487f0b37f8424bdf0c1fe4c3e2d9a34eba88ddc9
     /*
       accion para renderizar la vista calendario
      */
-
     public function actionCalendario() {
         return $this->render('calendario', []);
     }

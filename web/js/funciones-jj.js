@@ -106,16 +106,12 @@ $(document).on('click', "input[data-role='agregar-opcion']", function() {
     });
 });
 
-<<<<<<< HEAD
-//::::::::::::::::::::::
-// TAREAS
-//::::::::::::::::::::::
-=======
+
 $(document).on('click', "a[data-role='me-gusta-contenido']", function() {
 
     var idContenido = $(this).attr('data-contenido');
     var val = $(this).attr('data-value');
-    
+
     $.ajax({
         type: 'POST',
         async: true,
@@ -132,7 +128,7 @@ $(document).on('click', "a[data-role='me-gusta-contenido']", function() {
         success: function(data) {
             if (data.result == "ok") {
                 $('#numero-megusta_'+idContenido).html(data.response);
-                
+
                 if(val == 1){
                     $("#megusta_"+idContenido).css('display','none');
                     $("#no_megusta_"+idContenido).css('display','');
@@ -152,8 +148,8 @@ $(document).on('click', "button[data-role='guardar-comentario-contenido']", func
 
     var idContenido = $(this).attr('data-contenido');
     var comentario = $('#comentario_'+idContenido).val();
-    
-    
+
+
     $.ajax({
         type: 'POST',
         async: true,
@@ -180,8 +176,9 @@ $(document).on('click', "button[data-role='guardar-comentario-contenido']", func
     });
 });
 
-
->>>>>>> 487f0b37f8424bdf0c1fe4c3e2d9a34eba88ddc9
+//::::::::::::::::::::::
+// TAREAS
+//::::::::::::::::::::::
 
 // solo deberia ser en tareas donde aparece el slider
  $( document ).ready(function() {
