@@ -17,7 +17,7 @@ class ContenidoPortal extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 't_contenidoportal';
+        return 't_ContenidoPortal';
     }
 
     /**

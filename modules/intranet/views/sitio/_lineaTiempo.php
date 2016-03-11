@@ -12,7 +12,7 @@ use yii\helpers\Html;
       'id' => 'showFormPublications'.$linea->idLineaTiempo,
       'class' => 'btn btn-primary btn-lg btn-large',
       'data-role'=>'showFormPublications',
-      'value'=>Url::to(['site/form-noticia', 'lineaTiempo'=>$linea->idLineaTiempo])
+      'value'=>Url::to(['sitio/form-noticia', 'lineaTiempo'=>$linea->idLineaTiempo])
   ]); ?>
 
 <?php foreach($noticias as $noticia):?>

@@ -11,7 +11,7 @@ $(document).on('click', "a[data-role='cambiar-timeline']", function() {
     $.ajax({
         type: 'GET',
         async: true,
-        url: requestUrl + '/intranet/site/cambiar-linea-tiempo',
+        url: requestUrl + '/intranet/sitio/cambiar-linea-tiempo',
         data: {lineaTiempo: lineaTiempo},
         dataType: 'json',
         beforeSend: function() {
@@ -70,7 +70,7 @@ $(document).on('click', "button[data-role='guardar-contenido']", function() {
     $.ajax({
         type: 'POST',
         async: true,
-        url: requestUrl + '/site/guardar-contenido',
+        url: requestUrl + '/sitio/guardar-contenido',
         data: form.serialize(),
         dataType: 'json',
         beforeSend: function() {

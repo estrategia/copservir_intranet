@@ -24,7 +24,7 @@ class LoginForm extends Model {
      */
     public function rules() {
         return [
-            ['captcha', 'captcha','captchaAction'=>'/intranet/site/captcha',  'on' => ['recuperar','cambiarClave']],
+            ['captcha', 'captcha','captchaAction'=>'intranet/usuario/captcha',  'on' => ['recuperar','cambiarClave']],
             // username and password are both required
             [['username', 'password'], 'required'],
          //   [["captcha",],"required", "when" => $this->form == 'recuperar'],

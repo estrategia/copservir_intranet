@@ -41,7 +41,7 @@ class UsuariosOpcionesFavoritos extends \yii\db\ActiveRecord
             'idUsuario' => 'Id Usuario',
         ];
     }
-    
+
      public function getObjMenu()
     {
         return $this->hasOne(Menu::className(), ['idMenu' => 'idMenu']);
