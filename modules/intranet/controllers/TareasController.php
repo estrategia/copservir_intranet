@@ -9,13 +9,14 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+
 /**
  * TareasController implements the CRUD actions for Tareas model.
  */
 class TareasController extends Controller
 {
     public $layout = 'main';
-    
+
     public function behaviors()
     {
         return [
@@ -28,91 +29,111 @@ class TareasController extends Controller
         ];
     }
 
-    /**
-     * Lists all Tareas models.
-     * @return mixed
+
+     /*
+     accion para renderizar la vista tareas
      */
-    public function actionIndex()
-    {
-        $searchModel = new TareasSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
+     public function actionListarTareas()
+     {
+        $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        $modelTareas = Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->all();
+         return $this->render('listarTareas', ['modelTareas' => $modelTareas]);
+     }
 
     /**
-     * Displays a single Tareas model.
+     * muestra el detalle de la tarea
      * @param string $id
      * @return mixed
      */
-    public function actionView($id)
+    public function actionDetalle($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
+        return $this->render('detalle', [
+            'model' => $this->encontrarModelo($id),
         ]);
     }
 
     /**
-     * Creates a new Tareas model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * crea una nueva tarea
+     * Si una tarea se crea con exito redirige a el detalle de la tarea
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCrear()
     {
         $model = new Tareas();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idTarea]);
+            return $this->redirect(['detalle', 'id' => $model->idTarea]);
         } else {
-            return $this->render('create', [
+            return $this->render('crear', [
                 'model' => $model,
             ]);
         }
     }
 
     /**
-     * Updates an existing Tareas model.
-     * If update is successful, the browser will be redirected to the 'view' page.
+     * actualiza una tarea existente
+     * Si una tarea se crea con exito redirige a el detalle de la tarea
      * @param string $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionActualizar($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->encontrarModelo($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idTarea]);
+            return $this->redirect(['detalle', 'id' => $model->idTarea]);
         } else {
-            return $this->render('update', [
+            return $this->render('actualizar', [
                 'model' => $model,
             ]);
         }
     }
 
     /**
-     * Deletes an existing Tareas model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * elimina una tarea existente
+     * si elimina correctamente redirige a listar tareas
      * @param string $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionEliminar($id)
     {
-        $this->findModel($id)->delete();
+        $this->encontrarModelo($id)->delete();
 
-        return $this->redirect(['index']);
+        $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        $modelTareas = Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->all();
+        return $this->render('listarTareas', ['modelTareas' => $modelTareas]);
     }
 
     /**
-     * Finds the Tareas model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
+     * actualizar el progreso de una tarea cuando mueven el slider
+     *
+     * @param
+     * @return mixed
+     */
+    public function actionActualizarProgreso()
+    {
+      $idTarea = Yii::$app->request->post('idTarea');
+      $tarea = Tareas::findOne($idTarea);
+
+      $tarea->progreso = Yii::$app->request->post('progresoTarea');
+
+      if ($tarea->save()) {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $items = [
+            'result' => 'ok',
+        ];
+        return $items;
+      }
+    }
+
+    /**
+     * encuentra una tarea por su llave primaria
+     * si el modelo no existe manda un 404
      * @param string $id
      * @return Tareas the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function encontrarModelo($id)
     {
         if (($model = Tareas::findOne($id)) !== null) {
             return $model;

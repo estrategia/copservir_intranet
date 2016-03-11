@@ -23,7 +23,7 @@ class Tareas extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 't_tareas';
+        return 't_Tareas';
     }
 
     /**
@@ -32,9 +32,9 @@ class Tareas extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['titulo', 'descripcion', 'idUsuario', 'fechaRegistro', 'estadoTarea', 'fechaEstimada', 'prioridad'], 'required'],
+            [['titulo', 'descripcion', 'numeroDocumento', 'fechaRegistro', 'estadoTarea', 'fechaEstimada', 'prioridad'], 'required'],
             [['descripcion'], 'string'],
-            [['idUsuario', 'estadoTarea', 'prioridad'], 'integer'],
+            [['numeroDocumento', 'estadoTarea', 'prioridad','progreso'], 'integer'],
             [['fechaRegistro', 'fechaEstimada'], 'safe'],
             [['titulo'], 'string', 'max' => 60]
         ];
@@ -49,11 +49,12 @@ class Tareas extends \yii\db\ActiveRecord
             'idTarea' => 'Id Tarea',
             'titulo' => 'Titulo',
             'descripcion' => 'Descripcion',
-            'idUsuario' => 'Id Usuario',
+            'numeroDocumento' => 'Numero de Documento',
             'fechaRegistro' => 'Fecha Registro',
             'estadoTarea' => 'Estado Tarea',
             'fechaEstimada' => 'Fecha Estimada',
             'prioridad' => 'Prioridad',
+            'progreso' => 'Progreso',
         ];
     }
 }

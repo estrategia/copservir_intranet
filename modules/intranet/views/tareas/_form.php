@@ -1,13 +1,15 @@
 <?php
 
-use yii\helpers\Html;
+use vova07\imperavi\Widget;
 use yii\widgets\ActiveForm;
+use yii\helpers\Url;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\intranet\models\Tareas */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
+<?php // Html::hiddenInput("Contenido[idLineaTiempo]", $linea->idLineaTiempo, ["id" => "idLineaTiempo"]); ?>
 <div class="tareas-form">
 
     <?php $form = ActiveForm::begin(); ?>
@@ -16,11 +18,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'descripcion')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'idUsuario')->textInput(['maxlength' => true]) ?>
+    <?= Html::hiddenInput("numeroDocumento", $linea->idLineaTiempo, ["id" => "idLineaTiempo"]) ?>
 
-    <?= $form->field($model, 'fechaRegistro')->textInput() ?>
+    <?= Html::hiddenInput("fechaRegistro", $linea->idLineaTiempo, ["id" => "idLineaTiempo"]) ?>
 
-    <?= $form->field($model, 'estadoTarea')->textInput() ?>
+    <?= Html::hiddenInput("estadoTarea", $linea->idLineaTiempo, ["id" => "idLineaTiempo"]) ?>
 
     <?= $form->field($model, 'fechaEstimada')->textInput() ?>
 

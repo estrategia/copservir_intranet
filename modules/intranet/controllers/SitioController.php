@@ -4,9 +4,16 @@ namespace app\modules\intranet\controllers;
 
 use Yii;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
+use yii\helpers\VarDumper;
+use yii\helpers\ArrayHelper;
+use yii\widgets\ActiveForm;
+use vova07\imperavi\Widget;
+use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use app\modules\intranet\models\Contenido;
 use app\modules\intranet\models\LineaTiempo;
-use app\modules\intranet\models\UsuariosOpcionesFavoritos;
 
 class SitioController extends Controller {
 
@@ -99,23 +106,7 @@ class SitioController extends Controller {
             echo "error";
         }
     }
-  public function actionMenu() {
-        return $this->render('menu');
-    }
 
-    public function actionAgregarOpcionMenu() {
-        if (Yii::$app->request->post()) {
-            $post = Yii::$app->request->post();
-            if ($post['value'] == 1) {// crear la opcion
-                $nuevodato = new UsuariosOpcionesFavoritos();
-                $nuevodato->idUsuario = Yii::$app->user->identity->numeroDocumento;
-                $nuevodato->idMenu = $post['idMenu'];
-                $nuevodato->save();
-            } else {// eliminar la opcion
-                UsuariosOpcionesFavoritos::deleteAll('idMenu = :idMenu AND idUsuario = :idUsuario', [':idMenu' => $post['idMenu'], ':idUsuario' => Yii::$app->user->identity->numeroDocumento]);
-            }
-        }
-    }
     /*
       accion para renderizar el formulario para publicar un contenido en una linea de tiempo
     */
@@ -128,15 +119,6 @@ class SitioController extends Controller {
                   'contenidoModel' => $contenidoModel,
                   'linea' => $linea,
       ]);
-    }
-
-
-    public function actionTareas()
-    /*
-    accion para renderizar la vista tareas
-    */
-    {
-        return $this->render('tareas', []);
     }
 
     /*
