@@ -74,6 +74,18 @@ class Contenido extends \yii\db\ActiveRecord
 
                 ->all();
     }
+    
+    public static function traerNoticiaEspecifica($idContenido){
+        return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario'])->where(
+                           ['and',
+                                ['<=', 'fechaInicioPublicacion', 'now()'],
+                                ['=', 'idContenido', $idContenido],
+                                ['=', 'estado', 2]
+                             ]
+                            )->one();
+    }
+    
+    
 
     public function getListComentarios()
     {

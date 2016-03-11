@@ -122,9 +122,7 @@ $(document).on('click', "button[data-role='guardar-comentario-contenido']", func
         },
         success: function(data) {
             if (data.result == "ok") {
-                $('#comentario_'+idContenido).val("");
-                $('#numero-comentarios_'+idContenido).html(data.response);
-                
+               $("#contenido_"+idContenido).html(data.response);
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {

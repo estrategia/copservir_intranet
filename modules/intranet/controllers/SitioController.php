@@ -158,10 +158,12 @@ class SitioController extends Controller {
             $comentario->estado = 1;
             
             if($comentario->save()){
-                $numeroComentarios = count(ContenidosComentarios::find()->where(['idContenido' => $post['idContenido']])->all());
+                $noticia = Contenido::traerNoticiaEspecifica($comentario->idContenido);
+                $linea = LineaTiempo::find()->where(['idLineaTiempo' => $noticia->idLineaTiempo])->one();
+                
                  $items = [
                   'result' => 'ok',
-                   'response' => ($numeroComentarios>0)?$numeroComentarios." Comentarios":""
+                   'response' => $this->renderAjax('_contenido',['noticia' => $noticia, 'linea' => $linea])
                  ];
             }else{
                  $items = [
