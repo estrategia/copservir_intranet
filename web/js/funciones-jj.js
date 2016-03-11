@@ -39,9 +39,9 @@ $(document).on('click', "input[data-role='agregar-opcion']", function() {
     var isChecked = ($(this).is(':checked'))?1:0; 
     
     $.ajax({
-        type: 'GET',
+        type: 'POST',
         async: true,
-        url: requestUrl + '/intranet/sitio/agregarOpcion',
+        url: requestUrl + '/intranet/sitio/agregar-opcion-menu',
         data: {idMenu: idMenu, value: isChecked },
         dataType: 'json',
         beforeSend: function() {
