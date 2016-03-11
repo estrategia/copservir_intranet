@@ -75,12 +75,15 @@ $config = [
         'intranet' => [
             'class' => 'app\modules\intranet\IntranetModule',
         ],
-        /*'gridview' => [
-            //'class' => '\kartik\grid\Module',
-            //'downloadAction' => '',
-        ]*/
+        'treemanager' => [
+            'class' => '\kartik\tree\Module',
+        // other module settings, refer detailed documentation
+        ]
+    /* 'gridview' => [
+      //'class' => '\kartik\grid\Module',
+      //'downloadAction' => '',
+      ] */
     ],
-
 ];
 
 if (YII_ENV_DEV) {

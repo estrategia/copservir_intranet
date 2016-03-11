@@ -268,7 +268,9 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
         <?php foreach($menu as $subMenu):?>
            <?php Menu::menuHtml($subMenu,$opciones->getOpcionesUsuario());?>
         <?php endforeach;?>
-       
+        <li >
+           <?= Html::a('<i class="fa fa-sitemap"></i> <span class="title">Menú corporativo</span> <span class="selected"></span>', ['site/menu'], []) ?>
+        </li>
         <!--
         <li > <a href="javascript:;"> <i class="icon-custom-ui"></i> <span class="title">UI Elements</span> <span class=" arrow" ></span> </a>
           <ul class="sub-menu">
@@ -370,6 +372,7 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
           </ul>
         </li>--->
       </ul>
+      <!--
       <div class="side-bar-widgets">
         <p class="menu-title">FOLDER <span class="pull-right"><a href="#" class="create-folder"> <i class="fa fa-plus"></i></a></span></p>
         <ul class="folders" >
@@ -402,7 +405,7 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
       </div>
       <div class="clearfix"></div>
       <!-- END SIDEBAR MENU -->
-    </div>
+    </div> 
   </div>
   <a href="#" class="scrollup">Scroll</a>
   <div class="footer-widget">

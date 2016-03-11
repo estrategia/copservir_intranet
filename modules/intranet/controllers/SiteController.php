@@ -294,5 +294,12 @@ class SiteController extends Controller {
             echo "error";
         }
     }
+    
+    
+    public function actionMenu(){
+        
+        
+        return $this->render('menu');
+    }
 
 }
