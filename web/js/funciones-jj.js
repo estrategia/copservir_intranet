@@ -41,7 +41,7 @@ $(document).on('click', "input[data-role='agregar-opcion']", function() {
     $.ajax({
         type: 'POST',
         async: true,
-        url: requestUrl + '/intranet/site/agregar-opcion-menu',
+        url: requestUrl + '/intranet/sitio/agregar-opcion-menu',
         data: {idMenu: idMenu, value: isChecked },
         dataType: 'json',
         beforeSend: function() {

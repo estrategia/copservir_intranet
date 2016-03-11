@@ -271,7 +271,7 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
         <?php endforeach;?>
 
         <li >
-           <?= Html::a('<i class="fa fa-sitemap"></i> <span class="title">Menú corporativo</span> <span class="selected"></span>', ['site/menu'], []) ?>
+           <?= Html::a('<i class="fa fa-sitemap"></i> <span class="title">Menú corporativo</span> <span class="selected"></span>', ['sitio/menu'], []) ?>
         </li>
 
       </ul>
