@@ -24,7 +24,6 @@ $(document).on('click', "a[data-role='cambiar-timeline']", function() {
         success: function(data) {
             if (data.result == "ok") {
                 $(".lineastiempo").html("");
-                console.log('success');
                 $(href).html(data.response);
             }
         },

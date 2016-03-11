@@ -18,6 +18,8 @@ use yii\filters\VerbFilter;
 use app\modules\intranet\models\LoginForm;
 use app\modules\intranet\models\DatosForm;
 use app\modules\intranet\models\Usuario;
+use app\modules\intranet\models\ConexionesUsuarios;
+use app\modules\intranet\models\RecuperacionClave;
 use app\modules\intranet\models\FotoForm;
 use app\modules\intranet\models\FormUpload;
 use app\modules\intranet\models\Contenido;
@@ -95,6 +97,15 @@ class SiteController extends Controller {
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+
+
+            // se guarda el registro de la conexion
+            $objConexionesUsuario = new ConexionesUsuarios();
+            $objConexionesUsuario->idUsuario = $model->username;
+            $objConexionesUsuario->fechaConexion = date('YmdHis');
+            $objConexionesUsuario->ip = $objConexionesUsuario->getRealIp(); //Yii::$app->getRequest()->getUserIP() ;
+            $objConexionesUsuario->save();
+
             return $this->goBack();
         }
         return $this->render('login', [
@@ -127,9 +138,12 @@ class SiteController extends Controller {
                 $codigoRecuperacion = md5($usuario->numeroDocumento . '~' . $fecha->format('YmdHis'));
 
                 //se guarda el codigo y la fecha de recuperacion
-                $usuario->codigoRecuperacion = $codigoRecuperacion;
-                $usuario->fechaRecuperacion = $fecha->format('Y-m-d H:i:s');
-                $usuario->save();
+                $objRecuperacionClave = new RecuperacionClave();
+
+                $objRecuperacionClave->idUsuario = $usuario->numeroDocumento;
+                $objRecuperacionClave->recuperacionCodigo = $codigoRecuperacion;
+                $objRecuperacionClave->recuperacionFecha = $fecha->format('Y-m-d H:i:s');
+                $objRecuperacionClave->save();
 
                 //enlace para reestablecer la contraseña
                 $enlace = yii::$app->urlManager->createAbsoluteUrl(['/intranet/site/reestablecer-clave', 'codigo' => $codigoRecuperacion]);
@@ -172,7 +186,9 @@ class SiteController extends Controller {
             $fecha = new \DateTime();
             $fecha = $fecha->format('YmdHis');
 
-            $usuario = Usuario::find()->where(["codigoRecuperacion"=> $codigo, 'estado'=> 1])->andWhere(['>=', 'fechaRecuperacion', $fecha])->one();;
+
+            $objRecuperacionClave = RecuperacionClave::find()->where(['recuperacionCodigo' => $codigo])->orderBy('recuperacionFecha DESC')->one();
+            $usuario = Usuario::find()->where(['numeroDocumento'=> $objRecuperacionClave->idUsuario, 'estado'=> 1])->one();;
             if ($usuario === null) {
                 throw new \yii\web\HttpException(404, 'usuario sin codigo');
             }
@@ -243,7 +259,7 @@ class SiteController extends Controller {
     }
 
     public function actionCambiarLineaTiempo($lineaTiempo) {
-        $contenidoModel = new Contenido();
+        //$contenidoModel = new Contenido();
         $linea = LineaTiempo::find()->where(['idLineaTiempo' => $lineaTiempo])->one();
 
         $noticias = Contenido::traerNoticias($lineaTiempo);
@@ -252,7 +268,7 @@ class SiteController extends Controller {
             'result' => 'ok',
             'response' => $this->renderAjax('_lineaTiempo', [
                 //'contenidoModel' => $contenidoModel,
-                //'linea' => $linea,
+                'linea' => $linea,
                 'noticias' => $noticias
         ]
         )];
@@ -300,6 +316,38 @@ class SiteController extends Controller {
         
         
         return $this->render('menu');
+    }
+
+    public function actionFormNoticia($lineaTiempo)
+    {
+      $contenidoModel = new Contenido();
+      $linea = LineaTiempo::find()->where(['idLineaTiempo' => $lineaTiempo])->one();
+
+      echo $this->renderAjax('formNoticia', [
+                  'contenidoModel' => $contenidoModel,
+                  'linea' => $linea,
+      ]);
+    }
+
+
+    public function actionTareas()
+    {
+        return $this->render('tareas', []);
+    }
+
+    public function actionCalendario()
+    {
+        return $this->render('calendario', []);
+    }
+
+    public function actionPublicaciones()
+    {
+        return $this->render('publicaciones', []);
+    }
+
+    public function actionOrganigrama()
+    {
+        return $this->render('organigrama', []);
     }
 
 }

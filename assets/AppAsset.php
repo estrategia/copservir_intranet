@@ -20,20 +20,35 @@ class AppAsset extends AssetBundle {
     public $baseUrl = '@web';
     public $css = [
         //'css/site.css',
+
+        'libs/fullcalendar/fullcalendar.css',
+        'libs/pace/pace-theme-flash.css',
+        'libs/animate/animate.min.css',
         'libs/font-awesome/css/font-awesome.css',
-        'css/animate/animate.min.css',
-        'css/jquery-scrollbar/jquery.scrollbar.css',
-        'css/webarch/webarch.css',
+        'libs/jquery-scrollbar/jquery.scrollbar.css',
+        'libs/webarch/webarch.css',
         'css/site.css'
     ];
     public $js = [
-        'js/bootstrap.min.js',
-        'js/jquery-scrollbar/jquery.scrollbar.min.js',
-        'js/jquery-numberAnimate/jquery.animateNumbers.js',
-        'js/jquery-validation/js/jquery.validate.min.js',
-        'js/webarch/webarch.js',
+
+        'libs/pace/pace.min.js',
+        'libs/jquery-scrollbar/jquery.scrollbar.min.js',
+        'libs/jquery-numberAnimate/jquery.animateNumbers.js',
+        'libs/jquery-validation/js/jquery.validate.min.js',
+        'libs/webarch/webarch.js',
         'js/funciones-jj.js',
+        //
+
+        'libs/jquery-block-ui/jqueryblockui.min.js',
+        'libs/jquery-unveil/jquery.unveil.min.js',
+        'libs/bootstrap-select2/select2.min.js',
+        'libs/jquery-ui/jquery-ui-1.10.1.custom.min.js',
+        'libs/jquery-ui-touch/jquery.ui.touch-punch.min.js',
+        'libs/fullcalendar/fullcalendar.js',
+        'libs/calender/calender.js',
             // 'js/dashboard/dashboard.js',
+
+        'libs/bootstrap/js/bootstrap.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
