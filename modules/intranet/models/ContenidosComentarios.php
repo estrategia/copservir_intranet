@@ -36,7 +36,6 @@ class ContenidosComentarios extends \yii\db\ActiveRecord
             [['contenido'], 'string'],
             [['idUsuarioComentario', 'estado', 'idContenido'], 'integer'],
             [['fechaComentario', 'fechaActualizacion'], 'safe'],
-            [['titulo'], 'string', 'max' => 45]
         ];
     }
 
@@ -47,8 +46,7 @@ class ContenidosComentarios extends \yii\db\ActiveRecord
     {
         return [
             'idContenidoComentario' => 'Id Contenido Comentario',
-            'titulo' => 'Titulo',
-            'contenido' => 'Contenido',
+             'contenido' => 'Contenido',
             'idUsuarioComentario' => 'Id Usuario Comentario',
             'fechaComentario' => 'Fecha Comentario',
             'fechaActualizacion' => 'Fecha Actualizacion',

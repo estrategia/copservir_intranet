@@ -64,20 +64,42 @@ class Contenido extends \yii\db\ActiveRecord
     }
 
     public static function traerNoticias($idLineaTiempo){
-        return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos'])->where(
+        return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario'])->where(
                            ['and',
                                 ['<=', 'fechaInicioPublicacion', 'now()'],
                                 ['=', 'idLineaTiempo', $idLineaTiempo],
-                                ['=', 'idEstado', 2]
+                                ['=', 'estado', 2]
                              ]
                             )->orderBy('fechaInicioPublicacion Desc')
 
                 ->all();
     }
+    
+    public static function traerNoticiaEspecifica($idContenido){
+        return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario'])->where(
+                           ['and',
+                                ['<=', 'fechaInicioPublicacion', 'now()'],
+                                ['=', 'idContenido', $idContenido],
+                                ['=', 'estado', 2]
+                             ]
+                            )->one();
+    }
+    
+    
 
     public function getListComentarios()
     {
         return $this->hasMany(ContenidosComentarios::className(), ['idContenido' => 'idContenido']);
+    }
+    
+    public function getListMeGusta()
+    {
+        return $this->hasMany(MeGustaContenidos::className(), ['idContenido' => 'idContenido']);
+    }
+    
+    public function getListMeGustaUsuario()
+    {
+        return $this->hasMany(MeGustaContenidos::className(), ['idContenido' => 'idContenido'])->andOnCondition(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento]);
     }
 
     public function getListAdjuntos()
@@ -91,5 +113,9 @@ class Contenido extends \yii\db\ActiveRecord
     public function getObjUsuarioPublicacion()
     {
         return $this->hasOne(Usuario::className(), ['idUsuario' => 'idUsuarioPublicacion']);
+    }
+    
+    public function meGusta($idUsuario){
+        
     }
 }
