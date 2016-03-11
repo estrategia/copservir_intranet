@@ -22,7 +22,7 @@ class ContenidosComentariosAdjuntos extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 't_contenidoscomentariosadjuntos';
+        return 't_ContenidosComentariosAdjuntos';
     }
 
     /**

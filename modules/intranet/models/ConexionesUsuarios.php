@@ -19,7 +19,7 @@ class ConexionesUsuarios extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 't_conexionesusuarios';
+        return 't_ConexionesUsuarios';
     }
 
     /**

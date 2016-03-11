@@ -21,7 +21,7 @@ class ContenidosAdjuntos extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 't_contenidosadjuntos';
+        return 't_ContenidosAdjuntos';
     }
 
     /**

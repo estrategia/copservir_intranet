@@ -19,7 +19,7 @@ class LineaTiempo extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 't_lineastiempo';
+        return 't_LineasTiempo';
     }
 
     /**

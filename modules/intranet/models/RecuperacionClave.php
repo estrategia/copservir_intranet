@@ -18,7 +18,7 @@ class RecuperacionClave extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 't_recuperacionclave';
+        return 't_RecuperacionClave';
     }
 
     /**

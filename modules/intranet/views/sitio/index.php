@@ -46,8 +46,6 @@ $this->title = 'Intranet - Copservir';
     Modal::end();
     ?>
 
-      <!--<a data-toggle="modal" data-target="#modal_formulario_noticias" type="button" class="btn btn-primary btn-lg btn-large"> <i class="fa fa-pencil"></i> Publicar <i><small>Requiere Aprobación</small></i></a>-->
-
       <!-- el contenido de las lineas de tiempo -->
       <?php foreach ($lineasTiempo as $linea): ?>
 
@@ -100,7 +98,7 @@ $this->title = 'Intranet - Copservir';
                 	<h4 style='color:#fff !important;'>Ofertas <span class="semi-bold">Laborales</span></h4>
                 <div class="tools">
                   <a href="javascript:;" class="collapse"></a>
-        					<a href="#grid-config" data-toggle="modal" class="config"></a>
+        					<a href="#grid-config" class="config"></a>
         					<a href="javascript:;" class="reload"></a>
         					<a href="javascript:;" class="remove"></a>
                 </div>
