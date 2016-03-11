@@ -68,7 +68,7 @@ class Contenido extends \yii\db\ActiveRecord
                            ['and',
                                 ['<=', 'fechaInicioPublicacion', 'now()'],
                                 ['=', 'idLineaTiempo', $idLineaTiempo],
-                                ['=', 'idEstado', 2]
+                                ['=', 'estado', 2]
                              ]
                             )->orderBy('fechaInicioPublicacion Desc')
 
