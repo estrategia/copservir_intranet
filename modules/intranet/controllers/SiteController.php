@@ -24,6 +24,7 @@ use app\modules\intranet\models\FotoForm;
 use app\modules\intranet\models\FormUpload;
 use app\modules\intranet\models\Contenido;
 use app\modules\intranet\models\LineaTiempo;
+use app\modules\intranet\models\UsuariosOpcionesFavoritos;
 use yii\web\UploadedFile;
 use yii\db\ActiveRecord;
 
@@ -52,7 +53,6 @@ class SiteController extends Controller {
             ],
         ];
     }
-
 
     public function actions() {
         return [
@@ -188,7 +188,8 @@ class SiteController extends Controller {
 
 
             $objRecuperacionClave = RecuperacionClave::find()->where(['recuperacionCodigo' => $codigo])->orderBy('recuperacionFecha DESC')->one();
-            $usuario = Usuario::find()->where(['numeroDocumento'=> $objRecuperacionClave->idUsuario, 'estado'=> 1])->one();;
+            $usuario = Usuario::find()->where(['numeroDocumento' => $objRecuperacionClave->idUsuario, 'estado' => 1])->one();
+            ;
             if ($usuario === null) {
                 throw new \yii\web\HttpException(404, 'usuario sin codigo');
             }
@@ -270,7 +271,7 @@ class SiteController extends Controller {
                 //'contenidoModel' => $contenidoModel,
                 'linea' => $linea,
                 'noticias' => $noticias
-        ]
+                    ]
         )];
         return $items;
     }
@@ -310,43 +311,48 @@ class SiteController extends Controller {
             echo "error";
         }
     }
-    
-    
-    public function actionMenu(){
-        
-        
+
+    public function actionMenu() {
         return $this->render('menu');
     }
 
-    public function actionFormNoticia($lineaTiempo)
-    {
-      $contenidoModel = new Contenido();
-      $linea = LineaTiempo::find()->where(['idLineaTiempo' => $lineaTiempo])->one();
-
-      echo $this->renderAjax('formNoticia', [
-                  'contenidoModel' => $contenidoModel,
-                  'linea' => $linea,
-      ]);
+    public function actionAgregarOpcionMenu() {
+        if (Yii::$app->request->post()) {
+            $post = Yii::$app->request->post();
+            if ($post['value'] == 1) {// crear la opcion
+                $nuevodato = new UsuariosOpcionesFavoritos();
+                $nuevodato->idUsuario = Yii::$app->user->identity->numeroDocumento;
+                $nuevodato->idMenu = $post['idMenu'];
+                $nuevodato->save();
+            } else {// eliminar la opcion
+                UsuariosOpcionesFavoritos::deleteAll('idMenu = :idMenu AND idUsuario = :idUsuario', [':idMenu' => $post['idMenu'], ':idUsuario' => Yii::$app->user->identity->numeroDocumento]);
+            }
+        }
     }
 
+    public function actionFormNoticia($lineaTiempo) {
+        $contenidoModel = new Contenido();
+        $linea = LineaTiempo::find()->where(['idLineaTiempo' => $lineaTiempo])->one();
 
-    public function actionTareas()
-    {
+        echo $this->renderAjax('formNoticia', [
+            'contenidoModel' => $contenidoModel,
+            'linea' => $linea,
+        ]);
+    }
+
+    public function actionTareas() {
         return $this->render('tareas', []);
     }
 
-    public function actionCalendario()
-    {
+    public function actionCalendario() {
         return $this->render('calendario', []);
     }
 
-    public function actionPublicaciones()
-    {
+    public function actionPublicaciones() {
         return $this->render('publicaciones', []);
     }
 
-    public function actionOrganigrama()
-    {
+    public function actionOrganigrama() {
         return $this->render('organigrama', []);
     }
 
