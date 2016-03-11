@@ -77,5 +77,28 @@ class Menu extends \yii\db\ActiveRecord {
             }
         }
     }
+    
+    public static function construirArrayMenu(){
+        
+        $opciones = Menu::find()->where('idPadre is null')->all();
+        $opcionArray=[];
+        foreach($opciones as $opcion){
+            $opcionArray[] = self::obtenerHijosArray($opcion);
+        }
+       return $opcionArray;
+    }
+    
+    public static function obtenerHijosArray($opcion){
+        if(!empty($opcion->objOpcion)){
+            return ['title' => "<a href='#'>$opcion->descripcion</a>  <input type='checkbox'  data-role='agregar-opcion' data-id='$opcion->idMenu'></a>"];
+        }else{
+            $children= [];
+            
+            foreach($opcion->listSubMenu as $opcion2){
+                $children[] = self::obtenerHijosArray($opcion2);
+            }
+            return ['title' => $opcion->descripcion, 'children' => $children, 'folder' => true];
+        }
+    }
 
 }

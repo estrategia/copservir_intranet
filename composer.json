@@ -19,7 +19,11 @@
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
         "vova07/yii2-imperavi-widget": "*",
-        "cinghie/yii2-fontawesome": "*"
+        "cinghie/yii2-fontawesome": "*",
+        "kartik-v/yii2-tree-manager": "@dev",
+        "execut/yii2-widget-bootstraptreeview": "dev-master",
+        "wbraganca/yii2-fancytree-widget": "*",
+        "yii2mod/yii2-tree": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

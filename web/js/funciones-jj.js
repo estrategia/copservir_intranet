@@ -33,6 +33,35 @@ $(document).on('click', "a[data-role='cambiar-timeline']", function() {
     });
 });
 
+$(document).on('click', "input[data-role='agregar-opcion']", function() {
+
+    var idMenu = $(this).attr('data-id');
+    var isChecked = ($(this).is(':checked'))?1:0; 
+    
+    $.ajax({
+        type: 'GET',
+        async: true,
+        url: requestUrl + '/intranet/sitio/agregarOpcion',
+        data: {idMenu: idMenu, value: isChecked },
+        dataType: 'json',
+        beforeSend: function() {
+        //    Loading.show();
+        },
+
+        complete: function(data) {
+         //   Loading.hide();
+        },
+        success: function(data) {
+            if (data.result == "ok") {
+             
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+
+        }
+    });
+});
+
 
 $(document).on('click', "button[data-role='guardar-contenido']", function() {
 

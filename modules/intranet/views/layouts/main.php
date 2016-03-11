@@ -270,6 +270,12 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
            <?php Menu::menuHtml($subMenu,$opciones->getOpcionesUsuario());?>
         <?php endforeach;?>
 
+        <li >
+           <?= Html::a('<i class="fa fa-sitemap"></i> <span class="title">Menú corporativo</span> <span class="selected"></span>', ['site/menu'], []) ?>
+        </li>
+
+      </ul>
+
       <!-- END SIDEBAR MENU -->
     </div>
   </div>
