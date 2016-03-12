@@ -63,7 +63,8 @@ class TareasController extends Controller
         $model = new Tareas();
 
         //$modelLogTareas = new LogTareas();
-        echo Yii::$app->request->post('idPrioridad');
+        echo var_dump( Yii::$app->request->post());
+        //echo Yii::$app->request->post('idPrioridad');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['detalle', 'id' => $model->idTarea]);
