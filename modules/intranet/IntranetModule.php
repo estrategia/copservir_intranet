@@ -6,6 +6,8 @@ use Yii;
 class IntranetModule extends \yii\base\Module
 {
     public $controllerNamespace = 'app\modules\intranet\controllers';
+    public $defaultRoute = 'sitio';
+    public $layout = 'main';
 
     public function init()
     {
@@ -18,7 +20,7 @@ class IntranetModule extends \yii\base\Module
           ],
         ]);*/
 
-        Yii::$app->errorHandler->errorAction = 'intranet/site/error';
+        Yii::$app->errorHandler->errorAction = 'intranet/sitio/error';
 
 
         // custom initialization code goes here

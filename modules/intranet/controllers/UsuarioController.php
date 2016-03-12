@@ -30,8 +30,6 @@ use yii\db\ActiveRecord;
 class UsuarioController extends \yii\web\Controller
 {
 
-  public $layout = 'main';
-
   /*
     comportamientos del controlador
   */
@@ -93,7 +91,7 @@ class UsuarioController extends \yii\web\Controller
 
           // se guarda el registro de la conexion
           $objConexionesUsuario = new ConexionesUsuarios();
-          $objConexionesUsuario->idUsuario = $model->username;
+          $objConexionesUsuario->numeroDocumento = $model->username;
           $objConexionesUsuario->fechaConexion = date('YmdHis');
           $objConexionesUsuario->ip = $objConexionesUsuario->getRealIp(); //Yii::$app->getRequest()->getUserIP() ;
           $objConexionesUsuario->save();
@@ -169,7 +167,7 @@ class UsuarioController extends \yii\web\Controller
               //se guarda el codigo y la fecha de recuperacion
               $objRecuperacionClave = new RecuperacionClave();
 
-              $objRecuperacionClave->idUsuario = $usuario->numeroDocumento;
+              $objRecuperacionClave->numeroDocumento = $usuario->numeroDocumento;
               $objRecuperacionClave->recuperacionCodigo = $codigoRecuperacion;
               $objRecuperacionClave->recuperacionFecha = $fecha->format('Y-m-d H:i:s');
               $objRecuperacionClave->save();
@@ -205,7 +203,7 @@ class UsuarioController extends \yii\web\Controller
 
 
           $objRecuperacionClave = RecuperacionClave::find()->where(['recuperacionCodigo' => $codigo])->orderBy('recuperacionFecha DESC')->one();
-          $usuario = Usuario::find()->where(['numeroDocumento'=> $objRecuperacionClave->idUsuario, 'estado'=> 1])->one();;
+          $usuario = Usuario::find()->where(['numeroDocumento'=> $objRecuperacionClave->numeroDocumento, 'estado'=> 1])->one();;
           if ($usuario === null) {
               throw new \yii\web\HttpException(404, 'usuario sin codigo');
           }

@@ -66,19 +66,11 @@ $this->title = 'Intranet - Copservir';
 <div class="col-md-3">
   <!-- Estadisticas -->
   <div class="col-md-12 col-sm-12">
-    <div class="tiles blue    m-b-10">
-      <div class="tiles-body">
-        <div class="controller">
-          <a href="javascript:;" class="reload"></a>
-          <a href="javascript:;" class="remove"></a>
-        </div>
-        <h4 class="text-black no-margin semi-bold">Productos</h4>
-        <h2 class="text-white bold "><span data-animation-duration="900" data-value="24534" class="animate-number">24,534</span></h2>
-        <div class="description">
-          <i class="icon-custom-up"></i><span class="text-white mini-description ">&nbsp; 4% aumento  <span class="blend">en el mes</span></span>
-        </div>
-      </div>
-    </div>
+      
+      <?php foreach($indicadores as $indicador):?>
+            <?php echo $this->render('_indicador',['indicador' => $indicador]);?>
+      <?php endforeach;?>
+      
   </div>
 
   <div class="col-md-12 col-sm-12">
@@ -89,50 +81,7 @@ $this->title = 'Intranet - Copservir';
 <!-- END ESTADISTICAS -->
 
 <!-- begin OFERTAS LABORALES Y TAREAS -->
-  <div class="col-md-8">
-    <br><br><br>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="grid simple ">
-            <div class="grid-title no-border" style='background-color:#0AA699 !important'>
-                	<h4 style='color:#fff !important;'>Ofertas <span class="semi-bold">Laborales</span></h4>
-                <div class="tools">
-                  <a href="javascript:;" class="collapse"></a>
-        					<a href="#grid-config" class="config"></a>
-        					<a href="javascript:;" class="reload"></a>
-        					<a href="javascript:;" class="remove"></a>
-                </div>
-            </div>
-            <div class="grid-body no-border">
-                    <p>La Oficina de Talento Humano ...</p>
-                    <br>
-                    <table class="table table-hover no-more-tables">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Oferta</th>
-                                <th>Ciudad</th>
-                                <th>Fecha</th>
-                                <th>Area</th>
-                                <th>&nbsp;</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>DEPENDIENTE CHIQUINQUIRA</td>
-                                <td>Bogotá</td>
-                                <td>16/01/2015</td>
-                                <td>Telemercadeo</td>
-                                <td><a href="http://clasificados.elempleo.com/Forms/view_jobOffer.aspx?jo=DEPENDIENTE-CHIQUINQUIRA-_1881720409" type="button" class="btn btn-primary btn-sm btn-small" target="_blank">Postularse</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-            </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<?php echo $this->render('_ofertasLaborales',['ofertasLaborales' => $ofertasLaborales])?>
 
   <div class="col-md-4">
     <br><br><br>

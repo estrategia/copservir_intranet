@@ -59,4 +59,9 @@ class ContenidosComentarios extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Usuario::className(), ['idUsuario' => 'idUsuarioComentario']);
     }
+    
+    public function getObjDenuncioComentarioUsuario()
+    {
+        return $this->hasOne(DenunciosContenidosComentarios::className(), ['idContenidoComentario' => 'idContenidoComentario'])->andOnCondition(['idUsuarioDenunciante' => Yii::$app->user->identity->numeroDocumento]);
+    }
 }
