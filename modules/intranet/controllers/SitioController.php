@@ -47,16 +47,14 @@ class SitioController extends Controller {
         $indicadores = Indicadores::find()->all();
         $ofertasLaborales = OfertasLaborales::find()
                             ->with(['objCargo', 'objArea', 'objCiudad', 'objInformacionContactoOferta'])
-                         /*   ->where(
+                            ->where(
                                 ['and',
                                         ['<=', 'fechaInicioPublicacion', $fecha],
                                         ['>=', 'fechaFinPublicacion', $fecha]
-                                ])*/
+                                ])
                             ->all();
         
-                    echo "<pre>";
-                    print_r($ofertasLaborales);
-                    echo "</pre>";
+                
         
         return $this->render('index', [
                     'contenidoModel' => $contenidoModel,
