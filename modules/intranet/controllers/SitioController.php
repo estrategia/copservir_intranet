@@ -22,8 +22,6 @@ use app\modules\intranet\models\OfertasLaborales;
 
 class SitioController extends Controller {
 
-    public $layout = 'main';
-
     public function actions() {
         return [
             'error' => [
