@@ -64,7 +64,7 @@ class Contenido extends \yii\db\ActiveRecord
     }
 
     public static function traerNoticias($idLineaTiempo){
-        return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario'])->where(
+        return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])->where(
                            ['and',
                                 ['<=', 'fechaInicioPublicacion', 'now()'],
                                 ['=', 'idLineaTiempo', $idLineaTiempo],
@@ -76,7 +76,7 @@ class Contenido extends \yii\db\ActiveRecord
     }
     
     public static function traerNoticiaEspecifica($idContenido){
-        return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario'])->where(
+        return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])->where(
                            ['and',
                                 ['<=', 'fechaInicioPublicacion', 'now()'],
                                 ['=', 'idContenido', $idContenido],
@@ -100,6 +100,11 @@ class Contenido extends \yii\db\ActiveRecord
     public function getListMeGustaUsuario()
     {
         return $this->hasMany(MeGustaContenidos::className(), ['idContenido' => 'idContenido'])->andOnCondition(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento]);
+    }
+    
+    public function getObjDenuncioComentarioUsuario()
+    {
+        return $this->hasOne(DenunciosContenidos::className(), ['idContenido' => 'idContenido'])->andOnCondition(['idUsuarioDenunciante' => Yii::$app->user->identity->numeroDocumento]);
     }
 
     public function getListAdjuntos()

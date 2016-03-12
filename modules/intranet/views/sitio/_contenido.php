@@ -48,6 +48,12 @@ use yii\helpers\Url;
                             <span id='numero-comentarios_<?= $noticia->idContenido ?>'>
                                 <?php echo (count($noticia->listComentarios) > 0 ) ? count($noticia->listComentarios) . " Comentarios" : '' ?>
                             </span>
+                            
+                            <?php if(empty($noticia->objDenuncioComentarioUsuario)):?>
+                                &nbsp; <a href="#">Denunciar</a>
+                            <?php else:?>
+                                &nbsp;&nbsp;Ya denunciaste
+                            <?php endif;?>    
                         </li>
                     </ul>
                     <div class="clearfix"></div>

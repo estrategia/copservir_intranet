@@ -66,19 +66,11 @@ $this->title = 'Intranet - Copservir';
 <div class="col-md-3">
   <!-- Estadisticas -->
   <div class="col-md-12 col-sm-12">
-    <div class="tiles blue    m-b-10">
-      <div class="tiles-body">
-        <div class="controller">
-          <a href="javascript:;" class="reload"></a>
-          <a href="javascript:;" class="remove"></a>
-        </div>
-        <h4 class="text-black no-margin semi-bold">Productos</h4>
-        <h2 class="text-white bold "><span data-animation-duration="900" data-value="24534" class="animate-number">24,534</span></h2>
-        <div class="description">
-          <i class="icon-custom-up"></i><span class="text-white mini-description ">&nbsp; 4% aumento  <span class="blend">en el mes</span></span>
-        </div>
-      </div>
-    </div>
+      
+      <?php foreach($indicadores as $indicador):?>
+            <?php echo $this->render('_indicador',['indicador' => $indicador]);?>
+      <?php endforeach;?>
+      
   </div>
 
   <div class="col-md-12 col-sm-12">

@@ -9,6 +9,8 @@ use app\modules\intranet\models\LineaTiempo;
 use app\modules\intranet\models\UsuariosOpcionesFavoritos;
 use app\modules\intranet\models\MeGustaContenidos;
 use app\modules\intranet\models\ContenidosComentarios;
+use app\modules\intranet\models\Indicadores;
+
 
 class SitioController extends Controller {
 
@@ -36,9 +38,11 @@ class SitioController extends Controller {
 
         $contenidoModel = new Contenido();
         $lineasTiempo = LineaTiempo::find()->where(['estado' => 1])->all();
+        $indicadores = Indicadores::find()->all();
         return $this->render('index', [
                     'contenidoModel' => $contenidoModel,
-                    'lineasTiempo' => $lineasTiempo
+                    'lineasTiempo' => $lineasTiempo,
+                    'indicadores' => $indicadores
         ]);
     }
 
