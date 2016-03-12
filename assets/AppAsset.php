@@ -20,7 +20,8 @@ class AppAsset extends AssetBundle {
     public $baseUrl = '@web';
     public $css = [
         //'css/site.css',
-
+        'libs/boostrapv3/css/bootstrap.min.css',
+        'libs/boostrapv3/css/bootstrap-theme.min.css',
         // calendario
         'libs/fullcalendar/fullcalendar.css',
 
@@ -36,6 +37,9 @@ class AppAsset extends AssetBundle {
         'css/site.css'
     ];
     public $js = [
+        // boostrap
+        'libs/boostrapv3/js/bootstrap.min.js',
+        
         //genericas plantilla
         'libs/pace/pace.min.js',
         'libs/jquery-scrollbar/jquery.scrollbar.min.js',
@@ -60,9 +64,6 @@ class AppAsset extends AssetBundle {
         'libs/boostrap-slider/js/bootstrap-slider.js',
 
         'libs/modernizr/modernizr.js',
-
-        // boostrap
-        'libs/bootstrap/js/bootstrap.min.js',
 
         // 'js/dashboard/dashboard.js',
     ];

@@ -9,6 +9,19 @@ $config = [
     'language' => 'es',
     'bootstrap' => ['log'],
     'components' => [
+        'assetManager' => [
+            'bundles' => [
+                /*'yii\web\JqueryAsset' => [
+                    'js' => []
+                ],*/
+                'yii\bootstrap\BootstrapPluginAsset' => [
+                    'js' => []
+                ],
+                'yii\bootstrap\BootstrapAsset' => [
+                    'css' => [],
+                ],
+            ],
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'h8pmv7opsbl15jp5q81qr11r42',
@@ -17,7 +30,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\modules\intranet\models\User',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [

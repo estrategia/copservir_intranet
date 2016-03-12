@@ -7,7 +7,7 @@ use Yii;
 /**
  * This is the model class for table "t_recuperacionclave".
  *
- * @property string $idUsuario
+ * @property string $numeroDocumento
  * @property string $recuperacionCodigo
  * @property string $recuperacionFecha
  */
@@ -27,8 +27,8 @@ class RecuperacionClave extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idUsuario', 'recuperacionCodigo', 'recuperacionFecha'], 'required'],
-            [['idUsuario'], 'integer'],
+            [['numeroDocumento', 'recuperacionCodigo', 'recuperacionFecha'], 'required'],
+            [['numeroDocumento'], 'integer'],
             [['recuperacionFecha'], 'safe'],
             [['recuperacionCodigo'], 'string', 'max' => 45]
         ];
@@ -40,7 +40,7 @@ class RecuperacionClave extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idUsuario' => 'Id Usuario',
+            'numeroDocumento' => 'Id Usuario',
             'recuperacionCodigo' => 'Recuperacion Codigo',
             'recuperacionFecha' => 'Recuperacion Fecha',
         ];

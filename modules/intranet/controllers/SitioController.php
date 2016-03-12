@@ -21,8 +21,6 @@ use app\modules\intranet\models\ContenidosComentarios;
 
 class SitioController extends Controller {
 
-    public $layout = 'main';
-
     public function actions() {
         return [
             'error' => [
