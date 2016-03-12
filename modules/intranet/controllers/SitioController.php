@@ -22,8 +22,6 @@ use app\modules\intranet\models\Indicadores;
 
 class SitioController extends Controller {
 
-    public $layout = 'main';
-
     public function actions() {
         return [
             'error' => [
