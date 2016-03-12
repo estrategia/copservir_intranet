@@ -4,6 +4,7 @@ namespace app\modules\intranet\controllers;
 
 use Yii;
 use app\modules\intranet\models\Tareas;
+use app\modules\intranet\models\LogTareas;
 use app\modules\intranet\models\TareasSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -61,9 +62,13 @@ class TareasController extends Controller
     {
         $model = new Tareas();
 
+        //$modelLogTareas = new LogTareas();
+        echo Yii::$app->request->post('idPrioridad');
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['detalle', 'id' => $model->idTarea]);
         } else {
+
             return $this->render('crear', [
                 'model' => $model,
             ]);

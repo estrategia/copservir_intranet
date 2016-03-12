@@ -2,8 +2,10 @@
 
 namespace app\modules\intranet\models;
 
-use Yii;
 
+use Yii;
+use yii\helpers\ArrayHelper;
+use app\modules\intranet\models\PrioridadTarea;
 /**
  * This is the model class for table "t_tareas".
  *
@@ -32,9 +34,9 @@ class Tareas extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['titulo', 'descripcion', 'numeroDocumento', 'fechaRegistro', 'estadoTarea', 'fechaEstimada', 'prioridad'], 'required'],
+            [['titulo', 'descripcion', 'numeroDocumento', 'fechaRegistro', 'estadoTarea', 'fechaEstimada', 'idPrioridad'], 'required'],
             [['descripcion'], 'string'],
-            [['numeroDocumento', 'estadoTarea', 'prioridad','progreso'], 'integer'],
+            [['numeroDocumento', 'estadoTarea', 'idPrioridad','progreso'], 'integer'],
             [['fechaRegistro', 'fechaEstimada'], 'safe'],
             [['titulo'], 'string', 'max' => 60]
         ];
@@ -53,8 +55,14 @@ class Tareas extends \yii\db\ActiveRecord
             'fechaRegistro' => 'Fecha Registro',
             'estadoTarea' => 'Estado Tarea',
             'fechaEstimada' => 'Fecha Estimada',
-            'prioridad' => 'Prioridad',
+            'idPrioridad' => 'Prioridad',
             'progreso' => 'Progreso',
         ];
+    }
+
+    public static function getListaPrioridad()
+    {
+        $opciones = PrioridadTarea::find()->asArray()->all();
+        return ArrayHelper::map($opciones, 'idPrioridadTarea', 'nombre');
     }
 }
