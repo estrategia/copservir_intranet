@@ -14,6 +14,7 @@ class PruebaController extends Controller
 {
     public function actionIndex()
     {
+        echo "prueba git";
         return $this->render('index');
     }
 
