@@ -19,32 +19,27 @@ use yii\jui\DatePicker;
 
     <?= $form->field($model, 'descripcion')->textarea(['rows' => 6]) ?>
 
-    <?= Html::hiddenInput("Tarea[numeroDocumento]", Yii::$app->user->identity->numeroDocumento, []) ?>
+    <?= $form->field($model, 'numeroDocumento')->hiddenInput(['value'=> Yii::$app->user->identity->numeroDocumento])->label(false); ?>
+         
+    <?= $form->field($model, 'fechaRegistro')->hiddenInput(['value'=> date('YmdHis')])->label(false); ?>
 
-    <?= Html::hiddenInput("Tarea[fechaRegistro]", date('YmdHis'), []) ?>
-
-    <?= Html::hiddenInput("Tarea[estadoTarea]", 2, []) ?>
-
+    <?= $form->field($model, 'estadoTarea')->hiddenInput(['value'=> 2])->label(false); ?>
     
-        
-        <?php /*
 
-         $form->field($model, 'fechaEstimada')->widget(DatePicker::className(),[
+        <?php 
+
+         echo $form->field($model, 'fechaEstimada')->widget(DatePicker::className(),[
             'dateFormat' => 'yyyy-MM-dd',
             'options' => [
             'class' => 'input-sm form-control',
             ]
         ]); 
-        */
+        
         ?>
 
     
 
-    <?php //$form->field($model, 'idPrioridad')->dropDownList($model->listaPrioridad, ['prompt' => 'Seleccione la prioridad' ]);?>
-
-    <?php //Html::hiddenInput("Contenido[idLineaTiempo]", $linea->idLineaTiempo, ["id" => "idLineaTiempo"]); ?>
-    <?= $form->field($model, 'fechaEstimada')->textInput([]) ?>
-    <?= $form->field($model, 'idPrioridad')->textInput([]) ?>
+    <?= $form->field($model, 'idPrioridad')->dropDownList($model->listaPrioridad, ['prompt' => 'Seleccione la prioridad' ]);?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
