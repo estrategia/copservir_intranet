@@ -19,6 +19,7 @@ $userName = "";
 if (!Yii::$app->user->isGuest) {
   $srcPictureUser =  Yii::$app->homeUrl . 'img/fotosperfil/'. \Yii::$app->user->identity->imagenPerfil;
   $userName =  Yii::$app->user->identity->alias;
+  //$userDocumento = Yii::$app->user->identity->numeroDocumento;
 }
 
 $srcLogo = Yii::$app->homeUrl . 'img/logo_copservir.png';
@@ -257,7 +258,7 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
             <?= Html::a('<i class="fa fa-list-alt"></i> <span class="title">Publicaciones</span> <span class="selected"></span>', ['sitio/publicaciones'], []) ?>
         </li>
         <li >
-            <?= Html::a('<i class="fa fa-list-ul"></i> <span class="title">Tareas</span> <span class="selected"></span>', ['sitio/tareas'], []) ?>
+            <?= Html::a('<i class="fa fa-list-ul"></i> <span class="title">Tareas</span> <span class="selected"></span>', ['tareas/listar-tareas'], []) ?>
         </li>
         <li >
            <?= Html::a('<i class="fa fa-sitemap"></i> <span class="title">Organigrama</span> <span class="selected"></span>', ['sitio/organigrama'], []) ?>
@@ -271,7 +272,7 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
         <?php endforeach;?>
 
         <li >
-           <?= Html::a('<i class="fa fa-sitemap"></i> <span class="title">Menú corporativo</span> <span class="selected"></span>', ['sitio/menu'], []) ?>
+           <?= Html::a('<i class="fa fa-sitemap"></i> <span class="title">Menú corporativo</span> <span class="selected"></span>', ['site/menu'], []) ?>
         </li>
 
       </ul>

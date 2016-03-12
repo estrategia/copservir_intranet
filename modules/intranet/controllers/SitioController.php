@@ -4,6 +4,14 @@ namespace app\modules\intranet\controllers;
 
 use Yii;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
+use yii\helpers\VarDumper;
+use yii\helpers\ArrayHelper;
+use yii\widgets\ActiveForm;
+use vova07\imperavi\Widget;
+use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use app\modules\intranet\models\Contenido;
 use app\modules\intranet\models\LineaTiempo;
 use app\modules\intranet\models\UsuariosOpcionesFavoritos;
@@ -147,24 +155,24 @@ class SitioController extends Controller {
             return $items;
         }
     }
-    
+
     public function actionGuardarComentario(){
         if (Yii::$app->request->post()) {
             $post = Yii::$app->request->post();
-            
+
             $comentario = new ContenidosComentarios();
-            
+
             $comentario->idContenido = $post['idContenido'];
             $comentario->contenido = $post['comentario'];
             $comentario->idUsuarioComentario = Yii::$app->user->identity->numeroDocumento;
             $comentario->fechaComentario = Date("Y-m-d h:i:s");
             $comentario->fechaActualizacion = $comentario->fechaComentario;
             $comentario->estado = 1;
-            
+
             if($comentario->save()){
                 $noticia = Contenido::traerNoticiaEspecifica($comentario->idContenido);
                 $linea = LineaTiempo::find()->where(['idLineaTiempo' => $noticia->idLineaTiempo])->one();
-                
+
                  $items = [
                   'result' => 'ok',
                    'response' => $this->renderAjax('_contenido',['noticia' => $noticia, 'linea' => $linea])
@@ -182,28 +190,18 @@ class SitioController extends Controller {
     /*
       accion para renderizar el formulario para publicar un contenido en una linea de tiempo
      */
-
     public function actionFormNoticia($lineaTiempo) {
         $contenidoModel = new Contenido();
         $linea = LineaTiempo::find()->where(['idLineaTiempo' => $lineaTiempo])->one();
-
         echo $this->renderAjax('formNoticia', [
             'contenidoModel' => $contenidoModel,
             'linea' => $linea,
         ]);
     }
 
-    public function actionTareas()
-    /*
-      accion para renderizar la vista tareas
-     */ {
-        return $this->render('tareas', []);
-    }
-
     /*
       accion para renderizar la vista calendario
      */
-
     public function actionCalendario() {
         return $this->render('calendario', []);
     }

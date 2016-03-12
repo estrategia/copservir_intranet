@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'idTarea',
             'titulo',
             'descripcion:ntext',
-            'idUsuario',
+            'numeroDocumento',
             'fechaRegistro',
             'estadoTarea',
             'fechaEstimada',
