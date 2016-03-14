@@ -19,25 +19,27 @@ use yii\jui\DatePicker;
 
     <?= $form->field($model, 'descripcion')->textarea(['rows' => 6]) ?>
 
+    <?= $form->field($model, 'progreso')->textInput(['type' => 'number']) ?>
+
     <?= $form->field($model, 'numeroDocumento')->hiddenInput(['value'=> Yii::$app->user->identity->numeroDocumento])->label(false); ?>
-         
+
     <?= $form->field($model, 'fechaRegistro')->hiddenInput(['value'=> date('YmdHis')])->label(false); ?>
 
     <?= $form->field($model, 'estadoTarea')->hiddenInput(['value'=> 2])->label(false); ?>
-    
 
-        <?php 
+
+        <?php
 
          echo $form->field($model, 'fechaEstimada')->widget(DatePicker::className(),[
             'dateFormat' => 'yyyy-MM-dd',
             'options' => [
             'class' => 'input-sm form-control',
             ]
-        ]); 
-        
+        ]);
+
         ?>
 
-    
+
 
     <?= $form->field($model, 'idPrioridad')->dropDownList($model->listaPrioridad, ['prompt' => 'Seleccione la prioridad' ]);?>
 

@@ -41,12 +41,9 @@ $this->title = 'Tareas';
                             <td class="v-align-middle">
                               <div class="checkbox check-default">
                                 <?= Html::a('<li class="fa fa-pencil-square-o"></li>', ['actualizar', 'id' => $tarea->idTarea], []) ?>
-                                <?= Html::a('<li class="fa fa-times"></li>', ['eliminar', 'id' => $tarea->idTarea], [
-                                    'data' => [
-                                        'confirm' => 'Estas seguro de querer eliminar esta tarea?',
-                                        'method' => 'post',
-                                    ],
-                                ]) ?>
+                                <a href='#' data-tarea= "<?= $tarea->idTarea?>" data-location='0' data-role='inactivarTarea'>
+                                  <li class="fa fa-times"></li>
+                                </a>
 								              </div>
                             </td>
                             <td class="v-align-middle"><?=$tarea->titulo ?></td>
