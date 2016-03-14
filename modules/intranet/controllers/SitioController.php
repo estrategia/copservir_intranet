@@ -40,7 +40,7 @@ class SitioController extends Controller {
     public function actionIndex() {
 
         if (Yii::$app->user->isGuest) {
-            return $this->redirect(['autenticar']);
+            return $this->redirect(['usuario/autenticar']);
             exit();
         }
         $fecha = Date("Y-m-d h:i:s");

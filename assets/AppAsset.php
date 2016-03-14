@@ -47,18 +47,11 @@ class AppAsset extends AssetBundle {
         'libs/jquery-validation/js/jquery.validate.min.js',
         'libs/webarch/webarch.js',
 
-        //propios
-        'js/funciones-jj.js',
-
         'libs/jquery-block-ui/jqueryblockui.min.js',
         'libs/jquery-unveil/jquery.unveil.min.js',
         'libs/bootstrap-select2/select2.min.js',
         'libs/jquery-ui/jquery-ui-1.10.1.custom.min.js',
         'libs/jquery-ui-touch/jquery.ui.touch-punch.min.js',
-
-        //calendario
-        'libs/fullcalendar/fullcalendar.js',
-        'libs/calender/calender.js',
 
         //slider tareas
         'libs/boostrap-slider/js/bootstrap-slider.js',
@@ -66,6 +59,12 @@ class AppAsset extends AssetBundle {
         'libs/modernizr/modernizr.js',
 
         // 'js/dashboard/dashboard.js',
+        
+        //propios
+        'libs/fullcalendar/fullcalendar.js',
+        'js/funciones-jj.js',
+        'js/funciones-masm.js',
+        
     ];
     public $depends = [
         'yii\web\YiiAsset',

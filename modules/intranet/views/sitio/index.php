@@ -4,7 +4,6 @@ use vova07\imperavi\Widget;
 use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\Html;
-
 // importancion necesaria para el modal
 use yii\bootstrap\Modal;
 
@@ -15,55 +14,43 @@ $this->title = 'Intranet - Copservir';
 
 <!-- begin UP BANNER -->
 <div class="col-md-12">
-  <div class="tiles overflow-hidden full-height tiles-overlay-hover m-b-10 widget-item">
-    Banner
-  </div>
+    <div class="tiles overflow-hidden full-height tiles-overlay-hover m-b-10 widget-item">
+        Banner
+    </div>
 </div>
 <!-- END UP BANNER -->
 
 <!-- begin PUBLICACIONES -->
 <div class="col-md-9">
 
-  <!-- nav lineas de tiempo -->
-  <ul class="nav nav-tabs">
-      <?php foreach ($lineasTiempo as $linea): ?>
-          <li ><a id="#lt<?= $linea->idLineaTiempo ?>" data-toggle="tab" data-role="cambiar-timeline"  data-timeline="<?= $linea->idLineaTiempo ?>" href="#lt<?= $linea->idLineaTiempo ?>"><?= $linea->nombreLineaTiempo ?></a></li>
-      <?php endforeach; ?>
-  </ul>
+    <!-- nav lineas de tiempo -->
+    <ul class="nav nav-tabs">
+        <?php foreach ($lineasTiempo as $linea): ?>
+            <li ><a id="#lt<?= $linea->idLineaTiempo ?>" data-toggle="tab" data-role="cambiar-timeline"  data-timeline="<?= $linea->idLineaTiempo ?>" href="#lt<?= $linea->idLineaTiempo ?>"><?= $linea->nombreLineaTiempo ?></a></li>
+        <?php endforeach; ?>
+    </ul>
 
-  <div class="tab-content">
-    <div class="tab-pane active">
+    <div class="tab-content">
+        <div class="tab-pane active">
+            <!-- el contenido de las lineas de tiempo -->
+            <?php foreach ($lineasTiempo as $linea): ?>
 
-    <?php
-    Modal::begin([
-      'header'=>'<h2>Noticia a publicar</h2>',
-      'id'=>'modal',
-      //'size'=>'modal-lg'
-      ]);
+                <div id="lt<?= $linea->idLineaTiempo ?>" class="tab-pane fade lineastiempo">
+                </div>
+            <?php endforeach; ?>
 
-      print '<div id="modal-content"></div>';
-
-    Modal::end();
-    ?>
-
-      <!-- el contenido de las lineas de tiempo -->
-      <?php foreach ($lineasTiempo as $linea): ?>
-
-          <div id="lt<?= $linea->idLineaTiempo ?>" class="tab-pane fade lineastiempo">
-          </div>
-      <?php endforeach; ?>
-
+        </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6"><button class="btn btn-block btn-success" type="button">Ver Noticas Mercadeo</button></div>
-    <div class="col-md-6"><button class="btn btn-block btn-warning" type="button">Ver Noticas Copservir</button></div>
-  </div>
+    <div class="row">
+        <div class="col-md-6"><button class="btn btn-block btn-success" type="button">Ver Noticas Mercadeo</button></div>
+        <div class="col-md-6"><button class="btn btn-block btn-warning" type="button">Ver Noticas Copservir</button></div>
+    </div>
 </div>
 <!-- END PUBLICACIONES -->
 
 <!--  BEGIN ESTADISTICAS -->
 <div class="col-md-3">
+<<<<<<< HEAD
   <!-- Estadisticas -->
   <div class="col-md-12 col-sm-12">
 
@@ -83,9 +70,10 @@ $this->title = 'Intranet - Copservir';
 <!-- begin OFERTAS LABORALES Y TAREAS -->
 <?php echo $this->render('_ofertasLaborales',['ofertasLaborales' => $ofertasLaborales])?>
 
-  <div class="col-md-4">
+<div class="col-md-4">
     <br><br><br>
     <div class="col-md-12 col-sm-12 spacing-bottom">
+<<<<<<< HEAD
       <div class="widget">
         <div class="widget-title dark">
           <div class="pull-left ">
@@ -127,16 +115,15 @@ $this->title = 'Intranet - Copservir';
           <?php endforeach; ?>
           </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
 
 
 <!-- END OFERTAS LABORALES Y TAREAS -->
 <!-- begin DOWN BANNER -->
-  <div class="col-md-12">
-      BANNER ..............
-  </div>
+<div class="col-md-12">
+    BANNER ..............
+</div>
 
 
 <!-- END DOWN BANNER -->
