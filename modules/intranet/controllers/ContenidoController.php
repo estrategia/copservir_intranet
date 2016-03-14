@@ -16,10 +16,11 @@ class ContenidoController extends Controller {
             $idLinea = $request->post('linea');
             $objLineaTiempo = LineaTiempo::findOne($idLinea);
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            return [
+            $response = [
                 'result' => 'ok',
-                'response' => $this->render('formContenido', ['objLineaTiempo' => $objLineaTiempo, 'objContenido' => new Contenido])
+                'response' => $this->renderAjax('formContenido', ['objLineaTiempo' => $objLineaTiempo, 'objContenido' => new Contenido])
             ];
+            return $response;
         } else {
             
         }
