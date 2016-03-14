@@ -175,3 +175,133 @@ $(document).on('click', "button[data-role='guardar-comentario-contenido']", func
         }
     });
 });
+
+
+$(document).on('click', 'a[data-role="listado-me-gusta-contenido"]', function () {
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        async: true,
+        url: requestUrl + '/intranet/contenido/listado-me-gusta-contenido',
+        data: {render: true, idContenido: $(this).attr('data-contenido')},
+        beforeSend: function () {
+            $("#modal-me-gusta-contenido").remove();
+            //Loading.show();
+        },
+        complete: function () {
+            //Loading.hide();
+        },
+        success: function (data) {
+            if (data.result == 'ok') {
+                $('body').append(data.response);
+                $("#modal-me-gusta-contenido").modal("show");
+            } else {
+                alert(data.response);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            //Loading.hide();
+            alert('Error: ' + errorThrown);
+        }
+    });
+    return false;
+});
+
+
+$(document).on('click', 'a[data-role="listado-comentarios-contenido"]', function () {
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        async: true,
+        url: requestUrl + '/intranet/contenido/listado-comentarios-contenido',
+        data: {render: true, idContenido: $(this).attr('data-contenido')},
+        beforeSend: function () {
+            $("#modal-comentarios-contenido").remove();
+            //Loading.show();
+        },
+        complete: function () {
+            //Loading.hide();
+        },
+        success: function (data) {
+            if (data.result == 'ok') {
+                $('body').append(data.response);
+                $("#modal-comentarios-contenido").modal("show");
+                
+            } else {
+                alert(data.response);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            //Loading.hide();
+            alert('Error: ' + errorThrown);
+        }
+    });
+    return false;
+});
+
+
+$(document).on('click', 'a[data-role="denunciar-contenido"]', function () {
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        async: true,
+        url: requestUrl + '/intranet/contenido/denunciar-contenido',
+        data: {render: true, idContenido: $(this).attr('data-contenido'), idLineaTiempo: $(this).attr('data-linea-tiempo')},
+        beforeSend: function () {
+            $("#modal-comentarios-contenido").remove();
+            //Loading.show();
+        },
+        complete: function () {
+            //Loading.hide();
+        },
+        success: function (data) {
+            if (data.result == 'ok') {
+                $('body').append(data.response);
+                $("#modal-contenido-denuncio").modal("show");
+                
+            } else {
+                alert(data.response);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            //Loading.hide();
+            alert('Error: ' + errorThrown);
+        }
+    });
+    return false;
+});
+
+
+$(document).on('click', 'button[data-role="guardar-denuncio-contenido"]', function () {
+    
+    var form = $("#form-contenido-denuncio")
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        async: true,
+        url: requestUrl + '/intranet/contenido/guardar-denuncio-contenido',
+        data: form.serialize(),
+        beforeSend: function () {
+            
+            //Loading.show();
+        },
+        complete: function () {
+            //Loading.hide();
+        },
+        success: function (data) {
+            if (data.result == 'ok') {
+                alert('hola');
+                $("#lt"+$(this).attr('data-linea-tiempo')).html(data.response);
+                $("#modal-contenido-denuncio").modal("hide");
+                
+            } else {
+                alert(data.response);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            //Loading.hide();
+            alert('Error: ' + errorThrown);
+        }
+    });
+    return false;
+});
