@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "t_conexionesusuarios".
  *
  * @property string $idConexion
- * @property string $numeroDocumento
+ * @property string $idUsuario
  * @property string $fechaConexion
  * @property string $ip
  */
@@ -28,8 +28,8 @@ class ConexionesUsuarios extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['numeroDocumento', 'fechaConexion', 'ip'], 'required'],
-            [['numeroDocumento'], 'integer'],
+            [['idUsuario', 'fechaConexion', 'ip'], 'required'],
+            [['idUsuario'], 'integer'],
             [['fechaConexion'], 'safe'],
             [['ip'], 'string', 'max' => 45]
         ];
@@ -42,7 +42,7 @@ class ConexionesUsuarios extends \yii\db\ActiveRecord
     {
         return [
             'idConexion' => 'Id Conexion',
-            'numeroDocumento' => 'Id Usuario',
+            'idUsuario' => 'Id Usuario',
             'fechaConexion' => 'Fecha Conexion',
             'ip' => 'Ip',
         ];

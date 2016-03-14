@@ -91,7 +91,7 @@ class UsuarioController extends \yii\web\Controller
 
           // se guarda el registro de la conexion
           $objConexionesUsuario = new ConexionesUsuarios();
-          $objConexionesUsuario->numeroDocumento = $model->username;
+          $objConexionesUsuario->idUsuario = $model->username;
           $objConexionesUsuario->fechaConexion = date('YmdHis');
           $objConexionesUsuario->ip = $objConexionesUsuario->getRealIp(); //Yii::$app->getRequest()->getUserIP() ;
           $objConexionesUsuario->save();
