@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\modules\intranet\models;
 
 use Yii;
 
@@ -77,6 +77,14 @@ class OfertasLaborales extends \yii\db\ActiveRecord
     
     public function getObjArea(){
         return $this->hasOne(Area::className(), ['idArea' => 'idArea']);
+    }
+    
+    public function getObjCiudad(){
+        return $this->hasOne(Ciudad::className(), ['idCiudad' => 'idCiudad']);
+    }
+    
+    public function getObjInformacionContactoOferta(){
+        return $this->hasOne(InformacionContactoOferta::className(), ['idInformacionContacto' => 'idInformacionContacto']);
     }
     
     public function getObjUsuarioPublicacion(){

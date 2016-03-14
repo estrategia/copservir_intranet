@@ -18,7 +18,8 @@ use app\modules\intranet\models\UsuariosOpcionesFavoritos;
 use app\modules\intranet\models\MeGustaContenidos;
 use app\modules\intranet\models\ContenidosComentarios;
 use app\modules\intranet\models\Indicadores;
-
+use app\modules\intranet\models\OfertasLaborales;
+use app\modules\intranet\models\Notificaciones;
 
 class SitioController extends Controller {
 
@@ -41,14 +42,26 @@ class SitioController extends Controller {
             return $this->redirect(['usuario/autenticar']);
             exit();
         }
-
+        $fecha = Date("Y-m-d h:i:s");
         $contenidoModel = new Contenido();
         $lineasTiempo = LineaTiempo::find()->where(['estado' => 1])->all();
         $indicadores = Indicadores::find()->all();
+        $ofertasLaborales = OfertasLaborales::find()
+                            ->with(['objCargo', 'objArea', 'objCiudad', 'objInformacionContactoOferta'])
+                            ->where(
+                                ['and',
+                                        ['<=', 'fechaInicioPublicacion', $fecha],
+                                        ['>=', 'fechaFinPublicacion', $fecha]
+                                ])
+                            ->all();
+        
+                
+        
         return $this->render('index', [
                     'contenidoModel' => $contenidoModel,
                     'lineasTiempo' => $lineasTiempo,
-                    'indicadores' => $indicadores
+                    'indicadores' => $indicadores,
+                    'ofertasLaborales' => $ofertasLaborales
         ]);
     }
 
@@ -140,10 +153,25 @@ class SitioController extends Controller {
                 $meGusta->idContenido = $post['idContenido'];
                 $meGusta->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
                 $meGusta->fechaRegistro = Date("Y-m-d h:i:s");
-                if(!$meGusta->save()){$result = false;}
+                if(!$meGusta->save()){
+                    $result = false;
+                }else{
+                    // enviar notificacion al emisario
+//                    $contenido = Contenido::find()->where(['idContenido' => $meGusta->idContenido])->one();
+//                    $notificacion = new Notificaciones();
+//                    $notificacion->idUsuarioDirige= Yii::$app->user->identity->numeroDocumento;
+//                    $notificacion->idUsuarioDirigido= $contenido->idUsuarioPublicacion;
+//                    $notificacion->descripcion= Yii::$app->user->identity->alias." le ha dado me gusta a tu publicación";
+//                    $notificacion->estadoNotificacion= "1";
+//                    $notificacion->idTipoNotificacion= 1;
+                }
             } else {
                MeGustaContenidos::deleteAll('idContenido = :idContenido AND numeroDocumento = :numeroDocumento', [':idContenido' => $post['idContenido'], ':numeroDocumento' => Yii::$app->user->identity->numeroDocumento]);
             }
+            
+            
+            
+            
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             $numeroMeGusta = count(MeGustaContenidos::find()->where(['idContenido' => $post['idContenido']])->all());
             $items = [
@@ -168,6 +196,15 @@ class SitioController extends Controller {
             $comentario->estado = 1;
 
             if($comentario->save()){
+                
+//                $contenido = Contenido::find()->where(['idContenido' => $comentario->idContenido])->one();
+//                $notificacion = new Notificaciones();
+//                $notificacion->idUsuarioDirige= Yii::$app->user->identity->numeroDocumento;
+//                $notificacion->idUsuarioDirigido= $contenido->idUsuarioPublicacion;
+//                $notificacion->descripcion= Yii::$app->user->identity->alias." ha comentado tu publicación";
+//                $notificacion->estadoNotificacion= "1";
+//                $notificacion->idTipoNotificacion= 2;
+                
                 $noticia = Contenido::traerNoticiaEspecifica($comentario->idContenido);
                 $linea = LineaTiempo::find()->where(['idLineaTiempo' => $noticia->idLineaTiempo])->one();
 

@@ -4,6 +4,7 @@ namespace app\modules\intranet\controllers;
 
 use Yii;
 use app\modules\intranet\models\Tareas;
+use app\modules\intranet\models\LogTareas;
 use app\modules\intranet\models\TareasSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -60,14 +61,55 @@ class TareasController extends Controller
     public function actionCrear()
     {
         $model = new Tareas();
+        $modelLogTareas = new LogTareas();
+        $db = Yii::$app->db;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['detalle', 'id' => $model->idTarea]);
-        } else {
+        if ($model->load(Yii::$app->request->post())) {
+
+            $transaction = Tareas::getDb()->beginTransaction();
+            
+            try {
+            
+                
+                $model->save();
+
+                $innerTransaction = LogTareas::getDb()->beginTransaction();
+                
+                try {
+                
+                    $modelLogTareas->idTarea = $model->idTarea;
+                    $modelLogTareas->estadoTarea = $model->estadoTarea;
+                    $modelLogTareas->fechaRegistro = $model->fechaRegistro;
+                    $modelLogTareas->prioridad = $model->idPrioridad;
+                    $modelLogTareas->save();
+                    $innerTransaction->commit();
+
+                } catch (Exception $e) {
+                    $innerTransaction->rollBack();
+
+                    throw $e;
+                 }
+
+
+                //ejecuta la transaccion 
+                $transaction->commit();
+
+                return $this->redirect(['detalle', 'id' => $model->idTarea]);
+
+            } catch(\Exception $e) {
+                
+                //devuelve los cambios 
+                $transaction->rollBack();
+
+                throw $e;
+            }
+
+        }else{
             return $this->render('crear', [
                 'model' => $model,
-            ]);
+            ]);            
         }
+
     }
 
     /**
@@ -116,6 +158,10 @@ class TareasController extends Controller
       $tarea = Tareas::findOne($idTarea);
 
       $tarea->progreso = Yii::$app->request->post('progresoTarea');
+
+      if (Yii::$app->request->post('progresoTarea') == 100) {
+          $tarea->estadoTarea = 1;
+      }
 
       if ($tarea->save()) {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;

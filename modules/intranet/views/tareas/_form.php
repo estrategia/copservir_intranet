@@ -1,15 +1,16 @@
 <?php
 
-use vova07\imperavi\Widget;
+//use vova07\imperavi\Widget;
 use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\Html;
 
+
+use yii\jui\DatePicker;
 /* @var $this yii\web\View */
 /* @var $model app\modules\intranet\models\Tareas */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-<?php // Html::hiddenInput("Contenido[idLineaTiempo]", $linea->idLineaTiempo, ["id" => "idLineaTiempo"]); ?>
 <div class="tareas-form">
 
     <?php $form = ActiveForm::begin(); ?>
@@ -18,15 +19,27 @@ use yii\helpers\Html;
 
     <?= $form->field($model, 'descripcion')->textarea(['rows' => 6]) ?>
 
-    <?= Html::hiddenInput("numeroDocumento", $linea->idLineaTiempo, ["id" => "idLineaTiempo"]) ?>
+    <?= $form->field($model, 'numeroDocumento')->hiddenInput(['value'=> Yii::$app->user->identity->numeroDocumento])->label(false); ?>
+         
+    <?= $form->field($model, 'fechaRegistro')->hiddenInput(['value'=> date('YmdHis')])->label(false); ?>
 
-    <?= Html::hiddenInput("fechaRegistro", $linea->idLineaTiempo, ["id" => "idLineaTiempo"]) ?>
+    <?= $form->field($model, 'estadoTarea')->hiddenInput(['value'=> 2])->label(false); ?>
+    
 
-    <?= Html::hiddenInput("estadoTarea", $linea->idLineaTiempo, ["id" => "idLineaTiempo"]) ?>
+        <?php 
 
-    <?= $form->field($model, 'fechaEstimada')->textInput() ?>
+         echo $form->field($model, 'fechaEstimada')->widget(DatePicker::className(),[
+            'dateFormat' => 'yyyy-MM-dd',
+            'options' => [
+            'class' => 'input-sm form-control',
+            ]
+        ]); 
+        
+        ?>
 
-    <?= $form->field($model, 'prioridad')->textInput() ?>
+    
+
+    <?= $form->field($model, 'idPrioridad')->dropDownList($model->listaPrioridad, ['prompt' => 'Seleccione la prioridad' ]);?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
