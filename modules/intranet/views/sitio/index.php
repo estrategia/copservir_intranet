@@ -49,18 +49,19 @@ $this->title = 'Intranet - Copservir';
 
 <!--  BEGIN ESTADISTICAS -->
 <div class="col-md-3">
-    <!-- Estadisticas -->
-    <div class="col-md-12 col-sm-12">
+<<<<<<< HEAD
+  <!-- Estadisticas -->
+  <div class="col-md-12 col-sm-12">
 
-        <?php foreach ($indicadores as $indicador): ?>
-            <?php echo $this->render('_indicador', ['indicador' => $indicador]); ?>
-        <?php endforeach; ?>
+      <?php foreach($indicadores as $indicador):?>
+            <?php echo $this->render('_indicador',['indicador' => $indicador]);?>
+      <?php endforeach;?>
 
-    </div>
+  </div>
 
-    <div class="col-md-12 col-sm-12">
-        BANNER
-    </div>
+  <div class="col-md-12 col-sm-12">
+    BANNER
+  </div>
 </div>
 
 <!-- END ESTADISTICAS -->
@@ -71,44 +72,47 @@ $this->title = 'Intranet - Copservir';
 <div class="col-md-4">
     <br><br><br>
     <div class="col-md-12 col-sm-12 spacing-bottom">
-        <div class="widget">
-            <div class="widget-title dark">
-                <div class="pull-left ">
-                    <button class="btn  btn-dark  btn-small" type="button"><i class="fa fa-plus"></i></button>
-                </div>
-                Tareas
-                <div class="controller"> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>
+<<<<<<< HEAD
+      <div class="widget">
+        <div class="widget-title dark">
+          <div class="pull-left ">
+            <button class="btn  btn-dark  btn-small" type="button"><i class="fa fa-plus"></i></button>
+          </div>
+          Tareas
+          <div class="controller"> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>
+        </div>
+        <div class="widget-body">
+          <!--<div class="col-md-12">
+            <input type="text" class="form-control dark m-b-25" id="date">
+          </div>-->
+          <br>
+          <!--<div class="row-fluid">
+            <div class="checkbox check-success 	">
+              <input type="checkbox" value="1" id="chk_todo01" class="todo-list">
+              <label for="chk_todo01" class="done">Enviar correo a Jaime para las firmas</label>
             </div>
-            <div class="widget-body">
-                <div class="col-md-12">
-                    <input type="text" class="form-control dark m-b-25" id="date">
-                </div>
-                <br>
-                <div class="row-fluid">
-                    <div class="checkbox check-success 	">
-                        <input type="checkbox" value="1" id="chk_todo01" class="todo-list">
-                        <label for="chk_todo01" class="done">Enviar correo a Jaime para las firmas</label>
-                    </div>
-                </div>
-                <div class="row-fluid">
-                    <div class="checkbox check-success 	">
-                        <input type="checkbox" checked="checked" value="1" id="chk_todo02" class="todo-list">
-                        <label for="chk_todo02" class="done">Llamar a Martha!!</label>
-                    </div>
-                </div>
-                <div class="row-fluid">
-                    <div class="checkbox check-success 	">
-                        <input type="checkbox" value="1" id="chk_todo03" class="todo-list">
-                        <label for="chk_todo03" class="done">Actualizar las campañas ASAP</label>
-                    </div>
-                </div>
-                <div class="row-fluid">
-                    <div class="checkbox check-success 	">
-                        <input type="checkbox" value="1" id="chk_todo04" class="todo-list">
-                        <label for="chk_todo04">Hacer Backup</label>
-                    </div>
-                </div>
+          </div>-->
+
+          <?php foreach ($tareasUsuario as $tarea): ?>
+            <div class="row-fluid">
+              <?php
+
+                $clase ='';
+                $check_success= '';
+
+                if ($tarea->estadoTarea == 1) {
+                    $clase = 'done';
+                    $check_succes = 'check-success';
+                }
+
+              ?>
+              <div class= "<?=  "checkbox ".$check_succes ?>" >
+                <input type="checkbox" value="1" id="chk_todo<?= $tarea->idTarea ?>" class="todo-list" data-tarea="<?= $tarea->idTarea ?>" data-role="tarea-check">
+                <label for="chk_todo<?= $tarea->idTarea ?>"  class="<?= $clase ?>"><?= $tarea->descripcion ?></label>
+              </div>
             </div>
+          <?php endforeach; ?>
+          </div>
         </div>
     </div>
 </div>

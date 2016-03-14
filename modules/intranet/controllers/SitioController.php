@@ -20,6 +20,7 @@ use app\modules\intranet\models\ContenidosComentarios;
 use app\modules\intranet\models\Indicadores;
 use app\modules\intranet\models\OfertasLaborales;
 use app\modules\intranet\models\Notificaciones;
+use app\modules\intranet\models\Tareas;
 
 class SitioController extends Controller {
 
@@ -54,14 +55,18 @@ class SitioController extends Controller {
                                         ['>=', 'fechaFinPublicacion', $fecha]
                                 ])
                             ->all();
-        
-                
-        
+
+        $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        $tareasUsuario  = Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->all();
+
+
+
         return $this->render('index', [
                     'contenidoModel' => $contenidoModel,
                     'lineasTiempo' => $lineasTiempo,
                     'indicadores' => $indicadores,
-                    'ofertasLaborales' => $ofertasLaborales
+                    'ofertasLaborales' => $ofertasLaborales,
+                    'tareasUsuario'=> $tareasUsuario,
         ]);
     }
 
@@ -168,10 +173,10 @@ class SitioController extends Controller {
             } else {
                MeGustaContenidos::deleteAll('idContenido = :idContenido AND numeroDocumento = :numeroDocumento', [':idContenido' => $post['idContenido'], ':numeroDocumento' => Yii::$app->user->identity->numeroDocumento]);
             }
-            
-            
-            
-            
+
+
+
+
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             $numeroMeGusta = count(MeGustaContenidos::find()->where(['idContenido' => $post['idContenido']])->all());
             $items = [
@@ -196,7 +201,7 @@ class SitioController extends Controller {
             $comentario->estado = 1;
 
             if($comentario->save()){
-                
+
 //                $contenido = Contenido::find()->where(['idContenido' => $comentario->idContenido])->one();
 //                $notificacion = new Notificaciones();
 //                $notificacion->idUsuarioDirige= Yii::$app->user->identity->numeroDocumento;
@@ -204,7 +209,7 @@ class SitioController extends Controller {
 //                $notificacion->descripcion= Yii::$app->user->identity->alias." ha comentado tu publicación";
 //                $notificacion->estadoNotificacion= "1";
 //                $notificacion->idTipoNotificacion= 2;
-                
+
                 $noticia = Contenido::traerNoticiaEspecifica($comentario->idContenido);
                 $linea = LineaTiempo::find()->where(['idLineaTiempo' => $noticia->idLineaTiempo])->one();
 
