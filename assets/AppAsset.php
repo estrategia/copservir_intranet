@@ -39,7 +39,7 @@ class AppAsset extends AssetBundle {
     public $js = [
         // boostrap
         'libs/boostrapv3/js/bootstrap.min.js',
-        
+
         //genericas plantilla
         'libs/pace/pace.min.js',
         'libs/jquery-scrollbar/jquery.scrollbar.min.js',
@@ -59,12 +59,13 @@ class AppAsset extends AssetBundle {
         'libs/modernizr/modernizr.js',
 
         // 'js/dashboard/dashboard.js',
-        
+
         //propios
         'libs/fullcalendar/fullcalendar.js',
         'js/funciones-jj.js',
+        'js/funciones-mabc.js',
         'js/funciones-masm.js',
-        
+
     ];
     public $depends = [
         'yii\web\YiiAsset',

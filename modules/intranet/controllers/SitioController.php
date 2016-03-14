@@ -57,7 +57,7 @@ class SitioController extends Controller {
                             ->all();
 
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-        $tareasUsuario  = Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->all();
+        $tareasUsuario  = Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->andWhere(['!=', 'estadoTarea', 3])->all();
 
 
 

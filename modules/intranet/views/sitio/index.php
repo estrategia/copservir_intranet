@@ -49,7 +49,7 @@ $this->title = 'Intranet - Copservir';
 
 <!--  BEGIN ESTADISTICAS -->
 <div class="col-md-3">
-<<<<<<< HEAD
+
   <!-- Estadisticas -->
   <div class="col-md-12 col-sm-12">
 
@@ -69,53 +69,7 @@ $this->title = 'Intranet - Copservir';
 <!-- begin OFERTAS LABORALES Y TAREAS -->
 <?php echo $this->render('_ofertasLaborales',['ofertasLaborales' => $ofertasLaborales])?>
 
-<div class="col-md-4">
-    <br><br><br>
-    <div class="col-md-12 col-sm-12 spacing-bottom">
-<<<<<<< HEAD
-      <div class="widget">
-        <div class="widget-title dark">
-          <div class="pull-left ">
-            <button class="btn  btn-dark  btn-small" type="button"><i class="fa fa-plus"></i></button>
-          </div>
-          Tareas
-          <div class="controller"> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>
-        </div>
-        <div class="widget-body">
-          <!--<div class="col-md-12">
-            <input type="text" class="form-control dark m-b-25" id="date">
-          </div>-->
-          <br>
-          <!--<div class="row-fluid">
-            <div class="checkbox check-success 	">
-              <input type="checkbox" value="1" id="chk_todo01" class="todo-list">
-              <label for="chk_todo01" class="done">Enviar correo a Jaime para las firmas</label>
-            </div>
-          </div>-->
-
-          <?php foreach ($tareasUsuario as $tarea): ?>
-            <div class="row-fluid">
-              <?php
-
-                $clase ='';
-                $check_success= '';
-
-                if ($tarea->estadoTarea == 1) {
-                    $clase = 'done';
-                    $check_succes = 'check-success';
-                }
-
-              ?>
-              <div class= "<?=  "checkbox ".$check_succes ?>" >
-                <input type="checkbox" value="1" id="chk_todo<?= $tarea->idTarea ?>" class="todo-list" data-tarea="<?= $tarea->idTarea ?>" data-role="tarea-check">
-                <label for="chk_todo<?= $tarea->idTarea ?>"  class="<?= $clase ?>"><?= $tarea->descripcion ?></label>
-              </div>
-            </div>
-          <?php endforeach; ?>
-          </div>
-        </div>
-    </div>
-</div>
+<?php echo $this->render('/tareas/_tareasHome',['tareasUsuario' => $tareasUsuario])?>
 
 
 <!-- END OFERTAS LABORALES Y TAREAS -->
