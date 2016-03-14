@@ -22,7 +22,6 @@ $this->title = 'Intranet - Copservir';
 
 <!-- begin PUBLICACIONES -->
 <div class="col-md-9">
-
     <!-- nav lineas de tiempo -->
     <ul class="nav nav-tabs">
         <?php foreach ($lineasTiempo as $linea): ?>
