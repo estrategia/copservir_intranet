@@ -219,3 +219,41 @@ $(document).on('slideStop', "input[data-role='slider-tarea']", function() {
         }
     });
 });
+
+/*
+* peticion ajax cuando checkea una tarea en el home
+*/
+
+$(document).on('change', "input[data-role='tarea-check']", function() {
+
+    console.log('checkea');
+    var idTarea = $(this).attr('data-tarea');
+    console.log(idTarea);
+
+    //si chekea
+    console.log($(this).is(':Checked'));
+
+    /*
+    $.ajax({
+        type: 'POST',
+        async: true,
+        url: requestUrl + '/intranet/tareas/actualizar-progreso',
+        data: {idTarea: idTarea, progresoTarea: 100},
+        dataType: 'json',
+        beforeSend: function() {
+        //    Loading.show();
+        },
+
+        complete: function(data) {
+         //   Loading.hide();
+        },
+        success: function(data) {
+            if (data.result == "ok") {
+                console.log('progreso actualizado');
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+
+        }
+    });*/
+});

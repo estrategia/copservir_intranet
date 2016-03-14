@@ -66,11 +66,11 @@ $this->title = 'Intranet - Copservir';
 <div class="col-md-3">
   <!-- Estadisticas -->
   <div class="col-md-12 col-sm-12">
-      
+
       <?php foreach($indicadores as $indicador):?>
             <?php echo $this->render('_indicador',['indicador' => $indicador]);?>
       <?php endforeach;?>
-      
+
   </div>
 
   <div class="col-md-12 col-sm-12">
@@ -95,33 +95,36 @@ $this->title = 'Intranet - Copservir';
           <div class="controller"> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>
         </div>
         <div class="widget-body">
-          <div class="col-md-12">
+          <!--<div class="col-md-12">
             <input type="text" class="form-control dark m-b-25" id="date">
-          </div>
+          </div>-->
           <br>
-          <div class="row-fluid">
+          <!--<div class="row-fluid">
             <div class="checkbox check-success 	">
               <input type="checkbox" value="1" id="chk_todo01" class="todo-list">
               <label for="chk_todo01" class="done">Enviar correo a Jaime para las firmas</label>
             </div>
-          </div>
-          <div class="row-fluid">
-            <div class="checkbox check-success 	">
-              <input type="checkbox" checked="checked" value="1" id="chk_todo02" class="todo-list">
-              <label for="chk_todo02" class="done">Llamar a Martha!!</label>
+          </div>-->
+
+          <?php foreach ($tareasUsuario as $tarea): ?>
+            <div class="row-fluid">
+              <?php
+
+                $clase ='';
+                $check_success= '';
+
+                if ($tarea->estadoTarea == 1) {
+                    $clase = 'done';
+                    $check_succes = 'check-success';
+                }
+
+              ?>
+              <div class= "<?=  "checkbox ".$check_succes ?>" >
+                <input type="checkbox" value="1" id="chk_todo<?= $tarea->idTarea ?>" class="todo-list" data-tarea="<?= $tarea->idTarea ?>" data-role="tarea-check">
+                <label for="chk_todo<?= $tarea->idTarea ?>"  class="<?= $clase ?>"><?= $tarea->descripcion ?></label>
+              </div>
             </div>
-          </div>
-          <div class="row-fluid">
-            <div class="checkbox check-success 	">
-              <input type="checkbox" value="1" id="chk_todo03" class="todo-list">
-              <label for="chk_todo03" class="done">Actualizar las campañas ASAP</label>
-            </div>
-          </div>
-          <div class="row-fluid">
-            <div class="checkbox check-success 	">
-              <input type="checkbox" value="1" id="chk_todo04" class="todo-list">
-              <label for="chk_todo04">Hacer Backup</label>
-            </div>
+          <?php endforeach; ?>
           </div>
         </div>
       </div>
