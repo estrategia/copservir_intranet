@@ -10,6 +10,8 @@ use yii\helpers\Html;
 $this->title = 'Calendario';
 ?>
 
+<?php $this->registerJsFile("@web/libs/calender/calender.js", ['depends' => [app\assets\AppAsset::className()]]); ?>
+
 <div class="row" style="max-height:600px;">
   <div class="tiles row tiles-container red no-padding">
     <div class="col-md-4 tiles red no-padding">
