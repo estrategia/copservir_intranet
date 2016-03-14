@@ -3,6 +3,7 @@
 use vova07\imperavi\Widget;
 use yii\widgets\ActiveForm;
 use yii\helpers\Url;
+use yii\helpers\Html;
 ?>
 
 
@@ -43,14 +44,31 @@ use yii\helpers\Url;
 
                             <?php // echo ($megusta > 0 )? $megusta ." Me Gusta": '' ?> &nbsp;
                             <span id='numero-megusta_<?= $noticia->idContenido ?>'>
-                                <?php echo (count($noticia->listMeGusta) > 0 ) ? count($noticia->listMeGusta) . " Me Gusta" : '' ?> &nbsp;
+                                <?php echo (count($noticia->listMeGusta) > 0 ) ? 
+                                        Html::a(count($noticia->listMeGusta) . " Me Gusta",'#', [
+                                            //'id' => 'showFormPublications' . $linea->idLineaTiempo,
+                                            'data-role' => 'listado-me-gusta-contenido',
+                                            'data-contenido' => $noticia->idContenido,
+                                            'onclick' => 'return false'
+                                        ]) : '' ?> &nbsp;
                             </span>
                             <span id='numero-comentarios_<?= $noticia->idContenido ?>'>
-                                <?php echo (count($noticia->listComentarios) > 0 ) ? count($noticia->listComentarios) . " Comentarios" : '' ?>
+                                <?php echo (count($noticia->listComentarios) > 0 ) ? Html::a( count($noticia->listComentarios) . " Comentarios",'#', [
+                                            //'id' => 'showFormPublications' . $linea->idLineaTiempo,
+                                            'data-role' => 'listado-comentarios-contenido',
+                                            'data-contenido' => $noticia->idContenido,
+                                            'onclick' => 'return false'
+                                        ]) : '' ?>  &nbsp;
                             </span>
                             
                             <?php if(empty($noticia->objDenuncioComentarioUsuario)):?>
-                                &nbsp; <a href="#">Denunciar</a>
+                                &nbsp; <?php echo  Html::a( 'Denunciar','#', [
+                                            //'id' => 'showFormPublications' . $linea->idLineaTiempo,
+                                            'data-role' => 'denunciar-contenido',
+                                            'data-contenido' => $noticia->idContenido,
+                                            'data-linea-tiempo' => $linea->idLineaTiempo,
+                                            'onclick' => 'return false'
+                                        ]) ?>  &nbsp;
                             <?php else:?>
                                 &nbsp;&nbsp;Ya denunciaste
                             <?php endif;?>    

@@ -57,7 +57,7 @@ class ContenidosComentarios extends \yii\db\ActiveRecord
 
     public function getObjUsuarioPublicacionComentario()
     {
-        return $this->hasOne(Usuario::className(), ['idUsuario' => 'idUsuarioComentario']);
+        return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'idUsuarioComentario']);
     }
     
     public function getObjDenuncioComentarioUsuario()
