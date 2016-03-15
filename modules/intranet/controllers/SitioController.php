@@ -48,16 +48,16 @@ class SitioController extends Controller {
         $lineasTiempo = LineaTiempo::find()->where(['estado' => 1])->all();
         $indicadores = Indicadores::find()->all();
         $ofertasLaborales = OfertasLaborales::find()
-                            ->with(['objCargo', 'objArea', 'objCiudad', 'objInformacionContactoOferta'])
-                            ->where(
-                                ['and',
-                                        ['<=', 'fechaInicioPublicacion', $fecha],
-                                        ['>=', 'fechaFinPublicacion', $fecha]
-                                ])
-                            ->all();
+                ->with(['objCargo', 'objArea', 'objCiudad', 'objInformacionContactoOferta'])
+                ->where(
+                        ['and',
+                            ['<=', 'fechaInicioPublicacion', $fecha],
+                            ['>=', 'fechaFinPublicacion', $fecha]
+                ])
+                ->all();
 
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-        $tareasUsuario  = Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->andWhere(['!=', 'estadoTarea', 3])->all();
+        $tareasUsuario = Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->andWhere(['!=', 'estadoTarea', 3])->all();
 
 
 
@@ -66,7 +66,7 @@ class SitioController extends Controller {
                     'lineasTiempo' => $lineasTiempo,
                     'indicadores' => $indicadores,
                     'ofertasLaborales' => $ofertasLaborales,
-                    'tareasUsuario'=> $tareasUsuario,
+                    'tareasUsuario' => $tareasUsuario,
         ]);
     }
 
@@ -158,9 +158,22 @@ class SitioController extends Controller {
                 $meGusta->idContenido = $post['idContenido'];
                 $meGusta->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
                 $meGusta->fechaRegistro = Date("Y-m-d h:i:s");
-                if(!$meGusta->save()){
+                if (!$meGusta->save()) {
                     $result = false;
-                }else{
+                    $contenido = Contenido::find()->where(['idContenido' => $meGusta->idContenido])->one();
+
+                    if (empty($contenido)) {
+                        $items = [
+                            'result' => 'error',
+                            'response' => 'El contenido ya no existe'
+                        ];
+                    } else {
+                        $items = [
+                            'result' => 'error',
+                            'response' => 'Error al guardar el comentario'
+                        ];
+                    }
+                } else {
                     // enviar notificacion al emisario
 //                    $contenido = Contenido::find()->where(['idContenido' => $meGusta->idContenido])->one();
 //                    $notificacion = new Notificaciones();
@@ -171,23 +184,23 @@ class SitioController extends Controller {
 //                    $notificacion->idTipoNotificacion= 1;
                 }
             } else {
-               MeGustaContenidos::deleteAll('idContenido = :idContenido AND numeroDocumento = :numeroDocumento', [':idContenido' => $post['idContenido'], ':numeroDocumento' => Yii::$app->user->identity->numeroDocumento]);
+                MeGustaContenidos::deleteAll('idContenido = :idContenido AND numeroDocumento = :numeroDocumento', [':idContenido' => $post['idContenido'], ':numeroDocumento' => Yii::$app->user->identity->numeroDocumento]);
             }
 
+            if ($result) {
 
-
-
+                $numeroMeGusta = count(MeGustaContenidos::find()->where(['idContenido' => $post['idContenido']])->all());
+                $items = [
+                    'result' => 'ok',
+                    'response' => ($numeroMeGusta > 0) ? $numeroMeGusta . " Me gusta" : ""
+                ];
+            }
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            $numeroMeGusta = count(MeGustaContenidos::find()->where(['idContenido' => $post['idContenido']])->all());
-            $items = [
-                  'result' => 'ok',
-                  'response' => ($numeroMeGusta>0)?$numeroMeGusta." Me gusta":""
-                 ];
             return $items;
         }
     }
 
-    public function actionGuardarComentario(){
+    public function actionGuardarComentario() {
         if (Yii::$app->request->post()) {
             $post = Yii::$app->request->post();
 
@@ -200,7 +213,7 @@ class SitioController extends Controller {
             $comentario->fechaActualizacion = $comentario->fechaComentario;
             $comentario->estado = 1;
 
-            if($comentario->save()){
+            if ($comentario->save()) {
 
 //                $contenido = Contenido::find()->where(['idContenido' => $comentario->idContenido])->one();
 //                $notificacion = new Notificaciones();
@@ -213,14 +226,25 @@ class SitioController extends Controller {
                 $noticia = Contenido::traerNoticiaEspecifica($comentario->idContenido);
                 $linea = LineaTiempo::find()->where(['idLineaTiempo' => $noticia->idLineaTiempo])->one();
 
-                 $items = [
-                  'result' => 'ok',
-                   'response' => $this->renderAjax('_contenido',['noticia' => $noticia, 'linea' => $linea])
-                 ];
-            }else{
-                 $items = [
-                  'result' => 'error',
-                 ];
+                $items = [
+                    'result' => 'ok',
+                    'response' => $this->renderAjax('_contenido', ['noticia' => $noticia, 'linea' => $linea])
+                ];
+            } else {
+
+                $contenido = Contenido::find()->where(['idContenido' => $comentario->idContenido])->one();
+
+                if (empty($contenido)) {
+                    $items = [
+                        'result' => 'error',
+                        'response' => 'El contenido ya no existe'
+                    ];
+                } else {
+                    $items = [
+                        'result' => 'error',
+                        'response' => 'Error al guardar el comentario'
+                    ];
+                }
             }
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             return $items;
@@ -230,6 +254,7 @@ class SitioController extends Controller {
     /*
       accion para renderizar el formulario para publicar un contenido en una linea de tiempo
      */
+
     public function actionFormNoticia($lineaTiempo) {
         $contenidoModel = new Contenido();
         $linea = LineaTiempo::find()->where(['idLineaTiempo' => $lineaTiempo])->one();
@@ -242,6 +267,7 @@ class SitioController extends Controller {
     /*
       accion para renderizar la vista calendario
      */
+
     public function actionCalendario() {
         return $this->render('calendario', []);
     }

@@ -9,6 +9,7 @@ use \app\modules\intranet\models\Contenido;
 use \app\modules\intranet\models\MeGustaContenidos;
 use \app\modules\intranet\models\ContenidosComentarios;
 use \app\modules\intranet\models\DenunciosContenidos;
+use app\modules\intranet\models\DenunciosContenidosComentarios;
 
 class ContenidoController extends Controller {
 
@@ -116,12 +117,91 @@ class ContenidoController extends Controller {
             ];
         } else {
 
+            $contenido = Contenido::find()->where(['idContenido' => $modelDenuncio->idContenido])->one();
+
+            if (empty($contenido)) {
+                $items = [
+                    'result' => 'error',
+                    'response' => 'El contenido ya no existe'
+                ];
+            } else {
+                $items = [
+                    'result' => 'error',
+                    'response' => 'Error al guardar el comentario'
+                ];
+            }
+
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return $items;
+        }
+    }
+
+    public function actionEliminarComentario() {
+        $request = \Yii::$app->request;
+        $idComentario = $request->post('idComentario');
+        $contenido = ContenidosComentarios::find('idComentario = :idComentario', [':idComentario' => $idComentario])->one();
+        $idContenido = $contenido->idContenido;
+        $contenido = ContenidosComentarios::deleteAll('idContenidoComentario = :idComentario', [':idComentario' => $idComentario]);
+
+        $comentariosContenido = ContenidosComentarios::find()->with('objUsuarioPublicacionComentario')->where(['idContenido' => $idContenido])->all();
+
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return [
+            'result' => 'ok',
+            'response' => $this->renderPartial('_listadoComentarios', ['comentariosContenido' => $comentariosContenido])
+        ];
+    }
+
+    public function actionDenunciarComentario() {
+        $request = \Yii::$app->request;
+
+        $idComentario = $request->post('idComentario');
+
+        $modelDenuncio = new DenunciosContenidosComentarios();
+        $modelDenuncio->idContenidoComentario = $idComentario;
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return [
+            'result' => 'ok',
+            'response' => $this->renderPartial('_modalDenuncioComentario', ['modelDenuncio' => $modelDenuncio])
+        ];
+    }
+    
+    
+    public function actionGuardarDenuncioComentario() {
+        $request = \Yii::$app->request;
+        $render = $request->post('render', false);
+
+        $modelDenuncio = new DenunciosContenidosComentarios();
+        $modelDenuncio->load($request->post());
+        $modelDenuncio->idUsuarioDenunciante = Yii::$app->user->identity->numeroDocumento;
+        $modelDenuncio->fechaRegistro = Date("Y-m-d h:i:s");
+
+        if ($modelDenuncio->save()) {
+           
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
             return [
-                'result' => 'error',
-                'response' => 'Error al guardar el denuncio'
+                'result' => 'ok',
+                'response' => ''
             ];
+        } else {
+
+            $contenido = ContenidosComentarios::find()->where(['idContenidoComentario' => $modelDenuncio->idContenidoComentario])->one();
+
+            if (empty($contenido)) {
+                $items = [
+                    'result' => 'error',
+                    'response' => 'El contenido ya no existe'
+                ];
+            } else {
+                $items = [
+                    'result' => 'error',
+                    'response' => 'Error al guardar el denuncio'
+                ];
+            }
+
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return $items;
         }
     }
 

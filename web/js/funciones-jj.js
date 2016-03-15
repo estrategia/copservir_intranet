@@ -290,10 +290,108 @@ $(document).on('click', 'button[data-role="guardar-denuncio-contenido"]', functi
         },
         success: function (data) {
             if (data.result == 'ok') {
-                alert('hola');
+                
                 $("#lt"+$(this).attr('data-linea-tiempo')).html(data.response);
                 $("#modal-contenido-denuncio").modal("hide");
                 
+            } else {
+                alert(data.response);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            //Loading.hide();
+            alert('Error: ' + errorThrown);
+        }
+    });
+    return false;
+});
+
+$(document).on('click', 'a[data-role="eliminar-comentario"]', function () {
+    
+    var idComentario = $(this).attr("data-comentario");
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        async: true,
+        url: requestUrl + '/intranet/contenido/eliminar-comentario',
+        data: {idComentario: idComentario },
+        beforeSend: function () {
+            
+            //Loading.show();
+        },
+        complete: function () {
+            //Loading.hide();
+        },
+        success: function (data) {
+            if (data.result == 'ok') {
+               
+               $("#comentarios_contenido").html(data.response);
+                
+            } else {
+                alert(data.response);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            //Loading.hide();
+            alert('Error: ' + errorThrown);
+        }
+    });
+    return false;
+});
+
+$(document).on('click', 'a[data-role="denunciar-comentario"]', function () {
+    
+    var idComentario = $(this).attr("data-comentario");
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        async: true,
+        url: requestUrl + '/intranet/contenido/denunciar-comentario',
+        data: {idComentario: idComentario },
+        beforeSend: function () {
+            $("#modal-comentario-denuncio").remove();
+            //Loading.show();
+        },
+        complete: function () {
+            //Loading.hide();
+        },
+        success: function (data) {
+            if (data.result == 'ok') {
+                $("#modal-comentarios-contenido").modal('hide');
+                $('body').append(data.response);
+                $("#modal-comentario-denuncio").modal('show');
+             
+            } else {
+                alert(data.response);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            //Loading.hide();
+            alert('Error: ' + errorThrown);
+        }
+    });
+    return false;
+});
+
+$(document).on('click', 'button[data-role="guardar-denuncio-comentario"]', function () {
+    
+    var form = $("#form-comentario-denuncio")
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        async: true,
+        url: requestUrl + '/intranet/contenido/guardar-denuncio-comentario',
+        data: form.serialize(),
+        beforeSend: function () {
+            
+            //Loading.show();
+        },
+        complete: function () {
+            //Loading.hide();
+        },
+        success: function (data) {
+            if (data.result == 'ok') {
+                 $("#modal-comentario-denuncio").modal('hide');
             } else {
                 alert(data.response);
             }
