@@ -10,7 +10,6 @@ use yii\helpers\Html;
 $this->title = 'Tareas';
 ?>
 
-
 <div class="col-md-12">
 
       <a data-toggle="modal" data-target="#modal_formulario_noticias" type="button" class="btn btn-primary btn-lg btn-large"> <i class="fa fa-pencil"></i> Publicar</a>

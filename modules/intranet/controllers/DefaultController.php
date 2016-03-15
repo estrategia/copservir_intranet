@@ -8,6 +8,8 @@ class DefaultController extends Controller
 {
     public function actionIndex()
     {
-        return $this->render('index');
+        echo \Yii::$app->params['grupo']['*'];
+        //return $this->render('index');
     }
+
 }

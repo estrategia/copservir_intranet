@@ -153,3 +153,11 @@ $(document).on('click', "a[data-role='inactivarTarea']", function() {
 
     return false;
 });
+
+
+//::::::::::::::::::::::
+// POPUP INDEX
+//::::::::::::::::::::::
+$( document ).ready(function() {
+    $('#popup').modal('show');
+});
