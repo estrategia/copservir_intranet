@@ -192,6 +192,14 @@ class User extends ActiveRecord implements IdentityInterface {
     public function getCiudad() {
         return "Palmira";
     }
+    
+    public function getCodigoCiudad() {
+        return "76001";
+    }
+    
+    public function getGruposCodigos(){
+        return [1,2,3];
+    }
 
     public function getCumpleanhos() {
        setlocale(LC_ALL,"es_ES");
