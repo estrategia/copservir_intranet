@@ -26,7 +26,7 @@ class ContenidoController extends Controller {
             ];
             return $response;
         } else {
-            
+
         }
     }
 
@@ -45,7 +45,7 @@ class ContenidoController extends Controller {
                 'response' => $this->renderPartial('_modalMeGusta', ['usuariosMeGusta' => $usuariosMeGusta])
             ];
         } else {
-            
+
         }
     }
 
@@ -64,7 +64,7 @@ class ContenidoController extends Controller {
                 'response' => $this->renderPartial('_modalComentarios', ['comentariosContenido' => $comentariosContenido])
             ];
         } else {
-            
+
         }
     }
 
@@ -84,7 +84,7 @@ class ContenidoController extends Controller {
                 'response' => $this->renderPartial('_modalDenuncio', ['modelDenuncio' => $modelDenuncio, 'idLineaTiempo' => $idLinea])
             ];
         } else {
-            
+
         }
     }
 
@@ -93,7 +93,7 @@ class ContenidoController extends Controller {
         $render = $request->post('render', false);
 
         $post = $request->post('DenunciosContenidos');
-       
+
         $idLineaTiempo = $request->post('idLineaTiempo');
         $modelDenuncio = new DenunciosContenidos();
         $modelDenuncio->load($request->post());
@@ -115,14 +115,22 @@ class ContenidoController extends Controller {
                 )
             ];
         } else {
-           
+
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-           
+
             return [
                 'result' => 'error',
                 'response' => 'Error al guardar el denuncio'
             ];
         }
+    }
+
+
+    public function actionDetalleContenido($idNoticia, $idLineaTiempo)
+    {
+      $linea = LineaTiempo::find()->where(['idLineaTiempo' => $idLineaTiempo])->one();
+      $noticia = Contenido::findOne(['idContenido' => $idNoticia]);
+      return $this->render('/sitio/_contenido', ['noticia' => $noticia, 'linea' => $linea]);
     }
 
 }

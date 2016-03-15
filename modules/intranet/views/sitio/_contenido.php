@@ -17,7 +17,8 @@ use yii\helpers\Html;
 
         <div class="cbp_tmlabel">
             <div class="p-t-10 p-l-30 p-r-20 p-b-20 xs-p-r-10 xs-p-l-10 xs-p-t-5">
-                <h4 class="inline m-b-5"><span class="text-success semi-bold"><?= $noticia->titulo ?></span> </h4>
+
+                <?= Html::a('<h4 class="inline m-b-5"><span class="text-success semi-bold"> '.$noticia->titulo.' </span> </h4>', ['contenido/detalle-contenido','idNoticia' => $noticia->idContenido, 'idLineaTiempo' => $linea->idLineaTiempo ], ['class' => '', 'name' => '']) ?>
                 <h5 class="inline muted semi-bold m-b-5"></h5> <!-- para el usuario que publico la noticia -->
                 <!--<div class="muted">Publicación Compartida - 12:45pm</div> si la publicacion fue compartida-->
                 <p class="m-t-5 dark-text">
@@ -44,7 +45,7 @@ use yii\helpers\Html;
 
                             <?php // echo ($megusta > 0 )? $megusta ." Me Gusta": '' ?> &nbsp;
                             <span id='numero-megusta_<?= $noticia->idContenido ?>'>
-                                <?php echo (count($noticia->listMeGusta) > 0 ) ? 
+                                <?php echo (count($noticia->listMeGusta) > 0 ) ?
                                         Html::a(count($noticia->listMeGusta) . " Me Gusta",'#', [
                                             //'id' => 'showFormPublications' . $linea->idLineaTiempo,
                                             'data-role' => 'listado-me-gusta-contenido',
@@ -60,7 +61,7 @@ use yii\helpers\Html;
                                             'onclick' => 'return false'
                                         ]) : '' ?>  &nbsp;
                             </span>
-                            
+
                             <?php if(empty($noticia->objDenuncioComentarioUsuario)):?>
                                 &nbsp; <?php echo  Html::a( 'Denunciar','#', [
                                             //'id' => 'showFormPublications' . $linea->idLineaTiempo,
@@ -71,12 +72,12 @@ use yii\helpers\Html;
                                         ]) ?>  &nbsp;
                             <?php else:?>
                                 &nbsp;&nbsp;Ya denunciaste
-                            <?php endif;?>    
+                            <?php endif;?>
                         </li>
                     </ul>
                     <div class="clearfix"></div>
                 </div>
-                <textarea id="comentario_<?= $noticia->idContenido ?>" placeholder="Comentar Publicación..." class="form-control" rows="2"></textarea> 
+                <textarea id="comentario_<?= $noticia->idContenido ?>" placeholder="Comentar Publicación..." class="form-control" rows="2"></textarea>
                 <?php
                 echo \vova07\imperavi\Widget::widget([
                     'selector' => '#comentario_' . $noticia->idContenido,
