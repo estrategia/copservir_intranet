@@ -262,4 +262,38 @@ class SitioController extends Controller {
         return $this->render('organigrama', []);
     }
 
+
+    /*
+    * accion para obtener el contenido del modal
+    * @param none
+    * @return html contenido modal
+    */
+    public function actionPopupContenido()
+    {
+
+      $db = Yii::$app->db;
+      $userCiudad = Yii::$app->user->identity->getCodigoCiudad();
+      $userGrupos = Yii::$app->user->identity->getGruposCodigos();
+      $userNumeroDocumento = Yii::$app->user->identity->numeroDocumento;
+
+      $query = $db->createCommand('select c.idContenidoEmergente, c.contenido from  m_contenidoemergente as c, t_contenidoemergentedestino as cd
+	                           where (c.fechaInicio<=:fecha AND c.fechaFin >=:fecha AND c.estado=:estado AND c.idContenidoEmergente = cd.idContenidoEmergente and cd.idGrupoInteres IN(:userGrupos) and cd.codigoCiudad =:userCiudad)
+                                  NOT IN( select idContenidoEmergente from t_contenidoemergentevisto where numeroDocumento ='.$userNumeroDocumento.' )  order by rand()')
+                                  ->bindValue(':userCiudad', $userCiudad )
+                                  //->bindValue(':userNumeroDocumeto', $userNumeroDocumento )
+                                  ->bindValue(':userGrupos', implode(',',$userGrupos) )
+                                  ->bindValue(':fecha', date('Y-m-d H:i:s') )
+                                  ->bindValue(':estado', 1 )
+                                  ->queryOne();
+
+      //echo var_dump($query);
+
+      $items = [
+       'result' => 'ok',
+       'response' => $this->renderAjax('popup',['query'=>$query]),
+      ];
+      \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      return $items;
+    }
+
 }
