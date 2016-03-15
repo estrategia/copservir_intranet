@@ -12,11 +12,8 @@
 */
 $(document).on('slideStop', "input[data-role='slider-tarea']", function() {
 
-    console.log('movio slider');
     var idTarea = $(this).attr('data-tarea');
     var progresoTarea = $(this).val();
-    console.log(idTarea);
-    console.log(progresoTarea);
 
     $.ajax({
         type: 'POST',
@@ -48,13 +45,40 @@ $(document).on('slideStop', "input[data-role='slider-tarea']", function() {
 
 $(document).on('change', "input[data-role='tarea-check']", function() {
 
-    console.log('checkea');
     var idTarea = $(this).attr('data-tarea');
-    console.log(idTarea);
 
-    //si chekea
-    console.log();
+    //si uncheck
+    if (!$(this).is(':Checked')) {
 
+
+      $.ajax({
+          type: 'POST',
+          async: true,
+          url: requestUrl + '/intranet/tareas/uncheck-home',
+          data: {idTarea: idTarea},
+          dataType: 'json',
+          beforeSend: function() {
+          //    Loading.show();
+          },
+
+          complete: function(data) {
+           //   Loading.hide();
+          },
+          success: function(data) {
+
+              if (data.result == "ok") {
+
+                  $('#widget-tareas').html(data.response);
+              }
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+
+          }
+      });
+
+    }
+
+    /// si check
     if ($(this).is(':Checked')) {
       $.ajax({
           type: 'POST',
@@ -71,37 +95,17 @@ $(document).on('change', "input[data-role='tarea-check']", function() {
           },
           success: function(data) {
               if (data.result == "ok") {
-                  console.log('progreso actualizado');
+                  $('#widget-tareas').html(data.response);
               }
           },
           error: function(jqXHR, textStatus, errorThrown) {
 
           }
-      })
-    }else {
-      $.ajax({
-          type: 'POST',
-          async: true,
-          url: requestUrl + '/intranet/tareas/uncheck-home',
-          data: {idTarea: idTarea},
-          dataType: 'json',
-          beforeSend: function() {
-          //    Loading.show();
-          },
+      });
 
-          complete: function(data) {
-           //   Loading.hide();
-          },
-          success: function(data) {
-              if (data.result == "ok") {
-                  console.log('ultimo estado');
-              }
-          },
-          error: function(jqXHR, textStatus, errorThrown) {
-
-          }
-      })
     }
+
+
 
 });
 
@@ -111,16 +115,15 @@ $(document).on('change', "input[data-role='tarea-check']", function() {
 
 $(document).on('click', "a[data-role='inactivarTarea']", function() {
 
-    console.log('click');
+
     var idTarea = $(this).attr('data-tarea');
-    console.log(idTarea);
+
     var location = $(this).attr('data-location');
     if (true) {
 
     }
 
     if(confirm("¿Estas seguro de querer ocultar de manera permanente esta tarea??")) {
-        console.log('envio ajax');
 
           $.ajax({
               type: 'POST',
@@ -138,6 +141,8 @@ $(document).on('click', "a[data-role='inactivarTarea']", function() {
               success: function(data) {
                   if (data.result == "ok") {
                       console.log('tarea inactiva');
+                      $('#widget-tareas').html(data.response);
+                      //$('#widget-tareas').html(data.response);
                   }
               },
               error: function(jqXHR, textStatus, errorThrown) {
@@ -147,6 +152,4 @@ $(document).on('click', "a[data-role='inactivarTarea']", function() {
     }
 
     return false;
-
-
 });

@@ -37,8 +37,8 @@ class TareasController extends Controller
      public function actionListarTareas()
      {
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-        $modelTareas = Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->all();
-         return $this->render('listarTareas', ['modelTareas' => $modelTareas]);
+        $tareasUsuario = Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->all();
+         return $this->render('listarTareas', ['tareasUsuario' => $tareasUsuario]);
      }
 
     /**
@@ -177,7 +177,7 @@ class TareasController extends Controller
     /**
      * cambia el estado de una tarea existente a inactivo
      * si elimina correctamente redirige a listar tareas
-     * @param string $id
+     * @param POST => idtarea, location
      * @return mixed
      */
     public function actionEliminar()
@@ -185,24 +185,40 @@ class TareasController extends Controller
         $idTarea = Yii::$app->request->post('idTarea');
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
         $tarea = Tareas::findOne(['numeroDocumento' => $numeroDocumento, 'idTarea' => $idTarea]);
-        echo var_dump($tarea);
         $logTarea = new LogTareas();
-
+        $location = Yii::$app->request->post('location');
+        $view = '';
 
         $items = [];
 
         $transaction = Tareas::getDb()->beginTransaction();
         try {
-            if (Yii::$app->request->post('location') == 1) {
+            if ($location == 1) {
                 $tarea->estadoTarea = 3;
             }else{
                 $tarea->estadoTarea = 0;
             }
 
             if ($tarea->save()) {
+
+              if ($location == 1) {
+                  $view = '_tareasHome';
+                  $tareasUsuario  = Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->andWhere(['!=', 'estadoTarea', 3])->all();
+              }else{
+                  $view = '_listaTareas';
+                  $tareasUsuario = Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->all();
+              }
+
+
               $items = [
                   'result' => 'ok',
-              ];
+                  'location' => $location,
+                  'response' => $this->renderAjax($view, [
+                      'tareasUsuario' => $tareasUsuario,
+                  ])
+
+                ];
+
             }
 
             $innerTransaction = LogTareas::getDb()->beginTransaction();
@@ -241,7 +257,7 @@ class TareasController extends Controller
     /**
      * actualizar el progreso de una tarea cuando mueven el slider
      *
-     * @param
+     * @param POST => idtarea
      * @return mixed
      */
     public function actionActualizarProgreso()
@@ -263,9 +279,14 @@ class TareasController extends Controller
               $tarea->estadoTarea = 2;
           }
           if ($tarea->save()) {
+            $tareasUsuario = Tareas::find(['numeroDocumento' => $numeroDocumento, 'idTarea' => $idTarea])->all();
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             $items = [
                 'result' => 'ok',
-            ];
+                'response' => $this->renderAjax('_tareasHome', [
+                    'tareasUsuario' => $tareasUsuario,
+                        ]
+            )];
           }
 
           $innerTransaction = LogTareas::getDb()->beginTransaction();
@@ -303,9 +324,9 @@ class TareasController extends Controller
 
     /**
      * devuelve la tarea a su ultimo estado segun el log
-     * @param string $id
-     * @return Tareas the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
+     * @param POST => idtarea
+     * @return mixed
+     * @throws
      */
     public function actionUncheckHome()
     {
@@ -344,6 +365,17 @@ class TareasController extends Controller
            }
         $transaction->commit();
 
+        $tareasUsuario = Tareas::find(['numeroDocumento' => $numeroDocumento, 'idTarea' => $idTarea])->all();
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $items = [
+            'result' => 'ok',
+            'response' => $this->renderAjax('_tareasHome', [
+                'tareasUsuario' => $tareasUsuario,
+                    ]
+        )];
+
+        return $items;
+
       }catch(\Exception $e) {
 
           //devuelve los cambios
@@ -351,25 +383,8 @@ class TareasController extends Controller
 
           throw $e;
       }
-
-      echo $tarea->progreso;
-
-
-      $tareasUsuario = Tareas::find(['numeroDocumento' => $numeroDocumento, 'idTarea' => $idTarea])->all();
-      \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-      $items = [
-          'result' => 'ok',
-          'response' => $this->renderAjax('_tareasHome', [
-              'tareasUsuario' => $tareasUsuario,
-                  ]
-      )];
-      return $items;
-
-
-
-
-
     }
+
     /**
      * encuentra una tarea por su llave primaria
      * si el modelo no existe manda un 404

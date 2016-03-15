@@ -1,4 +1,4 @@
-<div class="col-md-4">
+
     <br><br><br>
     <div class="col-md-12 col-sm-12 spacing-bottom">
       <div class="widget">
@@ -40,4 +40,3 @@
           </div>
         </div>
     </div>
-</div>
