@@ -69,8 +69,9 @@ $this->title = 'Intranet - Copservir';
 <!-- begin OFERTAS LABORALES Y TAREAS -->
 <?php echo $this->render('_ofertasLaborales',['ofertasLaborales' => $ofertasLaborales])?>
 
-<?php echo $this->render('/tareas/_tareasHome',['tareasUsuario' => $tareasUsuario])?>
-
+<div class="col-md-4" id="widget-tareas">
+  <?php echo $this->render('/tareas/_tareasHome',['tareasUsuario' => $tareasUsuario])?>
+</div>
 
 <!-- END OFERTAS LABORALES Y TAREAS -->
 <!-- begin DOWN BANNER -->
