@@ -4,6 +4,7 @@ use vova07\imperavi\Widget;
 use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\Html;
+use app\modules\intranet\models\ContenidoDestino;
 ?>
 
 
@@ -44,16 +45,17 @@ use yii\helpers\Html;
                     ]
                 ])->label(false);
                 ?>
+                <div id="contenido-destino">
+                    <?php echo $this->render('_formDestinoContenido', ['objContenidoDestino' => new ContenidoDestino]) ?>
+                </div>
                 <?= Html::hiddenInput("Contenido[idLineaTiempo]", $objLineaTiempo->idLineaTiempo, ["id" => "idLineaTiempo"]); ?>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <?php $requiere = ($objLineaTiempo->autorizacionAutomatica == 0) ? ' (Requiere aprobación)' : ''; ?>
+                    <?= Html::a(Yii::t('app', 'Publicar Noticia' . $requiere), '#', ['class' => 'btn btn-primary', 'data-role' => 'guardar-contenido', 'data-href' => "#lt$objLineaTiempo->idLineaTiempo"]) ?>
+                </div>
 
+                <?php ActiveForm::end(); ?>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <?php $requiere = ($objLineaTiempo->autorizacionAutomatica == 0) ? ' (Requiere aprobación)' : ''; ?>
-                <?= Html::submitButton(Yii::t('app', 'Publicar Noticia' . $requiere), ['class' => 'btn btn-primary', 'data-role' => 'guardar-contenido']) ?>
-            </div>
-
-            <?php ActiveForm::end(); ?>
         </div>
     </div>
-</div>

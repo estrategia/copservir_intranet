@@ -39,17 +39,45 @@ $(document).on('click', "a[data-role='cambiar-timeline']", function() {
     });
 });
 
+$(document).on('click', "a[data-role='agregar-destino-contenido']", function() {
+
+    $.ajax({
+        type: 'GET',
+        async: true,
+        url: requestUrl + '/intranet/contenido/agregar-destino',
+      
+        dataType: 'json',
+        beforeSend: function() {
+        //    Loading.show();
+        },
+
+        complete: function(data) {
+         //   Loading.hide();
+        },
+        success: function(data) {
+            if (data.result == "ok") {
+                $("#contenido-destino").append(data.response);
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+
+        }
+    });
+    return false;
+});
+
+
 /*
 * peticion ajax para guardar un contenido de una publicacion
 */
-$(document).on('click', "button[data-role='guardar-contenido']", function() {
+$(document).on('click', "a[data-role='guardar-contenido']", function() {
 
-    var form = $("#nuevoPOST");
+    var form = $("#form-contenido-publicar");
     var href = $(this).attr('data-href');
     $.ajax({
         type: 'POST',
         async: true,
-        url: requestUrl + '/sitio/guardar-contenido',
+        url: requestUrl + '/intranet/sitio/guardar-contenido',
         data: form.serialize(),
         dataType: 'json',
         beforeSend: function() {
@@ -61,6 +89,7 @@ $(document).on('click', "button[data-role='guardar-contenido']", function() {
         },
         success: function(data) {
             if (data.result == "ok") {
+                $("#modal-contenido-publicar").modal('hide')
                 $(".lineastiempo").html("");
                 $(href).html(data.response);
             }
@@ -69,6 +98,8 @@ $(document).on('click', "button[data-role='guardar-contenido']", function() {
 
         }
     });
+    
+    return false;
 });
 
 //::::::::::::::::::::::
