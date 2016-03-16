@@ -57,9 +57,33 @@ class SitioController extends Controller {
                 ->all();
 
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        //tareas
         $tareasUsuario = Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->andWhere(['!=', 'estadoTarea', 3])->all();
 
+        //banners
+        $db = Yii::$app->db;
+        $userCiudad = Yii::$app->user->identity->getCodigoCiudad();
 
+        $bannerArriba = $db->createCommand('select pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia from t_publicacioncampanasciudades as pcc, t_publicacionescampanas as pc
+	                                       where (pcc.idImagenCampana = pc.idImagenCampana and pcc.codigoCiudad =:userCiudad and pc.estado=:estado and pc.posicion =:posicion)  order by rand()')
+                                    ->bindValue(':userCiudad', $userCiudad )
+                                    ->bindValue(':estado', 1 )
+                                    ->bindValue(':posicion', 0 )
+                                    ->queryAll();
+
+        $bannerAbajo = $db->createCommand('select pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia from t_publicacioncampanasciudades as pcc, t_publicacionescampanas as pc
+                                         where (pcc.idImagenCampana = pc.idImagenCampana and pcc.codigoCiudad =:userCiudad and pc.estado=:estado and pc.posicion =:posicion)  order by rand()')
+                                    ->bindValue(':userCiudad', $userCiudad )
+                                    ->bindValue(':estado', 1 )
+                                    ->bindValue(':posicion', 1 )
+                                    ->queryAll();
+
+        $bannerDerecha = $db->createCommand('select pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia from t_publicacioncampanasciudades as pcc, t_publicacionescampanas as pc
+	                                       where (pcc.idImagenCampana = pc.idImagenCampana and pcc.codigoCiudad =:userCiudad and pc.estado=:estado and pc.posicion =:posicion)  order by rand()')
+                                    ->bindValue(':userCiudad', $userCiudad )
+                                    ->bindValue(':estado', 1 )
+                                    ->bindValue(':posicion', 2 )
+                                    ->queryAll();
 
         return $this->render('index', [
                     'contenidoModel' => $contenidoModel,
@@ -67,6 +91,9 @@ class SitioController extends Controller {
                     'indicadores' => $indicadores,
                     'ofertasLaborales' => $ofertasLaborales,
                     'tareasUsuario' => $tareasUsuario,
+                    'bannerArriba' => $bannerArriba,
+                    'bannerAbajo' => $bannerAbajo,
+                    'bannerDerecha' => $bannerDerecha,
         ]);
     }
 

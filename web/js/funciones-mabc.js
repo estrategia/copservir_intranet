@@ -186,6 +186,22 @@ $( document ).ready(function() {
 
         }
     })
+});
 
+//::::::::::::::::::::::
+// CAMPAÑAS
+//::::::::::::::::::::::
+
+$( document ).ready(function() {
+
+  // indica cuales son las primeras imagenes en los banner (sliders) de publicidad
+  $('#bannerArriba0').attr('class', 'item active');
+  $('#bannerDerecha0').attr('class', 'item active');
+  $('#bannerAbajo0').attr('class', 'item active');
+
+  // para que se desplace el banner vertical
+  $('#myCarousel').carousel({
+    interval: 5000
+  })
 
 });

@@ -15,7 +15,7 @@ $this->title = 'Intranet - Copservir';
 <!-- begin UP BANNER -->
 <div class="col-md-12">
     <div class="tiles overflow-hidden full-height tiles-overlay-hover m-b-10 widget-item">
-        Banner
+        <?= $this->render('banner',['banners'=>$bannerArriba, 'location' =>0])?>
     </div>
 </div>
 <!-- END UP BANNER -->
@@ -59,8 +59,26 @@ $this->title = 'Intranet - Copservir';
 
   </div>
 
+  <!--publicidad derecha -->
   <div class="col-md-12 col-sm-12">
-    BANNER
+
+
+    <div id="myCarousel" class="carousel slide vertical">
+          <!-- Carousel items -->
+          <div class="carousel-inner">
+            <?php $contador = 0 ?>
+            <?php foreach ($bannerDerecha as $banner): ?>
+              <div  id="bannerDerecha<?= $contador  ?>" class="item">
+                  <img src="<?= Yii::$app->homeUrl . 'img/campanas/'.$banner['rutaImagen'] ?>" alt="...">
+              </div>
+              <?php  $contador++; ?>
+            <?php endforeach; ?>
+
+          </div>
+
+      </div>
+
+
   </div>
 </div>
 
@@ -74,9 +92,9 @@ $this->title = 'Intranet - Copservir';
 </div>
 
 <!-- END OFERTAS LABORALES Y TAREAS -->
-<!-- begin DOWN BANNER -->
+<!-- BEGIN DOWN BANNER -->
 <div class="col-md-12">
-    BANNER ..............
+  <?= $this->render('banner',['banners'=>$bannerAbajo, 'location' =>1])?>
 </div>
 
 <!-- END DOWN BANNER -->
