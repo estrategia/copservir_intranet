@@ -21,6 +21,7 @@ use app\modules\intranet\models\Indicadores;
 use app\modules\intranet\models\OfertasLaborales;
 use app\modules\intranet\models\Notificaciones;
 use app\modules\intranet\models\Tareas;
+use app\modules\intranet\models\ContenidoDestino;
 
 class SitioController extends Controller {
 
@@ -126,35 +127,67 @@ class SitioController extends Controller {
 
         $contenido = new Contenido();
         if ($contenido->load(Yii::$app->request->post())) {
-            $contenido->idUsuarioPublicacion = Yii::$app->user->identity->idUsuario;
+            $contenido->idUsuarioPublicacion = Yii::$app->user->identity->numeroDocumento;
             $contenido->fechaPublicacion = $contenido->fechaActualizacion = Date("Y-m-d h:i:s");
-
+            $error = false;
             $lineaTiempo = LineaTiempo::find()->where(['=', 'idLineaTiempo', $contenido->idLineaTiempo])->one();
 
             if ($lineaTiempo->autorizacionAutomatica == 1) {
-                $contenido->idEstado = 2; // estado aprobado
+                $contenido->estado = 2; // estado aprobado
                 $contenido->fechaAprobacion = Date("Y-m-d h:i:s");
                 $contenido->fechaInicioPublicacion = Date("Y-m-d h:i:s");
             } else {
-                $contenido->idEstado = 1; // estado pendiente por aprobacion
+                $contenido->estado = 1; // estado pendiente por aprobacion
             }
-            if ($contenido->save()) {
-                $contenidoModel = new Contenido();
-                $linea = LineaTiempo::find()->where(['idLineaTiempo' => $contenido->idLineaTiempo])->one();
 
-                $noticias = Contenido::traerNoticias($contenido->idLineaTiempo);
-                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-                $items = [
-                    'result' => 'ok',
-                    'response' => $this->renderAjax('_lineaTiempo', [
-                        'contenidoModel' => $contenidoModel,
-                        'linea' => $linea,
-                        'noticias' => $noticias
-                ])];
-                return $items;
-            };
+            if ($contenido->save()) {
+
+                $contenidodestino = Yii::$app->request->post('ContenidoDestino');
+                $ciudades = $contenidodestino['codigoCiudad'];
+                $gruposInteres = $contenidodestino['idGrupoInteres'];
+
+                for ($i = 0; $i < count($gruposInteres); $i++) {
+                    $contenidodestino = new ContenidoDestino();
+                    $contenidodestino->idGrupoInteres = $gruposInteres[$i];
+                    $contenidodestino->codigoCiudad = $ciudades[$i];
+                    $contenidodestino->idContenido = $contenido->idContenido;
+
+                    if (!$contenidodestino->save()) {
+                        $error = true;
+                    }
+                }
+
+                if (!$error) {
+                    $contenidoModel = new Contenido();
+                    $linea = LineaTiempo::find()->where(['idLineaTiempo' => $contenido->idLineaTiempo])->one();
+
+                    $noticias = Contenido::traerNoticias($contenido->idLineaTiempo);
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    $items = [
+                        'result' => 'ok',
+                        'response' => $this->renderAjax('_lineaTiempo', [
+                            'contenidoModel' => $contenidoModel,
+                            'linea' => $linea,
+                            'noticias' => $noticias
+                    ])];
+                    return $items;
+                } else {
+                    return [
+                        'result' => 'error',
+                        'response' => 'Error al guardar el contenido'
+                    ];
+                }
+            } else {
+                return [
+                    'result' => 'error',
+                    'response' => 'Error al guardar el contenido'
+                ];
+            }
         } else {
-            echo "error";
+            return [
+                'result' => 'error',
+                'response' => 'Error al guardar el contenido'
+            ];
         }
     }
 

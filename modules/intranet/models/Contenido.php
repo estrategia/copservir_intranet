@@ -37,7 +37,7 @@ class Contenido extends \yii\db\ActiveRecord
         return [
             [['contenido', 'idUsuarioPublicacion', 'fechaPublicacion', 'idLineaTiempo'], 'required'],
             [['contenido'], 'string'],
-            [['idUsuarioPublicacion', 'idEstado', 'idUsuarioAprobacion', 'idLineaTiempo'], 'integer'],
+            [['idUsuarioPublicacion', 'estado', 'idUsuarioAprobacion', 'idLineaTiempo'], 'integer'],
             [['fechaPublicacion', 'fechaActualizacion', 'fechaAprobacion', 'fechaInicioPublicacion'], 'safe'],
             [['titulo'], 'string', 'max' => 45]
         ];
@@ -55,7 +55,7 @@ class Contenido extends \yii\db\ActiveRecord
             'idUsuarioPublicacion' => 'Id Usuario Publicacion',
             'fechaPublicacion' => 'Fecha Publicacion',
             'fechaActualizacion' => 'Fecha Actualizacion',
-            'idEstado' => 'Id Estado',
+            'estado' => 'Estado',
             'fechaAprobacion' => 'Fecha Aprobacion',
             'idUsuarioAprobacion' => 'Id Usuario Aprobacion',
             'fechaInicioPublicacion' => 'Fecha Inicio Publicacion',
@@ -64,11 +64,14 @@ class Contenido extends \yii\db\ActiveRecord
     }
 
     public static function traerNoticias($idLineaTiempo){
-        return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])->where(
+        return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])
+                ->joinWith(['listContenidosDestinos'])->where(
                            ['and',
                                 ['<=', 'fechaInicioPublicacion', 'now()'],
                                 ['=', 'idLineaTiempo', $idLineaTiempo],
-                                ['=', 'estado', 2]
+                                ['=', 'estado', 2],
+                                ['=', 't_ContenidoDestino.codigoCiudad', Yii::$app->user->identity->getCodigoCiudad() ],
+                                ['IN', 't_ContenidoDestino.idGrupoInteres',  Yii::$app->user->identity->getGruposCodigos() ]
                              ]
                             )->orderBy('fechaInicioPublicacion Desc')
 
@@ -110,6 +113,11 @@ class Contenido extends \yii\db\ActiveRecord
     public function getListAdjuntos()
     {
         return $this->hasMany(ContenidosAdjuntos::className(), ['idContenido' => 'idContenido']);
+    }
+    
+    public function getListContenidosDestinos()
+    {
+        return $this->hasMany(ContenidoDestino::className(), ['idContenido' => 'idContenido']);
     }
 
     /**

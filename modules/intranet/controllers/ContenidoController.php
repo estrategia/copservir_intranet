@@ -10,6 +10,7 @@ use \app\modules\intranet\models\MeGustaContenidos;
 use \app\modules\intranet\models\ContenidosComentarios;
 use \app\modules\intranet\models\DenunciosContenidos;
 use app\modules\intranet\models\DenunciosContenidosComentarios;
+use app\modules\intranet\models\ContenidoDestino;
 
 class ContenidoController extends Controller {
 
@@ -27,7 +28,7 @@ class ContenidoController extends Controller {
             ];
             return $response;
         } else {
-
+            
         }
     }
 
@@ -46,7 +47,7 @@ class ContenidoController extends Controller {
                 'response' => $this->renderPartial('_modalMeGusta', ['usuariosMeGusta' => $usuariosMeGusta])
             ];
         } else {
-
+            
         }
     }
 
@@ -57,7 +58,7 @@ class ContenidoController extends Controller {
         if ($render) {
             $idContenido = $request->post('idContenido');
 
-            $comentariosContenido = ContenidosComentarios::find()->with('objUsuarioPublicacionComentario')->where(['idContenido' => $idContenido])->all();
+            $comentariosContenido = ContenidosComentarios::find()->with('objUsuarioPublicacionComentario', 'objDenuncioComentarioUsuario')->where(['idContenido' => $idContenido])->all();
 
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             return [
@@ -65,7 +66,7 @@ class ContenidoController extends Controller {
                 'response' => $this->renderPartial('_modalComentarios', ['comentariosContenido' => $comentariosContenido])
             ];
         } else {
-
+            
         }
     }
 
@@ -85,7 +86,7 @@ class ContenidoController extends Controller {
                 'response' => $this->renderPartial('_modalDenuncio', ['modelDenuncio' => $modelDenuncio, 'idLineaTiempo' => $idLinea])
             ];
         } else {
-
+            
         }
     }
 
@@ -143,7 +144,7 @@ class ContenidoController extends Controller {
         $idContenido = $contenido->idContenido;
         $contenido = ContenidosComentarios::deleteAll('idContenidoComentario = :idComentario', [':idComentario' => $idComentario]);
 
-        $comentariosContenido = ContenidosComentarios::find()->with('objUsuarioPublicacionComentario')->where(['idContenido' => $idContenido])->all();
+        $comentariosContenido = ContenidosComentarios::find()->with('objUsuarioPublicacionComentario', 'objDenuncioComentarioUsuario')->where(['idContenido' => $idContenido])->all();
 
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return [
@@ -165,8 +166,7 @@ class ContenidoController extends Controller {
             'response' => $this->renderPartial('_modalDenuncioComentario', ['modelDenuncio' => $modelDenuncio])
         ];
     }
-    
-    
+
     public function actionGuardarDenuncioComentario() {
         $request = \Yii::$app->request;
         $render = $request->post('render', false);
@@ -177,7 +177,7 @@ class ContenidoController extends Controller {
         $modelDenuncio->fechaRegistro = Date("Y-m-d h:i:s");
 
         if ($modelDenuncio->save()) {
-           
+
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
             return [
@@ -205,12 +205,18 @@ class ContenidoController extends Controller {
         }
     }
 
+    public function actionDetalleContenido($idNoticia, $idLineaTiempo) {
+        $linea = LineaTiempo::find()->where(['idLineaTiempo' => $idLineaTiempo])->one();
+        $noticia = Contenido::findOne(['idContenido' => $idNoticia]);
+        return $this->render('/sitio/_contenido', ['noticia' => $noticia, 'linea' => $linea]);
+    }
 
-    public function actionDetalleContenido($idNoticia, $idLineaTiempo)
-    {
-      $linea = LineaTiempo::find()->where(['idLineaTiempo' => $idLineaTiempo])->one();
-      $noticia = Contenido::findOne(['idContenido' => $idNoticia]);
-      return $this->render('/sitio/_contenido', ['noticia' => $noticia, 'linea' => $linea]);
+    public function actionAgregarDestino() {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return [
+            'result' => 'ok',
+            'response' => $this->renderPartial('_formDestinoContenido',['objContenidoDestino' => new ContenidoDestino])
+        ];
     }
 
 }
