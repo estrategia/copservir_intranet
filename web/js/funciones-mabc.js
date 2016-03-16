@@ -159,5 +159,33 @@ $(document).on('click', "a[data-role='inactivarTarea']", function() {
 // POPUP INDEX
 //::::::::::::::::::::::
 $( document ).ready(function() {
-    $('#popup').modal('show');
+
+    $.ajax({
+        type: 'GET',
+        async: true,
+        url: requestUrl + '/intranet/sitio/popup-contenido',
+        //data: {idTarea: idTarea, location: location},
+        dataType: 'json',
+        beforeSend: function() {
+        //    Loading.show();
+        $('#widget-popup').remove();
+        },
+
+        complete: function(data) {
+         //   Loading.hide();
+        },
+        success: function(data) {
+            if (data.result == "ok") {
+                console.log('trajo contenido modal');
+
+                $('body').append(data.response);
+                $('#widget-popup').modal('show');
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+
+        }
+    })
+
+
 });

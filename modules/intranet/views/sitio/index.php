@@ -79,7 +79,4 @@ $this->title = 'Intranet - Copservir';
     BANNER ..............
 </div>
 
-<?= $this->render('popup',[]);?>
-
-
 <!-- END DOWN BANNER -->
