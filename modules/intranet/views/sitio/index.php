@@ -98,3 +98,64 @@ $this->title = 'Intranet - Copservir';
 </div>
 
 <!-- END DOWN BANNER -->
+
+<?php
+
+  $this->registerJs(
+  "
+  //::::::::::::::::::::::
+  // POPUP INDEX
+  //::::::::::::::::::::::
+
+  /*
+  * Ajax que trae la informacion del modal 
+  */
+  $( document ).ready(function() {
+
+      $.ajax({
+          type: 'GET',
+          async: true,
+          url: requestUrl + '/intranet/sitio/popup-contenido',
+          dataType: 'json',
+          beforeSend: function() {
+          //    Loading.show();
+          $('#widget-popup').remove();
+          },
+
+          complete: function(data) {
+           //   Loading.hide();
+          },
+          success: function(data) {
+              if (data.result == 'ok') {
+
+
+                  $('body').append(data.response);
+                  $('#widget-popup').modal('show');
+              }
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+
+          }
+      })
+
+      //::::::::::::::::::::::
+      // CAMPAÑAS
+      //::::::::::::::::::::::
+
+      // indica cuales son las primeras imagenes en los banner (sliders) de publicidad
+      $('#bannerArriba0').attr('class', 'item active');
+      $('#bannerDerecha0').attr('class', 'item active');
+      $('#bannerAbajo0').attr('class', 'item active');
+
+      // para que se desplace el banner vertical
+      $('#myCarousel').carousel({
+        interval: 5000
+      })
+  });
+
+  "
+  );
+
+
+
+ ?>

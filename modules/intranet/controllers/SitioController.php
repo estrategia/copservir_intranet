@@ -22,6 +22,7 @@ use app\modules\intranet\models\OfertasLaborales;
 use app\modules\intranet\models\Notificaciones;
 use app\modules\intranet\models\Tareas;
 use app\modules\intranet\models\ContenidoDestino;
+use app\modules\intranet\models\ContenidoEmergente;
 
 class SitioController extends Controller {
 
@@ -380,6 +381,24 @@ class SitioController extends Controller {
       ];
       \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       return $items;
+    }
+
+
+    public function actionInactivaPopup()
+    {
+        $idPopup = Yii::$app->request->post('idPopup');
+
+        $modelContenido = ContenidoEmergente::findone(['idContenidoEmergente' => $idPopup]);
+        $modelContenido->estado = 0;
+        $items = [];
+        if ($modelContenido->save()) {
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            $items = [
+             'result' => 'ok',
+            ];
+
+        }
+        return $items;
     }
 
 }

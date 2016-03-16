@@ -11,8 +11,8 @@
         <?= $query['contenido'] ?>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" data-role='ocultar-popup' data-contenido="<?= $query['idContenidoEmergente'] ?>" class="btn btn-primary">ocultar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" data-role='inactiva-popup' data-contenido="<?= $query['idContenidoEmergente'] ?>" class="btn btn-primary">ocultar</button>
       </div>
     </div>
   </div>

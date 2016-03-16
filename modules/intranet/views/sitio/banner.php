@@ -15,7 +15,9 @@
     <?php $contador = 0 ?>
     <?php foreach ($banners as $banner): ?>
       <div id="<?= $idItem.$contador  ?>" class="item">
-        <img src="<?= Yii::$app->homeUrl . 'img/campanas/'.$banner['rutaImagen'] ?>" alt="...">
+        <a href="#">
+          <img src="<?= Yii::$app->homeUrl . 'img/campanas/'.$banner['rutaImagen'] ?>" alt="...">
+        </a>
         <div class="carousel-caption">
 
         </div>

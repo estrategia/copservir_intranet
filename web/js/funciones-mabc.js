@@ -154,54 +154,40 @@ $(document).on('click', "a[data-role='inactivarTarea']", function() {
     return false;
 });
 
-
 //::::::::::::::::::::::
 // POPUP INDEX
 //::::::::::::::::::::::
-$( document ).ready(function() {
 
-    $.ajax({
-        type: 'GET',
-        async: true,
-        url: requestUrl + '/intranet/sitio/popup-contenido',
-        //data: {idTarea: idTarea, location: location},
-        dataType: 'json',
-        beforeSend: function() {
-        //    Loading.show();
-        $('#widget-popup').remove();
-        },
+/*
+* Peticion para deshabilitar el modal
+*/
 
-        complete: function(data) {
-         //   Loading.hide();
-        },
-        success: function(data) {
-            if (data.result == "ok") {
-                console.log('trajo contenido modal');
+$(document).on('click', "button[data-role='inactiva-popup']", function() {
 
-                $('body').append(data.response);
-                $('#widget-popup').modal('show');
-            }
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
+      var idPopup = $(this).attr('data-contenido');
+      console.log('click desactivar modal');
+      console.log(idPopup);
 
-        }
-    })
-});
+      $.ajax({
+          type: 'POST',
+          async: true,
+          url: requestUrl + '/intranet/sitio/inactiva-popup',
+          data: {idPopup: idPopup},
+          dataType: 'json',
+          beforeSend: function() {
+          //    Loading.show();
+          },
 
-//::::::::::::::::::::::
-// CAMPAÑAS
-//::::::::::::::::::::::
-
-$( document ).ready(function() {
-
-  // indica cuales son las primeras imagenes en los banner (sliders) de publicidad
-  $('#bannerArriba0').attr('class', 'item active');
-  $('#bannerDerecha0').attr('class', 'item active');
-  $('#bannerAbajo0').attr('class', 'item active');
-
-  // para que se desplace el banner vertical
-  $('#myCarousel').carousel({
-    interval: 5000
-  })
-
+          complete: function(data) {
+           //   Loading.hide();
+          },
+          success: function(data) {
+              if (data.result == "ok") {
+                  console.log('popup inactiva');
+                  $('#widget-popup').modal('hide');
+              }
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+          }
+      })
 });
