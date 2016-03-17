@@ -78,6 +78,20 @@ class Contenido extends \yii\db\ActiveRecord
                 ->all();
     }
     
+    
+    public static function traerTodasNoticiasCopservir($idLineaTiempo){
+          return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])
+               ->where(
+                           ['and',
+                                ['<=', 'fechaInicioPublicacion', 'now()'],
+                                ['=', 'idLineaTiempo', $idLineaTiempo],
+                                ['=', 'estado', 2],
+                             ]
+                            )->orderBy('fechaInicioPublicacion Desc')
+
+                ;
+    }
+    
     public static function traerNoticiaEspecifica($idContenido){
         return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])->where(
                            ['and',
@@ -126,6 +140,11 @@ class Contenido extends \yii\db\ActiveRecord
     public function getObjUsuarioPublicacion()
     {
         return $this->hasOne(Usuario::className(), ['idUsuario' => 'idUsuarioPublicacion']);
+    }
+    
+    public function getObjLineaTiempo()
+    {
+        return $this->hasOne(LineaTiempo::className(), ['idLineaTiempo' => 'idLineaTiempo']);
     }
     
     public function meGusta($idUsuario){

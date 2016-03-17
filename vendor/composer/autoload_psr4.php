@@ -19,6 +19,7 @@ return array(
     'wbraganca\\fancytree\\' => array($vendorDir . '/wbraganca/yii2-fancytree-widget/src'),
     'vova07\\imperavi\\' => array($vendorDir . '/vova07/yii2-imperavi-widget/src'),
     'kartik\\tree\\' => array($vendorDir . '/kartik-v/yii2-tree-manager'),
+    'kartik\\select2\\' => array($vendorDir . '/kartik-v/yii2-widget-select2'),
     'kartik\\form\\' => array($vendorDir . '/kartik-v/yii2-widget-activeform'),
     'kartik\\base\\' => array($vendorDir . '/kartik-v/yii2-krajee-base'),
     'execut\\yii\\' => array($vendorDir . '/execut/yii2-base'),

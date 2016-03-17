@@ -37,7 +37,7 @@ use app\modules\intranet\models\ContenidoDestino;
                     'settings' => [
                         'lang' => 'es',
                         'minHeight' => 200,
-                        'imageUpload' => Url::toRoute('site/image-upload'),
+                        'imageUpload' => Url::toRoute('sitio/image-upload'),
                         'plugins' => [
                             //'clips',
                             'imagemanager',
@@ -45,6 +45,14 @@ use app\modules\intranet\models\ContenidoDestino;
                     ]
                 ])->label(false);
                 ?>
+                <?=
+                Html::a('<i class = "fa fa-plus-square" ></i>', '#', [
+                    //'id' => 'showFormPublications' . $linea->idLineaTiempo,
+                    'data-role' => 'agregar-destino-contenido',
+                    'title' => 'Agregar nuevo'
+                ]);
+                ?>
+                <?= Html::label('Añadir otro') ?>
                 <div id="contenido-destino">
                     <?php echo $this->render('_formDestinoContenido', ['objContenidoDestino' => new ContenidoDestino]) ?>
                 </div>

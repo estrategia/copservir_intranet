@@ -31,6 +31,11 @@ class SitioController extends Controller {
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
+            'image-upload' => [
+              'class' => 'vova07\imperavi\actions\UploadAction',
+              'url' => 'http://localhost/copservir_intranet/imagenes/post/', //Yii::$app->realpath().'/imagenes', // Directory URL address, where files are stored.
+              'path' => '@app/imagenes/post' // Or absolute path to directory where files are stored.
+          ],
         ];
     }
 
