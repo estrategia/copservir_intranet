@@ -4,6 +4,7 @@ namespace app\modules\intranet\controllers;
 
 use Yii;
 use yii\web\Controller;
+use yii\data\ActiveDataProvider;
 use \app\modules\intranet\models\LineaTiempo;
 use \app\modules\intranet\models\Contenido;
 use \app\modules\intranet\models\MeGustaContenidos;
@@ -215,8 +216,28 @@ class ContenidoController extends Controller {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return [
             'result' => 'ok',
-            'response' => $this->renderPartial('_formDestinoContenido',['objContenidoDestino' => new ContenidoDestino])
+            'response' => $this->renderAjax('_formDestinoContenido', ['objContenidoDestino' => new ContenidoDestino])
         ];
+    }
+
+    public function actionNoticias($lineaTiempo) {
+
+        
+        $linea = LineaTiempo::find()->where(['idLineaTiempo' => $lineaTiempo])->one();
+//      $noticias = Contenido::traerTodasNoticiasCopservir($lineaTiempo);
+//      return $this->render('/sitio/_lineaTiempo', [
+//                'linea' => $linea,
+//                'noticias' => $noticias
+//                    ]);
+         $dataProvider = new ActiveDataProvider([
+            'query' => Contenido::traerTodasNoticiasCopservir($lineaTiempo),
+            'pagination' => [
+                'pageSize' => 4,
+            ],
+        ]);
+      
+        $this->view->title = 'Noticias';
+        return $this->render('publicaciones', ['listDataProvider' => $dataProvider, 'linea' => $linea ]);
     }
 
 }

@@ -49,7 +49,7 @@ class AppAsset extends AssetBundle {
 
         'libs/jquery-block-ui/jqueryblockui.min.js',
         'libs/jquery-unveil/jquery.unveil.min.js',
-        'libs/bootstrap-select2/select2.min.js',
+      //  'libs/bootstrap-select2/select2.min.js',
         'libs/jquery-ui/jquery-ui-1.10.1.custom.min.js',
         'libs/jquery-ui-touch/jquery.ui.touch-punch.min.js',
 

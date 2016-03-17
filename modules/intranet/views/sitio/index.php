@@ -40,37 +40,33 @@ $this->title = 'Intranet - Copservir';
 
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-6"><button class="btn btn-block btn-success" type="button">Ver Noticas Mercadeo</button></div>
-        <div class="col-md-6"><button class="btn btn-block btn-warning" type="button">Ver Noticas Copservir</button></div>
-    </div>
 </div>
 <!-- END PUBLICACIONES -->
 
 <!--  BEGIN ESTADISTICAS -->
 <div class="col-md-3">
 
-  <!-- Estadisticas -->
-  <div class="col-md-12 col-sm-12">
+    <!-- Estadisticas -->
+    <div class="col-md-12 col-sm-12">
 
-      <?php foreach($indicadores as $indicador):?>
-            <?php echo $this->render('_indicador',['indicador' => $indicador]);?>
-      <?php endforeach;?>
+        <?php foreach ($indicadores as $indicador): ?>
+            <?php echo $this->render('_indicador', ['indicador' => $indicador]); ?>
+        <?php endforeach; ?>
 
-  </div>
+    </div>
 
-  <div class="col-md-12 col-sm-12">
-    BANNER
-  </div>
+    <div class="col-md-12 col-sm-12">
+        BANNER
+    </div>
 </div>
 
 <!-- END ESTADISTICAS -->
 
 <!-- begin OFERTAS LABORALES Y TAREAS -->
-<?php echo $this->render('_ofertasLaborales',['ofertasLaborales' => $ofertasLaborales])?>
+<?php echo $this->render('_ofertasLaborales', ['ofertasLaborales' => $ofertasLaborales]) ?>
 
 <div class="col-md-4" id="widget-tareas">
-  <?php echo $this->render('/tareas/_tareasHome',['tareasUsuario' => $tareasUsuario])?>
+    <?php echo $this->render('/tareas/_tareasHome', ['tareasUsuario' => $tareasUsuario]) ?>
 </div>
 
 <!-- END OFERTAS LABORALES Y TAREAS -->
@@ -80,3 +76,5 @@ $this->title = 'Intranet - Copservir';
 </div>
 
 <!-- END DOWN BANNER -->
+<?php
+ ?>

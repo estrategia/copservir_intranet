@@ -66,6 +66,11 @@ $(document).on('click', "a[data-role='agregar-destino-contenido']", function() {
     return false;
 });
 
+$(document).on('click', "a[data-role='quitar-destino-contenido']", function() {
+    $($(this).attr('data-row')).remove();
+    return false;
+});
+
 
 /*
 * peticion ajax para guardar un contenido de una publicacion

@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Html;
 ?>
 
@@ -17,3 +18,21 @@ Html::button('<i class="fa fa-pencil"></i> Publicar <i><small>Requiere Aprobaci√
         <?php echo $this->render('_contenido', ['noticia' => $noticia, 'linea' => $linea]); ?>
     </span>
 <?php endforeach; ?>
+<div class="row">
+    <div class="col-md-6">
+        <?=
+        Html::a('Ver Noticas Mercadeo',  ['contenido/noticias','linea-tiempo' => $linea->idLineaTiempo], [
+            //'id' => 'showFormPublications' . $linea->idLineaTiempo,
+            'class' => 'btn btn-block btn-success',
+        ]);
+        ?>
+    </div>
+    <div class="col-md-6">
+        <?=
+        Html::a('Ver Noticas Copservir',  ['contenido/noticias','lineaTiempo' => $linea->idLineaTiempo], [
+            //'id' => 'showFormPublications' . $linea->idLineaTiempo,
+            'class' => 'btn btn-block btn-warning',
+        ]);
+        ?>
+    </div>
+</div>
