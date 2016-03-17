@@ -108,7 +108,7 @@ $this->title = 'Intranet - Copservir';
   //::::::::::::::::::::::
 
   /*
-  * Ajax que trae la informacion del modal 
+  * Ajax que trae la informacion del modal
   */
   $( document ).ready(function() {
 
@@ -126,11 +126,14 @@ $this->title = 'Intranet - Copservir';
            //   Loading.hide();
           },
           success: function(data) {
+            console.log('succes')
               if (data.result == 'ok') {
-
-
+                console.log(data.response.length);
+                if(data.response.length >0){
                   $('body').append(data.response);
                   $('#widget-popup').modal('show');
+                }
+
               }
           },
           error: function(jqXHR, textStatus, errorThrown) {

@@ -363,22 +363,36 @@ class SitioController extends Controller {
       $userGrupos = Yii::$app->user->identity->getGruposCodigos();
       $userNumeroDocumento = Yii::$app->user->identity->numeroDocumento;
 
-      $query = $db->createCommand('select c.idContenidoEmergente, c.contenido from  m_contenidoemergente as c, t_contenidoemergentedestino as cd
-	                           where (c.fechaInicio<=:fecha AND c.fechaFin >=:fecha AND c.estado=:estado AND c.idContenidoEmergente = cd.idContenidoEmergente and cd.idGrupoInteres IN(:userGrupos) and cd.codigoCiudad =:userCiudad)
-                                  NOT IN( select idContenidoEmergente from t_contenidoemergentevisto where numeroDocumento ='.$userNumeroDocumento.' )  order by rand()')
+      $query = $db->createCommand('select distinct c.idContenidoEmergente, c.contenido
+                                      from  m_contenidoemergente as c
+                                      inner join t_contenidoemergentedestino as cd on c.idContenidoEmergente = cd.idContenidoEmergente
+	                                    where (c.fechaInicio<=:fecha AND c.fechaFin >=:fecha AND c.estado =:estado and
+                                      ((cd.idGrupoInteres IN(:userGrupos) and cd.codigoCiudad =:userCiudad) or (cd.idGrupoInteres =:todosGrupos and cd.codigoCiudad =:todosCiudad) or (cd.idGrupoInteres IN(:userGrupos) and cd.codigoCiudad =:todosCiudad) or (cd.idGrupoInteres =:todosGrupos and cd.codigoCiudad =:userCiudad)  )   )
+                                      and c.idContenidoEmergente NOT IN( select idContenidoEmergente from t_contenidoemergentevisto where numeroDocumento ='.$userNumeroDocumento.' )  order by rand()')
                                   ->bindValue(':userCiudad', $userCiudad )
-                                  //->bindValue(':userNumeroDocumeto', $userNumeroDocumento )
                                   ->bindValue(':userGrupos', implode(',',$userGrupos) )
                                   ->bindValue(':fecha', date('Y-m-d H:i:s') )
                                   ->bindValue(':estado', 1 )
+                                  ->bindValue('todosCiudad',\Yii::$app->params['ciudad']['*'])
+                                  ->bindValue('todosGrupos',\Yii::$app->params['grupo']['*'])
                                   ->queryOne();
 
-      //echo var_dump($query);
 
-      $items = [
-       'result' => 'ok',
-       'response' => $this->renderAjax('popup',['query'=>$query]),
-      ];
+      //echo var_dump($query);
+      if ($query) {
+        $items = [
+         'result' => 'ok',
+         'response' => $this->renderAjax('popup',['query'=>$query]),
+        ];
+      }else{
+        $items = [
+         'result' => 'ok',
+         'response' => '',
+        ];
+      }
+
+
+
       \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       return $items;
     }
