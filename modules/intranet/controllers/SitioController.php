@@ -22,6 +22,7 @@ use app\modules\intranet\models\OfertasLaborales;
 use app\modules\intranet\models\Notificaciones;
 use app\modules\intranet\models\Tareas;
 use app\modules\intranet\models\ContenidoDestino;
+use app\modules\intranet\models\ContenidoEmergente;
 
 class SitioController extends Controller {
 
@@ -63,9 +64,33 @@ class SitioController extends Controller {
                 ->all();
 
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        //tareas
         $tareasUsuario = Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->andWhere(['!=', 'estadoTarea', 3])->all();
 
+        //banners
+        $db = Yii::$app->db;
+        $userCiudad = Yii::$app->user->identity->getCodigoCiudad();
 
+        $bannerArriba = $db->createCommand('select pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia from t_publicacioncampanasciudades as pcc, t_publicacionescampanas as pc
+	                                       where (pcc.idImagenCampana = pc.idImagenCampana and pcc.codigoCiudad =:userCiudad and pc.estado=:estado and pc.posicion =:posicion)  order by rand()')
+                                    ->bindValue(':userCiudad', $userCiudad )
+                                    ->bindValue(':estado', 1 )
+                                    ->bindValue(':posicion', 0 )
+                                    ->queryAll();
+
+        $bannerAbajo = $db->createCommand('select pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia from t_publicacioncampanasciudades as pcc, t_publicacionescampanas as pc
+                                         where (pcc.idImagenCampana = pc.idImagenCampana and pcc.codigoCiudad =:userCiudad and pc.estado=:estado and pc.posicion =:posicion)  order by rand()')
+                                    ->bindValue(':userCiudad', $userCiudad )
+                                    ->bindValue(':estado', 1 )
+                                    ->bindValue(':posicion', 1 )
+                                    ->queryAll();
+
+        $bannerDerecha = $db->createCommand('select pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia from t_publicacioncampanasciudades as pcc, t_publicacionescampanas as pc
+	                                       where (pcc.idImagenCampana = pc.idImagenCampana and pcc.codigoCiudad =:userCiudad and pc.estado=:estado and pc.posicion =:posicion)  order by rand()')
+                                    ->bindValue(':userCiudad', $userCiudad )
+                                    ->bindValue(':estado', 1 )
+                                    ->bindValue(':posicion', 2 )
+                                    ->queryAll();
 
         return $this->render('index', [
                     'contenidoModel' => $contenidoModel,
@@ -73,6 +98,9 @@ class SitioController extends Controller {
                     'indicadores' => $indicadores,
                     'ofertasLaborales' => $ofertasLaborales,
                     'tareasUsuario' => $tareasUsuario,
+                    'bannerArriba' => $bannerArriba,
+                    'bannerAbajo' => $bannerAbajo,
+                    'bannerDerecha' => $bannerDerecha,
         ]);
     }
 
@@ -340,24 +368,56 @@ class SitioController extends Controller {
       $userGrupos = Yii::$app->user->identity->getGruposCodigos();
       $userNumeroDocumento = Yii::$app->user->identity->numeroDocumento;
 
-      $query = $db->createCommand('select c.idContenidoEmergente, c.contenido from  m_contenidoemergente as c, t_contenidoemergentedestino as cd
-	                           where (c.fechaInicio<=:fecha AND c.fechaFin >=:fecha AND c.estado=:estado AND c.idContenidoEmergente = cd.idContenidoEmergente and cd.idGrupoInteres IN(:userGrupos) and cd.codigoCiudad =:userCiudad)
-                                  NOT IN( select idContenidoEmergente from t_contenidoemergentevisto where numeroDocumento ='.$userNumeroDocumento.' )  order by rand()')
+      $query = $db->createCommand('select distinct c.idContenidoEmergente, c.contenido
+                                      from  m_contenidoemergente as c
+                                      inner join t_contenidoemergentedestino as cd on c.idContenidoEmergente = cd.idContenidoEmergente
+	                                    where (c.fechaInicio<=:fecha AND c.fechaFin >=:fecha AND c.estado =:estado and
+                                      ((cd.idGrupoInteres IN(:userGrupos) and cd.codigoCiudad =:userCiudad) or (cd.idGrupoInteres =:todosGrupos and cd.codigoCiudad =:todosCiudad) or (cd.idGrupoInteres IN(:userGrupos) and cd.codigoCiudad =:todosCiudad) or (cd.idGrupoInteres =:todosGrupos and cd.codigoCiudad =:userCiudad)  )   )
+                                      and c.idContenidoEmergente NOT IN( select idContenidoEmergente from t_contenidoemergentevisto where numeroDocumento ='.$userNumeroDocumento.' )  order by rand()')
                                   ->bindValue(':userCiudad', $userCiudad )
-                                  //->bindValue(':userNumeroDocumeto', $userNumeroDocumento )
                                   ->bindValue(':userGrupos', implode(',',$userGrupos) )
                                   ->bindValue(':fecha', date('Y-m-d H:i:s') )
                                   ->bindValue(':estado', 1 )
+                                  ->bindValue('todosCiudad',\Yii::$app->params['ciudad']['*'])
+                                  ->bindValue('todosGrupos',\Yii::$app->params['grupo']['*'])
                                   ->queryOne();
 
-      //echo var_dump($query);
 
-      $items = [
-       'result' => 'ok',
-       'response' => $this->renderAjax('popup',['query'=>$query]),
-      ];
+      //echo var_dump($query);
+      if ($query) {
+        $items = [
+         'result' => 'ok',
+         'response' => $this->renderAjax('popup',['query'=>$query]),
+        ];
+      }else{
+        $items = [
+         'result' => 'ok',
+         'response' => '',
+        ];
+      }
+
+
+
       \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       return $items;
+    }
+
+
+    public function actionInactivaPopup()
+    {
+        $idPopup = Yii::$app->request->post('idPopup');
+
+        $modelContenido = ContenidoEmergente::findone(['idContenidoEmergente' => $idPopup]);
+        $modelContenido->estado = 0;
+        $items = [];
+        if ($modelContenido->save()) {
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            $items = [
+             'result' => 'ok',
+            ];
+
+        }
+        return $items;
     }
 
 }
