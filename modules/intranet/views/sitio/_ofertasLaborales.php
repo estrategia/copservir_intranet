@@ -42,6 +42,8 @@
                             </tbody>
                         </table>
                     <?php endif; ?>
+
+                    <a href="#">ver todos</a>
                 </div>
             </div>
         </div>
