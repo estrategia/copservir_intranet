@@ -31,6 +31,7 @@ $this->title = 'Intranet - Copservir';
 
     <div class="tab-content">
         <div class="tab-pane active">
+          hola
             <!-- el contenido de las lineas de tiempo -->
             <?php foreach ($lineasTiempo as $linea): ?>
 
@@ -150,6 +151,18 @@ $this->title = 'Intranet - Copservir';
       $('#myCarousel').carousel({
         interval: 5000
       })
+
+      //::::::::::::::::::::::
+      // BUSQUEDA NOTICIAS
+      //::::::::::::::::::::::
+      $('#busqueda').keypress(function(event) {
+
+            if (event.which == 13) {
+                console.log('enter')
+                event.preventDefault();
+                $('#formBuscadorNoticias').submit();
+            }
+        });
   });
 
   "

@@ -29,7 +29,7 @@ class ContenidoController extends Controller {
             ];
             return $response;
         } else {
-            
+
         }
     }
 
@@ -48,7 +48,7 @@ class ContenidoController extends Controller {
                 'response' => $this->renderPartial('_modalMeGusta', ['usuariosMeGusta' => $usuariosMeGusta])
             ];
         } else {
-            
+
         }
     }
 
@@ -67,7 +67,7 @@ class ContenidoController extends Controller {
                 'response' => $this->renderPartial('_modalComentarios', ['comentariosContenido' => $comentariosContenido])
             ];
         } else {
-            
+
         }
     }
 
@@ -87,7 +87,7 @@ class ContenidoController extends Controller {
                 'response' => $this->renderPartial('_modalDenuncio', ['modelDenuncio' => $modelDenuncio, 'idLineaTiempo' => $idLinea])
             ];
         } else {
-            
+
         }
     }
 
@@ -222,7 +222,7 @@ class ContenidoController extends Controller {
 
     public function actionNoticias($lineaTiempo) {
 
-        
+
         $linea = LineaTiempo::find()->where(['idLineaTiempo' => $lineaTiempo])->one();
 //      $noticias = Contenido::traerTodasNoticiasCopservir($lineaTiempo);
 //      return $this->render('/sitio/_lineaTiempo', [
@@ -232,12 +232,34 @@ class ContenidoController extends Controller {
          $dataProvider = new ActiveDataProvider([
             'query' => Contenido::traerTodasNoticiasCopservir($lineaTiempo),
             'pagination' => [
-                'pageSize' => 4,
+                'pageSize' => 2,
             ],
         ]);
-      
+
         $this->view->title = 'Noticias';
         return $this->render('publicaciones', ['listDataProvider' => $dataProvider, 'linea' => $linea ]);
+    }
+
+    /**
+     * buscardor de noticias
+     * @param post-> busqueda  | lo que el usuario escribe en la barra de busqueda
+     * @return mixed | resultado de la consulta en bd
+     */
+    public function actionBuscadorNoticias($value='')
+    {
+      $busqueda = trim(Yii::$app->request->post('busqueda',''));
+
+      $resultados = [];
+
+      if (!empty($busqueda)) {
+        $resultados = Contenido::find()->andFilterWhere([
+                                                    'or',
+                                                        ['LIKE', 'contenido', $busqueda],
+                                                        ['LIKE', 'titulo', $busqueda],
+                                                      ])->all();
+      }
+
+      return $this->render('busqueda', ['resultados' => $resultados ]);
     }
 
 }

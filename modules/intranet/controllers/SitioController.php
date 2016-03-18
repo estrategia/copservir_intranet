@@ -23,6 +23,7 @@ use app\modules\intranet\models\Notificaciones;
 use app\modules\intranet\models\Tareas;
 use app\modules\intranet\models\ContenidoDestino;
 use app\modules\intranet\models\ContenidoEmergente;
+use yii\data\Pagination;
 
 class SitioController extends Controller {
 
@@ -54,28 +55,19 @@ class SitioController extends Controller {
         $contenidoModel = new Contenido();
         $lineasTiempo = LineaTiempo::find()->where(['estado' => 1])->all();
         $indicadores = Indicadores::find()->all();
-        /*$ofertasLaborales = OfertasLaborales::find()
-                ->with(['objCargo', 'objArea', 'objCiudad', 'objInformacionContactoOferta'])
-                ->where(
-                        ['and',
-                            ['<=', 'fechaInicioPublicacion', $fecha],
-                            ['>=', 'fechaFinPublicacion', $fecha]
-                ])
-                ->all();*/
 
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
         $userCiudad = Yii::$app->user->identity->getCodigoCiudad();
         $userGrupos = Yii::$app->user->identity->getGruposCodigos();
 
         //tareas
-        $tareasUsuario = Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->andWhere(['!=', 'estadoTarea', 3])->all();
+        $tareasUsuario = Tareas::getTareasIndex($numeroDocumento);
 
         //ofertas laborales
-        $ofertasLaborales = OfertasLaborales::getOfertasLaboralesInteres($userCiudad, $userGrupos);
-        //banners
+        $dataProviderOfertas = OfertasLaborales::getOfertasLaboralesInteres($userCiudad, $userGrupos);
+
+        //banners  Crear modelos y pasar las consultas al modelo
         $db = Yii::$app->db;
-
-
         $bannerArriba = $db->createCommand('select distinct pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia
                                                 from t_campanasdestino as pcc, t_publicacionescampanas as pc
 	                                                 where (pcc.idImagenCampana = pc.idImagenCampana and pc.estado=:estado and pc.posicion =:posicion
@@ -119,7 +111,7 @@ class SitioController extends Controller {
                     'contenidoModel' => $contenidoModel,
                     'lineasTiempo' => $lineasTiempo,
                     'indicadores' => $indicadores,
-                    'ofertasLaborales' => $ofertasLaborales,
+                    'ofertasLaborales' => $dataProviderOfertas,
                     'tareasUsuario' => $tareasUsuario,
                     'bannerArriba' => $bannerArriba,
                     'bannerAbajo' => $bannerAbajo,

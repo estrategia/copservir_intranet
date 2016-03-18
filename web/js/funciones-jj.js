@@ -45,7 +45,7 @@ $(document).on('click', "a[data-role='agregar-destino-contenido']", function() {
         type: 'GET',
         async: true,
         url: requestUrl + '/intranet/contenido/agregar-destino',
-      
+
         dataType: 'json',
         beforeSend: function() {
         //    Loading.show();
@@ -103,7 +103,7 @@ $(document).on('click', "a[data-role='guardar-contenido']", function() {
 
         }
     });
-    
+
     return false;
 });
 
@@ -262,7 +262,7 @@ $(document).on('click', 'a[data-role="listado-comentarios-contenido"]', function
             if (data.result == 'ok') {
                 $('body').append(data.response);
                 $("#modal-comentarios-contenido").modal("show");
-                
+
             } else {
                 alert(data.response);
             }
@@ -294,7 +294,7 @@ $(document).on('click', 'a[data-role="denunciar-contenido"]', function () {
             if (data.result == 'ok') {
                 $('body').append(data.response);
                 $("#modal-contenido-denuncio").modal("show");
-                
+
             } else {
                 alert(data.response);
             }
@@ -309,7 +309,7 @@ $(document).on('click', 'a[data-role="denunciar-contenido"]', function () {
 
 
 $(document).on('click', 'button[data-role="guardar-denuncio-contenido"]', function () {
-    
+
     var form = $("#form-contenido-denuncio")
     $.ajax({
         type: 'POST',
@@ -318,7 +318,7 @@ $(document).on('click', 'button[data-role="guardar-denuncio-contenido"]', functi
         url: requestUrl + '/intranet/contenido/guardar-denuncio-contenido',
         data: form.serialize(),
         beforeSend: function () {
-            
+
             //Loading.show();
         },
         complete: function () {
@@ -326,10 +326,10 @@ $(document).on('click', 'button[data-role="guardar-denuncio-contenido"]', functi
         },
         success: function (data) {
             if (data.result == 'ok') {
-                
+
                 $("#lt"+$(this).attr('data-linea-tiempo')).html(data.response);
                 $("#modal-contenido-denuncio").modal("hide");
-                
+
             } else {
                 alert(data.response);
             }
@@ -343,7 +343,7 @@ $(document).on('click', 'button[data-role="guardar-denuncio-contenido"]', functi
 });
 
 $(document).on('click', 'a[data-role="eliminar-comentario"]', function () {
-    
+
     var idComentario = $(this).attr("data-comentario");
     $.ajax({
         type: 'POST',
@@ -352,7 +352,7 @@ $(document).on('click', 'a[data-role="eliminar-comentario"]', function () {
         url: requestUrl + '/intranet/contenido/eliminar-comentario',
         data: {idComentario: idComentario },
         beforeSend: function () {
-            
+
             //Loading.show();
         },
         complete: function () {
@@ -360,9 +360,9 @@ $(document).on('click', 'a[data-role="eliminar-comentario"]', function () {
         },
         success: function (data) {
             if (data.result == 'ok') {
-               
+
                $("#comentarios_contenido").html(data.response);
-                
+
             } else {
                 alert(data.response);
             }
@@ -376,7 +376,7 @@ $(document).on('click', 'a[data-role="eliminar-comentario"]', function () {
 });
 
 $(document).on('click', 'a[data-role="denunciar-comentario"]', function () {
-    
+
     var idComentario = $(this).attr("data-comentario");
     $.ajax({
         type: 'POST',
@@ -396,7 +396,7 @@ $(document).on('click', 'a[data-role="denunciar-comentario"]', function () {
                 $("#modal-comentarios-contenido").modal('hide');
                 $('body').append(data.response);
                 $("#modal-comentario-denuncio").modal('show');
-             
+
             } else {
                 alert(data.response);
             }
@@ -410,7 +410,7 @@ $(document).on('click', 'a[data-role="denunciar-comentario"]', function () {
 });
 
 $(document).on('click', 'button[data-role="guardar-denuncio-comentario"]', function () {
-    
+
     var form = $("#form-comentario-denuncio")
     $.ajax({
         type: 'POST',
@@ -419,7 +419,7 @@ $(document).on('click', 'button[data-role="guardar-denuncio-comentario"]', funct
         url: requestUrl + '/intranet/contenido/guardar-denuncio-comentario',
         data: form.serialize(),
         beforeSend: function () {
-            
+
             //Loading.show();
         },
         complete: function () {

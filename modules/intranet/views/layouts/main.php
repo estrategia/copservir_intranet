@@ -100,7 +100,10 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
             </a> </li>-->
 			<li class="m-r-10 input-prepend inside search-form no-boarder">
 				<span class="add-on"> <span class="iconset top-search"></span></span>
-				 <input name="" type="text"  class="no-boarder " placeholder="Buscar" style="width:250px;">
+        <?= Html::beginForm(['contenido/buscador-noticias'], 'post', ['id'=> 'formBuscadorNoticias']); ?>
+          <input id="busqueda" name="busqueda" type="text"  class="no-boarder " placeholder="Buscar" style="width:250px;">
+        <?php Html::endForm()     ?>
+
 			</li>
 		  </ul>
 	  </div>

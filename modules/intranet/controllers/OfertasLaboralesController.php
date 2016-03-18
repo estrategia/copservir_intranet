@@ -30,14 +30,14 @@ class OfertasLaboralesController extends Controller
      * Lists all OfertasLaborales models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionListarOfertas()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => OfertasLaborales::find(),
-        ]);
+        $userCiudad = Yii::$app->user->identity->getCodigoCiudad();
+        $ofertas = new OfertasLaborales;
+        $data = $ofertas->getVertodos(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
+        return $this->render('listarOfertas', [
+            'dataProvider' => $data,
         ]);
     }
 
@@ -103,6 +103,8 @@ class OfertasLaboralesController extends Controller
         return $this->redirect(['index']);
     }
 
+
+
     /**
      * Finds the OfertasLaborales model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -118,4 +120,6 @@ class OfertasLaboralesController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+
 }

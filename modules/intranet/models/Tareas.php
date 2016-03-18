@@ -59,7 +59,10 @@ class Tareas extends \yii\db\ActiveRecord
             'progreso' => 'Progreso',
         ];
     }
-
+    public static function getTareasIndex($numeroDocumento)
+    {
+       return Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->andWhere(['!=', 'estadoTarea', 3])->all();
+    }
     public static function getListaPrioridad()
     {
         $opciones = PrioridadTarea::find()->asArray()->all();
