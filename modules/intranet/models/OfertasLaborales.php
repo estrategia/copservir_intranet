@@ -3,6 +3,7 @@
 namespace app\modules\intranet\models;
 
 use Yii;
+use app\modules\intranet\models\ContenidoDestino;
 
 /**
  * This is the model class for table "t_OfertasLaborales".
@@ -70,25 +71,48 @@ class OfertasLaborales extends \yii\db\ActiveRecord
             'idInformacionContacto' => 'Id Informacion Contacto',
         ];
     }
-    
+
     public function getObjCargo(){
         return $this->hasOne(Cargo::className(), ['idCargo' => 'idCargo']);
     }
-    
+
     public function getObjArea(){
         return $this->hasOne(Area::className(), ['idArea' => 'idArea']);
     }
-    
+
     public function getObjCiudad(){
         return $this->hasOne(Ciudad::className(), ['idCiudad' => 'idCiudad']);
     }
-    
+
     public function getObjInformacionContactoOferta(){
         return $this->hasOne(InformacionContactoOferta::className(), ['idInformacionContacto' => 'idInformacionContacto']);
     }
-    
+
     public function getObjUsuarioPublicacion(){
         return $this->hasOne(Area::className(), ['idArea' => 'idArea']);
     }
-            
+
+    public function getContenidoDestino()
+    {
+        return $this->hasMany(ContenidoDestino::className(), ['idContenidoDestino' => 'idContenidoDestino']);
+    }
+
+    public static function getOfertasLaboralesInteres($userCiudad, $userGrupos)
+    {
+      $db = Yii::$app->db;
+      $fecha = Date("Y-m-d h:i:s");
+      $userGrupos = implode(',',$userGrupos);
+      $todosCiudad = \Yii::$app->params['ciudad']['*'];
+      $todosGrupos = \Yii::$app->params['grupo']['*'];
+
+      $query = " select * from t_OfertasLaborales as ol
+      inner join t_ContenidoDestino as cd on ol.idContenidoDestino = cd.idContenidoDestino
+      where ol.fechaInicioPublicacion <= '".$fecha."' and ol.fechaFinPublicacion >= '".$fecha."'
+      and ( (cd.idGrupoInteres IN(".$userGrupos.") and cd.codigoCiudad = ".$userCiudad.") or (cd.idGrupoInteres =".$todosGrupos." and cd.codigoCiudad =".$todosCiudad.") or (cd.idGrupoInteres IN(".$userGrupos.") and cd.codigoCiudad = ".$todosCiudad.") or (cd.idGrupoInteres =".$todosGrupos." and cd.codigoCiudad =".$userCiudad.")  );";
+
+      $model = OfertasLaborales::findBySql($query)->with(['objCargo', 'objArea', 'objCiudad', 'objInformacionContactoOferta'])->all();
+
+      return $model;
+    }
+
 }

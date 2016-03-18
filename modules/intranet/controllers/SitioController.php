@@ -56,42 +56,65 @@ class SitioController extends Controller {
         $contenidoModel = new Contenido();
         $lineasTiempo = LineaTiempo::find()->where(['estado' => 1])->all();
         $indicadores = Indicadores::find()->all();
-        $ofertasLaborales = OfertasLaborales::find()
+        /*$ofertasLaborales = OfertasLaborales::find()
                 ->with(['objCargo', 'objArea', 'objCiudad', 'objInformacionContactoOferta'])
                 ->where(
                         ['and',
                             ['<=', 'fechaInicioPublicacion', $fecha],
                             ['>=', 'fechaFinPublicacion', $fecha]
                 ])
-                ->all();
+                ->all();*/
 
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        $userCiudad = Yii::$app->user->identity->getCodigoCiudad();
+        $userGrupos = Yii::$app->user->identity->getGruposCodigos();
+
         //tareas
         $tareasUsuario = Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->andWhere(['!=', 'estadoTarea', 3])->all();
 
+        //ofertas laborales
+        $ofertasLaborales = OfertasLaborales::getOfertasLaboralesInteres($userCiudad, $userGrupos);
         //banners
         $db = Yii::$app->db;
-        $userCiudad = Yii::$app->user->identity->getCodigoCiudad();
 
-        $bannerArriba = $db->createCommand('select pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia from t_publicacioncampanasciudades as pcc, t_publicacionescampanas as pc
-	                                       where (pcc.idImagenCampana = pc.idImagenCampana and pcc.codigoCiudad =:userCiudad and pc.estado=:estado and pc.posicion =:posicion)  order by rand()')
+
+        $bannerArriba = $db->createCommand('select distinct pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia
+                                                from t_campanasdestino as pcc, t_publicacionescampanas as pc
+	                                                 where (pcc.idImagenCampana = pc.idImagenCampana and pc.estado=:estado and pc.posicion =:posicion
+                                                    and (( pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:userCiudad) or ( pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:userCiudad)  )  )
+                                                     order by rand()')
                                     ->bindValue(':userCiudad', $userCiudad )
+                                    ->bindValue(':userGrupos', implode(',',$userGrupos) )
                                     ->bindValue(':estado', 1 )
                                     ->bindValue(':posicion', 0 )
+                                    ->bindValue('todosCiudad',\Yii::$app->params['ciudad']['*'])
+                                    ->bindValue('todosGrupos',\Yii::$app->params['grupo']['*'])
                                     ->queryAll();
 
-        $bannerAbajo = $db->createCommand('select pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia from t_publicacioncampanasciudades as pcc, t_publicacionescampanas as pc
-                                         where (pcc.idImagenCampana = pc.idImagenCampana and pcc.codigoCiudad =:userCiudad and pc.estado=:estado and pc.posicion =:posicion)  order by rand()')
+        $bannerAbajo = $db->createCommand('select distinct pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia
+                                                from t_campanasdestino as pcc, t_publicacionescampanas as pc
+                                                  where (pcc.idImagenCampana = pc.idImagenCampana and pc.estado=:estado and pc.posicion =:posicion
+                                                    and (( pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:userCiudad) or ( pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:userCiudad) )  )
+                                                     order by rand()')
                                     ->bindValue(':userCiudad', $userCiudad )
+                                    ->bindValue(':userGrupos', implode(',',$userGrupos) )
                                     ->bindValue(':estado', 1 )
                                     ->bindValue(':posicion', 1 )
+                                    ->bindValue('todosCiudad',\Yii::$app->params['ciudad']['*'])
+                                    ->bindValue('todosGrupos',\Yii::$app->params['grupo']['*'])
                                     ->queryAll();
 
-        $bannerDerecha = $db->createCommand('select pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia from t_publicacioncampanasciudades as pcc, t_publicacionescampanas as pc
-	                                       where (pcc.idImagenCampana = pc.idImagenCampana and pcc.codigoCiudad =:userCiudad and pc.estado=:estado and pc.posicion =:posicion)  order by rand()')
+        $bannerDerecha = $db->createCommand('select distinct pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia
+                                                from t_campanasdestino as pcc, t_publicacionescampanas as pc
+	                                                 where (pcc.idImagenCampana = pc.idImagenCampana and pc.estado=:estado and pc.posicion =:posicion
+                                                    and (( pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:userCiudad) or ( pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:userCiudad) )  )
+                                                     order by rand()')
                                     ->bindValue(':userCiudad', $userCiudad )
+                                    ->bindValue(':userGrupos', implode(',',$userGrupos) )
                                     ->bindValue(':estado', 1 )
                                     ->bindValue(':posicion', 2 )
+                                    ->bindValue('todosCiudad',\Yii::$app->params['ciudad']['*'])
+                                    ->bindValue('todosGrupos',\Yii::$app->params['grupo']['*'])
                                     ->queryAll();
 
         return $this->render('index', [
