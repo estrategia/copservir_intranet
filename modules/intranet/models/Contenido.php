@@ -92,6 +92,20 @@ class Contenido extends \yii\db\ActiveRecord
                 ;
     }
     
+    public static function traerMisPublicaciones(){
+        return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])
+               ->where(
+                           ['and',
+                                ['<=', 'fechaInicioPublicacion', 'now()'],
+                                ['idUsuarioPublicacion' => Yii::$app->user->identity->numeroDocumento],
+                                ['=', 'estado', 2],
+                             ]
+                            )->orderBy('fechaInicioPublicacion Desc')
+
+                ;
+    }
+    
+    
     public static function traerNoticiaEspecifica($idContenido){
         return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])->where(
                            ['and',

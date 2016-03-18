@@ -223,12 +223,6 @@ class ContenidoController extends Controller {
     public function actionNoticias($lineaTiempo) {
 
         
-        $linea = LineaTiempo::find()->where(['idLineaTiempo' => $lineaTiempo])->one();
-//      $noticias = Contenido::traerTodasNoticiasCopservir($lineaTiempo);
-//      return $this->render('/sitio/_lineaTiempo', [
-//                'linea' => $linea,
-//                'noticias' => $noticias
-//                    ]);
          $dataProvider = new ActiveDataProvider([
             'query' => Contenido::traerTodasNoticiasCopservir($lineaTiempo),
             'pagination' => [
@@ -237,7 +231,20 @@ class ContenidoController extends Controller {
         ]);
       
         $this->view->title = 'Noticias';
-        return $this->render('publicaciones', ['listDataProvider' => $dataProvider, 'linea' => $linea ]);
+        return $this->render('publicaciones', ['listDataProvider' => $dataProvider,]);
+    }
+    
+    
+    public function actionMisPublicaciones(){
+         $dataProvider = new ActiveDataProvider([
+            'query' => Contenido::traerMisPublicaciones(),
+            'pagination' => [
+                'pageSize' => 4,
+            ],
+        ]);
+      
+        $this->view->title = 'Mis Publicaciones';
+        return $this->render('publicaciones', ['listDataProvider' => $dataProvider ]);
     }
 
 }

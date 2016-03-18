@@ -439,3 +439,30 @@ $(document).on('click', 'button[data-role="guardar-denuncio-comentario"]', funct
     });
     return false;
 });
+
+$(document).on('click', 'a[data-role="quitar-elemento"]', function () {
+    
+    var elemento = $(this).attr('data-elemento');
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        async: true,
+        url: requestUrl + '/intranet/sitio/quitar-elemento',
+        data: {elemento: elemento},
+        beforeSend: function () {
+            
+            //Loading.show();
+        },
+        complete: function () {
+            //Loading.hide();
+        },
+        success: function (data) {
+          
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            //Loading.hide();
+            alert('Error: ' + errorThrown);
+        }
+    });
+    return false;
+});

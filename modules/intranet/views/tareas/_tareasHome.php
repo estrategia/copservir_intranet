@@ -7,7 +7,7 @@
             <button class="btn  btn-dark  btn-small" type="button"><i class="fa fa-plus"></i></button>
           </div>
           Tareas
-          <div class="controller"> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>
+          <div class="controller"> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove" data-role="quitar-elemento" data-elemento="5"></a> </div>
         </div>
         <div class="widget-body">
           <br>
