@@ -7,6 +7,7 @@ use yii\widgets\Pjax;
 
 ?>
 
+
 <div class="col-md-8">
     <br><br><br>
     <div class="row">
@@ -16,9 +17,7 @@ use yii\widgets\Pjax;
                     <h4 style='color:#fff !important;'>Ofertas <span class="semi-bold">Laborales</span></h4>
                     <div class="tools">
                         <a href="javascript:;" class="collapse"></a>
-                        <a href="#grid-config" class="config"></a>
-                        <a href="javascript:;" class="reload"></a>
-                        <a href="javascript:;" class="remove"></a>
+                        <a href="javascript:;" data-role="quitar-elemento" data-elemento="4" class="remove"></a>
                     </div>
                 </div>
                 <div class="grid-body no-border">

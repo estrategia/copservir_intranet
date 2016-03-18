@@ -197,6 +197,16 @@ class User extends ActiveRecord implements IdentityInterface {
         return "76001";
     }
     
+    public function getOcultosDashboard(){
+       $opciones = UsuarioWidgetInactivo::find()->where(['numeroDocumento' => $this->numeroDocumento ])->all();
+       $opcionesOcultas = [];
+       foreach($opciones as $opcion){
+           $opcionesOcultas[] = $opcion->widget;
+       }
+       
+       return $opcionesOcultas;
+    }
+    
     public function getGruposCodigos(){
         return [1,2,3];
     }

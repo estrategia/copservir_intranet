@@ -258,7 +258,7 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
 		    </li>
         <li >
 
-            <?= Html::a('<i class="fa fa-list-alt"></i> <span class="title">Publicaciones</span> <span class="selected"></span>', ['sitio/publicaciones'], []) ?>
+            <?= Html::a('<i class="fa fa-list-alt"></i> <span class="title">Mis Publicaciones</span> <span class="selected"></span>', ['contenido/mis-publicaciones'], []) ?>
         </li>
         <li >
             <?= Html::a('<i class="fa fa-list-ul"></i> <span class="title">Tareas</span> <span class="selected"></span>', ['tareas/listar-tareas'], []) ?>

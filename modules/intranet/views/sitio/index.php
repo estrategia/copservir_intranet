@@ -15,7 +15,7 @@ $this->title = 'Intranet - Copservir';
 <!-- begin UP BANNER -->
 <div class="col-md-12">
     <div class="tiles overflow-hidden full-height tiles-overlay-hover m-b-10 widget-item">
-        <?= $this->render('banner',['banners'=>$bannerArriba, 'location' =>0])?>
+        <?= $this->render('banner', ['banners' => $bannerArriba, 'location' => 0]) ?>
     </div>
 </div>
 <!-- END UP BANNER -->
@@ -56,50 +56,53 @@ $this->title = 'Intranet - Copservir';
 
     </div>
 
-  <!--publicidad derecha -->
-  <div class="col-md-12 col-sm-12">
+    <!--publicidad derecha -->
+    <div class="col-md-12 col-sm-12">
 
 
-    <div id="myCarousel" class="carousel slide vertical">
-          <!-- Carousel items -->
-          <div class="carousel-inner">
-            <?php $contador = 0 ?>
-            <?php foreach ($bannerDerecha as $banner): ?>
-              <div  id="bannerDerecha<?= $contador  ?>" class="item">
-                  <img src="<?= Yii::$app->homeUrl . 'img/campanas/'.$banner['rutaImagen'] ?>" alt="...">
-              </div>
-              <?php  $contador++; ?>
-            <?php endforeach; ?>
+        <div id="myCarousel" class="carousel slide vertical">
+            <!-- Carousel items -->
+            <div class="carousel-inner">
+                <?php $contador = 0 ?>
+                <?php foreach ($bannerDerecha as $banner): ?>
+                    <div  id="bannerDerecha<?= $contador ?>" class="item">
+                        <img src="<?= Yii::$app->homeUrl . 'img/campanas/' . $banner['rutaImagen'] ?>" alt="...">
+                    </div>
+                    <?php $contador++; ?>
+                <?php endforeach; ?>
 
-          </div>
+            </div>
 
-      </div>
+        </div>
 
 
-  </div>
+    </div>
 </div>
 
 <!-- END ESTADISTICAS -->
 
 <!-- begin OFERTAS LABORALES Y TAREAS -->
-<?php echo $this->render('_ofertasLaborales', ['ofertasLaborales' => $ofertasLaborales]) ?>
+<?php if (!in_array("4", Yii::$app->user->identity->getOcultosDashboard())): ?>
+    <?php echo $this->render('_ofertasLaborales', ['ofertasLaborales' => $ofertasLaborales]) ?>
+<?php endif; ?>
 
-<div class="col-md-4" id="widget-tareas">
-    <?php echo $this->render('/tareas/_tareasHome', ['tareasUsuario' => $tareasUsuario]) ?>
-</div>
+<?php if (!in_array("5", Yii::$app->user->identity->getOcultosDashboard())): ?>
+    <div class="col-md-4" id="widget-tareas">
+        <?php echo $this->render('/tareas/_tareasHome', ['tareasUsuario' => $tareasUsuario]) ?>
+    </div>
+<?php endif; ?>
 
 <!-- END OFERTAS LABORALES Y TAREAS -->
 <!-- BEGIN DOWN BANNER -->
 <div class="col-md-12">
-  <?= $this->render('banner',['banners'=>$bannerAbajo, 'location' =>1])?>
+    <?= $this->render('banner', ['banners' => $bannerAbajo, 'location' => 1]) ?>
 </div>
 
 <!-- END DOWN BANNER -->
 
 <?php
-
-  $this->registerJs(
-  "
+$this->registerJs(
+        "
   //::::::::::::::::::::::
   // POPUP INDEX
   //::::::::::::::::::::::
@@ -166,8 +169,5 @@ $this->title = 'Intranet - Copservir';
   });
 
   "
-  );
-
-
-
- ?>
+);
+?>

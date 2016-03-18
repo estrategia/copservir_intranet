@@ -25,6 +25,8 @@ use app\modules\intranet\models\ContenidoDestino;
 use app\modules\intranet\models\ContenidoEmergente;
 use yii\data\Pagination;
 
+use app\modules\intranet\models\UsuarioWidgetInactivo;
+
 class SitioController extends Controller {
 
     public function actions() {
@@ -432,6 +434,29 @@ class SitioController extends Controller {
             ];
 
         }
+        return $items;
+    }
+    
+    public function actionQuitarElemento(){
+        $elemento = Yii::$app->request->post('elemento');
+        
+        $model = new UsuarioWidgetInactivo();
+        $model->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        $model->widget = $elemento;
+        
+        if($model->save()){
+            $items = [
+                'result' => 'ok'
+            ];
+        }else{
+            echo "<pre>";
+            print_r($model->getErrors());
+            echo "</pre>";
+            $items = [
+                'result' => 'error'
+            ];
+        }
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $items;
     }
 
