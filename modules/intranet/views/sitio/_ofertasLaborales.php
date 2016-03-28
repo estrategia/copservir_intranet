@@ -1,3 +1,12 @@
+<?php
+use yii\helpers\Url;
+use yii\helpers\Html;
+use \yii\widgets\LinkPager;
+use yii\grid\GridView;
+use yii\widgets\Pjax;
+
+?>
+
 
 <div class="col-md-8">
     <br><br><br>
@@ -14,35 +23,62 @@
                 <div class="grid-body no-border">
                     <p>La Oficina de Talento Humano ...</p>
                     <?php if (!empty($ofertasLaborales)): ?>
-                        <table class="table table-hover no-more-tables">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Oferta</th>
-                                    <th>Ciudad</th>
-                                    <th>Fecha</th>
-                                    <th>Area</th>
-                                    <th>&nbsp;</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $i = 1 ?>
-                                <?php foreach ($ofertasLaborales as $oferta): ?>
-                                    <tr>
-                                        <td><?= $i ?></td>
-                                        <td><?= $oferta->objCargo->nombreCargo ?></td>
-                                        <td><?= $oferta->objCiudad->nombreCiudad ?></td>
-                                        <td><?= $oferta->fechaCierre ?></td>
-                                        <td><?= $oferta->objArea->nombreArea ?></td>
-                                        <td><a href="<?= $oferta->urlElEmpleo ?>" type="button" class="btn btn-primary btn-sm btn-small" target="_blank">Postularse</a></td>
-                                    </tr>
-                                    <?php $i++; ?>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    <?php endif; ?>
+                      <?php Pjax::begin(['timeout' => 10000, 'clientOptions' => ['container' => 'pjax-container']]); ?>
+                      <?= GridView::widget([
+                          'dataProvider' => $ofertasLaborales,
+                          'tableOptions' =>['class' => 'table table-hover no-more-tables'],
+                          'columns' => [
+                              ['class' => 'yii\grid\SerialColumn'],
 
-                    <a href="#">ver todos</a>
+
+                              //'idOfertaLaboral',
+                              [
+                                'attribute' => 'idCargo',
+                                'value' => function($model) {
+                                  return $model->objCargo->nombreCargo;
+                                }
+                              ],
+                              //'idContenidoDestino',
+                              [
+                                'attribute' => 'idCiudad',
+                                'value' => function($model) {
+                                  return $model->objCiudad->nombreCiudad;
+                                }
+                              ],
+                              'fechaPublicacion',
+                              [
+                                'attribute' => 'idCiudad',
+                                'value' => function($model) {
+                                  return $model->objArea->nombreArea;
+                                }
+                              ],
+
+                              [
+                                'class' => 'yii\grid\ActionColumn',
+                              	'template' => '{link}',
+                              	'buttons' => [
+                              		'link' => function ($url,$model,$key) {
+                              				return Html::a('Postularse', 'urlElEmpleo:url',['class'=>'btn btn-xs btn-primary ']);
+                              		},
+                              	],
+                              ],
+
+                              // 'idCargo',
+                              // 'idArea',
+
+                               //'idInformacionContacto',
+
+                              //['class' => 'yii\grid\ActionColumn'],
+                          ],
+                      ]); ?>
+                      <?php Pjax::end(); ?>
+                    <?php endif; ?>
+                    <?=
+                        Html::a('Ver todos',  ['ofertas-laborales/listar-ofertas'], [
+                            'class' => 'btn btn-block btn-primary',
+                        ]);
+                     ?>
+
                 </div>
             </div>
         </div>

@@ -4,7 +4,7 @@ namespace app\modules\intranet\models;
 
 use Yii;
 use app\modules\intranet\models\ContenidoDestino;
-
+use yii\data\ActiveDataProvider;
 /**
  * This is the model class for table "t_OfertasLaborales".
  *
@@ -57,7 +57,7 @@ class OfertasLaborales extends \yii\db\ActiveRecord
             'idOfertaLaboral' => 'Id Oferta Laboral',
             'cargo' => 'Cargo',
             'idContenidoDestino' => 'Id Contenido Destino',
-            'idCiudad' => 'Id Ciudad',
+            'idCiudad' => 'Ciudad',
             'fechaPublicacion' => 'Fecha Publicacion',
             'fechaCierre' => 'Fecha Cierre',
             'idUsuarioPublicacion' => 'Id Usuario Publicacion',
@@ -65,7 +65,7 @@ class OfertasLaborales extends \yii\db\ActiveRecord
             'fechaFinPublicacion' => 'Fecha Fin Publicacion',
             'tituloOferta' => 'Titulo Oferta',
             'urlElEmpleo' => 'Url El Empleo',
-            'idCargo' => 'Id Cargo',
+            'idCargo' => 'Cargo',
             'idArea' => 'Id Area',
             'descripcionContactoOferta' => 'Descripcion Contacto Oferta',
             'idInformacionContacto' => 'Id Informacion Contacto',
@@ -97,11 +97,46 @@ class OfertasLaborales extends \yii\db\ActiveRecord
         return $this->hasMany(ContenidoDestino::className(), ['idContenidoDestino' => 'idContenidoDestino']);
     }
 
+    public function getVertodos($params)
+    {
+      $query = OfertasLaborales::find()->orderby('idCiudad')->with(['objCargo', 'objArea', 'objCiudad', 'objInformacionContactoOferta']);
+
+      $dataProvider = new ActiveDataProvider([
+           'query' => $query,
+           'pagination' => [
+               'pageSize' => 10,
+           ],
+       ]);
+
+       $this->load($params);
+
+       return $dataProvider;
+    }
     public static function getOfertasLaboralesInteres($userCiudad, $userGrupos)
     {
-      $db = Yii::$app->db;
+      //$db = Yii::$app->db;
       $fecha = Date("Y-m-d h:i:s");
       $userGrupos = implode(',',$userGrupos);
+
+      $query = OfertasLaborales::find()->with(['objCargo', 'objArea', 'objCiudad', 'objInformacionContactoOferta'])
+        ->joinWith(['contenidoDestino'])->where(
+            ['and',
+                ['<=','fechaInicioPublicacion', $fecha],
+                ['>=','fechaFinPublicacion', $fecha],
+                ['=','codigoCiudad', $userCiudad],
+                ['IN','idGrupoInteres', $userGrupos],
+            ]
+        );
+
+        $dataProvider = new ActiveDataProvider([
+             'query' => $query,
+             'pagination' => [
+                 'pageSize' => 5,
+             ],
+         ]);
+
+         return $dataProvider;
+      /*
       $todosCiudad = \Yii::$app->params['ciudad']['*'];
       $todosGrupos = \Yii::$app->params['grupo']['*'];
 
@@ -112,7 +147,10 @@ class OfertasLaborales extends \yii\db\ActiveRecord
 
       $model = OfertasLaborales::findBySql($query)->with(['objCargo', 'objArea', 'objCiudad', 'objInformacionContactoOferta'])->all();
 
-      return $model;
+      $count = count($model);
+      $pages = new Pagination(
+        ['totalCount' => $count, 'pageSize'=>1]
+      );*/
     }
 
 }

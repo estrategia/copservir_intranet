@@ -23,7 +23,7 @@ use app\modules\intranet\models\Notificaciones;
 use app\modules\intranet\models\Tareas;
 use app\modules\intranet\models\ContenidoDestino;
 use app\modules\intranet\models\ContenidoEmergente;
-
+use yii\data\Pagination;
 use app\modules\intranet\models\UsuarioWidgetInactivo;
 
 class SitioController extends Controller {
@@ -34,10 +34,10 @@ class SitioController extends Controller {
                 'class' => 'yii\web\ErrorAction',
             ],
             'image-upload' => [
-              'class' => 'vova07\imperavi\actions\UploadAction',
-              'url' => 'http://localhost/copservir_intranet/imagenes/post/', //Yii::$app->realpath().'/imagenes', // Directory URL address, where files are stored.
-              'path' => '@app/imagenes/post' // Or absolute path to directory where files are stored.
-          ],
+                'class' => 'vova07\imperavi\actions\UploadAction',
+                'url' => 'http://localhost/copservir_intranet/imagenes/post/', //Yii::$app->realpath().'/imagenes', // Directory URL address, where files are stored.
+                'path' => '@app/imagenes/post' // Or absolute path to directory where files are stored.
+            ],
         ];
     }
 
@@ -56,72 +56,63 @@ class SitioController extends Controller {
         $contenidoModel = new Contenido();
         $lineasTiempo = LineaTiempo::find()->where(['estado' => 1])->all();
         $indicadores = Indicadores::find()->all();
-        /*$ofertasLaborales = OfertasLaborales::find()
-                ->with(['objCargo', 'objArea', 'objCiudad', 'objInformacionContactoOferta'])
-                ->where(
-                        ['and',
-                            ['<=', 'fechaInicioPublicacion', $fecha],
-                            ['>=', 'fechaFinPublicacion', $fecha]
-                ])
-                ->all();*/
 
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
         $userCiudad = Yii::$app->user->identity->getCodigoCiudad();
         $userGrupos = Yii::$app->user->identity->getGruposCodigos();
 
         //tareas
-        $tareasUsuario = Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->andWhere(['!=', 'estadoTarea', 3])->all();
+        $tareasUsuario = Tareas::getTareasIndex($numeroDocumento);
 
         //ofertas laborales
-        $ofertasLaborales = OfertasLaborales::getOfertasLaboralesInteres($userCiudad, $userGrupos);
-        //banners
+        $dataProviderOfertas = OfertasLaborales::getOfertasLaboralesInteres($userCiudad, $userGrupos);
+
+        //banners  Crear modelos y pasar las consultas al modelo
         $db = Yii::$app->db;
-
-
         $bannerArriba = $db->createCommand('select distinct pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia
                                                 from t_campanasdestino as pcc, t_publicacionescampanas as pc
 	                                                 where (pcc.idImagenCampana = pc.idImagenCampana and pc.estado=:estado and pc.posicion =:posicion
                                                     and (( pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:userCiudad) or ( pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:userCiudad)  )  )
                                                      order by rand()')
-                                    ->bindValue(':userCiudad', $userCiudad )
-                                    ->bindValue(':userGrupos', implode(',',$userGrupos) )
-                                    ->bindValue(':estado', 1 )
-                                    ->bindValue(':posicion', 0 )
-                                    ->bindValue('todosCiudad',\Yii::$app->params['ciudad']['*'])
-                                    ->bindValue('todosGrupos',\Yii::$app->params['grupo']['*'])
-                                    ->queryAll();
+                ->bindValue(':userCiudad', $userCiudad)
+                ->bindValue(':userGrupos', implode(',', $userGrupos))
+                ->bindValue(':estado', 1)
+                ->bindValue(':posicion', 0)
+                ->bindValue('todosCiudad', \Yii::$app->params['ciudad']['*'])
+                ->bindValue('todosGrupos', \Yii::$app->params['grupo']['*'])
+                ->queryAll();
 
         $bannerAbajo = $db->createCommand('select distinct pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia
                                                 from t_campanasdestino as pcc, t_publicacionescampanas as pc
                                                   where (pcc.idImagenCampana = pc.idImagenCampana and pc.estado=:estado and pc.posicion =:posicion
                                                     and (( pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:userCiudad) or ( pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:userCiudad) )  )
                                                      order by rand()')
-                                    ->bindValue(':userCiudad', $userCiudad )
-                                    ->bindValue(':userGrupos', implode(',',$userGrupos) )
-                                    ->bindValue(':estado', 1 )
-                                    ->bindValue(':posicion', 1 )
-                                    ->bindValue('todosCiudad',\Yii::$app->params['ciudad']['*'])
-                                    ->bindValue('todosGrupos',\Yii::$app->params['grupo']['*'])
-                                    ->queryAll();
+                ->bindValue(':userCiudad', $userCiudad)
+                ->bindValue(':userGrupos', implode(',', $userGrupos))
+                ->bindValue(':estado', 1)
+                ->bindValue(':posicion', 1)
+                ->bindValue('todosCiudad', \Yii::$app->params['ciudad']['*'])
+                ->bindValue('todosGrupos', \Yii::$app->params['grupo']['*'])
+                ->queryAll();
 
         $bannerDerecha = $db->createCommand('select distinct pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia
                                                 from t_campanasdestino as pcc, t_publicacionescampanas as pc
 	                                                 where (pcc.idImagenCampana = pc.idImagenCampana and pc.estado=:estado and pc.posicion =:posicion
                                                     and (( pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:userCiudad) or ( pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:userCiudad) )  )
                                                      order by rand()')
-                                    ->bindValue(':userCiudad', $userCiudad )
-                                    ->bindValue(':userGrupos', implode(',',$userGrupos) )
-                                    ->bindValue(':estado', 1 )
-                                    ->bindValue(':posicion', 2 )
-                                    ->bindValue('todosCiudad',\Yii::$app->params['ciudad']['*'])
-                                    ->bindValue('todosGrupos',\Yii::$app->params['grupo']['*'])
-                                    ->queryAll();
+                ->bindValue(':userCiudad', $userCiudad)
+                ->bindValue(':userGrupos', implode(',', $userGrupos))
+                ->bindValue(':estado', 1)
+                ->bindValue(':posicion', 2)
+                ->bindValue('todosCiudad', \Yii::$app->params['ciudad']['*'])
+                ->bindValue('todosGrupos', \Yii::$app->params['grupo']['*'])
+                ->queryAll();
 
         return $this->render('index', [
                     'contenidoModel' => $contenidoModel,
                     'lineasTiempo' => $lineasTiempo,
                     'indicadores' => $indicadores,
-                    'ofertasLaborales' => $ofertasLaborales,
+                    'ofertasLaborales' => $dataProviderOfertas,
                     'tareasUsuario' => $tareasUsuario,
                     'bannerArriba' => $bannerArriba,
                     'bannerAbajo' => $bannerAbajo,
@@ -379,57 +370,54 @@ class SitioController extends Controller {
         return $this->render('organigrama', []);
     }
 
-
     /*
-    * accion para obtener el contenido del modal
-    * @param none
-    * @return html contenido modal
-    */
-    public function actionPopupContenido()
-    {
+     * accion para obtener el contenido del modal
+     * @param none
+     * @return html contenido modal
+     */
 
-      $db = Yii::$app->db;
-      $userCiudad = Yii::$app->user->identity->getCodigoCiudad();
-      $userGrupos = Yii::$app->user->identity->getGruposCodigos();
-      $userNumeroDocumento = Yii::$app->user->identity->numeroDocumento;
+    public function actionPopupContenido() {
 
-      $query = $db->createCommand('select distinct c.idContenidoEmergente, c.contenido
+        $db = Yii::$app->db;
+        $userCiudad = Yii::$app->user->identity->getCodigoCiudad();
+        $userGrupos = Yii::$app->user->identity->getGruposCodigos();
+        $userNumeroDocumento = Yii::$app->user->identity->numeroDocumento;
+
+        $query = $db->createCommand('select distinct c.idContenidoEmergente, c.contenido
                                       from  m_contenidoemergente as c
                                       inner join t_contenidoemergentedestino as cd on c.idContenidoEmergente = cd.idContenidoEmergente
 	                                    where (c.fechaInicio<=:fecha AND c.fechaFin >=:fecha AND c.estado =:estado and
                                       ((cd.idGrupoInteres IN(:userGrupos) and cd.codigoCiudad =:userCiudad) or (cd.idGrupoInteres =:todosGrupos and cd.codigoCiudad =:todosCiudad) or (cd.idGrupoInteres IN(:userGrupos) and cd.codigoCiudad =:todosCiudad) or (cd.idGrupoInteres =:todosGrupos and cd.codigoCiudad =:userCiudad)  )   )
-                                      and c.idContenidoEmergente NOT IN( select idContenidoEmergente from t_contenidoemergentevisto where numeroDocumento ='.$userNumeroDocumento.' )  order by rand()')
-                                  ->bindValue(':userCiudad', $userCiudad )
-                                  ->bindValue(':userGrupos', implode(',',$userGrupos) )
-                                  ->bindValue(':fecha', date('Y-m-d H:i:s') )
-                                  ->bindValue(':estado', 1 )
-                                  ->bindValue('todosCiudad',\Yii::$app->params['ciudad']['*'])
-                                  ->bindValue('todosGrupos',\Yii::$app->params['grupo']['*'])
-                                  ->queryOne();
+                                      and c.idContenidoEmergente NOT IN( select idContenidoEmergente from t_contenidoemergentevisto where numeroDocumento =' . $userNumeroDocumento . ' )  order by rand()')
+                ->bindValue(':userCiudad', $userCiudad)
+                ->bindValue(':userGrupos', implode(',', $userGrupos))
+                ->bindValue(':fecha', date('Y-m-d H:i:s'))
+                ->bindValue(':estado', 1)
+                ->bindValue('todosCiudad', \Yii::$app->params['ciudad']['*'])
+                ->bindValue('todosGrupos', \Yii::$app->params['grupo']['*'])
+                ->queryOne();
 
 
-      //echo var_dump($query);
-      if ($query) {
-        $items = [
-         'result' => 'ok',
-         'response' => $this->renderAjax('popup',['query'=>$query]),
-        ];
-      }else{
-        $items = [
-         'result' => 'ok',
-         'response' => '',
-        ];
-      }
+        //echo var_dump($query);
+        if ($query) {
+            $items = [
+                'result' => 'ok',
+                'response' => $this->renderAjax('popup', ['query' => $query]),
+            ];
+        } else {
+            $items = [
+                'result' => 'ok',
+                'response' => '',
+            ];
+        }
 
 
 
-      \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-      return $items;
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $items;
     }
 
-
-    public function actionInactivaPopup()
-    {
+    public function actionInactivaPopup() {
         $idPopup = Yii::$app->request->post('idPopup');
 
         $modelContenido = ContenidoEmergente::findone(['idContenidoEmergente' => $idPopup]);
@@ -438,30 +426,37 @@ class SitioController extends Controller {
         if ($modelContenido->save()) {
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             $items = [
-             'result' => 'ok',
+                'result' => 'ok',
             ];
-
         }
         return $items;
     }
-    
-    public function actionQuitarElemento(){
+
+    public function actionQuitarElemento() {
         $elemento = Yii::$app->request->post('elemento');
-        
-        $model = new UsuarioWidgetInactivo();
-        $model->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-        $model->widget = $elemento;
-        
-        if($model->save()){
+        $opcion = Yii::$app->request->post('opcion');
+
+
+        if ($opcion == 2) {
+            $model = new UsuarioWidgetInactivo();
+            $model->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+            $model->widget = $elemento;
+
+
+            if ($model->save()) {
+                $items = [
+                    'result' => 'ok'
+                ];
+            } else {
+                $items = [
+                    'result' => 'error'
+                ];
+            }
+        } else if ($opcion == 1) {
+
+            UsuarioWidgetInactivo::deleteAll('widget = :widget AND widget = :widget', [':widget' => $elemento, ':numeroDocumento' => Yii::$app->user->identity->numeroDocumento]);
             $items = [
                 'result' => 'ok'
-            ];
-        }else{
-            echo "<pre>";
-            print_r($model->getErrors());
-            echo "</pre>";
-            $items = [
-                'result' => 'error'
             ];
         }
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
