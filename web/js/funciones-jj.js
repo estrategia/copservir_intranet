@@ -448,7 +448,7 @@ $(document).on('click', 'a[data-role="quitar-elemento"]', function () {
         dataType: 'json',
         async: true,
         url: requestUrl + '/intranet/sitio/quitar-elemento',
-        data: {elemento: elemento},
+        data: {elemento: elemento, opcion: 2},
         beforeSend: function () {
 
             //Loading.show();
@@ -465,4 +465,33 @@ $(document).on('click', 'a[data-role="quitar-elemento"]', function () {
         }
     });
     return false;
+});
+
+$(document).on('click', 'input[data-role="toggle-elemento"]', function () {
+
+    var elemento = $(this).attr('data-elemento');
+    var opcion = $(this).prop('checked') ? 1:2;
+    
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        async: true,
+        url: requestUrl + '/intranet/sitio/quitar-elemento',
+        data: {elemento: elemento, opcion: opcion},
+        beforeSend: function () {
+
+            //Loading.show();
+        },
+        complete: function () {
+            //Loading.hide();
+        },
+        success: function (data) {
+            
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            //Loading.hide();
+            alert('Error: ' + errorThrown);
+        }
+    });
+   
 });
