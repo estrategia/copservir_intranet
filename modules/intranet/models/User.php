@@ -7,6 +7,7 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use yii\web\Session;
 
 /**
  * User model
@@ -30,6 +31,26 @@ class User extends ActiveRecord implements IdentityInterface {
      */
     public static function tableName() {
         return 'm_Usuario';
+    }
+
+    // this should be inside User.php class.
+    public function init() {
+
+        $this->on(self::EVENT_BEFORE_VALIDATE, [$this, 'prueba']);
+
+        // first parameter is the name of the event and second is the handler. 
+        // For handlers I use methods sendMail and notification
+        // from $this class.
+    }
+    
+    public function prueba($event){
+        //$session = new Session;
+        //$session->open();
+        $session = \Yii::$app->session;
+        //$value1 = $session['name1'];  // get session variable 'name1'
+        //$value2 = $session['name2'];  // get session variable 'name2'
+        //foreach ($session as $name => $value) // traverse all session variables
+        $session['prueba'] = "prueba_".  time('Y-m-d_H:i:s'); 
     }
 
     /**
@@ -149,20 +170,20 @@ class User extends ActiveRecord implements IdentityInterface {
         $datetime1 = date_create(Date('Y-m-d'));
         $datetime2 = date_create('2015-08-20');
         $interval = date_diff($datetime1, $datetime2);
-        $anhos = $meses  = "";
+        $anhos = $meses = "";
 
-        if($interval->format('%y') > 1){
-            $anhos = $interval->format('%y')." años ";
-        }else if($interval->format('%y') == 1){
-            $anhos = $interval->format('%y')." año ";
+        if ($interval->format('%y') > 1) {
+            $anhos = $interval->format('%y') . " años ";
+        } else if ($interval->format('%y') == 1) {
+            $anhos = $interval->format('%y') . " año ";
         }
 
-        if($interval->format('%m') > 1){
-            $meses = $interval->format('%m')." meses";
-        }else if($interval->format('%m') == 1){
-            $meses = $interval->format('%m')." mes";
+        if ($interval->format('%m') > 1) {
+            $meses = $interval->format('%m') . " meses";
+        } else if ($interval->format('%m') == 1) {
+            $meses = $interval->format('%m') . " mes";
         }
-        return $anhos.$meses;
+        return $anhos . $meses;
     }
 
     public function getJefeInmediato() {
@@ -192,28 +213,28 @@ class User extends ActiveRecord implements IdentityInterface {
     public function getCiudad() {
         return "Palmira";
     }
-    
+
     public function getCodigoCiudad() {
         return "76001";
     }
-    
-    public function getOcultosDashboard(){
-       $opciones = UsuarioWidgetInactivo::find()->where(['numeroDocumento' => $this->numeroDocumento ])->all();
-       $opcionesOcultas = [];
-       foreach($opciones as $opcion){
-           $opcionesOcultas[] = $opcion->widget;
-       }
-       
-       return $opcionesOcultas;
+
+    public function getOcultosDashboard() {
+        $opciones = UsuarioWidgetInactivo::find()->where(['numeroDocumento' => $this->numeroDocumento])->all();
+        $opcionesOcultas = [];
+        foreach ($opciones as $opcion) {
+            $opcionesOcultas[] = $opcion->widget;
+        }
+
+        return $opcionesOcultas;
     }
-    
-    public function getGruposCodigos(){
-        return [1,2,3];
+
+    public function getGruposCodigos() {
+        return [1, 2, 3];
     }
 
     public function getCumpleanhos() {
-       setlocale(LC_ALL,"es_ES");
-       return  strftime("%B %d", strtotime("2015-01-20"));
+        setlocale(LC_ALL, "es_ES");
+        return strftime("%B %d", strtotime("2015-01-20"));
     }
 
 }

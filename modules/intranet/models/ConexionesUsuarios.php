@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "t_conexionesusuarios".
  *
  * @property string $idConexion
- * @property string $idUsuario
+ * @property string $numeroDocumento
  * @property string $fechaConexion
  * @property string $ip
  */
