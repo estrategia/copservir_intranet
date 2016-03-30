@@ -287,7 +287,7 @@ class ContenidoController extends Controller {
             $resultados = Contenido::traerBusqueda($busqueda);
             // grafica resultado por años
             $valorGrafica = Contenido::datosGraficaAnio($busqueda);
-            $url = $this->makeUrlChart($valorGrafica);
+            $url = $this->makeUrlChart($valorGrafica, false);
             $valorGrafica = Json::encode($valorGrafica);
             $flag = 'a';
 
@@ -299,7 +299,7 @@ class ContenidoController extends Controller {
             $resultados = Contenido::traerBusquedaAnio($busqueda, $a);
             // grafica resultado por mes
             $valorGrafica = Contenido::datosGraficaMes($busqueda, $a);
-            $url = $this->makeUrlChart($valorGrafica);
+            $url = $this->makeUrlChart($valorGrafica, true);
             $valorGrafica = Json::encode($valorGrafica);
             $flag = 'am';
 
@@ -310,7 +310,7 @@ class ContenidoController extends Controller {
           $resultados = Contenido::traerBusquedaMes($busqueda, $a, $m);
           // grafica resultado por dias
           $valorGrafica = Contenido::datosGraficaDia($busqueda, $a, $m);
-          $url = $this->makeUrlChart($valorGrafica);
+          $url = $this->makeUrlChart($valorGrafica, false);
           $valorGrafica = Json::encode($valorGrafica);
           $flag = 'amd';
         }
@@ -326,10 +326,10 @@ class ContenidoController extends Controller {
 
     /**
     * funcion auxiliar para crear la url para generar la imagen y su json para mapearla
-    * @param valorGrafica = valores que tomara la grafica
+    * @param valorGrafica = valores que tomara la grafica, flag = bandera para poner el nombe de los meses
     * @return arreglo con las dos urls
     */
-    public function makeUrlChart($valorGrafica)
+    public function makeUrlChart($valorGrafica, $flag)
     {
       /*
         > chof = - para mapear => json
@@ -378,7 +378,12 @@ class ContenidoController extends Controller {
 
       foreach ($valorGrafica as $valor) {
          $chd .= $valor['cantidad'] . ',';
-         $chxl .=$valor['etiqueta'] . '|';
+         if ($flag) {
+            $chxl .= \Yii::$app->params['meses'][$valor['etiqueta']]. '|';
+         }else{
+            $chxl .= $valor['etiqueta'] . '|';
+         }
+
          array_push($maximo, $valor['cantidad']);
 
       }
