@@ -21,6 +21,7 @@ return array(
     'kartik\\tree\\' => array($vendorDir . '/kartik-v/yii2-tree-manager'),
     'kartik\\select2\\' => array($vendorDir . '/kartik-v/yii2-widget-select2'),
     'kartik\\form\\' => array($vendorDir . '/kartik-v/yii2-widget-activeform'),
+    'kartik\\datetime\\' => array($vendorDir . '/kartik-v/yii2-widget-datetimepicker'),
     'kartik\\base\\' => array($vendorDir . '/kartik-v/yii2-krajee-base'),
     'execut\\yii\\' => array($vendorDir . '/execut/yii2-base'),
     'execut\\widget\\' => array($vendorDir . '/execut/yii2-widget-bootstraptreeview'),

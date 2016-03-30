@@ -24,7 +24,7 @@
         "execut/yii2-widget-bootstraptreeview": "dev-master",
         "wbraganca/yii2-fancytree-widget": "*",
         "yii2mod/yii2-tree": "*",
-        "kartik-v/yii2-widget-select2": "@dev"
+        "kartik-v/yii2-widget-select2": "@dev",
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

@@ -2,11 +2,6 @@
 // TAREAS
 //::::::::::::::::::::::
 
-// solo deberia ser en tareas donde aparece el slider
- $( document ).ready(function() {
-     $('.slider-element').slider();
- });
-
 /*
 * peticion ajax guardar el progreso del slider de una tarea
 */
@@ -109,7 +104,7 @@ $(document).on('change', "input[data-role='tarea-check']", function() {
 
 });
 
-/*
+/**
 * peticion ajax para inactivar una tarea
 */
 
@@ -158,7 +153,7 @@ $(document).on('click', "a[data-role='inactivarTarea']", function() {
 // POPUP INDEX
 //::::::::::::::::::::::
 
-/*
+/**
 * Peticion para deshabilitar el modal
 */
 
@@ -191,3 +186,86 @@ $(document).on('click', "button[data-role='inactiva-popup']", function() {
           }
       })
 });
+
+//::::::::::::::::::::::
+// BUSQUEDA NOTICIAS
+//::::::::::::::::::::::
+
+/**
+* javascript para que se busque una noticia cuando presiona enter
+*/
+$( document ).ready(function() {
+
+  $('#busqueda').keypress(function(event) {
+
+        if (event.which == 13) {
+            event.preventDefault();
+            $('#formBuscadorNoticias').submit();
+        }
+    });
+
+});
+
+/**
+* funcion para mapear la imagen segun su json
+* @param jsonGrafica = json con la imagen mapeada, patron = patron de busqueda, valorGrafica = valores de la grafica, flag = bandera que indica los parametros de la url
+* @return pega la el html de la imagen mapeada en el contenedor
+*/
+function makeMap(jsonGrafica, patron, valorGrafica, flag) {
+
+  var a = ''; // para referenciar si la url tiene año
+  var m = ''; // para referenciar si la url tiene mes
+  var d = ''; // para referenciar si la url tiene dia
+  var tamValorGrafica = valorGrafica.length;
+  var mapBox = $('.map-img');
+  var jsonObj = false;
+  var mapString = "";
+  jsonObj = jsonGrafica;
+
+  if (typeof JSON != 'object') {
+    alert("Please enter a valid JSON response string.");
+    return;
+  } else if (!jsonObj.chartshape) {
+    alert("No map elements");
+    return;
+  }
+
+  mapString = "<map name='archivo-timeline'>";
+  var area = false;
+  var chart = jsonObj.chartshape;
+  var count = 0;
+  for (var i = 0; i < chart.length; i++) {
+
+    area = chart[i];
+
+    if (i>tamValorGrafica) {
+
+      if (flag === 'a') {
+          a = valorGrafica[count]['etiqueta'];
+      }
+
+      if (flag === 'am') {
+          a = valorGrafica[count]['anio'];
+          m = valorGrafica[count]['etiqueta'];
+      }
+
+      if (flag === 'amd') {
+          a = valorGrafica[count]['anio'];
+          m = valorGrafica[count]['mes'];
+          d = valorGrafica[count]['etiqueta'];
+      }
+
+      mapString += "\n  <area name='"  + area.name + "' shape='"  + area.type
+        + "' coords='" + area.coords.join(",") + "' href=\""+requestUrl+"/intranet/contenido/busqueda?busqueda="+patron+"&a="+a+"&m="+m+"&d="+d+"\"  title=''>";
+
+      count ++;
+
+    }else{
+
+      mapString += "\n  <area name='"  + area.name + "' shape='"  + area.type
+        + "' coords='" + area.coords.join(",") + "' title=''>";
+    }
+  }
+  mapString += "\n</map>";
+  mapBox.append(mapString);
+}

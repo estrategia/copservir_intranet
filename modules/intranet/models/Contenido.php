@@ -3,6 +3,7 @@
 namespace app\modules\intranet\models;
 
 use Yii;
+use yii\data\ActiveDataProvider;
 
 /**
  * This is the model class for table "t_contenido".
@@ -118,6 +119,155 @@ class Contenido extends \yii\db\ActiveRecord
                             )->one();
     }
 
+
+
+    /**
+    * Trae todas las noticias con ese patron
+    * @param busqueda = patron de busqueda
+    * @return dataProvider con la consulta
+    */
+    public static function traerBusqueda($busqueda)
+    {
+      $query = Contenido::find()->andFilterWhere([
+                                                  'or',
+                                                      ['LIKE', 'contenido', $busqueda],
+                                                      ['LIKE', 'titulo', $busqueda],
+                                                    ]);
+      $dataProvider = new ActiveDataProvider([
+         'query' => $query,
+         'pagination' => [
+             'pageSize' => 5,
+         ],
+      ]);
+
+     return $dataProvider;
+
+    }
+
+
+    /**
+    * Trae todas las noticias en ese año con ese patron
+    * @param busqueda = patron de busqueda, a = año especifico
+    * @return dataProvider con la consulta
+    */
+    public static function traerBusquedaAnio($busqueda, $a)
+    {
+
+      $query = Contenido::find()->andFilterWhere([
+                                                  'or',
+                                                      ['LIKE', 'contenido', $busqueda],
+                                                      ['LIKE', 'titulo', $busqueda],
+                                                    ])->andWhere(
+                                                      ['=', 'year(fechaPublicacion)', $a]
+                                                    );
+      $dataProvider = new ActiveDataProvider([
+         'query' => $query,
+         'pagination' => [
+             'pageSize' => 5,
+         ],
+      ]);
+
+     return $dataProvider;
+
+    }
+
+    /**
+    * trae todas las noticias en ese año y mes con ese patron
+    * @param busqueda = patron de busqueda,  a = año especifico, m = mes especifico
+    * @return dataProvider con la consulta
+    */
+    public static function traerBusquedaMes($busqueda , $a, $m)
+    {
+      $query = Contenido::find()->andFilterWhere([
+                                                  'or',
+                                                      ['LIKE', 'contenido', $busqueda],
+                                                      ['LIKE', 'titulo', $busqueda],
+                                                    ])->andWhere(
+                                                      ['=', 'year(fechaPublicacion)', $a]
+                                                    )->andWhere(
+                                                      ['=', 'month(fechaPublicacion)', $m]
+                                                    );
+      $dataProvider = new ActiveDataProvider([
+         'query' => $query,
+         'pagination' => [
+             'pageSize' => 5,
+         ],
+      ]);
+
+     return $dataProvider;
+
+    }
+
+
+    /**
+    *  trae todas las noticias en ese año mes y dia con ese patron
+    * @param busqueda = patron de busqueda,  a = año especifico, m = mes especifico, d = dia especifico
+    * @return dataProvider con la consulta
+    */
+    public static function traerBusquedaDia($busqueda , $a, $m, $d)
+    {
+      $query = Contenido::find()->andFilterWhere([
+                                                  'or',
+                                                      ['LIKE', 'contenido', $busqueda],
+                                                      ['LIKE', 'titulo', $busqueda],
+                                                    ])->andWhere(
+                                                      ['=', 'year(fechaPublicacion)', $a]
+                                                    )->andWhere(
+                                                      ['=', 'month(fechaPublicacion)', $m]
+                                                    )->andWhere(
+                                                      ['=', 'day(fechaPublicacion)', $d]
+                                                    );
+      $dataProvider = new ActiveDataProvider([
+         'query' => $query,
+         'pagination' => [
+             'pageSize' => 5,
+         ],
+      ]);
+
+     return $dataProvider;
+    }
+
+
+    /**
+    * cuenta cuantas noticias hay agrupadas por años para crear la grafica
+    * @param busqueda = patron de busqueda
+    * @return resultado de la consulta
+    */
+    public static function datosGraficaAnio($busqueda)
+    {
+      $db = Yii::$app->db;
+      $sql = 'select year(fechaPublicacion) etiqueta, count(idContenido) cantidad from t_contenido where (contenido like "%'.$busqueda.'%" or titulo like "%'.$busqueda.'%") group by year(fechaPublicacion) order by fechaPublicacion desc limit 5;';
+      $resultado = $db->createCommand($sql)->queryAll();
+      return $resultado;
+    }
+
+
+    /**
+    *  cuenta cuantas noticias hay agrupadas por meses para crear la grafica
+    * @param busqueda = patron de busqueda,  a = año especifico
+    * @return dataProvider con la consulta
+    */
+    public static function datosGraficaMes($busqueda, $a)
+    {
+      $db = Yii::$app->db;
+      $sql = 'select year(fechaPublicacion) anio, month(fechaPublicacion) etiqueta, count(idContenido) cantidad from t_contenido where (contenido like "%'.$busqueda.'%" or titulo like "%'.$busqueda.'%") and year(fechaPublicacion) = '.$a.' group by month(fechaPublicacion) order by fechaPublicacion desc;';
+      $resultado = $db->createCommand($sql)->queryAll();
+      return $resultado;
+    }
+
+
+  /**
+    * cuenta cuantas noticias hay agrupadas por dias para crear la grafica
+    * @param busqueda = patron de busqueda,  a = año especifico,  m = mes especifico
+    * @return dataProvider con la consulta
+    */
+    public static function datosGraficaDia($busqueda, $a, $m)
+    {
+      $db = Yii::$app->db;
+      $sql = 'select year(fechaPublicacion) anio, month(fechaPublicacion) mes, day(fechaPublicacion) etiqueta, count(idContenido) cantidad from t_contenido where (contenido like "%'.$busqueda.'%" or titulo like "%'.$busqueda.'%") and year(fechaPublicacion) = '.$a.' and month(fechaPublicacion) = '.$m.' group by day(fechaPublicacion) order by fechaPublicacion desc;';
+      $resultado = $db->createCommand($sql)->queryAll();
+      return $resultado;
+    }
 
 
     public function getListComentarios()
