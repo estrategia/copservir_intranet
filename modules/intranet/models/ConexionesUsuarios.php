@@ -28,8 +28,8 @@ class ConexionesUsuarios extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idUsuario', 'fechaConexion', 'ip'], 'required'],
-            [['idUsuario'], 'integer'],
+            [['numeroDocumento', 'fechaConexion', 'ip'], 'required'],
+            [['numeroDocumento'], 'integer'],
             [['fechaConexion'], 'safe'],
             [['ip'], 'string', 'max' => 45]
         ];
@@ -42,7 +42,7 @@ class ConexionesUsuarios extends \yii\db\ActiveRecord
     {
         return [
             'idConexion' => 'Id Conexion',
-            'idUsuario' => 'Id Usuario',
+            'numeroDocumento' => 'Id Usuario',
             'fechaConexion' => 'Fecha Conexion',
             'ip' => 'Ip',
         ];

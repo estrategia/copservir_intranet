@@ -105,7 +105,7 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
           <span class="add-on"> <span class="iconset top-search"></span>
           </span>
 
-        <?php Html::endForm()     ?>
+        <?= Html::endForm()     ?>
 
 
                             </li>
@@ -205,14 +205,9 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
                                     </li>
                                     <li class="divider"></li>
                                     <li>
-                                        <?php
-                                        echo Html::beginForm(['usuario/salir'], 'post');
-                                        echo Html::submitButton(
-                                                '<i class="fa fa-power-off"></i> Salir', ['class' => 'btn btn-link'
-                                                ]
-                                        );
-                                        echo Html::endForm()
-                                        ?>
+                                        <?= Html::beginForm(['usuario/salir'], 'post', ['id'=>'form-salir']); ?>
+                                        <?=  Html::submitButton('<i class="fa fa-power-off"></i> Salir', ['class' => 'btn btn-link']);?>
+                                        <?=  Html::endForm(); ?>
                                     </li>
                                 </ul>
                             </li>
