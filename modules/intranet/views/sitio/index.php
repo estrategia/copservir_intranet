@@ -154,18 +154,6 @@ $this->registerJs(
       $('#myCarousel').carousel({
         interval: 5000
       })
-
-      //::::::::::::::::::::::
-      // BUSQUEDA NOTICIAS
-      //::::::::::::::::::::::
-      $('#busqueda').keypress(function(event) {
-
-            if (event.which == 13) {
-                console.log('enter')
-                event.preventDefault();
-                $('#formBuscadorNoticias').submit();
-            }
-        });
   });
 
   "

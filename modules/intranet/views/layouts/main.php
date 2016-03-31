@@ -61,48 +61,52 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
                         <img src=<?= "" . $srcLogo ?> class="logo" alt=""  data-src="" data-src-retina="" width="106" height="21" style="margin: 19px 30px;
                              width: 200px; position:relative"/>
 
-                    </a>
-                    <!-- END LOGO -->
-                    <ul class="nav pull-right notifcation-center">
-                        <!--<li class="dropdown hidden-xs hidden-sm">
-                                <a href="index.html" class="dropdown-toggle active" data-toggle="">
-                                        <div class="iconset top-home"></div>
-                                </a>
-                        </li>
-                        <li class="dropdown hidden-xs hidden-sm">
-                                <a href="email.html" class="dropdown-toggle" >
-                                        <div class="iconset top-messages"></div><span class="badge">2</span>
-                                </a>
-                        </li>
-                                <li class="dropdown visible-xs visible-sm">
-                                        <a href="#" data-webarch="toggle-right-side">
-                                                <div class="iconset top-chat-white "></div>
-                                        </a>
-                                </li>-->
-                    </ul>
-                </div>
-                <!-- END RESPONSIVE MENU TOGGLER -->
-                <div class="header-quick-nav" >
-                    <!-- BEGIN TOP NAVIGATION MENU -->
-                    <div class="pull-left">
-                        <ul class="nav quick-section">
-                            <li class="quicklinks"> <a href="#" class="" id="layout-condensed-toggle" >
-                                    <div class="iconset top-menu-toggle-dark"></div>
-                                </a> </li>
-                        </ul>
-                        <ul class="nav quick-section">
-                            <!--<li class="quicklinks"> <a href="#" class="" >
-                              <div class="iconset top-reload"></div>
-                              </a> </li>-->
-                            <li class="quicklinks"> <span class="h-seperate"></span></li>
-                            <!--<li class="quicklinks"> <a href="#" class="" >
-                              <div class="iconset top-tiles"></div>
-                              </a> </li>-->
-                            <li class="m-r-10 input-prepend inside search-form no-boarder">
-                                <span class="add-on"> <span class="iconset top-search"></span></span>
-                                <?= Html::beginForm(['contenido/buscador-noticias'], 'post', ['id' => 'formBuscadorNoticias']); ?>
-                                <input id="busqueda" name="busqueda" type="text"  class="no-boarder " placeholder="Buscar" style="width:250px;">
-                                <?php Html::endForm() ?>
+      </a>
+      <!-- END LOGO -->
+      <ul class="nav pull-right notifcation-center">
+        <!--<li class="dropdown hidden-xs hidden-sm">
+        	<a href="index.html" class="dropdown-toggle active" data-toggle="">
+        		<div class="iconset top-home"></div>
+        	</a>
+        </li>
+        <li class="dropdown hidden-xs hidden-sm">
+        	<a href="email.html" class="dropdown-toggle" >
+        		<div class="iconset top-messages"></div><span class="badge">2</span>
+        	</a>
+        </li>
+		<li class="dropdown visible-xs visible-sm">
+			<a href="#" data-webarch="toggle-right-side">
+				<div class="iconset top-chat-white "></div>
+			</a>
+		</li>-->
+      </ul>
+      </div>
+      <!-- END RESPONSIVE MENU TOGGLER -->
+      <div class="header-quick-nav" >
+      <!-- BEGIN TOP NAVIGATION MENU -->
+	  <div class="pull-left">
+        <ul class="nav quick-section">
+          <li class="quicklinks"> <a href="#" class="" id="layout-condensed-toggle" >
+            <div class="iconset top-menu-toggle-dark"></div>
+            </a> </li>
+        </ul>
+        <ul class="nav quick-section">
+          <!--<li class="quicklinks"> <a href="#" class="" >
+            <div class="iconset top-reload"></div>
+            </a> </li>-->
+          <li class="quicklinks"> <span class="h-seperate"></span></li>
+          <!--<li class="quicklinks"> <a href="#" class="" >
+            <div class="iconset top-tiles"></div>
+            </a> </li>-->
+			<li class="m-r-10 input-prepend inside search-form no-boarder">
+
+        <?= Html::beginForm(['contenido/buscador-noticias'], 'post', ['id'=> 'formBuscadorNoticias']); ?>
+          <input id="busqueda" name="busqueda" type="text"  class="no-boarder " placeholder="Buscar" style="width:250px;">
+          <span class="add-on"> <span class="iconset top-search"></span>
+          </span>
+
+        <?php Html::endForm()     ?>
+
 
                             </li>
                         </ul>

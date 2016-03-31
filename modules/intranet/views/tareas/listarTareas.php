@@ -42,3 +42,21 @@ $this->title = 'Tareas';
         </div>
     </div>
 </div>
+
+<?php
+$this->registerJs(
+        "
+  //::::::::::::::::::::::
+  // SLIDER TAREAS
+  //::::::::::::::::::::::
+
+  /*
+  * funcionamiento del slider
+  */
+  $( document ).ready(function() {
+      $('.slider-element').slider();
+  });
+
+  "
+);
+?>

@@ -1,3 +1,3 @@
-<h3 class="text-white semi-bold text-center"><?= Yii::$app->params['mesesAbreviado'][$fInicio->format('n')-1] ?> <?= $fInicio->format('j') ?>/<?= $fInicio->format('y') ?></h3>
-<h3 class="text-white semi-bold text-center"><?= Yii::$app->params['mesesAbreviado'][$fFin->format('n')-1] ?> <?= $fFin->format('j') ?>/<?= $fFin->format('y') ?></h3>
+<h3 class="text-white semi-bold text-center"><?= Yii::$app->params['mesesAbreviado'][$fInicio->format('n')] ?> <?= $fInicio->format('j') ?>/<?= $fInicio->format('y') ?></h3>
+<h3 class="text-white semi-bold text-center"><?= Yii::$app->params['mesesAbreviado'][$fFin->format('n')] ?> <?= $fFin->format('j') ?>/<?= $fFin->format('y') ?></h3>
 <div class="events-heading">&nbsp;Eventos de la semana</div>

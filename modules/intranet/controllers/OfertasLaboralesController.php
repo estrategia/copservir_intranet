@@ -46,9 +46,9 @@ class OfertasLaboralesController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionView($id)
+    public function actionDetalle($id)
     {
-        return $this->render('view', [
+        return $this->render('detalle', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -58,14 +58,14 @@ class OfertasLaboralesController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCrear()
     {
         $model = new OfertasLaborales();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idOfertaLaboral]);
+            return $this->redirect(['detalle', 'id' => $model->idOfertaLaboral]);
         } else {
-            return $this->render('create', [
+            return $this->render('crear', [
                 'model' => $model,
             ]);
         }
@@ -77,14 +77,14 @@ class OfertasLaboralesController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionActualizar($id)
     {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idOfertaLaboral]);
+            return $this->redirect(['detalle', 'id' => $model->idOfertaLaboral]);
         } else {
-            return $this->render('update', [
+            return $this->render('actualizar', [
                 'model' => $model,
             ]);
         }

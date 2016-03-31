@@ -3,6 +3,7 @@
 namespace app\modules\intranet\controllers;
 
 use Yii;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\data\ActiveDataProvider;
 use \app\modules\intranet\models\LineaTiempo;
@@ -257,23 +258,153 @@ class ContenidoController extends Controller {
     /**
      * buscardor de noticias
      * @param post-> busqueda  | lo que el usuario escribe en la barra de busqueda
-     * @return mixed | resultado de la consulta en bd
+     * @return mixed | redirige a la vista donde se hara la busuqeda pasando como parametros de la url:
+     * busqueda = el patron de busqueda, a = año, m = mes, d = dia
      */
-    public function actionBuscadorNoticias($value='')
+    public function actionBuscadorNoticias()
     {
       $busqueda = trim(Yii::$app->request->post('busqueda',''));
 
-      $resultados = [];
+      $this->redirect(['busqueda','busqueda' => $busqueda, 'a' => '', 'm' => '', 'd' => '']);
+    }
 
-      if (!empty($busqueda)) {
-        $resultados = Contenido::find()->andFilterWhere([
-                                                    'or',
-                                                        ['LIKE', 'contenido', $busqueda],
-                                                        ['LIKE', 'titulo', $busqueda],
-                                                      ])->all();
+    /**
+     * buscardor de noticias
+     * @param busqueda = el patron de busqueda, a = año, m = mes, d = dia
+     * @return mixed | retorna la vista con las noticias encontradas
+     */
+    public function actionBusqueda($busqueda, $a, $m, $d)
+    {
+
+        $flag = '';  // indica si la url lleva año, mes y dia
+        $url = ['url'=>'','urlJson'=>'']; // arreglo con la url para generar la imagen en google charts y url para devolver el json de la misma
+        $resultados= ''; // noticias encontradas
+        $valorGrafica = ''; // valores que tomara la grafica (etiuetas y cantidad de veces que se encuentra una noticia)
+
+        if ( empty($a)  and empty($m) and empty($d)   ) {
+
+            //hacer busqueda del patron
+            $resultados = Contenido::traerBusqueda($busqueda);
+            // grafica resultado por años
+            $valorGrafica = Contenido::datosGraficaAnio($busqueda);
+            $url = $this->makeUrlChart($valorGrafica, false);
+            $valorGrafica = Json::encode($valorGrafica);
+            $flag = 'a';
+
+        }
+
+        if ( !empty($a)  and empty($m) and empty($d)   ) {
+
+            // hacer la busqueda de ese patron en ese año
+            $resultados = Contenido::traerBusquedaAnio($busqueda, $a);
+            // grafica resultado por mes
+            $valorGrafica = Contenido::datosGraficaMes($busqueda, $a);
+            $url = $this->makeUrlChart($valorGrafica, true);
+            $valorGrafica = Json::encode($valorGrafica);
+            $flag = 'am';
+
+        }
+
+        if ( !empty($a)  and !empty($m) and empty($d)   ) {
+          // hacer la busqueda de ese patron en ese año y mes
+          $resultados = Contenido::traerBusquedaMes($busqueda, $a, $m);
+          // grafica resultado por dias
+          $valorGrafica = Contenido::datosGraficaDia($busqueda, $a, $m);
+          $url = $this->makeUrlChart($valorGrafica, false);
+          $valorGrafica = Json::encode($valorGrafica);
+          $flag = 'amd';
+        }
+
+        if ( !empty($a)  and !empty($m) and !empty($d)) {
+          // hacer la busqueda de ese patron en ese año, mes y dia
+          $resultados = Contenido::traerBusquedaDia($busqueda, $a, $m, $d);
+          // no hacer grafica
+        }
+
+        return $this->render('busqueda', ['resultados' => $resultados, 'url'=>$url, 'flag'=>$flag, 'valorGrafica'=>$valorGrafica, 'patron'=>$busqueda ]);
+    }
+
+    /**
+    * funcion auxiliar para crear la url para generar la imagen y su json para mapearla
+    * @param valorGrafica = valores que tomara la grafica, flag = bandera para poner el nombe de los meses
+    * @return arreglo con las dos urls
+    */
+    public function makeUrlChart($valorGrafica, $flag)
+    {
+      /*
+        > chof = - para mapear => json
+
+        > cht = tipo de gafico
+
+        > chs = tamaño del grafico
+
+        > chxt = que solo se manejara el eje x
+
+        > chm = forma que se le da al valor del dato
+
+        > chd = serie de datos para el grafico
+
+        > chds = limites minimos y maximos de cada serie
+
+        > chxl = etiquetas
+      */
+
+
+      $url = 'https://chart.googleapis.com/chart?cht=s&amp;chs=908x70&amp;chxt=x&amp;chm=o,1F6492,0,0,30.0,0&amp;';
+      $urlJson = '"https://chart.googleapis.com/chart?chof=json&cht=s&chs=908x70&chxt=x&chm=o,1F6492,0,0,30.0,0&';
+      $chd = 'chd=t:';
+      $chxl = 'chxl=0:||';
+
+      // se pegan las posiciones de la grafica
+      for ($i=0; $i <=count($valorGrafica) ; $i++) {
+        $chd .= $i . ',';
+      }
+      // se separa la serie
+      $chd = substr($chd, 0, -1);
+      $chd .= '|';
+
+
+      // se pegan las posiciones en y
+      for ($i=0; $i <= count($valorGrafica) ; $i++) {
+        $chd .= 20 . ',';
       }
 
-      return $this->render('busqueda', ['resultados' => $resultados ]);
+      // se separa la serie
+      $chd = substr($chd, 0, -1);
+      $chd .= '|0,';
+
+      // se pegan las cantidades de veces que se repite la noticia y sus etiquetas
+      $maximo = array();
+
+      foreach ($valorGrafica as $valor) {
+         $chd .= $valor['cantidad'] . ',';
+         if ($flag) {
+            $chxl .= \Yii::$app->params['meses'][$valor['etiqueta']]. '|';
+         }else{
+            $chxl .= $valor['etiqueta'] . '|';
+         }
+
+         array_push($maximo, $valor['cantidad']);
+
+      }
+      $maximo = max($maximo);
+
+      $chd = substr($chd, 0, -1);
+
+      // se defienen los limites
+      $chds = 'chds=0,'.(count($valorGrafica)+1).',0,40,0,'.$maximo;
+
+      // se crea toda la url
+      $url .= $chd.'&amp;';
+      $urlJson .= $chd.'&';
+      $url .= $chxl.'&amp;';
+      $urlJson .= $chxl.'&';
+      $url .= $chds;
+      $urlJson .= $chds;
+      $urlJson .= '"';
+
+      return ['url' => $url, 'urlJson'=> $urlJson ];
     }
+
 
 }

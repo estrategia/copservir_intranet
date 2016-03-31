@@ -4,7 +4,11 @@ namespace app\modules\intranet\models;
 
 use Yii;
 use app\modules\intranet\models\ContenidoDestino;
+use app\modules\intranet\models\Ciudad;
+use app\modules\intranet\models\Area;
+use app\modules\intranet\models\Cargo;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 /**
  * This is the model class for table "t_OfertasLaborales".
  *
@@ -151,6 +155,24 @@ class OfertasLaborales extends \yii\db\ActiveRecord
       $pages = new Pagination(
         ['totalCount' => $count, 'pageSize'=>1]
       );*/
+    }
+
+    public static function getListaArea()
+    {
+        $opciones = Area::find()->asArray()->all();
+        return ArrayHelper::map($opciones, 'idArea', 'nombreArea');
+    }
+
+    public static function getListaCargo()
+    {
+        $opciones = Cargo::find()->asArray()->all();
+        return ArrayHelper::map($opciones, 'idCargo', 'nombreCargo');
+    }
+
+    public static function getListaCiudad()
+    {
+        $opciones = Ciudad::find()->asArray()->all();
+        return ArrayHelper::map($opciones, 'idCiudad', 'nombreCiudad');
     }
 
 }
