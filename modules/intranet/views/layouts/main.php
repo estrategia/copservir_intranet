@@ -58,8 +58,8 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
                     <!-- BEGIN LOGO -->
                     <a href="index.html">
 
-                        <img src=<?= "" . $srcLogo ?> class="logo" alt=""  data-src="" data-src-retina="" width="106" height="21" style="margin: 19px 30px;
-                             width: 200px; position:relative"/>
+                        <img src=<?= "" . $srcLogo ?> class="logo" alt=""  data-src="" data-src-retina="" style="margin: 6px 30px;
+                             width: 180px; position:relative"/>
 
       </a>
       <!-- END LOGO -->
@@ -101,10 +101,10 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
 			<li class="m-r-10 input-prepend inside search-form no-boarder">
 
         <?= Html::beginForm(['contenido/buscador-noticias'], 'post', ['id'=> 'formBuscadorNoticias']); ?>
-          <input id="busqueda" name="busqueda" type="text"  class="no-boarder " placeholder="Buscar" style="width:250px;">
-          <span class="add-on"> <span class="iconset top-search"></span>
-          </span>
-
+          <span class="add-on">
+              <span class="iconset top-search"></span>
+          </span>                  
+          <input id="busqueda" name="busqueda" type="text"  class="no-boarder " placeholder="Buscar..." style="width:250px;"> 
         <?= Html::endForm()     ?>
 
 
@@ -243,7 +243,7 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
                     <div class="user-info-wrapper">
                         <div class="profile-wrapper"> <img src=<?= "" . $srcPictureUser ?>  alt="" data-src="" data-src-retina="" width="69" height="69" /> </div>
                         <div class="user-info">
-                            <div class="greeting">Welcome</div>
+                            <div class="greeting">Bienvenido</div>
                             <div class="username"> <span class="semi-bold"><?= $userName ?></span></div>
                             <div class="status">Estado<a href="#">
                                     <div class="status-icon green"></div>
