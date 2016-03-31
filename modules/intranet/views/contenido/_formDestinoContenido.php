@@ -14,7 +14,7 @@ use kartik\select2\Select2;
         <?= Select2::widget([
             'name' => 'ContenidoDestino[idGrupoInteres][]',
             'id' => "grupo_$uid",
-            'data' => ArrayHelper::map(GrupoInteres::find()->all(), 'idGrupoInteres', 'nombreGrupo'),
+            'data' => ArrayHelper::map(GrupoInteres::find()->orderBy('nombreGrupo')->all(), 'idGrupoInteres', 'nombreGrupo'),
             'options' => ['placeholder' => 'Selecione ...']
         ]);
         ?>
@@ -27,7 +27,7 @@ use kartik\select2\Select2;
             'name' => 'ContenidoDestino[codigoCiudad][]',
             'value' => '',
             'id' => "ciudad_$uid",
-            'data' => ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad'),
+            'data' => ArrayHelper::map(Ciudad::find()->orderBy('nombreCiudad')->all(), 'codigoCiudad', 'nombreCiudad'),
             'options' => ['placeholder' => 'Selecione ...']
         ]);
         ?>

@@ -257,13 +257,23 @@ class SitioController extends Controller {
                     }
                 } else {
                     // enviar notificacion al emisario
-//                    $contenido = Contenido::find()->where(['idContenido' => $meGusta->idContenido])->one();
-//                    $notificacion = new Notificaciones();
-//                    $notificacion->idUsuarioDirige= Yii::$app->user->identity->numeroDocumento;
-//                    $notificacion->idUsuarioDirigido= $contenido->idUsuarioPublicacion;
-//                    $notificacion->descripcion= Yii::$app->user->identity->alias." le ha dado me gusta a tu publicación";
-//                    $notificacion->estadoNotificacion= "1";
-//                    $notificacion->idTipoNotificacion= 1;
+                    $contenido = Contenido::find()->where(['idContenido' => $meGusta->idContenido])->one();
+                    $notificacion = new Notificaciones();
+                    $notificacion->idContenido = $meGusta->idContenido;
+                    $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
+                    $notificacion->idUsuarioDirigido = $contenido->idUsuarioPublicacion;
+                    $notificacion->descripcion = Yii::$app->user->identity->alias . " le ha dado me gusta a tu publicación";
+                    $notificacion->estadoNotificacion = Notificaciones::CREADA;;
+                    $notificacion->tipoNotificacion = Notificaciones::ME_GUSTA;
+                    $notificacion->fechaRegistro = Date("Y-m-d h:i:s");
+
+                    if (!$notificacion->save()) {
+                        $result = false;
+                        $items = [
+                            'result' => 'error',
+                            'response' => 'No se puede registrar notificación'
+                        ];
+                    }
                 }
             } else {
                 MeGustaContenidos::deleteAll('idContenido = :idContenido AND numeroDocumento = :numeroDocumento', [':idContenido' => $post['idContenido'], ':numeroDocumento' => Yii::$app->user->identity->numeroDocumento]);
@@ -296,14 +306,22 @@ class SitioController extends Controller {
             $comentario->estado = 1;
 
             if ($comentario->save()) {
-
-//                $contenido = Contenido::find()->where(['idContenido' => $comentario->idContenido])->one();
-//                $notificacion = new Notificaciones();
-//                $notificacion->idUsuarioDirige= Yii::$app->user->identity->numeroDocumento;
-//                $notificacion->idUsuarioDirigido= $contenido->idUsuarioPublicacion;
-//                $notificacion->descripcion= Yii::$app->user->identity->alias." ha comentado tu publicación";
-//                $notificacion->estadoNotificacion= "1";
-//                $notificacion->idTipoNotificacion= 2;
+                $contenido = Contenido::find()->where(['idContenido' => $comentario->idContenido])->one();
+                $notificacion = new Notificaciones();
+                $notificacion->idContenido = $comentario->idContenido;
+                $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
+                $notificacion->idUsuarioDirigido = $contenido->idUsuarioPublicacion;
+                $notificacion->descripcion = Yii::$app->user->identity->alias . " ha comentado tu publicación";
+                $notificacion->estadoNotificacion = Notificaciones::CREADA;
+                $notificacion->tipoNotificacion = Notificaciones::COMENTARIO;
+                $notificacion->fechaRegistro = Date("Y-m-d h:i:s");
+                
+                if(!$notificacion->save()){
+                    $items = [
+                        'result' => 'error',
+                        'response' => 'Error a notificar el comentario'
+                    ];
+                }
 
                 $noticia = Contenido::traerNoticiaEspecifica($comentario->idContenido);
                 $linea = LineaTiempo::find()->where(['idLineaTiempo' => $noticia->idLineaTiempo])->one();
@@ -462,4 +480,5 @@ class SitioController extends Controller {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $items;
     }
+
 }
