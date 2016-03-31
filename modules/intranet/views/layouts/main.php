@@ -557,8 +557,9 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
               ])
              */ ?>
             -->
-
+<?= $this->render('/sitio/_modalEnviarAmigo', []) ?>
 <?php $this->endBody() ?>
+
     </body>
 </html>
 

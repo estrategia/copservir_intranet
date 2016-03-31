@@ -8,14 +8,19 @@ use yii\widgets\ListView;
 
 $this->title = 'Resultado busqueda';
 ?>
+<div class="tiles white p-t-35 p-r-20 p-b-30 col-sm-12">
 
-<div class="app_timeline">
+<h2 class='bold text-success'>Resultado de la busqueda</h2>
+<hr>
+
+<div class="app_timeline text-center">
 
                 <img class="archivo-timeline" usemap="#archivo-timeline" src="<?= $url['url'] ?>" alt="Línea de tiempo">
 
                 <!-- contenedor de la imagen mapeada -->
                 <div class="map-img">
                 </div>
+</div>
 </div>
 <!-- lista de noticias encontradas  -->
 <?=

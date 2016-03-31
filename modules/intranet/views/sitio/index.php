@@ -100,6 +100,8 @@ $this->title = 'Intranet - Copservir';
 
 <!-- END DOWN BANNER -->
 
+
+
 <?php
 $this->registerJs(
         "

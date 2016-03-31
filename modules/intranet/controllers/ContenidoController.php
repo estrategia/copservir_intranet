@@ -350,8 +350,8 @@ class ContenidoController extends Controller {
       */
 
 
-      $url = 'https://chart.googleapis.com/chart?cht=s&amp;chs=908x70&amp;chxt=x&amp;chm=o,1F6492,0,0,30.0,0&amp;';
-      $urlJson = '"https://chart.googleapis.com/chart?chof=json&cht=s&chs=908x70&chxt=x&chm=o,1F6492,0,0,30.0,0&';
+      $url = 'https://chart.googleapis.com/chart?cht=s&amp;chs=908x70&amp;chxt=x&amp;chm=o,0aa699,0,0,20.0,0&amp;';
+      $urlJson = '"https://chart.googleapis.com/chart?chof=json&cht=s&chs=908x70&chxt=x&chm=o,0aa699,0,0,20.0,0&';
       $chd = 'chd=t:';
       $chxl = 'chxl=0:||';
 
@@ -387,7 +387,12 @@ class ContenidoController extends Controller {
          array_push($maximo, $valor['cantidad']);
 
       }
-      $maximo = max($maximo);
+      if (!empty($valorGrafica)) {
+        $maximo = max($maximo);
+      }else{
+        $maximo = 0;
+      }
+
 
       $chd = substr($chd, 0, -1);
 
@@ -406,5 +411,10 @@ class ContenidoController extends Controller {
       return ['url' => $url, 'urlJson'=> $urlJson ];
     }
 
+    public function actionEnviarAmigo()
+    {
+      $amigos =  Yii::$app->request->post();
+      var_dump($amigos);
+    }
 
 }
