@@ -411,6 +411,12 @@ class ContenidoController extends Controller {
       return ['url' => $url, 'urlJson'=> $urlJson ];
     }
 
+
+    /**
+    * accion donde el usuario envia una publicacion a un amigo
+    * @param post = los usuarios que selecciono para enviar la publicación
+    * @return 
+    */
     public function actionEnviarAmigo()
     {
       $amigos =  Yii::$app->request->post();

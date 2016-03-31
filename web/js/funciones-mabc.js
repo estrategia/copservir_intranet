@@ -272,4 +272,5 @@ function makeMap(jsonGrafica, patron, valorGrafica, flag) {
 
 $(document).on('click', "button[data-role='enviar-amigos']", function() {
   console.log('click');
+  $('#formEnviarAmigo').submit();
 });

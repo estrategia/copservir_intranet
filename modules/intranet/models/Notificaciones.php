@@ -20,6 +20,15 @@ class Notificaciones extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    
+    const ME_GUSTA= 1;
+    const COMENTARIO = 2;
+    
+    const CREADA = 1;
+    const VISTA = 2;
+   
+    
+    
     public static function tableName()
     {
         return 't_Notificaciones';
@@ -31,9 +40,9 @@ class Notificaciones extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idUsuarioDirige', 'idUsuarioDirigido', 'idTipoNotificacion', 'estadoNotificacion'], 'integer'],
-            [['idUsuarioDirigido', 'descripcion', 'idTipoNotificacion', 'estadoNotificacion'], 'required'],
-            [['descripcion', 'fechaVisto'], 'string', 'max' => 45]
+            [['idUsuarioDirige', 'idUsuarioDirigido', 'tipoNotificacion', 'estadoNotificacion', 'idContenido'], 'integer'],
+            [['idUsuarioDirigido', 'descripcion', 'tipoNotificacion', 'estadoNotificacion', 'idContenido'], 'required'],
+            [['descripcion', 'fechaRegistro'], 'string', 'max' => 45]
         ];
     }
 
@@ -47,9 +56,10 @@ class Notificaciones extends \yii\db\ActiveRecord
             'idUsuarioDirige' => 'Id Usuario Dirige',
             'idUsuarioDirigido' => 'Id Usuario Dirigido',
             'descripcion' => 'Descripcion',
-            'idTipoNotificacion' => 'Id Tipo Notificacion',
+            'tipoNotificacion' => 'Tipo Notificacion',
             'estadoNotificacion' => 'Estado Notificacion',
-            'fechaVisto' => 'Fecha Visto',
+            'fechaRegistro' => 'Fecha Registro',
+            'idContenido' => 'Id Contenido',
         ];
     }
 }
