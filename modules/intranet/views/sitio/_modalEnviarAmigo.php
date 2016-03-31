@@ -50,9 +50,7 @@ SCRIPT;
                         'url' => $url,
                         'dataType' => 'json',
                         'data' => new JsExpression('function(params) { return {search:params.term, page: params.page}; }'),
-                        'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
-                        //'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-
+                        'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),                        
                     ],
 
 
@@ -65,7 +63,7 @@ SCRIPT;
             ])
         ?>
 
-        <?php Html::endForm()     ?>
+        <?= Html::endForm()     ?>
 
 
       </div>
