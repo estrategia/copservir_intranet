@@ -4,6 +4,7 @@ namespace app\modules\intranet\controllers;
 
 use yii\web\Controller;
 use yii\web\Session;
+use app\modules\intranet\models\EventosCalendario;
 
 class DefaultController extends Controller
 {
@@ -26,5 +27,16 @@ class DefaultController extends Controller
         //$value2 = $session['name2'];  // get session variable 'name2'
         //foreach ($session as $name => $value) // traverse all session variables
         var_dump($session['prueba']); 
+    }
+    
+    public function actionEventos(){
+        //$models = EventosCalendario::consultarEventos();
+        $inicio = '2016-03-01';
+        $fin = '2016-03-31';
+        
+        
+        $listEventos = EventosCalendario::consultarEventos($inicio, $fin, true);
+        
+        \yii\helpers\VarDumper::dump($listEventos, 5, true);
     }
 }
