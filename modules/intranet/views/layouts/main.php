@@ -189,7 +189,7 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
                                         <?= Html::a('Mi cuenta', ['usuario/perfil']) ?>
                                     </li>
                                     <li>
-                                        <?= Html::a('Mi calendario', ['sitio/calendario']) ?>
+                                        <?= Html::a('Mi calendario', ['calendario/']) ?>
                                     </li>
                                     <li>
                                         <?= Html::a('Mi pantalla de inicio', ['usuario/pantalla-inicio']) ?>
@@ -269,7 +269,7 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
                             <?= Html::a('<i class="fa fa-sitemap"></i> <span class="title">Organigrama</span> <span class="selected"></span>', ['sitio/organigrama'], []) ?>
                         </li>
                         <li >
-                            <?= Html::a('<i class="fa fa-calendar"></i> <span class="title">Calendario</span> <span class="selected"></span>', ['sitio/calendario'], []) ?>
+                            <?= Html::a('<i class="fa fa-calendar"></i> <span class="title">Calendario</span> <span class="selected"></span>', ['calendario/'], []) ?>
                         </li>
 
                         <?php foreach ($menu as $subMenu): ?>

@@ -24,7 +24,7 @@ class AppAsset extends AssetBundle {
         'libs/boostrapv3/css/bootstrap-theme.min.css',
         // calendario
         'libs/fullcalendar/fullcalendar.css',
-
+        
         //slider tareas
         'libs/boostrap-slider/css/slider.css',
 
@@ -52,10 +52,10 @@ class AppAsset extends AssetBundle {
       //  'libs/bootstrap-select2/select2.min.js',
         'libs/jquery-ui/jquery-ui-1.10.1.custom.min.js',
         'libs/jquery-ui-touch/jquery.ui.touch-punch.min.js',
-
+        
         //slider tareas
         'libs/boostrap-slider/js/bootstrap-slider.js',
-
+        
         'libs/modernizr/modernizr.js',
 
         // 'js/dashboard/dashboard.js',
