@@ -96,7 +96,8 @@ use yii\helpers\Html;
                 </button>
                 <div class="clearfix"></div>
             <?php else: ?>
-                <button type="button" class="btn btn-white btn-xs btn-mini">Enviar a un amigo</button>
+                
+                <button type="button" class="btn btn-white btn-xs btn-mini" data-toggle="modal" data-target="#widget-enviarAmigo">Enviar a un amigo</button>
             <?php endif; ?>
         </div>
     </li>

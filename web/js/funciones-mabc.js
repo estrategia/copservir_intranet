@@ -269,3 +269,7 @@ function makeMap(jsonGrafica, patron, valorGrafica, flag) {
   mapString += "\n</map>";
   mapBox.append(mapString);
 }
+
+$(document).on('click', "button[data-role='enviar-amigos']", function() {
+  console.log('click');
+});
