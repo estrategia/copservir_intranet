@@ -24,6 +24,11 @@ class Notificaciones extends \yii\db\ActiveRecord
     const ME_GUSTA= 1;
     const COMENTARIO = 2;
     
+    const CREADA = 1;
+    const VISTA = 2;
+   
+    
+    
     public static function tableName()
     {
         return 't_Notificaciones';

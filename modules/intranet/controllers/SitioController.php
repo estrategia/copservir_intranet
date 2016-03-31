@@ -263,7 +263,7 @@ class SitioController extends Controller {
                     $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
                     $notificacion->idUsuarioDirigido = $contenido->idUsuarioPublicacion;
                     $notificacion->descripcion = Yii::$app->user->identity->alias . " le ha dado me gusta a tu publicación";
-                    $notificacion->estadoNotificacion = "1";
+                    $notificacion->estadoNotificacion = Notificaciones::CREADA;;
                     $notificacion->tipoNotificacion = Notificaciones::ME_GUSTA;
                     $notificacion->fechaRegistro = Date("Y-m-d h:i:s");
 
@@ -312,7 +312,7 @@ class SitioController extends Controller {
                 $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
                 $notificacion->idUsuarioDirigido = $contenido->idUsuarioPublicacion;
                 $notificacion->descripcion = Yii::$app->user->identity->alias . " ha comentado tu publicación";
-                $notificacion->estadoNotificacion = "1";
+                $notificacion->estadoNotificacion = Notificaciones::CREADA;
                 $notificacion->tipoNotificacion = Notificaciones::COMENTARIO;
                 $notificacion->fechaRegistro = Date("Y-m-d h:i:s");
                 
