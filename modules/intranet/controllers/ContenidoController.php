@@ -102,7 +102,7 @@ class ContenidoController extends Controller {
         $modelDenuncio = new DenunciosContenidos();
         $modelDenuncio->load($request->post());
         $modelDenuncio->idUsuarioDenunciante = Yii::$app->user->identity->numeroDocumento;
-        $modelDenuncio->fechaRegistro = Date("Y-m-d h:i:s");
+        $modelDenuncio->fechaRegistro = Date("Y-m-d H:i:s");
 
         if ($modelDenuncio->save()) {
             $linea = LineaTiempo::find()->where(['idLineaTiempo' => $idLineaTiempo])->one();
@@ -176,7 +176,7 @@ class ContenidoController extends Controller {
         $modelDenuncio = new DenunciosContenidosComentarios();
         $modelDenuncio->load($request->post());
         $modelDenuncio->idUsuarioDenunciante = Yii::$app->user->identity->numeroDocumento;
-        $modelDenuncio->fechaRegistro = Date("Y-m-d h:i:s");
+        $modelDenuncio->fechaRegistro = Date("Y-m-d H:i:s");
 
         if ($modelDenuncio->save()) {
 

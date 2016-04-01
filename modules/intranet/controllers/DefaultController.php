@@ -39,4 +39,8 @@ class DefaultController extends Controller
         
         \yii\helpers\VarDumper::dump($listEventos, 5, true);
     }
+    
+    public function actionFecha(){
+        echo date('Y-m-d H:i:s');
+    }
 }

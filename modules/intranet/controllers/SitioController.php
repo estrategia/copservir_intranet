@@ -52,7 +52,7 @@ class SitioController extends Controller {
             return $this->redirect(['usuario/autenticar']);
             exit();
         }
-        $fecha = Date("Y-m-d h:i:s");
+        $fecha = Date("Y-m-d H:i:s");
         $contenidoModel = new Contenido();
         $lineasTiempo = LineaTiempo::find()->where(['estado' => 1])->all();
         $indicadores = Indicadores::find()->all();
@@ -150,14 +150,14 @@ class SitioController extends Controller {
         $contenido = new Contenido();
         if ($contenido->load(Yii::$app->request->post())) {
             $contenido->idUsuarioPublicacion = Yii::$app->user->identity->numeroDocumento;
-            $contenido->fechaPublicacion = $contenido->fechaActualizacion = Date("Y-m-d h:i:s");
+            $contenido->fechaPublicacion = $contenido->fechaActualizacion = Date("Y-m-d H:i:s");
             $error = false;
             $lineaTiempo = LineaTiempo::find()->where(['=', 'idLineaTiempo', $contenido->idLineaTiempo])->one();
 
             if ($lineaTiempo->autorizacionAutomatica == 1) {
                 $contenido->estado = 2; // estado aprobado
-                $contenido->fechaAprobacion = Date("Y-m-d h:i:s");
-                $contenido->fechaInicioPublicacion = Date("Y-m-d h:i:s");
+                $contenido->fechaAprobacion = Date("Y-m-d H:i:s");
+                $contenido->fechaInicioPublicacion = Date("Y-m-d H:i:s");
             } else {
                 $contenido->estado = 1; // estado pendiente por aprobacion
             }
@@ -239,7 +239,7 @@ class SitioController extends Controller {
                 $meGusta = new MeGustaContenidos();
                 $meGusta->idContenido = $post['idContenido'];
                 $meGusta->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-                $meGusta->fechaRegistro = Date("Y-m-d h:i:s");
+                $meGusta->fechaRegistro = Date("Y-m-d H:i:s");
                 if (!$meGusta->save()) {
                     $result = false;
                     $contenido = Contenido::find()->where(['idContenido' => $meGusta->idContenido])->one();
@@ -265,7 +265,7 @@ class SitioController extends Controller {
                     $notificacion->descripcion = Yii::$app->user->identity->alias . " le ha dado me gusta a tu publicación";
                     $notificacion->estadoNotificacion = Notificaciones::CREADA;;
                     $notificacion->tipoNotificacion = Notificaciones::ME_GUSTA;
-                    $notificacion->fechaRegistro = Date("Y-m-d h:i:s");
+                    $notificacion->fechaRegistro = Date("Y-m-d H:i:s");
 
                     if (!$notificacion->save()) {
                         $result = false;
@@ -301,7 +301,7 @@ class SitioController extends Controller {
             $comentario->idContenido = $post['idContenido'];
             $comentario->contenido = $post['comentario'];
             $comentario->idUsuarioComentario = Yii::$app->user->identity->numeroDocumento;
-            $comentario->fechaComentario = Date("Y-m-d h:i:s");
+            $comentario->fechaComentario = Date("Y-m-d H:i:s");
             $comentario->fechaActualizacion = $comentario->fechaComentario;
             $comentario->estado = 1;
 
@@ -314,7 +314,7 @@ class SitioController extends Controller {
                 $notificacion->descripcion = Yii::$app->user->identity->alias . " ha comentado tu publicación";
                 $notificacion->estadoNotificacion = Notificaciones::CREADA;
                 $notificacion->tipoNotificacion = Notificaciones::COMENTARIO;
-                $notificacion->fechaRegistro = Date("Y-m-d h:i:s");
+                $notificacion->fechaRegistro = Date("Y-m-d H:i:s");
                 
                 if(!$notificacion->save()){
                     $items = [
