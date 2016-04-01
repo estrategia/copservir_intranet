@@ -35,23 +35,22 @@ function (element, callback) {
 SCRIPT;
 
             echo Select2::widget([
-                  'name' => '',
+                  'name' => 'enviaAmigo',
                   //'data' => ['jhon','pepito'], //aca vendria el resultado de la consulta de todos los usuarios
                   'size' => Select2::MEDIUM,
                   'showToggleAll' => false,
                   'changeOnReset' => false,
-                  'options' => ['class'=>'select2-container select2-container-multi','placeholder' => 'buscar...', 'multiple' => true],
+                  'options' => ['class'=>'select2-container select2-container-multi', 'id' => 'enviaAmigo','placeholder' => 'buscar...', 'multiple' => true],
                   'pluginOptions' => [
                     'allowClear' => true,
                     //'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                    'minimumInputLength' => 1,
+                    //'minimumInputLength' => 1,
 
                     'ajax' => [
                         'url' => $url,
                         'dataType' => 'json',
                         'data' => new JsExpression('function(params) { return {search:params.term, page: params.page}; }'),
                         'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
-                        //'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
 
                     ],
 
@@ -65,7 +64,7 @@ SCRIPT;
             ])
         ?>
 
-        <?php Html::endForm()     ?>
+        <?= Html::endForm()     ?>
 
 
       </div>

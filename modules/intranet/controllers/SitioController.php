@@ -25,6 +25,7 @@ use app\modules\intranet\models\ContenidoDestino;
 use app\modules\intranet\models\ContenidoEmergente;
 use yii\data\Pagination;
 use app\modules\intranet\models\UsuarioWidgetInactivo;
+use app\modules\intranet\models\LogContenidos;
 
 class SitioController extends Controller {
 
@@ -52,7 +53,7 @@ class SitioController extends Controller {
             return $this->redirect(['usuario/autenticar']);
             exit();
         }
-        $fecha = Date("Y-m-d h:i:s");
+        $fecha = date("Y-m-d H:i:s");
         $contenidoModel = new Contenido();
         $lineasTiempo = LineaTiempo::find()->where(['estado' => 1])->all();
         $indicadores = Indicadores::find()->all();
@@ -150,16 +151,16 @@ class SitioController extends Controller {
         $contenido = new Contenido();
         if ($contenido->load(Yii::$app->request->post())) {
             $contenido->idUsuarioPublicacion = Yii::$app->user->identity->numeroDocumento;
-            $contenido->fechaPublicacion = $contenido->fechaActualizacion = Date("Y-m-d h:i:s");
+            $contenido->fechaPublicacion = $contenido->fechaActualizacion = date("Y-m-d H:i:s");
             $error = false;
             $lineaTiempo = LineaTiempo::find()->where(['=', 'idLineaTiempo', $contenido->idLineaTiempo])->one();
 
             if ($lineaTiempo->autorizacionAutomatica == 1) {
-                $contenido->estado = 2; // estado aprobado
-                $contenido->fechaAprobacion = Date("Y-m-d h:i:s");
-                $contenido->fechaInicioPublicacion = Date("Y-m-d h:i:s");
+                $contenido->estado = Contenido::APROBADO; // estado aprobado
+                $contenido->fechaAprobacion = date("Y-m-d H:i:s");
+                $contenido->fechaInicioPublicacion = date("Y-m-d H:i:s");
             } else {
-                $contenido->estado = 1; // estado pendiente por aprobacion
+                $contenido->estado = Contenido::PENDIENTE_APROBACION; // estado pendiente por aprobacion
             }
 
             if ($contenido->save()) {
@@ -176,6 +177,18 @@ class SitioController extends Controller {
 
                     if (!$contenidodestino->save()) {
                         $error = true;
+                    }
+                    
+                    if(!$error){
+                        $logContenido = new LogContenidos();
+                        $logContenido->idContenido = $contenido->idContenido;
+                        $logContenido->estado = $contenido->estado;
+                        $logContenido->fechaRegistro = $contenido->fechaPublicacion;
+                        $logContenido->idUsuarioRegistro = $contenido->idUsuarioPublicacion;
+                        
+                        if(!$logContenido->save()){
+                            $error = true;
+                        }
                     }
                 }
 
@@ -239,7 +252,7 @@ class SitioController extends Controller {
                 $meGusta = new MeGustaContenidos();
                 $meGusta->idContenido = $post['idContenido'];
                 $meGusta->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-                $meGusta->fechaRegistro = Date("Y-m-d h:i:s");
+                $meGusta->fechaRegistro = date("Y-m-d H:i:s");
                 if (!$meGusta->save()) {
                     $result = false;
                     $contenido = Contenido::find()->where(['idContenido' => $meGusta->idContenido])->one();
@@ -257,13 +270,23 @@ class SitioController extends Controller {
                     }
                 } else {
                     // enviar notificacion al emisario
-//                    $contenido = Contenido::find()->where(['idContenido' => $meGusta->idContenido])->one();
-//                    $notificacion = new Notificaciones();
-//                    $notificacion->idUsuarioDirige= Yii::$app->user->identity->numeroDocumento;
-//                    $notificacion->idUsuarioDirigido= $contenido->idUsuarioPublicacion;
-//                    $notificacion->descripcion= Yii::$app->user->identity->alias." le ha dado me gusta a tu publicación";
-//                    $notificacion->estadoNotificacion= "1";
-//                    $notificacion->idTipoNotificacion= 1;
+                    $contenido = Contenido::find()->where(['idContenido' => $meGusta->idContenido])->one();
+                    $notificacion = new Notificaciones();
+                    $notificacion->idContenido = $meGusta->idContenido;
+                    $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
+                    $notificacion->idUsuarioDirigido = $contenido->idUsuarioPublicacion;
+                    $notificacion->descripcion = Yii::$app->user->identity->alias . " le ha dado me gusta a tu publicación";
+                    $notificacion->estadoNotificacion = Notificaciones::CREADA;
+                    $notificacion->tipoNotificacion = Notificaciones::ME_GUSTA;
+                    $notificacion->fechaRegistro = date('Y-m-d H:i:s');
+                    
+                    if (!$notificacion->save()) {
+                        $result = false;
+                        $items = [
+                            'result' => 'error',
+                            'response' => 'No se puede registrar notificación'
+                        ];
+                    }
                 }
             } else {
                 MeGustaContenidos::deleteAll('idContenido = :idContenido AND numeroDocumento = :numeroDocumento', [':idContenido' => $post['idContenido'], ':numeroDocumento' => Yii::$app->user->identity->numeroDocumento]);
@@ -283,6 +306,8 @@ class SitioController extends Controller {
     }
 
     public function actionGuardarComentario() {
+        date_default_timezone_set('America/Bogota');
+        
         if (Yii::$app->request->post()) {
             $post = Yii::$app->request->post();
 
@@ -291,19 +316,27 @@ class SitioController extends Controller {
             $comentario->idContenido = $post['idContenido'];
             $comentario->contenido = $post['comentario'];
             $comentario->idUsuarioComentario = Yii::$app->user->identity->numeroDocumento;
-            $comentario->fechaComentario = Date("Y-m-d h:i:s");
+            $comentario->fechaComentario = date("Y-m-d H:i:s");
             $comentario->fechaActualizacion = $comentario->fechaComentario;
             $comentario->estado = 1;
 
             if ($comentario->save()) {
-
-//                $contenido = Contenido::find()->where(['idContenido' => $comentario->idContenido])->one();
-//                $notificacion = new Notificaciones();
-//                $notificacion->idUsuarioDirige= Yii::$app->user->identity->numeroDocumento;
-//                $notificacion->idUsuarioDirigido= $contenido->idUsuarioPublicacion;
-//                $notificacion->descripcion= Yii::$app->user->identity->alias." ha comentado tu publicación";
-//                $notificacion->estadoNotificacion= "1";
-//                $notificacion->idTipoNotificacion= 2;
+                $contenido = Contenido::find()->where(['idContenido' => $comentario->idContenido])->one();
+                $notificacion = new Notificaciones();
+                $notificacion->idContenido = $comentario->idContenido;
+                $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
+                $notificacion->idUsuarioDirigido = $contenido->idUsuarioPublicacion;
+                $notificacion->descripcion = Yii::$app->user->identity->alias . " ha comentado tu publicación";
+                $notificacion->estadoNotificacion = Notificaciones::CREADA;
+                $notificacion->tipoNotificacion = Notificaciones::COMENTARIO;
+                $notificacion->fechaRegistro = date("Y-m-d H:i:s");
+                
+                if(!$notificacion->save()){
+                    $items = [
+                        'result' => 'error',
+                        'response' => 'Error a notificar el comentario'
+                    ];
+                }
 
                 $noticia = Contenido::traerNoticiaEspecifica($comentario->idContenido);
                 $linea = LineaTiempo::find()->where(['idLineaTiempo' => $noticia->idLineaTiempo])->one();
@@ -462,4 +495,30 @@ class SitioController extends Controller {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $items;
     }
+    
+    public function actionNotificaciones() {
+        set_time_limit(0); //Establece el número de segundos que se permite la ejecución de un script.
+        $fecha_ac = isset($_POST['timestamp']) ? $_POST['timestamp'] : 0;
+
+        $fecha_bd = $fecha_ac;
+        $objNotificacion = null;
+        
+        while ($fecha_bd <= $fecha_ac) {
+            $objNotificacion = Notificaciones::find()->orderBy('fechaRegistro DESC')->one();
+                    
+            //$query3 = "SELECT timestamp FROM mensajes ORDER BY timestamp DESC LIMIT 1";
+            //$con = mysql_query($query3);
+            //$ro = mysql_fetch_array($con);
+
+            usleep(100000); //anteriormente 10000
+            clearstatcache();
+            $fecha_bd = \DateTime::createFromFormat('Y-m-d H:i:s', $objNotificacion->fechaRegistro);
+            $fecha_bd = $fecha_bd->getTimestamp();
+        }
+        
+        $html = $this->renderPartial('/sitio/_notificaciones', ['listNotificaciones'=> \app\modules\intranet\models\Notificaciones::consultarNotificaciones(Yii::$app->user->identity->numeroDocumento)]);
+        echo \yii\helpers\Json::encode(array('result' => 'ok', 'response' => ['html'=>$html, 'timestamp' => $fecha_bd]));
+        Yii::$app->end();
+    }
+
 }

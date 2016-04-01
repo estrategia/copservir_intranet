@@ -25,6 +25,13 @@ class Contenido extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    
+    const PENDIENTE_APROBACION = 1;
+    const APROBADO = 2;
+    const ELIMINADO = 3;
+    const ELIMINADO_DENUNCIO = 4;
+    
+    
     public static function tableName()
     {
         return 't_Contenido';
@@ -67,14 +74,28 @@ class Contenido extends \yii\db\ActiveRecord
     public static function traerNoticias($idLineaTiempo){
         return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])
                 ->joinWith(['listContenidosDestinos'])->where(
-                           ['and',
-                                ['<=', 'fechaInicioPublicacion', 'now()'],
-                                ['=', 'idLineaTiempo', $idLineaTiempo],
-                                ['=', 'estado', 2],
-                                ['=', 't_ContenidoDestino.codigoCiudad', Yii::$app->user->identity->getCodigoCiudad() ],
-                                ['IN', 't_ContenidoDestino.idGrupoInteres',  Yii::$app->user->identity->getGruposCodigos() ]
-                             ]
-                            )->orderBy('fechaInicioPublicacion Desc')
+//                           ['and',
+//                                ['<=', 'fechaInicioPublicacion', 'now()'],
+//                                ['=', 'idLineaTiempo', $idLineaTiempo],
+//                                ['=', 'estado', Contenido::APROBADO],
+//                                ['=', 't_ContenidoDestino.codigoCiudad', Yii::$app->user->identity->getCodigoCiudad() ],
+//                                ['IN', 't_ContenidoDestino.idGrupoInteres',  Yii::$app->user->identity->getGruposCodigos() ]
+//                             ]
+                        " fechaInicioPublicacion<=now() AND idLineaTiempo =:idLineaTiempo AND estado=:estado AND  
+                            ( 
+                                (t_ContenidoDestino.codigoCiudad =:ciudad AND t_ContenidoDestino.idGrupoInteres IN (".implode(", ",Yii::$app->user->identity->getGruposCodigos()).")) OR
+                                (t_ContenidoDestino.codigoCiudad =:ciudad AND t_ContenidoDestino.idGrupoInteres=:gruposA ) OR
+                                (t_ContenidoDestino.codigoCiudad =:ciudadA AND t_ContenidoDestino.idGrupoInteres=:gruposA ) OR
+                                (t_ContenidoDestino.codigoCiudad =:ciudadA AND t_ContenidoDestino.idGrupoInteres IN (".implode(",",Yii::$app->user->identity->getGruposCodigos())."))
+                        )"
+                            )
+                            ->addParams([':estado' => self::APROBADO, 
+                                         ':ciudad'=> Yii::$app->user->identity->getCodigoCiudad(), 
+                                         ':idLineaTiempo' => $idLineaTiempo,
+                                         ':ciudadA'=> Yii::$app->params['ciudad']['*'], 
+                                         ':gruposA'=>Yii::$app->params['grupo']['*']]
+                                        )
+                            ->orderBy('fechaInicioPublicacion Desc')
 
                 ->all();
     }

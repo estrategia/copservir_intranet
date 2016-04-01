@@ -83,6 +83,7 @@ $config = [
             ],
         ],
     ],
+    'defaultRoute' => 'intranet/usuario/autenticar',
     'params' => $params,
     'modules' => [
         'intranet' => [

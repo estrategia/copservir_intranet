@@ -102,7 +102,7 @@ class ContenidoController extends Controller {
         $modelDenuncio = new DenunciosContenidos();
         $modelDenuncio->load($request->post());
         $modelDenuncio->idUsuarioDenunciante = Yii::$app->user->identity->numeroDocumento;
-        $modelDenuncio->fechaRegistro = Date("Y-m-d h:i:s");
+        $modelDenuncio->fechaRegistro = Date("Y-m-d H:i:s");
 
         if ($modelDenuncio->save()) {
             $linea = LineaTiempo::find()->where(['idLineaTiempo' => $idLineaTiempo])->one();
@@ -176,7 +176,7 @@ class ContenidoController extends Controller {
         $modelDenuncio = new DenunciosContenidosComentarios();
         $modelDenuncio->load($request->post());
         $modelDenuncio->idUsuarioDenunciante = Yii::$app->user->identity->numeroDocumento;
-        $modelDenuncio->fechaRegistro = Date("Y-m-d h:i:s");
+        $modelDenuncio->fechaRegistro = Date("Y-m-d H:i:s");
 
         if ($modelDenuncio->save()) {
 
@@ -411,6 +411,12 @@ class ContenidoController extends Controller {
       return ['url' => $url, 'urlJson'=> $urlJson ];
     }
 
+
+    /**
+    * accion donde el usuario envia una publicacion a un amigo
+    * @param post = los usuarios que selecciono para enviar la publicación
+    * @return 
+    */
     public function actionEnviarAmigo()
     {
       $amigos =  Yii::$app->request->post();

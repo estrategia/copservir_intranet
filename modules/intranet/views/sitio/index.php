@@ -31,7 +31,6 @@ $this->title = 'Intranet - Copservir';
 
     <div class="tab-content">
         <div class="tab-pane active">
-          hola
             <!-- el contenido de las lineas de tiempo -->
             <?php foreach ($lineasTiempo as $linea): ?>
 

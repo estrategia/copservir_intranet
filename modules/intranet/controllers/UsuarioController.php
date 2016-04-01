@@ -294,32 +294,24 @@ class UsuarioController extends \yii\web\Controller {
      * @param none
      * @return array con los usuarios
      */
-     public function actionBuscarAmigos($search  = null, $id = null)
-     {
+    public function actionBuscarAmigos($search = null, $id = null) {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $out = ['results' => [ 'id' => '', 'text' => '']];
         if (!is_null($search)) {
             $query = new Query;
             $query->select('idUsuario as id, alias AS text')
-                ->from('m_Usuario')
-                ->where('alias LIKE "%' . $search .'%"')
-                ->limit(20);
+                    ->from('m_Usuario')
+                    ->where('alias LIKE "%' . $search . '%"')
+                    ->limit(20);
             $command = $query->createCommand();
             $data = $command->queryAll();
             //$data = Usuario::find(['estado' => 1])->select('idUsuario as id, alias as text')->where(['like', 'alias', $search])->all();
             $out['results'] = array_values($data);
-        }
-        elseif ($id > 0) {
+        } elseif ($id > 0) {
             $out['results'] = ['id' => $id, 'text' => Artist::find($id)->artistname];
-        }
-        else {
+        } else {
             $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
         }
-
-
-
         return $out;
-
-     }
-
+    }
 }
