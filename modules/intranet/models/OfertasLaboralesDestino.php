@@ -19,7 +19,7 @@ class OfertasLaboralesDestino extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 't_ofertaslaboralesdestino';
+        return 't_OfertasLaboralesDestino';
     }
 
     /**
