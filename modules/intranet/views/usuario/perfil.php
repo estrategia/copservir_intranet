@@ -25,13 +25,13 @@ use yii\helpers\ArrayHelper;
             </div>
              <div class="user-mini-description">
               <h3 class="text-success semi-bold">
-              2548
+              <?= $contenidos ?>
               </h3>
-              <h5>Seguidores</h5>
+              <h5>Publicaciones realizadas</h5>
               <h3 class="text-success semi-bold">
-              457
+              <?=$meGustan ?>
               </h3>
-              <h5>Seguidos</h5>
+              <h5>Me gusta</h5>
             </div>
           </div>
           <div class="col-md-5 user-description-box  col-sm-5">
@@ -39,12 +39,9 @@ use yii\helpers\ArrayHelper;
             <h6 class="no-margin"><?= \Yii::$app->user->identity->getProfesion() ?></h6>
             <br>
             <p><i class="fa fa-briefcase"></i> <?= \Yii::$app->user->identity->getCargo() ?></p>
-            <p><i class="fa fa-globe"></i>www.google.com</p>
-            <p><i class="fa fa-file-o"></i>Download Resume</p>
-            <p><i class="fa fa-envelope"></i>Send Message</p>
           </div>
           <div class="col-md-3  col-sm-3">
-            <h5 class="normal">Circulos ( <span class="text-success">1223</span> )</h5>
+            <h5 class="normal">Grupos ( <span class="text-success"><?= count($gruposReferencia)?></span> )</h5>
             <ul class="my-friends">
               <li><div class="profile-pic">
                 <img width="35" height="35" data-src-retina="" data-src="assets/img/profiles/d.jpg" src="assets/img/profiles/d.jpg" alt="">

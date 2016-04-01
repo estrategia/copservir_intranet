@@ -36,7 +36,7 @@ class SitioController extends Controller {
             ],
             'image-upload' => [
                 'class' => 'vova07\imperavi\actions\UploadAction',
-                'url' => 'http://localhost/copservir_intranet/imagenes/post/', //Yii::$app->realpath().'/imagenes', // Directory URL address, where files are stored.
+                'url' => 'http://192.168.0.35/copservir_intranet/imagenes/post/', //Yii::$app->realpath().'/imagenes', // Directory URL address, where files are stored.
                 'path' => '@app/imagenes/post' // Or absolute path to directory where files are stored.
             ],
         ];
@@ -179,22 +179,16 @@ class SitioController extends Controller {
                         $error = true;
                     }
 
-<<<<<<< HEAD
-                    if(!$error){
-=======
+
                     if (!$error) {
->>>>>>> 84de65e9873a2972fd94e5d4901f697464012a2a
+
                         $logContenido = new LogContenidos();
                         $logContenido->idContenido = $contenido->idContenido;
                         $logContenido->estado = $contenido->estado;
                         $logContenido->fechaRegistro = $contenido->fechaPublicacion;
                         $logContenido->idUsuarioRegistro = $contenido->idUsuarioPublicacion;
 
-<<<<<<< HEAD
-                        if(!$logContenido->save()){
-=======
                         if (!$logContenido->save()) {
->>>>>>> 84de65e9873a2972fd94e5d4901f697464012a2a
                             $error = true;
                         }
                     }
@@ -283,9 +277,9 @@ class SitioController extends Controller {
                     $notificacion->idContenido = $meGusta->idContenido;
                     $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
                     $notificacion->idUsuarioDirigido = $contenido->idUsuarioPublicacion;
-                    $notificacion->descripcion = Yii::$app->user->identity->alias . " le ha dado me gusta a tu publicación";
-                    $notificacion->estadoNotificacion = Notificaciones::CREADA;
-                    $notificacion->tipoNotificacion = Notificaciones::ME_GUSTA;
+                    $notificacion->descripcion = "Dio me gusta a tu publicación";
+                    $notificacion->estadoNotificacion = Notificaciones::ESTADO_CREADA;
+                    $notificacion->tipoNotificacion = Notificaciones::NOTIFICACION_MEGUSTA;
                     $notificacion->fechaRegistro = date('Y-m-d H:i:s');
 
                     if (!$notificacion->save()) {
@@ -334,16 +328,14 @@ class SitioController extends Controller {
                 $notificacion->idContenido = $comentario->idContenido;
                 $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
                 $notificacion->idUsuarioDirigido = $contenido->idUsuarioPublicacion;
-                $notificacion->descripcion = Yii::$app->user->identity->alias . " ha comentado tu publicación";
-                $notificacion->estadoNotificacion = Notificaciones::CREADA;
-                $notificacion->tipoNotificacion = Notificaciones::COMENTARIO;
+                $notificacion->descripcion = "Comentó tu publicación";
+                $notificacion->estadoNotificacion = Notificaciones::ESTADO_CREADA;
+                $notificacion->tipoNotificacion = Notificaciones::NOTIFICACION_COMENTARIO;
                 $notificacion->fechaRegistro = date("Y-m-d H:i:s");
 
-<<<<<<< HEAD
-                if(!$notificacion->save()){
-=======
+
                 if (!$notificacion->save()) {
->>>>>>> 84de65e9873a2972fd94e5d4901f697464012a2a
+
                     $items = [
                         'result' => 'error',
                         'response' => 'Error a notificar el comentario'

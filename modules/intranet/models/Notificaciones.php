@@ -20,10 +20,11 @@ class Notificaciones extends \yii\db\ActiveRecord {
     /**
      * @inheritdoc
      */
-    const ME_GUSTA = 1;
-    const COMENTARIO = 2;
-    const CREADA = 1;
-    const VISTA = 2;
+    const NOTIFICACION_MEGUSTA = 1;
+    const NOTIFICACION_COMENTARIO = 2;
+    const NOTIFICACION_RECOMENDACION = 3;
+    const ESTADO_CREADA = 1;
+    const ESTADO_VISTA = 2;
 
     public static function tableName() {
         return 't_Notificaciones';
@@ -55,10 +56,10 @@ class Notificaciones extends \yii\db\ActiveRecord {
             'idContenido' => 'Id Contenido',
         ];
     }
-    
+
     public function consultarTiempo() {
         $dateFin = new \DateTime;
-        
+
         //echo $dateFin->format('Y-m-d H:i:s');
         //echo "<br/>";
 
@@ -76,17 +77,25 @@ class Notificaciones extends \yii\db\ActiveRecord {
 
         $diff = $dateFin->diff($dateInicio);
         $horas = ($diff->d * 24 + $diff->h);
-        $minutos =($diff->i); //($diff->d * 24 * 60 + $diff->h * 60 + $diff->i);
-        
+        $minutos = ($diff->i); //($diff->d * 24 * 60 + $diff->h * 60 + $diff->i);
+
         return [$horas, $minutos];
     }
-    
+
     public static function consultarNotificaciones($usuario) {
-        $query = self::find()->where("idUsuarioDirigido=$usuario")->orderBy('fechaRegistro DESC')->all();
+        $query = self::find()->with(['objUsuarioDirige','objContenido'])->where("idUsuarioDirigido=:usuario")->addParams([':usuario'=>$usuario])->orderBy('fechaRegistro DESC')->all();
         return $query;
-        
-        var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
-        exit();
+
+        //var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
+        //exit();
+    }
+
+    public function getObjUsuarioDirige() {
+        return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'idUsuarioDirige']);
+    }
+    
+    public function getObjContenido() {
+        return $this->hasOne(Contenido::className(), ['idContenido' => 'idContenido']);
     }
 
 }
