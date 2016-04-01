@@ -25,6 +25,7 @@ use app\modules\intranet\models\ContenidoDestino;
 use app\modules\intranet\models\ContenidoEmergente;
 use yii\data\Pagination;
 use app\modules\intranet\models\UsuarioWidgetInactivo;
+use app\modules\intranet\models\LogContenidos;
 
 class SitioController extends Controller {
 
@@ -155,11 +156,11 @@ class SitioController extends Controller {
             $lineaTiempo = LineaTiempo::find()->where(['=', 'idLineaTiempo', $contenido->idLineaTiempo])->one();
 
             if ($lineaTiempo->autorizacionAutomatica == 1) {
-                $contenido->estado = 2; // estado aprobado
+                $contenido->estado = Contenido::APROBADO; // estado aprobado
                 $contenido->fechaAprobacion = date("Y-m-d H:i:s");
                 $contenido->fechaInicioPublicacion = date("Y-m-d H:i:s");
             } else {
-                $contenido->estado = 1; // estado pendiente por aprobacion
+                $contenido->estado = Contenido::PENDIENTE_APROBACION; // estado pendiente por aprobacion
             }
 
             if ($contenido->save()) {
@@ -176,6 +177,18 @@ class SitioController extends Controller {
 
                     if (!$contenidodestino->save()) {
                         $error = true;
+                    }
+                    
+                    if(!$error){
+                        $logContenido = new LogContenidos();
+                        $logContenido->idContenido = $contenido->idContenido;
+                        $logContenido->estado = $contenido->estado;
+                        $logContenido->fechaRegistro = $contenido->fechaPublicacion;
+                        $logContenido->idUsuarioRegistro = $contenido->idUsuarioPublicacion;
+                        
+                        if(!$logContenido->save()){
+                            $error = true;
+                        }
                     }
                 }
 
