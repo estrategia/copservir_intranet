@@ -103,8 +103,8 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
         <?= Html::beginForm(['contenido/buscador-noticias'], 'post', ['id'=> 'formBuscadorNoticias']); ?>
           <span class="add-on">
               <span class="iconset top-search"></span>
-          </span>                  
-          <input id="busqueda" name="busqueda" type="text"  class="no-boarder " placeholder="Buscar..." style="width:250px;"> 
+          </span>
+          <input id="busqueda" name="busqueda" type="text"  class="no-boarder " placeholder="Buscar..." style="width:250px;">
         <?= Html::endForm()     ?>
 
 
@@ -125,7 +125,7 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
                                 <div class="iconset top-down-arrow"></div>
                             </a>
                             <div id="notification-list" style="display:none">
-                                
+
                             </div>
                             <div class="profile-pic">
                                 <img src=<?= "" . $srcPictureUser ?> alt="" data-src="" data-src-retina="" width="35" height="35" />
@@ -505,7 +505,7 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
               ])
              */ ?>
             -->
-<?= $this->render('/sitio/_modalEnviarAmigo', []) ?>
+
 <?php $this->endBody() ?>
 
     </body>

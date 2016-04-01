@@ -415,12 +415,65 @@ class ContenidoController extends Controller {
     /**
     * accion donde el usuario envia una publicacion a un amigo
     * @param post = los usuarios que selecciono para enviar la publicación
-    * @return 
+    * @return
     */
     public function actionEnviarAmigo()
     {
-      $amigos =  Yii::$app->request->post();
-      var_dump($amigos);
+      $listaAmigos =  Yii::$app->request->post('enviaAmigo',[]);
+      $clasificado =  Yii::$app->request->post('clasificado','');
+
+      if ($enviaAmigo != [] and $clasificado != '') {
+
+          $transaction = ContenidoRecomendacion::getDb()->beginTransaction();
+          try {
+            foreach ($listaAmigos as $amigo) {
+                $contenidoRecomendacion = new ContenidoRecomendacion();
+                $contenidoRecomendacion->idContenido = $clasificado;
+                $contenidoRecomendacion->numeroDocumentoDirige = Yii::$app->user->identity->numeroDocumento;
+                $contenidoRecomendacion->numeroDocumentoDirigido = $amigo;
+                $contenidoRecomendacion->fechaRegistro = Date("Y-m-d H:i:s");
+                $contenidoRecomendacion->save();
+            }
+
+              $innerTransaction = Notificaciones::getDb()->beginTransaction();
+
+              try {
+
+                foreach ($listaAmigos as $amigo) {
+                    $notificacion = new Notificaciones();
+                    $notificacion->idContenido = $clasificado;
+                    $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
+                    $notificacion->idUsuarioDirigido = $amigo;
+                    $notificacion->descripcion = 'recomienda un clasificado';
+                    $notificacion->estadoNotificacion = 'recomienda un clasificado';
+                    $notificacion->fechaRegistro = Date("Y-m-d H:i:s");
+                    $notificacion->tipoNotificacion = Notificaciones::NOTIFICACION_RECOMENDACION;
+                    $notificacion->save();
+                }
+                $innerTransaction->commit();
+
+              } catch (Exception $e) {
+                  $innerTransaction->rollBack();
+
+                  throw $e;
+               }
+
+
+              //ejecuta la transaccion
+              $transaction->commit();
+
+              return $this->redirect(['detalle', 'id' => $model->idTarea]);
+
+          } catch(\Exception $e) {
+
+              //devuelve los cambios
+              $transaction->rollBack();
+
+              throw $e;
+          }
+
+      }
+      //var_dump($amigos);
     }
 
 }
