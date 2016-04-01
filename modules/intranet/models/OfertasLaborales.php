@@ -142,8 +142,8 @@ class OfertasLaborales extends \yii\db\ActiveRecord
       $todosGrupo = \Yii::$app->params['grupo']['*'];
 
       $query = self::find()->joinWith(['ofertasDestino'])
-              ->where("( fechaInicioPublicacion<=:fechaInicioPublicacion AND fechaFinPublicacion>=:fechaFinPublicacion AND ( (codigoCiudad =:codigoCiudad AND idGrupoInteres IN (:idGrupoInteres)) OR (codigoCiudad =:codigoCiudad AND idGrupoInteres=:todosGrupo) OR (codigoCiudad =:todosCiudad AND idGrupoInteres IN (:idGrupoInteres)) OR (codigoCiudad =:todosCiudad AND idGrupoInteres =:todosGrupo) )   )")
-              ->addParams([':fechaInicioPublicacion' => $fecha,':fechaFinPublicacion'=>$fecha, ':codigoCiudad'=> $userCiudad, ':idGrupoInteres'=>$userGrupos, ':todosCiudad'=>$todosCiudad, ':todosGrupo'=> $todosGrupo]);
+              ->where("( fechaInicioPublicacion<=:fechaInicioPublicacion AND fechaFinPublicacion>=:fechaFinPublicacion AND ( (codigoCiudad =:codigoCiudad AND idGrupoInteres IN ($userGrupos)) OR (codigoCiudad =:codigoCiudad AND idGrupoInteres=:todosGrupo) OR (codigoCiudad =:todosCiudad AND idGrupoInteres IN ($userGrupos)) OR (codigoCiudad =:todosCiudad AND idGrupoInteres =:todosGrupo) )   )")
+              ->addParams([':fechaInicioPublicacion' => $fecha,':fechaFinPublicacion'=>$fecha, ':codigoCiudad'=> $userCiudad, ':todosCiudad'=>$todosCiudad, ':todosGrupo'=> $todosGrupo]);
 
         //var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
 
