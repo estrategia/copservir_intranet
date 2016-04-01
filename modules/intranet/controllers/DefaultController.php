@@ -42,11 +42,11 @@ class DefaultController extends Controller {
     }
 
     public function actionNotif() {
-        $listNotificaciones = \app\modules\intranet\models\Notificaciones::consultarNotificaciones();
+        $listNotificaciones = \app\modules\intranet\models\Notificaciones::consultarNotificaciones(\Yii::$app->user->identity->numeroDocumento);
 
         foreach ($listNotificaciones as $objNotificacion) {
-            $objNotificacion->consultarTiempo();
-            
+            echo $objNotificacion->idNotificacion;
+            echo "<br/>";
         }
     }
 
