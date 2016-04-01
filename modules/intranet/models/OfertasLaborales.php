@@ -4,6 +4,7 @@ namespace app\modules\intranet\models;
 
 use Yii;
 use app\modules\intranet\models\ContenidoDestino;
+use app\modules\intranet\models\OfertasLaboralesDestino;
 use app\modules\intranet\models\Ciudad;
 use app\modules\intranet\models\Area;
 use app\modules\intranet\models\Cargo;
@@ -101,6 +102,14 @@ class OfertasLaborales extends \yii\db\ActiveRecord
         return $this->hasMany(ContenidoDestino::className(), ['idContenidoDestino' => 'idContenidoDestino']);
     }
 
+    /**
+    * define la relacion entre los modelos ofertasLaborales y OfertasLaboralesDestino a traves del aributo idOfertaLaboral
+    */
+    public function getOfertasDestino()
+    {
+        return $this->hasMany(OfertasLaboralesDestino::className(), ['idOfertaLaboral' => 'idOfertaLaboral']);
+    }
+
     public function getVertodos($params)
     {
       $query = OfertasLaborales::find()->orderby('idCiudad')->with(['objCargo', 'objArea', 'objCiudad', 'objInformacionContactoOferta']);
@@ -116,23 +125,27 @@ class OfertasLaborales extends \yii\db\ActiveRecord
 
        return $dataProvider;
     }
+
+
+    /**
+    * busca las ofertas laborales segun los atributos ciudad, grupo de interes, fecha publicacion y fecha fin publicacion
+    * @param userCiudad = ciudad del usuario, userGrupos = grupos de interes donde esta el usuario
+    * @return resultado de la consulta
+    */
     public static function getOfertasLaboralesInteres($userCiudad, $userGrupos)
     {
       //$db = Yii::$app->db;
       $fecha = Date("Y-m-d H:i:s");
       $userGrupos = implode(',',$userGrupos);
 
-      $query = OfertasLaborales::find()->with(['objCargo', 'objArea', 'objCiudad', 'objInformacionContactoOferta'])
-        ->joinWith(['contenidoDestino'])->where(
-            ['and',
-                ['<=','fechaInicioPublicacion', $fecha],
-                ['>=','fechaFinPublicacion', $fecha],
-                ['=','codigoCiudad', $userCiudad],
-                ['IN','idGrupoInteres', $userGrupos],
-            ]
-        );
+      $todosCiudad = \Yii::$app->params['ciudad']['*'];
+      $todosGrupo = \Yii::$app->params['grupo']['*'];
 
-        var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
+      $query = self::find()->joinWith(['ofertasDestino'])
+              ->where("( fechaInicioPublicacion<=:fechaInicioPublicacion AND fechaFinPublicacion>=:fechaFinPublicacion AND ( (codigoCiudad =:codigoCiudad AND idGrupoInteres IN (:idGrupoInteres)) OR (codigoCiudad =:codigoCiudad AND idGrupoInteres=:todosGrupo) OR (codigoCiudad =:todosCiudad AND idGrupoInteres IN (:idGrupoInteres)) OR (codigoCiudad =:todosCiudad AND idGrupoInteres =:todosGrupo) )   )")
+              ->addParams([':fechaInicioPublicacion' => $fecha,':fechaFinPublicacion'=>$fecha, ':codigoCiudad'=> $userCiudad, ':idGrupoInteres'=>$userGrupos, ':todosCiudad'=>$todosCiudad, ':todosGrupo'=> $todosGrupo]);
+
+        //var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
 
         $dataProvider = new ActiveDataProvider([
              'query' => $query,
@@ -142,35 +155,36 @@ class OfertasLaborales extends \yii\db\ActiveRecord
          ]);
 
          return $dataProvider;
-      /*
-      $todosCiudad = \Yii::$app->params['ciudad']['*'];
-      $todosGrupos = \Yii::$app->params['grupo']['*'];
-
-      $query = " select * from t_OfertasLaborales as ol
-      inner join t_ContenidoDestino as cd on ol.idContenidoDestino = cd.idContenidoDestino
-      where ol.fechaInicioPublicacion <= '".$fecha."' and ol.fechaFinPublicacion >= '".$fecha."'
-      and ( (cd.idGrupoInteres IN(".$userGrupos.") and cd.codigoCiudad = ".$userCiudad.") or (cd.idGrupoInteres =".$todosGrupos." and cd.codigoCiudad =".$todosCiudad.") or (cd.idGrupoInteres IN(".$userGrupos.") and cd.codigoCiudad = ".$todosCiudad.") or (cd.idGrupoInteres =".$todosGrupos." and cd.codigoCiudad =".$userCiudad.")  );";
-
-      $model = OfertasLaborales::findBySql($query)->with(['objCargo', 'objArea', 'objCiudad', 'objInformacionContactoOferta'])->all();
-
-      $count = count($model);
-      $pages = new Pagination(
-        ['totalCount' => $count, 'pageSize'=>1]
-      );*/
     }
 
+    /**
+    * consulta todos los objetos del modelo Area
+    * @param
+    * @return retorna todos los modelos Area mapeados por idArea y nombreArea
+    */
     public static function getListaArea()
     {
         $opciones = Area::find()->asArray()->all();
         return ArrayHelper::map($opciones, 'idArea', 'nombreArea');
     }
 
+
+    /**
+    * consulta todos los objetos del modelo Cargo
+    * @param
+    * @return retorna todos los modelos Cargo mapeados por idCargo y nombreCargo
+    */
     public static function getListaCargo()
     {
         $opciones = Cargo::find()->asArray()->all();
         return ArrayHelper::map($opciones, 'idCargo', 'nombreCargo');
     }
 
+    /**
+    * consulta todos los objetos del modelo Ciudad
+    * @param
+    * @return retorna todos los modelos Cargo mapeados por idCiudad y nombreCiudad
+    */
     public static function getListaCiudad()
     {
         $opciones = Ciudad::find()->asArray()->all();
