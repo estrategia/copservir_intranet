@@ -131,7 +131,7 @@ class OfertasLaborales extends \yii\db\ActiveRecord
                 ['IN','idGrupoInteres', $userGrupos],
             ]
         );
-
+      
         $dataProvider = new ActiveDataProvider([
              'query' => $query,
              'pagination' => [
