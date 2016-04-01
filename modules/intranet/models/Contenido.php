@@ -25,6 +25,13 @@ class Contenido extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    
+    const PENDIENTE_APROBACION = 1;
+    const APROBADO = 2;
+    const ELIMINADO = 3;
+    const ELIMINADO_DENUNCIO = 4;
+    
+    
     public static function tableName()
     {
         return 't_Contenido';
@@ -70,7 +77,7 @@ class Contenido extends \yii\db\ActiveRecord
                            ['and',
                                 ['<=', 'fechaInicioPublicacion', 'now()'],
                                 ['=', 'idLineaTiempo', $idLineaTiempo],
-                                ['=', 'estado', 2],
+                                ['=', 'estado', Contenido::APROBADO],
                                 ['=', 't_ContenidoDestino.codigoCiudad', Yii::$app->user->identity->getCodigoCiudad() ],
                                 ['IN', 't_ContenidoDestino.idGrupoInteres',  Yii::$app->user->identity->getGruposCodigos() ]
                              ]
