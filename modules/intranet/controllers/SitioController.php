@@ -179,14 +179,22 @@ class SitioController extends Controller {
                         $error = true;
                     }
 
+<<<<<<< HEAD
                     if(!$error){
+=======
+                    if (!$error) {
+>>>>>>> 84de65e9873a2972fd94e5d4901f697464012a2a
                         $logContenido = new LogContenidos();
                         $logContenido->idContenido = $contenido->idContenido;
                         $logContenido->estado = $contenido->estado;
                         $logContenido->fechaRegistro = $contenido->fechaPublicacion;
                         $logContenido->idUsuarioRegistro = $contenido->idUsuarioPublicacion;
 
+<<<<<<< HEAD
                         if(!$logContenido->save()){
+=======
+                        if (!$logContenido->save()) {
+>>>>>>> 84de65e9873a2972fd94e5d4901f697464012a2a
                             $error = true;
                         }
                     }
@@ -331,7 +339,11 @@ class SitioController extends Controller {
                 $notificacion->tipoNotificacion = Notificaciones::COMENTARIO;
                 $notificacion->fechaRegistro = date("Y-m-d H:i:s");
 
+<<<<<<< HEAD
                 if(!$notificacion->save()){
+=======
+                if (!$notificacion->save()) {
+>>>>>>> 84de65e9873a2972fd94e5d4901f697464012a2a
                     $items = [
                         'result' => 'error',
                         'response' => 'Error a notificar el comentario'
@@ -512,12 +524,16 @@ class SitioController extends Controller {
 
             usleep(100000); //anteriormente 10000
             clearstatcache();
-            $fecha_bd = \DateTime::createFromFormat('Y-m-d H:i:s', $objNotificacion->fechaRegistro);
-            $fecha_bd = $fecha_bd->getTimestamp();
+            if ($objNotificacion !== null) {
+                $fecha_bd = \DateTime::createFromFormat('Y-m-d H:i:s', $objNotificacion->fechaRegistro);
+                $fecha_bd = $fecha_bd->getTimestamp();
+            }
         }
 
-        $html = $this->renderPartial('/sitio/_notificaciones', ['listNotificaciones'=> \app\modules\intranet\models\Notificaciones::consultarNotificaciones(Yii::$app->user->identity->numeroDocumento)]);
-        echo \yii\helpers\Json::encode(array('result' => 'ok', 'response' => ['html'=>$html, 'timestamp' => $fecha_bd]));
+
+        $html = $this->renderPartial('/sitio/_notificaciones', ['listNotificaciones' => \app\modules\intranet\models\Notificaciones::consultarNotificaciones(Yii::$app->user->identity->numeroDocumento)]);
+        echo \yii\helpers\Json::encode(array('result' => 'ok', 'response' => ['html' => $html, 'timestamp' => $fecha_bd]));
+
         Yii::$app->end();
     }
 

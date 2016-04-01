@@ -10,9 +10,10 @@ use yii\helpers\Html;
 <ul class="cbp_tmtimeline">
     <li>
         <time class="cbp_tmtime"></time>
-        <span class="date">Hoy</span> <!-- falta acomodar el formato de la fecha -->
-        <span class="time"><?= $noticia->fechaInicioPublicacion ?> <span class="semi-bold">am</span></span>
-
+        <?php $fdia= \DateTime::createFromFormat('Y-m-d H:i:s',$noticia->fechaInicioPublicacion)?>
+        <div class="date"><?= Yii::$app->params['dias'][$fdia->format('w')] ?> <?=$fdia->format('j') ?><!-- falta acomodar el formato de la fecha -->
+        <?= Yii::$app->params['meses'][$fdia->format('n')] ?> <?= $fdia->format('Y')?> </div>
+        <div class="time"> <?= $fdia->format('h')?>:<?= $fdia->format('i')?>:<?= $fdia->format('s')?> <?= $fdia->format('a')?></div>
         <div class="cbp_tmicon primary animated bounceIn"> <i class="fa fa-comments"></i> </div> <!-- icono de la noticia -->
 
         <div class="cbp_tmlabel">

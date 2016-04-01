@@ -10,7 +10,6 @@ use Yii;
  * @property string $idUsuario
  * @property string $numeroDocumento
  * @property string $alias
- * @property string $idPerfil
  * @property integer $estado
  */
 class Usuario extends \yii\db\ActiveRecord
@@ -29,8 +28,8 @@ class Usuario extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['numeroDocumento', 'alias', 'idPerfil', 'estado'], 'required'],
-            [['numeroDocumento', 'idPerfil', 'estado'], 'integer'],
+            [['numeroDocumento', 'estado'], 'required'],
+            [['numeroDocumento', 'estado'], 'integer'],
             [['alias'], 'string', 'max' => 60],
             [['numeroDocumento'], 'unique']
         ];
@@ -45,7 +44,6 @@ class Usuario extends \yii\db\ActiveRecord
             'idUsuario' => 'Id Usuario',
             'numeroDocumento' => 'Numero Documento',
             'alias' => 'Alias',
-            'idPerfil' => 'Id Perfil',
             'estado' => 'Estado',
             'imagenPerfil' => 'Imagen Perfil',
         ];

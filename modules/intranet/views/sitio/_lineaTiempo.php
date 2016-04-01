@@ -15,7 +15,7 @@ Html::button('<i class="fa fa-pencil"></i> Publicar <i><small>Requiere Aprobaci√
 
 <?php foreach ($noticias as $noticia): ?>
     <span id='contenido_<?= $noticia->idContenido ?>'>
-        <?php echo $this->render('_contenido', ['noticia' => $noticia, 'linea' => $linea]); ?>
+        <?php echo $this->render('/contenido/_contenido', ['noticia' => $noticia, 'linea' => $linea]); ?>
     </span>
 <?php endforeach; ?>
 <div class="row">
