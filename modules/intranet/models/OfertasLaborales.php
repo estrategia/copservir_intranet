@@ -119,7 +119,7 @@ class OfertasLaborales extends \yii\db\ActiveRecord
     public static function getOfertasLaboralesInteres($userCiudad, $userGrupos)
     {
       //$db = Yii::$app->db;
-      $fecha = Date("Y-m-d h:i:s");
+      $fecha = Date("Y-m-d H:i:s");
       $userGrupos = implode(',',$userGrupos);
 
       $query = OfertasLaborales::find()->with(['objCargo', 'objArea', 'objCiudad', 'objInformacionContactoOferta'])

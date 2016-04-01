@@ -225,7 +225,7 @@ class TareasController extends Controller
             try {
                 $logTarea->idTarea = $tarea->idTarea;
                 $logTarea->estadoTarea = $tarea->estadoTarea;
-                $logTarea->fechaRegistro =  Date("Y-m-d h:i:s");
+                $logTarea->fechaRegistro =  Date("Y-m-d H:i:s");
                 $logTarea->prioridad = $tarea->idPrioridad;
                 $logTarea->progreso = $tarea->progreso;
                 $logTarea->save();
@@ -293,7 +293,7 @@ class TareasController extends Controller
           try {
               $logTarea->idTarea = $tarea->idTarea;
               $logTarea->estadoTarea = $tarea->estadoTarea;
-              $logTarea->fechaRegistro =  Date("Y-m-d h:i:s");
+              $logTarea->fechaRegistro =  Date("Y-m-d H:i:s");
               $logTarea->prioridad = $tarea->idPrioridad;
               $logTarea->progreso = $tarea->progreso;
               $logTarea->save();
@@ -351,7 +351,7 @@ class TareasController extends Controller
             $newLog = new LogTareas();
             $newLog->idTarea = $tarea->idTarea;
             $newLog->estadoTarea = $tarea->estadoTarea;
-            $newLog->fechaRegistro =  Date("Y-m-d h:i:s");
+            $newLog->fechaRegistro =  Date("Y-m-d H:i:s");
             $newLog->prioridad = $tarea->idPrioridad;
             $newLog->progreso = $tarea->progreso;
             $newLog->save();
