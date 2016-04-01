@@ -20,10 +20,11 @@ class Notificaciones extends \yii\db\ActiveRecord {
     /**
      * @inheritdoc
      */
-    const ME_GUSTA = 1;
-    const COMENTARIO = 2;
-    const CREADA = 1;
-    const VISTA = 2;
+    const NOTIFICACION_MEGUSTA = 1;
+    const NOTIFICACION_COMENTARIO = 2;
+    const NOTIFICACION_RECOMENDACION = 3;
+    const ESTADO_CREADA = 1;
+    const ESTADO_VISTA = 2;
 
     public static function tableName() {
         return 't_Notificaciones';
