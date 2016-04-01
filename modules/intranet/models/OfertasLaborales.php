@@ -132,6 +132,8 @@ class OfertasLaborales extends \yii\db\ActiveRecord
             ]
         );
 
+        var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
+
         $dataProvider = new ActiveDataProvider([
              'query' => $query,
              'pagination' => [
