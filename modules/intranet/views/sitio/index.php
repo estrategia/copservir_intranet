@@ -24,18 +24,32 @@ $this->title = 'Intranet - Copservir';
 <div class="col-md-9">
     <!-- nav lineas de tiempo -->
     <ul class="nav nav-tabs">
+        <?php $i = 0; ?>
         <?php foreach ($lineasTiempo as $linea): ?>
-            <li ><a id="#lt<?= $linea->idLineaTiempo ?>" data-toggle="tab" data-role="cambiar-timeline"  data-timeline="<?= $linea->idLineaTiempo ?>" href="#lt<?= $linea->idLineaTiempo ?>"><?= $linea->nombreLineaTiempo ?></a></li>
+            <li <?= $i == 0 ? 'class="active"' : '' ?>><a id="#lt<?= $linea->idLineaTiempo ?>" data-toggle="tab" data-role="cambiar-timeline"  data-timeline="<?= $linea->idLineaTiempo ?>" href="#lt<?= $linea->idLineaTiempo ?>"><?= $linea->nombreLineaTiempo ?></a></li>
+            <?php if ($i == 0): ?>
+                <?php
+                $this->registerJs(
+                        "  $( document ).ready(function() {
+                                    cambiarTimeline('$linea->idLineaTiempo', '#lt$linea->idLineaTiempo')
+                                }); "
+                );
+                ?>
+            <?php endif; ?>
+            <?php $i++; ?>
         <?php endforeach; ?>
     </ul>
 
     <div class="tab-content">
         <div class="tab-pane active">
             <!-- el contenido de las lineas de tiempo -->
+            <?php $i = 0; ?>
             <?php foreach ($lineasTiempo as $linea): ?>
+                <div id="lt<?= $linea->idLineaTiempo ?>" class="tab-pane fade lineastiempo <?= $i == 0 ? 'in active' : '' ?>">
 
-                <div id="lt<?= $linea->idLineaTiempo ?>" class="tab-pane fade lineastiempo">
                 </div>
+
+                <?php $i++; ?>
             <?php endforeach; ?>
 
         </div>

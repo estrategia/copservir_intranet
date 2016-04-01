@@ -36,7 +36,7 @@ class SitioController extends Controller {
             ],
             'image-upload' => [
                 'class' => 'vova07\imperavi\actions\UploadAction',
-                'url' => 'http://localhost/copservir_intranet/imagenes/post/', //Yii::$app->realpath().'/imagenes', // Directory URL address, where files are stored.
+                'url' => 'http://192.168.0.35/copservir_intranet/imagenes/post/', //Yii::$app->realpath().'/imagenes', // Directory URL address, where files are stored.
                 'path' => '@app/imagenes/post' // Or absolute path to directory where files are stored.
             ],
         ];
@@ -275,7 +275,7 @@ class SitioController extends Controller {
                     $notificacion->idContenido = $meGusta->idContenido;
                     $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
                     $notificacion->idUsuarioDirigido = $contenido->idUsuarioPublicacion;
-                    $notificacion->descripcion = Yii::$app->user->identity->alias . " le ha dado me gusta a tu publicación";
+                    $notificacion->descripcion = " Dio me gusta a tu publicación";
                     $notificacion->estadoNotificacion = Notificaciones::CREADA;
                     $notificacion->tipoNotificacion = Notificaciones::ME_GUSTA;
                     $notificacion->fechaRegistro = date('Y-m-d H:i:s');
@@ -326,7 +326,7 @@ class SitioController extends Controller {
                 $notificacion->idContenido = $comentario->idContenido;
                 $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
                 $notificacion->idUsuarioDirigido = $contenido->idUsuarioPublicacion;
-                $notificacion->descripcion = Yii::$app->user->identity->alias . " ha comentado tu publicación";
+                $notificacion->descripcion = "Comentó tu publicación";
                 $notificacion->estadoNotificacion = Notificaciones::CREADA;
                 $notificacion->tipoNotificacion = Notificaciones::COMENTARIO;
                 $notificacion->fechaRegistro = date("Y-m-d H:i:s");

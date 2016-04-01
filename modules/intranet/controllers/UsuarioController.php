@@ -28,6 +28,9 @@ use yii\web\UploadedFile;
 use yii\db\ActiveRecord;
 use app\modules\intranet\models\UsuarioWidgetInactivo;
 use yii\db\Query;
+use app\modules\intranet\models\MeGustaContenidos;
+use app\modules\intranet\models\GrupoInteres;
+
 
 class UsuarioController extends \yii\web\Controller {
     /*
@@ -254,7 +257,11 @@ class UsuarioController extends \yii\web\Controller {
             }
             $modelFoto = new FotoForm();
         }
-        return $this->render('perfil', ['modelFoto' => $modelFoto]);
+        
+        $meGustan=MeGustaContenidos::find()->where(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento])->count();
+        $contenidos=  Contenido::find()->where(['idUsuarioPublicacion' => Yii::$app->user->identity->numeroDocumento])->count();
+        $gruposReferencia = GrupoInteres::find()->where('idGrupoInteres IN ('.implode(",", Yii::$app->user->identity->getGruposCodigos()).')' )->all();
+        return $this->render('perfil', ['modelFoto' => $modelFoto, 'contenidos' => $contenidos, 'meGustan' => $meGustan, 'gruposReferencia' => $gruposReferencia]);
     }
 
     /*

@@ -3,79 +3,83 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
- //::::::::::::::::::::::
- // LINEAS DE TIEMPO
- //::::::::::::::::::::::
+//::::::::::::::::::::::
+// LINEAS DE TIEMPO
+//::::::::::::::::::::::
 
 /*
-* peticion ajax para cambiar de linea de tiempo
-*/
-$(document).on('click', "a[data-role='cambiar-timeline']", function() {
+ * peticion ajax para cambiar de linea de tiempo
+ */
 
-    var lineaTiempo = $(this).attr('data-timeline');
-    var href = $(this).attr('href');
+function cambiarTimeline(lineaTiempo, href) {
+    
     $.ajax({
         type: 'GET',
         async: true,
         url: requestUrl + '/intranet/sitio/cambiar-linea-tiempo',
         data: {lineaTiempo: lineaTiempo},
         dataType: 'json',
-        beforeSend: function() {
-        //    Loading.show();
+        beforeSend: function () {
+            //    Loading.show();
         },
-
-        complete: function(data) {
-         //   Loading.hide();
+        complete: function (data) {
+            //   Loading.hide();
         },
-        success: function(data) {
+        success: function (data) {
             if (data.result == "ok") {
                 $(".lineastiempo").html("");
                 $(href).html(data.response);
             }
         },
-        error: function(jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus, errorThrown) {
 
         }
     });
+}
+
+
+$(document).on('click', "a[data-role='cambiar-timeline']", function () {
+    var lineaTiempo = $(this).attr('data-timeline');
+    var href = $(this).attr('href');
+    cambiarTimeline(lineaTiempo, href);
+
 });
 
-$(document).on('click', "a[data-role='agregar-destino-contenido']", function() {
+$(document).on('click', "a[data-role='agregar-destino-contenido']", function () {
 
     $.ajax({
         type: 'GET',
         async: true,
         url: requestUrl + '/intranet/contenido/agregar-destino',
-
         dataType: 'json',
-        beforeSend: function() {
-        //    Loading.show();
+        beforeSend: function () {
+            //    Loading.show();
         },
-
-        complete: function(data) {
-         //   Loading.hide();
+        complete: function (data) {
+            //   Loading.hide();
         },
-        success: function(data) {
+        success: function (data) {
             if (data.result == "ok") {
                 $("#contenido-destino").append(data.response);
             }
         },
-        error: function(jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus, errorThrown) {
 
         }
     });
     return false;
 });
 
-$(document).on('click', "a[data-role='quitar-destino-contenido']", function() {
+$(document).on('click', "a[data-role='quitar-destino-contenido']", function () {
     $($(this).attr('data-row')).remove();
     return false;
 });
 
 
 /*
-* peticion ajax para guardar un contenido de una publicacion
-*/
-$(document).on('click', "a[data-role='guardar-contenido']", function() {
+ * peticion ajax para guardar un contenido de una publicacion
+ */
+$(document).on('click', "a[data-role='guardar-contenido']", function () {
 
     var form = $("#form-contenido-publicar");
     var href = $(this).attr('data-href');
@@ -85,21 +89,20 @@ $(document).on('click', "a[data-role='guardar-contenido']", function() {
         url: requestUrl + '/intranet/sitio/guardar-contenido',
         data: form.serialize(),
         dataType: 'json',
-        beforeSend: function() {
-        //    Loading.show();
+        beforeSend: function () {
+            //    Loading.show();
         },
-
-        complete: function(data) {
-         //   Loading.hide();
+        complete: function (data) {
+            //   Loading.hide();
         },
-        success: function(data) {
+        success: function (data) {
             if (data.result == "ok") {
                 $("#modal-contenido-publicar").modal('hide')
                 $(".lineastiempo").html("");
                 $(href).html(data.response);
             }
         },
-        error: function(jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus, errorThrown) {
 
         }
     });
@@ -111,39 +114,38 @@ $(document).on('click', "a[data-role='guardar-contenido']", function() {
 // MENU
 //::::::::::::::::::::::
 /*
-* peticion ajax para cambiar agregar una opcion del menu
-*/
-$(document).on('click', "input[data-role='agregar-opcion']", function() {
+ * peticion ajax para cambiar agregar una opcion del menu
+ */
+$(document).on('click', "input[data-role='agregar-opcion']", function () {
 
     var idMenu = $(this).attr('data-id');
-    var isChecked = ($(this).is(':checked'))?1:0;
+    var isChecked = ($(this).is(':checked')) ? 1 : 0;
 
     $.ajax({
         type: 'POST',
         async: true,
         url: requestUrl + '/intranet/sitio/agregar-opcion-menu',
-        data: {idMenu: idMenu, value: isChecked },
+        data: {idMenu: idMenu, value: isChecked},
         dataType: 'json',
-        beforeSend: function() {
-        //    Loading.show();
+        beforeSend: function () {
+            //    Loading.show();
         },
-
-        complete: function(data) {
-         //   Loading.hide();
+        complete: function (data) {
+            //   Loading.hide();
         },
-        success: function(data) {
+        success: function (data) {
             if (data.result == "ok") {
 
             }
         },
-        error: function(jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus, errorThrown) {
 
         }
     });
 });
 
 
-$(document).on('click', "a[data-role='me-gusta-contenido']", function() {
+$(document).on('click', "a[data-role='me-gusta-contenido']", function () {
 
     var idContenido = $(this).attr('data-contenido');
     var val = $(this).attr('data-value');
@@ -152,62 +154,60 @@ $(document).on('click', "a[data-role='me-gusta-contenido']", function() {
         type: 'POST',
         async: true,
         url: requestUrl + '/intranet/sitio/me-gusta-contenido',
-        data: {idContenido: idContenido, value:val },
+        data: {idContenido: idContenido, value: val},
         dataType: 'json',
-        beforeSend: function() {
-        //    Loading.show();
+        beforeSend: function () {
+            //    Loading.show();
         },
-
-        complete: function(data) {
-         //   Loading.hide();
+        complete: function (data) {
+            //   Loading.hide();
         },
-        success: function(data) {
+        success: function (data) {
             if (data.result == "ok") {
-                $('#numero-megusta_'+idContenido).html(data.response);
+                $('#numero-megusta_' + idContenido).html(data.response);
 
-                if(val == 1){
-                    $("#megusta_"+idContenido).css('display','none');
-                    $("#no_megusta_"+idContenido).css('display','');
-                }else{
-                    $("#no_megusta_"+idContenido).css('display','none');
-                    $("#megusta_"+idContenido).css('display','');
+                if (val == 1) {
+                    $("#megusta_" + idContenido).css('display', 'none');
+                    $("#no_megusta_" + idContenido).css('display', '');
+                } else {
+                    $("#no_megusta_" + idContenido).css('display', 'none');
+                    $("#megusta_" + idContenido).css('display', '');
                 }
             }
         },
-        error: function(jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus, errorThrown) {
 
         }
     });
 });
 
-$(document).on('click', "button[data-role='guardar-comentario-contenido']", function() {
+$(document).on('click', "button[data-role='guardar-comentario-contenido']", function () {
 
     var idContenido = $(this).attr('data-contenido');
-    var comentario = $('#comentario_'+idContenido).val();
+    var comentario = $('#comentario_' + idContenido).val();
 
 
     $.ajax({
         type: 'POST',
         async: true,
         url: requestUrl + '/intranet/sitio/guardar-comentario',
-        data: {idContenido: idContenido, comentario:comentario },
+        data: {idContenido: idContenido, comentario: comentario},
         dataType: 'json',
-        beforeSend: function() {
-        //    Loading.show();
-            $('#comentario_'+idContenido).prop('disabled',true);
+        beforeSend: function () {
+            //    Loading.show();
+            $('#comentario_' + idContenido).prop('disabled', true);
         },
-
-        complete: function(data) {
-         //   Loading.hide();
-            $('#comentario_'+idContenido).prop('disabled',false);
+        complete: function (data) {
+            //   Loading.hide();
+            $('#comentario_' + idContenido).prop('disabled', false);
         },
-        success: function(data) {
+        success: function (data) {
             if (data.result == "ok") {
-               $("#contenido_"+idContenido).html(data.response);
+                $("#contenido_" + idContenido).html(data.response);
             }
         },
-        error: function(jqXHR, textStatus, errorThrown) {
-            $('#comentario_'+idContenido).prop('disabled',false);
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('#comentario_' + idContenido).prop('disabled', false);
         }
     });
 });
@@ -327,7 +327,7 @@ $(document).on('click', 'button[data-role="guardar-denuncio-contenido"]', functi
         success: function (data) {
             if (data.result == 'ok') {
 
-                $("#lt"+$(this).attr('data-linea-tiempo')).html(data.response);
+                $("#lt" + $(this).attr('data-linea-tiempo')).html(data.response);
                 $("#modal-contenido-denuncio").modal("hide");
 
             } else {
@@ -350,7 +350,7 @@ $(document).on('click', 'a[data-role="eliminar-comentario"]', function () {
         dataType: 'json',
         async: true,
         url: requestUrl + '/intranet/contenido/eliminar-comentario',
-        data: {idComentario: idComentario },
+        data: {idComentario: idComentario},
         beforeSend: function () {
 
             //Loading.show();
@@ -361,7 +361,7 @@ $(document).on('click', 'a[data-role="eliminar-comentario"]', function () {
         success: function (data) {
             if (data.result == 'ok') {
 
-               $("#comentarios_contenido").html(data.response);
+                $("#comentarios_contenido").html(data.response);
 
             } else {
                 alert(data.response);
@@ -383,7 +383,7 @@ $(document).on('click', 'a[data-role="denunciar-comentario"]', function () {
         dataType: 'json',
         async: true,
         url: requestUrl + '/intranet/contenido/denunciar-comentario',
-        data: {idComentario: idComentario },
+        data: {idComentario: idComentario},
         beforeSend: function () {
             $("#modal-comentario-denuncio").remove();
             //Loading.show();
@@ -427,7 +427,7 @@ $(document).on('click', 'button[data-role="guardar-denuncio-comentario"]', funct
         },
         success: function (data) {
             if (data.result == 'ok') {
-                 $("#modal-comentario-denuncio").modal('hide');
+                $("#modal-comentario-denuncio").modal('hide');
             } else {
                 alert(data.response);
             }
@@ -470,8 +470,8 @@ $(document).on('click', 'a[data-role="quitar-elemento"]', function () {
 $(document).on('click', 'input[data-role="toggle-elemento"]', function () {
 
     var elemento = $(this).attr('data-elemento');
-    var opcion = $(this).prop('checked') ? 1:2;
-    
+    var opcion = $(this).prop('checked') ? 1 : 2;
+
     $.ajax({
         type: 'POST',
         dataType: 'json',
@@ -486,12 +486,12 @@ $(document).on('click', 'input[data-role="toggle-elemento"]', function () {
             //Loading.hide();
         },
         success: function (data) {
-            
+
         },
         error: function (jqXHR, textStatus, errorThrown) {
             //Loading.hide();
             alert('Error: ' + errorThrown);
         }
     });
-   
+
 });
