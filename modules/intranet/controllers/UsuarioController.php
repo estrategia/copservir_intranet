@@ -21,7 +21,7 @@ use app\modules\intranet\models\Usuario;
 use app\modules\intranet\models\ConexionesUsuarios;
 use app\modules\intranet\models\RecuperacionClave;
 use app\modules\intranet\models\FotoForm;
-//use app\modules\intranet\models\FormUpload;
+use app\modules\intranet\models\OfertasLaborales;
 use app\modules\intranet\models\Contenido;
 use app\modules\intranet\models\LineaTiempo;
 use yii\web\UploadedFile;
@@ -297,28 +297,34 @@ class UsuarioController extends \yii\web\Controller {
     }
 
     /**
+     * accion para renderizar el modal de enviar a un amigo
+     * @param none
+     * @return html contenido modal para enviar a un amigo
+     */
+     public function actionModalAmigos($idClasificado)
+     {
+       \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+       $listaUsuarios = Usuario::find()->where([ 'estado' => 1])->all();
+       $clasificado = Contenido::findOne(['idContenido' => $idClasificado]);
+
+       $items = [
+           'result' => 'ok',
+           'response' => $this->renderAjax('_modalEnviarAmigo', [
+               'listaUsuarios' => $listaUsuarios,
+               'modelClasificado' => $clasificado
+            ]
+       )];
+
+       return $items;
+     }
+
+    /**
      * Eviar a un amigo = accion para buscar los usuarios en el input
      * @param none
      * @return array con los usuarios
      */
     public function actionBuscarAmigos($search = null, $id = null) {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $out = ['results' => [ 'id' => '', 'text' => '']];
-        if (!is_null($search)) {
-            $query = new Query;
-            $query->select('idUsuario as id, alias AS text')
-                    ->from('m_Usuario')
-                    ->where('alias LIKE "%' . $search . '%"')
-                    ->limit(20);
-            $command = $query->createCommand();
-            $data = $command->queryAll();
-            //$data = Usuario::find(['estado' => 1])->select('idUsuario as id, alias as text')->where(['like', 'alias', $search])->all();
-            $out['results'] = array_values($data);
-        } elseif ($id > 0) {
-            $out['results'] = ['id' => $id, 'text' => Artist::find($id)->artistname];
-        } else {
-            $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
-        }
-        return $out;
+
     }
 }

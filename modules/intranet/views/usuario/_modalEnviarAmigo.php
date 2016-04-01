@@ -3,6 +3,7 @@ use kartik\select2\Select2;
 use yii\widgets\ActiveForm;
 use yii\web\JsExpression;
 use yii\helpers\Html;
+
  ?>
 
 <!-- Modal -->
@@ -22,48 +23,24 @@ use yii\helpers\Html;
         <!-- div con formulario para realizar la busqueda de los amigos y pega a la lista los amigos seleccionados -->
         <?= Html::beginForm(['contenido/enviar-amigo'], 'post', ['id'=> 'formEnviarAmigo']); ?>
         <?php
-            $url = \yii\helpers\Url::to(['usuario/buscar-amigos']);
-            $initScript = <<< SCRIPT
-function (element, callback) {
-    var id=$(element).val();
-    if (id !== "") {
-        $.ajax("{$url}?id=" + id, {
-            dataType: "json"
-        }).done(function(data) { callback(data.results);});
-    }
-}
-SCRIPT;
-
             echo Select2::widget([
                   'name' => 'enviaAmigo',
-                  //'data' => ['jhon','pepito'], //aca vendria el resultado de la consulta de todos los usuarios
+                  'data' => \yii\helpers\ArrayHelper::map($listaUsuarios, 'numeroDocumento', 'alias'),
                   'size' => Select2::MEDIUM,
                   'showToggleAll' => false,
                   'changeOnReset' => false,
                   'options' => ['class'=>'select2-container select2-container-multi', 'id' => 'enviaAmigo','placeholder' => 'buscar...', 'multiple' => true],
                   'pluginOptions' => [
                     'allowClear' => true,
-                    //'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                    //'minimumInputLength' => 1,
-
-                    'ajax' => [
-                        'url' => $url,
-                        'dataType' => 'json',
-                        'data' => new JsExpression('function(params) { return {search:params.term, page: params.page}; }'),
-                        'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
-
-                    ],
-
-
-                    //'templateResult' => new JsExpression('function(usuario) { return usuario.text; }'),
-                    //'templateSelection' => new JsExpression('function (usuario) { return usuario.alias; }'),
-                    'initSelection' => new JsExpression($initScript)
-
+                    'templateResult' => new JsExpression('function(usuario) { return usuario.text; }'),
+                    'templateSelection' => new JsExpression('function (usuario) { return usuario.alias; }'),
+                    'escapeMarkup' => new JsExpression("function(m) { return m; }")
                   ],
 
             ])
         ?>
 
+        <?=  Html::hiddenInput('clasificado',$modelClasificado->idContenido, []);  ?>
         <?= Html::endForm()     ?>
 
 

@@ -270,6 +270,39 @@ function makeMap(jsonGrafica, patron, valorGrafica, flag) {
   mapBox.append(mapString);
 }
 
+$(document).on('click', "button[data-role='widget-enviarAmigo']", function() {
+  console.log('click enviar amigo');
+  var idClasificado = $(this).attr('data-clasificado');
+
+  $.ajax({
+      type: 'GET',
+      async: true,
+      url: requestUrl + '/intranet/usuario/modal-amigos?idClasificado='+idClasificado,
+      //data: {idTarea: idTarea, progresoTarea: progresoTarea},
+      dataType: 'json',
+      beforeSend: function() {
+      //    Loading.show();
+      },
+
+      complete: function(data) {
+       //   Loading.hide();
+      },
+      success: function(data) {
+          if (data.result == "ok") {
+              console.log('progreso actualizado');
+              if (data.result == "ok") {
+                $('body').append(data.response);
+                $("#widget-enviarAmigo").modal("show");
+              }
+          }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+
+      }
+  });
+
+});
+
 $(document).on('click', "button[data-role='enviar-amigos']", function() {
   console.log('click');
   $('#formEnviarAmigo').submit();

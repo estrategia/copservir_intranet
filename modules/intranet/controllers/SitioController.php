@@ -71,7 +71,7 @@ class SitioController extends Controller {
         //banners  Crear modelos y pasar las consultas al modelo
         $db = Yii::$app->db;
         $bannerArriba = $db->createCommand('select distinct pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia
-                                                from t_campanasdestino as pcc, t_publicacionescampanas as pc
+                                                from t_CampanasDestino as pcc, t_Publicacionescampanas as pc
 	                                                 where (pcc.idImagenCampana = pc.idImagenCampana and pc.estado=:estado and pc.posicion =:posicion
                                                     and (( pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:userCiudad) or ( pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:userCiudad)  )  )
                                                      order by rand()')
@@ -84,7 +84,7 @@ class SitioController extends Controller {
                 ->queryAll();
 
         $bannerAbajo = $db->createCommand('select distinct pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia
-                                                from t_campanasdestino as pcc, t_publicacionescampanas as pc
+                                                from t_CampanasDestino as pcc, t_Publicacionescampanas as pc
                                                   where (pcc.idImagenCampana = pc.idImagenCampana and pc.estado=:estado and pc.posicion =:posicion
                                                     and (( pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:userCiudad) or ( pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:userCiudad) )  )
                                                      order by rand()')
@@ -97,7 +97,7 @@ class SitioController extends Controller {
                 ->queryAll();
 
         $bannerDerecha = $db->createCommand('select distinct pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia
-                                                from t_campanasdestino as pcc, t_publicacionescampanas as pc
+                                                from t_CampanasDestino as pcc, t_Publicacionescampanas as pc
 	                                                 where (pcc.idImagenCampana = pc.idImagenCampana and pc.estado=:estado and pc.posicion =:posicion
                                                     and (( pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:userCiudad) or ( pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:userCiudad) )  )
                                                      order by rand()')
@@ -179,7 +179,9 @@ class SitioController extends Controller {
                         $error = true;
                     }
 
+
                     if (!$error) {
+
                         $logContenido = new LogContenidos();
                         $logContenido->idContenido = $contenido->idContenido;
                         $logContenido->estado = $contenido->estado;
@@ -275,9 +277,9 @@ class SitioController extends Controller {
                     $notificacion->idContenido = $meGusta->idContenido;
                     $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
                     $notificacion->idUsuarioDirigido = $contenido->idUsuarioPublicacion;
-                    $notificacion->descripcion = " Dio me gusta a tu publicación";
-                    $notificacion->estadoNotificacion = Notificaciones::CREADA;
-                    $notificacion->tipoNotificacion = Notificaciones::ME_GUSTA;
+                    $notificacion->descripcion = Yii::$app->user->identity->alias . " le ha dado me gusta a tu publicación";
+                    $notificacion->estadoNotificacion = Notificaciones::ESTADO_CREADA;
+                    $notificacion->tipoNotificacion = Notificaciones::NOTIFICACION_MEGUSTA;
                     $notificacion->fechaRegistro = date('Y-m-d H:i:s');
 
                     if (!$notificacion->save()) {
@@ -326,12 +328,14 @@ class SitioController extends Controller {
                 $notificacion->idContenido = $comentario->idContenido;
                 $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
                 $notificacion->idUsuarioDirigido = $contenido->idUsuarioPublicacion;
-                $notificacion->descripcion = "Comentó tu publicación";
-                $notificacion->estadoNotificacion = Notificaciones::CREADA;
-                $notificacion->tipoNotificacion = Notificaciones::COMENTARIO;
+                $notificacion->descripcion = Yii::$app->user->identity->alias . " ha comentado tu publicación";
+                $notificacion->estadoNotificacion = Notificaciones::ESTADO_CREADA;
+                $notificacion->tipoNotificacion = Notificaciones::NOTIFICACION_COMENTARIO;
                 $notificacion->fechaRegistro = date("Y-m-d H:i:s");
 
+
                 if (!$notificacion->save()) {
+
                     $items = [
                         'result' => 'error',
                         'response' => 'Error a notificar el comentario'
@@ -403,7 +407,7 @@ class SitioController extends Controller {
         return $this->render('organigrama', []);
     }
 
-    /*
+    /**
      * accion para obtener el contenido del modal
      * @param none
      * @return html contenido modal
@@ -518,9 +522,12 @@ class SitioController extends Controller {
             }
         }
 
+
         $html = $this->renderPartial('/sitio/_notificaciones', ['listNotificaciones' => \app\modules\intranet\models\Notificaciones::consultarNotificaciones(Yii::$app->user->identity->numeroDocumento)]);
         echo \yii\helpers\Json::encode(array('result' => 'ok', 'response' => ['html' => $html, 'timestamp' => $fecha_bd]));
+
         Yii::$app->end();
     }
+
 
 }
