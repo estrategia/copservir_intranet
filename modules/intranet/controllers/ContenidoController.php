@@ -218,7 +218,7 @@ class ContenidoController extends Controller {
         }
         
         //$objNoticia = Contenido::findOne(['idContenido' => $idNoticia])->joinWith('objLineaTiempo');
-        return $this->render('/sitio/_contenido', ['noticia' => $objNoticia, 'linea' => $objNoticia->objLineaTiempo]);
+        return $this->render('_contenido', ['noticia' => $objNoticia, 'linea' => $objNoticia->objLineaTiempo]);
     }
 
     public function actionAgregarDestino() {
