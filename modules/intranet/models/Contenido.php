@@ -4,6 +4,7 @@ namespace app\modules\intranet\models;
 
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "t_contenido".
@@ -25,13 +26,13 @@ class Contenido extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    
+
     const PENDIENTE_APROBACION = 1;
     const APROBADO = 2;
     const ELIMINADO = 3;
     const ELIMINADO_DENUNCIO = 4;
-    
-    
+
+
     public static function tableName()
     {
         return 't_Contenido';
@@ -81,18 +82,18 @@ class Contenido extends \yii\db\ActiveRecord
 //                                ['=', 't_ContenidoDestino.codigoCiudad', Yii::$app->user->identity->getCodigoCiudad() ],
 //                                ['IN', 't_ContenidoDestino.idGrupoInteres',  Yii::$app->user->identity->getGruposCodigos() ]
 //                             ]
-                        " fechaInicioPublicacion<=now() AND idLineaTiempo =:idLineaTiempo AND estado=:estado AND  
-                            ( 
+                        " fechaInicioPublicacion<=now() AND idLineaTiempo =:idLineaTiempo AND estado=:estado AND
+                            (
                                 (t_ContenidoDestino.codigoCiudad =:ciudad AND t_ContenidoDestino.idGrupoInteres IN (".implode(", ",Yii::$app->user->identity->getGruposCodigos()).")) OR
                                 (t_ContenidoDestino.codigoCiudad =:ciudad AND t_ContenidoDestino.idGrupoInteres=:gruposA ) OR
                                 (t_ContenidoDestino.codigoCiudad =:ciudadA AND t_ContenidoDestino.idGrupoInteres=:gruposA ) OR
                                 (t_ContenidoDestino.codigoCiudad =:ciudadA AND t_ContenidoDestino.idGrupoInteres IN (".implode(",",Yii::$app->user->identity->getGruposCodigos())."))
                         )"
                             )
-                            ->addParams([':estado' => self::APROBADO, 
-                                         ':ciudad'=> Yii::$app->user->identity->getCodigoCiudad(), 
+                            ->addParams([':estado' => self::APROBADO,
+                                         ':ciudad'=> Yii::$app->user->identity->getCodigoCiudad(),
                                          ':idLineaTiempo' => $idLineaTiempo,
-                                         ':ciudadA'=> Yii::$app->params['ciudad']['*'], 
+                                         ':ciudadA'=> Yii::$app->params['ciudad']['*'],
                                          ':gruposA'=>Yii::$app->params['grupo']['*']]
                                         )
                             ->orderBy('fechaInicioPublicacion Desc')
@@ -105,9 +106,9 @@ class Contenido extends \yii\db\ActiveRecord
           return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])
                ->where(
                            ['and',
-                                ['<=', 'fechaInicioPublicacion', 'now()'],
+                                ['<=', 'fechaInicioPublicacion', new Expression('now()')],
                                 ['=', 'idLineaTiempo', $idLineaTiempo],
-                                ['=', 'estado', 2],
+                                ['=', 'estado', self::APROBADO],
                              ]
                             )->orderBy('fechaInicioPublicacion Desc')
 
@@ -115,17 +116,28 @@ class Contenido extends \yii\db\ActiveRecord
     }
 
 
-    public static function traerMisPublicaciones(){
-        return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])
-               ->where(
-                           ['and',
-                                ['<=', 'fechaInicioPublicacion', 'now()'],
-                                ['idUsuarioPublicacion' => Yii::$app->user->identity->numeroDocumento],
-                                ['=', 'estado', 2],
-                             ]
-                            )->orderBy('fechaInicioPublicacion Desc')
+    /**
+    * define la relacion entre los modelos Contenido y ContenidoRecomendacion a traves del aributo idContenido
+    */
+    public function getContenidoRecomendacion()
+    {
+        return $this->hasMany(ContenidoRecomendacion::className(), ['idContenido' => 'idContenido']);
+    }
 
-                ;
+    /**
+    * Consuta las publicaciones realizadas por el usuario y las publicaciones que le han recomendado al usuario
+    * y las retorna ordenadas descendentemente
+    */
+    public static function traerMisPublicaciones(){
+
+        $fecha = Date("Y-m-d H:i:s");
+        $idUsuario = Yii::$app->user->identity->numeroDocumento;
+        $query = self::find()->joinWith(['contenidoRecomendacion'])
+              ->where("( (t_Contenido.idUsuarioPublicacion =:idUsuario and t_Contenido.estado=:estado and t_Contenido.fechaPublicacion <=:fechaPublicacion) or (t_ContenidoRecomendacion.numeroDocumentoDirigido =:idUsuario and t_ContenidoRecomendacion.fechaRegistro <=:fechaRegistro) )")
+              ->addParams([':fechaPublicacion' => $fecha,':fechaRegistro'=>$fecha, ':idUsuario'=> $idUsuario, ':estado'=>self::APROBADO])
+              ->orderBy('t_contenido.fechaInicioPublicacion DESC,t_contenidorecomendacion.fechaRegistro DESC');
+
+        return $query;
     }
 
 
@@ -133,9 +145,9 @@ class Contenido extends \yii\db\ActiveRecord
     public static function traerNoticiaEspecifica($idContenido){
         return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])->where(
                            ['and',
-                                ['<=', 'fechaInicioPublicacion', 'now()'],
+                                ['<=', 'fechaInicioPublicacion', new Expression('now()')],
                                 ['=', 'idContenido', $idContenido],
-                                ['=', 'estado', 2]
+                                ['=', 'estado', self::APROBADO]
                              ]
                             )->one();
     }

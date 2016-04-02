@@ -27,7 +27,7 @@ class GrupoInteres extends \yii\db\ActiveRecord
     {
         return [
             [['nombreGrupo'], 'required'],
-            [['nombreGrupo'], 'string', 'max' => 45]
+            [['nombreGrupo','imagenGrupo'], 'string', 'max' => 45]
         ];
     }
 
@@ -39,6 +39,12 @@ class GrupoInteres extends \yii\db\ActiveRecord
         return [
             'idGrupoInteres' => 'Id Grupo Interes',
             'nombreGrupo' => 'Nombre Grupo',
+            'imagenGrupo' => 'Imagen Grupo'
         ];
     }
+    
+    public function getImagen(){
+        return Yii::$app->homeUrl . 'img/gruposInteres/' .$this->imagenGrupo;
+    }
+            
 }

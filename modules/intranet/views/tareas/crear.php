@@ -6,14 +6,14 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\intranet\models\Tareas */
 
-$this->title = 'Create Tareas';
-$this->params['breadcrumbs'][] = ['label' => 'Tareas', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Crear Tareas';
+//$this->params['breadcrumbs'][] = ['label' => 'Tareas', 'url' => ['index']];
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 
 <div class="tareas-create">
-	
+
 	<div class="col-md-12">
 	    <div class="grid simple ">
 	        <div class="grid-title no-border" style="background-color: #0AA699 !important;">
@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	        </div>
 	        <div class="grid-body no-border">
 	              <h3>Crear  <span class="semi-bold">tareas</span></h3>
-	              
+
 	              <?= $this->render('_form', [
 	        			'model' => $model,
 	    			]) ?>

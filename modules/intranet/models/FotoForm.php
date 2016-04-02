@@ -11,6 +11,7 @@ use yii\base\Model;
 class FotoForm extends Model {
 
     public $imagenPerfil;
+     public $imagenFondo;
 
     /**
      * @return array the validation rules.
@@ -19,11 +20,11 @@ class FotoForm extends Model {
 
         // username and password are both required
         return [
-                ['imagenPerfil', 'file',
+                ['imagenPerfil, imagenFondo', 'file',
                 'skipOnEmpty' => false,
                 'uploadRequired' => 'No has seleccionado ningún archivo', //Error
                 'maxSize' => 1024 * 1024 * 2, //2 MB
-                'tooBig' => 'El tamaño máximo permitido es 1MB', //Error
+                'tooBig' => 'El tamaño máximo permitido es 2MB', //Error
                 'minSize' => 10, //10 Bytes
                 'tooSmall' => 'El tamaño mínimo permitido son 10 BYTES', //Error
                 'extensions' => 'jpg, png',
@@ -36,7 +37,8 @@ class FotoForm extends Model {
 
     public function attributeLabels() {
         return [
-            'imagenPerfil' => 'Cambiar imagen',
+            'imagenPerfil' => 'Cambiar imagen perfil',
+            'imagenFondo' => 'Cambiar imagen fondo',
         ];
     }
 

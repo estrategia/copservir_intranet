@@ -270,15 +270,20 @@ function makeMap(jsonGrafica, patron, valorGrafica, flag) {
   mapBox.append(mapString);
 }
 
-$(document).on('click', "button[data-role='widget-enviarAmigo']", function() {
-  console.log('click enviar amigo');
-  var idClasificado = $(this).attr('data-clasificado');
+/**
+* funcion con una peticion ajax para redenrizar el modal donde se seleccionaran los amigos a quienes deseo compartir el clasificado
+* @param none
+* @return data.result = json donde se especifica si todo se realizo bien,
+          data.response = html para renderizar el modal con el formulario para buscar amigos s
+*/
 
+$(document).on('click', "button[data-role='widget-enviarAmigo']", function() {
+
+  var idClasificado = $(this).attr('data-clasificado');
   $.ajax({
       type: 'GET',
       async: true,
       url: requestUrl + '/intranet/usuario/modal-amigos?idClasificado='+idClasificado,
-      //data: {idTarea: idTarea, progresoTarea: progresoTarea},
       dataType: 'json',
       beforeSend: function() {
       //    Loading.show();
@@ -303,7 +308,39 @@ $(document).on('click', "button[data-role='widget-enviarAmigo']", function() {
 
 });
 
+
+/**
+* funcion con una peticion ajax para registrar a que amigos se envia el clasificado y su respectiva notificaion
+* @param none
+* @return data.result = json donde se especifica si todo se realizo bien
+*/
 $(document).on('click', "button[data-role='enviar-amigos']", function() {
-  console.log('click');
-  $('#formEnviarAmigo').submit();
+  //console.log('click');
+  //$('#formEnviarAmigo').submit();
+  var form = $("#formEnviarAmigo");
+
+  $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/contenido/enviar-amigo',
+      data: form.serialize(),
+      dataType: 'json',
+      beforeSend: function() {
+      //    Loading.show();
+      },
+
+      complete: function(data) {
+       //   Loading.hide();
+      },
+      success: function(data) {
+          if (data.result == "ok") {
+              $("#widget-enviarAmigo").modal('hide');
+          }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+
+      }
+  });
+
+  return false;
 });

@@ -324,22 +324,50 @@ class SitioController extends Controller {
 
             if ($comentario->save()) {
                 $contenido = Contenido::find()->where(['idContenido' => $comentario->idContenido])->one();
-                $notificacion = new Notificaciones();
-                $notificacion->idContenido = $comentario->idContenido;
-                $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
-                $notificacion->idUsuarioDirigido = $contenido->idUsuarioPublicacion;
-                $notificacion->descripcion = "Comentó tu publicación";
-                $notificacion->estadoNotificacion = Notificaciones::ESTADO_CREADA;
-                $notificacion->tipoNotificacion = Notificaciones::NOTIFICACION_COMENTARIO;
-                $notificacion->fechaRegistro = date("Y-m-d H:i:s");
+
+                if (Yii::$app->user->identity->numeroDocumento != $contenido->idUsuarioPublicacion) {
+                    $notificacion = new Notificaciones();
+                    $notificacion->idContenido = $comentario->idContenido;
+                    $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
+                    $notificacion->idUsuarioDirigido = $contenido->idUsuarioPublicacion;
+                    $notificacion->descripcion = "Comentó tu publicación";
+                    $notificacion->estadoNotificacion = Notificaciones::ESTADO_CREADA;
+                    $notificacion->tipoNotificacion = Notificaciones::NOTIFICACION_COMENTARIO;
+                    $notificacion->fechaRegistro = date("Y-m-d H:i:s");
 
 
-                if (!$notificacion->save()) {
+                    if (!$notificacion->save()) {
 
-                    $items = [
-                        'result' => 'error',
-                        'response' => 'Error a notificar el comentario'
-                    ];
+                        $items = [
+                            'result' => 'error',
+                            'response' => 'Error a notificar el comentario'
+                        ];
+                    }
+                }
+
+                // notificarle al resto de personas que comentaron.
+
+                $otrosUsuarios = ContenidosComentarios::find()->select('idUsuarioComentario')->where(['and', ['!=', 'idUsuarioComentario', Yii::$app->user->identity->numeroDocumento], ['!=', 'idUsuarioComentario', $contenido->idUsuarioPublicacion]])
+                        ->andWhere(['idContenido' => $comentario->idContenido])->distinct()->all();
+
+                foreach ($otrosUsuarios as $otroUsuario) {
+                    $notificacion = new Notificaciones();
+                    $notificacion->idContenido = $comentario->idContenido;
+                    $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
+                    $notificacion->idUsuarioDirigido = $otroUsuario->idUsuarioComentario;
+                    $notificacion->descripcion = "También comento una publicación";
+                    $notificacion->estadoNotificacion = Notificaciones::ESTADO_CREADA;
+                    $notificacion->tipoNotificacion = Notificaciones::NOTIFICACION_COMENTARIO;
+                    $notificacion->fechaRegistro = date("Y-m-d H:i:s");
+
+
+                    if (!$notificacion->save()) {
+
+                        $items = [
+                            'result' => 'error',
+                            'response' => 'Error a notificar el comentario'
+                        ];
+                    }
                 }
 
                 $noticia = Contenido::traerNoticiaEspecifica($comentario->idContenido);
@@ -412,7 +440,6 @@ class SitioController extends Controller {
      * @param none
      * @return html contenido modal
      */
-
     public function actionPopupContenido() {
 
         $db = Yii::$app->db;
