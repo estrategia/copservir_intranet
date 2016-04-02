@@ -526,34 +526,4 @@ class SitioController extends Controller {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $items;
     }
-
-    public function actionNotificaciones() {
-        set_time_limit(0); //Establece el número de segundos que se permite la ejecución de un script.
-        $fecha_ac = isset($_POST['timestamp']) ? $_POST['timestamp'] : 0;
-
-        $fecha_bd = $fecha_ac;
-        $objNotificacion = null;
-
-        while ($fecha_bd <= $fecha_ac) {
-            $objNotificacion = Notificaciones::find()->orderBy('fechaRegistro DESC')->one();
-
-            //$query3 = "SELECT timestamp FROM mensajes ORDER BY timestamp DESC LIMIT 1";
-            //$con = mysql_query($query3);
-            //$ro = mysql_fetch_array($con);
-
-            usleep(100000); //anteriormente 10000
-            clearstatcache();
-            if ($objNotificacion !== null) {
-                $fecha_bd = \DateTime::createFromFormat('Y-m-d H:i:s', $objNotificacion->fechaRegistro);
-                $fecha_bd = $fecha_bd->getTimestamp();
-            }
-        }
-
-
-        $html = $this->renderPartial('/sitio/_notificaciones', ['listNotificaciones' => \app\modules\intranet\models\Notificaciones::consultarNotificaciones(Yii::$app->user->identity->numeroDocumento)]);
-        echo \yii\helpers\Json::encode(array('result' => 'ok', 'response' => ['html' => $html, 'timestamp' => $fecha_bd]));
-
-        Yii::$app->end();
-    }
-
 }
