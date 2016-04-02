@@ -355,7 +355,7 @@ class SitioController extends Controller {
                     $notificacion->idContenido = $comentario->idContenido;
                     $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
                     $notificacion->idUsuarioDirigido = $otroUsuario->idUsuarioComentario;
-                    $notificacion->descripcion = "Tambièn comento una publicación";
+                    $notificacion->descripcion = "También comento una publicación";
                     $notificacion->estadoNotificacion = Notificaciones::ESTADO_CREADA;
                     $notificacion->tipoNotificacion = Notificaciones::NOTIFICACION_COMENTARIO;
                     $notificacion->fechaRegistro = date("Y-m-d H:i:s");
