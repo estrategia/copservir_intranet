@@ -285,7 +285,7 @@
             });
             group.height(tallest);
         }
-        $('#my-task-list').popover({
+        $('#my-notification-list').popover({
             html: true,
             content: function () {
                 return $('#notification-list').html();
@@ -293,7 +293,7 @@
         });
 
         $('#user-options').click(function () {
-            $('#my-task-list').popover('hide');
+            $('#my-notification-list').popover('hide');
         });
 
         $('table th .checkall').on('click', function () {

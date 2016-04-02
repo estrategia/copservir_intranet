@@ -1,4 +1,5 @@
-<div class="notification-messages <?= Yii::$app->params['notificaciones']['claseColor'][$idx % 2] ?>">
+<?php use app\modules\intranet\models\Notificaciones; ?>
+<div class="notification-messages <?= $objNotificacion->estadoNotificacion==Notificaciones::ESTADO_CREADA ? Yii::$app->params['notificaciones']['claseColor'][2] : Yii::$app->params['notificaciones']['claseColor'][$idx % 2] ?>">
     <?php if (!empty($objNotificacion->objUsuarioDirige->imagenPerfil)): ?>
         <div class="user-profile"> 
             <img width="35" height="35" alt="" src="<?= Yii::$app->homeUrl . 'img/fotosperfil/' . $objNotificacion->objUsuarioDirige->imagenPerfil ?>"> 
