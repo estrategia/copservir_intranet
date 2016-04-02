@@ -1,10 +1,7 @@
 <?php
 
-use vova07\imperavi\Widget;
-use yii\widgets\ActiveForm;
-use yii\helpers\Url;
-use yii\helpers\Html;
 use yii\widgets\ListView;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 ?>
@@ -15,6 +12,7 @@ use yii\widgets\ListView;
         <div class="tiles-body">
             <div class="tiles-title"> NOTIFICACIONES </div>
             <br>
+            <?php Pjax::begin(['timeout' => 10000, 'clientOptions' => ['container' => 'pjax-container']]); ?>
             <?=
             ListView::widget([
                 'dataProvider' => $dataProvider,
@@ -32,6 +30,7 @@ use yii\widgets\ListView;
                 ],
             ]);
             ?>
+            <?php Pjax::end(); ?>
         </div>
     </div>
 </div>
