@@ -31,7 +31,6 @@ use yii\db\Query;
 use app\modules\intranet\models\MeGustaContenidos;
 use app\modules\intranet\models\GrupoInteres;
 
-
 class UsuarioController extends \yii\web\Controller {
     /*
       comportamientos del controlador
@@ -239,7 +238,8 @@ class UsuarioController extends \yii\web\Controller {
         if ($modelFoto->load(Yii::$app->request->post())) {
             // llamar al webservice y mandar los datos
             {
-
+               
+                $usuario = Usuario::findOne(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento, 'estado' => 1]);
                 $modelFoto->imagenPerfil = UploadedFile::getInstances($modelFoto, 'imagenPerfil');
 
                 if ($modelFoto->imagenPerfil) {
@@ -247,20 +247,33 @@ class UsuarioController extends \yii\web\Controller {
                         $file->saveAs('img/fotosperfil/' . $file->baseName . '.' . $file->extension);
                         $msg = "<p><strong class='label label-info'>Enhorabuena, subida realizada con éxito</strong></p>";
                     }
-                    $usuario = Usuario::findOne(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento, 'estado' => 1]);
+
 
                     $usuario->imagenPerfil = $file->baseName . '.' . $file->extension;
 
                     $usuario->save();
                     Yii::$app->user->identity->imagenPerfil = $file->baseName . '.' . $file->extension;
                 }
+                $modelFoto->imagenFondo = UploadedFile::getInstances($modelFoto, 'imagenFondo');
+                
+                if ($modelFoto->imagenFondo) {
+                    foreach ($modelFoto->imagenFondo as $file) {
+                        $file->saveAs('img/imagenesFondo/' . $file->baseName . '.' . $file->extension);
+                        $msg = "<p><strong class='label label-info'>Enhorabuena, subida realizada con éxito</strong></p>";
+                    }
+
+                    $usuario->imagenFondo = $file->baseName . '.' . $file->extension;
+
+                    $usuario->save();
+                    Yii::$app->user->identity->imagenFondo = $file->baseName . '.' . $file->extension;
+                }
             }
             $modelFoto = new FotoForm();
         }
-        
-        $meGustan=MeGustaContenidos::find()->where(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento])->count();
-        $contenidos=  Contenido::find()->where(['idUsuarioPublicacion' => Yii::$app->user->identity->numeroDocumento])->count();
-        $gruposReferencia = GrupoInteres::find()->where('idGrupoInteres IN ('.implode(",", Yii::$app->user->identity->getGruposCodigos()).')' )->all();
+
+        $meGustan = MeGustaContenidos::find()->where(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento])->count();
+        $contenidos = Contenido::find()->where(['idUsuarioPublicacion' => Yii::$app->user->identity->numeroDocumento])->count();
+        $gruposReferencia = GrupoInteres::find()->where('idGrupoInteres IN (' . implode(",", Yii::$app->user->identity->getGruposCodigos()) . ')')->all();
         return $this->render('perfil', ['modelFoto' => $modelFoto, 'contenidos' => $contenidos, 'meGustan' => $meGustan, 'gruposReferencia' => $gruposReferencia]);
     }
 
@@ -301,22 +314,21 @@ class UsuarioController extends \yii\web\Controller {
      * @param none
      * @return html contenido modal para enviar a un amigo
      */
-     public function actionModalAmigos($idClasificado)
-     {
-       \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-       $listaUsuarios = Usuario::find()->where([ 'estado' => 1])->all();
-       $clasificado = Contenido::findOne(['idContenido' => $idClasificado]);
+    public function actionModalAmigos($idClasificado) {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $listaUsuarios = Usuario::find()->where([ 'estado' => 1])->all();
+        $clasificado = Contenido::findOne(['idContenido' => $idClasificado]);
 
-       $items = [
-           'result' => 'ok',
-           'response' => $this->renderAjax('_modalEnviarAmigo', [
-               'listaUsuarios' => $listaUsuarios,
-               'modelClasificado' => $clasificado
-            ]
-       )];
+        $items = [
+            'result' => 'ok',
+            'response' => $this->renderAjax('_modalEnviarAmigo', [
+                'listaUsuarios' => $listaUsuarios,
+                'modelClasificado' => $clasificado
+                    ]
+        )];
 
-       return $items;
-     }
+        return $items;
+    }
 
     /**
      * Eviar a un amigo = accion para buscar los usuarios en el input
@@ -325,6 +337,6 @@ class UsuarioController extends \yii\web\Controller {
      */
     public function actionBuscarAmigos($search = null, $id = null) {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
     }
+
 }

@@ -16,7 +16,7 @@
                 <a href='#' data-comentario= "<?= $comentario->idContenidoComentario ?>"  data-role='eliminar-comentario' title='Eliminar comentario'>
                     <li class="fa fa-times"></li>
                 </a> &nbsp;
-            <?php elseif (!empty($comentario->objDenuncioComentarioUsuario)): ?>
+            <?php elseif (empty($comentario->objDenuncioComentarioUsuario)): ?>
                 <a href='#' data-comentario= "<?= $comentario->idContenidoComentario ?>"  data-role='denunciar-comentario' title='Denunciar comentario'>
                     <li class="fa fa-bullhorn"></li>
                 </a>
