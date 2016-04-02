@@ -82,8 +82,22 @@ class Notificaciones extends \yii\db\ActiveRecord {
         return [$horas, $minutos];
     }
 
-    public static function consultarNotificaciones($usuario) {
-        $query = self::find()->with(['objUsuarioDirige','objContenido'])->where("idUsuarioDirigido=:usuario")->addParams([':usuario'=>$usuario])->orderBy('fechaRegistro DESC')->all();
+    public static function consultarNotificaciones($usuario, $dataProvider = false) {
+        if ($dataProvider) {
+            $query = self::find()
+                    ->joinWith(['objUsuarioDirige', 'objContenido'])
+                    ->where("idUsuarioDirigido=:usuario")
+                    ->addParams([':usuario' => $usuario])
+                    ->orderBy('fechaRegistro DESC');
+        } else {
+            $query = self::find()
+                            ->joinWith(['objUsuarioDirige', 'objContenido'])
+                            ->where("idUsuarioDirigido=:usuario")
+                            ->addParams([':usuario' => $usuario])
+                            ->limit(\Yii::$app->params['notificaciones']['limiteVisualizar'])
+                            ->orderBy('fechaRegistro DESC')->all();
+        }
+
         return $query;
 
         //var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
@@ -93,7 +107,7 @@ class Notificaciones extends \yii\db\ActiveRecord {
     public function getObjUsuarioDirige() {
         return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'idUsuarioDirige']);
     }
-    
+
     public function getObjContenido() {
         return $this->hasOne(Contenido::className(), ['idContenido' => 'idContenido']);
     }

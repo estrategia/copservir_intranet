@@ -14,7 +14,7 @@ use yii\helpers\ArrayHelper;
           
     
 
-      <img src="<?= Yii::$app->homeUrl . 'img/cover_pic.png' ?>" alt="">
+      <img src="<?= Yii::$app->homeUrl . 'img/imagenesFondo/'.\Yii::$app->user->identity->imagenFondo ?>" alt="">
       </div>
       <div class="tiles white">
 
@@ -43,38 +43,12 @@ use yii\helpers\ArrayHelper;
           <div class="col-md-3  col-sm-3">
             <h5 class="normal">Grupos ( <span class="text-success"><?= count($gruposReferencia)?></span> )</h5>
             <ul class="my-friends">
+                <?php foreach($gruposReferencia as $grupo):?>
               <li><div class="profile-pic">
-                <img width="35" height="35" data-src-retina="" data-src="assets/img/profiles/d.jpg" src="assets/img/profiles/d.jpg" alt="">
+                      <img width="35" height="35" data-src-retina="" data-src="<?=  $grupo->getImagen()?>" src="<?=  $grupo->getImagen()?>" title="<?=  $grupo->nombreGrupo?>" alt="">
                 </div>
               </li>
-              <li><div class="profile-pic">
-                <img width="35" height="35" data-src-retina="assets/img/profiles/c2x.jpg" data-src="assets/img/profiles/c.jpg" src="assets/img/profiles/c.jpg" alt="">
-                </div>
-              </li>
-              <li><div class="profile-pic">
-                <img width="35" height="35" data-src-retina="assets/img/profiles/h2x.jpg" data-src="assets/img/profiles/h.jpg" src="assets/img/profiles/h.jpg" alt="">
-                </div>
-              </li>
-              <li><div class="profile-pic">
-                <img width="35" height="35" data-src-retina="assets/img/profiles/avatar_small2x.jpg" data-src="assets/img/profiles/avatar_small.jpg" src="assets/img/profiles/avatar_small.jpg" alt="">
-                </div>
-              </li>
-              <li><div class="profile-pic">
-                <img width="35" height="35" data-src-retina="assets/img/profiles/e2x.jpg" data-src="assets/img/profiles/e.jpg" src="assets/img/profiles/e.jpg" alt="">
-                </div>
-              </li>
-              <li><div class="profile-pic">
-                <img width="35" height="35" data-src-retina="assets/img/profiles/b2x.jpg" data-src="assets/img/profiles/b.jpg" src="assets/img/profiles/b.jpg" alt="">
-                </div>
-              </li>
-              <li><div class="profile-pic">
-                <img width="35" height="35" data-src-retina="assets/img/profiles/h2x.jpg" data-src="assets/img/profiles/h.jpg" src="assets/img/profiles/h.jpg" alt="">
-                </div>
-              </li>
-              <li><div class="profile-pic">
-                <img width="35" height="35" data-src-retina="" data-src="assets/img/profiles/d.jpg" src="assets/img/profiles/d.jpg" alt="">
-                </div>
-              </li>
+              <?php endforeach;?>
             </ul>
             <div class="clearfix">
             </div>
@@ -156,7 +130,9 @@ use yii\helpers\ArrayHelper;
                 ]);
                 ?>
                 <?= $form->field($modelFoto, "imagenPerfil")->fileInput(['multiple' => false ]) ?>
-
+                <?= $form->field($modelFoto, "imagenFondo")->fileInput(['multiple' => false ]) ?>  
+                  
+                <?= Html::submitButton('Guardar cambios', ['class' => 'btn btn-success'])?>  
                 <?php $form->end() ?>
 
                 <!--<button type="button" class="btn btn-primary btn-small"><i class="fa fa-check"></i>&nbsp;&nbsp;Cambiar foto de perfil</button> <button type="button" class="btn btn-primary btn-small">Cambiar fondo</button>-->

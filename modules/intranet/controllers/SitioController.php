@@ -324,22 +324,50 @@ class SitioController extends Controller {
 
             if ($comentario->save()) {
                 $contenido = Contenido::find()->where(['idContenido' => $comentario->idContenido])->one();
-                $notificacion = new Notificaciones();
-                $notificacion->idContenido = $comentario->idContenido;
-                $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
-                $notificacion->idUsuarioDirigido = $contenido->idUsuarioPublicacion;
-                $notificacion->descripcion = "Comentó tu publicación";
-                $notificacion->estadoNotificacion = Notificaciones::ESTADO_CREADA;
-                $notificacion->tipoNotificacion = Notificaciones::NOTIFICACION_COMENTARIO;
-                $notificacion->fechaRegistro = date("Y-m-d H:i:s");
+
+                if (Yii::$app->user->identity->numeroDocumento != $contenido->idUsuarioPublicacion) {
+                    $notificacion = new Notificaciones();
+                    $notificacion->idContenido = $comentario->idContenido;
+                    $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
+                    $notificacion->idUsuarioDirigido = $contenido->idUsuarioPublicacion;
+                    $notificacion->descripcion = "Comentó tu publicación";
+                    $notificacion->estadoNotificacion = Notificaciones::ESTADO_CREADA;
+                    $notificacion->tipoNotificacion = Notificaciones::NOTIFICACION_COMENTARIO;
+                    $notificacion->fechaRegistro = date("Y-m-d H:i:s");
 
 
-                if (!$notificacion->save()) {
+                    if (!$notificacion->save()) {
 
-                    $items = [
-                        'result' => 'error',
-                        'response' => 'Error a notificar el comentario'
-                    ];
+                        $items = [
+                            'result' => 'error',
+                            'response' => 'Error a notificar el comentario'
+                        ];
+                    }
+                }
+
+                // notificarle al resto de personas que comentaron.
+
+                $otrosUsuarios = ContenidosComentarios::find()->select('idUsuarioComentario')->where(['and', ['!=', 'idUsuarioComentario', Yii::$app->user->identity->numeroDocumento], ['!=', 'idUsuarioComentario', $contenido->idUsuarioPublicacion]])
+                        ->andWhere(['idContenido' => $comentario->idContenido])->distinct()->all();
+
+                foreach ($otrosUsuarios as $otroUsuario) {
+                    $notificacion = new Notificaciones();
+                    $notificacion->idContenido = $comentario->idContenido;
+                    $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
+                    $notificacion->idUsuarioDirigido = $otroUsuario->idUsuarioComentario;
+                    $notificacion->descripcion = "También comento una publicación";
+                    $notificacion->estadoNotificacion = Notificaciones::ESTADO_CREADA;
+                    $notificacion->tipoNotificacion = Notificaciones::NOTIFICACION_COMENTARIO;
+                    $notificacion->fechaRegistro = date("Y-m-d H:i:s");
+
+
+                    if (!$notificacion->save()) {
+
+                        $items = [
+                            'result' => 'error',
+                            'response' => 'Error a notificar el comentario'
+                        ];
+                    }
                 }
 
                 $noticia = Contenido::traerNoticiaEspecifica($comentario->idContenido);
@@ -412,7 +440,6 @@ class SitioController extends Controller {
      * @param none
      * @return html contenido modal
      */
-
     public function actionPopupContenido() {
 
         $db = Yii::$app->db;
@@ -499,35 +526,4 @@ class SitioController extends Controller {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $items;
     }
-
-    public function actionNotificaciones() {
-        set_time_limit(0); //Establece el número de segundos que se permite la ejecución de un script.
-        $fecha_ac = isset($_POST['timestamp']) ? $_POST['timestamp'] : 0;
-
-        $fecha_bd = $fecha_ac;
-        $objNotificacion = null;
-
-        while ($fecha_bd <= $fecha_ac) {
-            $objNotificacion = Notificaciones::find()->orderBy('fechaRegistro DESC')->one();
-
-            //$query3 = "SELECT timestamp FROM mensajes ORDER BY timestamp DESC LIMIT 1";
-            //$con = mysql_query($query3);
-            //$ro = mysql_fetch_array($con);
-
-            usleep(100000); //anteriormente 10000
-            clearstatcache();
-            if ($objNotificacion !== null) {
-                $fecha_bd = \DateTime::createFromFormat('Y-m-d H:i:s', $objNotificacion->fechaRegistro);
-                $fecha_bd = $fecha_bd->getTimestamp();
-            }
-        }
-
-
-        $html = $this->renderPartial('/sitio/_notificaciones', ['listNotificaciones' => \app\modules\intranet\models\Notificaciones::consultarNotificaciones(Yii::$app->user->identity->numeroDocumento)]);
-        echo \yii\helpers\Json::encode(array('result' => 'ok', 'response' => ['html' => $html, 'timestamp' => $fecha_bd]));
-
-        Yii::$app->end();
-    }
-
-
 }
