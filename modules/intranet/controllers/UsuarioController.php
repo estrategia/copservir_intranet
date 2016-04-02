@@ -28,6 +28,8 @@ use yii\web\UploadedFile;
 use yii\db\ActiveRecord;
 use app\modules\intranet\models\UsuarioWidgetInactivo;
 use yii\db\Query;
+use app\modules\intranet\models\MeGustaContenidos;
+use app\modules\intranet\models\GrupoInteres;
 
 class UsuarioController extends \yii\web\Controller {
     /*
@@ -237,6 +239,7 @@ class UsuarioController extends \yii\web\Controller {
             // llamar al webservice y mandar los datos
             {
 
+                $usuario = Usuario::findOne(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento, 'estado' => 1]);
                 $modelFoto->imagenPerfil = UploadedFile::getInstances($modelFoto, 'imagenPerfil');
 
                 if ($modelFoto->imagenPerfil) {
@@ -244,17 +247,34 @@ class UsuarioController extends \yii\web\Controller {
                         $file->saveAs('img/fotosperfil/' . $file->baseName . '.' . $file->extension);
                         $msg = "<p><strong class='label label-info'>Enhorabuena, subida realizada con éxito</strong></p>";
                     }
-                    $usuario = Usuario::findOne(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento, 'estado' => 1]);
+
 
                     $usuario->imagenPerfil = $file->baseName . '.' . $file->extension;
 
                     $usuario->save();
                     Yii::$app->user->identity->imagenPerfil = $file->baseName . '.' . $file->extension;
                 }
+                $modelFoto->imagenFondo = UploadedFile::getInstances($modelFoto, 'imagenFondo');
+
+                if ($modelFoto->imagenFondo) {
+                    foreach ($modelFoto->imagenFondo as $file) {
+                        $file->saveAs('img/imagenesFondo/' . $file->baseName . '.' . $file->extension);
+                        $msg = "<p><strong class='label label-info'>Enhorabuena, subida realizada con éxito</strong></p>";
+                    }
+
+                    $usuario->imagenFondo = $file->baseName . '.' . $file->extension;
+
+                    $usuario->save();
+                    Yii::$app->user->identity->imagenFondo = $file->baseName . '.' . $file->extension;
+                }
             }
             $modelFoto = new FotoForm();
         }
-        return $this->render('perfil', ['modelFoto' => $modelFoto]);
+
+        $meGustan = MeGustaContenidos::find()->where(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento])->count();
+        $contenidos = Contenido::find()->where(['idUsuarioPublicacion' => Yii::$app->user->identity->numeroDocumento])->count();
+        $gruposReferencia = GrupoInteres::find()->where('idGrupoInteres IN (' . implode(",", Yii::$app->user->identity->getGruposCodigos()) . ')')->all();
+        return $this->render('perfil', ['modelFoto' => $modelFoto, 'contenidos' => $contenidos, 'meGustan' => $meGustan, 'gruposReferencia' => $gruposReferencia]);
     }
 
     /*
@@ -296,6 +316,7 @@ class UsuarioController extends \yii\web\Controller {
      *         items.result = indica si todo se realizo bien o mal
      *         items.response = html para renderizar el modal tiene como parametros: listaUsuarios = usuarios a seleccionar, modelClasificado = modelo del contenido que desea compartir
      */
+
      public function actionModalAmigos($idClasificado)
      {
        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -312,4 +333,5 @@ class UsuarioController extends \yii\web\Controller {
 
        return $items;
      }
+
 }

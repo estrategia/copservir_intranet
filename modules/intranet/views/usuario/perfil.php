@@ -11,28 +11,10 @@ use yii\helpers\ArrayHelper;
   <div class="col-md-8">
     <div class=" tiles white col-md-12 no-padding">
       <div class="tiles green cover-pic-wrapper">
-        <div class="overlayer bottom-right">
-          <div class="overlayer-wrapper">
-              <div class="padding-10 hidden-xs">
-                <?php
-                $form = ActiveForm::begin([
-                            "method" => "post",
-                            "enableClientValidation" => true,
-                            "options" => ["enctype" => "multipart/form-data"],
-                ]);
-                ?>
-                <?= $form->field($modelFoto, "imagenPerfil")->fileInput(['multiple' => false ]) ?>
-                <?= Html::submitButton("Cambiar foto de perfil", ["class" => "btn btn-primary btn-small"]) ?>
+          
+    
 
-                <?= Html::a('Cambiar fondo', ['#'], ['class' => 'btn btn-primary btn-small']) ?>
-                <?php $form->end() ?>
-
-                <!--<button type="button" class="btn btn-primary btn-small"><i class="fa fa-check"></i>&nbsp;&nbsp;Cambiar foto de perfil</button> <button type="button" class="btn btn-primary btn-small">Cambiar fondo</button>-->
-              </div>
-            </div>
-        </div>
-
-      <img src="<?= Yii::$app->homeUrl . 'img/cover_pic.png' ?>" alt="">
+      <img src="<?= Yii::$app->homeUrl . 'img/imagenesFondo/'.\Yii::$app->user->identity->imagenFondo ?>" alt="">
       </div>
       <div class="tiles white">
 
@@ -43,13 +25,13 @@ use yii\helpers\ArrayHelper;
             </div>
              <div class="user-mini-description">
               <h3 class="text-success semi-bold">
-              2548
+              <?= $contenidos ?>
               </h3>
-              <h5>Seguidores</h5>
+              <h5>Publicaciones realizadas</h5>
               <h3 class="text-success semi-bold">
-              457
+              <?=$meGustan ?>
               </h3>
-              <h5>Seguidos</h5>
+              <h5>Me gusta</h5>
             </div>
           </div>
           <div class="col-md-5 user-description-box  col-sm-5">
@@ -57,45 +39,16 @@ use yii\helpers\ArrayHelper;
             <h6 class="no-margin"><?= \Yii::$app->user->identity->getProfesion() ?></h6>
             <br>
             <p><i class="fa fa-briefcase"></i> <?= \Yii::$app->user->identity->getCargo() ?></p>
-            <p><i class="fa fa-globe"></i>www.google.com</p>
-            <p><i class="fa fa-file-o"></i>Download Resume</p>
-            <p><i class="fa fa-envelope"></i>Send Message</p>
           </div>
           <div class="col-md-3  col-sm-3">
-            <h5 class="normal">Circulos ( <span class="text-success">1223</span> )</h5>
+            <h5 class="normal">Grupos ( <span class="text-success"><?= count($gruposReferencia)?></span> )</h5>
             <ul class="my-friends">
+                <?php foreach($gruposReferencia as $grupo):?>
               <li><div class="profile-pic">
-                <img width="35" height="35" data-src-retina="" data-src="assets/img/profiles/d.jpg" src="assets/img/profiles/d.jpg" alt="">
+                      <img width="35" height="35" data-src-retina="" data-src="<?=  $grupo->getImagen()?>" src="<?=  $grupo->getImagen()?>" title="<?=  $grupo->nombreGrupo?>" alt="">
                 </div>
               </li>
-              <li><div class="profile-pic">
-                <img width="35" height="35" data-src-retina="assets/img/profiles/c2x.jpg" data-src="assets/img/profiles/c.jpg" src="assets/img/profiles/c.jpg" alt="">
-                </div>
-              </li>
-              <li><div class="profile-pic">
-                <img width="35" height="35" data-src-retina="assets/img/profiles/h2x.jpg" data-src="assets/img/profiles/h.jpg" src="assets/img/profiles/h.jpg" alt="">
-                </div>
-              </li>
-              <li><div class="profile-pic">
-                <img width="35" height="35" data-src-retina="assets/img/profiles/avatar_small2x.jpg" data-src="assets/img/profiles/avatar_small.jpg" src="assets/img/profiles/avatar_small.jpg" alt="">
-                </div>
-              </li>
-              <li><div class="profile-pic">
-                <img width="35" height="35" data-src-retina="assets/img/profiles/e2x.jpg" data-src="assets/img/profiles/e.jpg" src="assets/img/profiles/e.jpg" alt="">
-                </div>
-              </li>
-              <li><div class="profile-pic">
-                <img width="35" height="35" data-src-retina="assets/img/profiles/b2x.jpg" data-src="assets/img/profiles/b.jpg" src="assets/img/profiles/b.jpg" alt="">
-                </div>
-              </li>
-              <li><div class="profile-pic">
-                <img width="35" height="35" data-src-retina="assets/img/profiles/h2x.jpg" data-src="assets/img/profiles/h.jpg" src="assets/img/profiles/h.jpg" alt="">
-                </div>
-              </li>
-              <li><div class="profile-pic">
-                <img width="35" height="35" data-src-retina="" data-src="assets/img/profiles/d.jpg" src="assets/img/profiles/d.jpg" alt="">
-                </div>
-              </li>
+              <?php endforeach;?>
             </ul>
             <div class="clearfix">
             </div>
@@ -149,23 +102,44 @@ use yii\helpers\ArrayHelper;
     <br>
     <div class="row">
       <div class="col-md-12 no-padding">
-      <div class="tiles white">
-        <textarea rows="3"  class="form-control user-status-box post-input"  placeholder="Que deseas publicar?"></textarea>
+    <!-- <div class="tiles white">
+        <textarea rows="3"  class="form-control user-status-box post-input"  placeholder="Que deseas publicar?"></textarea>-->
 
         <!-- aqui desplegables publicacion -->
         <?php //Html::activeDropDownList($modelFoto, 's_id', ArrayHelper::map(Usuario::find()->all(), 's_id', 'name')) ?>
 
-      </div>
-      <div class="tiles grey padding-10">
+     <!-- </div>-->
+     
+     <!-- <div class="tiles grey padding-10">
       <div class="pull-left">
-        <button class="btn btn-default btn-sm btn-small" type="button"><i class="fa fa-camera"></i></button>
+        <button class="btn btn-default btn-sm btn-small" type="button"><i class="fa fa-camera"></i></button>-->
         <!--<button class="btn btn-default btn-sm btn-small" type="button"><i class="fa fa-map-marker"></i></button>-->
-      </div>
+     <!-- </div>
       <div class="pull-right">
         <button class="btn btn-primary btn-sm btn-small" type="button">publicar</button>
       </div>
       <div class="clearfix"></div>
-      </div>
+      </div>-->
+         <div class="overlayer-wrapper">
+              <div class="padding-10 hidden-xs">
+                <?php
+                $form = ActiveForm::begin([
+                            "method" => "post",
+                            "enableClientValidation" => true,
+                            "options" => ["enctype" => "multipart/form-data"],
+                ]);
+                ?>
+                <?= $form->field($modelFoto, "imagenPerfil")->fileInput(['multiple' => false ]) ?>
+                <?= $form->field($modelFoto, "imagenFondo")->fileInput(['multiple' => false ]) ?>  
+                  
+                <?= Html::submitButton('Guardar cambios', ['class' => 'btn btn-success'])?>  
+                <?php $form->end() ?>
+
+                <!--<button type="button" class="btn btn-primary btn-small"><i class="fa fa-check"></i>&nbsp;&nbsp;Cambiar foto de perfil</button> <button type="button" class="btn btn-primary btn-small">Cambiar fondo</button>-->
+              </div>
+            </div>
+        </div>
+     
       </div>
     </div>
     <br>

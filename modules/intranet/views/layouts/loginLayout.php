@@ -37,9 +37,9 @@ $srcFondo = Yii::$app->homeUrl . 'img/work.jpg';
               ?>
               <div class="row login-container animated fadeInUp">
                 <div class="col-md-7 col-md-offset-2 tiles white no-padding">
-                  <div style="text-align: -webkit-center;">
-                      <img class="" src=<?= "".$srcLogo ?> alt="" data-src=<?= "".$srcLogo ?> data-src-retina=<?= "".$srcLogo ?> style="width: 450px;"/>
-                  </div>
+                  <p style="text-align:center;">
+                      <img class="" src=<?= "".$srcLogo ?> alt="" data-src=<?= "".$srcLogo ?> data-src-retina=<?= "".$srcLogo ?> style="width: 317px;margin-top:21px;"/>
+                  </p>
                   <?= $content ?>
                 </div>
               </div>

@@ -8,14 +8,13 @@ use app\modules\intranet\models\GrupoInteresSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\web\UploadedFile;
 /**
  * GrupoInteresController implementa las acciones para el modelo GrupoInteres.
  */
-class GrupoInteresController extends Controller
-{
-    public function behaviors()
-    {
+class GrupoInteresController extends Controller {
+
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -30,14 +29,13 @@ class GrupoInteresController extends Controller
      * Lista todos los modelos Grupointeres.
      * @return mixed
      */
-    public function actionListar()
-    {
+    public function actionListar() {
         $searchModel = new GrupoInteresSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -46,12 +44,11 @@ class GrupoInteresController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionDetalle($id)
-    {
+    public function actionDetalle($id) {
         $grupo = $this->findModel($id);
-        
+
         return $this->render('detalle', [
-            'grupo' => $grupo, 'cargos' => $cargos
+                    'grupo' => $grupo, 'cargos' => $cargos
         ]);
     }
 
@@ -60,15 +57,28 @@ class GrupoInteresController extends Controller
      * Si la creacion es exitosa el navegador redirige a la vista detalle.
      * @return mixed
      */
-    public function actionCrear()
-    {
+    public function actionCrear() {
         $model = new GrupoInteres();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['detalle', 'id' => $model->idGrupoInteres]);
+            $model->imagenGrupo = UploadedFile::getInstances($model, 'imagenGrupo');
+
+           
+            if ($model->imagenGrupo) {
+                foreach ($model->imagenGrupo as $file) {
+                    $file->saveAs('img/gruposInteres/' . $file->baseName . '.' . $file->extension);
+                }
+                $model->imagenGrupo = $file->baseName . '.' . $file->extension;
+
+                $model->save();
+            }
+            return $this->render('crear', [
+                        'model' => $model,
+            ]);
+          //  return $this->redirect(['detalle', 'id' => $model->idGrupoInteres]);
         } else {
             return $this->render('crear', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -79,15 +89,28 @@ class GrupoInteresController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionActualizar($id)
-    {
+    public function actionActualizar($id) {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['detalle', 'id' => $model->idGrupoInteres]);
+            $model->imagenGrupo = UploadedFile::getInstances($model, 'imagenGrupo');
+          
+            if ($model->imagenGrupo) {
+                foreach ($model->imagenGrupo as $file) {
+                    $file->saveAs('img/gruposInteres/' . $file->baseName . '.' . $file->extension);
+                }
+                $model->imagenGrupo = $file->baseName . '.' . $file->extension;
+
+                $model->save();
+            }
+
+          //  return $this->redirect(['detalle', 'id' => $model->idGrupoInteres]);
+             return $this->render('crear', [
+                        'model' => $model,
+            ]);
         } else {
             return $this->render('actualizar', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -98,8 +121,7 @@ class GrupoInteresController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionEliminar($id)
-    {
+    public function actionEliminar($id) {
         $this->findModel($id)->delete();
 
         return $this->redirect(['listar']);
@@ -112,12 +134,12 @@ class GrupoInteresController extends Controller
      * @return un modelo GrupoInteres
      * @throws NotFoundHttpException si el modelo no es enconrado
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = GrupoInteres::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

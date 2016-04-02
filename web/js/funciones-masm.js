@@ -58,7 +58,7 @@ function cargar_push()
     $.ajax({
         async: true,
         type: "POST",
-        url: requestUrl + '/intranet/sitio/notificaciones',
+        url: requestUrl + '/intranet/notificaciones/resumen',
         data: "&timestamp=" + timestampnotif,
         dataType: 'json',
         success: function (data){

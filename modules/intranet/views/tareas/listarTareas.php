@@ -12,7 +12,7 @@ $this->title = 'Tareas';
 
 <div class="col-md-12">
     <div class="grid simple">
-        <div class="grid-title no-border" style="background-color: #0AA699 !important;">
+        <div class="grid-title no-border" style="background-color:#367FA9 !important;">
             <h4 style='color:#fff !important;'>Administrar  <span class="semi-bold">Tareas</span></h4>
             <div class="tools">	<a href="javascript:;" class="collapse"></a>
 				<a href="#grid-config" data-toggle="modal" class="config"></a>

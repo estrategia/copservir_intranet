@@ -6,7 +6,6 @@ use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\Expression;
 
-
 /**
  * This is the model class for table "t_contenido".
  *
@@ -107,9 +106,9 @@ class Contenido extends \yii\db\ActiveRecord
           return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])
                ->where(
                            ['and',
-                                ['<=', 'fechaInicioPublicacion', 'now()'],
+                                ['<=', 'fechaInicioPublicacion', new Expression('now()')],
                                 ['=', 'idLineaTiempo', $idLineaTiempo],
-                                ['=', 'estado', 2],
+                                ['=', 'estado', self::APROBADO],
                              ]
                             )->orderBy('fechaInicioPublicacion Desc')
 
@@ -135,7 +134,7 @@ class Contenido extends \yii\db\ActiveRecord
         $idUsuario = Yii::$app->user->identity->numeroDocumento;
         $query = self::find()->joinWith(['contenidoRecomendacion'])
               ->where("( (t_Contenido.idUsuarioPublicacion =:idUsuario and t_Contenido.estado=:estado and t_Contenido.fechaPublicacion <=:fechaPublicacion) or (t_ContenidoRecomendacion.numeroDocumentoDirigido =:idUsuario and t_ContenidoRecomendacion.fechaRegistro <=:fechaRegistro) )")
-              ->addParams([':fechaPublicacion' => $fecha,':fechaRegistro'=>$fecha, ':idUsuario'=> $idUsuario, ':estado'=>2])
+              ->addParams([':fechaPublicacion' => $fecha,':fechaRegistro'=>$fecha, ':idUsuario'=> $idUsuario, ':estado'=>self::APROBADO])
               ->orderBy('t_contenido.fechaInicioPublicacion DESC,t_contenidorecomendacion.fechaRegistro DESC');
 
         return $query;
@@ -146,14 +145,14 @@ class Contenido extends \yii\db\ActiveRecord
     public static function traerNoticiaEspecifica($idContenido){
         return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])->where(
                            ['and',
-                                ['<=', 'fechaInicioPublicacion', 'now()'],
+                                ['<=', 'fechaInicioPublicacion', new Expression('now()')],
                                 ['=', 'idContenido', $idContenido],
-                                ['=', 'estado', 2]
+                                ['=', 'estado', self::APROBADO]
                              ]
                             )->one();
     }
 
-    
+
 
     /**
     * Trae todas las noticias con ese patron
