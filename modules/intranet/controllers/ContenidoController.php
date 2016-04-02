@@ -13,6 +13,8 @@ use \app\modules\intranet\models\ContenidosComentarios;
 use \app\modules\intranet\models\DenunciosContenidos;
 use app\modules\intranet\models\DenunciosContenidosComentarios;
 use app\modules\intranet\models\ContenidoDestino;
+use app\modules\intranet\models\ContenidoRecomendacion;
+use app\modules\intranet\models\Notificaciones;
 
 class ContenidoController extends Controller {
 
@@ -415,14 +417,16 @@ class ContenidoController extends Controller {
     /**
     * accion donde el usuario envia una publicacion a un amigo
     * @param post = los usuarios que selecciono para enviar la publicación
-    * @return
+    * @return items = []
+    *         items.result = indica si todo se realizo bien o mal 
     */
     public function actionEnviarAmigo()
     {
       $listaAmigos =  Yii::$app->request->post('enviaAmigo',[]);
       $clasificado =  Yii::$app->request->post('clasificado','');
+      $items = [];
 
-      if ($enviaAmigo != [] and $clasificado != '') {
+      if ($listaAmigos != [] and $clasificado != '') {
 
           $transaction = ContenidoRecomendacion::getDb()->beginTransaction();
           try {
@@ -440,29 +444,36 @@ class ContenidoController extends Controller {
               try {
 
                 foreach ($listaAmigos as $amigo) {
+
                     $notificacion = new Notificaciones();
                     $notificacion->idContenido = $clasificado;
                     $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
                     $notificacion->idUsuarioDirigido = $amigo;
                     $notificacion->descripcion = 'recomienda un clasificado';
-                    $notificacion->estadoNotificacion = 'recomienda un clasificado';
+                    $notificacion->estadoNotificacion = Notificaciones::ESTADO_CREADA;
                     $notificacion->fechaRegistro = Date("Y-m-d H:i:s");
                     $notificacion->tipoNotificacion = Notificaciones::NOTIFICACION_RECOMENDACION;
                     $notificacion->save();
                 }
+
                 $innerTransaction->commit();
+
+                $items = [
+                    'result' => 'ok',
+                  ];
+
 
               } catch (Exception $e) {
                   $innerTransaction->rollBack();
-
                   throw $e;
                }
 
 
               //ejecuta la transaccion
               $transaction->commit();
+              Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+              return $items;
 
-              return $this->redirect(['detalle', 'id' => $model->idTarea]);
 
           } catch(\Exception $e) {
 
@@ -473,7 +484,6 @@ class ContenidoController extends Controller {
           }
 
       }
-      //var_dump($amigos);
     }
 
 }

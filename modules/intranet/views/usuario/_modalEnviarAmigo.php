@@ -32,8 +32,6 @@ use yii\helpers\Html;
                   'options' => ['class'=>'select2-container select2-container-multi', 'id' => 'enviaAmigo','placeholder' => 'buscar...', 'multiple' => true],
                   'pluginOptions' => [
                     'allowClear' => true,
-                    'templateResult' => new JsExpression('function(usuario) { return usuario.text; }'),
-                    'templateSelection' => new JsExpression('function (usuario) { return usuario.alias; }'),
                     'escapeMarkup' => new JsExpression("function(m) { return m; }")
                   ],
 

@@ -292,13 +292,15 @@ class UsuarioController extends \yii\web\Controller {
     /**
      * accion para renderizar el modal de enviar a un amigo
      * @param none
-     * @return html contenido modal para enviar a un amigo
+     * @return items = []
+     *         items.result = indica si todo se realizo bien o mal
+     *         items.response = html para renderizar el modal tiene como parametros: listaUsuarios = usuarios a seleccionar, modelClasificado = modelo del contenido que desea compartir
      */
      public function actionModalAmigos($idClasificado)
      {
        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-       $listaUsuarios = Usuario::find()->where([ 'estado' => 1])->all();
-       $clasificado = Contenido::findOne(['idContenido' => $idClasificado]);
+       $listaUsuarios = Usuario::listaUsuariosEnviarAmigo($idClasificado);//Usuario::find()->where([ 'estado' => 1])->andWhere(['<>', 'numeroDocumento', Yii::$app->user->identity->numeroDocumento])->all();
+       $clasificado = Contenido::traerNoticiaEspecifica($idClasificado);//Contenido::findOne(['idContenido' => $idClasificado]);
 
        $items = [
            'result' => 'ok',
@@ -310,14 +312,4 @@ class UsuarioController extends \yii\web\Controller {
 
        return $items;
      }
-
-    /**
-     * Eviar a un amigo = accion para buscar los usuarios en el input
-     * @param none
-     * @return array con los usuarios
-     */
-    public function actionBuscarAmigos($search = null, $id = null) {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-    }
 }

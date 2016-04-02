@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\intranet\models\Tareas */
 
-$this->title = 'Update Tareas: ' . ' ' . $model->idTarea;
-$this->params['breadcrumbs'][] = ['label' => 'Tareas', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->idTarea, 'url' => ['view', 'id' => $model->idTarea]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Actualiza Tareas: ' . ' ' . $model->titulo;
+//$this->params['breadcrumbs'][] = ['label' => 'Tareas', 'url' => ['index']];
+//$this->params['breadcrumbs'][] = ['label' => $model->idTarea, 'url' => ['view', 'id' => $model->idTarea]];
+//$this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="tareas-update">
 
