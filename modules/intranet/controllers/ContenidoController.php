@@ -15,6 +15,7 @@ use app\modules\intranet\models\DenunciosContenidosComentarios;
 use app\modules\intranet\models\ContenidoDestino;
 use app\modules\intranet\models\ContenidoRecomendacion;
 use app\modules\intranet\models\Notificaciones;
+use yii\web\HttpException;
 
 class ContenidoController extends Controller {
 
@@ -209,10 +210,15 @@ class ContenidoController extends Controller {
         }
     }
 
-    public function actionDetalleContenido($idNoticia, $idLineaTiempo) {
-        $linea = LineaTiempo::find()->where(['idLineaTiempo' => $idLineaTiempo])->one();
-        $noticia = Contenido::findOne(['idContenido' => $idNoticia]);
-        return $this->render('/sitio/_contenido', ['noticia' => $noticia, 'linea' => $linea]);
+    public function actionDetalleContenido($idNoticia) {
+        $objNoticia = Contenido::find()->joinWith(['objLineaTiempo'])->where("t_Contenido.idContenido=:noticia")->addParams([':noticia'=>$idNoticia])->one();
+        
+        if($objNoticia===null){
+           throw new HttpException(404, 'Contenido no existente');
+        }
+        
+        //$objNoticia = Contenido::findOne(['idContenido' => $idNoticia])->joinWith('objLineaTiempo');
+        return $this->render('/sitio/_contenido', ['noticia' => $objNoticia, 'linea' => $objNoticia->objLineaTiempo]);
     }
 
     public function actionAgregarDestino() {
