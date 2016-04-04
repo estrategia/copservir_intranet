@@ -19,7 +19,10 @@ use yii\jui\DatePicker;
 
     <?= $form->field($model, 'descripcion')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'progreso')->textInput(['type' => 'number']) ?>
+    <?php if (!$model->isNewRecord): ?>
+          <?= $form->field($model, 'progreso')->textInput(['type' => 'number']) ?>
+    <?php endif ?>
+
 
     <?= $form->field($model, 'numeroDocumento')->hiddenInput(['value'=> Yii::$app->user->identity->numeroDocumento])->label(false); ?>
 
@@ -31,15 +34,14 @@ use yii\jui\DatePicker;
         <?php
 
          echo $form->field($model, 'fechaEstimada')->widget(DatePicker::className(),[
-            'dateFormat' => 'yyyy-MM-dd',
+            'dateFormat' => 'yyyy-MM-dd hh:mm:ss',
             'options' => [
             'class' => 'input-sm form-control',
+            'placeholder' => 'yyyy-MM-dd hh:mm:ss'
             ]
         ]);
 
         ?>
-
-
 
     <?= $form->field($model, 'idPrioridad')->dropDownList($model->listaPrioridad, ['prompt' => 'Seleccione la prioridad' ]);?>
 

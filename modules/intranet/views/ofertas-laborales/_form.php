@@ -13,15 +13,13 @@ use yii\jui\DatePicker;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?php /*$form->field($model, 'idOfertaLaboral')->textInput(['maxlength' => true])*/ ?>
+
     <?= $form->field($model, 'idOfertaLaboral')->hiddenInput(['value'=> Yii::$app->user->identity->numeroDocumento])->label(false); ?>
 
-    <?php /*$form->field($model, 'cargo')->textInput(['maxlength' => true]) */?>
+
     <?= $form->field($model, 'cargo')->hiddenInput(['value'=> ' '])->label(false); ?>
 
-    <?= $form->field($model, 'idContenidoDestino')->textInput(['maxlength' => true]) ?>
-
-    <?php /* $form->field($model, 'idCiudad')->textInput(['maxlength' => true]) */?>
+    <?php //$form->field($model, 'idContenidoDestino')->textInput(['maxlength' => true]) ?>
 
     <?= Select2::widget([
         'name' => 'OfertasLaborales[idCiudad][]',
@@ -31,48 +29,47 @@ use yii\jui\DatePicker;
     ]);
     ?>
     <br>
-    <?php /*$form->field($model, 'fechaPublicacion')->textInput()*/ ?>
     <?php
      echo $form->field($model, 'fechaPublicacion')->widget(DatePicker::className(),[
-        'dateFormat' => 'yyyy-MM-dd',
+        'dateFormat' => 'yyyy-MM-dd hh:mm:ss',
         'options' => [
         'class' => 'input-sm form-control',
+        'placeholder' => 'yyyy-MM-dd hh:mm:ss'
         ]
       ]);
     ?>
 
-    <?php /*$form->field($model, 'fechaCierre')->textInput() */?>
+
     <?php
-
      echo $form->field($model, 'fechaCierre')->widget(DatePicker::className(),[
-        'dateFormat' => 'yyyy-MM-dd',
+        'dateFormat' => 'yyyy-MM-dd hh:mm:ss',
         'options' => [
         'class' => 'input-sm form-control',
+        'placeholder' => 'yyyy-MM-dd hh:mm:ss'
         ]
       ]);
     ?>
 
-    <?php /*$form->field($model, 'idUsuarioPublicacion')->textInput(['maxlength' => true])*/ ?>
     <?= $form->field($model, 'idUsuarioPublicacion')->hiddenInput(['value'=> Yii::$app->user->identity->numeroDocumento])->label(false); ?>
 
-    <?php /*$form->field($model, 'fechaInicioPublicacion')->textInput()*/ ?>
-    <?php
 
+    <?php
      echo $form->field($model, 'fechaInicioPublicacion')->widget(DatePicker::className(),[
-        'dateFormat' => 'yyyy-MM-dd',
+        'dateFormat' => 'yyyy-MM-dd hh:mm:ss',
         'options' => [
         'class' => 'input-sm form-control',
+        'placeholder' => 'yyyy-MM-dd hh:mm:ss'
         ]
       ]);
     ?>
 
-    <?php /*$form->field($model, 'fechaFinPublicacion')->textInput()*/ ?>
-    <?php
 
+    <?php
      echo $form->field($model, 'fechaFinPublicacion')->widget(DatePicker::className(),[
-        'dateFormat' => 'yyyy-MM-dd',
+        'dateFormat' => 'yyyy-MM-dd hh:mm:ss',
         'options' => [
         'class' => 'input-sm form-control',
+        'placeholder' => 'yyyy-MM-dd hh:mm:ss'
         ]
       ]);
     ?>
@@ -91,8 +88,7 @@ use yii\jui\DatePicker;
     ]);
     ?>
     <br>
-    <?php /*$form->field($model, 'idArea')->textInput() */ ?>
-    <?php  /*$form->field($model, 'idArea')->dropDownList($model->listaArea, ['prompt' => 'Seleccione el area' ]);*/ ?>
+
 
     <?= Select2::widget([
         'name' => 'OfertasLaborales[idArea][]',
@@ -104,7 +100,7 @@ use yii\jui\DatePicker;
     <br>
     <?= $form->field($model, 'descripcionContactoOferta')->textarea(['rows' => 6]) ?>
 
-    <?php /*$form->field($model, 'idInformacionContacto')->textInput(['maxlength' => true]) */?>
+
     <?= $form->field($model, 'idInformacionContacto')->hiddenInput(['value'=> Yii::$app->user->identity->numeroDocumento])->label(false); ?>
 
     <div class="form-group">

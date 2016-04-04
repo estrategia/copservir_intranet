@@ -37,7 +37,7 @@ class TareasController extends Controller
      public function actionListarTareas()
      {
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-        $tareasUsuario = Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->all();
+        $tareasUsuario = Tareas::find()->with(['objPrioridadTareas'])->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->all();
          return $this->render('listarTareas', ['tareasUsuario' => $tareasUsuario]);
      }
 
@@ -48,9 +48,12 @@ class TareasController extends Controller
      */
     public function actionDetalle($id)
     {
+        /*$model = Tareas::find()->andWhere(['idTarea'=>$id]);
+        //var_dump ($model);
+        //exit();
         return $this->render('detalle', [
-            'model' => $this->encontrarModelo($id),
-        ]);
+            'model' => $model,
+        ]);*/
     }
 
     /**
@@ -96,7 +99,10 @@ class TareasController extends Controller
                 //ejecuta la transaccion
                 $transaction->commit();
 
-                return $this->redirect(['detalle', 'id' => $model->idTarea]);
+                //return $this->redirect(['detalle', 'id' => $model->idTarea]);
+                $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+                $tareasUsuario = Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->all();
+                return $this->render('listarTareas', ['tareasUsuario' => $tareasUsuario]);
 
             } catch(\Exception $e) {
 
@@ -333,21 +339,23 @@ class TareasController extends Controller
       $idTarea = Yii::$app->request->post('idTarea');
       $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
 
-      $LogTarea = LogTareas::find(['numeroDocumento' => $numeroDocumento])->andWhere(['idTarea' => $idTarea])->orderby('fechaRegistro ASC')->limit(2)->all();
-      $tarea = Tareas::findOne(['numeroDocumento' => $numeroDocumento, 'idTarea' => $idTarea]);
-      //echo var_dump($LogTarea);
-
+      //\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      //return $LogTarea;
+      //exit();
       $transaction = Tareas::getDb()->beginTransaction();
       try {
-          $tarea->estadoTarea = $LogTarea[1]->estadoTarea;
-          $tarea->fechaRegistro = $LogTarea[1]->fechaRegistro;
-          $tarea->idPrioridad = $LogTarea[1]->prioridad;
-          $tarea->progreso = $LogTarea[1]->progreso;
+          $LogTarea = LogTareas::ultimosDosLogs($idTarea, $numeroDocumento);//find(['numeroDocumento' => $numeroDocumento])->andWhere(['idTarea' => $idTarea])->orderby('fechaRegistro ASC')->limit(2)->all();
+          $tarea = Tareas::findOne(['numeroDocumento' => $numeroDocumento, 'idTarea' => $idTarea]);
+          $tarea->estadoTarea = $LogTarea[0]->estadoTarea;
+          $tarea->fechaRegistro = $LogTarea[0]->fechaRegistro;
+          $tarea->idPrioridad = $LogTarea[0]->prioridad;
+          $tarea->progreso = $LogTarea[0]->progreso;
 
           $tarea->save();
 
           $innerTransaction = LogTareas::getDb()->beginTransaction();
           try {
+            $tarea = Tareas::findOne(['numeroDocumento' => $numeroDocumento, 'idTarea' => $idTarea]);
             $newLog = new LogTareas();
             $newLog->idTarea = $tarea->idTarea;
             $newLog->estadoTarea = $tarea->estadoTarea;
@@ -365,7 +373,7 @@ class TareasController extends Controller
            }
         $transaction->commit();
 
-        $tareasUsuario = Tareas::find(['numeroDocumento' => $numeroDocumento, 'idTarea' => $idTarea])->all();
+        $tareasUsuario = Tareas::getTareasIndex($numeroDocumento);
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $items = [
             'result' => 'ok',
