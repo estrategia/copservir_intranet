@@ -31,10 +31,10 @@ use yii\jui\DatePicker;
     <br>
     <?php
      echo $form->field($model, 'fechaPublicacion')->widget(DatePicker::className(),[
-        'dateFormat' => 'yyyy-MM-dd',
+        'dateFormat' => 'yyyy-MM-dd hh:mm:ss',
         'options' => [
         'class' => 'input-sm form-control',
-        'placeholder' => 'y-m-d'
+        'placeholder' => 'yyyy-MM-dd hh:mm:ss'
         ]
       ]);
     ?>
@@ -42,10 +42,10 @@ use yii\jui\DatePicker;
 
     <?php
      echo $form->field($model, 'fechaCierre')->widget(DatePicker::className(),[
-        'dateFormat' => 'yyyy-MM-dd',
+        'dateFormat' => 'yyyy-MM-dd hh:mm:ss',
         'options' => [
         'class' => 'input-sm form-control',
-        'placeholder' => 'y-m-d h:i:s'
+        'placeholder' => 'yyyy-MM-dd hh:mm:ss'
         ]
       ]);
     ?>
@@ -55,10 +55,10 @@ use yii\jui\DatePicker;
 
     <?php
      echo $form->field($model, 'fechaInicioPublicacion')->widget(DatePicker::className(),[
-        'dateFormat' => 'yyyy-MM-dd',
+        'dateFormat' => 'yyyy-MM-dd hh:mm:ss',
         'options' => [
         'class' => 'input-sm form-control',
-        'placeholder' => 'y-m-d h:i:s'
+        'placeholder' => 'yyyy-MM-dd hh:mm:ss'
         ]
       ]);
     ?>
@@ -66,10 +66,10 @@ use yii\jui\DatePicker;
 
     <?php
      echo $form->field($model, 'fechaFinPublicacion')->widget(DatePicker::className(),[
-        'dateFormat' => 'yyyy-MM-dd',
+        'dateFormat' => 'yyyy-MM-dd hh:mm:ss',
         'options' => [
         'class' => 'input-sm form-control',
-        'placeholder' => 'y-m-d h:i:s'
+        'placeholder' => 'yyyy-MM-dd hh:mm:ss'
         ]
       ]);
     ?>

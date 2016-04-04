@@ -5,7 +5,10 @@ namespace app\modules\intranet\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+
+use 	yii\i18n\Formatter;
 use app\modules\intranet\models\PrioridadTarea;
+
 /**
  * This is the model class for table "t_tareas".
  *
@@ -37,7 +40,8 @@ class Tareas extends \yii\db\ActiveRecord
             [['titulo', 'descripcion', 'numeroDocumento', 'fechaRegistro', 'estadoTarea', 'fechaEstimada', 'idPrioridad'], 'required'],
             [['descripcion'], 'string'],
             [['numeroDocumento', 'estadoTarea', 'idPrioridad','progreso'], 'integer'],
-            [['fechaRegistro', 'fechaEstimada'], 'safe'],
+            [['fechaRegistro'], 'safe'],
+            [['fechaEstimada'], 'date',  'format'=>'php:Y-m-d H:i:s'],
             [['titulo'], 'string', 'max' => 60]
         ];
     }
@@ -91,4 +95,6 @@ class Tareas extends \yii\db\ActiveRecord
         $opciones = PrioridadTarea::find()->asArray()->all();
         return ArrayHelper::map($opciones, 'idPrioridadTarea', 'nombre');
     }
+
+
 }

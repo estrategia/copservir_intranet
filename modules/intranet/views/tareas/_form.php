@@ -34,16 +34,14 @@ use yii\jui\DatePicker;
         <?php
 
          echo $form->field($model, 'fechaEstimada')->widget(DatePicker::className(),[
-            'dateFormat' => 'yyyy-MM-dd',
+            'dateFormat' => 'yyyy-MM-dd hh:mm:ss',
             'options' => [
             'class' => 'input-sm form-control',
-            'placeholder' => 'y-m-d h:i:s'
+            'placeholder' => 'yyyy-MM-dd hh:mm:ss'
             ]
         ]);
 
         ?>
-
-
 
     <?= $form->field($model, 'idPrioridad')->dropDownList($model->listaPrioridad, ['prompt' => 'Seleccione la prioridad' ]);?>
 
