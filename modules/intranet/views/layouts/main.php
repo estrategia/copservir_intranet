@@ -11,7 +11,9 @@ use app\assets\AppAsset;
 use app\modules\intranet\models\Menu;
 use app\modules\intranet\models\Opcion;
 use app\modules\intranet\models\OpcionesUsuario;
+use nirvana\showloading\ShowLoadingAsset;
 
+ShowLoadingAsset::register($this);
 AppAsset::register($this);
 
 $srcPictureUser = "''";

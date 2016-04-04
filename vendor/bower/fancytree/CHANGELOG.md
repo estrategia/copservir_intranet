@@ -1,6 +1,33 @@
-# 2.15.1-0 / Unreleased
+# 2.16.2-0 / Unreleased
+  * 
 
-# 2.15.0 / 2015-01-11
+# 2.16.1 / 2016-03-18
+  * [Fixed] #575 missing loading icon in non-bootstrap themes
+
+# 2.16.0 / 2016-03-16
+  * [Added] ext-clones: new method node.setRefKey(refKey)
+  * [Added] modifier class `.fancytree-fade-expander` to be set on container
+  * [Added] ext-dnd: `.dragExpand()` callback to prevent auto-expand
+  * [Improved] load error reporting
+  * [Improved] bootstrap theme icons and style (samples use bootstrap 3.3)
+  * [Improved] status nodes don't have icons
+  * [Improved] pass data argument to `source` callback
+  * [Improved] Handle exceptions inside `postProcess`
+  * [Improved] #568 ext-dnd: Auto-expanding of collapsed nodes should also work 
+    when dropping is not allowed
+  * [Improved] #567 ext-dnd: fix revert position
+  * [Improved] #565 ext-dnd: fix intermediate display of wrong icon (sending 'over' after 'enter')
+  * [Fixed] #569 node.navigate does not return a Promise object
+  * [Fixed] #563 `tree.reactivate(false)` sets fancytree-treefocus and `tree.reactivate(true)` 
+    doesn't set keyboard focus
+  * [Fixed] #562 Node span tag leaks outside table cell
+  * [Fixed] #526 tree.setFocus() does not set keyboard focus
+  * Updated to jQuery 1.12.1
+  * Updated grunt devDependencies
+  * Add jQuery 3.0 beta to test suite
+  * Added LICENSE.txt to dist
+
+# 2.15.0 / 2016-01-11
   * [Changed] Renamed class `fancytree-statusnode-wait` to `fancytree-statusnode-loading`
   * [Added] new event `renderStatusColumns`
   * [Deprecated] ext-table option `customStatus`. Use `renderStatusColumns` instead
@@ -8,7 +35,7 @@
   * [Added] new mode `nodata` for use with node.setStatus()
   * [Added] new method `node.addPagingNode()`
   * [Added] new method `node.replaceWith()`
-  * `node.statusNodeType`
+  * [Added] new type 'paging' for `node.statusNodeType`
   * [Added] #542 new method `node.getSelectedNodes()`
   * [Added] Helper class `glyphicon-spin` to allow rotating loading icon with bootstrap
   * [Improved] #356: serialize load requests
@@ -265,7 +292,7 @@
 
 # 2.0.0-9 / 2014-04-02
   * [Added] New helper method $.ui.fancytree.escapeHtml().
-  * [Added] [ext-clones] new method node,reRegister(key, refKey)
+  * [Added] [ext-clones] new method node.reRegister(key, refKey)
   * [Added] Support for bower.
   * [Added] dist/ folder to repository
   * [Improved] [ext-edit] handles `<`, `>`, ...
