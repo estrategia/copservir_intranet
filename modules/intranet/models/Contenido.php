@@ -338,7 +338,7 @@ class Contenido extends \yii\db\ActiveRecord
      */
     public function getObjUsuarioPublicacion()
     {
-        return $this->hasOne(Usuario::className(), ['idUsuario' => 'idUsuarioPublicacion']);
+        return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'idUsuarioPublicacion']);
     }
 
     public function getObjLineaTiempo()

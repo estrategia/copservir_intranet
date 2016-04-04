@@ -17,7 +17,7 @@ use yii\widgets\Pjax;
                     <h4 style='color:#fff !important;'>Ofertas <span class="semi-bold">Laborales</span></h4>
                     <div class="tools">
                         <a href="javascript:;" class="collapse"></a>
-                        <a href="javascript:;" data-role="quitar-elemento" data-elemento="4" class="remove"></a>
+                        <a href="javascript:;" data-role="quitar-elemento" data-elemento="<?=\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_OFERTAS?>" class="remove"></a>
                     </div>
                 </div>
                 <div class="grid-body no-border">

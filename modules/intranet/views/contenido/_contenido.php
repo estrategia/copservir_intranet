@@ -6,20 +6,29 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 ?>
 
-
 <ul class="cbp_tmtimeline">
     <li>
         <time class="cbp_tmtime"></time>
-        <?php $fdia= \DateTime::createFromFormat('Y-m-d H:i:s',$noticia->fechaInicioPublicacion)?>
-        <div class="date"><?= Yii::$app->params['dias'][$fdia->format('w')] ?> <?=$fdia->format('j') ?><!-- falta acomodar el formato de la fecha -->
-        <?= Yii::$app->params['meses'][$fdia->format('n')] ?> <?= $fdia->format('Y')?> </div>
-        <div class="time"> <?= $fdia->format('h')?>:<?= $fdia->format('i')?>:<?= $fdia->format('s')?> <?= $fdia->format('a')?></div>
+        
+            <div class="user-profile">
+                
+                <img src= <?= Yii::$app->homeUrl . 'img/fotosperfil/' . $noticia->objUsuarioPublicacion->imagenPerfil ?> alt="" data-src="" data-src-retina="" width="40" height="40">
+            </div>
+            <?= $noticia->objUsuarioPublicacion->alias ?>
+        
+        <?php if (isset($noticia->fechaInicioPublicacion)): ?>
+            <?php $fdia = \DateTime::createFromFormat('Y-m-d H:i:s', $noticia->fechaInicioPublicacion) ?>
+            <div class="date"><?= Yii::$app->params['dias'][$fdia->format('w')] ?> <?= $fdia->format('j') ?><!-- falta acomodar el formato de la fecha -->
+                <?= Yii::$app->params['meses'][$fdia->format('n')] ?> <?= $fdia->format('Y') ?> </div>
+            <div class="time"> <?= $fdia->format('h') ?>:<?= $fdia->format('i') ?>:<?= $fdia->format('s') ?> <?= $fdia->format('a') ?></div>
+        <?php endif; ?>
+
         <div class="cbp_tmicon primary animated bounceIn"> <i class="fa fa-comments"></i> </div> <!-- icono de la noticia -->
 
         <div class="cbp_tmlabel">
             <div class="p-t-10 p-l-30 p-r-20 p-b-20 xs-p-r-10 xs-p-l-10 xs-p-t-5">
 
-                <?= Html::a('<h4 class="inline m-b-5"><span class="text-success semi-bold"> '.$noticia->titulo.' </span> </h4>', ['contenido/detalle-contenido','idNoticia' => $noticia->idContenido], ['class' => '', 'name' => '']) ?>
+                <?= Html::a('<h4 class="inline m-b-5"><span class="text-success semi-bold"> ' . $noticia->titulo . ' </span> </h4>', ['contenido/detalle-contenido', 'idNoticia' => $noticia->idContenido], ['class' => '', 'name' => '']) ?>
                 <h5 class="inline muted semi-bold m-b-5"></h5> <!-- para el usuario que publico la noticia -->
                 <!--<div class="muted">Publicación Compartida - 12:45pm</div> si la publicacion fue compartida-->
                 <p class="m-t-5 dark-text">
@@ -46,34 +55,40 @@ use yii\helpers\Html;
 
                             <?php // echo ($megusta > 0 )? $megusta ." Me Gusta": '' ?> &nbsp;
                             <span id='numero-megusta_<?= $noticia->idContenido ?>'>
-                                <?php echo (count($noticia->listMeGusta) > 0 ) ?
-                                        Html::a(count($noticia->listMeGusta) . " Me Gusta",'#', [
+                                <?php
+                                echo (count($noticia->listMeGusta) > 0 ) ?
+                                        Html::a(count($noticia->listMeGusta) . " Me Gusta", '#', [
                                             //'id' => 'showFormPublications' . $linea->idLineaTiempo,
                                             'data-role' => 'listado-me-gusta-contenido',
                                             'data-contenido' => $noticia->idContenido,
                                             'onclick' => 'return false'
-                                        ]) : '' ?> &nbsp;
+                                        ]) : ''
+                                ?> &nbsp;
                             </span>
                             <span id='numero-comentarios_<?= $noticia->idContenido ?>'>
-                                <?php echo (count($noticia->listComentarios) > 0 ) ? Html::a( count($noticia->listComentarios) . " Comentarios",'#', [
+                                <?php
+                                echo (count($noticia->listComentarios) > 0 ) ? Html::a(count($noticia->listComentarios) . " Comentarios", '#', [
                                             //'id' => 'showFormPublications' . $linea->idLineaTiempo,
                                             'data-role' => 'listado-comentarios-contenido',
                                             'data-contenido' => $noticia->idContenido,
                                             'onclick' => 'return false'
-                                        ]) : '' ?>  &nbsp;
+                                        ]) : ''
+                                ?>  &nbsp;
                             </span>
 
-                            <?php if(empty($noticia->objDenuncioComentarioUsuario)):?>
-                                &nbsp; <?php echo  Html::a( 'Denunciar','#', [
-                                            //'id' => 'showFormPublications' . $linea->idLineaTiempo,
-                                            'data-role' => 'denunciar-contenido',
-                                            'data-contenido' => $noticia->idContenido,
-                                            'data-linea-tiempo' => $noticia->idLineaTiempo,
-                                            'onclick' => 'return false'
-                                        ]) ?>  &nbsp;
-                            <?php else:?>
+                            <?php if (empty($noticia->objDenuncioComentarioUsuario)): ?>
+                                &nbsp; <?php
+                                echo Html::a('Denunciar', '#', [
+                                    //'id' => 'showFormPublications' . $linea->idLineaTiempo,
+                                    'data-role' => 'denunciar-contenido',
+                                    'data-contenido' => $noticia->idContenido,
+                                    'data-linea-tiempo' => $noticia->idLineaTiempo,
+                                    'onclick' => 'return false'
+                                ])
+                                ?>  &nbsp;
+                            <?php else: ?>
                                 &nbsp;&nbsp;Ya denunciaste
-                            <?php endif;?>
+                            <?php endif; ?>
                         </li>
                     </ul>
                     <div class="clearfix"></div>
@@ -97,7 +112,7 @@ use yii\helpers\Html;
                 </button>
                 <div class="clearfix"></div>
             <?php else: ?>
-                <button type="button" class="btn btn-white btn-xs btn-mini" data-clasificado = "<?= $noticia->idContenido?>" data-role="widget-enviarAmigo">Enviar a un amigo</button>
+                <button type="button" class="btn btn-white btn-xs btn-mini" data-clasificado = "<?= $noticia->idContenido ?>" data-role="widget-enviarAmigo">Enviar a un amigo</button>
             <?php endif; ?>
         </div>
     </li>

@@ -26,6 +26,7 @@ use app\modules\intranet\models\ContenidoEmergente;
 use yii\data\Pagination;
 use app\modules\intranet\models\UsuarioWidgetInactivo;
 use app\modules\intranet\models\LogContenidos;
+use yii\helpers\Html;
 
 class SitioController extends Controller {
 
@@ -165,32 +166,44 @@ class SitioController extends Controller {
 
             if ($contenido->save()) {
 
-                $contenidodestino = Yii::$app->request->post('ContenidoDestino');
-                $ciudades = $contenidodestino['codigoCiudad'];
-                $gruposInteres = $contenidodestino['idGrupoInteres'];
+                $solicitarGrupo = Yii::$app->request->post('SolicitarGrupoObjetivo');
 
-                for ($i = 0; $i < count($gruposInteres); $i++) {
+                if ($solicitarGrupo == 1) {
+                    $contenidodestino = Yii::$app->request->post('ContenidoDestino');
+                    $ciudades = $contenidodestino['codigoCiudad'];
+                    $gruposInteres = $contenidodestino['idGrupoInteres'];
+
+                    for ($i = 0; $i < count($gruposInteres); $i++) {
+                        $contenidodestino = new ContenidoDestino();
+                        $contenidodestino->idGrupoInteres = $gruposInteres[$i];
+                        $contenidodestino->codigoCiudad = $ciudades[$i];
+                        $contenidodestino->idContenido = $contenido->idContenido;
+
+                        if (!$contenidodestino->save()) {
+                            $error = true;
+                        }
+                    }
+                } else {
                     $contenidodestino = new ContenidoDestino();
-                    $contenidodestino->idGrupoInteres = $gruposInteres[$i];
-                    $contenidodestino->codigoCiudad = $ciudades[$i];
+                    $contenidodestino->idGrupoInteres = Yii::$app->params['grupo']['*'];
+                    $contenidodestino->codigoCiudad = Yii::$app->params['ciudad']['*'];
                     $contenidodestino->idContenido = $contenido->idContenido;
 
                     if (!$contenidodestino->save()) {
                         $error = true;
                     }
+                }
 
+                if (!$error) {
 
-                    if (!$error) {
+                    $logContenido = new LogContenidos();
+                    $logContenido->idContenido = $contenido->idContenido;
+                    $logContenido->estado = $contenido->estado;
+                    $logContenido->fechaRegistro = $contenido->fechaPublicacion;
+                    $logContenido->idUsuarioRegistro = $contenido->idUsuarioPublicacion;
 
-                        $logContenido = new LogContenidos();
-                        $logContenido->idContenido = $contenido->idContenido;
-                        $logContenido->estado = $contenido->estado;
-                        $logContenido->fechaRegistro = $contenido->fechaPublicacion;
-                        $logContenido->idUsuarioRegistro = $contenido->idUsuarioPublicacion;
-
-                        if (!$logContenido->save()) {
-                            $error = true;
-                        }
+                    if (!$logContenido->save()) {
+                        $error = true;
                     }
                 }
 
@@ -273,21 +286,23 @@ class SitioController extends Controller {
                 } else {
                     // enviar notificacion al emisario
                     $contenido = Contenido::find()->where(['idContenido' => $meGusta->idContenido])->one();
-                    $notificacion = new Notificaciones();
-                    $notificacion->idContenido = $meGusta->idContenido;
-                    $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
-                    $notificacion->idUsuarioDirigido = $contenido->idUsuarioPublicacion;
-                    $notificacion->descripcion = "Dio me gusta a tu publicación";
-                    $notificacion->estadoNotificacion = Notificaciones::ESTADO_CREADA;
-                    $notificacion->tipoNotificacion = Notificaciones::NOTIFICACION_MEGUSTA;
-                    $notificacion->fechaRegistro = date('Y-m-d H:i:s');
+                    if (Yii::$app->user->identity->numeroDocumento != $contenido->idUsuarioPublicacion) {
+                        $notificacion = new Notificaciones();
+                        $notificacion->idContenido = $meGusta->idContenido;
+                        $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
+                        $notificacion->idUsuarioDirigido = $contenido->idUsuarioPublicacion;
+                        $notificacion->descripcion = "Dio me gusta a tu publicación";
+                        $notificacion->estadoNotificacion = Notificaciones::ESTADO_CREADA;
+                        $notificacion->tipoNotificacion = Notificaciones::NOTIFICACION_MEGUSTA;
+                        $notificacion->fechaRegistro = date('Y-m-d H:i:s');
 
-                    if (!$notificacion->save()) {
-                        $result = false;
-                        $items = [
-                            'result' => 'error',
-                            'response' => 'No se puede registrar notificación'
-                        ];
+                        if (!$notificacion->save()) {
+                            $result = false;
+                            $items = [
+                                'result' => 'error',
+                                'response' => 'No se puede registrar notificación'
+                            ];
+                        }
                     }
                 }
             } else {
@@ -299,7 +314,13 @@ class SitioController extends Controller {
                 $numeroMeGusta = count(MeGustaContenidos::find()->where(['idContenido' => $post['idContenido']])->all());
                 $items = [
                     'result' => 'ok',
-                    'response' => ($numeroMeGusta > 0) ? $numeroMeGusta . " Me gusta" : ""
+                    'response' => ($numeroMeGusta > 0) ?
+                            Html::a($numeroMeGusta . " Me Gusta", '#', [
+                                //'id' => 'showFormPublications' . $linea->idLineaTiempo,
+                                'data-role' => 'listado-me-gusta-contenido',
+                                'data-contenido' => $post['idContenido'],
+                                'onclick' => 'return false'
+                            ]) : ''
                 ];
             }
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -348,7 +369,7 @@ class SitioController extends Controller {
                 // notificarle al resto de personas que comentaron.
 
                 $otrosUsuarios = ContenidosComentarios::find()->select('idUsuarioComentario')->where(['and', ['!=', 'idUsuarioComentario', Yii::$app->user->identity->numeroDocumento], ['!=', 'idUsuarioComentario', $contenido->idUsuarioPublicacion]])
-                        ->andWhere(['idContenido' => $comentario->idContenido])->distinct()->all();
+                                ->andWhere(['idContenido' => $comentario->idContenido])->distinct()->all();
 
                 foreach ($otrosUsuarios as $otroUsuario) {
                     $notificacion = new Notificaciones();
@@ -375,7 +396,7 @@ class SitioController extends Controller {
 
                 $items = [
                     'result' => 'ok',
-                    'response' => $this->renderAjax('_contenido', ['noticia' => $noticia, 'linea' => $linea])
+                    'response' => $this->renderAjax('/contenido/_contenido', ['noticia' => $noticia, 'linea' => $linea])
                 ];
             } else {
 
@@ -526,4 +547,5 @@ class SitioController extends Controller {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $items;
     }
+
 }

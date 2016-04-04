@@ -13,11 +13,13 @@ $this->title = 'Intranet - Copservir';
 ?>
 
 <!-- begin UP BANNER -->
+<?php if(!in_array(\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_BANNER_SUP,Yii::$app->user->identity->getOcultosDashboard())): ?>
 <div class="col-md-12">
     <div class="tiles overflow-hidden full-height tiles-overlay-hover m-b-10 widget-item">
         <?= $this->render('banner', ['banners' => $bannerArriba, 'location' => 0]) ?>
     </div>
 </div>
+<?php endif;?>
 <!-- END UP BANNER -->
 
 <!-- begin PUBLICACIONES -->
@@ -95,11 +97,11 @@ $this->title = 'Intranet - Copservir';
 <!-- END ESTADISTICAS -->
 
 <!-- begin OFERTAS LABORALES Y TAREAS -->
-<?php if (!in_array("4", Yii::$app->user->identity->getOcultosDashboard())): ?>
+<?php if (!in_array(\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_OFERTAS, Yii::$app->user->identity->getOcultosDashboard())): ?>
     <?php echo $this->render('_ofertasLaborales', ['ofertasLaborales' => $ofertasLaborales]) ?>
 <?php endif; ?>
 
-<?php if (!in_array("5", Yii::$app->user->identity->getOcultosDashboard())): ?>
+<?php if (!in_array(\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_TAREAS, Yii::$app->user->identity->getOcultosDashboard())): ?>
     <div class="col-md-4" id="widget-tareas">
         <?php echo $this->render('/tareas/_tareasHome', ['tareasUsuario' => $tareasUsuario]) ?>
     </div>
@@ -107,10 +109,11 @@ $this->title = 'Intranet - Copservir';
 
 <!-- END OFERTAS LABORALES Y TAREAS -->
 <!-- BEGIN DOWN BANNER -->
+<?php if(!in_array(\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_BANNER_INF,Yii::$app->user->identity->getOcultosDashboard())): ?>
 <div class="col-md-12">
     <?= $this->render('banner', ['banners' => $bannerAbajo, 'location' => 1]) ?>
 </div>
-
+<?php endif;?>
 <!-- END DOWN BANNER -->
 
 
