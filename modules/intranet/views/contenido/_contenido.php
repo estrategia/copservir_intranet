@@ -9,18 +9,18 @@ use yii\helpers\Html;
 <ul class="cbp_tmtimeline">
     <li>
         <time class="cbp_tmtime"></time>
-        
-            <div class="user-profile">
-                
-                <img src= <?= Yii::$app->homeUrl . 'img/fotosperfil/' . $noticia->objUsuarioPublicacion->imagenPerfil ?> alt="" data-src="" data-src-retina="" width="40" height="40">
-            </div>
-            <?= $noticia->objUsuarioPublicacion->alias ?>
-        
+
+        <div class="user-profile">
+
+            <img src= <?= Yii::$app->homeUrl . 'img/fotosperfil/' . $noticia->objUsuarioPublicacion->imagenPerfil ?> alt="" data-src="" data-src-retina="" width="40" height="40">
+        </div>
+        <?= $noticia->objUsuarioPublicacion->alias ?>
+
         <?php if (isset($noticia->fechaInicioPublicacion)): ?>
             <?php $fdia = \DateTime::createFromFormat('Y-m-d H:i:s', $noticia->fechaInicioPublicacion) ?>
-            <div class="date"><?= Yii::$app->params['dias'][$fdia->format('w')] ?> <?= $fdia->format('j') ?><!-- falta acomodar el formato de la fecha -->
-                <?= Yii::$app->params['meses'][$fdia->format('n')] ?> <?= $fdia->format('Y') ?> </div>
-            <div class="time"> <?= $fdia->format('h') ?>:<?= $fdia->format('i') ?>:<?= $fdia->format('s') ?> <?= $fdia->format('a') ?></div>
+            <div class="time"> <?= Yii::$app->params['calendario']['dias'][$fdia->format('w')] ?></div>
+            <div class="date"> <?= $fdia->format('j') ?> <?= Yii::$app->params['calendario']['mesesAbreviado'][$fdia->format('n')] ?> <?= $fdia->format('Y') ?> </div>
+            <div class="time"> <?= $fdia->format('h:i:s a') ?></div>
         <?php endif; ?>
 
         <div class="cbp_tmicon primary animated bounceIn"> <i class="fa fa-comments"></i> </div> <!-- icono de la noticia -->

@@ -17,11 +17,12 @@
                             <strong><?= $comentario->objUsuarioPublicacionComentario->alias ?></strong> <?= $comentario->contenido ?>
                         </p>
                         <p class="muted small-text">
-                            <?php if (isset($comentario->fechaComentario)): ?>
+                            <?php  if (isset($comentario->fechaComentario)): ?>
                                 <?php $fdia = \DateTime::createFromFormat('Y-m-d H:i:s', $comentario->fechaComentario) ?>
-                                <?= Yii::$app->params['dias'][$fdia->format('w')] ?> <?= $fdia->format('j') ?><!-- falta acomodar el formato de la fecha -->
-                                <?= Yii::$app->params['meses'][$fdia->format('n')] ?> <?= $fdia->format('Y') ?> 
-                                <?= $fdia->format('h') ?>:<?= $fdia->format('i') ?>:<?= $fdia->format('s') ?> <?= $fdia->format('a') ?>
+                                     <?= Yii::$app->params['calendario']['dias'][$fdia->format('w')] ?>
+                                     <?= $fdia->format('j') ?> <?= Yii::$app->params['calendario']['meses'][$fdia->format('n')] ?> <?= $fdia->format('Y') ?> 
+                                     <?= $fdia->format('h:i:s a') ?>
+                                
                             <?php endif; ?>
                         </p>
                     </div>
