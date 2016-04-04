@@ -19,7 +19,10 @@ use yii\jui\DatePicker;
 
     <?= $form->field($model, 'descripcion')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'progreso')->textInput(['type' => 'number']) ?>
+    <?php if (!$model->isNewRecord): ?>
+          <?= $form->field($model, 'progreso')->textInput(['type' => 'number']) ?>
+    <?php endif ?>
+
 
     <?= $form->field($model, 'numeroDocumento')->hiddenInput(['value'=> Yii::$app->user->identity->numeroDocumento])->label(false); ?>
 
@@ -34,6 +37,7 @@ use yii\jui\DatePicker;
             'dateFormat' => 'yyyy-MM-dd',
             'options' => [
             'class' => 'input-sm form-control',
+            'placeholder' => 'y-m-d h:i:s'
             ]
         ]);
 

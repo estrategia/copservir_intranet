@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\modules\intranet\models\Tareas */
 
-$this->title = $model->titulo;
+$this->title = 'Tarea: '.$model->titulo;
 //$this->params['breadcrumbs'][] = ['label' => 'Tareas', 'url' => ['index']];
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -28,14 +28,20 @@ $this->title = $model->titulo;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'idTarea',
+
             'titulo',
             'descripcion:ntext',
-            'numeroDocumento',
             'fechaRegistro',
             'estadoTarea',
             'fechaEstimada',
-            'idPrioridad',
+            //'idPrioridad',
+            /*[
+              'attribute'=>'idPrioridad',
+              'value'=>$model->author->name,
+              'widgetOptions'=>[
+                'data'=>ArrayHelper::map($prioridadTarea, 'idPrioridadTarea', 'nombre'),
+              ]
+            ]*/
         ],
     ]) ?>
 

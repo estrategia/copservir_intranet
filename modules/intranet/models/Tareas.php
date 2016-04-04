@@ -52,17 +52,40 @@ class Tareas extends \yii\db\ActiveRecord
             'titulo' => 'Titulo',
             'descripcion' => 'Descripcion',
             'numeroDocumento' => 'Numero de Documento',
-            'fechaRegistro' => 'Fecha Registro',
+            'fechaRegistro' => 'Fecha de Creacion',
             'estadoTarea' => 'Estado Tarea',
             'fechaEstimada' => 'Fecha Estimada',
             'idPrioridad' => 'Prioridad',
             'progreso' => 'Progreso',
         ];
     }
+
+    /**
+    * Se define la relacion entre los modelos Tarea y PrioridadTarea
+    * @param none
+    * @return modelo PrioridadTarea
+    */
+    public function getObjPrioridadTareas(){
+        return $this->hasOne(PrioridadTarea::className(), ['idPrioridadTarea' => 'idPrioridad']);
+    }
+
+
+
+    /**
+    * consulta para listar las tareas que van en el index
+    * @param numeroDocumento = identificador del usuario
+    * @return array = resultado de la consulta
+    */
     public static function getTareasIndex($numeroDocumento)
     {
        return Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->andWhere(['!=', 'estadoTarea', 3])->all();
     }
+
+    /**
+    * Se consultan las prioridades y se retornan mapeados por idPrioridadTarea y nombre
+    * @param none
+    * @return array mapeado
+    */
     public static function getListaPrioridad()
     {
         $opciones = PrioridadTarea::find()->asArray()->all();

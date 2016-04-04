@@ -21,6 +21,9 @@ use yii\helpers\Html;
     <td class="v-align-middle"><?=$tarea->titulo ?></td>
     <td class="v-align-middle"><span class="muted"><?= $tarea->descripcion ?></span>
     </td>
+    <td>
+      <?= $tarea->objPrioridadTareas->nombre?>
+    </td>
     <td><span class="muted"><?= $tarea->fechaEstimada ?></span>
     </td>
     <td class="v-align-middle">
