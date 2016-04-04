@@ -3,6 +3,7 @@
 namespace app\modules\intranet\models;
 
 use Yii;
+use app\modules\intranet\models\Tareas;
 
 /**
  * This is the model class for table "t_logtareas".
@@ -47,5 +48,35 @@ class LogTareas extends \yii\db\ActiveRecord
             'fechaRegistro' => 'Fecha Registro',
             'prioridad' => 'Prioridad',
         ];
+    }
+
+    /**
+    * Se define la relacion entre los modelos LogTareas y Tareas
+    * @param none
+    * @return modelo Tareas
+    */
+    public function getobjLogTareas()
+    {
+        return $this->hasOne(Tareas::className(), ['idTarea' => 'idTarea']);
+    }
+
+    /**
+    * consulta los dos ultimos logs de las
+    * @param numeroDocumento = identificador del usuario
+    * @return array = resultado de la consulta
+    */
+    public static function ultimosDosLogs($idTarea, $idUsuario)
+    {
+      /*SELECT * FROM  t_logtareas
+					left join t_tareas on t_logtareas.idTarea = t_tareas.idTarea
+                    where ( t_tareas.numeroDocumento = 123456 and t_logtareas.idTarea = 15)
+                    ORDER BY t_logtareas.fechaRegistro  asc
+                    limit 2; */
+
+      $query = self::find()->joinWith(['objLogTareas'])
+              ->where("( t_tareas.numeroDocumento =:idUsuario and t_logtareas.idTarea =:idTarea  )")
+              ->addParams([':idUsuario' => $idUsuario,':idTarea'=>$idTarea])->orderBy('t_logtareas.fechaRegistro  asc')->limit(2)->all();
+
+      return $query;
     }
 }

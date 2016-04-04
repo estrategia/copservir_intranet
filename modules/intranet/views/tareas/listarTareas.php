@@ -31,6 +31,7 @@ $this->title = 'Tareas';
                             </th>
                             <th style="width:9%">Título</th>
                             <th style="width:22%">Descripción</th>
+                            <th style="width:22%">Prioridad</th>
                             <th style="width:6%">Fecha Estimada</th>
                             <th style="width:10%">Progreso</th>
                         </tr>

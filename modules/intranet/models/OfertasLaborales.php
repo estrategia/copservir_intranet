@@ -45,7 +45,7 @@ class OfertasLaborales extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idOfertaLaboral', 'cargo', 'idContenidoDestino', 'idCiudad', 'fechaPublicacion', 'fechaCierre', 'idUsuarioPublicacion', 'fechaInicioPublicacion', 'fechaFinPublicacion', 'tituloOferta', 'urlElEmpleo', 'idCargo', 'idArea', 'descripcionContactoOferta', 'idInformacionContacto'], 'required'],
+            [['idOfertaLaboral', 'cargo', 'idCiudad', 'fechaPublicacion', 'fechaCierre', 'idUsuarioPublicacion', 'fechaInicioPublicacion', 'fechaFinPublicacion', 'tituloOferta', 'urlElEmpleo', 'idCargo', 'idArea', 'descripcionContactoOferta', 'idInformacionContacto'], 'required'],
             [['idOfertaLaboral', 'idContenidoDestino', 'idCiudad', 'idUsuarioPublicacion', 'idCargo', 'idArea', 'idInformacionContacto'], 'integer'],
             [['fechaPublicacion', 'fechaCierre', 'fechaInicioPublicacion', 'fechaFinPublicacion'], 'safe'],
             [['descripcionContactoOferta'], 'string'],
@@ -61,7 +61,7 @@ class OfertasLaborales extends \yii\db\ActiveRecord
         return [
             'idOfertaLaboral' => 'Id Oferta Laboral',
             'cargo' => 'Cargo',
-            'idContenidoDestino' => 'Id Contenido Destino',
+
             'idCiudad' => 'Ciudad',
             'fechaPublicacion' => 'Fecha Publicacion',
             'fechaCierre' => 'Fecha Cierre',

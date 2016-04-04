@@ -145,10 +145,10 @@ class ContenidoController extends Controller {
     public function actionEliminarComentario() {
         $request = \Yii::$app->request;
         $idComentario = $request->post('idComentario');
-        $contenido = ContenidosComentarios::find('idComentario = :idComentario', [':idComentario' => $idComentario])->one();
+        $contenido = ContenidosComentarios::find()->where(['idContenidoComentario' => $idComentario])->one();
         $idContenido = $contenido->idContenido;
         $contenido = ContenidosComentarios::deleteAll('idContenidoComentario = :idComentario', [':idComentario' => $idComentario]);
-
+      
         $comentariosContenido = ContenidosComentarios::find()->with('objUsuarioPublicacionComentario', 'objDenuncioComentarioUsuario')->where(['idContenido' => $idContenido])->all();
 
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -218,7 +218,7 @@ class ContenidoController extends Controller {
         }
         
         //$objNoticia = Contenido::findOne(['idContenido' => $idNoticia])->joinWith('objLineaTiempo');
-        return $this->render('_contenido', ['noticia' => $objNoticia, 'linea' => $objNoticia->objLineaTiempo]);
+        return $this->render('contenido', ['noticia' => $objNoticia, 'linea' => $objNoticia->objLineaTiempo]);
     }
 
     public function actionAgregarDestino() {
@@ -242,7 +242,7 @@ class ContenidoController extends Controller {
          $dataProvider = new ActiveDataProvider([
             'query' => Contenido::traerTodasNoticiasCopservir($lineaTiempo),
             'pagination' => [
-                'pageSize' => 2,
+                'pageSize' => 4,
             ],
         ]);
 

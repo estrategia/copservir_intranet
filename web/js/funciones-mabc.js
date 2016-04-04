@@ -25,7 +25,7 @@ $(document).on('slideStop', "input[data-role='slider-tarea']", function() {
         },
         success: function(data) {
             if (data.result == "ok") {
-                console.log('progreso actualizado');
+                //console.log('progreso actualizado');
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -135,7 +135,7 @@ $(document).on('click', "a[data-role='inactivarTarea']", function() {
               },
               success: function(data) {
                   if (data.result == "ok") {
-                      console.log('tarea inactiva');
+                      //console.log('tarea inactiva');
                       $('#widget-tareas').html(data.response);
                       //$('#widget-tareas').html(data.response);
                   }
@@ -160,8 +160,8 @@ $(document).on('click', "a[data-role='inactivarTarea']", function() {
 $(document).on('click', "button[data-role='inactiva-popup']", function() {
 
       var idPopup = $(this).attr('data-contenido');
-      console.log('click desactivar modal');
-      console.log(idPopup);
+      //console.log('click desactivar modal');
+      //console.log(idPopup);
 
       $.ajax({
           type: 'POST',
@@ -178,7 +178,7 @@ $(document).on('click', "button[data-role='inactiva-popup']", function() {
           },
           success: function(data) {
               if (data.result == "ok") {
-                  console.log('popup inactiva');
+                  //console.log('popup inactiva');
                   $('#widget-popup').modal('hide');
               }
           },
@@ -294,7 +294,7 @@ $(document).on('click', "button[data-role='widget-enviarAmigo']", function() {
       },
       success: function(data) {
           if (data.result == "ok") {
-              console.log('progreso actualizado');
+              //console.log('progreso actualizado');
               if (data.result == "ok") {
                 $('body').append(data.response);
                 $("#widget-enviarAmigo").modal("show");

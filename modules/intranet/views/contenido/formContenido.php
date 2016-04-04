@@ -45,6 +45,8 @@ use app\modules\intranet\models\ContenidoDestino;
                     ]
                 ])->label(false);
                 ?>
+                
+                <?php if ($objLineaTiempo->solicitarGrupoObjetivo == 1): ?>
                 <?=
                 Html::a('<i class = "fa fa-plus-square" ></i>', '#', [
                     //'id' => 'showFormPublications' . $linea->idLineaTiempo,
@@ -52,11 +54,13 @@ use app\modules\intranet\models\ContenidoDestino;
                     'title' => 'Agregar nuevo'
                 ]);
                 ?>
-                <?= Html::label('Añadir otro') ?>
-                <div id="contenido-destino">
-                    <?php echo $this->render('_formDestinoContenido', ['objContenidoDestino' => new ContenidoDestino]) ?>
-                </div>
+                    <?= Html::label('Añadir otro') ?>
+                    <div id="contenido-destino">
+                        <?php echo $this->render('_formDestinoContenido', ['objContenidoDestino' => new ContenidoDestino]) ?>
+                    </div>
+                <?php endif; ?>
                 <?= Html::hiddenInput("Contenido[idLineaTiempo]", $objLineaTiempo->idLineaTiempo, ["id" => "idLineaTiempo"]); ?>
+                <?= Html::hiddenInput("SolicitarGrupoObjetivo", $objLineaTiempo->solicitarGrupoObjetivo, ["id" => "SolicitarGrupoObjetivo"]); ?>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                     <?php $requiere = ($objLineaTiempo->autorizacionAutomatica == 0) ? ' (Requiere aprobación)' : ''; ?>
