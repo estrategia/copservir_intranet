@@ -387,7 +387,7 @@ class ContenidoController extends Controller {
       foreach ($valorGrafica as $valor) {
          $chd .= $valor['cantidad'] . ',';
          if ($flag) {
-            $chxl .= \Yii::$app->params['meses'][$valor['etiqueta']]. '|';
+            $chxl .= \Yii::$app->params['calendario']['meses'][$valor['etiqueta']]. '|';
          }else{
             $chxl .= $valor['etiqueta'] . '|';
          }
