@@ -114,11 +114,11 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
                     <!-- END TOP NAVIGATION MENU -->
                     <!-- BEGIN CHAT TOGGLER -->
                     <div class="pull-right">
-                        <div class="chat-toggler">
-                            <a href="#" class="dropdown-toggle" id="my-task-list" data-placement="bottom"  data-content='' data-toggle="dropdown" data-original-title="Notificaciones">
+                        <div id="notification-div" class="chat-toggler">
+                            <a href="#" class="dropdown-toggle" id="my-notification-list" data-placement="bottom"  data-content='' data-toggle="dropdown" data-original-title="Notificaciones">
                                 <div class="user-details">
                                     <div class="username">
-                                        <span class="badge badge-important">3</span>
+                                        <span id="notification-count" class="badge badge-important"></span>
                                         <span class="bold"><?= $userName ?></span>
                                     </div>
                                 </div>

@@ -5,7 +5,7 @@ use yii\helpers\Html;
 
 <!-- las noticias -->
 <?=
-Html::button('<i class="fa fa-pencil"></i> Publicar <i><small>Requiere Aprobación</small></i>', [
+Html::button('<i class="fa fa-pencil"></i> Publicar '. ($linea->autorizacionAutomatica == 0 ? '<i><small>Requiere Aprobación</small></i>':''), [
     //'id' => 'showFormPublications' . $linea->idLineaTiempo,
     'class' => 'btn btn-primary btn-lg btn-large',
     'data-role' => 'contenido-publicar',

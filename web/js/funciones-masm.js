@@ -61,17 +61,43 @@ function cargar_push()
         url: requestUrl + '/intranet/notificaciones/resumen',
         data: "&timestamp=" + timestampnotif,
         dataType: 'json',
-        success: function (data){
+        success: function (data) {
             timestampnotif = data.response.timestamp;
-            if (timestampnotif == null){
-            }else{
+            if (timestampnotif == null) {
+            } else {
                 $('#notification-list').html(data.response.html);
+                if (data.response.count == 0) {
+                    $('#notification-count').html('');
+                } else {
+                    $('#notification-count').html(data.response.count);
+                }
             }
             setTimeout('cargar_push()', 1000);
         }
     });
 }
 
-$(document).ready(function(){
+$(document).ready(function () {
     cargar_push();
+});
+
+$('#notification-div').on('hide.bs.dropdown', function () {
+    $.ajax({
+        async: true,
+        type: "POST",
+        url: requestUrl + '/intranet/notificaciones/visto',
+        dataType: 'json',
+        success: function (data) {
+            if (data.result == 'ok') {
+                $('#notification-list').html(data.response.html);
+                if (data.response.count == 0) {
+                    $('#notification-count').html('');
+                } else {
+                    $('#notification-count').html(data.response.count);
+                }
+            } else {
+                alert(data.response);
+            }
+        }
+    });
 });

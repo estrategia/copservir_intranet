@@ -100,7 +100,7 @@ class EventosCalendario extends \yii\db\ActiveRecord {
         ];
         
         if($this->objContenido!=null){
-            $evento['href'] = Url::to(['/intranet/contenido/detalle-contenido', 'idNoticia' => $this->idContenido , 'idLineaTiempo'=> $this->objContenido->idLineaTiempo]);;
+            $evento['href'] = Url::to(['/intranet/contenido/detalle-contenido', 'idNoticia' => $this->idContenido]);
         }
 
         if ($this->horaInicioEvento != null && $this->horaFinEvento != null) {

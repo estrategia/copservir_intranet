@@ -104,6 +104,14 @@ class Notificaciones extends \yii\db\ActiveRecord {
         //exit();
     }
 
+    public static function cantidadNoVistas($usuario) {
+        return (new \yii\db\Query())
+                ->from(self::tableName())
+                ->where('idUsuarioDirigido=:usuario AND estadoNotificacion=:estado')
+                ->addParams([':usuario' => $usuario, ':estado'=>  self::ESTADO_CREADA])
+                ->count();
+    }
+
     public function getObjUsuarioDirige() {
         return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'idUsuarioDirige']);
     }

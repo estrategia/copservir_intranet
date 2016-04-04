@@ -11,15 +11,15 @@ use yii\helpers\Html;
     <li>
         <time class="cbp_tmtime"></time>
         <?php $fdia= \DateTime::createFromFormat('Y-m-d H:i:s',$noticia->fechaInicioPublicacion)?>
-        <div class="date"><?= Yii::$app->params['dias'][$fdia->format('w')] ?> <?=$fdia->format('j') ?><!-- falta acomodar el formato de la fecha -->
-        <?= Yii::$app->params['meses'][$fdia->format('n')] ?> <?= $fdia->format('Y')?> </div>
-        <div class="time"> <?= $fdia->format('h')?>:<?= $fdia->format('i')?>:<?= $fdia->format('s')?> <?= $fdia->format('a')?></div>
+        <div class="time"> <?= Yii::$app->params['calendario']['dias'][$fdia->format('w')] ?></div>
+        <div class="date"> <?=$fdia->format('j') ?> <?= Yii::$app->params['calendario']['mesesAbreviado'][$fdia->format('n')] ?> <?= $fdia->format('Y')?> </div>
+        <div class="time"> <?= $fdia->format('h:i:s a')?></div>
         <div class="cbp_tmicon primary animated bounceIn"> <i class="fa fa-comments"></i> </div> <!-- icono de la noticia -->
 
         <div class="cbp_tmlabel">
             <div class="p-t-10 p-l-30 p-r-20 p-b-20 xs-p-r-10 xs-p-l-10 xs-p-t-5">
 
-                <?= Html::a('<h4 class="inline m-b-5"><span class="text-success semi-bold"> '.$noticia->titulo.' </span> </h4>', ['contenido/detalle-contenido','idNoticia' => $noticia->idContenido, 'idLineaTiempo' => $noticia->idLineaTiempo ], ['class' => '', 'name' => '']) ?>
+                <?= Html::a('<h4 class="inline m-b-5"><span class="text-success semi-bold"> '.$noticia->titulo.' </span> </h4>', ['contenido/detalle-contenido','idNoticia' => $noticia->idContenido], ['class' => '', 'name' => '']) ?>
                 <h5 class="inline muted semi-bold m-b-5"></h5> <!-- para el usuario que publico la noticia -->
                 <!--<div class="muted">Publicación Compartida - 12:45pm</div> si la publicacion fue compartida-->
                 <p class="m-t-5 dark-text">

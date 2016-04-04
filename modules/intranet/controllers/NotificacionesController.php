@@ -57,10 +57,18 @@ class NotificacionesController extends Controller {
                 $fecha_bd = $fecha_bd->getTimestamp();
             }
         }
-
-
+        
+        $cantidad = Notificaciones::cantidadNoVistas(Yii::$app->user->identity->numeroDocumento);
         $html = $this->renderPartial('resumen', ['listNotificaciones' => Notificaciones::consultarNotificaciones(Yii::$app->user->identity->numeroDocumento)]);
-        echo Json::encode(array('result' => 'ok', 'response' => ['html' => $html, 'timestamp' => $fecha_bd]));
+        echo Json::encode(array('result' => 'ok', 'response' => ['html' => $html, 'timestamp' => $fecha_bd, 'count' => $cantidad]));
+        Yii::$app->end();
+    }
+    
+    public function actionVisto() {
+        Notificaciones::updateAll(['estadoNotificacion' => Notificaciones::ESTADO_VISTA], 'idUsuarioDirigido='.Yii::$app->user->identity->numeroDocumento);
+        $cantidad = Notificaciones::cantidadNoVistas(Yii::$app->user->identity->numeroDocumento);
+        $html = $this->renderPartial('resumen', ['listNotificaciones' => Notificaciones::consultarNotificaciones(Yii::$app->user->identity->numeroDocumento)]);
+        echo Json::encode(array('result' => 'ok', 'response' => ['html' => $html, 'count' => $cantidad]));
         Yii::$app->end();
     }
 
