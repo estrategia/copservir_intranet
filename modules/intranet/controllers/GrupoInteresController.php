@@ -5,6 +5,8 @@ namespace app\modules\intranet\controllers;
 use Yii;
 use app\modules\intranet\models\GrupoInteres;
 use app\modules\intranet\models\GrupoInteresSearch;
+use app\modules\intranet\models\GrupoInteresCargo;
+use app\modules\intranet\models\Cargo;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -45,10 +47,14 @@ class GrupoInteresController extends Controller {
      * @return mixed
      */
     public function actionDetalle($id) {
-        $grupo = $this->findModel($id);
+        $grupo =$this->findModel($id);
+        $grupoInteresCargo = GrupoInteresCargo::listaCargos($id);
+        $listaCargos = Cargo::getListaCargos();
 
         return $this->render('detalle', [
-                    'grupo' => $grupo, 'cargos' => $cargos
+                    'grupo' => $grupo,
+                    'grupoInteresCargo' => $grupoInteresCargo,
+                    'listaCargos' => $listaCargos
         ]);
     }
 
@@ -63,7 +69,7 @@ class GrupoInteresController extends Controller {
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $model->imagenGrupo = UploadedFile::getInstances($model, 'imagenGrupo');
 
-           
+
             if ($model->imagenGrupo) {
                 foreach ($model->imagenGrupo as $file) {
                     $file->saveAs('img/gruposInteres/' . $file->baseName . '.' . $file->extension);
@@ -94,7 +100,7 @@ class GrupoInteresController extends Controller {
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $model->imagenGrupo = UploadedFile::getInstances($model, 'imagenGrupo');
-          
+
             if ($model->imagenGrupo) {
                 foreach ($model->imagenGrupo as $file) {
                     $file->saveAs('img/gruposInteres/' . $file->baseName . '.' . $file->extension);
@@ -128,7 +134,65 @@ class GrupoInteresController extends Controller {
     }
 
     /**
-     * Encuentr un modelo GrupoInteres basado en el valor de su llave primaria.
+     * Borra un registro de GrupoInteresCargo donde este ese cargo
+     * si la elimiancion es existosa el navegador redirige a la vista index (Listar).
+     * @param string $id
+     * @return mixed
+     */
+    public function actionEliminarCargo() {
+
+        $idCargo = Yii::$app->request->post('idCargo','');
+        $idGrupoInteres = Yii::$app->request->post('idGrupo','');
+
+        $grupoInteresCargo = GrupoInteresCargo::find()->where('( idCargo =:idCargo and idGrupoInteres =:idGrupoInteres )')
+        ->addParams(['idCargo'=>$idCargo,'idGrupoInteres'=>$idGrupoInteres])
+        ->one();
+
+        ;
+
+        $items = [];
+
+        if ($grupoInteresCargo->delete()) {
+
+
+          $grupoInteresCargo = GrupoInteresCargo::listaCargos($idGrupoInteres);
+
+          $items = [
+              'result' => 'ok',
+              'response' => $this->renderAjax('cargosGrupoInteres', [
+                'grupoInteresCargo' => $grupoInteresCargo
+              ])
+            ];
+        }
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $items;
+    }
+
+    /**
+     * accion para renderizar el modal de agregar cargos
+     * @param none
+     * @return items = []
+     *         items.result = indica si todo se realizo bien o mal
+     *         items.response = html para renderizar el modal tiene como parametros: listaCargos = cargos a seleccionar
+     */
+     /*public function actionModalAgregaCargos($idGrupo)
+     {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $listaCargos = Cargo::getListaCargos();
+
+        $items = [
+            'result' => 'ok',
+            'response' => $this->renderAjax('_modalAgregaCargos', [
+                'listaCargos' => $listaCargos,
+                'grupo'=> $idGrupo,
+             ]
+        )];
+
+        return $items;
+     }*/
+
+    /**
+     * Encuentra un modelo GrupoInteres basado en el valor de su llave primaria.
      * @param string $id
      * Si el modelo no es encontrado se arroja una exepcion HTTP 404.
      * @return un modelo GrupoInteres

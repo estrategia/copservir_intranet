@@ -96,7 +96,7 @@ class OfertasLaboralesController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionEliminar($id)
     {
         $this->findModel($id)->delete();
 

@@ -3,6 +3,7 @@
 namespace app\modules\intranet\models;
 
 use Yii;
+use app\modules\intranet\models\GrupoInteresCargo;
 
 /**
  * This is the model class for table "m_Cargo".
@@ -44,5 +45,10 @@ class Cargo extends \yii\db\ActiveRecord
             'codigoCargo' => 'Codigo Cargo',
             'nombreCargo' => 'Nombre Cargo',
         ];
+    }
+
+    public static function getListaCargos()
+    {
+      return self::find()->all();
     }
 }

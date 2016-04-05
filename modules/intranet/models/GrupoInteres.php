@@ -3,6 +3,7 @@
 namespace app\modules\intranet\models;
 
 use Yii;
+use app\modules\intranet\models\GrupoInteresCargo;
 
 /**
  * This is the model class for table "m_GrupoInteres".
@@ -42,9 +43,18 @@ class GrupoInteres extends \yii\db\ActiveRecord
             'imagenGrupo' => 'Imagen Grupo'
         ];
     }
-    
+
+    /**
+    * Se define la relacion entre los modelos GrupoInteres y GrupoInteresCargo
+    * @param none
+    * @return modelo GrupoInteresCargo
+    */
+    public function getObjGrupoInteresCargo(){
+        return $this->hasMany(GrupoInteresCargo::className(), ['idGrupoInteres' => 'idGrupoInteres']);
+    }
+
     public function getImagen(){
         return Yii::$app->homeUrl . 'img/gruposInteres/' .$this->imagenGrupo;
     }
-            
+
 }

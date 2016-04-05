@@ -441,14 +441,6 @@ class SitioController extends Controller {
     }
 
     /*
-      accion para renderizar la vista publicaciones
-     */
-
-    public function actionPublicaciones() {
-        return $this->render('publicaciones', []);
-    }
-
-    /*
       accion para renderizar la vista organigrama
      */
 

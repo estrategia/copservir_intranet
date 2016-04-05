@@ -118,7 +118,7 @@ class UsuarioController extends \yii\web\Controller {
         }
         Yii::$app->user->logout();
         $model = new LoginForm();
-        $this->redirect('autenticar', ['model' => $model]);
+        $this->redirect(['autenticar', ['model' => $model]]);
     }
 
     /*
@@ -320,8 +320,8 @@ class UsuarioController extends \yii\web\Controller {
      public function actionModalAmigos($idClasificado)
      {
        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-       $listaUsuarios = Usuario::listaUsuariosEnviarAmigo($idClasificado);//Usuario::find()->where([ 'estado' => 1])->andWhere(['<>', 'numeroDocumento', Yii::$app->user->identity->numeroDocumento])->all();
-       $clasificado = Contenido::traerNoticiaEspecifica($idClasificado);//Contenido::findOne(['idContenido' => $idClasificado]);
+       $listaUsuarios = Usuario::listaUsuariosEnviarAmigo($idClasificado);
+       $clasificado = Contenido::traerNoticiaEspecifica($idClasificado);
 
        $items = [
            'result' => 'ok',
