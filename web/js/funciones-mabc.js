@@ -344,7 +344,7 @@ $(document).on('click', "button[data-role='enviar-amigos']", function() {
 
   return false;
 });
-<<<<<<< HEAD
+
 
 
 //::::::::::::::::::::::
@@ -439,5 +439,3 @@ $(document).on('click', "a[data-role='agregar-cargo']", function() {
 
     return false;
 });
-=======
->>>>>>> 5ecf0a6175948812ce4b2e98590417ec6ca60901
