@@ -2,7 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
+use yii\web\JsExpression;
+use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $grupo app\modules\intranet\grupos\GrupoInteres */

@@ -192,6 +192,8 @@ class GrupoInteresController extends Controller {
         $model->idCargo=Yii::$app->request->post('agregaCargos');
         $model->idGrupoInteres = $idGrupo;
 
+
+
         if ($model->save()) {
 
         $grupoInteresCargo = GrupoInteresCargo::listaCargos($idGrupo);
@@ -203,7 +205,6 @@ class GrupoInteresController extends Controller {
                 'grupoInteresCargo' => $grupoInteresCargo,
                 'listaCargos' => $listaCargos,
                 'idGrupo'=>$idGrupo
-
              ]
         )];
         }

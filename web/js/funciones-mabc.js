@@ -373,7 +373,7 @@ $(document).on('click', "a[data-role='eliminarCargoGrupo']", function() {
               beforeSend: function() {
               //    Loading.show();
                     $('body').showLoading();
-                    $('#cargosGrupo').html("");
+                    $('#listaCargos').remove();
               },
 
               complete: function(data) {
@@ -382,7 +382,7 @@ $(document).on('click', "a[data-role='eliminarCargoGrupo']", function() {
               },
               success: function(data) {
                   if (data.result == "ok") {
-                      $('#cargosGrupo').html(data.response);
+                      $('#cargosGrupo').append(data.response);
                   }
               },
               error: function(jqXHR, textStatus, errorThrown) {
@@ -417,7 +417,7 @@ $(document).on('click', "a[data-role='agregar-cargo']", function() {
         beforeSend: function() {
         //    Loading.show();
               $('body').showLoading();
-              $('#cargosGrupo').html("");
+              $('#listaCargos').remove();
         },
 
         complete: function(data) {
@@ -428,7 +428,7 @@ $(document).on('click', "a[data-role='agregar-cargo']", function() {
             if (data.result == "ok") {
                 //console.log('progreso actualizado');
                 if (data.result == "ok") {
-                  $('#cargosGrupo').html(data.response);
+                  $('#cargosGrupo').append(data.response);
                 }
             }
         },
