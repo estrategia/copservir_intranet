@@ -14,8 +14,8 @@ $this->title = $grupo->nombreGrupo;
   <div class="grupo-interes-view">
 
       <p>
-          <?= Html::a('Actualizar', ['actualizar', 'id' => $grupo->idGrupoInteres], ['class' => 'btn btn-primary']) ?>
-          <?= Html::a('Eliminar', ['eliminar', 'id' => $grupo->idGrupoInteres], [
+          <?= Html::a('Actualizar grupo interes', ['actualizar', 'id' => $grupo->idGrupoInteres], ['class' => 'btn btn-primary']) ?>
+          <?= Html::a('Eliminar grupo interes', ['eliminar', 'id' => $grupo->idGrupoInteres], [
               'class' => 'btn btn-danger',
               'data' => [
                   'confirm' => 'estas seguro de eliminar este grupo de interes?',
@@ -27,7 +27,6 @@ $this->title = $grupo->nombreGrupo;
       <?= DetailView::widget([
           'model' => $grupo,
           'attributes' => [
-              //'idGrupoInteres',
               'nombreGrupo',
           ],
       ]) ?>
@@ -35,15 +34,20 @@ $this->title = $grupo->nombreGrupo;
   </div>
 </div>
 
-<div class="col-md-12">
-    <p>
-      Cargos asociados a los grupos
-      <?= DetailView::widget([
-          'model' => $cargos,
-          'attributes' => [
-              //'idGrupoInteres',
-              'nombreCargo',
-          ],
-      ]) ?>
-    </p>
+<div class="col-md-12" id="cargosGrupo">
+
+    <h4>Cargos asociados al grupo de interes</h4>
+
+    <?= Html::a('Agregar cargo', ['agregar-cargo', 'id' => $grupo->idGrupoInteres], ['class' => 'btn btn-primary']) ?>
+    <?php //var_dump($grupoInteresCargo) ?>
+
+    <div id="listaCargos">
+          <?= $this->render('cargosGrupoInteres', ['grupoInteresCargo' => $grupoInteresCargo]) ?>
+    </div>
+
+
+
+
+
+
 </div>

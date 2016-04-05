@@ -1,6 +1,9 @@
 //::::::::::::::::::::::
 // TAREAS
 //::::::::::::::::::::::
+//para los ajax
+//$('body').showLoading();
+//$('body').hideLoading();
 
 /*
 * peticion ajax guardar el progreso del slider de una tarea
@@ -114,9 +117,6 @@ $(document).on('click', "a[data-role='inactivarTarea']", function() {
     var idTarea = $(this).attr('data-tarea');
 
     var location = $(this).attr('data-location');
-    if (true) {
-
-    }
 
     if(confirm("¿Estas seguro de querer ocultar de manera permanente esta tarea??")) {
 
@@ -343,4 +343,55 @@ $(document).on('click', "button[data-role='enviar-amigos']", function() {
   });
 
   return false;
+});
+
+
+//::::::::::::::::::::::
+// GRUPOS DE INTERES
+//::::::::::::::::::::::
+
+/**
+* peticion ajax para eliminar un cargo de un frupo de interes
+*/
+$(document).on('click', "a[data-role='eliminarCargoGrupo']", function() {
+
+    var idCargo = $(this).attr('data-cargo');
+    var idGrupo = $(this).attr('data-grupo');
+
+
+
+
+    if(confirm("¿Estas seguro de querer eliminar este cargo de este grupo de interes?")) {
+
+
+          $.ajax({
+              type: 'POST',
+              async: true,
+              url: requestUrl + '/intranet/grupo-interes/eliminar-cargo',
+              data: {idCargo: idCargo, idGrupo: idGrupo},
+              dataType: 'json',
+              beforeSend: function() {
+              //    Loading.show();
+              $('#listaCargos').remove();
+              },
+
+              complete: function(data) {
+               //   Loading.hide();
+              },
+              success: function(data) {
+                  if (data.result == "ok") {
+                      console.log('elimino cargo');
+
+                      $('#cargosGrupo').append(data.response);
+                      //$('#widget-tareas').html(data.response);
+                  }
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+
+              }
+          })
+
+    }
+
+    return false;
 });
