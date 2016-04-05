@@ -21,10 +21,12 @@ $(document).on('slideStop', "input[data-role='slider-tarea']", function() {
         dataType: 'json',
         beforeSend: function() {
         //    Loading.show();
+            $('body').showLoading();
         },
 
         complete: function(data) {
          //   Loading.hide();
+            $('body').hideLoading();
         },
         success: function(data) {
             if (data.result == "ok") {
@@ -32,7 +34,7 @@ $(document).on('slideStop', "input[data-role='slider-tarea']", function() {
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
-
+            $('body').hideLoading();
         }
     });
 });
@@ -57,10 +59,12 @@ $(document).on('change', "input[data-role='tarea-check']", function() {
           dataType: 'json',
           beforeSend: function() {
           //    Loading.show();
+              $('body').showLoading();
           },
 
           complete: function(data) {
            //   Loading.hide();
+              $('body').hideLoading();
           },
           success: function(data) {
 
@@ -70,7 +74,7 @@ $(document).on('change', "input[data-role='tarea-check']", function() {
               }
           },
           error: function(jqXHR, textStatus, errorThrown) {
-
+              $('body').hideLoading();
           }
       });
 
@@ -86,10 +90,12 @@ $(document).on('change', "input[data-role='tarea-check']", function() {
           dataType: 'json',
           beforeSend: function() {
           //    Loading.show();
+              $('body').showLoading();
           },
 
           complete: function(data) {
            //   Loading.hide();
+              $('body').hideLoading();
           },
           success: function(data) {
               if (data.result == "ok") {
@@ -97,14 +103,11 @@ $(document).on('change', "input[data-role='tarea-check']", function() {
               }
           },
           error: function(jqXHR, textStatus, errorThrown) {
-
+              $('body').hideLoading();
           }
       });
 
     }
-
-
-
 });
 
 /**
@@ -113,9 +116,7 @@ $(document).on('change', "input[data-role='tarea-check']", function() {
 
 $(document).on('click', "a[data-role='inactivarTarea']", function() {
 
-
     var idTarea = $(this).attr('data-tarea');
-
     var location = $(this).attr('data-location');
 
     if(confirm("¿Estas seguro de querer ocultar de manera permanente esta tarea??")) {
@@ -128,10 +129,12 @@ $(document).on('click', "a[data-role='inactivarTarea']", function() {
               dataType: 'json',
               beforeSend: function() {
               //    Loading.show();
+                    $('body').showLoading();
               },
 
               complete: function(data) {
                //   Loading.hide();
+                  $('body').hideLoading();
               },
               success: function(data) {
                   if (data.result == "ok") {
@@ -141,7 +144,7 @@ $(document).on('click', "a[data-role='inactivarTarea']", function() {
                   }
               },
               error: function(jqXHR, textStatus, errorThrown) {
-
+                  $('body').hideLoading();
               }
           })
     }
@@ -171,10 +174,12 @@ $(document).on('click', "button[data-role='inactiva-popup']", function() {
           dataType: 'json',
           beforeSend: function() {
           //    Loading.show();
+                $('body').showLoading();
           },
 
           complete: function(data) {
            //   Loading.hide();
+              $('body').hideLoading();
           },
           success: function(data) {
               if (data.result == "ok") {
@@ -183,6 +188,7 @@ $(document).on('click', "button[data-role='inactiva-popup']", function() {
               }
           },
           error: function(jqXHR, textStatus, errorThrown) {
+              $('body').hideLoading();
           }
       })
 });
@@ -287,10 +293,12 @@ $(document).on('click', "button[data-role='widget-enviarAmigo']", function() {
       dataType: 'json',
       beforeSend: function() {
       //    Loading.show();
+            $('body').showLoading();
       },
 
       complete: function(data) {
        //   Loading.hide();
+          $('body').hideLoading();
       },
       success: function(data) {
           if (data.result == "ok") {
@@ -302,7 +310,7 @@ $(document).on('click', "button[data-role='widget-enviarAmigo']", function() {
           }
       },
       error: function(jqXHR, textStatus, errorThrown) {
-
+          $('body').hideLoading();
       }
   });
 
@@ -327,10 +335,12 @@ $(document).on('click', "button[data-role='enviar-amigos']", function() {
       dataType: 'json',
       beforeSend: function() {
       //    Loading.show();
+            $('body').showLoading();
       },
 
       complete: function(data) {
        //   Loading.hide();
+          $('body').hideLoading();
       },
       success: function(data) {
           if (data.result == "ok") {
@@ -338,7 +348,7 @@ $(document).on('click', "button[data-role='enviar-amigos']", function() {
           }
       },
       error: function(jqXHR, textStatus, errorThrown) {
-
+          $('body').hideLoading();
       }
   });
 
@@ -352,17 +362,16 @@ $(document).on('click', "button[data-role='enviar-amigos']", function() {
 
 /**
 * peticion ajax para eliminar un cargo de un frupo de interes
+* @param none
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html para renderizar la grilla de los cargos de nuevo
 */
 $(document).on('click', "a[data-role='eliminarCargoGrupo']", function() {
 
     var idCargo = $(this).attr('data-cargo');
     var idGrupo = $(this).attr('data-grupo');
 
-
-
-
     if(confirm("¿Estas seguro de querer eliminar este cargo de este grupo de interes?")) {
-
 
           $.ajax({
               type: 'POST',
@@ -372,22 +381,21 @@ $(document).on('click', "a[data-role='eliminarCargoGrupo']", function() {
               dataType: 'json',
               beforeSend: function() {
               //    Loading.show();
+                    $('body').showLoading();
               $('#listaCargos').remove();
               },
 
               complete: function(data) {
-               //   Loading.hide();
+                   //   Loading.hide();
+                   $('body').hideLoading();
               },
               success: function(data) {
                   if (data.result == "ok") {
-                      console.log('elimino cargo');
-
                       $('#cargosGrupo').append(data.response);
-                      //$('#widget-tareas').html(data.response);
                   }
               },
               error: function(jqXHR, textStatus, errorThrown) {
-
+                  $('body').hideLoading();
               }
           })
 
@@ -395,3 +403,45 @@ $(document).on('click', "a[data-role='eliminarCargoGrupo']", function() {
 
     return false;
 });
+
+/**
+* peticion ajax para renderizar el modal donde se agregaran los grupos de interes
+* @param none
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html para renderizar el modal
+*/
+/*
+$(document).on('click', "a[data-role='agregar-cargo']", function() {
+    console.log('dio click');
+
+    var idGrupo = $(this).attr('data-grupo');
+    $.ajax({
+        type: 'GET',
+        async: true,
+        url: requestUrl + '/intranet/grupo-interes/modal-agrega-cargos?idGrupo='+idGrupo,
+        dataType: 'json',
+        beforeSend: function() {
+        //    Loading.show();
+              $('body').showLoading();
+        },
+
+        complete: function(data) {
+         //   Loading.hide();
+            $('body').hideLoading();
+        },
+        success: function(data) {
+            if (data.result == "ok") {
+                //console.log('progreso actualizado');
+                if (data.result == "ok") {
+                  $('body').append(data.response);
+                  $("#widget-agregaCargo").modal("show");
+                }
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            $('body').hideLoading();
+        }
+    });
+
+    return false;
+});*/
