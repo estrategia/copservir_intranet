@@ -63,7 +63,7 @@ class ContenidoController extends Controller {
         if ($render) {
             $idContenido = $request->post('idContenido');
 
-            $comentariosContenido = ContenidosComentarios::find()->with('objUsuarioPublicacionComentario', 'objDenuncioComentarioUsuario')->where(['idContenido' => $idContenido])->all();
+            $comentariosContenido = ContenidosComentarios::find()->with('objUsuarioPublicacionComentario', 'objDenuncioComentarioUsuario')->where(['idContenido' => $idContenido, 'estado' => ContenidosComentarios::ESTADO_ACTIVO])->all();
 
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             return [
@@ -104,7 +104,7 @@ class ContenidoController extends Controller {
         $idLineaTiempo = $request->post('idLineaTiempo');
         $modelDenuncio = new DenunciosContenidos();
         $modelDenuncio->load($request->post());
-        $modelDenuncio->idUsuarioDenunciante = Yii::$app->user->identity->numeroDocumento;
+        $modelDenuncio->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
         $modelDenuncio->fechaRegistro = Date("Y-m-d H:i:s");
 
         if ($modelDenuncio->save()) {
@@ -178,7 +178,7 @@ class ContenidoController extends Controller {
 
         $modelDenuncio = new DenunciosContenidosComentarios();
         $modelDenuncio->load($request->post());
-        $modelDenuncio->idUsuarioDenunciante = Yii::$app->user->identity->numeroDocumento;
+        $modelDenuncio->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
         $modelDenuncio->fechaRegistro = Date("Y-m-d H:i:s");
 
         if ($modelDenuncio->save()) {
@@ -453,8 +453,8 @@ class ContenidoController extends Controller {
 
                     $notificacion = new Notificaciones();
                     $notificacion->idContenido = $clasificado;
-                    $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
-                    $notificacion->idUsuarioDirigido = $amigo;
+                    $notificacion->numeroDocumentoDirige = Yii::$app->user->identity->numeroDocumento;
+                    $notificacion->numeroDocumentoDirigido = $amigo;
                     $notificacion->descripcion = 'recomienda un clasificado';
                     $notificacion->estadoNotificacion = Notificaciones::ESTADO_CREADA;
                     $notificacion->fechaRegistro = Date("Y-m-d H:i:s");

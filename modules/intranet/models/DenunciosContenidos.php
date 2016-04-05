@@ -10,7 +10,7 @@ use Yii;
  * @property string $idDenuncioContenido
  * @property string $idContenido
  * @property string $descripcionDenuncio
- * @property string $idUsuarioDenunciante
+ * @property string $numeroDocumento
  * @property string $fechaRegistro
  */
 class DenunciosContenidos extends \yii\db\ActiveRecord
@@ -29,8 +29,8 @@ class DenunciosContenidos extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idContenido', 'descripcionDenuncio', 'idUsuarioDenunciante', 'fechaRegistro'], 'required'],
-            [['idContenido', 'idUsuarioDenunciante'], 'integer'],
+            [['idContenido', 'descripcionDenuncio', 'numeroDocumento', 'fechaRegistro'], 'required'],
+            [['idContenido', 'numeroDocumento'], 'integer'],
             [['descripcionDenuncio'], 'string'],
             [['fechaRegistro'], 'safe']
         ];
@@ -45,7 +45,7 @@ class DenunciosContenidos extends \yii\db\ActiveRecord
             'idDenuncioContenido' => 'Id Denuncio Contenido',
             'idContenido' => 'Id Contenido',
             'descripcionDenuncio' => 'Descripcion Denuncio',
-            'idUsuarioDenunciante' => 'Id Usuario Denunciante',
+            'numeroDocumento' => 'Usuario Denunciante',
             'fechaRegistro' => 'Fecha Registro',
         ];
     }

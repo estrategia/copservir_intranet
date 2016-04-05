@@ -29,7 +29,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="inline pull-right">
-                    <?php if ($comentario->idUsuarioComentario == Yii::$app->user->identity->numeroDocumento): ?>
+                    <?php if ($comentario->numeroDocumento == Yii::$app->user->identity->numeroDocumento): ?>
                         <a href='#' data-comentario= "<?= $comentario->idContenidoComentario ?>"  data-role='eliminar-comentario' title='Eliminar comentario'>
                             <li class="fa fa-times fa-lg"></li>
                         </a> &nbsp;

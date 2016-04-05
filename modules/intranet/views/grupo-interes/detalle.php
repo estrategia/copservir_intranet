@@ -15,8 +15,8 @@ $this->title = $grupo->nombreGrupo;
   <div class="grupo-interes-view">
 
       <p>
-          <?= Html::a('Actualizar grupo interes', ['actualizar', 'id' => $grupo->idGrupoInteres], ['class' => 'btn btn-primary']) ?>
-          <?= Html::a('Eliminar grupo interes', ['eliminar', 'id' => $grupo->idGrupoInteres], [
+          <?= Html::a('Actualizar', ['actualizar', 'id' => $grupo->idGrupoInteres], ['class' => 'btn btn-primary']) ?>
+          <?= Html::a('Eliminar', ['eliminar', 'id' => $grupo->idGrupoInteres], [
               'class' => 'btn btn-danger',
               'data' => [
                   'confirm' => 'estas seguro de eliminar este grupo de interes?',
@@ -28,6 +28,7 @@ $this->title = $grupo->nombreGrupo;
       <?= DetailView::widget([
           'model' => $grupo,
           'attributes' => [
+              //'idGrupoInteres',
               'nombreGrupo',
           ],
       ]) ?>
@@ -39,11 +40,4 @@ $this->title = $grupo->nombreGrupo;
 
 
           <?= $this->render('cargosGrupoInteres', ['grupoInteresCargo' => $grupoInteresCargo, 'listaCargos' => $listaCargos, 'idGrupo'=>$grupo->idGrupoInteres]) ?>
-    
-
-
-
-
-
-
 </div>

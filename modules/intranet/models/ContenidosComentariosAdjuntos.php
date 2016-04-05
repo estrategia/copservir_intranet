@@ -11,7 +11,7 @@ use Yii;
  * @property string $nombreAdjunto
  * @property string $rutaAdjunto
  * @property string $idContenidoComentario
- * @property string $idUsuarioPublicacion
+ * @property string $numeroDocumento
  * @property string $fechaPublicacion
  * @property string $idTipo
  */
@@ -31,9 +31,9 @@ class ContenidosComentariosAdjuntos extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombreAdjunto', 'rutaAdjunto', 'idContenidoComentario', 'idUsuarioPublicacion', 'fechaPublicacion', 'idTipo'], 'required'],
+            [['nombreAdjunto', 'rutaAdjunto', 'idContenidoComentario', 'numeroDocumento', 'fechaPublicacion', 'idTipo'], 'required'],
             [['idContenidoComentario', 'idTipo'], 'integer'],
-            [['nombreAdjunto', 'rutaAdjunto', 'idUsuarioPublicacion', 'fechaPublicacion'], 'string', 'max' => 45]
+            [['nombreAdjunto', 'rutaAdjunto', 'numeroDocumento', 'fechaPublicacion'], 'string', 'max' => 45]
         ];
     }
 
@@ -47,7 +47,7 @@ class ContenidosComentariosAdjuntos extends \yii\db\ActiveRecord
             'nombreAdjunto' => 'Nombre Adjunto',
             'rutaAdjunto' => 'Ruta Adjunto',
             'idContenidoComentario' => 'Id Contenido Comentario',
-            'idUsuarioPublicacion' => 'Id Usuario Publicacion',
+            'numeroDocumento' => 'Usuario Publicacion',
             'fechaPublicacion' => 'Fecha Publicacion',
             'idTipo' => 'Id Tipo',
         ];

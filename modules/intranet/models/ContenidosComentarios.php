@@ -10,7 +10,7 @@ use Yii;
  * @property string $idContenidoComentario
  * @property string $titulo
  * @property string $contenido
- * @property string $idUsuarioComentario
+ * @property string $numeroDocumento
  * @property string $fechaComentario
  * @property string $fechaActualizacion
  * @property integer $estado
@@ -18,6 +18,9 @@ use Yii;
  */
 class ContenidosComentarios extends \yii\db\ActiveRecord
 {
+    
+    const ESTADO_ACTIVO = 1;
+    const ESTADO_DENUNCIADO = 2;
     /**
      * @inheritdoc
      */
@@ -32,9 +35,9 @@ class ContenidosComentarios extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['contenido', 'idUsuarioComentario', 'fechaComentario', 'idContenido'], 'required'],
+            [['contenido', 'numeroDocumento', 'fechaComentario', 'idContenido'], 'required'],
             [['contenido'], 'string'],
-            [['idUsuarioComentario', 'estado', 'idContenido'], 'integer'],
+            [['numeroDocumento', 'estado', 'idContenido'], 'integer'],
             [['fechaComentario', 'fechaActualizacion'], 'safe'],
         ];
     }
@@ -47,7 +50,7 @@ class ContenidosComentarios extends \yii\db\ActiveRecord
         return [
             'idContenidoComentario' => 'Id Contenido Comentario',
              'contenido' => 'Contenido',
-            'idUsuarioComentario' => 'Id Usuario Comentario',
+            'numeroDocumento' => 'Usuario Comentario',
             'fechaComentario' => 'Fecha Comentario',
             'fechaActualizacion' => 'Fecha Actualizacion',
             'estado' => 'Estado',
@@ -57,11 +60,11 @@ class ContenidosComentarios extends \yii\db\ActiveRecord
 
     public function getObjUsuarioPublicacionComentario()
     {
-        return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'idUsuarioComentario']);
+        return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumento']);
     }
     
     public function getObjDenuncioComentarioUsuario()
     {
-        return $this->hasOne(DenunciosContenidosComentarios::className(), ['idContenidoComentario' => 'idContenidoComentario'])->andOnCondition(['idUsuarioDenunciante' => Yii::$app->user->identity->numeroDocumento]);
+        return $this->hasOne(DenunciosContenidosComentarios::className(), ['idContenidoComentario' => 'idContenidoComentario'])->andOnCondition(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento]);
     }
 }

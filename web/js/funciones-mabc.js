@@ -1,9 +1,6 @@
 //::::::::::::::::::::::
 // TAREAS
 //::::::::::::::::::::::
-//para los ajax
-//$('body').showLoading();
-//$('body').hideLoading();
 
 /*
 * peticion ajax guardar el progreso del slider de una tarea
@@ -21,12 +18,10 @@ $(document).on('slideStop', "input[data-role='slider-tarea']", function() {
         dataType: 'json',
         beforeSend: function() {
         //    Loading.show();
-            $('body').showLoading();
         },
 
         complete: function(data) {
          //   Loading.hide();
-            $('body').hideLoading();
         },
         success: function(data) {
             if (data.result == "ok") {
@@ -34,7 +29,7 @@ $(document).on('slideStop', "input[data-role='slider-tarea']", function() {
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            $('body').hideLoading();
+
         }
     });
 });
@@ -59,12 +54,10 @@ $(document).on('change', "input[data-role='tarea-check']", function() {
           dataType: 'json',
           beforeSend: function() {
           //    Loading.show();
-              $('body').showLoading();
           },
 
           complete: function(data) {
            //   Loading.hide();
-              $('body').hideLoading();
           },
           success: function(data) {
 
@@ -74,7 +67,7 @@ $(document).on('change', "input[data-role='tarea-check']", function() {
               }
           },
           error: function(jqXHR, textStatus, errorThrown) {
-              $('body').hideLoading();
+
           }
       });
 
@@ -90,12 +83,10 @@ $(document).on('change', "input[data-role='tarea-check']", function() {
           dataType: 'json',
           beforeSend: function() {
           //    Loading.show();
-              $('body').showLoading();
           },
 
           complete: function(data) {
            //   Loading.hide();
-              $('body').hideLoading();
           },
           success: function(data) {
               if (data.result == "ok") {
@@ -103,11 +94,14 @@ $(document).on('change', "input[data-role='tarea-check']", function() {
               }
           },
           error: function(jqXHR, textStatus, errorThrown) {
-              $('body').hideLoading();
+
           }
       });
 
     }
+
+
+
 });
 
 /**
@@ -116,8 +110,13 @@ $(document).on('change', "input[data-role='tarea-check']", function() {
 
 $(document).on('click', "a[data-role='inactivarTarea']", function() {
 
+
     var idTarea = $(this).attr('data-tarea');
+
     var location = $(this).attr('data-location');
+    if (true) {
+
+    }
 
     if(confirm("¿Estas seguro de querer ocultar de manera permanente esta tarea??")) {
 
@@ -129,12 +128,10 @@ $(document).on('click', "a[data-role='inactivarTarea']", function() {
               dataType: 'json',
               beforeSend: function() {
               //    Loading.show();
-                    $('body').showLoading();
               },
 
               complete: function(data) {
                //   Loading.hide();
-                  $('body').hideLoading();
               },
               success: function(data) {
                   if (data.result == "ok") {
@@ -144,7 +141,7 @@ $(document).on('click', "a[data-role='inactivarTarea']", function() {
                   }
               },
               error: function(jqXHR, textStatus, errorThrown) {
-                  $('body').hideLoading();
+
               }
           })
     }
@@ -174,12 +171,10 @@ $(document).on('click', "button[data-role='inactiva-popup']", function() {
           dataType: 'json',
           beforeSend: function() {
           //    Loading.show();
-                $('body').showLoading();
           },
 
           complete: function(data) {
            //   Loading.hide();
-              $('body').hideLoading();
           },
           success: function(data) {
               if (data.result == "ok") {
@@ -188,7 +183,6 @@ $(document).on('click', "button[data-role='inactiva-popup']", function() {
               }
           },
           error: function(jqXHR, textStatus, errorThrown) {
-              $('body').hideLoading();
           }
       })
 });
@@ -293,12 +287,10 @@ $(document).on('click', "button[data-role='widget-enviarAmigo']", function() {
       dataType: 'json',
       beforeSend: function() {
       //    Loading.show();
-            $('body').showLoading();
       },
 
       complete: function(data) {
        //   Loading.hide();
-          $('body').hideLoading();
       },
       success: function(data) {
           if (data.result == "ok") {
@@ -310,7 +302,7 @@ $(document).on('click', "button[data-role='widget-enviarAmigo']", function() {
           }
       },
       error: function(jqXHR, textStatus, errorThrown) {
-          $('body').hideLoading();
+
       }
   });
 
@@ -335,12 +327,10 @@ $(document).on('click', "button[data-role='enviar-amigos']", function() {
       dataType: 'json',
       beforeSend: function() {
       //    Loading.show();
-            $('body').showLoading();
       },
 
       complete: function(data) {
        //   Loading.hide();
-          $('body').hideLoading();
       },
       success: function(data) {
           if (data.result == "ok") {
@@ -348,12 +338,13 @@ $(document).on('click', "button[data-role='enviar-amigos']", function() {
           }
       },
       error: function(jqXHR, textStatus, errorThrown) {
-          $('body').hideLoading();
+
       }
   });
 
   return false;
 });
+<<<<<<< HEAD
 
 
 //::::::::::::::::::::::
@@ -448,3 +439,5 @@ $(document).on('click', "a[data-role='agregar-cargo']", function() {
 
     return false;
 });
+=======
+>>>>>>> 5ecf0a6175948812ce4b2e98590417ec6ca60901

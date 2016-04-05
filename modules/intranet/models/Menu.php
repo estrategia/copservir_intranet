@@ -81,7 +81,7 @@ class Menu extends \yii\db\ActiveRecord {
     public static function construirArrayMenu(){
         
         $opciones = Menu::find()->where('idPadre is null')->all();
-        $opcionesUsuario = UsuariosOpcionesFavoritos::find()->where(['=', 'idUsuario', Yii::$app->user->identity->numeroDocumento])->all();
+        $opcionesUsuario = UsuariosOpcionesFavoritos::find()->where(['=', 'numeroDocumento', Yii::$app->user->identity->numeroDocumento])->all();
         $opcionesUsuarioArray = [];
         
         foreach($opcionesUsuario as $opcion){

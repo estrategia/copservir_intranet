@@ -65,7 +65,7 @@ class NotificacionesController extends Controller {
     }
     
     public function actionVisto() {
-        Notificaciones::updateAll(['estadoNotificacion' => Notificaciones::ESTADO_VISTA], 'idUsuarioDirigido='.Yii::$app->user->identity->numeroDocumento);
+        Notificaciones::updateAll(['estadoNotificacion' => Notificaciones::ESTADO_VISTA], 'numeroDocumentoDirigido='.Yii::$app->user->identity->numeroDocumento);
         $cantidad = Notificaciones::cantidadNoVistas(Yii::$app->user->identity->numeroDocumento);
         $html = $this->renderPartial('resumen', ['listNotificaciones' => Notificaciones::consultarNotificaciones(Yii::$app->user->identity->numeroDocumento)]);
         echo Json::encode(array('result' => 'ok', 'response' => ['html' => $html, 'count' => $cantidad]));

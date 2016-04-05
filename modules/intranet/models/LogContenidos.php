@@ -11,7 +11,7 @@ use Yii;
  * @property string $idContenido
  * @property integer $estado
  * @property string $fechaRegistro
- * @property string $idUsuarioRegistro
+ * @property string $numeroDocumento
  */
 class LogContenidos extends \yii\db\ActiveRecord
 {
@@ -29,8 +29,8 @@ class LogContenidos extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idContenido', 'estado', 'fechaRegistro', 'idUsuarioRegistro'], 'required'],
-            [['idContenido', 'estado', 'idUsuarioRegistro'], 'integer'],
+            [['idContenido', 'estado', 'fechaRegistro', 'numeroDocumento'], 'required'],
+            [['idContenido', 'estado', 'numeroDocumento'], 'integer'],
             [['fechaRegistro'], 'safe']
         ];
     }
@@ -45,7 +45,7 @@ class LogContenidos extends \yii\db\ActiveRecord
             'idContenido' => 'Id Contenido',
             'estado' => 'Estado',
             'fechaRegistro' => 'Fecha Registro',
-            'idUsuarioRegistro' => 'Id Usuario Registro',
+            'numeroDocumento' => 'Usuario Registro',
         ];
     }
 }

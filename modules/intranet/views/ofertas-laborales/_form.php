@@ -50,7 +50,7 @@ use yii\jui\DatePicker;
       ]);
     ?>
 
-    <?= $form->field($model, 'idUsuarioPublicacion')->hiddenInput(['value'=> Yii::$app->user->identity->numeroDocumento])->label(false); ?>
+    <?= $form->field($model, 'numeroDocumento')->hiddenInput(['value'=> Yii::$app->user->identity->numeroDocumento])->label(false); ?>
 
 
     <?php

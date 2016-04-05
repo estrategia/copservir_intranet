@@ -8,8 +8,8 @@ use Yii;
  * This is the model class for table "t_Notificaciones".
  *
  * @property string $idNotificacion
- * @property string $idUsuarioDirige
- * @property string $idUsuarioDirigido
+ * @property string $numeroDocumentoDirige
+ * @property string $numeroDocumentoDirigido
  * @property string $descripcion
  * @property string $idTipoNotificacion
  * @property integer $estadoNotificacion
@@ -35,8 +35,8 @@ class Notificaciones extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['idUsuarioDirige', 'idUsuarioDirigido', 'tipoNotificacion', 'estadoNotificacion', 'idContenido'], 'integer'],
-            [['idUsuarioDirigido', 'descripcion', 'tipoNotificacion', 'estadoNotificacion', 'idContenido'], 'required'],
+            [['numeroDocumentoDirige', 'numeroDocumentoDirigido', 'tipoNotificacion', 'estadoNotificacion', 'idContenido'], 'integer'],
+            [['numeroDocumentoDirigido', 'descripcion', 'tipoNotificacion', 'estadoNotificacion', 'idContenido'], 'required'],
             [['descripcion', 'fechaRegistro'], 'string', 'max' => 45]
         ];
     }
@@ -47,8 +47,8 @@ class Notificaciones extends \yii\db\ActiveRecord {
     public function attributeLabels() {
         return [
             'idNotificacion' => 'Id Notificacion',
-            'idUsuarioDirige' => 'Id Usuario Dirige',
-            'idUsuarioDirigido' => 'Id Usuario Dirigido',
+            'numeroDocumentoDirige' => 'Usuario Dirige',
+            'numeroDocumentoDirigido' => 'Usuario Dirigido',
             'descripcion' => 'Descripcion',
             'tipoNotificacion' => 'Tipo Notificacion',
             'estadoNotificacion' => 'Estado Notificacion',
@@ -86,13 +86,13 @@ class Notificaciones extends \yii\db\ActiveRecord {
         if ($dataProvider) {
             $query = self::find()
                     ->joinWith(['objUsuarioDirige', 'objContenido'])
-                    ->where("idUsuarioDirigido=:usuario")
+                    ->where("numeroDocumentoDirigido=:usuario")
                     ->addParams([':usuario' => $usuario])
                     ->orderBy('fechaRegistro DESC');
         } else {
             $query = self::find()
                             ->joinWith(['objUsuarioDirige', 'objContenido'])
-                            ->where("idUsuarioDirigido=:usuario")
+                            ->where("numeroDocumentoDirigido=:usuario")
                             ->addParams([':usuario' => $usuario])
                             ->limit(\Yii::$app->params['notificaciones']['limiteVisualizar'])
                             ->orderBy('fechaRegistro DESC')->all();
@@ -107,13 +107,13 @@ class Notificaciones extends \yii\db\ActiveRecord {
     public static function cantidadNoVistas($usuario) {
         return (new \yii\db\Query())
                 ->from(self::tableName())
-                ->where('idUsuarioDirigido=:usuario AND estadoNotificacion=:estado')
+                ->where('numeroDocumentoDirigido=:usuario AND estadoNotificacion=:estado')
                 ->addParams([':usuario' => $usuario, ':estado'=>  self::ESTADO_CREADA])
                 ->count();
     }
 
     public function getObjUsuarioDirige() {
-        return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'idUsuarioDirige']);
+        return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumentoDirige']);
     }
 
     public function getObjContenido() {

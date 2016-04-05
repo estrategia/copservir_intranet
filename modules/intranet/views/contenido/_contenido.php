@@ -9,7 +9,7 @@ use yii\helpers\Html;
 <ul class="cbp_tmtimeline">
     <li>
         <div class="cbp_tmtime">
-            <div class="user-profile">
+            <div class="user-profile text-center">
                 <img src= <?= Yii::$app->homeUrl . 'img/fotosperfil/' . $noticia->objUsuarioPublicacion->imagenPerfil ?> alt="" data-src="" data-src-retina="" width="40" height="40">
             </div>
             <div class="text-center time"> <?= $noticia->objUsuarioPublicacion->alias ?> </div>
@@ -107,7 +107,7 @@ use yii\helpers\Html;
                     ]
                 ]);
                 ?>
-                <button class="btn btn-primary btn-xs" data-role='guardar-comentario-contenido' data-contenido='<?= $noticia->idContenido ?>' value="" type="button"><i class="fa fa-pencil"></i>
+                <button class="btn btn-primary btn-xs comentar" data-role='guardar-comentario-contenido' data-contenido='<?= $noticia->idContenido ?>' value="" type="button"><i class="fa fa-pencil"></i>
                     Comentar
                 </button>
                 <div class="clearfix"></div>

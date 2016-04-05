@@ -94,7 +94,8 @@ $(document).on('click', "a[data-role='guardar-contenido']", function () {
         data: form.serialize(),
         dataType: 'json',
         beforeSend: function () {
-            $('body').showLoading()
+            $('body').showLoading();
+            $("#btnAgregarContenido").attr('disabled',true);
         },
         complete: function (data) {
             $('body').hideLoading();
@@ -108,6 +109,7 @@ $(document).on('click', "a[data-role='guardar-contenido']", function () {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('body').hideLoading();
+            $("#btnAgregarContenido").attr('disabled',false);
 
         }
     });
@@ -205,20 +207,23 @@ $(document).on('click', "button[data-role='guardar-comentario-contenido']", func
         beforeSend: function () {
             $('body').showLoading()
             $('#comentario_' + idContenido).prop('disabled', true);
+            $(".comentar").attr('disabled',true);
         },
         complete: function (data) {
             $('body').hideLoading();
-
+            $(".comentar").attr('disabled',false);
             $('#comentario_' + idContenido).prop('disabled', false);
         },
         success: function (data) {
             if (data.result == "ok") {
                 $("#contenido_" + idContenido).html(data.response);
             }
+            
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('body').hideLoading();
             $('#comentario_' + idContenido).prop('disabled', false);
+            $(".comentar").attr('disabled',false);
         }
     });
 });

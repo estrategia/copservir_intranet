@@ -272,7 +272,7 @@ class UsuarioController extends \yii\web\Controller {
         }
 
         $meGustan = MeGustaContenidos::find()->where(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento])->count();
-        $contenidos = Contenido::find()->where(['idUsuarioPublicacion' => Yii::$app->user->identity->numeroDocumento])->count();
+        $contenidos = Contenido::find()->where(['numeroDocumentoPublicacion' => Yii::$app->user->identity->numeroDocumento])->count();
         $gruposReferencia = GrupoInteres::find()->where('idGrupoInteres IN (' . implode(",", Yii::$app->user->identity->getGruposCodigos()) . ')')->all();
         return $this->render('perfil', ['modelFoto' => $modelFoto, 'contenidos' => $contenidos, 'meGustan' => $meGustan, 'gruposReferencia' => $gruposReferencia]);
     }
