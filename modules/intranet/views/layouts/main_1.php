@@ -211,8 +211,8 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
                                     </li>
                                 </ul>
                             </li>
-                            <li class="quicklinks"> <span class="h-seperate"></span></li>
-                            <li class="quicklinks">
+                           <!-- <li class="quicklinks"> <span class="h-seperate"></span></li>
+                            <!--<li class="quicklinks">
                                 <a href="#" class="chat-menu-toggle" data-webarch="toggle-right-side"><div class="iconset top-chat-dark "><span class="badge badge-important hide">1</span></div>
                                 </a>
                                 <div class="simple-chat-popup chat-menu-toggle hide" >
@@ -223,7 +223,7 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
                                         </div>
                                     </div>
                                 </div>
-                            </li>
+                            </li>-->
                         </ul>
                     </div>
                     <!-- END CHAT TOGGLER -->
@@ -317,7 +317,7 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
                 </div>
             </div>
             <!-- BEGIN CHAT -->
-            <div class="chat-window-wrapper">
+           <!-- <div class="chat-window-wrapper">
                 <div id="main-chat-wrapper" class="inner-content">
                     <div class="chat-window-wrapper scroller scrollbar-dynamic" id="chat-users" >
                         <div class="chat-header">
@@ -544,7 +544,7 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
                         <div class="clearfix"></div>
                     </div>
                 </div>
-            </div>
+            </div>-->
             <!-- END CHAT -->
             <!-- END CONTAINER -->
 

@@ -5,6 +5,7 @@ namespace app\modules\intranet\controllers;
 use Yii;
 use app\modules\intranet\models\GrupoInteres;
 use app\modules\intranet\models\GrupoInteresSearch;
+use app\modules\intranet\models\GrupoInteresCargo;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -45,10 +46,12 @@ class GrupoInteresController extends Controller {
      * @return mixed
      */
     public function actionDetalle($id) {
-        $grupo = $this->findModel($id);
+        $grupo =$this->findModel($id);
+        $grupoInteresCargo = GrupoInteresCargo::listaCargos($id);
 
         return $this->render('detalle', [
-                    'grupo' => $grupo, 'cargos' => $cargos
+                    'grupo' => $grupo,
+                    'grupoInteresCargo' => $grupoInteresCargo
         ]);
     }
 
@@ -63,7 +66,7 @@ class GrupoInteresController extends Controller {
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $model->imagenGrupo = UploadedFile::getInstances($model, 'imagenGrupo');
 
-           
+
             if ($model->imagenGrupo) {
                 foreach ($model->imagenGrupo as $file) {
                     $file->saveAs('img/gruposInteres/' . $file->baseName . '.' . $file->extension);
@@ -94,7 +97,7 @@ class GrupoInteresController extends Controller {
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $model->imagenGrupo = UploadedFile::getInstances($model, 'imagenGrupo');
-          
+
             if ($model->imagenGrupo) {
                 foreach ($model->imagenGrupo as $file) {
                     $file->saveAs('img/gruposInteres/' . $file->baseName . '.' . $file->extension);
@@ -125,6 +128,41 @@ class GrupoInteresController extends Controller {
         $this->findModel($id)->delete();
 
         return $this->redirect(['listar']);
+    }
+
+    /**
+     * Borra un registro de GrupoInteresCargo donde este ese cargo
+     * si la elimiancion es existosa el navegador redirige a la vista index (Listar).
+     * @param string $id
+     * @return mixed
+     */
+    public function actionEliminarCargo() {
+
+        $idCargo = Yii::$app->request->post('idCargo','');
+        $idGrupoInteres = Yii::$app->request->post('idGrupo','');
+
+        $grupoInteresCargo = GrupoInteresCargo::find()->where('( idCargo =:idCargo and idGrupoInteres =:idGrupoInteres )')
+        ->addParams(['idCargo'=>$idCargo,'idGrupoInteres'=>$idGrupoInteres])
+        ->one();
+
+        ;
+
+        $items = [];
+
+        if ($grupoInteresCargo->delete()) {
+
+
+          $grupoInteresCargo = GrupoInteresCargo::listaCargos($idGrupoInteres);
+
+          $items = [
+              'result' => 'ok',
+              'response' => $this->renderAjax('cargosGrupoInteres', [
+                'grupoInteresCargo' => $grupoInteresCargo
+              ])
+            ];
+        }
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $items;
     }
 
     /**
