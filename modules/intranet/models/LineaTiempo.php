@@ -29,7 +29,7 @@ class LineaTiempo extends \yii\db\ActiveRecord
     {
         return [
             [['nombreLineaTiempo', 'estado'], 'required'],
-            [['estado', 'autorizacionAutomatica'], 'integer'],
+            [['estado', 'autorizacionAutomatica', 'solicitarGrupoObjetivo'], 'integer'],
             [['nombreLineaTiempo'], 'string', 'max' => 45]
         ];
     }
@@ -44,6 +44,7 @@ class LineaTiempo extends \yii\db\ActiveRecord
             'nombreLineaTiempo' => 'Nombre Linea Tiempo',
             'estado' => 'Estado',
             'autorizacionAutomatica' => 'Autorizacion Automatica',
+            'solicitarGrupoObjetivo' => "Solicitar Grupo Objetivo",
         ];
     }
 }

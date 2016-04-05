@@ -110,3 +110,10 @@ a.desc:after {
 .navbar{
   vertical-align: middle;
 }
+
+
+img.ajustada {
+   display: block;
+   margin: auto;
+   max-width: 100%;
+}

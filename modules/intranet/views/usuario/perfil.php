@@ -10,11 +10,11 @@ use yii\helpers\ArrayHelper;
 <div class="row">
   <div class="col-md-8">
     <div class=" tiles white col-md-12 no-padding">
-      <div class="tiles green cover-pic-wrapper">
+      <div class="tiles grey cover-pic-wrapper">
           
     
 
-      <img src="<?= Yii::$app->homeUrl . 'img/imagenesFondo/'.\Yii::$app->user->identity->imagenFondo ?>" alt="">
+      <img class="ajustada" src="<?= Yii::$app->homeUrl . 'img/imagenesFondo/'.\Yii::$app->user->identity->imagenFondo ?>" alt="">
       </div>
       <div class="tiles white">
 
