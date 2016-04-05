@@ -15,7 +15,7 @@ class OpcionesUsuario{
     private $opcionesUsuario;
     
     public function opcionesUsuario($usuario){
-        $opcionesUsuario = UsuariosOpcionesFavoritos::find()->where(['=', 'idUsuario', $usuario])->all();
+        $opcionesUsuario = UsuariosOpcionesFavoritos::find()->where(['=', 'numeroDocumento', $usuario])->all();
         
         foreach($opcionesUsuario as $opcion){
             $this->opcionesUsuario[] = $opcion->idMenu;

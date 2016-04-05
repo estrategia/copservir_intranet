@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'idCiudad',
             'fechaPublicacion',
             'fechaCierre',
-            'idUsuarioPublicacion',
+            'numeroDocumento',
             'fechaInicioPublicacion',
             'fechaFinPublicacion',
             'tituloOferta',

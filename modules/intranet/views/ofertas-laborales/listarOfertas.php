@@ -45,7 +45,7 @@ $this->title = 'Ofertas Laborales';
                     ],
                     'fechaPublicacion',
                     // 'fechaCierre',
-                    // 'idUsuarioPublicacion',
+                    // 'numeroDocumento',
                     // 'fechaInicioPublicacion',
                     // 'fechaFinPublicacion',
                     'tituloOferta',

@@ -151,7 +151,7 @@ class SitioController extends Controller {
 
         $contenido = new Contenido();
         if ($contenido->load(Yii::$app->request->post())) {
-            $contenido->idUsuarioPublicacion = Yii::$app->user->identity->numeroDocumento;
+            $contenido->numeroDocumentoPublicacion = Yii::$app->user->identity->numeroDocumento;
             $contenido->fechaPublicacion = $contenido->fechaActualizacion = date("Y-m-d H:i:s");
             $error = false;
             $lineaTiempo = LineaTiempo::find()->where(['=', 'idLineaTiempo', $contenido->idLineaTiempo])->one();
@@ -200,7 +200,7 @@ class SitioController extends Controller {
                     $logContenido->idContenido = $contenido->idContenido;
                     $logContenido->estado = $contenido->estado;
                     $logContenido->fechaRegistro = $contenido->fechaPublicacion;
-                    $logContenido->idUsuarioRegistro = $contenido->idUsuarioPublicacion;
+                    $logContenido->numeroDocumento = $contenido->numeroDocumentoPublicacion;
 
                     if (!$logContenido->save()) {
                         $error = true;
@@ -286,11 +286,11 @@ class SitioController extends Controller {
                 } else {
                     // enviar notificacion al emisario
                     $contenido = Contenido::find()->where(['idContenido' => $meGusta->idContenido])->one();
-                    if (Yii::$app->user->identity->numeroDocumento != $contenido->idUsuarioPublicacion) {
+                    if (Yii::$app->user->identity->numeroDocumento != $contenido->numeroDocumentoPublicacion) {
                         $notificacion = new Notificaciones();
                         $notificacion->idContenido = $meGusta->idContenido;
-                        $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
-                        $notificacion->idUsuarioDirigido = $contenido->idUsuarioPublicacion;
+                        $notificacion->numeroDocumentoDirige = Yii::$app->user->identity->numeroDocumento;
+                        $notificacion->numeroDocumentoDirigido = $contenido->numeroDocumentoPublicacion;
                         $notificacion->descripcion = "Dio me gusta a tu publicación";
                         $notificacion->estadoNotificacion = Notificaciones::ESTADO_CREADA;
                         $notificacion->tipoNotificacion = Notificaciones::NOTIFICACION_MEGUSTA;
@@ -338,7 +338,7 @@ class SitioController extends Controller {
 
             $comentario->idContenido = $post['idContenido'];
             $comentario->contenido = $post['comentario'];
-            $comentario->idUsuarioComentario = Yii::$app->user->identity->numeroDocumento;
+            $comentario->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
             $comentario->fechaComentario = date("Y-m-d H:i:s");
             $comentario->fechaActualizacion = $comentario->fechaComentario;
             $comentario->estado = 1;
@@ -346,11 +346,11 @@ class SitioController extends Controller {
             if ($comentario->save()) {
                 $contenido = Contenido::find()->where(['idContenido' => $comentario->idContenido])->one();
 
-                if (Yii::$app->user->identity->numeroDocumento != $contenido->idUsuarioPublicacion) {
+                if (Yii::$app->user->identity->numeroDocumento != $contenido->numeroDocumentoPublicacion) {
                     $notificacion = new Notificaciones();
                     $notificacion->idContenido = $comentario->idContenido;
-                    $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
-                    $notificacion->idUsuarioDirigido = $contenido->idUsuarioPublicacion;
+                    $notificacion->numeroDocumentoDirige = Yii::$app->user->identity->numeroDocumento;
+                    $notificacion->numeroDocumentoDirigido = $contenido->numeroDocumentoPublicacion;
                     $notificacion->descripcion = "Comentó tu publicación";
                     $notificacion->estadoNotificacion = Notificaciones::ESTADO_CREADA;
                     $notificacion->tipoNotificacion = Notificaciones::NOTIFICACION_COMENTARIO;
@@ -368,14 +368,14 @@ class SitioController extends Controller {
 
                 // notificarle al resto de personas que comentaron.
 
-                $otrosUsuarios = ContenidosComentarios::find()->select('idUsuarioComentario')->where(['and', ['!=', 'idUsuarioComentario', Yii::$app->user->identity->numeroDocumento], ['!=', 'idUsuarioComentario', $contenido->idUsuarioPublicacion]])
+                $otrosUsuarios = ContenidosComentarios::find()->select('numeroDocumento')->where(['and', ['!=', 'numeroDocumento', Yii::$app->user->identity->numeroDocumento], ['!=', 'numeroDocumento', $contenido->numeroDocumentoPublicacion]])
                                 ->andWhere(['idContenido' => $comentario->idContenido])->distinct()->all();
 
                 foreach ($otrosUsuarios as $otroUsuario) {
                     $notificacion = new Notificaciones();
                     $notificacion->idContenido = $comentario->idContenido;
-                    $notificacion->idUsuarioDirige = Yii::$app->user->identity->numeroDocumento;
-                    $notificacion->idUsuarioDirigido = $otroUsuario->idUsuarioComentario;
+                    $notificacion->numeroDocumentoDirige = Yii::$app->user->identity->numeroDocumento;
+                    $notificacion->numeroDocumentoDirigido = $otroUsuario->numeroDocumento;
                     $notificacion->descripcion = "También comento una publicación";
                     $notificacion->estadoNotificacion = Notificaciones::ESTADO_CREADA;
                     $notificacion->tipoNotificacion = Notificaciones::NOTIFICACION_COMENTARIO;

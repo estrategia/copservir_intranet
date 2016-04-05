@@ -26,8 +26,8 @@ class UsuariosOpcionesFavoritos extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idMenu', 'idUsuario'], 'required'],
-            [['idMenu', 'idUsuario'], 'integer']
+            [['idMenu', 'numeroDocumento'], 'required'],
+            [['idMenu', 'numeroDocumento'], 'integer']
         ];
     }
 
@@ -38,7 +38,7 @@ class UsuariosOpcionesFavoritos extends \yii\db\ActiveRecord
     {
         return [
             'idMenu' => 'Id Menu',
-            'idUsuario' => 'Id Usuario',
+            'numeroDocumento' => 'Usuario',
         ];
     }
 

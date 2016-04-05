@@ -19,7 +19,7 @@ use yii\helpers\ArrayHelper;
  * @property string $idCiudad
  * @property string $fechaPublicacion
  * @property string $fechaCierre
- * @property string $idUsuarioPublicacion
+ * @property string $numeroDocumento
  * @property string $fechaInicioPublicacion
  * @property string $fechaFinPublicacion
  * @property string $tituloOferta
@@ -45,8 +45,8 @@ class OfertasLaborales extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idOfertaLaboral', 'cargo', 'idCiudad', 'fechaPublicacion', 'fechaCierre', 'idUsuarioPublicacion', 'fechaInicioPublicacion', 'fechaFinPublicacion', 'tituloOferta', 'urlElEmpleo', 'idCargo', 'idArea', 'descripcionContactoOferta', 'idInformacionContacto'], 'required'],
-            [['idOfertaLaboral', 'idContenidoDestino', 'idCiudad', 'idUsuarioPublicacion', 'idCargo', 'idArea', 'idInformacionContacto'], 'integer'],
+            [['idOfertaLaboral', 'cargo', 'idCiudad', 'fechaPublicacion', 'fechaCierre', 'numeroDocumento', 'fechaInicioPublicacion', 'fechaFinPublicacion', 'tituloOferta', 'urlElEmpleo', 'idCargo', 'idArea', 'descripcionContactoOferta', 'idInformacionContacto'], 'required'],
+            [['idOfertaLaboral', 'idContenidoDestino', 'idCiudad', 'numeroDocumento', 'idCargo', 'idArea', 'idInformacionContacto'], 'integer'],
             [['fechaPublicacion', 'fechaCierre', 'fechaInicioPublicacion', 'fechaFinPublicacion'], 'safe'],
             [['descripcionContactoOferta'], 'string'],
             [['cargo', 'tituloOferta', 'urlElEmpleo'], 'string', 'max' => 45]
@@ -65,7 +65,7 @@ class OfertasLaborales extends \yii\db\ActiveRecord
             'idCiudad' => 'Ciudad',
             'fechaPublicacion' => 'Fecha Publicacion',
             'fechaCierre' => 'Fecha Cierre',
-            'idUsuarioPublicacion' => 'Id Usuario Publicacion',
+            'numeroDocumento' => 'Id Usuario Publicacion',
             'fechaInicioPublicacion' => 'Fecha Inicio Publicacion',
             'fechaFinPublicacion' => 'Fecha Fin Publicacion',
             'tituloOferta' => 'Titulo Oferta',
