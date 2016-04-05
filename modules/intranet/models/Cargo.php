@@ -46,4 +46,9 @@ class Cargo extends \yii\db\ActiveRecord
             'nombreCargo' => 'Nombre Cargo',
         ];
     }
+
+    public static function getListaCargos()
+    {
+      return self::find()->all();
+    }
 }
