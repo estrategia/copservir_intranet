@@ -111,9 +111,12 @@ a.desc:after {
   vertical-align: middle;
 }
 
-
 img.ajustada {
    display: block;
    margin: auto;
    max-width: 100%;
+}
+
+ul.cbp_tmtimeline > li > div.cbp_tmlabel img {
+    width: 100%;
 }
