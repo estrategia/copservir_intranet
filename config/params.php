@@ -13,5 +13,6 @@ return [
     'notificaciones' => [
         'limiteVisualizar' => 5,
         'claseColor' => ['info', 'succes', 'danger']
-    ]
+    ],
+    'prueba' => 'prueba'
 ];
