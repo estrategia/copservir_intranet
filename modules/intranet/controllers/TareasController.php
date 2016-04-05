@@ -339,9 +339,6 @@ class TareasController extends Controller
       $idTarea = Yii::$app->request->post('idTarea');
       $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
 
-      //\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-      //return $LogTarea;
-      //exit();
       $transaction = Tareas::getDb()->beginTransaction();
       try {
           $LogTarea = LogTareas::ultimosDosLogs($idTarea, $numeroDocumento);//find(['numeroDocumento' => $numeroDocumento])->andWhere(['idTarea' => $idTarea])->orderby('fechaRegistro ASC')->limit(2)->all();
