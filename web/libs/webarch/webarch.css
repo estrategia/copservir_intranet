@@ -615,16 +615,24 @@ body.boxed-layout .footer-widget {
 .page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu > li:first-child > a {
   border-top: 0px !important;
 }
-.fancytree-node .fancytree-icon {
-    display:none;
-}
 
+.fancytree-treefocus span.fancytree-active span.fancytree-title {background-color: initial !important;}
+span.fancytree-active span.fancytree-title{background-color: initial !important;}
+ 
 .fancytree-node .btn {
    background-color: initial;
 }
 .fancytree-node .btn:hover {
    background-color: initial;
 }
+.btn.btn-default.btn-xs.menu_corporativo {
+    background-color: #3C8DBC;
+    color:#fff;
+}
+.btn.btn-default.btn-xs.menu_corporativo:hover{
+    background-color: #367FA9;
+}
+
 .page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu > li ul.sub-menu {
   display: none;
   list-style: none;
