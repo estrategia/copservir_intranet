@@ -133,7 +133,7 @@ class Contenido extends \yii\db\ActiveRecord
         $fecha = Date("Y-m-d H:i:s");
         $idUsuario = Yii::$app->user->identity->numeroDocumento;
         $query = self::find()->joinWith(['contenidoRecomendacion'])
-              ->where("( (t_Contenido.numeroDocumentoPublicacion =:idUsuario and t_Contenido.estado=:estado and t_Contenido.fechaPublicacion <=:fechaPublicacion) or (t_ContenidoRecomendacion.numeroDocumentoDirigido =:idUsuario and t_ContenidoRecomendacion.fechaRegistro <=:fechaRegistro) )")
+              ->where("( (t_Contenido.numeroDocumentoPublicacion =:idUsuario and t_Contenido.estado=:estado and t_Contenido.fechaInicioPublicacion <=:fechaPublicacion) or (t_ContenidoRecomendacion.numeroDocumentoDirigido =:idUsuario and t_ContenidoRecomendacion.fechaRegistro <=:fechaRegistro) )")
               ->addParams([':fechaPublicacion' => $fecha,':fechaRegistro'=>$fecha, ':idUsuario'=> $idUsuario, ':estado'=>self::APROBADO])
               ->orderBy('t_Contenido.fechaInicioPublicacion DESC,t_ContenidoRecomendacion.fechaRegistro DESC');
 
@@ -165,7 +165,9 @@ class Contenido extends \yii\db\ActiveRecord
                                                   'or',
                                                       ['LIKE', 'contenido', $busqueda],
                                                       ['LIKE', 'titulo', $busqueda],
-                                                    ]);
+                                                    ])->andWhere(
+                                                      ['estado' => self::APROBADO]
+                                                    )->orderBy('fechaInicioPublicacion DESC');
       $dataProvider = new ActiveDataProvider([
          'query' => $query,
          'pagination' => [
@@ -191,8 +193,10 @@ class Contenido extends \yii\db\ActiveRecord
                                                       ['LIKE', 'contenido', $busqueda],
                                                       ['LIKE', 'titulo', $busqueda],
                                                     ])->andWhere(
-                                                      ['=', 'year(fechaPublicacion)', $a]
-                                                    );
+                                                      ['=', 'year(fechaInicioPublicacion)', $a]
+                                                    )->andWhere(
+                                                      ['estado' => self::APROBADO]
+                                                    )->orderBy('fechaInicioPublicacion DESC');
       $dataProvider = new ActiveDataProvider([
          'query' => $query,
          'pagination' => [
@@ -216,10 +220,12 @@ class Contenido extends \yii\db\ActiveRecord
                                                       ['LIKE', 'contenido', $busqueda],
                                                       ['LIKE', 'titulo', $busqueda],
                                                     ])->andWhere(
-                                                      ['=', 'year(fechaPublicacion)', $a]
+                                                      ['=', 'year(fechaInicioPublicacion)', $a]
                                                     )->andWhere(
-                                                      ['=', 'month(fechaPublicacion)', $m]
-                                                    );
+                                                      ['=', 'month(fechaInicioPublicacion)', $m]
+                                                    )->andWhere(
+                                                      ['estado' => self::APROBADO]
+                                                    )->orderBy('fechaInicioPublicacion DESC');
       $dataProvider = new ActiveDataProvider([
          'query' => $query,
          'pagination' => [
@@ -244,12 +250,14 @@ class Contenido extends \yii\db\ActiveRecord
                                                       ['LIKE', 'contenido', $busqueda],
                                                       ['LIKE', 'titulo', $busqueda],
                                                     ])->andWhere(
-                                                      ['=', 'year(fechaPublicacion)', $a]
+                                                      ['=', 'year(fechaInicioPublicacion)', $a]
                                                     )->andWhere(
-                                                      ['=', 'month(fechaPublicacion)', $m]
+                                                      ['=', 'month(fechaInicioPublicacion)', $m]
                                                     )->andWhere(
-                                                      ['=', 'day(fechaPublicacion)', $d]
-                                                    );
+                                                      ['=', 'day(fechaInicioPublicacion)', $d]
+                                                    )->andWhere(
+                                                      ['estado' => self::APROBADO]
+                                                    )->orderBy('fechaInicioPublicacion DESC');
       $dataProvider = new ActiveDataProvider([
          'query' => $query,
          'pagination' => [
@@ -269,7 +277,7 @@ class Contenido extends \yii\db\ActiveRecord
     public static function datosGraficaAnio($busqueda)
     {
       $db = Yii::$app->db;
-      $sql = 'select year(fechaPublicacion) etiqueta, count(idContenido) cantidad from t_Contenido where (contenido like "%'.$busqueda.'%" or titulo like "%'.$busqueda.'%") group by year(fechaInicioPublicacion) order by fechaInicioPublicacion desc limit ' . Yii::$app->params['contenido']['aniosBusqueda'] ;
+      $sql = 'select year(fechaInicioPublicacion) etiqueta, count(idContenido) cantidad from t_Contenido where (contenido like "%'.$busqueda.'%" or titulo like "%'.$busqueda.'%") group by year(fechaInicioPublicacion) order by fechaInicioPublicacion desc limit ' . Yii::$app->params['contenido']['aniosBusqueda'] ;
       $resultado = $db->createCommand($sql)->queryAll();
       return $resultado;
     }
