@@ -107,7 +107,7 @@ use yii\helpers\Html;
                     ]
                 ]);
                 ?>
-                <button class="btn btn-primary btn-xs" data-role='guardar-comentario-contenido' data-contenido='<?= $noticia->idContenido ?>' value="" type="button"><i class="fa fa-pencil"></i>
+                <button class="btn btn-primary btn-xs comentar" data-role='guardar-comentario-contenido' data-contenido='<?= $noticia->idContenido ?>' value="" type="button"><i class="fa fa-pencil"></i>
                     Comentar
                 </button>
                 <div class="clearfix"></div>
