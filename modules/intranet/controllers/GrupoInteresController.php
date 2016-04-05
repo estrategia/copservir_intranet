@@ -150,17 +150,23 @@ class GrupoInteresController extends Controller {
 
         ;
 
-        $items = [];
+        $items = [
+        'result' => 'error',
+        ];
 
         if ($grupoInteresCargo->delete()) {
 
 
           $grupoInteresCargo = GrupoInteresCargo::listaCargos($idGrupoInteres);
+          $listaCargos = Cargo::getListaCargos();
+
 
           $items = [
               'result' => 'ok',
-              'response' => $this->renderAjax('cargosGrupoInteres', [
-                'grupoInteresCargo' => $grupoInteresCargo
+              'response' => $this->renderPartial('cargosGrupoInteres', [
+                'grupoInteresCargo' => $grupoInteresCargo,
+                //'listaCargos' => $listaCargos,
+                'idGrupo'=>$idGrupoInteres
               ])
             ];
         }
@@ -173,23 +179,37 @@ class GrupoInteresController extends Controller {
      * @param none
      * @return items = []
      *         items.result = indica si todo se realizo bien o mal
-     *         items.response = html para renderizar el modal tiene como parametros: listaCargos = cargos a seleccionar
+     *         items.response = html para renderizar los cargos asociados a el grupo
      */
-     /*public function actionModalAgregaCargos($idGrupo)
+     public function actionAgregaCargo($idGrupo)
      {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $model = new GrupoInteresCargo();
+        $items = [
+        'result' => 'error',
+        ];
+        //var_dump(Yii::$app->request->post());
+        //exit();
+        $model->idCargo=Yii::$app->request->post('agregaCargos');
+        $model->idGrupoInteres = $idGrupo;
+
+        if ($model->save()) {
+
+        $grupoInteresCargo = GrupoInteresCargo::listaCargos($idGrupo);
         $listaCargos = Cargo::getListaCargos();
 
         $items = [
             'result' => 'ok',
-            'response' => $this->renderAjax('_modalAgregaCargos', [
-                'listaCargos' => $listaCargos,
-                'grupo'=> $idGrupo,
+            'response' => $this->renderPartial('cargosGrupoInteres', [
+                'grupoInteresCargo' => $grupoInteresCargo,
+                //'listaCargos' => $listaCargos,
+                'idGrupo'=>$idGrupo
+
              ]
         )];
-
+        }
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $items;
-     }*/
+     }
 
     /**
      * Encuentra un modelo GrupoInteres basado en el valor de su llave primaria.

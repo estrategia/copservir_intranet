@@ -461,11 +461,11 @@ class SitioController extends Controller {
         $userNumeroDocumento = Yii::$app->user->identity->numeroDocumento;
 
         $query = $db->createCommand('select distinct c.idContenidoEmergente, c.contenido
-                                      from  m_contenidoemergente as c
-                                      inner join t_contenidoemergentedestino as cd on c.idContenidoEmergente = cd.idContenidoEmergente
+                                      from  m_ContenidoEmergente as c
+                                      inner join t_ContenidoEmergenteDestino as cd on c.idContenidoEmergente = cd.idContenidoEmergente
 	                                    where (c.fechaInicio<=:fecha AND c.fechaFin >=:fecha AND c.estado =:estado and
                                       ((cd.idGrupoInteres IN(:userGrupos) and cd.codigoCiudad =:userCiudad) or (cd.idGrupoInteres =:todosGrupos and cd.codigoCiudad =:todosCiudad) or (cd.idGrupoInteres IN(:userGrupos) and cd.codigoCiudad =:todosCiudad) or (cd.idGrupoInteres =:todosGrupos and cd.codigoCiudad =:userCiudad)  )   )
-                                      and c.idContenidoEmergente NOT IN( select idContenidoEmergente from t_contenidoemergentevisto where numeroDocumento =' . $userNumeroDocumento . ' )  order by rand()')
+                                      and c.idContenidoEmergente NOT IN( select idContenidoEmergente from t_Contenidoemergentevisto where numeroDocumento =' . $userNumeroDocumento . ' )  order by rand()')
                 ->bindValue(':userCiudad', $userCiudad)
                 ->bindValue(':userGrupos', implode(',', $userGrupos))
                 ->bindValue(':fecha', date('Y-m-d H:i:s'))

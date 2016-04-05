@@ -74,8 +74,8 @@ class LogTareas extends \yii\db\ActiveRecord
                     limit 2; */
 
       $query = self::find()->joinWith(['objLogTareas'])
-              ->where("( t_tareas.numeroDocumento =:idUsuario and t_logtareas.idTarea =:idTarea  )")
-              ->addParams([':idUsuario' => $idUsuario,':idTarea'=>$idTarea])->orderBy('t_logtareas.fechaRegistro  asc')->limit(2)->all();
+              ->where("( t_Tareas.numeroDocumento =:idUsuario and t_LogTareas.idTarea =:idTarea  )")
+              ->addParams([':idUsuario' => $idUsuario,':idTarea'=>$idTarea])->orderBy('t_LogTareas.fechaRegistro  asc')->limit(2)->all();
 
       return $query;
     }

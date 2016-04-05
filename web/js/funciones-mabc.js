@@ -382,7 +382,7 @@ $(document).on('click', "a[data-role='eliminarCargoGrupo']", function() {
               beforeSend: function() {
               //    Loading.show();
                     $('body').showLoading();
-              $('#listaCargos').remove();
+                    $('#cargosGrupo').html("");
               },
 
               complete: function(data) {
@@ -391,7 +391,7 @@ $(document).on('click', "a[data-role='eliminarCargoGrupo']", function() {
               },
               success: function(data) {
                   if (data.result == "ok") {
-                      $('#cargosGrupo').append(data.response);
+                      $('#cargosGrupo').html(data.response);
                   }
               },
               error: function(jqXHR, textStatus, errorThrown) {
@@ -405,24 +405,28 @@ $(document).on('click', "a[data-role='eliminarCargoGrupo']", function() {
 });
 
 /**
-* peticion ajax para renderizar el modal donde se agregaran los grupos de interes
+* peticion ajax para
 * @param none
 * @return data.result = json donde se especifica si todo se realizo bien
 *         data.response = html para renderizar el modal
 */
-/*
+
 $(document).on('click', "a[data-role='agregar-cargo']", function() {
     console.log('dio click');
 
     var idGrupo = $(this).attr('data-grupo');
+    var form = $("#formEnviaCargos");
+
     $.ajax({
-        type: 'GET',
+        type: 'POST',
         async: true,
-        url: requestUrl + '/intranet/grupo-interes/modal-agrega-cargos?idGrupo='+idGrupo,
+        url: requestUrl + '/intranet/grupo-interes/agrega-cargo?idGrupo='+idGrupo,
+        data: form.serialize(),
         dataType: 'json',
         beforeSend: function() {
         //    Loading.show();
               $('body').showLoading();
+              $('#cargosGrupo').html("");
         },
 
         complete: function(data) {
@@ -433,8 +437,7 @@ $(document).on('click', "a[data-role='agregar-cargo']", function() {
             if (data.result == "ok") {
                 //console.log('progreso actualizado');
                 if (data.result == "ok") {
-                  $('body').append(data.response);
-                  $("#widget-agregaCargo").modal("show");
+                  $('#cargosGrupo').html(data.response);
                 }
             }
         },
@@ -444,4 +447,4 @@ $(document).on('click', "a[data-role='agregar-cargo']", function() {
     });
 
     return false;
-});*/
+});

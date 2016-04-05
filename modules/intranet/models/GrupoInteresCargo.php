@@ -63,7 +63,7 @@ class GrupoInteresCargo extends \yii\db\ActiveRecord
     public static function listaCargos($idGrupoInteres)
     {
       $query = self::find()->joinWith(['objGrupoInteresCargo'])
-              ->where("(  m_grupointerescargo.idGrupoInteres =:idGrupoInteres )")
+              ->where("(  m_GrupoInteresCargo.idGrupoInteres =:idGrupoInteres )")
               ->addParams([':idGrupoInteres' => $idGrupoInteres])->with(['objGrupoInteresCargo']);
 
       $dataProvider = new ActiveDataProvider([
@@ -75,4 +75,18 @@ class GrupoInteresCargo extends \yii\db\ActiveRecord
 
       return $dataProvider;
     }
+
+    /**
+    * encuentra un modelo segun su idCargo y idGrupoInteres
+    * @param idGrupoInteres, idCargo
+    * @return
+    */
+    /*
+    public static function encontrarCargo($idGrupoInteres, $idCargo)
+    {
+        $model = GrupoInteresCargo::find()->where('( idCargo =:idCargo and idGrupoInteres =:idGrupoInteres )')
+        ->addParams(['idCargo'=>$idCargo,'idGrupoInteres'=>$idGrupoInteres])
+        ->one();
+        return $model;
+    }*/
 }
