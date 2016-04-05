@@ -14,5 +14,5 @@ return [
         'limiteVisualizar' => 5,
         'claseColor' => ['info', 'succes', 'danger']
     ],
-    'prueba' => 'prueba'
+    'prueba' => 'prueba yyy'
 ];
