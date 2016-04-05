@@ -7,7 +7,7 @@ use yii\data\ActiveDataProvider;
 use yii\db\Expression;
 
 /**
- * This is the model class for table "t_contenido".
+ * This is the model class for table "t_Contenido".
  *
  * @property string $idContenido
  * @property string $titulo
@@ -135,7 +135,7 @@ class Contenido extends \yii\db\ActiveRecord
         $query = self::find()->joinWith(['contenidoRecomendacion'])
               ->where("( (t_Contenido.numeroDocumentoPublicacion =:idUsuario and t_Contenido.estado=:estado and t_Contenido.fechaPublicacion <=:fechaPublicacion) or (t_ContenidoRecomendacion.numeroDocumentoDirigido =:idUsuario and t_ContenidoRecomendacion.fechaRegistro <=:fechaRegistro) )")
               ->addParams([':fechaPublicacion' => $fecha,':fechaRegistro'=>$fecha, ':idUsuario'=> $idUsuario, ':estado'=>self::APROBADO])
-              ->orderBy('t_contenido.fechaInicioPublicacion DESC,t_contenidorecomendacion.fechaRegistro DESC');
+              ->orderBy('t_Contenido.fechaInicioPublicacion DESC,t_ContenidoRecomendacion.fechaRegistro DESC');
 
         return $query;
     }
@@ -269,7 +269,7 @@ class Contenido extends \yii\db\ActiveRecord
     public static function datosGraficaAnio($busqueda)
     {
       $db = Yii::$app->db;
-      $sql = 'select year(fechaPublicacion) etiqueta, count(idContenido) cantidad from t_contenido where (contenido like "%'.$busqueda.'%" or titulo like "%'.$busqueda.'%") group by year(fechaPublicacion) order by fechaPublicacion desc limit 5;';
+      $sql = 'select year(fechaPublicacion) etiqueta, count(idContenido) cantidad from t_Contenido where (contenido like "%'.$busqueda.'%" or titulo like "%'.$busqueda.'%") group by year(fechaInicioPublicacion) order by fechaInicioPublicacion desc limit ' . Yii::$app->params['contenido']['aniosBusqueda'] ;
       $resultado = $db->createCommand($sql)->queryAll();
       return $resultado;
     }
@@ -283,7 +283,7 @@ class Contenido extends \yii\db\ActiveRecord
     public static function datosGraficaMes($busqueda, $a)
     {
       $db = Yii::$app->db;
-      $sql = 'select year(fechaPublicacion) anio, month(fechaPublicacion) etiqueta, count(idContenido) cantidad from t_contenido where (contenido like "%'.$busqueda.'%" or titulo like "%'.$busqueda.'%") and year(fechaPublicacion) = '.$a.' group by month(fechaPublicacion) order by fechaPublicacion desc;';
+      $sql = 'select year(fechaInicioPublicacion) anio, month(fechaInicioPublicacion) etiqueta, count(idContenido) cantidad from t_Contenido where (contenido like "%'.$busqueda.'%" or titulo like "%'.$busqueda.'%") and year(fechaInicioPublicacion) = '.$a.' group by month(fechaInicioPublicacion) order by fechaInicioPublicacion desc';
       $resultado = $db->createCommand($sql)->queryAll();
       return $resultado;
     }
@@ -297,7 +297,7 @@ class Contenido extends \yii\db\ActiveRecord
     public static function datosGraficaDia($busqueda, $a, $m)
     {
       $db = Yii::$app->db;
-      $sql = 'select year(fechaPublicacion) anio, month(fechaPublicacion) mes, day(fechaPublicacion) etiqueta, count(idContenido) cantidad from t_contenido where (contenido like "%'.$busqueda.'%" or titulo like "%'.$busqueda.'%") and year(fechaPublicacion) = '.$a.' and month(fechaPublicacion) = '.$m.' group by day(fechaPublicacion) order by fechaPublicacion desc;';
+      $sql = 'select year(fechaInicioPublicacion) anio, month(fechaInicioPublicacion) mes, day(fechaInicioPublicacion) etiqueta, count(idContenido) cantidad from t_Contenido where (contenido like "%'.$busqueda.'%" or titulo like "%'.$busqueda.'%") and year(fechaInicioPublicacion) = '.$a.' and month(fechaInicioPublicacion) = '.$m.' group by day(fechaInicioPublicacion) order by fechaInicioPublicacion desc';
       $resultado = $db->createCommand($sql)->queryAll();
       return $resultado;
     }

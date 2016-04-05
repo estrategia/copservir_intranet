@@ -9,7 +9,7 @@ use yii\helpers\Html;
 <ul class="cbp_tmtimeline">
     <li>
         <div class="cbp_tmtime">
-            <div class="user-profile">
+            <div class="user-profile text-center">
                 <img src= <?= Yii::$app->homeUrl . 'img/fotosperfil/' . $noticia->objUsuarioPublicacion->imagenPerfil ?> alt="" data-src="" data-src-retina="" width="40" height="40">
             </div>
             <div class="text-center time"> <?= $noticia->objUsuarioPublicacion->alias ?> </div>

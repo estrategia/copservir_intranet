@@ -14,5 +14,8 @@ return [
         'limiteVisualizar' => 5,
         'claseColor' => ['info', 'succes', 'danger']
     ],
+    'contenido' => [
+        'aniosBusqueda' => 5
+    ],
     'prueba' => 'prueba yyy'
 ];

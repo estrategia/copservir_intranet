@@ -118,5 +118,5 @@ img.ajustada {
 }
 
 ul.cbp_tmtimeline > li > div.cbp_tmlabel img {
-    width: 100%;
+    max-width: 100%;
 }
