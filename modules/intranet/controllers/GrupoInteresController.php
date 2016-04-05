@@ -165,7 +165,7 @@ class GrupoInteresController extends Controller {
               'result' => 'ok',
               'response' => $this->renderPartial('cargosGrupoInteres', [
                 'grupoInteresCargo' => $grupoInteresCargo,
-                //'listaCargos' => $listaCargos,
+                'listaCargos' => $listaCargos,
                 'idGrupo'=>$idGrupoInteres
               ])
             ];
@@ -201,7 +201,7 @@ class GrupoInteresController extends Controller {
             'result' => 'ok',
             'response' => $this->renderPartial('cargosGrupoInteres', [
                 'grupoInteresCargo' => $grupoInteresCargo,
-                //'listaCargos' => $listaCargos,
+                'listaCargos' => $listaCargos,
                 'idGrupo'=>$idGrupo
 
              ]
