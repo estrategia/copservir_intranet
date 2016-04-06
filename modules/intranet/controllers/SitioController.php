@@ -250,11 +250,11 @@ class SitioController extends Controller {
             $post = Yii::$app->request->post();
             if ($post['value'] == 1) {// crear la opcion
                 $nuevodato = new UsuariosOpcionesFavoritos();
-                $nuevodato->idUsuario = Yii::$app->user->identity->numeroDocumento;
+                $nuevodato->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
                 $nuevodato->idMenu = $post['idMenu'];
                 $nuevodato->save();
             } else {// eliminar la opcion
-                UsuariosOpcionesFavoritos::deleteAll('idMenu = :idMenu AND idUsuario = :idUsuario', [':idMenu' => $post['idMenu'], ':idUsuario' => Yii::$app->user->identity->numeroDocumento]);
+                UsuariosOpcionesFavoritos::deleteAll('idMenu = :idMenu AND numeroDocumento = :idUsuario', [':idMenu' => $post['idMenu'], ':idUsuario' => Yii::$app->user->identity->numeroDocumento]);
             }
         }
     }
