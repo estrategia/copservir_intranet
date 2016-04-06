@@ -382,6 +382,8 @@ $(document).on('click', "a[data-role='eliminarCargoGrupo']", function() {
               },
               success: function(data) {
                   if (data.result == "ok") {
+                      $('#select2-agregaCargos-container').attr('title','');
+                      $('#select2-agregaCargos-container').text('');
                       $('#cargosGrupo').append(data.response);
                   }
               },
@@ -428,6 +430,8 @@ $(document).on('click', "a[data-role='agregar-cargo']", function() {
             if (data.result == "ok") {
                 //console.log('progreso actualizado');
                 if (data.result == "ok") {
+                  $('#select2-agregaCargos-container').attr('title','');
+                  $('#select2-agregaCargos-container').text('');
                   $('#cargosGrupo').append(data.response);
                 }
             }

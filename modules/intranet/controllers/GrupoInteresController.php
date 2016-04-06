@@ -50,12 +50,10 @@ class GrupoInteresController extends Controller {
     public function actionDetalle($id) {
         $grupo =$this->findModel($id);
         $grupoInteresCargo = GrupoInteresCargo::listaCargos($id);
-        $listaCargos = Cargo::getListaCargos();
 
         return $this->render('detalle', [
                     'grupo' => $grupo,
                     'grupoInteresCargo' => $grupoInteresCargo,
-                    'listaCargos' => $listaCargos
         ]);
     }
 
@@ -208,9 +206,9 @@ class GrupoInteresController extends Controller {
      /**
       * consulta la lista de cargos a agregar en un grupo de interes
       * @param none
-      * @return items = []
-      *         items.result = indica si todo se realizo bien o mal
-      *         items.response = html para renderizar los cargos asociados a el grupo
+      * @return out = []
+      *         out.id = indica el identificador del cargo
+      *         out.text = nombre del cargo
       */
 
       public function actionListaCargos($search = null, $id = null)
@@ -218,32 +216,33 @@ class GrupoInteresController extends Controller {
         $out = ['results' => [ 'id' => '', 'text' => '']];
 
         if (!is_null($search)) {
-            // consulta cuando enpieza a escribir
+            // consulta cuando empieza a escribir
             $query = new Query;
             $query->select('idCargo as id, nombreCargo AS text')
                 ->from('m_Cargo')
-                ->where('nombreCargo LIKE "%' . $search .'%"')
+                ->where('nombreCargo LIKE "%' . $search .'%" and idCargo not in (select idCargo from m_GrupoInteresCargo)')
                 ->limit(20);
             $command = $query->createCommand();
             $data = $command->queryAll();
-            //$data = Cargo::getListaCargos();
             $out['results'] = array_values($data);
         }
         elseif ($id > 0) {
-            $out['results'] = ['id' => $id, 'text' => Cargo::find($id)->nombreCargo];
+
+            // consulta cuando selecciona una opcion del a lista
+            $out['results'] = ['id' => $id, 'text' => Cargo::findOne($id)->nombreCargo];
         }
         else {
-            //$out['results'] = ['id' => 0, 'text' => 'No se encontro'];
-            //aca hacer consulta de todos
+
+            //consulta cuando da click en el campo
             $query = new Query;
             $query->select('idCargo as id, nombreCargo AS text')
                 ->from('m_Cargo')
-                ->where('nombreCargo LIKE "%' . $search .'%"')
+                ->where('nombreCargo LIKE "%' . $search .'%" and idCargo not in (select idCargo from m_GrupoInteresCargo)')
                 ->limit(20);
             $command = $query->createCommand();
             $data = $command->queryAll();
-            //$data = Cargo::getListaCargos();
             $out['results'] = array_values($data);
+
         }
          \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
          return $out;
