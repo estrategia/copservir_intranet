@@ -19,7 +19,7 @@ class ContenidoRecomendacion extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 't_contenidorecomendacion';
+        return 't_ContenidoRecomendacion';
     }
 
     /**

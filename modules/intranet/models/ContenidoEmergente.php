@@ -21,7 +21,7 @@ class ContenidoEmergente extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'm_contenidoemergente';
+        return 'm_ContenidoEmergente';
     }
 
     /**

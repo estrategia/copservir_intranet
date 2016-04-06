@@ -17,7 +17,7 @@ class PrioridadTarea extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'm_prioridadtarea';
+        return 'm_PrioridadTarea';
     }
 
     /**
