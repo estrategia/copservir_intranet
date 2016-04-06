@@ -47,7 +47,6 @@ class UsuarioWidgetInactivo extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idUsuarioWidgetInactivo' => 'Id Usuario Widget Inactivo',
             'numeroDocumento' => 'Numero Documento',
             'widget' => 'Widget',
         ];
