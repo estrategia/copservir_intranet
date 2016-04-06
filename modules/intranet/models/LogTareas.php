@@ -21,7 +21,7 @@ class LogTareas extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 't_logtareas';
+        return 't_LogTareas';
     }
 
     /**

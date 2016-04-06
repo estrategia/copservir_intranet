@@ -11,6 +11,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use yii\db\Query;
 /**
  * GrupoInteresController implementa las acciones para el modelo GrupoInteres.
  */
@@ -158,15 +159,11 @@ class GrupoInteresController extends Controller {
 
 
           $grupoInteresCargo = GrupoInteresCargo::listaCargos($idGrupoInteres);
-          $listaCargos = Cargo::getListaCargos();
-
 
           $items = [
               'result' => 'ok',
               'response' => $this->renderPartial('cargosGrupoInteres', [
                 'grupoInteresCargo' => $grupoInteresCargo,
-                'listaCargos' => $listaCargos,
-                'idGrupo'=>$idGrupoInteres
               ])
             ];
         }
@@ -187,8 +184,7 @@ class GrupoInteresController extends Controller {
         $items = [
         'result' => 'error',
         ];
-        //var_dump(Yii::$app->request->post());
-        //exit();
+
         $model->idCargo=Yii::$app->request->post('agregaCargos');
         $model->idGrupoInteres = $idGrupo;
 
@@ -197,20 +193,62 @@ class GrupoInteresController extends Controller {
         if ($model->save()) {
 
         $grupoInteresCargo = GrupoInteresCargo::listaCargos($idGrupo);
-        $listaCargos = Cargo::getListaCargos();
 
         $items = [
             'result' => 'ok',
             'response' => $this->renderPartial('cargosGrupoInteres', [
                 'grupoInteresCargo' => $grupoInteresCargo,
-                'listaCargos' => $listaCargos,
-                'idGrupo'=>$idGrupo
              ]
         )];
         }
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $items;
      }
+
+     /**
+      * consulta la lista de cargos a agregar en un grupo de interes
+      * @param none
+      * @return items = []
+      *         items.result = indica si todo se realizo bien o mal
+      *         items.response = html para renderizar los cargos asociados a el grupo
+      */
+
+      public function actionListaCargos($search = null, $id = null)
+      {
+        $out = ['results' => [ 'id' => '', 'text' => '']];
+
+        if (!is_null($search)) {
+            // consulta cuando enpieza a escribir
+            $query = new Query;
+            $query->select('idCargo as id, nombreCargo AS text')
+                ->from('m_Cargo')
+                ->where('nombreCargo LIKE "%' . $search .'%"')
+                ->limit(20);
+            $command = $query->createCommand();
+            $data = $command->queryAll();
+            //$data = Cargo::getListaCargos();
+            $out['results'] = array_values($data);
+        }
+        elseif ($id > 0) {
+            $out['results'] = ['id' => $id, 'text' => Cargo::find($id)->nombreCargo];
+        }
+        else {
+            //$out['results'] = ['id' => 0, 'text' => 'No se encontro'];
+            //aca hacer consulta de todos
+            $query = new Query;
+            $query->select('idCargo as id, nombreCargo AS text')
+                ->from('m_Cargo')
+                ->where('nombreCargo LIKE "%' . $search .'%"')
+                ->limit(20);
+            $command = $query->createCommand();
+            $data = $command->queryAll();
+            //$data = Cargo::getListaCargos();
+            $out['results'] = array_values($data);
+        }
+         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+         return $out;
+      }
+
 
     /**
      * Encuentra un modelo GrupoInteres basado en el valor de su llave primaria.

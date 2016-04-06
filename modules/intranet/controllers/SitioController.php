@@ -72,7 +72,7 @@ class SitioController extends Controller {
         //banners  Crear modelos y pasar las consultas al modelo
         $db = Yii::$app->db;
         $bannerArriba = $db->createCommand('select distinct pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia
-                                                from t_CampanasDestino as pcc, t_Publicacionescampanas as pc
+                                                from t_CampanasDestino as pcc, t_PublicacionesCampanas as pc
 	                                                 where (pcc.idImagenCampana = pc.idImagenCampana and pc.estado=:estado and pc.posicion =:posicion
                                                     and (( pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:userCiudad) or ( pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:userCiudad)  )  )
                                                      order by rand()')
@@ -85,7 +85,7 @@ class SitioController extends Controller {
                 ->queryAll();
 
         $bannerAbajo = $db->createCommand('select distinct pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia
-                                                from t_CampanasDestino as pcc, t_Publicacionescampanas as pc
+                                                from t_CampanasDestino as pcc, t_PublicacionesCampanas as pc
                                                   where (pcc.idImagenCampana = pc.idImagenCampana and pc.estado=:estado and pc.posicion =:posicion
                                                     and (( pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:userCiudad) or ( pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:userCiudad) )  )
                                                      order by rand()')
@@ -98,7 +98,7 @@ class SitioController extends Controller {
                 ->queryAll();
 
         $bannerDerecha = $db->createCommand('select distinct pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia
-                                                from t_CampanasDestino as pcc, t_Publicacionescampanas as pc
+                                                from t_CampanasDestino as pcc, t_PublicacionesCampanas as pc
 	                                                 where (pcc.idImagenCampana = pc.idImagenCampana and pc.estado=:estado and pc.posicion =:posicion
                                                     and (( pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:userCiudad) or ( pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:userCiudad) )  )
                                                      order by rand()')
@@ -465,7 +465,7 @@ class SitioController extends Controller {
                                       inner join t_ContenidoEmergenteDestino as cd on c.idContenidoEmergente = cd.idContenidoEmergente
 	                                    where (c.fechaInicio<=:fecha AND c.fechaFin >=:fecha AND c.estado =:estado and
                                       ((cd.idGrupoInteres IN(:userGrupos) and cd.codigoCiudad =:userCiudad) or (cd.idGrupoInteres =:todosGrupos and cd.codigoCiudad =:todosCiudad) or (cd.idGrupoInteres IN(:userGrupos) and cd.codigoCiudad =:todosCiudad) or (cd.idGrupoInteres =:todosGrupos and cd.codigoCiudad =:userCiudad)  )   )
-                                      and c.idContenidoEmergente NOT IN( select idContenidoEmergente from t_Contenidoemergentevisto where numeroDocumento =' . $userNumeroDocumento . ' )  order by rand()')
+                                      and c.idContenidoEmergente NOT IN( select idContenidoEmergente from t_ContenidoEmergenteVisto where numeroDocumento =' . $userNumeroDocumento . ' )  order by rand()')
                 ->bindValue(':userCiudad', $userCiudad)
                 ->bindValue(':userGrupos', implode(',', $userGrupos))
                 ->bindValue(':fecha', date('Y-m-d H:i:s'))

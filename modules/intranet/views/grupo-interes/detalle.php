@@ -38,7 +38,58 @@ $this->title = $grupo->nombreGrupo;
 </div>
 
 <div class="col-md-12" id="cargosGrupo">
+  <h4>Cargos asociados al grupo de interes</h4>
+  <p>
+    agrega un cargo a este grupo
+  </p>
+  <?= Html::beginForm(['grupo-interes/agregar-cargo'], 'post', ['id'=> 'formEnviaCargos']); ?>
+  <?php
+      $url = \yii\helpers\Url::to(['lista-cargos']);
+      $initScript = <<< SCRIPT
+function (element, callback) {
+   var id=$(element).val();
+   if (id !== "") {
+       $.ajax("{$url}?id=" + id, {
+           dataType: "json"
+       }).done(function(data) { callback(data.results);});
+   }
+}
+SCRIPT;
+      echo Select2::widget([
+            'name' => 'agregaCargos',
+            //'data' => \yii\helpers\ArrayHelper::map($listaCargos, 'idCargo', 'nombreCargo'),
+            'size' => Select2::MEDIUM,
+            'showToggleAll' => false,
+            'changeOnReset' => false,
+            'options' => ['class'=>'select2-container','placeholder' => 'buscar cargos...'],
+            'pluginOptions' => [
+              'allowClear' => true,
+              //'escapeMarkup' => new JsExpression("function(m) { return m; }"),
+              'ajax' => [
+                    'url' => $url,
+                    'dataType' => 'json',
+                    'data' => new JsExpression('function(params) { return {search:params.term, page: params.page}; }'),
+                    'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
+              ],
+              'initSelection' => new JsExpression($initScript)
+            ],
 
+      ])
 
-          <?= $this->render('cargosGrupoInteres', ['grupoInteresCargo' => $grupoInteresCargo, 'listaCargos' => $listaCargos, 'idGrupo'=>$grupo->idGrupoInteres]) ?>
+  ?>
+
+  <?=  Html::hiddenInput('grupoInteres', $grupo->idGrupoInteres, []);  ?>
+  <?= Html::endForm()     ?>
+  <br>
+
+  <?= Html::a('Agregar cargo', ['#'],
+                  [
+                    'class' => 'btn btn-primary',
+                    'data-grupo' => $grupo->idGrupoInteres,
+                    'data-role' => 'agregar-cargo'
+                  ])
+  ?>
+  <br>
+
+  <?= $this->render('cargosGrupoInteres', ['grupoInteresCargo' => $grupoInteresCargo, 'listaCargos' => $listaCargos, 'idGrupo'=>$grupo->idGrupoInteres]) ?>
 </div>
