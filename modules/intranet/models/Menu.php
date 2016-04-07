@@ -102,9 +102,8 @@ class Menu extends \yii\db\ActiveRecord {
             if(in_array($opcion->idMenu, $opcionesUsuario)){
                 $checked = " checked";
             }
-            return ['title' => "<a href='".$opcion->objOpcion->url."' class='btn btn-default  btn-xs menu_corporativo'><i class='fa fa-file-o'></i>
-  $opcion->descripcion 
-</a>   <input type='checkbox'  data-role='agregar-opcion' data-id='$opcion->idMenu' $checked>  "];
+            return ['title' => "<a href='".$opcion->objOpcion->url."' class='btn btn-default  btn-xs menu_corporativo'> 
+  <input type='checkbox' id='$opcion->idMenu' data-role='agregar-opcion' data-id='$opcion->idMenu' $checked> <label style='display: inline;' for='$opcion->idMenu'><span><span></span></span></label> $opcion->descripcion  </a> "];
         }else{
             $children= [];
             
