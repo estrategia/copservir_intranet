@@ -171,6 +171,42 @@ class OfertasLaboralesController extends Controller
         return $this->redirect(['index']);
     }
 
+    /**
+     * Borra un registro de GrupoInteresCargo donde este ese cargo
+     * si la elimiancion es existosa el navegador redirige a la vista index (Listar).
+     * @param string $id
+     * @return mixed
+     */
+    public function actionEliminarOfertaDestino() {
+
+        $idCiudad = Yii::$app->request->post('idCiudad','');
+        $idGrupoInteres = Yii::$app->request->post('idGrupo','');
+        $idOferta = Yii::$app->request->post('idOferta','');
+
+        $ofertaDestino = OfertasLaboralesDestino::find()->where('( codigoCiudad =:idCiudad and idGrupoInteres =:idGrupoInteres and idOfertaLaboral =:idOferta )')
+        ->addParams(['idCiudad'=>$idCiudad,'idGrupoInteres'=>$idGrupoInteres, 'idOferta'=>$idOferta])
+        ->one();
+
+        ;
+
+        $items = [
+        'result' => 'error',
+        ];
+
+        if ($ofertaDestino->delete()) {
+
+          $destinoOfertasLaborales = OfertasLaboralesDestino::listaOfertas($idOferta);
+
+          $items = [
+              'result' => 'ok',
+              'response' => $this->renderPartial('_destinoOfertas', [
+                'destinoOfertasLaborales' => $destinoOfertasLaborales
+              ])
+            ];
+        }
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $items;
+    }
 
 
     /**

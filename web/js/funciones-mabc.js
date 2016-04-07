@@ -443,3 +443,58 @@ $(document).on('click', "a[data-role='agregar-cargo']", function() {
 
     return false;
 });
+
+//::::::::::::::::::::::
+// OFERTAS LABORALES
+//::::::::::::::::::::::
+
+/**
+* peticion ajax para eliminar un destino de una oferta laboral
+* @param none
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html para renderizar la grilla de los destinos
+*/
+$(document).on('click', "a[data-role='eliminarDestino']", function() {
+  console.log('click');
+
+    var idOferta = $(this).attr('data-oferta');
+    var idCiudad = $(this).attr('data-ciudad');
+    var idGrupo = $(this).attr('data-grupo');
+
+    if(confirm("¿Estas seguro de querer eliminar?")) {
+
+          $.ajax({
+              type: 'POST',
+              async: true,
+              url: requestUrl + '/intranet/ofertas-laborales/eliminar-oferta-destino',
+              data: {idCiudad: idCiudad, idGrupo: idGrupo, idOferta: idOferta},
+              dataType: 'json',
+              beforeSend: function() {
+              //    Loading.show();
+                    $('body').showLoading();
+                    $('#listaOfertas').remove();
+              },
+
+              complete: function(data) {
+                   //   Loading.hide();
+                   $('body').hideLoading();
+              },
+              success: function(data) {
+                  if (data.result == "ok") {
+
+                      $('#select2-Grupo_-container').attr('title','');
+                      $('#select2-Grupo_-container').text('');
+                      $('#select2-ciudad_-container').attr('title','');
+                      $('#select2-ciudad_-container').text('');
+                      $('#destinosOfertas').append(data.response);
+                  }
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                  $('body').hideLoading();
+              }
+          })
+
+    }
+
+    return false;
+});

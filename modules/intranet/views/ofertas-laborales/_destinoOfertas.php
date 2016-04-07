@@ -3,10 +3,9 @@ use yii\grid\GridView;
 use yii\helpers\Html;
 
 ?>
-<div id="listaCargos">
-aca viene la lista de los destino
+<div id="listaOfertas">
 
-<?php  GridView::widget([
+<?=  GridView::widget([
     'dataProvider' => $destinoOfertasLaborales,
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
@@ -17,18 +16,25 @@ aca viene la lista de los destino
           }
         ],
         [
+          'attribute' => 'codigoCiudad',
+          'value' => function($model) {
+            return $model->objCiudad->nombreCiudad;
+          }
+        ],
+        [
         'class' => 'yii\grid\ActionColumn',
         'headerOptions'=> ['style'=>'width: 70px;'],
-        'template' => '{eliminar-destino-oferta}',
+        'template' => '{eliminar-destino}',
         'buttons' => [
-            'eliminar-cargo' => function ($url, $destinoOfertasLaborales) {
+            'eliminar-destino' => function ($url, $destinoOfertasLaborales) {
                 return  Html::a('<span class="glyphicon glyphicon-trash"></span>',
                 ['#'],
                 [
                   'class' => 'btn btn-danger',
                   'data-grupo' => $destinoOfertasLaborales->idGrupoInteres,
                   'data-ciudad' => $destinoOfertasLaborales->codigoCiudad,
-                  'data-role' => 'eliminarDestinoOferta'
+                  'data-oferta' => $destinoOfertasLaborales->idOfertaLaboral,
+                  'data-role' => 'eliminarDestino'
                 ]
               );
             }
