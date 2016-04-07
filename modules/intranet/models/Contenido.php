@@ -32,6 +32,7 @@ class Contenido extends \yii\db\ActiveRecord
     const ELIMINADO = 3;
     const ELIMINADO_DENUNCIO = 4;
 
+    public $anexos;
 
     public static function tableName()
     {
@@ -313,7 +314,7 @@ class Contenido extends \yii\db\ActiveRecord
 
     public function getListComentarios()
     {
-        return $this->hasMany(ContenidosComentarios::className(), ['idContenido' => 'idContenido']);
+        return $this->hasMany(ContenidosComentarios::className(), ['idContenido' => 'idContenido'])->andOnCondition(['estado' => ContenidosComentarios::ESTADO_ACTIVO]);
     }
 
     public function getListMeGusta()

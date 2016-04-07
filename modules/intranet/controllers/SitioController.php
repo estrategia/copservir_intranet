@@ -40,6 +40,12 @@ class SitioController extends Controller {
                 'url' => 'http://192.168.0.35/copservir_intranet/imagenes/post/', //Yii::$app->realpath().'/imagenes', // Directory URL address, where files are stored.
                 'path' => '@app/imagenes/post' // Or absolute path to directory where files are stored.
             ],
+            'files-get' => [
+                'class' => 'vova07\imperavi\actions\GetAction',
+                'url' => 'http://192.168.0.35/copservir_intranet/documentos/post/', // Directory URL address, where files are stored.
+                'path' => '@app/documentos/post', // Or absolute path to directory where files are stored.
+               // 'type' => GetAction::TYPE_FILES,
+            ]
         ];
     }
 
@@ -56,7 +62,7 @@ class SitioController extends Controller {
         }
         $fecha = date("Y-m-d H:i:s");
         $contenidoModel = new Contenido();
-        $lineasTiempo = LineaTiempo::find()->where(['estado' => 1])->all();
+        $lineasTiempo = LineaTiempo::find()->where(['estado' => 1])->andWhere("fechaInicio <= '$fecha' AND '$fecha' <= fechaFin")->orderBy('orden')->all();
         $indicadores = Indicadores::find()->all();
 
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;

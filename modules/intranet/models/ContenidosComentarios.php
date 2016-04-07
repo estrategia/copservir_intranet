@@ -18,7 +18,7 @@ use Yii;
  */
 class ContenidosComentarios extends \yii\db\ActiveRecord
 {
-    
+    const ESTADO_ELIMINADO = 0;
     const ESTADO_ACTIVO = 1;
     const ESTADO_DENUNCIADO = 2;
     /**
