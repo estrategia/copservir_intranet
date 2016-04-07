@@ -147,9 +147,11 @@ class ContenidoController extends Controller {
         $idComentario = $request->post('idComentario');
         $contenido = ContenidosComentarios::find()->where(['idContenidoComentario' => $idComentario])->one();
         $idContenido = $contenido->idContenido;
-        $contenido = ContenidosComentarios::deleteAll('idContenidoComentario = :idComentario', [':idComentario' => $idComentario]);
+        //$contenido = ContenidosComentarios::find()->where(['idContenidoComentario' => $idComentario]);
       
-        $comentariosContenido = ContenidosComentarios::find()->with('objUsuarioPublicacionComentario', 'objDenuncioComentarioUsuario')->where(['idContenido' => $idContenido])->all();
+        $contenido->estado = ContenidosComentarios::ESTADO_ELIMINADO;
+        $contenido->save();
+        $comentariosContenido = ContenidosComentarios::find()->with('objUsuarioPublicacionComentario', 'objDenuncioComentarioUsuario')->where(['idContenido' => $idContenido, 'estado' => ContenidosComentarios::ESTADO_ACTIVO])->all();
 
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return [

@@ -40,7 +40,6 @@ class MeGustaContenidos extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idMeGusta' => 'Id Me Gusta',
             'idContenido' => 'Id Contenido',
             'numeroDocumento' => 'Id Usuario',
             'fechaRegistro' => 'Fecha Registro',
