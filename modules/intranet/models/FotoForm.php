@@ -8,10 +8,11 @@ use yii\base\Model;
 /**
  * LoginForm is the model behind the login form.
  */
-class FotoForm extends Model {
+class FotoForm extends Usuario {
 
     public $imagenPerfil;
-     public $imagenFondo;
+    public $imagenFondo;
+    public $crop_info;
 
     /**
      * @return array the validation rules.
@@ -20,18 +21,19 @@ class FotoForm extends Model {
 
         // username and password are both required
         return [
-                ['imagenPerfil, imagenFondo', 'file',
-                'skipOnEmpty' => false,
-                'uploadRequired' => 'No has seleccionado ningún archivo', //Error
+            [ ['imagenPerfil'], 'file',
+                'skipOnEmpty' => true,
+                //'uploadRequired' => 'No has seleccionado ningún archivo', //Error
                 'maxSize' => 1024 * 1024 * 2, //2 MB
                 'tooBig' => 'El tamaño máximo permitido es 2MB', //Error
                 'minSize' => 10, //10 Bytes
                 'tooSmall' => 'El tamaño mínimo permitido son 10 BYTES', //Error
-                'extensions' => 'jpg, png',
+                'extensions' => 'jpg, png, jpeg',
                 'wrongExtension' => 'El archivo {file} no contiene una extensión permitida {extensions}', //Error
                 'maxFiles' => 1,
                 'tooMany' => 'El máximo de archivos permitidos son {limit}', //Error
             ],
+            ['crop_info', 'safe'],
         ];
     }
 

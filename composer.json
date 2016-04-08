@@ -25,7 +25,9 @@
         "wbraganca/yii2-fancytree-widget": "*",
         "yii2mod/yii2-tree": "*",
         "kartik-v/yii2-widget-select2": "@dev",
-        "nirvana-msu/yii2-showloading": "1.0.*@dev"
+        "nirvana-msu/yii2-showloading": "1.0.*@dev",
+        "sadovojav/yii2-image-cutter": "dev-master",
+        "bupy7/yii2-widget-cropbox": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
