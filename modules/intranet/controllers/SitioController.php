@@ -131,13 +131,13 @@ class SitioController extends Controller {
 
     public function actionImageUpload() {
         $message = "";
-        
-     
+
+
         $name = time() . "_" . $_FILES['file']['name'];
         // $url = Yii::getPathOfAlias('webroot') . Yii::app()->params->uploadContenidosUrl . $name;
         // http://192.168.0.35/copservir_intranet/imagenes/post/
         // 'path' => '@app/imagenes/post'
-        $url = Yii::getAlias('@app').'/web/img/post/' . $name;
+        $url = Yii::getAlias('@app') . '/web/img/post/' . $name;
         //extensive suitability check before doing anything with the file…
         if (($_FILES['file'] == "none") OR ( empty($_FILES['file']['name']))) {
 
@@ -161,18 +161,32 @@ class SitioController extends Controller {
             //$message = "You may be attempting to hack our server. We're on to you; expect a knock on the door sometime soon.";
         } else {
             $message = "";
-            $move = move_uploaded_file($_FILES['file']['tmp_name'], $url);
-            if (!$move) {
-                $message = "Error al cargar el archivo."; //$message = "Error moving uploaded file. Check the script is granted Read/Write/Modify permissions.";
+
+            $tamanhos = getimagesize($_FILES['file']["tmp_name"]);
+
+            if ($tamanhos[0] > Yii::$app->params['dimensionesImagen']['ancho']) {
                 $result = [
-                    'error' => $message
-                ];
+                        'error' => 'El ancho máximo debe ser '.Yii::$app->params['dimensionesImagen']['ancho']." px"
+                    ];
+            } else if ($tamanhos[1] > Yii::$app->params['dimensionesImagen']['largo']) {
+                $result = [
+                        'error' => 'El largo máximo debe ser '.Yii::$app->params['dimensionesImagen']['largo']." px"
+                    ];
             } else {
-                $url = Yii::$app->homeUrl . 'img/post/' . $name;
-                $result = ['filelink' => $url];
+
+                $move = move_uploaded_file($_FILES['file']['tmp_name'], $url);
+                if (!$move) {
+                    $message = "Error al cargar el archivo."; //$message = "Error moving uploaded file. Check the script is granted Read/Write/Modify permissions.";
+                    $result = [
+                        'error' => $message
+                    ];
+                } else {
+                    $url = Yii::$app->homeUrl . 'img/post/' . $name;
+                    $result = ['filelink' => $url];
+                }
             }
         }
-        
+
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         return $result;
