@@ -208,6 +208,61 @@ class OfertasLaboralesController extends Controller
         return $items;
     }
 
+    /**
+     * accion para para agregar un destino a una oferta laboral
+     * @param none
+     * @return items = []
+     *         items.result = indica si todo se realizo bien o mal
+     *         items.response = html para renderizar los destinos de las ofertas
+     */
+     public function actionAgregaDestinoOferta()
+     {
+        $model = new OfertasLaboralesDestino();
+        $items = [
+        'result' => 'error',
+        ];
+
+        $idOferta = Yii::$app->request->post('ofertaLaboral', '');
+        $model->idGrupoInteres = Yii::$app->request->post('grupo', '');
+        $model->codigoCiudad = Yii::$app->request->post('ciudad', '');;
+        $model->idOfertaLaboral = $idOferta;
+
+
+        //si no guarda el modelo
+        if (!$model->save()) {
+
+
+          $ofertaDestino = OfertasLaboralesDestino::find()->where('( codigoCiudad =:idCiudad and idGrupoInteres =:idGrupoInteres and idOfertaLaboral =:idOferta )')
+          ->addParams(['idCiudad'=>$idCiudad,'idGrupoInteres'=>$idGrupoInteres, 'idOferta'=>$idOferta])
+          ->one();
+
+          if (empty($ofertaDestino)) {
+              $items = [
+                  'result' => 'error',
+                  'response' => 'El destino ya no existe'
+              ];
+          } else {
+              $items = [
+                  'result' => 'error',
+                  'response' => 'Error al guardar el destino'
+              ];
+          }
+
+        }else{
+          // si guardda el modelo
+          $destinoOfertasLaborales = OfertasLaboralesDestino::listaOfertas($idOferta);
+          $items = [
+              'result' => 'ok',
+              'response' => $this->renderPartial('_destinoOfertas', [
+                'destinoOfertasLaborales' => $destinoOfertasLaborales
+              ])
+          ];
+        }
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $items;
+     }
+
 
     /**
      * Finds the OfertasLaborales model based on its primary key value.

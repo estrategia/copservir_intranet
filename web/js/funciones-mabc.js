@@ -398,7 +398,7 @@ $(document).on('click', "a[data-role='eliminarCargoGrupo']", function() {
 });
 
 /**
-* peticion ajax para
+* peticion ajax para agregar un cargo a un grupo de interes
 * @param none
 * @return data.result = json donde se especifica si todo se realizo bien
 *         data.response = html para renderizar el modal
@@ -495,6 +495,55 @@ $(document).on('click', "a[data-role='eliminarDestino']", function() {
           })
 
     }
+
+    return false;
+});
+
+
+/**
+* peticion ajax para agregar un cargo a un grupo de interes
+* @param none
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html para renderizar el modal
+*/
+
+$(document).on('click', "a[data-role='agregar-destino-oferta']", function() {
+    console.log('dio click');
+
+    var form = $("#formEnviaDestinosOferta");
+
+    $.ajax({
+        type: 'POST',
+        async: true,
+        url: requestUrl + '/intranet/ofertas-laborales/agrega-destino-oferta',
+        data: form.serialize(),
+        dataType: 'json',
+        beforeSend: function() {
+        //    Loading.show();
+              $('body').showLoading();
+              $('#listaOfertas').remove();
+        },
+
+        complete: function(data) {
+         //   Loading.hide();
+            $('body').hideLoading();
+        },
+        success: function(data) {
+            if (data.result == "ok") {
+                //console.log('progreso actualizado');
+                if (data.result == "ok") {
+                  $('#select2-Grupo_-container').attr('title','');
+                  $('#select2-Grupo_-container').text('');
+                  $('#select2-ciudad_-container').attr('title','');
+                  $('#select2-ciudad_-container').text('');
+                  $('#destinosOfertas').append(data.response);
+                }
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            $('body').hideLoading();
+        }
+    });
 
     return false;
 });

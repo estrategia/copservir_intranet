@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\select2\Select2;
-use yii\jui\DatePicker;
+use kartik\datetime\DateTimePicker;
 use app\modules\intranet\models\ContenidoDestino;
 use app\modules\intranet\models\GrupoInteres;
 use app\modules\intranet\models\Ciudad;
@@ -57,23 +57,31 @@ use yii\helpers\ArrayHelper;
     ?>
     <br>
     <?php
-     echo $form->field($model, 'fechaPublicacion')->widget(DatePicker::className(),[
-        'dateFormat' => 'yyyy-MM-dd hh:mm:ss',
-        'options' => [
-        'class' => 'input-sm form-control',
-        'placeholder' => 'yyyy-MM-dd hh:mm:ss'
-        ]
+
+      echo '<label class="control-label">fecha publicacion</label>';
+      echo DateTimePicker::widget([
+      	'model' => $model,
+      	'attribute' => 'fechaPublicacion',
+      	'options' => ['placeholder' => ''],
+      	'pluginOptions' => [
+      		'autoclose' => true,
+          'format' => 'yyyy/mm/dd hh:ii:ss'
+      	]
       ]);
     ?>
 
 
     <?php
-     echo $form->field($model, 'fechaCierre')->widget(DatePicker::className(),[
-        'dateFormat' => 'yyyy-MM-dd hh:mm:ss',
-        'options' => [
-        'class' => 'input-sm form-control',
-        'placeholder' => 'yyyy-MM-dd hh:mm:ss'
-        ]
+
+      echo '<label class="control-label">fecha cierra</label>';
+      echo DateTimePicker::widget([
+      	'model' => $model,
+      	'attribute' => 'fechaCierre',
+      	'options' => ['placeholder' => ''],
+      	'pluginOptions' => [
+      		'autoclose' => true,
+          'format' => 'yyyy/mm/dd hh:ii:ss'
+      	]
       ]);
     ?>
 
@@ -81,24 +89,33 @@ use yii\helpers\ArrayHelper;
 
 
     <?php
-     echo $form->field($model, 'fechaInicioPublicacion')->widget(DatePicker::className(),[
-        'dateFormat' => 'yyyy-MM-dd hh:mm:ss',
-        'options' => [
-        'class' => 'input-sm form-control',
-        'placeholder' => 'yyyy-MM-dd hh:mm:ss'
-        ]
+
+      echo '<label class="control-label">fecha inicio publicacion</label>';
+      echo DateTimePicker::widget([
+      	'model' => $model,
+      	'attribute' => 'fechaInicioPublicacion',
+      	'options' => ['placeholder' => ''],
+      	'pluginOptions' => [
+      		'autoclose' => true,
+          'format' => 'yyyy/mm/dd hh:ii:ss'
+      	]
       ]);
     ?>
 
 
     <?php
-     echo $form->field($model, 'fechaFinPublicacion')->widget(DatePicker::className(),[
-        'dateFormat' => 'yyyy-MM-dd hh:mm:ss',
-        'options' => [
-        'class' => 'input-sm form-control',
-        'placeholder' => 'yyyy-MM-dd hh:mm:ss'
-        ]
+
+      echo '<label class="control-label">fecha fin publicacion</label>';
+      echo DateTimePicker::widget([
+      	'model' => $model,
+      	'attribute' => 'fechaFinPublicacion',
+      	'options' => ['placeholder' => ''],
+      	'pluginOptions' => [
+      		'autoclose' => true,
+          'format' => 'yyyy/mm/dd hh:ii:ss'
+      	]
       ]);
+
     ?>
 
     <?php /*$form->field($model, 'idCargo')->dropDownList($model->listaCargo, ['prompt' => 'Seleccione el cargo' ]);*/?>
@@ -138,6 +155,7 @@ use yii\helpers\ArrayHelper;
 
 </div>
 <div class="col-md-12">
+  <?php if (!$model->isNewRecord): ?>
   <h4>Grupos de interes y ciudad de destino</h4>
 
   <?= Html::beginForm(['ofertas-laborales/agregar-destino-oferta'], 'post', ['id'=> 'formEnviaDestinosOferta']); ?>
@@ -146,7 +164,7 @@ use yii\helpers\ArrayHelper;
       <?php echo Html::label('Grupo de Interés') ?>
       <?php
       echo Select2::widget([
-          'name' => 'ContenidoDestino[idGrupoInteres]',
+          'name' => 'grupo',
           'id' => "Grupo_",
           'data' => ArrayHelper::map(GrupoInteres::find()->orderBy('nombreGrupo')->all(), 'idGrupoInteres', 'nombreGrupo'),
           'options' => ['placeholder' => 'Selecione ...'],
@@ -161,7 +179,7 @@ use yii\helpers\ArrayHelper;
       <?php
       echo
       Select2::widget([
-          'name' => 'ContenidoDestino[codigoCiudad]',
+          'name' => 'ciudad',
           'id' => "ciudad_",
           'data' => ArrayHelper::map(Ciudad::find()->orderBy('nombreCiudad')->all(), 'codigoCiudad', 'nombreCiudad'),
           'options' => ['placeholder' => 'Selecione ...'],
@@ -171,8 +189,8 @@ use yii\helpers\ArrayHelper;
       ]);
       ?>
   </div>
-  <?=  Html::hiddenInput('grupoInteres', $grupo->idGrupoInteres, []);  ?>
-  <?= Html::endForm()     ?>
+  <?=  Html::hiddenInput('ofertaLaboral', $model->idOfertaLaboral, []);  ?>
+  <?= Html::endForm() ?>
   <div class="col-md-4">
 
     <?= Html::a('Agregar', ['#'],
@@ -185,8 +203,6 @@ use yii\helpers\ArrayHelper;
 
   </div>
 
-
-  <?php if (!$model->isNewRecord): ?>
       <div class="col-md-12">
         <br><br>
           <div id="destinosOfertas">

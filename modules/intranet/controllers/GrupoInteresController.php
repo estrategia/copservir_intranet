@@ -183,13 +183,11 @@ class GrupoInteresController extends Controller {
         'result' => 'error',
         ];
 
-        $model->idCargo=Yii::$app->request->post('agregaCargos');
+        $model->idCargo = Yii::$app->request->post('agregaCargos');
         $model->idGrupoInteres = $idGrupo;
 
-
-
         if ($model->save()) {
-
+          
         $grupoInteresCargo = GrupoInteresCargo::listaCargos($idGrupo);
 
         $items = [
