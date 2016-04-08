@@ -149,8 +149,7 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
                                         <?= Html::a('Mi pantalla de inicio', ['usuario/pantalla-inicio']) ?>
                                     </li>
                                     <li>
-                                        <?= Html::a('Mis publicaciones &nbsp;&nbsp;
-                  		<span class="badge badge-important animated bounceIn">2</span>', ['sitio/publicaciones']) ?>
+                                        <?php //= Html::a('Mis publicaciones &nbsp;&nbsp;<span class="badge badge-important animated bounceIn">2</span>', ['sitio/publicaciones']) ?>
 
                                     </li>
                                     <li class="divider"></li>

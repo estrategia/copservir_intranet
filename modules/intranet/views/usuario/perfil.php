@@ -6,7 +6,7 @@ use yii\helpers\Html;
 
 <!-- PLANTILLA -->
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-12">
         <div class=" tiles white col-md-12 no-padding">
             <div class="tiles grey cover-pic-wrapper">
 
@@ -70,8 +70,8 @@ use yii\helpers\Html;
                                 <div class="col-md-5">
                                     <h5>Educación</h5>
                                     <p><b>Superiores: </b> <?= \Yii::$app->user->identity->getSuperiores() ?></p>
-                                    <h5>Otra Informacion</h5>
-                                    <p><b>Extencion: </b> <?= \Yii::$app->user->identity->getExtension() ?></p>
+                                    <h5>Otra Información</h5>
+                                    <p><b>Extensión: </b> <?= \Yii::$app->user->identity->getExtension() ?></p>
                                     <p><b>E-mail: </b> <?= \Yii::$app->user->identity->getEmail() ?></p>
                                     <p><b>Celular: </b> <?= \Yii::$app->user->identity->getCelular() ?></p>
                                     <p><b>Residencia: </b> <?= \Yii::$app->user->identity->getResidencia() ?></p>
@@ -79,8 +79,9 @@ use yii\helpers\Html;
                                     <p><b>Cumpleaños: </b> <?= \Yii::$app->user->identity->getCumpleanhos() ?></p>
                                 </div>
                                 <div class="col-md-2">
-                                    <?= Html::a('Actualizar datos', ['usuario/actualizar-datos'], ['class' => 'btn btn-primary btn-small', 'name' => 'forgot-button']) ?>
-                                    <?= Html::a('Cambiar contraseña', ['usuario/cambiar-clave'], ['class' => 'btn btn-primary btn-small', 'name' => 'forgot-button']) ?>
+                                    <?= Html::a('Actualizar datos', ['usuario/actualizar-datos'], ['class' => 'btn btn-primary btn-small', 'name' => 'update-button']) ?> <br/><br/>
+                                    <?= Html::a('Cambiar contraseña', ['usuario/cambiar-clave'], ['class' => 'btn btn-primary btn-small', 'name' => 'forgot-button']) ?> <br/><br/>
+                                    <?= Html::a('Actualizar Fotos', ['usuario/cambiar-foto-perfil'], ['class' => 'btn btn-primary btn-small', 'name' => 'picture-button']) ?> <br/><br/>
                                 </div>
 
 
