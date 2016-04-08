@@ -6,7 +6,8 @@ return [
     'grupo' => ['*' => 999999],
     'dimensionesImagen' => [
         'ancho' => 1024, 
-        'largo' => 800
+        'largo' => 800,
+        'tamanho' => 1 // en Megabytes
         ],
     'calendario' => [
         'dias' => ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "S&aacutebado"],

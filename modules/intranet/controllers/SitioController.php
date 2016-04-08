@@ -149,7 +149,12 @@ class SitioController extends Controller {
             $result = [
                 'error' => "Archivo inválido: Tamaño no válido"
             ];
-        } else if (($_FILES['file']["type"] != "image/pjpeg") AND ( $_FILES['file']["type"] != "image/jpeg") AND ( $_FILES['file']["type"] != "image/png")) {
+        }else if($_FILES['file']["size"] > Yii::$app->params['dimensionesImagen']['tamanho']*1024*1024) {
+             $result = [
+                'error' => ' El ancho máximo debe ser '.Yii::$app->params['dimensionesImagen']['tamanho']."MB"
+            ];
+        }
+        else if (($_FILES['file']["type"] != "image/pjpeg") AND ( $_FILES['file']["type"] != "image/jpeg") AND ( $_FILES['file']["type"] != "image/png")) {
 
             $result = [
                 'error' => "El formato de la imagen debe de ser JPG or PNG. Por favor cargar archivo JPG or PNG."
@@ -166,11 +171,11 @@ class SitioController extends Controller {
 
             if ($tamanhos[0] > Yii::$app->params['dimensionesImagen']['ancho']) {
                 $result = [
-                        'error' => 'El ancho máximo debe ser '.Yii::$app->params['dimensionesImagen']['ancho']." px"
+                        'error' => 'El ancho máximo debe ser '.Yii::$app->params['dimensionesImagen']['ancho']."px"
                     ];
             } else if ($tamanhos[1] > Yii::$app->params['dimensionesImagen']['largo']) {
                 $result = [
-                        'error' => 'El largo máximo debe ser '.Yii::$app->params['dimensionesImagen']['largo']." px"
+                        'error' => 'El largo máximo debe ser '.Yii::$app->params['dimensionesImagen']['largo']."px"
                     ];
             } else {
 
