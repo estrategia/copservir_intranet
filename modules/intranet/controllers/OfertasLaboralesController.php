@@ -4,6 +4,7 @@ namespace app\modules\intranet\controllers;
 
 use Yii;
 use app\modules\intranet\models\OfertasLaborales;
+use app\modules\intranet\models\OfertasLaboralesDestino;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -54,13 +55,71 @@ class OfertasLaboralesController extends Controller
     }
 
     /**
-     * Creates a new OfertasLaborales model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * Crea un nuevo modelo de OfertasLaborales y los registros de su respectivo registro
+     * si la creacion es exitosa redirige a la vista listarOfertas
      * @return mixed
      */
     public function actionCrear()
     {
+
         $model = new OfertasLaborales();
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            $transaction = OfertasLaborales::getDb()->beginTransaction();
+
+            try {
+
+                  if ($model->save()) {
+                    $ofertaDestino = Yii::$app->request->post('ContenidoDestino');
+                    $ciudades = $ofertaDestino['codigoCiudad'];
+                    $gruposInteres = $ofertaDestino['idGrupoInteres'];
+
+                    $innerTransaction = OfertasLaboralesDestino::getDb()->beginTransaction();
+
+                    try {
+
+                        for ($i = 0; $i < count($gruposInteres); $i++) {
+
+                          $modelOfertasDestino = new OfertasLaboralesDestino();
+                          $modelOfertasDestino->idOfertaLaboral = $model->idOfertaLaboral;
+                          $modelOfertasDestino->idGrupoInteres = $gruposInteres[$i];
+                          $modelOfertasDestino->codigoCiudad = $ciudades[$i];
+                          $modelOfertasDestino->save();
+                        }
+
+                        //ejecuta la transaccion
+                        $innerTransaction->commit();
+
+
+                    } catch (Exception $e) {
+                        $innerTransaction->rollBack();
+
+                        throw $e;
+                    }
+
+
+                  //ejecuta la transaccion
+                  $transaction->commit();
+                  return $this->redirect(['listar-ofertas']);
+                }
+
+            } catch(\Exception $e) {
+
+                //devuelve los cambios
+                $transaction->rollBack();
+
+                throw $e;
+            }
+        }else {
+
+          return $this->render('crear', [
+              'model' => $model,
+          ]);
+        }
+
+
+        /*$model = new OfertasLaborales();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['detalle', 'id' => $model->idOfertaLaboral]);
@@ -68,7 +127,7 @@ class OfertasLaboralesController extends Controller
             return $this->render('crear', [
                 'model' => $model,
             ]);
-        }
+        }*/
     }
 
     /**
@@ -80,14 +139,23 @@ class OfertasLaboralesController extends Controller
     public function actionActualizar($id)
     {
         $model = $this->findModel($id);
+        $destinoOfertasLaborales = OfertasLaboralesDestino::listaOfertas($id);
+        //var_dump($destinoOfertasLaborales);
 
+        return $this->render('actualizar', [
+            'model' => $model,
+            'destinoOfertasLaborales' => $destinoOfertasLaborales
+        ]);
+
+        /*
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['detalle', 'id' => $model->idOfertaLaboral]);
+            //return $this->redirect(['detalle', 'id' => $model->idOfertaLaboral]);
         } else {
             return $this->render('actualizar', [
                 'model' => $model,
+                'destinoOfertasLaborales' => $destinoOfertasLaborales
             ]);
-        }
+        }*/
     }
 
     /**
@@ -103,6 +171,42 @@ class OfertasLaboralesController extends Controller
         return $this->redirect(['index']);
     }
 
+    /**
+     * Borra un registro de GrupoInteresCargo donde este ese cargo
+     * si la elimiancion es existosa el navegador redirige a la vista index (Listar).
+     * @param string $id
+     * @return mixed
+     */
+    public function actionEliminarOfertaDestino() {
+
+        $idCiudad = Yii::$app->request->post('idCiudad','');
+        $idGrupoInteres = Yii::$app->request->post('idGrupo','');
+        $idOferta = Yii::$app->request->post('idOferta','');
+
+        $ofertaDestino = OfertasLaboralesDestino::find()->where('( codigoCiudad =:idCiudad and idGrupoInteres =:idGrupoInteres and idOfertaLaboral =:idOferta )')
+        ->addParams(['idCiudad'=>$idCiudad,'idGrupoInteres'=>$idGrupoInteres, 'idOferta'=>$idOferta])
+        ->one();
+
+        ;
+
+        $items = [
+        'result' => 'error',
+        ];
+
+        if ($ofertaDestino->delete()) {
+
+          $destinoOfertasLaborales = OfertasLaboralesDestino::listaOfertas($idOferta);
+
+          $items = [
+              'result' => 'ok',
+              'response' => $this->renderPartial('_destinoOfertas', [
+                'destinoOfertasLaborales' => $destinoOfertasLaborales
+              ])
+            ];
+        }
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $items;
+    }
 
 
     /**

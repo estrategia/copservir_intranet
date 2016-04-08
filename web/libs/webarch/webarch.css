@@ -10188,9 +10188,13 @@ label {cursor:pointer;}
     border: 3px solid #F2F4F6;
 }
 
-.btn.btn-default.btn-xs.menu_corporativo{background-color: #ececec;}
-.btn.btn-default.btn-xs.menu_corporativo .fa {color:#367FA9;}
+.btn.btn-default.btn-xs.menu_corporativo{background-color: #3C8DBC;color:#fff;}
 
 span.fancytree-active span.fancytree-title {
     background-color: initial !important;
+}
+
+.ui-fancytree.fancytree-container {
+    border: 1px dashed rgb(54, 127, 169);
+    padding: 15px;
 }
