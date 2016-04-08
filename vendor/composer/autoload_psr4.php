@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'yii\\swiftmailer\\' => array($vendorDir . '/yiisoft/yii2-swiftmailer'),
     'yii\\jui\\' => array($vendorDir . '/yiisoft/yii2-jui'),
+    'yii\\imagine\\' => array($vendorDir . '/yiisoft/yii2-imagine'),
     'yii\\gii\\' => array($vendorDir . '/yiisoft/yii2-gii'),
     'yii\\faker\\' => array($vendorDir . '/yiisoft/yii2-faker'),
     'yii\\debug\\' => array($vendorDir . '/yiisoft/yii2-debug'),
@@ -18,6 +19,7 @@ return array(
     'yii2mod\\tree\\' => array($vendorDir . '/yii2mod/yii2-tree'),
     'wbraganca\\fancytree\\' => array($vendorDir . '/wbraganca/yii2-fancytree-widget/src'),
     'vova07\\imperavi\\' => array($vendorDir . '/vova07/yii2-imperavi-widget/src'),
+    'sadovojav\\cutter\\' => array($vendorDir . '/sadovojav/yii2-image-cutter'),
     'nirvana\\showloading\\' => array($vendorDir . '/nirvana-msu/yii2-showloading'),
     'kartik\\tree\\' => array($vendorDir . '/kartik-v/yii2-tree-manager'),
     'kartik\\select2\\' => array($vendorDir . '/kartik-v/yii2-widget-select2'),
@@ -29,5 +31,6 @@ return array(
     'creocoder\\nestedsets\\' => array($vendorDir . '/creocoder/yii2-nested-sets/src'),
     'cinghie\\fontawesome\\' => array($vendorDir . '/cinghie/yii2-fontawesome'),
     'cebe\\markdown\\' => array($vendorDir . '/cebe/markdown'),
+    'bupy7\\cropbox\\' => array($vendorDir . '/bupy7/yii2-widget-cropbox'),
     'Faker\\' => array($vendorDir . '/fzaninotto/faker/src/Faker'),
 );

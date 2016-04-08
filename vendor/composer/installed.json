@@ -1661,6 +1661,7 @@
         ]
     },
     {
+<<<<<<< HEAD
         "name": "phpspec/php-diff",
         "version": "v1.1.0",
         "version_normalized": "1.1.0.0",
@@ -1680,12 +1681,96 @@
         "extra": {
             "branch-alias": {
                 "dev-master": "1.0.x-dev"
+=======
+        "name": "imagine/imagine",
+        "version": "v0.5.0",
+        "version_normalized": "0.5.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/avalanche123/Imagine.git",
+            "reference": "f64ec666baaa800edcbf237db41121a569230709"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/avalanche123/Imagine/zipball/f64ec666baaa800edcbf237db41121a569230709",
+            "reference": "f64ec666baaa800edcbf237db41121a569230709",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2"
+        },
+        "require-dev": {
+            "sami/sami": "dev-master"
+        },
+        "suggest": {
+            "ext-gd": "to use the GD implementation",
+            "ext-gmagick": "to use the Gmagick implementation",
+            "ext-imagick": "to use the Imagick implementation"
+        },
+        "time": "2013-07-10 17:25:36",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Imagine": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Bulat Shakirzyanov",
+                "email": "mallluhuct@gmail.com",
+                "homepage": "http://avalanche123.com"
+            }
+        ],
+        "description": "Image processing for PHP 5.3",
+        "homepage": "http://imagine.readthedocs.org/",
+        "keywords": [
+            "drawing",
+            "graphics",
+            "image manipulation",
+            "image processing"
+        ]
+    },
+    {
+        "name": "yiisoft/yii2-imagine",
+        "version": "2.0.3",
+        "version_normalized": "2.0.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/yiisoft/yii2-imagine.git",
+            "reference": "0961343138b65bba447de84b2b300899617e6acc"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/yiisoft/yii2-imagine/zipball/0961343138b65bba447de84b2b300899617e6acc",
+            "reference": "0961343138b65bba447de84b2b300899617e6acc",
+            "shasum": ""
+        },
+        "require": {
+            "imagine/imagine": "0.5.*",
+            "yiisoft/yii2": "*"
+        },
+        "time": "2015-03-01 06:22:44",
+        "type": "yii2-extension",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0.x-dev"
+>>>>>>> 9fc9df1dcf4aa303058639b4d2c5cbaa8924c0d5
             }
         },
         "installation-source": "dist",
         "autoload": {
+<<<<<<< HEAD
             "psr-0": {
                 "Diff": "lib/"
+=======
+            "psr-4": {
+                "yii\\imagine\\": ""
+>>>>>>> 9fc9df1dcf4aa303058639b4d2c5cbaa8924c0d5
             }
         },
         "notification-url": "https://packagist.org/downloads/",
@@ -1694,11 +1779,70 @@
         ],
         "authors": [
             {
+<<<<<<< HEAD
                 "name": "Chris Boulton",
                 "homepage": "http://github.com/chrisboulton"
             }
         ],
         "description": "A comprehensive library for generating differences between two hashable objects (strings or arrays)."
+=======
+                "name": "Antonio Ramirez",
+                "email": "amigo.cobos@gmail.com"
+            }
+        ],
+        "description": "The Imagine integration for the Yii framework",
+        "keywords": [
+            "helper",
+            "image",
+            "imagine",
+            "yii2"
+        ]
+    },
+    {
+        "name": "sadovojav/yii2-image-cutter",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sadovojav/yii2-image-cutter.git",
+            "reference": "743c4011cf3de05c7319953e523c0d905e48d37c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sadovojav/yii2-image-cutter/zipball/743c4011cf3de05c7319953e523c0d905e48d37c",
+            "reference": "743c4011cf3de05c7319953e523c0d905e48d37c",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.0",
+            "yiisoft/yii2": "*",
+            "yiisoft/yii2-imagine": "*"
+        },
+        "time": "2015-12-14 23:29:49",
+        "type": "yii2-extension",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "sadovojav\\cutter\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "authors": [
+            {
+                "name": "Aleksandr Sadovoj",
+                "email": "sadovojav@gmail.com",
+                "homepage": "https://github.com/sadovojav"
+            }
+        ],
+        "description": "Yii2 crop image widget",
+        "keywords": [
+            "crop",
+            "cutter",
+            "image",
+            "upload",
+            "yii2"
+        ]
+>>>>>>> 9fc9df1dcf4aa303058639b4d2c5cbaa8924c0d5
     },
     {
         "name": "kartik-v/yii2-tree-manager",
@@ -1759,6 +1903,7 @@
         ]
     },
     {
+<<<<<<< HEAD
         "name": "kartik-v/yii2-widget-datetimepicker",
         "version": "v1.4.2",
         "version_normalized": "1.4.2.0",
@@ -1777,15 +1922,118 @@
             "kartik-v/yii2-krajee-base": "*"
         },
         "time": "2016-01-10 12:18:38",
+=======
+        "name": "bower-asset/jquery-mousewheel",
+        "version": "3.1.13",
+        "version_normalized": "3.1.13.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/jquery/jquery-mousewheel.git",
+            "reference": "67289b6b2aa0066d7d78a5807f520387135ffb22"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/jquery/jquery-mousewheel/zipball/67289b6b2aa0066d7d78a5807f520387135ffb22",
+            "reference": "67289b6b2aa0066d7d78a5807f520387135ffb22",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/jquery": ">=1.2.2"
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": "./jquery.mousewheel.js",
+            "bower-asset-ignore": [
+                "*.json",
+                "*.markdown",
+                "*.txt",
+                ".*",
+                "!LICENSE.txt",
+                "Gruntfile.js",
+                "test"
+            ]
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "bower-asset/jq-cropbox",
+        "version": "v1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/bupy7/jquery-cropbox.git",
+            "reference": "292013d58981f0bcc740d347c5e71971b68c5a48"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/bupy7/jquery-cropbox/zipball/292013d58981f0bcc740d347c5e71971b68c5a48",
+            "reference": "292013d58981f0bcc740d347c5e71971b68c5a48",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/jquery": ">=1.8",
+            "bower-asset/jquery-mousewheel": "*"
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": [
+                "dist/*.js",
+                "dist/*.css",
+                "src/*.js",
+                "src/*.css"
+            ],
+            "bower-asset-ignore": [
+                ".*",
+                "*.md",
+                "/scripts"
+            ]
+        },
+        "installation-source": "dist",
+        "license": [
+            "BSD 3-Clause"
+        ],
+        "description": "A lightweight and simple plugin to crop your image.",
+        "keywords": [
+            "crop",
+            "cropbox",
+            "image"
+        ]
+    },
+    {
+        "name": "bupy7/yii2-widget-cropbox",
+        "version": "4.1.0",
+        "version_normalized": "4.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/bupy7/yii2-widget-cropbox.git",
+            "reference": "25b2f417c3db9e1cba22078bf3140a79db0a4324"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/bupy7/yii2-widget-cropbox/zipball/25b2f417c3db9e1cba22078bf3140a79db0a4324",
+            "reference": "25b2f417c3db9e1cba22078bf3140a79db0a4324",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/jq-cropbox": "1.0.*",
+            "yiisoft/yii2-bootstrap": "*"
+        },
+        "time": "2016-03-19 20:07:06",
+>>>>>>> 9fc9df1dcf4aa303058639b4d2c5cbaa8924c0d5
         "type": "yii2-extension",
         "installation-source": "dist",
         "autoload": {
             "psr-4": {
+<<<<<<< HEAD
                 "kartik\\datetime\\": ""
+=======
+                "bupy7\\cropbox\\": ""
+>>>>>>> 9fc9df1dcf4aa303058639b4d2c5cbaa8924c0d5
             }
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
+<<<<<<< HEAD
             "BSD-3-Clause"
         ],
         "authors": [
@@ -1805,6 +2053,23 @@
             "picker",
             "plugin",
             "select2",
+=======
+            "BSD 3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Vasilij Belosludcev",
+                "email": "bupy765@gmail.com",
+                "homepage": "http://mihaly4.ru"
+            }
+        ],
+        "description": "This is widget wrapper of https://github.com/bupy7/jquery-cropbox. This widget allows crop image before upload to server and send informations about crop in JSON format.",
+        "homepage": "https://github.com/bupy7/yii2-widget-cropbox",
+        "keywords": [
+            "crop image",
+            "extension",
+            "image",
+>>>>>>> 9fc9df1dcf4aa303058639b4d2c5cbaa8924c0d5
             "widget",
             "yii2"
         ]

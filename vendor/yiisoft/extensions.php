@@ -174,6 +174,7 @@ return array (
       '@kartik/tree' => $vendorDir . '/kartik-v/yii2-tree-manager',
     ),
   ),
+<<<<<<< HEAD
   'kartik-v/yii2-widget-datetimepicker' => 
   array (
     'name' => 'kartik-v/yii2-widget-datetimepicker',
@@ -181,6 +182,33 @@ return array (
     'alias' => 
     array (
       '@kartik/datetime' => $vendorDir . '/kartik-v/yii2-widget-datetimepicker',
+=======
+  'yiisoft/yii2-imagine' => 
+  array (
+    'name' => 'yiisoft/yii2-imagine',
+    'version' => '2.0.3.0',
+    'alias' => 
+    array (
+      '@yii/imagine' => $vendorDir . '/yiisoft/yii2-imagine',
+    ),
+  ),
+  'sadovojav/yii2-image-cutter' => 
+  array (
+    'name' => 'sadovojav/yii2-image-cutter',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@sadovojav/cutter' => $vendorDir . '/sadovojav/yii2-image-cutter',
+    ),
+  ),
+  'bupy7/yii2-widget-cropbox' => 
+  array (
+    'name' => 'bupy7/yii2-widget-cropbox',
+    'version' => '4.1.0.0',
+    'alias' => 
+    array (
+      '@bupy7/cropbox' => $vendorDir . '/bupy7/yii2-widget-cropbox',
+>>>>>>> 9fc9df1dcf4aa303058639b4d2c5cbaa8924c0d5
     ),
   ),
 );
