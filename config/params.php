@@ -16,6 +16,5 @@ return [
     ],
     'contenido' => [
         'aniosBusqueda' => 5
-    ],
-    'prueba' => 'prueba yyy'
+    ]
 ];
