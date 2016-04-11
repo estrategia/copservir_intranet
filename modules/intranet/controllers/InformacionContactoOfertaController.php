@@ -130,7 +130,8 @@ class InformacionContactoOfertaController extends Controller
     public function actionPlantilla($id)
     {
         $model = InformacionContactoOferta::findOne($id);
-        echo Html::textarea('nombrePlantilla', $model->plantillaContactoHtml, ['readonly'=>true, 'id'=>'nombrePlantilla', 'style'=>'resize:none', 'rows'=>6]);
+        //echo Html::textarea('nombrePlantilla', $model->plantillaContactoHtml, ['readonly'=>true, 'id'=>'nombrePlantilla', 'style'=>'resize:none', 'rows'=>6]);
+        echo $model->plantillaContactoHtml;
     }
 
     /**

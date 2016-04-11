@@ -126,9 +126,9 @@ use yii\helpers\Url;
 
     <br>
 
-    <div id="plantilla" hidden>
+    <div id="plantilla" hidden >
       <label> Contenido de la plantilla</label>
-      <div id="contenido-plantilla"></div>
+      <div id="contenido-plantilla" style="border:1px solid #eee; padding: 5px"></div>
     </div>
 
     <br>

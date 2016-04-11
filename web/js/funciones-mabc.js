@@ -506,7 +506,6 @@ $(document).on('click', "a[data-role='eliminarDestino']", function() {
 * @return data.result = json donde se especifica si todo se realizo bien
 *         data.response = html para renderizar el modal
 */
-
 $(document).on('click', "a[data-role='agregar-destino-oferta']", function() {
     console.log('dio click');
 
@@ -549,7 +548,11 @@ $(document).on('click', "a[data-role='agregar-destino-oferta']", function() {
 });
 
 
-//plantilla
+/**
+* peticion ajax para mostrar el contenido de las plantillas en las ofertas laborales
+* @param id = identificador de la oferta laboral
+* @return retorna el contenido de la plantilla 
+*/
 function getPlantilla(id) {
   $.get( requestUrl +'/intranet/informacion-contacto-oferta/plantilla', { id: id } )
       .done(function( data ) {
