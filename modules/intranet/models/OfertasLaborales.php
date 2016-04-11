@@ -69,9 +69,9 @@ class OfertasLaborales extends \yii\db\ActiveRecord
             'tituloOferta' => 'Titulo Oferta',
             'urlElEmpleo' => 'Url El Empleo',
             'idCargo' => 'Cargo',
-            'idArea' => 'Id Area',
+            'idArea' => 'Area',
             'descripcionContactoOferta' => 'Descripcion Contacto Oferta',
-            'idInformacionContacto' => 'Id Informacion Contacto',
+            'idInformacionContacto' => 'Plantilla',
         ];
     }
 
@@ -87,6 +87,9 @@ class OfertasLaborales extends \yii\db\ActiveRecord
         return $this->hasOne(Ciudad::className(), ['idCiudad' => 'idCiudad']);
     }
 
+    /**
+    * define la relacion entre los modelos ofertasLaborales e InformacionContactoOferta a traves del aributo idInformacionContacto
+    */
     public function getObjInformacionContactoOferta(){
         return $this->hasOne(InformacionContactoOferta::className(), ['idInformacionContacto' => 'idInformacionContacto']);
     }
@@ -188,5 +191,17 @@ class OfertasLaborales extends \yii\db\ActiveRecord
         $opciones = Ciudad::find()->asArray()->all();
         return ArrayHelper::map($opciones, 'idCiudad', 'nombreCiudad');
     }
+
+    /**
+    * Se consultan las plantillas
+    * @param none
+    * @return array mapeado
+    */
+    public static function getListaPlantillas()
+    {
+        $opciones = InformacionContactoOferta::find()->asArray()->all();
+        return ArrayHelper::map($opciones, 'idInformacionContacto', 'nombrePlantilla');
+    }
+
 
 }

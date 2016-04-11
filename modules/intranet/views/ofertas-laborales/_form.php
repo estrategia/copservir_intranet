@@ -8,6 +8,7 @@ use app\modules\intranet\models\ContenidoDestino;
 use app\modules\intranet\models\GrupoInteres;
 use app\modules\intranet\models\Ciudad;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $model app\modules\intranet\models\OfertasLaborales */
 /* @var $form yii\widgets\ActiveForm */
@@ -16,9 +17,6 @@ use yii\helpers\ArrayHelper;
 <div class="ofertas-laborales-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
-
-    <?php //$form->field($model, 'idOfertaLaboral')->hiddenInput(['value'=> Yii::$app->user->identity->numeroDocumento])->label(false); ?>
 
     <?= $form->field($model, 'tituloOferta')->textInput(['maxlength' => true]) ?>
 
@@ -34,8 +32,8 @@ use yii\helpers\ArrayHelper;
         'options' => ['placeholder' => 'Seleccione el cargo de la oferta']
     ]);
     ?>
-    <br>
 
+    <br>
 
     <?= Select2::widget([
         'name' => 'OfertasLaborales[idArea]',
@@ -45,6 +43,7 @@ use yii\helpers\ArrayHelper;
         'options' => ['placeholder' => 'Seleccione el area de la oferta']
     ]);
     ?>
+
     <br>
 
     <?= Select2::widget([
@@ -65,11 +64,10 @@ use yii\helpers\ArrayHelper;
       	'options' => ['placeholder' => ''],
       	'pluginOptions' => [
       		'autoclose' => true,
-          'format' => 'yyyy/mm/dd hh:ii:ss'
+          'format' => 'yyyy-m-d H:i:s'
       	]
       ]);
     ?>
-
 
     <?php
 
@@ -80,16 +78,14 @@ use yii\helpers\ArrayHelper;
       	'options' => ['placeholder' => ''],
       	'pluginOptions' => [
       		'autoclose' => true,
-          'format' => 'yyyy/mm/dd hh:ii:ss'
+          'format' => 'yyyy-m-d H:i:s'
       	]
       ]);
     ?>
 
     <?= $form->field($model, 'numeroDocumento')->hiddenInput(['value'=> Yii::$app->user->identity->numeroDocumento])->label(false); ?>
 
-
     <?php
-
       echo '<label class="control-label">fecha inicio publicacion</label>';
       echo DateTimePicker::widget([
       	'model' => $model,
@@ -97,11 +93,10 @@ use yii\helpers\ArrayHelper;
       	'options' => ['placeholder' => ''],
       	'pluginOptions' => [
       		'autoclose' => true,
-          'format' => 'yyyy/mm/dd hh:ii:ss'
+          'format' => 'yyyy-m-d H:i:s'
       	]
       ]);
     ?>
-
 
     <?php
 
@@ -112,27 +107,39 @@ use yii\helpers\ArrayHelper;
       	'options' => ['placeholder' => ''],
       	'pluginOptions' => [
       		'autoclose' => true,
-          'format' => 'yyyy/mm/dd hh:ii:ss'
+          'format' => 'yyyy-m-d H:i:s'
       	]
       ]);
-
     ?>
 
-    <?php /*$form->field($model, 'idCargo')->dropDownList($model->listaCargo, ['prompt' => 'Seleccione el cargo' ]);*/?>
+    <br>
 
-    <?= $form->field($model, 'idInformacionContacto')->hiddenInput(['value'=> 1])->label(false); ?>
+    <?= $form->field($model, 'idInformacionContacto')->dropDownList(
+          $model->listaPlantillas,
+          [
+            'prompt'=>'Seleccione la plantilla',
+            'onchange'=>'
+                          getPlantilla($(this).val());
+                        '
+          ]
+    ); ?>
 
+    <br>
+
+    <div id="plantilla" hidden >
+      <label> Contenido de la plantilla</label>
+      <div id="contenido-plantilla" style="border:1px solid #eee; padding: 5px"></div>
+    </div>
+
+    <br>
     <!-- grupos inters y ciudad -->
-
-
-    <!-- si crea una oferta muestra el formulario para añadir los destinos -->
+    <!-- si va a crear una oferta muestra el formulario para añadir los destinos -->
     <?php if ($model->isNewRecord): ?>
 
         <h4>Grupos de interes y ciudad de destino</h4>
         <div id="contenido-destino">
             <?php echo $this->render('/contenido/_formDestinoContenido', ['objContenidoDestino' => new ContenidoDestino]) ?>
         </div>
-
 
         <?=
         Html::a('<i class = "fa fa-plus-square" ></i>', '#', [
@@ -142,7 +149,9 @@ use yii\helpers\ArrayHelper;
         ?>
 
         <?= Html::label('Añadir otro') ?>
-      <?php endif ?>
+
+    <?php endif ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
@@ -150,66 +159,73 @@ use yii\helpers\ArrayHelper;
     <?php ActiveForm::end(); ?>
 
 </div>
-<div class="col-md-12">
-  <hr>
 
-</div>
+<div class="col-md-12"> <hr> </div>
+
 <div class="col-md-12">
   <?php if (!$model->isNewRecord): ?>
-  <h4>Grupos de interes y ciudad de destino</h4>
 
-  <?= Html::beginForm(['ofertas-laborales/agregar-destino-oferta'], 'post', ['id'=> 'formEnviaDestinosOferta']); ?>
+      <h4>Grupos de interes y ciudad de destino</h4>
+      <!-- formulario para agregar un destino nuevo -->
+      <?= Html::beginForm(['ofertas-laborales/agregar-destino-oferta'], 'post', ['id'=> 'formEnviaDestinosOferta']); ?>
 
-  <div class="col-md-4">
-      <?php echo Html::label('Grupo de Interés') ?>
-      <?php
-      echo Select2::widget([
-          'name' => 'grupo',
-          'id' => "Grupo_",
-          'data' => ArrayHelper::map(GrupoInteres::find()->orderBy('nombreGrupo')->all(), 'idGrupoInteres', 'nombreGrupo'),
-          'options' => ['placeholder' => 'Selecione ...'],
-          'pluginOptions' => [
-              'allowClear' => true
-          ],
-      ]);
-      ?>
-  </div>
-  <div class="col-md-4">
-      <?php echo Html::label('Ciudad') ?>
-      <?php
-      echo
-      Select2::widget([
-          'name' => 'ciudad',
-          'id' => "ciudad_",
-          'data' => ArrayHelper::map(Ciudad::find()->orderBy('nombreCiudad')->all(), 'codigoCiudad', 'nombreCiudad'),
-          'options' => ['placeholder' => 'Selecione ...'],
-          'pluginOptions' => [
-              'allowClear' => true
-          ],
-      ]);
-      ?>
-  </div>
-  <?=  Html::hiddenInput('ofertaLaboral', $model->idOfertaLaboral, []);  ?>
-  <?= Html::endForm() ?>
-  <div class="col-md-4">
+      <div class="col-md-4">
+          <?php echo Html::label('Grupo de Interés') ?>
+          <?php
+          echo Select2::widget([
+              'name' => 'grupo',
+              'id' => "Grupo_",
+              'data' => ArrayHelper::map(GrupoInteres::find()->orderBy('nombreGrupo')->all(), 'idGrupoInteres', 'nombreGrupo'),
+              'options' => ['placeholder' => 'Selecione ...'],
+              'pluginOptions' => [
+                  'allowClear' => true
+              ],
+          ]);
+          ?>
+        </div>
+        <div class="col-md-4">
+          <?php echo Html::label('Ciudad') ?>
+          <?php
+          echo
+          Select2::widget([
+              'name' => 'ciudad',
+              'id' => "ciudad_",
+              'data' => ArrayHelper::map(Ciudad::find()->orderBy('nombreCiudad')->all(), 'codigoCiudad', 'nombreCiudad'),
+              'options' => ['placeholder' => 'Selecione ...'],
+              'pluginOptions' => [
+                  'allowClear' => true
+              ],
+          ]);
+          ?>
+        </div>
+        <?=  Html::hiddenInput('ofertaLaboral', $model->idOfertaLaboral, []);  ?>
+        <?= Html::endForm() ?>
+        <div class="col-md-4">
 
-    <?= Html::a('Agregar', ['#'],
-                    [
-                      'class' => 'btn btn-primary ',
-                      //'data-oferta' => $model->idOfertaLaboral,
-                      'data-role' => 'agregar-destino-oferta'
-                    ])
-    ?>
+          <?= Html::a('Agregar', ['#'],
+                          [
+                            'class' => 'btn btn-primary ',
+                            'data-role' => 'agregar-destino-oferta'
+                          ])
+          ?>
+        </div>
 
-  </div>
+        <!-- lista de destinos de esa oferta laboral solo se muestra si va a actualizar -->
+        <div class="col-md-12">
+          <br><br>
+            <div id="destinosOfertas">
+                <?= $this->render('_destinoOfertas', ['destinoOfertasLaborales' => $destinoOfertasLaborales]) ?>
+            </div>
 
-      <div class="col-md-12">
-        <br><br>
-          <div id="destinosOfertas">
-              <?= $this->render('_destinoOfertas', ['destinoOfertasLaborales' => $destinoOfertasLaborales]) ?>
-          </div>
-
-      </div>
-  <?php endif ?>
-
+        </div>
+      <?php endif ?>
 </div>
+
+<!-- para cargar la plantilla si va a actualizar -->
+<?php
+  if (!$model->isNewRecord):
+    $this->registerJs("
+      getPlantilla($('#ofertaslaborales-idinformacioncontacto').val());
+    ");
+  endif
+ ?>

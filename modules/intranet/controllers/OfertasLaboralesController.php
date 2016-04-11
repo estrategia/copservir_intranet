@@ -71,7 +71,8 @@ class OfertasLaboralesController extends Controller
             try {
 
                   if ($model->save()) {
-                    $ofertaDestino = Yii::$app->request->post('ContenidoDestino');
+
+                    $ofertaDestino = Yii::$app->request->post('ContenidoDestino','');
                     $ciudades = $ofertaDestino['codigoCiudad'];
                     $gruposInteres = $ofertaDestino['idGrupoInteres'];
 
@@ -102,6 +103,17 @@ class OfertasLaboralesController extends Controller
                   //ejecuta la transaccion
                   $transaction->commit();
                   return $this->redirect(['listar-ofertas']);
+                }else{
+                  /*if ($model->validate()) {
+                    echo 'valido';
+                  }else{
+                    echo 'invalido';
+                    var_dump($model->getErrors()) ;
+                  }*/
+                  //ocurrio un error al guardar
+                  return $this->render('crear', [
+                      'model' => $model,
+                  ]);
                 }
 
             } catch(\Exception $e) {
