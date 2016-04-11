@@ -547,3 +547,14 @@ $(document).on('click', "a[data-role='agregar-destino-oferta']", function() {
 
     return false;
 });
+
+
+//plantilla
+function getPlantilla(id) {
+  $.get( requestUrl +'/intranet/informacion-contacto-oferta/plantilla', { id: id } )
+      .done(function( data ) {
+          $( "#contenido-plantilla" ).html( data );
+          $( "#plantilla" ).show();
+      }
+  );
+}

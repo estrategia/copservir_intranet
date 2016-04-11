@@ -47,7 +47,7 @@ use yii\widgets\Pjax;
                               ],
                               'fechaPublicacion',
                               [
-                                'attribute' => 'idCiudad',
+                                'attribute' => 'idArea',
                                 'value' => function($model) {
                                   return $model->objArea->nombreArea;
                                 }

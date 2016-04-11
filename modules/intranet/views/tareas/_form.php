@@ -40,7 +40,7 @@ use yii\jui\DatePicker;
         	'options' => ['placeholder' => ''],
         	'pluginOptions' => [
         		'autoclose' => true,
-            'format' => 'yyyy/mm/dd hh:ii:ss'
+            'format' => 'yyyy-m-d H:i:s'
         	]
         ]);
 
