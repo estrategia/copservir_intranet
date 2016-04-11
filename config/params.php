@@ -4,11 +4,6 @@ return [
     'adminEmail' => 'admin@example.com',
     'ciudad' => ['*' => 999999],
     'grupo' => ['*' => 999999],
-    'dimensionesImagen' => [
-        'ancho' => 1024, 
-        'largo' => 800,
-        'tamanho' => 1 // en Megabytes
-        ],
     'calendario' => [
         'dias' => ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "S&aacutebado"],
         'diasAbreviado' => ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
@@ -20,6 +15,16 @@ return [
         'claseColor' => ['info', 'succes', 'danger']
     ],
     'contenido' => [
-        'aniosBusqueda' => 5
+        'aniosBusqueda' => 5,
+        'imagen' => [
+            'ancho' => 1024,//pixeles
+            'alto' => 800,//pixeles
+            'tamanho' => 1, //Megabytes
+            'formatosValidos' => 'jpg,jpeg,png'
+        ],
+        'archivo' => [
+            'tamanho' => 1,
+            'formatosValidos' => 'jpg,jpeg,png,pdf'
+        ]
     ]
 ];

@@ -38,9 +38,9 @@ use app\modules\intranet\models\ContenidoDestino;
                     'settings' => [
                         'lang' => 'es',
                         'minHeight' => 200,
-                        'imageUpload' => Url::toRoute('sitio/image-upload'),
+                        'imageUpload' => Url::toRoute('sitio/cargar-imagen'),
                         //'uploadOnlyImage' => false,
-                        'fileUpload' => Url::toRoute('sitio/file-upload'),
+                        'fileUpload' => Url::toRoute('sitio/cargar-archivo'),
                         'plugins' => [
                            // 'filemanager',
                             'imagemanager',

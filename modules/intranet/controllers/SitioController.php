@@ -40,16 +40,26 @@ class SitioController extends Controller {
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
-//            'image-upload' => [
-//                'class' => 'vova07\imperavi\actions\UploadAction',
-//                'url' => 'http://192.168.0.35/copservir_intranet/imagenes/post/', //Yii::$app->realpath().'/imagenes', // Directory URL address, where files are stored.
-//                'path' => '@app/imagenes/post' // Or absolute path to directory where files are stored.
-//            ],
-            'files-get' => [
-                'class' => 'vova07\imperavi\actions\GetAction',
-                'url' => 'http://192.168.0.35/copservir_intranet/documentos/post/', // Directory URL address, where files are stored.
-                'path' => '@app/documentos/post', // Or absolute path to directory where files are stored.
-            // 'type' => GetAction::TYPE_FILES,
+            'cargar-imagen' => [
+                'class' => 'vova07\imperavi\actions\UploadAction',
+                'url' => Yii::getAlias('@web') . '/contenidos/imagenes/', //Yii::$app->realpath().'/imagenes', // Directory URL address, where files are stored.
+                'path' => '@app/web/contenidos/imagenes/', // Or absolute path to directory where files are stored.
+                'validatorOptions' => [
+                    'maxWidth' => Yii::$app->params['contenido']['imagen']['ancho'],
+                    'maxHeight' => Yii::$app->params['contenido']['imagen']['alto'],
+                    'maxSize' => Yii::$app->params['contenido']['imagen']['tamanho']*1024*1024,
+                    'extensions' => Yii::$app->params['contenido']['imagen']['formatosValidos']
+                ]
+            ],
+            'cargar-archivo' => [
+                'class' => 'vova07\imperavi\actions\UploadAction',
+                'url' => Yii::getAlias('@web') . '/contenidos/archivos/',
+                'path' => '@app/web/contenidos/archivos/',
+                'uploadOnlyImage' => false,
+                'validatorOptions' => [
+                    'maxSize' => Yii::$app->params['contenido']['archivo']['tamanho']*1024*1024,
+                    'extensions' => Yii::$app->params['contenido']['archivo']['formatosValidos']
+                ]
             ]
         ];
     }
@@ -153,9 +163,9 @@ class SitioController extends Controller {
             $result = [
                 'error' => "Archivo inválido: Tamaño no válido"
             ];
-        }else if($_FILES['file']["size"] > Yii::$app->params['dimensionesImagen']['tamanho']*1024*1024) {
+        }else if($_FILES['file']["size"] > Yii::$app->params['contenido']['imagen']['tamanho']*1024*1024) {
              $result = [
-                'error' => ' El ancho máximo debe ser '.Yii::$app->params['dimensionesImagen']['tamanho']."MB"
+                'error' => ' El ancho máximo debe ser '.Yii::$app->params['contenido']['imagen']['tamanho']."MB"
             ];
         }
         else if (($_FILES['file']["type"] != "image/pjpeg") AND ( $_FILES['file']["type"] != "image/jpeg") AND ( $_FILES['file']["type"] != "image/png")) {
@@ -173,13 +183,13 @@ class SitioController extends Controller {
 
             $tamanhos = getimagesize($_FILES['file']["tmp_name"]);
 
-            if ($tamanhos[0] > Yii::$app->params['dimensionesImagen']['ancho']) {
+            if ($tamanhos[0] > Yii::$app->params['contenido']['imagen']['ancho']) {
                 $result = [
-                        'error' => 'El ancho máximo debe ser '.Yii::$app->params['dimensionesImagen']['ancho']."px"
+                        'error' => 'El ancho máximo debe ser '.Yii::$app->params['contenido']['imagen']['ancho']."px"
                     ];
-            } else if ($tamanhos[1] > Yii::$app->params['dimensionesImagen']['largo']) {
+            } else if ($tamanhos[1] > Yii::$app->params['contenido']['imagen']['largo']) {
                 $result = [
-                        'error' => 'El largo máximo debe ser '.Yii::$app->params['dimensionesImagen']['largo']."px"
+                        'error' => 'El largo máximo debe ser '.Yii::$app->params['contenido']['imagen']['largo']."px"
                     ];
             } else {
 
