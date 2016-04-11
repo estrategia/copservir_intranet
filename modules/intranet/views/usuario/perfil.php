@@ -1,18 +1,21 @@
 <?php
 
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
-use yii\helpers\ArrayHelper;
+
 ?>
 
 <!-- PLANTILLA -->
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-12">
         <div class=" tiles white col-md-12 no-padding">
             <div class="tiles grey cover-pic-wrapper">
+
+
+
                 <img class="ajustada" src="<?= Yii::$app->homeUrl . 'img/imagenesFondo/' . \Yii::$app->user->identity->imagenFondo ?>" alt="">
             </div>
             <div class="tiles white">
+
                 <div class="row">
                     <div class="col-md-3 col-sm-3" >
                         <div class="user-profile-pic">
@@ -117,18 +120,7 @@ use yii\helpers\ArrayHelper;
                  </div>-->
                 <div class="overlayer-wrapper">
                     <div class="padding-10 hidden-xs">
-                        <?php
-                        $form = ActiveForm::begin([
-                                    "method" => "post",
-                                    "enableClientValidation" => true,
-                                    "options" => ["enctype" => "multipart/form-data"],
-                        ]);
-                        ?>
-                        <?= $form->field($modelFoto, "imagenPerfil")->fileInput(['multiple' => false]) ?>
-                        <?= $form->field($modelFoto, "imagenFondo")->fileInput(['multiple' => false]) ?>  
-
-                        <?= Html::submitButton('Guardar cambios', ['class' => 'btn btn-success']) ?>  
-                        <?php $form->end() ?>
+                        
 
                 <!--<button type="button" class="btn btn-primary btn-small"><i class="fa fa-check"></i>&nbsp;&nbsp;Cambiar foto de perfil</button> <button type="button" class="btn btn-primary btn-small">Cambiar fondo</button>-->
                     </div>

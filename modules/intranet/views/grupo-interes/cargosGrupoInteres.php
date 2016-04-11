@@ -1,9 +1,6 @@
 <?php
 use yii\grid\GridView;
 use yii\helpers\Html;
-use yii\web\JsExpression;
-use kartik\select2\Select2;
-
 ?>
 <div id="listaCargos">
 

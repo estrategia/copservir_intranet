@@ -16,6 +16,7 @@ $this->title = 'Crear Ofertas Laborales';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'destinoOfertasLaborales' => ''
     ]) ?>
 
 </div>

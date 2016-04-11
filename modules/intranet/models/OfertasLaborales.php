@@ -45,11 +45,11 @@ class OfertasLaborales extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idOfertaLaboral', 'cargo', 'idCiudad', 'fechaPublicacion', 'fechaCierre', 'numeroDocumento', 'fechaInicioPublicacion', 'fechaFinPublicacion', 'tituloOferta', 'urlElEmpleo', 'idCargo', 'idArea', 'descripcionContactoOferta', 'idInformacionContacto'], 'required'],
-            [['idOfertaLaboral', 'idContenidoDestino', 'idCiudad', 'numeroDocumento', 'idCargo', 'idArea', 'idInformacionContacto'], 'integer'],
-            [['fechaPublicacion', 'fechaCierre', 'fechaInicioPublicacion', 'fechaFinPublicacion'], 'safe'],
+            [[ 'idCiudad', 'fechaPublicacion', 'fechaCierre', 'numeroDocumento', 'fechaInicioPublicacion', 'fechaFinPublicacion', 'tituloOferta', 'urlElEmpleo', 'idCargo', 'idArea', 'descripcionContactoOferta', 'idInformacionContacto'], 'required'],
+            [[ 'idCiudad', 'numeroDocumento', 'idCargo', 'idArea', 'idInformacionContacto'], 'integer'],
+            [['fechaPublicacion', 'fechaCierre', 'fechaInicioPublicacion', 'fechaFinPublicacion'], 'date',  'format'=>'php:Y-m-d H:i:s'],//'date',  'format'=>'php:Y-m-d H:i:s'
             [['descripcionContactoOferta'], 'string'],
-            [['cargo', 'tituloOferta', 'urlElEmpleo'], 'string', 'max' => 45]
+            [['tituloOferta', 'urlElEmpleo'], 'string', 'max' => 45]
         ];
     }
 
@@ -60,8 +60,6 @@ class OfertasLaborales extends \yii\db\ActiveRecord
     {
         return [
             'idOfertaLaboral' => 'Id Oferta Laboral',
-            'cargo' => 'Cargo',
-
             'idCiudad' => 'Ciudad',
             'fechaPublicacion' => 'Fecha Publicacion',
             'fechaCierre' => 'Fecha Cierre',

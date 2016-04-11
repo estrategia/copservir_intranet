@@ -30,6 +30,11 @@ use app\modules\intranet\models\UsuarioWidgetInactivo;
 use yii\db\Query;
 use app\modules\intranet\models\MeGustaContenidos;
 use app\modules\intranet\models\GrupoInteres;
+use yii\helpers\FileHelper;
+use yii\imagine\Image;
+use yii\helpers\Json;
+use Imagine\Image\Box;
+use Imagine\Image\Point;
 
 class UsuarioController extends \yii\web\Controller {
     /*
@@ -233,26 +238,64 @@ class UsuarioController extends \yii\web\Controller {
             return $this->redirect(['autenticar']);
             exit();
         }
-        $modelFoto = new FotoForm();
+        
 
+        $meGustan = MeGustaContenidos::find()->where(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento])->count();
+        $contenidos = Contenido::find()->where(['numeroDocumentoPublicacion' => Yii::$app->user->identity->numeroDocumento])->count();
+        $gruposReferencia = GrupoInteres::find()->where('idGrupoInteres IN (' . implode(",", Yii::$app->user->identity->getGruposCodigos()) . ')')->all();
+        return $this->render('perfil', ['contenidos' => $contenidos, 'meGustan' => $meGustan, 'gruposReferencia' => $gruposReferencia]);
+    }
+    
+    public function actionCambiarFotoPerfil(){
+        $modelFoto = FotoForm::find()->where(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento, 'estado' => 1])->one();
+        $errorFotoPerfil = false;
+        // $modelFoto = new FotoForm();
         if ($modelFoto->load(Yii::$app->request->post())) {
             // llamar al webservice y mandar los datos
             {
 
                 $usuario = Usuario::findOne(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento, 'estado' => 1]);
                 $modelFoto->imagenPerfil = UploadedFile::getInstances($modelFoto, 'imagenPerfil');
+                try {
+                    if ($modelFoto->imagenPerfil) {
+                        foreach ($modelFoto->imagenPerfil as $file) {
+                            if (isset(Json::decode($modelFoto->crop_info)[0])) {
+                                $file->saveAs('img/fotosperfil/' . $file->baseName . '.' . $file->extension);
+                                $rutaImagen = $file->baseName . '.' . $file->extension;
+                                $image = Image::getImagine()->open('img/fotosperfil/' . $file->baseName . '.' . $file->extension);
 
-                if ($modelFoto->imagenPerfil) {
-                    foreach ($modelFoto->imagenPerfil as $file) {
-                        $file->saveAs('img/fotosperfil/' . $file->baseName . '.' . $file->extension);
-                        $msg = "<p><strong class='label label-info'>Enhorabuena, subida realizada con éxito</strong></p>";
+                                // rendering information about crop of ONE option 
+                                $cropInfo = Json::decode($modelFoto->crop_info)[0];
+                                $cropInfo['dWidth'] = (int) $cropInfo['dWidth']; //new width image
+                                $cropInfo['dHeight'] = (int) $cropInfo['dHeight']; //new height image
+                                $cropInfo['x'] = $cropInfo['x']; //begin position of frame crop by X
+                                $cropInfo['y'] = $cropInfo['y']; //begin position of frame crop by Y
+                                $cropInfo['width'] = (int) $cropInfo['width']; //width of cropped image
+                                $cropInfo['height'] = (int) $cropInfo['height']; //height of cropped image
+                                //saving thumbnail
+                                $newSizeThumb = new Box($cropInfo['dWidth'], $cropInfo['dHeight']);
+                                $cropSizeThumb = new Box($cropInfo['width'], $cropInfo['height']); //frame size of crop
+                                $cropPointThumb = new Point($cropInfo['x'], $cropInfo['y']);
+                                $pathThumbImage = 'img/fotosperfil/' .
+                                        $rutaImagen;
+
+                                $image->resize($newSizeThumb)
+                                        ->crop($cropPointThumb, $cropSizeThumb)
+                                        ->save($pathThumbImage, ['quality' => 100]);
+
+                                $usuario->imagenPerfil = $rutaImagen;
+                                $usuario->save();
+                                Yii::$app->user->identity->imagenPerfil = $file->baseName . '.' . $file->extension;
+                                $msg = "<p><strong class='label label-info'>Enhorabuena, subida realizada con éxito</strong></p>";
+                            } else {
+                                $errorFotoPerfil = true;
+                            }
+                        }
                     }
-
-
-                    $usuario->imagenPerfil = $file->baseName . '.' . $file->extension;
-
-                    $usuario->save();
-                    Yii::$app->user->identity->imagenPerfil = $file->baseName . '.' . $file->extension;
+                } catch (\Exception $e) {
+                    echo "<pre>";
+                    print_r($e->getMessage());
+                    echo "</pre>";
                 }
                 $modelFoto->imagenFondo = UploadedFile::getInstances($modelFoto, 'imagenFondo');
 
@@ -269,12 +312,13 @@ class UsuarioController extends \yii\web\Controller {
                 }
             }
             $modelFoto = new FotoForm();
-        }
 
-        $meGustan = MeGustaContenidos::find()->where(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento])->count();
-        $contenidos = Contenido::find()->where(['numeroDocumentoPublicacion' => Yii::$app->user->identity->numeroDocumento])->count();
-        $gruposReferencia = GrupoInteres::find()->where('idGrupoInteres IN (' . implode(",", Yii::$app->user->identity->getGruposCodigos()) . ')')->all();
-        return $this->render('perfil', ['modelFoto' => $modelFoto, 'contenidos' => $contenidos, 'meGustan' => $meGustan, 'gruposReferencia' => $gruposReferencia]);
+            if ($errorFotoPerfil) {
+                $modelFoto->addError('imagenPerfil', 'Debe recortar la imagen');
+            }
+        }
+        
+        return $this->render('formFotoPerfil', ['modelFoto' => $modelFoto,]);
     }
 
     /*
@@ -316,22 +360,20 @@ class UsuarioController extends \yii\web\Controller {
      *         items.result = indica si todo se realizo bien o mal
      *         items.response = html para renderizar el modal tiene como parametros: listaUsuarios = usuarios a seleccionar, modelClasificado = modelo del contenido que desea compartir
      */
+    public function actionModalAmigos($idClasificado) {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $listaUsuarios = Usuario::listaUsuariosEnviarAmigo($idClasificado);
+        $clasificado = Contenido::traerNoticiaEspecifica($idClasificado);
 
-     public function actionModalAmigos($idClasificado)
-     {
-       \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-       $listaUsuarios = Usuario::listaUsuariosEnviarAmigo($idClasificado);
-       $clasificado = Contenido::traerNoticiaEspecifica($idClasificado);
+        $items = [
+            'result' => 'ok',
+            'response' => $this->renderAjax('_modalEnviarAmigo', [
+                'listaUsuarios' => $listaUsuarios,
+                'modelClasificado' => $clasificado
+                    ]
+        )];
 
-       $items = [
-           'result' => 'ok',
-           'response' => $this->renderAjax('_modalEnviarAmigo', [
-               'listaUsuarios' => $listaUsuarios,
-               'modelClasificado' => $clasificado
-            ]
-       )];
-
-       return $items;
-     }
+        return $items;
+    }
 
 }

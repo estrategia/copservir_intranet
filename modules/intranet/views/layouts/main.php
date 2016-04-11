@@ -149,8 +149,7 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
                                         <?= Html::a('Mi pantalla de inicio', ['usuario/pantalla-inicio']) ?>
                                     </li>
                                     <li>
-                                        <?= Html::a('Mis publicaciones &nbsp;&nbsp;
-                  		<span class="badge badge-important animated bounceIn">2</span>', ['sitio/publicaciones']) ?>
+                                        <?php //= Html::a('Mis publicaciones &nbsp;&nbsp;<span class="badge badge-important animated bounceIn">2</span>', ['sitio/publicaciones']) ?>
 
                                     </li>
                                     <li class="divider"></li>
@@ -161,8 +160,8 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
                                     </li>
                                 </ul>
                             </li>
-                            <li class="quicklinks"> <span class="h-seperate"></span></li>
-                            <li class="quicklinks">
+                            <!--<li class="quicklinks"> <span class="h-seperate"></span></li>-->
+                            <!--<li class="quicklinks">
                                 <a href="#" class="chat-menu-toggle" data-webarch="toggle-right-side"><div class="iconset top-chat-dark "><span class="badge badge-important hide">1</span></div>
                                 </a>
                                 <div class="simple-chat-popup chat-menu-toggle hide" >
@@ -173,7 +172,7 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
                                         </div>
                                     </div>
                                 </div>
-                            </li>
+                            </li>-->
                         </ul>
                     </div>
                     <!-- END CHAT TOGGLER -->
@@ -235,14 +234,14 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
                 </div>
             </div>
             <a href="#" class="scrollup">Scroll</a>
-            <div class="footer-widget">
+           <!-- <div class="footer-widget">
                 <div class="progress transparent progress-small no-radius no-margin">
                     <div class="progress-bar progress-bar-success animate-progress-bar" data-percentage="79%" style="width: 79%;"></div>
                 </div>
                 <div class="pull-right">
                     <div class="details-status"> <span class="animate-number" data-value="86" data-animation-duration="560">86</span>% </div>
                     <a href="lockscreen.html"><i class="fa fa-power-off"></i></a></div>
-            </div>
+            </div>-->
             <!-- END SIDEBAR -->
             <!-- BEGIN PAGE CONTAINER-->
             <div class="page-content">

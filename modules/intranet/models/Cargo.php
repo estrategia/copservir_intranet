@@ -46,9 +46,4 @@ class Cargo extends \yii\db\ActiveRecord
             'nombreCargo' => 'Nombre Cargo',
         ];
     }
-
-    public static function getListaCargos()
-    {
-      return self::find()->where('(   idCargo not in (select idCargo from m_GrupoInteresCargo)	 )')->all();
-    }
 }

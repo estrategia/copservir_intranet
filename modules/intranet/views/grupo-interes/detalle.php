@@ -57,21 +57,20 @@ function (element, callback) {
 SCRIPT;
       echo Select2::widget([
             'name' => 'agregaCargos',
-            //'data' => \yii\helpers\ArrayHelper::map($listaCargos, 'idCargo', 'nombreCargo'),
-            'size' => Select2::MEDIUM,
             'showToggleAll' => false,
-            'changeOnReset' => false,
-            'options' => ['class'=>'select2-container','placeholder' => 'buscar cargos...'],
+            'options' => ['placeholder' => 'buscar cargos...','id'=>'agregaCargos'],
             'pluginOptions' => [
-              'allowClear' => true,
+              'allowClear' => false,
               //'escapeMarkup' => new JsExpression("function(m) { return m; }"),
               'ajax' => [
                     'url' => $url,
                     'dataType' => 'json',
+                    'tags' => true,
                     'data' => new JsExpression('function(params) { return {search:params.term, page: params.page}; }'),
                     'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
               ],
-              'initSelection' => new JsExpression($initScript)
+              'initSelection' => new JsExpression($initScript),
+              'initValueText'=>'buscar'
             ],
 
       ])
@@ -91,5 +90,5 @@ SCRIPT;
   ?>
   <br>
 
-  <?= $this->render('cargosGrupoInteres', ['grupoInteresCargo' => $grupoInteresCargo, 'listaCargos' => $listaCargos, 'idGrupo'=>$grupo->idGrupoInteres]) ?>
+  <?= $this->render('cargosGrupoInteres', ['grupoInteresCargo' => $grupoInteresCargo, 'idGrupo'=>$grupo->idGrupoInteres]) ?>
 </div>

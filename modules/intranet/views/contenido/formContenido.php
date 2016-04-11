@@ -42,12 +42,16 @@ use app\modules\intranet\models\ContenidoDestino;
                         //'uploadOnlyImage' => false,
                         'fileUpload' => Url::toRoute('sitio/file-upload'),
                         'plugins' => [
-                            //'clips',
+                           // 'filemanager',
                             'imagemanager',
+                            'fullscreen'
                         ],
+                        'fileManagerJson' => Url::to(['sitio/files-get']),
                     ]
                 ])->label(false);
                 ?>
+                
+                <?php //echo $form->field($objContenido, "anexos[]")->fileInput(['multiple' => true])->label('Subir archivo', ['id' => 'etiqueta-respuesta']); ?>
 
                 <?php if ($objLineaTiempo->solicitarGrupoObjetivo == 1): ?>
                     <?=
@@ -68,7 +72,7 @@ use app\modules\intranet\models\ContenidoDestino;
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                     <?php $requiere = ($objLineaTiempo->autorizacionAutomatica == 0) ? ' (Requiere aprobación)' : ''; ?>
-                    <?= Html::a(Yii::t('app', 'Publicar Noticia' . $requiere), '#', ['class' => 'btn btn-primary', 'data-role' => 'guardar-contenido', 'data-href' => "#lt$objLineaTiempo->idLineaTiempo", 'id' =>'btnAgregarContenido']) ?>
+                    <?= Html::a(Yii::t('app', 'Publicar Noticia' . $requiere), '#', ['class' => 'btn btn-primary', 'data-role' => 'guardar-contenido', 'data-href' => "#lt$objLineaTiempo->idLineaTiempo", 'id' => 'btnAgregarContenido']) ?>
                 </div>
 
                 <?php ActiveForm::end(); ?>
