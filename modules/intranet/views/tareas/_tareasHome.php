@@ -1,14 +1,15 @@
-
+<?php
+use yii\helpers\Url;
+?>
     <br><br><br>
     <div class="col-md-12 col-sm-12 spacing-bottom">
       <div class="widget">
         <div class="widget-title dark">
           <div class="pull-left ">
-            <button class="btn  btn-dark  btn-small" type="button"><i class="fa fa-plus"></i></button>
+              <a href="<?= Url::to(['/intranet/tareas/listar-tareas']) ?>" class="btn btn-dark  btn-small"><i class="fa fa-plus"></i></a>
           </div>
           Tareas
-          <div class="controller"> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove" data-role="quitar-elemento"
-                                      data-elemento="<?=\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_TAREAS?>"></a> </div>
+          <div class="controller"> <a href="javascript:;" class="collapse"></a> <a href="javascript:;" class="remove" data-role="quitar-elemento" data-elemento="<?=\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_TAREAS?>"></a> </div>
         </div>
         <div class="widget-body">
           <br>

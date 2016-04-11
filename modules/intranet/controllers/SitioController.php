@@ -27,24 +27,29 @@ use yii\data\Pagination;
 use app\modules\intranet\models\UsuarioWidgetInactivo;
 use app\modules\intranet\models\LogContenidos;
 use yii\helpers\Html;
+use yii\web\Response;
 
 class SitioController extends Controller {
+
+    public function actionUrl() {
+        echo Yii::getAlias('@app') . '@web/img/post';
+    }
 
     public function actions() {
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
-            'image-upload' => [
-                'class' => 'vova07\imperavi\actions\UploadAction',
-                'url' => 'http://192.168.0.35/copservir_intranet/imagenes/post/', //Yii::$app->realpath().'/imagenes', // Directory URL address, where files are stored.
-                'path' => '@app/imagenes/post' // Or absolute path to directory where files are stored.
-            ],
+//            'image-upload' => [
+//                'class' => 'vova07\imperavi\actions\UploadAction',
+//                'url' => 'http://192.168.0.35/copservir_intranet/imagenes/post/', //Yii::$app->realpath().'/imagenes', // Directory URL address, where files are stored.
+//                'path' => '@app/imagenes/post' // Or absolute path to directory where files are stored.
+//            ],
             'files-get' => [
                 'class' => 'vova07\imperavi\actions\GetAction',
                 'url' => 'http://192.168.0.35/copservir_intranet/documentos/post/', // Directory URL address, where files are stored.
                 'path' => '@app/documentos/post', // Or absolute path to directory where files are stored.
-               // 'type' => GetAction::TYPE_FILES,
+            // 'type' => GetAction::TYPE_FILES,
             ]
         ];
     }
@@ -126,6 +131,74 @@ class SitioController extends Controller {
                     'bannerAbajo' => $bannerAbajo,
                     'bannerDerecha' => $bannerDerecha,
         ]);
+    }
+
+    public function actionImageUpload() {
+        $message = "";
+
+
+        $name = time() . "_" . $_FILES['file']['name'];
+        // $url = Yii::getPathOfAlias('webroot') . Yii::app()->params->uploadContenidosUrl . $name;
+        // http://192.168.0.35/copservir_intranet/imagenes/post/
+        // 'path' => '@app/imagenes/post'
+        $url = Yii::getAlias('@app') . '/web/img/post/' . $name;
+        //extensive suitability check before doing anything with the file…
+        if (($_FILES['file'] == "none") OR ( empty($_FILES['file']['name']))) {
+
+            $result = [
+                'error' => "No se ha cargado archivo."
+            ];
+        } else if ($_FILES['file']["size"] == 0) {
+
+            $result = [
+                'error' => "Archivo inválido: Tamaño no válido"
+            ];
+        }else if($_FILES['file']["size"] > Yii::$app->params['dimensionesImagen']['tamanho']*1024*1024) {
+             $result = [
+                'error' => ' El ancho máximo debe ser '.Yii::$app->params['dimensionesImagen']['tamanho']."MB"
+            ];
+        }
+        else if (($_FILES['file']["type"] != "image/pjpeg") AND ( $_FILES['file']["type"] != "image/jpeg") AND ( $_FILES['file']["type"] != "image/png")) {
+
+            $result = [
+                'error' => "El formato de la imagen debe de ser JPG or PNG. Por favor cargar archivo JPG or PNG."
+            ];
+        } else if (!is_uploaded_file($_FILES['file']["tmp_name"])) {
+            $result = [
+                'error' => "Solicitud inválida."
+            ];
+            //$message = "You may be attempting to hack our server. We're on to you; expect a knock on the door sometime soon.";
+        } else {
+            $message = "";
+
+            $tamanhos = getimagesize($_FILES['file']["tmp_name"]);
+
+            if ($tamanhos[0] > Yii::$app->params['dimensionesImagen']['ancho']) {
+                $result = [
+                        'error' => 'El ancho máximo debe ser '.Yii::$app->params['dimensionesImagen']['ancho']."px"
+                    ];
+            } else if ($tamanhos[1] > Yii::$app->params['dimensionesImagen']['largo']) {
+                $result = [
+                        'error' => 'El largo máximo debe ser '.Yii::$app->params['dimensionesImagen']['largo']."px"
+                    ];
+            } else {
+
+                $move = move_uploaded_file($_FILES['file']['tmp_name'], $url);
+                if (!$move) {
+                    $message = "Error al cargar el archivo."; //$message = "Error moving uploaded file. Check the script is granted Read/Write/Modify permissions.";
+                    $result = [
+                        'error' => $message
+                    ];
+                } else {
+                    $url = Yii::$app->homeUrl . 'img/post/' . $name;
+                    $result = ['filelink' => $url];
+                }
+            }
+        }
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        return $result;
     }
 
     /*

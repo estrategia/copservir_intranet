@@ -6,7 +6,7 @@ use yii\helpers\Html;
 
 <!-- PLANTILLA -->
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-12">
         <div class=" tiles white col-md-12 no-padding">
             <div class="tiles grey cover-pic-wrapper">
 
@@ -59,24 +59,24 @@ use yii\helpers\Html;
                         <div class="post col-md-12">
                             <div class="info-wrapper">
                                 <div class="post col-md-5">
-                                    <h5>Información General</h5>
-                                    <p><b>Profesion: </b> <?= \Yii::$app->user->identity->getProfesion() ?></p>
+                                    <h5>Informaci&oacute;n General</h5>
+                                    <p><b>Profesi&oacute;n: </b> <?= \Yii::$app->user->identity->getProfesion() ?></p>
                                     <p><b>Cargo: </b> <?= \Yii::$app->user->identity->getCargo() ?></p>
-                                    <p><b>Area:</b> <?= \Yii::$app->user->identity->getArea() ?></p>
-                                    <p><b>Vinculacion: </b> <?= \Yii::$app->user->identity->getVinculacion() ?></p>
+                                    <p><b>&Aacute;rea:</b> <?= \Yii::$app->user->identity->getArea() ?></p>
+                                    <p><b>Vinculaci&oacute;n: </b> <?= \Yii::$app->user->identity->getVinculacion() ?></p>
                                     <p><b>Antiguedad: </b> <?= \Yii::$app->user->identity->getAntiguedad() ?></p>
                                     <p><b>Jefe inmediato: </b> <?= \Yii::$app->user->identity->getJefeInmediato() ?></p>
                                 </div>
                                 <div class="col-md-5">
                                     <h5>Educación</h5>
                                     <p><b>Superiores: </b> <?= \Yii::$app->user->identity->getSuperiores() ?></p>
-                                    <h5>Otra Informacion</h5>
-                                    <p><b>Extencion: </b> <?= \Yii::$app->user->identity->getExtension() ?></p>
+                                    <h5>Otra Informaci&oacute;n</h5>
+                                    <p><b>Extensi&oacute;n: </b> <?= \Yii::$app->user->identity->getExtension() ?></p>
                                     <p><b>E-mail: </b> <?= \Yii::$app->user->identity->getEmail() ?></p>
                                     <p><b>Celular: </b> <?= \Yii::$app->user->identity->getCelular() ?></p>
                                     <p><b>Residencia: </b> <?= \Yii::$app->user->identity->getResidencia() ?></p>
                                     <p><b>Ciudad: </b> <?= \Yii::$app->user->identity->getCiudad() ?></p>
-                                    <p><b>Cumpleaños: </b> <?= \Yii::$app->user->identity->getCumpleanhos() ?></p>
+                                    <p><b>Cumplea&ntilde;os: </b> <?= \Yii::$app->user->identity->getCumpleanhos() ?></p>
                                 </div>
                                 <div class="col-md-2">
                                     <?= Html::a('Actualizar datos', ['usuario/actualizar-datos'], ['class' => 'btn btn-primary btn-small', 'name' => 'forgot-button']) ?>
