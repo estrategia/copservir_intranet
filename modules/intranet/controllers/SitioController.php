@@ -30,6 +30,10 @@ use yii\helpers\Html;
 
 class SitioController extends Controller {
 
+    public function actionUrl() {
+        echo Yii::getAlias('@app') . '@web/img/post';
+    }
+
     public function actions() {
         return [
             'error' => [
@@ -37,9 +41,25 @@ class SitioController extends Controller {
             ],
             'image-upload' => [
                 'class' => 'vova07\imperavi\actions\UploadAction',
-                'url' => 'http://192.168.0.35/copservir_intranet/imagenes/post/', //Yii::$app->realpath().'/imagenes', // Directory URL address, where files are stored.
-                'path' => '@app/imagenes/post' // Or absolute path to directory where files are stored.
+                'url' => Yii::getAlias('@web') . '/img/post/', //Yii::$app->realpath().'/imagenes', // Directory URL address, where files are stored.
+                'path' => '@app/web/img/post', // Or absolute path to directory where files are stored.
+                'validatorOptions' => [
+                    'maxWidth' => 400,
+                    'maxHeight' => 400,
+                    'maxSize' => 40000,//40k
+                    'extensions' => 'jpg,jpeg,png'
+                ]
             ],
+            'file-upload' => [
+                'class' => 'vova07\imperavi\actions\UploadAction',
+                'url' => Yii::getAlias('@web') . '/img/post/',
+                'path' => '@app/web/img/post',
+                'uploadOnlyImage' => false,
+                'validatorOptions' => [
+                    'maxSize' => 40000,
+                    'extensions' => 'jpg,jpeg,png,pdf'
+                ]
+            ]
         ];
     }
 

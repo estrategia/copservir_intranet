@@ -59,6 +59,9 @@ class AppAsset extends AssetBundle {
         'libs/modernizr/modernizr.js',
 
         // 'js/dashboard/dashboard.js',
+        
+        'libs/timeago/jquery.timeago.js',
+        'libs/timeago/jquery.timeago.es.js',
 
         //propios
         'libs/fullcalendar/fullcalendar.js',

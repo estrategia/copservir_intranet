@@ -1,12 +1,4 @@
 <?php
-
-use vova07\imperavi\Widget;
-use yii\widgets\ActiveForm;
-use yii\helpers\Url;
-use yii\helpers\Html;
-// importancion necesaria para el modal
-use yii\bootstrap\Modal;
-
 /* @var $this yii\web\View */
 
 $this->title = 'Intranet - Copservir';

@@ -66,6 +66,7 @@ function cargar_push()
             if (timestampnotif == null) {
             } else {
                 $('#notification-list').html(data.response.html);
+                jQuery("time.timeago").timeago();
                 if (data.response.count == 0) {
                     $('#notification-count').html('');
                 } else {
@@ -78,6 +79,7 @@ function cargar_push()
 }
 
 $(document).ready(function () {
+    jQuery("time.timeago").timeago();
     cargar_push();
 });
 

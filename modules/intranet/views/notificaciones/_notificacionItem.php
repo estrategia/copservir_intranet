@@ -24,7 +24,7 @@ use yii\helpers\Url;
         </div>
     </div>
     <div class="date pull-right">
-        <?php $tiempo = $objNotificacion->consultarTiempo(); ?> <?= $tiempo[0] ?> horas <?= $tiempo[1] ?> minutos
+        <time class="timeago" datetime="<?= $objNotificacion->fechaRegistro ?>"></time>
     </div>
     <div class="clearfix"></div>
 </div>
