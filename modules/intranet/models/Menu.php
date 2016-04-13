@@ -59,10 +59,10 @@ class Menu extends \yii\db\ActiveRecord {
     }
 
     public static function menuHtml($menuItem, $opciones = []) {
-        
+
         if (!empty($opciones) &&in_array($menuItem->idMenu, $opciones)) {
             if (empty($menuItem->objOpcion)) { // no tiene hipervinculo
-                echo '<li > 
+                echo '<li >
                       <a href="javascript:;"> <i class="icon-custom-ui"></i> <span class="title">' . $menuItem->descripcion . '</span> <span class=" arrow" ></span> </a>
                         <ul class="sub-menu">';
 
@@ -77,36 +77,36 @@ class Menu extends \yii\db\ActiveRecord {
             }
         }
     }
-    
+
     public static function construirArrayMenu(){
-        
+
         $opciones = Menu::find()->where('idPadre is null')->all();
         $opcionesUsuario = UsuariosOpcionesFavoritos::find()->where(['=', 'numeroDocumento', Yii::$app->user->identity->numeroDocumento])->all();
         $opcionesUsuarioArray = [];
-        
+
         foreach($opcionesUsuario as $opcion){
             $opcionesUsuarioArray[] = $opcion->idMenu;
         }
-      
+
         $opcionArray=[];
         foreach($opciones as $opcion){
             $opcionArray[] = self::obtenerHijosArray($opcion,$opcionesUsuarioArray);
         }
        return $opcionArray;
     }
-    
+
     public static function obtenerHijosArray($opcion,$opcionesUsuario){
         if(!empty($opcion->objOpcion)){
             $checked = "";
-            
+
             if(in_array($opcion->idMenu, $opcionesUsuario)){
                 $checked = " checked";
             }
-            return ['title' => "<a href='".$opcion->objOpcion->url."' class='btn btn-default  btn-xs menu_corporativo'> 
+            return ['title' => "<a href='".$opcion->objOpcion->url."' class='btn btn-default  btn-xs menu_corporativo'>
   <input type='checkbox' id='$opcion->idMenu' data-role='agregar-opcion' data-id='$opcion->idMenu' $checked> <label style='display: inline;' for='$opcion->idMenu'><span><span></span></span></label> $opcion->descripcion  </a> "];
         }else{
             $children= [];
-            
+
             foreach($opcion->listSubMenu as $opcion2){
                 $children[] = self::obtenerHijosArray($opcion2,$opcionesUsuario);
             }

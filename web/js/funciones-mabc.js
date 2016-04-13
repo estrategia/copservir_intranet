@@ -551,7 +551,7 @@ $(document).on('click', "a[data-role='agregar-destino-oferta']", function() {
 /**
 * peticion ajax para mostrar el contenido de las plantillas en las ofertas laborales
 * @param id = identificador de la oferta laboral
-* @return retorna el contenido de la plantilla 
+* @return retorna el contenido de la plantilla
 */
 function getPlantilla(id) {
   $.get( requestUrl +'/intranet/informacion-contacto-oferta/plantilla', { id: id } )
@@ -561,3 +561,10 @@ function getPlantilla(id) {
       }
   );
 }
+
+//---------------------------------
+$(document).on('click', "a[data-role='hola']", function() {
+  console.log('click');
+  var url = $(this).attr('href');
+  window.location.replace(url);
+});

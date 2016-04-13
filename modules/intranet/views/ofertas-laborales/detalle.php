@@ -29,8 +29,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'idOfertaLaboral',
-            'cargo',
-            'idContenidoDestino',
             'idCiudad',
             'fechaPublicacion',
             'fechaCierre',
