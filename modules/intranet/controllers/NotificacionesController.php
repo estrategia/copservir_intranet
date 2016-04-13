@@ -4,7 +4,6 @@ namespace app\modules\intranet\controllers;
 
 use Yii;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use app\modules\intranet\models\Notificaciones;
 use yii\helpers\Json;
 use yii\data\ActiveDataProvider;

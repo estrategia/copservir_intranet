@@ -5,7 +5,6 @@ namespace app\modules\intranet\controllers;
 use Yii;
 use app\modules\intranet\models\Tareas;
 use app\modules\intranet\models\LogTareas;
-use app\modules\intranet\models\TareasSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

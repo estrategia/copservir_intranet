@@ -8,7 +8,6 @@ use app\modules\intranet\models\InformacionContactoOfertaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\Html;
 
 /**
  * InformacionContactoOfertaController implements the CRUD actions for InformacionContactoOferta model.
