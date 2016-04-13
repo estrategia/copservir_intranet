@@ -5,12 +5,7 @@ namespace app\modules\intranet\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\helpers\Json;
-use yii\web\NotFoundHttpException;
-use yii\helpers\VarDumper;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
 use app\modules\intranet\models\EventosCalendario;
-use \app\modules\intranet\models\Contenido;
 
 class CalendarioController extends Controller {
 
