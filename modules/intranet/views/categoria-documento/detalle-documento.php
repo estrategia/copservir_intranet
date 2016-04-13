@@ -24,23 +24,6 @@ $this->title = 'Detalle Documento';
   ?>
 
   <hr>
-  <!--<div class="grid-body no-border">
-    <h3>Historial de cambios</h3>
-        <table class="table no-more-tables">
-            <thead>
-                <tr>
-                    <th style="width:9%">Descripcion del cambio</th>
-                    <th style="width:22%">fecha del cambio</th>
-                    <th style="width:22%">Prioridad</th>
-                    <th style="width:6%">Fecha Estimada</th>
-                    <th style="width:10%">Progreso</th>
-                </tr>
-            </thead>
-            <tbody id="widget-tareas">
-
-            </tbody>
-        </table>
-  </div> -->
 
   <div class="col-md-12">
       <div class="grid simple">
@@ -61,19 +44,22 @@ $this->title = 'Detalle Documento';
                       <tbody>
                         <?php if (count($logDocumento)>0): ?>
                           <?php foreach ($logDocumento as $log): ?>
-                            <th><?= $log->descripcion;  ?></th>
-                            <th><?= $log->fechaCreacion;  ?></th>
-
+                            <tr>
+                              <td><?= $log->descripcion;  ?></td>
+                              <td><?= $log->fechaCreacion;  ?></td>
+                            </tr>
                           <?php endforeach; ?>
                         <?php else: ?>
-                            <th>no hay historial para este documento</th>
-                            <th></th>
+                          <tr>
+                            <td>no hay historial para este documento</td>
+                            <td></td>
+                          </tr>
+
                         <?php endif; ?>
                       </tbody>
                   </table>
           </div>
       </div>
   </div>
-
 
 </div>

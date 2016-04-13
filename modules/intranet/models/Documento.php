@@ -59,18 +59,20 @@ class Documento extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * se define la relacion entre los modelos Documento y CategoriaDocumentoDetalle
+     * @return \yii\db\ActiveQuery modelo CategoriaDocumentoDetalle
      */
-    public function getMCategoriadocumentodetalles()
+    public function getObjCategoriaDocumentoDetalle()
     {
-        return $this->hasMany(MCategoriadocumentodetalle::className(), ['idDocumento' => 'idDocumento']);
+        return $this->hasMany(CategoriaDocumentoDetalle::className(), ['idDocumento' => 'idDocumento']);
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * Se define la relacion entre los modelos Documento y LogDocumento
+     * @return \yii\db\ActiveQuery modelo LogDocumento
      */
-    public function getTLogdocumentos()
+    public function getObjLogDocumentos()
     {
-        return $this->hasMany(TLogdocumento::className(), ['idDocumento' => 'idDocumento']);
+        return $this->hasMany(LogDocumento::className(), ['idDocumento' => 'idDocumento']);
     }
 }

@@ -52,10 +52,11 @@ class LogDocumento extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * se define la relacion entre los modelos LogDocumento y Documento
+     * @return \yii\db\ActiveQuery modelo Documento
      */
-    public function getIdDocumento0()
+    public function getObjDocumento()
     {
-        return $this->hasOne(MDocumento::className(), ['idDocumento' => 'idDocumento']);
+        return $this->hasOne(Documento::className(), ['idDocumento' => 'idDocumento']);
     }
 }
