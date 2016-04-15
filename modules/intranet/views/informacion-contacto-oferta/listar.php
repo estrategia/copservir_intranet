@@ -24,13 +24,9 @@ $this->title = 'Plantillas';
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            //'idInformacionContacto',
             'nombrePlantilla',
             'plantillaContactoHtml:ntext',
-            //'estado',
             'fechaRegistro',
-            //'numeroDocumento',
-
             [
               'class' => 'yii\grid\ActionColumn',
               'headerOptions'=> ['style'=>'width: 70px;'],

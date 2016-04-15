@@ -73,7 +73,15 @@ class Tareas extends \yii\db\ActiveRecord
         return $this->hasOne(PrioridadTarea::className(), ['idPrioridadTarea' => 'idPrioridad']);
     }
 
-
+    /**
+    * consulta para listar las tareas que van en el la vista lista de tareas
+    * @param numeroDocumento = identificador del usuario
+    * @return array = resultado de la consulta
+    */
+    public static function getTareasListar($numeroDocumento)
+    {
+       return  Tareas::find()->with(['objPrioridadTareas'])->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->all();
+    }
 
     /**
     * consulta para listar las tareas que van en el index

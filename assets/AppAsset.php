@@ -33,7 +33,7 @@ class AppAsset extends AssetBundle {
         'libs/animate/animate.min.css',
         'libs/font-awesome/css/font-awesome.css',
         'libs/jquery-scrollbar/jquery.scrollbar.css',
-        //'libs/webarch/webarch.css',
+        'libs/webarch/webarch.css',
         'css/site.css'
     ];
     public $js = [
@@ -45,7 +45,7 @@ class AppAsset extends AssetBundle {
         'libs/jquery-scrollbar/jquery.scrollbar.min.js',
         'libs/jquery-numberAnimate/jquery.animateNumbers.js',
         'libs/jquery-validation/js/jquery.validate.min.js',
-        //'libs/webarch/webarch.js',
+        'libs/webarch/webarch.js',
 
         'libs/jquery-block-ui/jqueryblockui.min.js',
         'libs/jquery-unveil/jquery.unveil.min.js',

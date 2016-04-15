@@ -28,16 +28,12 @@ use yii\widgets\Pjax;
                           'tableOptions' =>['class' => 'table table-hover no-more-tables'],
                           'columns' => [
                               ['class' => 'yii\grid\SerialColumn'],
-
-
-                              //'idOfertaLaboral',
                               [
                                 'attribute' => 'idCargo',
                                 'value' => function($model) {
                                   return $model->objCargo->nombreCargo;
                                 }
                               ],
-                              //'idContenidoDestino',
                               [
                                 'attribute' => 'idCiudad',
                                 'value' => function($model) {
@@ -61,13 +57,6 @@ use yii\widgets\Pjax;
                               		},
                               	],
                               ],
-
-                              // 'idCargo',
-                              // 'idArea',
-
-                               //'idInformacionContacto',
-
-                              //['class' => 'yii\grid\ActionColumn'],
                           ],
                       ]); ?>
                       <?php Pjax::end(); ?>

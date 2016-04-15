@@ -21,7 +21,6 @@ use app\modules\intranet\models\ContenidoDestino;
                         'action' => 'intranet/contenido/publicar',
                         'method' => 'POST',
                         'enableClientValidation' => true,
-                        //'enableAjaxValidation' => true,
                         'options' => [
                             'enctype' => 'multipart/form-data',
                             'data-pjax' => true
@@ -29,7 +28,6 @@ use app\modules\intranet\models\ContenidoDestino;
             ]);
             ?>
             <div class="modal-body">
-
 
                 <?php echo $form->field($objContenido, 'titulo')->input(['value' => 1]); ?>
                 <?php
@@ -39,10 +37,8 @@ use app\modules\intranet\models\ContenidoDestino;
                         'lang' => 'es',
                         'minHeight' => 200,
                         'imageUpload' => Url::toRoute('sitio/cargar-imagen'),
-                        //'uploadOnlyImage' => false,
                         'fileUpload' => Url::toRoute('sitio/cargar-archivo'),
                         'plugins' => [
-                           // 'filemanager',
                             'imagemanager',
                             'fullscreen'
                         ],
@@ -50,13 +46,10 @@ use app\modules\intranet\models\ContenidoDestino;
                     ]
                 ])->label(false);
                 ?>
-                
-                <?php //echo $form->field($objContenido, "anexos[]")->fileInput(['multiple' => true])->label('Subir archivo', ['id' => 'etiqueta-respuesta']); ?>
 
                 <?php if ($objLineaTiempo->solicitarGrupoObjetivo == 1): ?>
                     <?=
                     Html::a('<i class = "fa fa-plus-square" ></i>', '#', [
-                        //'id' => 'showFormPublications' . $linea->idLineaTiempo,
                         'data-role' => 'agregar-destino-contenido',
                         'title' => 'Agregar nuevo'
                     ]);

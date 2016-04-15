@@ -6,7 +6,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 
 
-use yii\jui\DatePicker;
+use kartik\datetime\DateTimePicker;
 /* @var $this yii\web\View */
 /* @var $model app\modules\intranet\models\Tareas */
 /* @var $form yii\widgets\ActiveForm */

@@ -28,12 +28,10 @@ $this->title = $model->nombrePlantilla;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            //'idInformacionContacto',
+
             'nombrePlantilla',
             'plantillaContactoHtml:ntext',
-            //'estado',
             'fechaRegistro',
-            //'numeroDocumento',
         ],
     ]) ?>
 

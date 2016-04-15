@@ -17,16 +17,7 @@ use yii\helpers\Html;
 
             <div class="modal-body" id='comentarios_contenido'>
                 <!-- listado de me gusta's -->
-                <!--  <div class="grid-body no-border">
-                      <table class="table table-hover no-more-tables">
-                          <tbody> -->
-
                 <?php echo $this->render('_listadoComentarios',['comentariosContenido' => $comentariosContenido]);?>
-                
-                <!-- </tbody>
-            </table> 
-        </div>-->
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>

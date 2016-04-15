@@ -13,7 +13,6 @@ $this->title = 'Grupos de interes';
 <div class="grupo-interes-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php  //echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a('Crear un grupo de interes', ['crear'], ['class' => 'btn btn-primary']) ?>
@@ -25,7 +24,6 @@ $this->title = 'Grupos de interes';
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            //'idGrupoInteres',
             'nombreGrupo',
 
             [

@@ -6,8 +6,6 @@ use yii\helpers\Html;
 
  ?>
 
-
-
 <?php foreach($tareasUsuario as $tarea):?>
 <tr>
     <td class="v-align-middle">
@@ -27,16 +25,10 @@ use yii\helpers\Html;
     <td><span class="muted"><?= $tarea->fechaEstimada ?></span>
     </td>
     <td class="v-align-middle">
-        <!--<div class="progress">
-            <div data-percentage="79%" class="progress-bar progress-bar-success animate-progress-bar" style="width: 79%;"></div>
-        </div>-->
+
         <div class="slider primary col-md-8">
           <div class="slider slider-horizontal" >
-            <!--<div class="slider-track">
-              <div class="slider-selection"></div>
-              <div class="slider-handle round"></div>
-              <div class="slider-handle round hide"></div>
-            </div>-->
+
             <div class="tooltip top hide" >
               <div class="tooltip-arrow"></div>
               <div class="tooltip-inner"></div>

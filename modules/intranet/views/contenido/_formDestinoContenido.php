@@ -10,7 +10,6 @@ use kartik\select2\Select2;
 <div class="row" id='<?= $uid ?>'>
     <div class="col-md-5">
         <?php echo Html::label('Grupo de Interés') ?>
-        <?php // echo Html::dropDownList('ContenidoDestino[idGrupoInteres][]', null, ArrayHelper::map(GrupoInteres::find()->orderBy('nombreGrupo')->all(), 'idGrupoInteres', 'nombreGrupo'), ['id' => 'select_' . $uid]); ?>
         <?php
         echo Select2::widget([
             'name' => 'ContenidoDestino[idGrupoInteres][]',
@@ -26,7 +25,6 @@ use kartik\select2\Select2;
     </div>
     <div class="col-md-5">
         <?php echo Html::label('Ciudad') ?>
-        <?php //echo Html::dropDownList('ContenidoDestino[codigoCiudad][]', null, ArrayHelper::map(Ciudad::find()->orderBy('nombreCiudad')->all(), 'codigoCiudad', 'nombreCiudad')) ?>
         <?php
         echo
         Select2::widget([
@@ -46,7 +44,6 @@ use kartik\select2\Select2;
         <?= Html::label('Quitar') ?>
         <?=
         Html::a('<i class = "fa fa-minus-square" ></i>', '#', [
-            //'id' => 'showFormPublications' . $linea->idLineaTiempo,
             'data-role' => 'quitar-destino-contenido',
             'data-row' => "#$uid",
             'title' => 'Quitar'

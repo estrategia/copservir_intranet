@@ -10,7 +10,7 @@ Html::button('<i class="fa fa-pencil"></i> Crear publicaci&oacute;n '. ($linea->
     'class' => 'btn btn-primary btn-lg btn-large',
     'data-role' => 'contenido-publicar',
     'data-linea' => $linea->idLineaTiempo,
-    
+
 ]);
 ?>
 
@@ -21,17 +21,11 @@ Html::button('<i class="fa fa-pencil"></i> Crear publicaci&oacute;n '. ($linea->
 <?php endforeach; ?>
 <div class="row">
     <div class="col-md-6">
-        <?php /*<?=
-        Html::a('Ver Noticas Mercadeo',  ['contenido/noticias','linea-tiempo' => $linea->idLineaTiempo], [
-            //'id' => 'showFormPublications' . $linea->idLineaTiempo,
-            'class' => 'btn btn-block btn-success',
-        ]);*/
-        ?>
+
     </div>
     <div class="col-md-6">
         <?=
         ($linea->autorizacionAutomatica == 0)? Html::a('Ver Noticas Copservir',  ['contenido/noticias','lineaTiempo' => $linea->idLineaTiempo], [
-            //'id' => 'showFormPublications' . $linea->idLineaTiempo,
             'class' => 'btn btn-block btn-warning',
         ]):'';
         ?>
