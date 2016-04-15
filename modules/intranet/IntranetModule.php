@@ -12,13 +12,6 @@ class IntranetModule extends \yii\base\Module
     public function init()
     {
         parent::init();
-        /*
-        Yii::$app->setComponents([
-          'errorHandler' => [
-              'class'=> 'yii\web\ErrorHandler',
-              'errorAction' => 'intranet/site/error',
-          ],
-        ]);*/
 
         Yii::$app->errorHandler->errorAction = 'intranet/sitio/error';
 
