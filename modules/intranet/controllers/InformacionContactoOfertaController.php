@@ -128,9 +128,23 @@ class InformacionContactoOfertaController extends Controller
      */
     public function actionPlantilla($id)
     {
+
         $model = InformacionContactoOferta::findOne($id);
-        //echo Html::textarea('nombrePlantilla', $model->plantillaContactoHtml, ['readonly'=>true, 'id'=>'nombrePlantilla', 'style'=>'resize:none', 'rows'=>6]);
-        echo $model->plantillaContactoHtml;
+
+        $items = [];
+
+          // consultar la informacion del contacto
+          $items = [
+              'result' => 'ok',
+              'response' =>  $this->renderAjax('_plantillaOferta', [
+                  'plantilla' => $model,
+                  'contacto' => '' // mandar la informacion de contacto
+                      ]
+          )
+          ];
+
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $items;
     }
 
     /**

@@ -38,7 +38,7 @@ class TareasController extends Controller
      public function actionListarTareas()
      {
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-        $tareasUsuario = Tareas::getTareasListar($numeroDocumento);//Tareas::find()->with(['objPrioridadTareas'])->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->all();
+        $tareasUsuario = Tareas::getTareasListar($numeroDocumento);
         return $this->render('listarTareas', ['tareasUsuario' => $tareasUsuario]);
      }
 
@@ -102,7 +102,7 @@ class TareasController extends Controller
                 $transaction->commit();
 
                 $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-                $tareasUsuario = Tareas::getTareasListar($numeroDocumento);//Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->all();
+                $tareasUsuario = Tareas::getTareasListar($numeroDocumento);
                 return $this->render('listarTareas', ['tareasUsuario' => $tareasUsuario]);
 
             } catch(\Exception $e) {
@@ -165,7 +165,7 @@ class TareasController extends Controller
               $transaction->commit();
 
               $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-              $tareasUsuario = Tareas::getTareasListar($numeroDocumento);//Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->all();
+              $tareasUsuario = Tareas::getTareasListar($numeroDocumento);
               return $this->render('listarTareas', ['tareasUsuario' => $tareasUsuario]);
 
           } catch(\Exception $e) {
@@ -202,19 +202,19 @@ class TareasController extends Controller
         $transaction = Tareas::getDb()->beginTransaction();
         try {
             if ($location == 1) {
-                $tarea->estadoTarea = 3;
+                $tarea->estadoTarea = Tarea::ESTADO_TAREA_NO_INDEX;
             }else{
-                $tarea->estadoTarea = 0;
+                $tarea->estadoTarea = Tarea::ESTADO_TAREA_INACTIVA;
             }
 
             if ($tarea->save()) {
 
               if ($location == 1) {
                   $view = '_tareasHome';
-                  $tareasUsuario  = Tareas::getTareasIndex($numeroDocumento);//Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->andWhere(['!=', 'estadoTarea', 3])->all();
+                  $tareasUsuario  = Tareas::getTareasIndex($numeroDocumento);
               }else{
                   $view = '_listaTareas';
-                  $tareasUsuario = Tareas::getTareasListar($numeroDocumento);//Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->all();
+                  $tareasUsuario = Tareas::getTareasListar($numeroDocumento);
               }
 
               $items = [
@@ -273,9 +273,9 @@ class TareasController extends Controller
       try {
           $tarea->progreso = Yii::$app->request->post('progresoTarea'); // acomoda el estado de la tarea dependiendo de su porcentaje enviado
           if (Yii::$app->request->post('progresoTarea') == 100) {
-              $tarea->estadoTarea = 1;
+              $tarea->estadoTarea = Tarea::ESTADO_TAREA_TERMINADA;
           }else{
-              $tarea->estadoTarea = 2;
+              $tarea->estadoTarea = Tarea::ESTADO_TAREA_NO_TERMINADA;
           }
           if ($tarea->save()) {
 

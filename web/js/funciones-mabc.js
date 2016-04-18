@@ -510,7 +510,6 @@ $(document).on('click', "a[data-role='eliminarDestino']", function() {
 *         data.response = html para renderizar el modal
 */
 $(document).on('click', "a[data-role='agregar-destino-oferta']", function() {
-    console.log('dio click');
 
     var form = $("#formEnviaDestinosOferta");
 
@@ -559,11 +558,61 @@ $(document).on('click', "a[data-role='agregar-destino-oferta']", function() {
 function getPlantilla(id) {
   $.get( requestUrl +'/intranet/informacion-contacto-oferta/plantilla', { id: id } )
       .done(function( data ) {
-          $( "#contenido-plantilla" ).html( data );
-          $( "#plantilla" ).show();
+          console.log(data);
+          if (data.result === 'ok') {
+            console.log(data.response);
+            $( "#contenido-plantilla" ).append( data.response );
+            $( "#plantilla" ).show();
+          }
+
       }
   );
 }
+
+/**
+* peticion ajax para mostrar la plantilla de una oferta en un popove en el home
+* @param idOferta
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html de la platilla
+*/
+$(document).on('click', "a[data-role='contacto-oferta']", function() {
+
+    var idOferta = $(this).attr('data-oferta');
+    var elemento = $(this);
+    var contenido = elemento.attr('data-content')
+    if (contenido === '' || contenido === undefined) {
+        $.ajax({
+
+            type: 'GET',
+            async: true,
+            url: requestUrl +'/intranet/informacion-contacto-oferta/plantilla?id='+idOferta,
+            dataType: 'json',
+            beforeSend: function() {
+            //    Loading.show();
+                  $('body').showLoading();
+            },
+
+            complete: function(data) {
+             //   Loading.hide();
+                $('body').hideLoading();
+            },
+            success: function(data) {
+                if (data.result == "ok") {
+                  elemento.attr('data-content',
+                      ''+data.response);
+
+                  elemento.popover('toggle');
+                  elemento.popover('show');
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                $('body').hideLoading();
+            }
+        });
+     }
+
+    return false;
+});
 
 //---------------------------------
 // funcion que por ahora redirige a el detalle del documento

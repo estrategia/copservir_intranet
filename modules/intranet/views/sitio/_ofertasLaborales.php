@@ -47,13 +47,21 @@ use yii\widgets\Pjax;
                                   return $model->objArea->nombreArea;
                                 }
                               ],
-
                               [
                                 'class' => 'yii\grid\ActionColumn',
                               	'template' => '{link}',
                               	'buttons' => [
                               		'link' => function ($url,$model,$key) {
                               				return Html::a('Postularse', 'urlElEmpleo:url',['class'=>'btn btn-xs btn-primary ']);
+                              		},
+                              	],
+                              ],
+                              [
+                                'class' => 'yii\grid\ActionColumn',
+                              	'template' => '{contacto}',
+                              	'buttons' => [
+                                  'contacto' => function ($url,$model,$key) {
+                              				return Html::a('contacto', '#',['class'=>'btn btn-xs btn-primary',  'data-html'=>'true', 'data-content'=>'', 'role'=>"button", 'data-toggle'=>"popover", 'data-trigger'=>"focus" , 'data-placement'=>"right", 'data-role'=>"contacto-oferta", 'data-oferta'=>$model->idInformacionContacto]);
                               		},
                               	],
                               ],

@@ -6,7 +6,6 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 ?>
 
-
 <ul class="cbp_tmtimeline">
     <li>
         <time class="cbp_tmtime"></time>

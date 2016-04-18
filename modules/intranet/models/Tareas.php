@@ -26,6 +26,13 @@ class Tareas extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
+     const ESTADO_TAREA_INACTIVA = 0;  // Nunca muestra la tarea
+     const ESTADO_TAREA_TERMINADA = 1; // Tarea con progreso = 100
+     const ESTADO_TAREA_NO_TERMINADA = 2; // Tarea progreso < 100
+     const ESTADO_TAREA_NO_INDEX = 3; // La tarea no se muestra en el home
+
+
     public static function tableName()
     {
         return 't_Tareas';
@@ -80,7 +87,7 @@ class Tareas extends \yii\db\ActiveRecord
     */
     public static function getTareasListar($numeroDocumento)
     {
-       return  Tareas::find()->with(['objPrioridadTareas'])->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->all();
+       return  Tareas::find()->with(['objPrioridadTareas'])->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', self::ESTADO_TAREA_INACTIVA])->all();
     }
 
     /**
@@ -90,7 +97,7 @@ class Tareas extends \yii\db\ActiveRecord
     */
     public static function getTareasIndex($numeroDocumento)
     {
-       return Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', 0])->andWhere(['!=', 'estadoTarea', 3])->all();
+       return Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', self::ESTADO_TAREA_INACTIVA])->andWhere(['!=', 'estadoTarea', self::ESTADO_TAREA_NO_INDEX ])->all();
     }
 
     /**
