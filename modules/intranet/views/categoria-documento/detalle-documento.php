@@ -2,7 +2,10 @@
 use yii\widgets\DetailView;
 use yii\helpers\Url;
 use yii\helpers\Html;
+use app\modules\intranet\models\Documento;
+
 $this->title = 'Detalle Documento';
+
 ?>
 <div class="col-md-12">
 
@@ -18,6 +21,10 @@ $this->title = 'Detalle Documento';
             'label' => 'Descargar',
             'format'=>'raw',
             'value' => Html::a('<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>', [$categoriaDocumentoDetalle->objDocumento->rutaDocumento], []),
+        ],
+        [
+          'label' => 'Estado',
+          'value' =>  $categoriaDocumentoDetalle->objDocumento->estado == Documento::ESTADO_ACTIVO ? 'Activo' : 'Inactivo',
         ],
     ],
 ]);

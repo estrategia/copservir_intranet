@@ -150,7 +150,7 @@ $(document).on('click', "a[data-role='inactivarTarea']", function() {
 });
 
 //::::::::::::::::::::::
-// POPUP INDEX
+// CONTENIDO EMERGENTE INDEX
 //::::::::::::::::::::::
 
 /**
@@ -166,7 +166,7 @@ $(document).on('click', "button[data-role='inactiva-popup']", function() {
       $.ajax({
           type: 'POST',
           async: true,
-          url: requestUrl + '/intranet/sitio/inactiva-popup',
+          url: requestUrl + '/intranet/contenido-emergente/inactiva-contenido-emergente',
           data: {idPopup: idPopup},
           dataType: 'json',
           beforeSend: function() {

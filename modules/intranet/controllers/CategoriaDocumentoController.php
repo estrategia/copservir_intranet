@@ -116,13 +116,9 @@ class CategoriaDocumentoController extends \yii\web\Controller
           ->where("( idCategoriaDocumento =:id )")
           ->addParams([':id'=>$id])->one();
 
-          //var_dump($categoriaDocumentoDetalle);
-
           $logDocumento = LogDocumento::find()
           ->where("( idDocumento =:id )")
           ->addParams([':id'=> $categoriaDocumentoDetalle->objDocumento->idDocumento])->all();
-
-
 
           return $this->render('detalle-documento',
             [

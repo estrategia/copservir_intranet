@@ -82,7 +82,7 @@ class ContenidoEmergente extends \yii\db\ActiveRecord
      * @param userCiudad = ciudad donde se encuentra el usuario, userGrupos = grupos de interes del usuario,
      * @return modelos ContenidoEmergente
      */
-    public static function getContenidoEmergente($userCiudad, $userGrupos)
+    public static function getContenidoEmergente($userCiudad, $userGrupos, $userNumeroDocumento)
     {
       $db = Yii::$app->db;
       $query = $db->createCommand('select distinct c.idContenidoEmergente, c.contenido

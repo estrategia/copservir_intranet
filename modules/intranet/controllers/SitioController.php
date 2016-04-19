@@ -493,63 +493,6 @@ class SitioController extends Controller {
         return $this->render('organigrama', []);
     }
 
-    /**
-     * accion para obtener el contenido del modal
-     * @param none
-     * @return html contenido modal
-     */
-    public function actionPopupContenido() {
-
-        $db = Yii::$app->db;
-        $userCiudad = Yii::$app->user->identity->getCodigoCiudad();
-        $userGrupos = Yii::$app->user->identity->getGruposCodigos();
-        $userNumeroDocumento = Yii::$app->user->identity->numeroDocumento;
-
-        $query = ContenidoEmergente::getContenidoEmergente($userCiudad, $userGrupos);
-
-        if ($query) {
-            $items = [
-                'result' => 'ok',
-                'response' => $this->renderAjax('popup', ['query' => $query]),
-            ];
-        } else {
-            $items = [
-                'result' => 'ok',
-                'response' => '',
-            ];
-        }
-
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return $items;
-    }
-
-
-
-    /**
-     * accion para obtener el inactivar el PopUp y nunca verlo
-     * @param idPopup
-     * @return items.result = indica si la operacion se realizo correctamente o no
-     */
-    public function actionInactivaPopup() {
-        $idPopup = Yii::$app->request->post('idPopup');
-
-        $modelContenido = ContenidoEmergente::findone(['idContenidoEmergente' => $idPopup]);
-        $modelContenido->estado = ContenidoEmergente::ESTADO_INACTIVO;
-        $items = [];
-        if ($modelContenido->save()) {
-          $items = [
-              'result' => 'ok',
-          ];
-        }else{
-          $items = [
-              'result' => 'error',
-          ];
-        }
-
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return $items;
-    }
-
     public function actionQuitarElemento() {
         $elemento = Yii::$app->request->post('elemento');
         $opcion = Yii::$app->request->post('opcion');

@@ -130,7 +130,7 @@ $this->registerJs(
       $.ajax({
           type: 'GET',
           async: true,
-          url: requestUrl + '/intranet/sitio/popup-contenido',
+          url: requestUrl + '/intranet/contenido-emergente/contenido-emergente-html',
           dataType: 'json',
           beforeSend: function() {
           //    Loading.show();

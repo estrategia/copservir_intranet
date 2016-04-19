@@ -30,11 +30,11 @@ class LogDocumento extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idLogDocumento', 'idDocumento', 'descripcion', 'fechaCreacion'], 'required'],
-            [['idLogDocumento', 'idDocumento'], 'integer'],
+            [['idDocumento', 'descripcion', 'fechaCreacion'], 'required'],
+            [['idDocumento'], 'integer'],
             [['descripcion'], 'string'],
             [['fechaCreacion'], 'safe'],
-            [['idDocumento'], 'exist', 'skipOnError' => true, 'targetClass' => MDocumento::className(), 'targetAttribute' => ['idDocumento' => 'idDocumento']],
+            //[['idDocumento'], 'exist', 'skipOnError' => true, 'targetClass' => Documento::className(), 'targetAttribute' => ['idDocumento' => 'idDocumento']],
         ];
     }
 
