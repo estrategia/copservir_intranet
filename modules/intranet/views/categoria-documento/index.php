@@ -4,7 +4,7 @@ $this->title = 'Menu documentos';
 ?>
 <h1>categoria-documento</h1>
 
-<!-- PRUEBA -->
+<!-- MENU -->
 <div data-toggle="collapse" id="accordion" class="panel-group">
-    <?php echo $menu ?>
+    <?= $menu ?>
 </div>

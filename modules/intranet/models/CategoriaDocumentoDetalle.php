@@ -33,8 +33,8 @@ class CategoriaDocumentoDetalle extends \yii\db\ActiveRecord
             [['idCategoriaDocumento', 'contenido', 'idDocumento'], 'required'],
             [['idCategoriaDocumento', 'idDocumento'], 'integer'],
             [['contenido'], 'string'],
-            [['idCategoriaDocumento'], 'exist', 'skipOnError' => true, 'targetClass' => MCategoriadocumento::className(), 'targetAttribute' => ['idCategoriaDocumento' => 'idCategoriaDocumento']],
-            [['idDocumento'], 'exist', 'skipOnError' => true, 'targetClass' => MDocumento::className(), 'targetAttribute' => ['idDocumento' => 'idDocumento']],
+            [['idCategoriaDocumento'], 'exist', 'skipOnError' => true, 'targetClass' => CategoriaDocumento::className(), 'targetAttribute' => ['idCategoriaDocumento' => 'idCategoriaDocumento']],
+            [['idDocumento'], 'exist', 'skipOnError' => true, 'targetClass' => Documento::className(), 'targetAttribute' => ['idDocumento' => 'idDocumento']],
         ];
     }
 
@@ -66,5 +66,30 @@ class CategoriaDocumentoDetalle extends \yii\db\ActiveRecord
     public function getObjDocumento()
     {
         return $this->hasOne(Documento::className(), ['idDocumento' => 'idDocumento']);
+    }
+
+
+    /**
+     * consulta un modelo CategoriaDocumentoDetalle por el atributo idCategoriaDocumento
+     * @param idCategoriaDocumento = categoria
+     * @return \yii\db\ActiveQuery modelo Documento
+     */
+    public static function getCategoriaDocumentoDetalle($idCategoriaDocumento)
+    {
+      return CategoriaDocumentoDetalle::find()
+      ->where("( idCategoriaDocumento =:idCategoriaDocumento )")
+      ->addParams([':idCategoriaDocumento'=> $idCategoriaDocumento])->one();
+    }
+
+    /**
+     * consulta un modelo CategoriaDocumentoDetalle por los atributos idCategoriaDocumento y idDocumento
+     * @param idCategoriaDocumento = categoria, idDocumento = documento
+     * @return \yii\db\ActiveQuery modelo Documento
+     */
+    public static function getRelacionCategoriaDocumento($idCategoriaDocumento, $idDocumento)
+    {
+      return CategoriaDocumentoDetalle::find()
+      ->where("( idCategoriaDocumento =:idCategoriaDocumento and idDocumento =:idDocumento )")
+      ->addParams([':idCategoriaDocumento'=> $idCategoriaDocumento, ':idDocumento' => $idDocumento])->one();
     }
 }

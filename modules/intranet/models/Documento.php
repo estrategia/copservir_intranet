@@ -94,4 +94,14 @@ class Documento extends \yii\db\ActiveRecord
     {
         return $this->hasMany(LogDocumento::className(), ['idDocumento' => 'idDocumento']);
     }
+
+    /**
+     * consulta todos los modelos Documento
+     * @param none
+     * @return \yii\db\ActiveQuery modelo Documento
+     */
+    public static function getTodosDocumento()
+    {
+        return Documento::find()->all();
+    }
 }
