@@ -100,29 +100,9 @@ use yii\helpers\Html;
         <br>
         <div class="row">
             <div class="col-md-12 no-padding">
-                <!-- <div class="tiles white">
-                    <textarea rows="3"  class="form-control user-status-box post-input"  placeholder="Que deseas publicar?"></textarea>-->
 
-                <!-- aqui desplegables publicacion -->
-                <?php //Html::activeDropDownList($modelFoto, 's_id', ArrayHelper::map(Usuario::find()->all(), 's_id', 'name'))  ?>
-
-                <!-- </div>-->
-
-                <!-- <div class="tiles grey padding-10">
-                 <div class="pull-left">
-                   <button class="btn btn-default btn-sm btn-small" type="button"><i class="fa fa-camera"></i></button>-->
-                   <!--<button class="btn btn-default btn-sm btn-small" type="button"><i class="fa fa-map-marker"></i></button>-->
-                <!-- </div>
-                 <div class="pull-right">
-                   <button class="btn btn-primary btn-sm btn-small" type="button">publicar</button>
-                 </div>
-                 <div class="clearfix"></div>
-                 </div>-->
                 <div class="overlayer-wrapper">
                     <div class="padding-10 hidden-xs">
-                        
-
-                <!--<button type="button" class="btn btn-primary btn-small"><i class="fa fa-check"></i>&nbsp;&nbsp;Cambiar foto de perfil</button> <button type="button" class="btn btn-primary btn-small">Cambiar fondo</button>-->
                     </div>
                 </div>
             </div>

@@ -28,16 +28,12 @@ use yii\widgets\Pjax;
                           'tableOptions' =>['class' => 'table table-hover no-more-tables'],
                           'columns' => [
                               ['class' => 'yii\grid\SerialColumn'],
-
-
-                              //'idOfertaLaboral',
                               [
                                 'attribute' => 'idCargo',
                                 'value' => function($model) {
                                   return $model->objCargo->nombreCargo;
                                 }
                               ],
-                              //'idContenidoDestino',
                               [
                                 'attribute' => 'idCiudad',
                                 'value' => function($model) {
@@ -51,7 +47,6 @@ use yii\widgets\Pjax;
                                   return $model->objArea->nombreArea;
                                 }
                               ],
-
                               [
                                 'class' => 'yii\grid\ActionColumn',
                               	'template' => '{link}',
@@ -61,13 +56,15 @@ use yii\widgets\Pjax;
                               		},
                               	],
                               ],
-
-                              // 'idCargo',
-                              // 'idArea',
-
-                               //'idInformacionContacto',
-
-                              //['class' => 'yii\grid\ActionColumn'],
+                              [
+                                'class' => 'yii\grid\ActionColumn',
+                              	'template' => '{contacto}',
+                              	'buttons' => [
+                                  'contacto' => function ($url,$model,$key) {
+                              				return Html::a('contacto', '#',['class'=>'btn btn-xs btn-primary',  'data-html'=>'true', 'data-content'=>'', 'role'=>"button", 'data-toggle'=>"popover", 'data-trigger'=>"focus" , 'data-placement'=>"right", 'data-role'=>"contacto-oferta", 'data-oferta'=>$model->idInformacionContacto]);
+                              		},
+                              	],
+                              ],
                           ],
                       ]); ?>
                       <?php Pjax::end(); ?>

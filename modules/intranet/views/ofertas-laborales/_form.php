@@ -128,7 +128,7 @@ use yii\helpers\Url;
 
     <div id="plantilla" hidden >
       <label> Contenido de la plantilla</label>
-      <div id="contenido-plantilla" style="border:1px solid #eee; padding: 5px"></div>
+      <div id="contenido-plantilla"></div>
     </div>
 
     <br>
@@ -151,7 +151,7 @@ use yii\helpers\Url;
         <?= Html::label('Añadir otro') ?>
 
     <?php endif ?>
-
+    <br>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

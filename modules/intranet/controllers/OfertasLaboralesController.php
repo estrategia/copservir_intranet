@@ -130,16 +130,6 @@ class OfertasLaboralesController extends Controller
           ]);
         }
 
-
-        /*$model = new OfertasLaborales();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['detalle', 'id' => $model->idOfertaLaboral]);
-        } else {
-            return $this->render('crear', [
-                'model' => $model,
-            ]);
-        }*/
     }
 
     /**
@@ -154,10 +144,16 @@ class OfertasLaboralesController extends Controller
         $destinoOfertasLaborales = OfertasLaboralesDestino::listaOfertas($id);
         //var_dump($destinoOfertasLaborales);
 
-        return $this->render('actualizar', [
-            'model' => $model,
-            'destinoOfertasLaborales' => $destinoOfertasLaborales
-        ]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['listar-ofertas']);
+        }else{
+            return $this->render('actualizar', [
+                'model' => $model,
+                'destinoOfertasLaborales' => $destinoOfertasLaborales
+            ]);
+        }
+
+
 
         /*
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

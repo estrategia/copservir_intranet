@@ -29,7 +29,6 @@ $this->title = $grupo->nombreGrupo;
       <?= DetailView::widget([
           'model' => $grupo,
           'attributes' => [
-              //'idGrupoInteres',
               'nombreGrupo',
           ],
       ]) ?>
@@ -61,7 +60,6 @@ SCRIPT;
             'options' => ['placeholder' => 'buscar cargos...','id'=>'agregaCargos'],
             'pluginOptions' => [
               'allowClear' => false,
-              //'escapeMarkup' => new JsExpression("function(m) { return m; }"),
               'ajax' => [
                     'url' => $url,
                     'dataType' => 'json',

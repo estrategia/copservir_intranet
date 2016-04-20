@@ -34,10 +34,6 @@ use vova07\imperavi\Widget;
     ]);
     ?>
 
-    <?php //$form->field($model, 'fechaRegistro')->textInput() ?>
-
-    <?php // $form->field($model, 'numeroDocumento')->textInput() ?>
-
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

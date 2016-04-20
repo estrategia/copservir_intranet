@@ -20,7 +20,12 @@ $this->title = 'Intranet - Copservir';
     <ul class="nav nav-tabs">
         <?php $i = 0; ?>
         <?php foreach ($lineasTiempo as $linea): ?>
-            <li <?= $i == 0 ? 'class="active"' : '' ?>><a id="#lt<?= $linea->idLineaTiempo ?>" data-toggle="tab" data-role="cambiar-timeline"  data-timeline="<?= $linea->idLineaTiempo ?>" href="#lt<?= $linea->idLineaTiempo ?>"><?= $linea->nombreLineaTiempo ?></a></li>
+            <li <?= $i == 0 ? 'class="active"' : '' ?> style="background-color:<?= $linea->color ?>;">
+              <a id="#lt<?= $linea->idLineaTiempo ?>" data-toggle="tab" data-role="cambiar-timeline"  data-timeline="<?= $linea->idLineaTiempo ?>" href="#lt<?= $linea->idLineaTiempo ?>">
+                <span class="glyphicon <?= $linea->icono ?>" aria-hidden="true"></span>
+                <?= $linea->nombreLineaTiempo ?>
+              </a>
+            </li>
             <?php if ($i == 0): ?>
                 <?php
                 $this->registerJs(
@@ -125,7 +130,7 @@ $this->registerJs(
       $.ajax({
           type: 'GET',
           async: true,
-          url: requestUrl + '/intranet/sitio/popup-contenido',
+          url: requestUrl + '/intranet/contenido-emergente/contenido-emergente-html',
           dataType: 'json',
           beforeSend: function() {
           //    Loading.show();

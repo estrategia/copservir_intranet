@@ -83,11 +83,14 @@ $config = [
             ],
         ],
     ],
-    'defaultRoute' => 'intranet/usuario/autenticar',
+    'defaultRoute' => 'sitio/index',
     'params' => $params,
     'modules' => [
         'intranet' => [
             'class' => 'app\modules\intranet\IntranetModule',
+        ],
+        'proveedores' => [
+            'class' => 'app\modules\proveedores\ProveedoresModule',
         ],
         'treemanager' => [
             'class' => '\kartik\tree\Module',

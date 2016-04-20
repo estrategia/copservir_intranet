@@ -2,8 +2,10 @@
 // TAREAS
 //::::::::::::::::::::::
 
-/*
+/**
 * peticion ajax guardar el progreso del slider de una tarea
+* @param idTarea, progresoTarea
+* @return data.result = json donde se especifica si todo se realizo bien,
 */
 $(document).on('slideStop', "input[data-role='slider-tarea']", function() {
 
@@ -14,14 +16,14 @@ $(document).on('slideStop', "input[data-role='slider-tarea']", function() {
         type: 'POST',
         async: true,
         url: requestUrl + '/intranet/tareas/actualizar-progreso',
-        data: {idTarea: idTarea, progresoTarea: progresoTarea},
+        data: {idTarea: idTarea, progresoTarea: progresoTarea, flagHome: false},
         dataType: 'json',
         beforeSend: function() {
-        //    Loading.show();
+          $('body').showLoading()
         },
 
         complete: function(data) {
-         //   Loading.hide();
+          $('body').hideLoading();
         },
         success: function(data) {
             if (data.result == "ok") {
@@ -29,13 +31,16 @@ $(document).on('slideStop', "input[data-role='slider-tarea']", function() {
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
-
+           $('body').hideLoading();
         }
     });
 });
 
-/*
+/**
 * peticion ajax cuando checkea una tarea en el home
+* @param idTarea
+* @return data.result = json donde se especifica si todo se realizo bien,
+          data.response = html para renderizar las tareas del home
 */
 
 $(document).on('change', "input[data-role='tarea-check']", function() {
@@ -53,11 +58,11 @@ $(document).on('change', "input[data-role='tarea-check']", function() {
           data: {idTarea: idTarea},
           dataType: 'json',
           beforeSend: function() {
-          //    Loading.show();
+            $('body').showLoading()
           },
 
           complete: function(data) {
-           //   Loading.hide();
+             $('body').hideLoading();
           },
           success: function(data) {
 
@@ -67,7 +72,7 @@ $(document).on('change', "input[data-role='tarea-check']", function() {
               }
           },
           error: function(jqXHR, textStatus, errorThrown) {
-
+              $('body').hideLoading();
           }
       });
 
@@ -79,14 +84,14 @@ $(document).on('change', "input[data-role='tarea-check']", function() {
           type: 'POST',
           async: true,
           url: requestUrl + '/intranet/tareas/actualizar-progreso',
-          data: {idTarea: idTarea, progresoTarea: 100},
+          data: {idTarea: idTarea, progresoTarea: 100, flagHome: true},
           dataType: 'json',
           beforeSend: function() {
-          //    Loading.show();
+            $('body').showLoading()
           },
 
           complete: function(data) {
-           //   Loading.hide();
+             $('body').hideLoading();
           },
           success: function(data) {
               if (data.result == "ok") {
@@ -94,29 +99,24 @@ $(document).on('change', "input[data-role='tarea-check']", function() {
               }
           },
           error: function(jqXHR, textStatus, errorThrown) {
-
+              $('body').hideLoading();
           }
       });
-
     }
-
-
-
 });
 
 /**
 * peticion ajax para inactivar una tarea
+* @param idTarea, location = indica de donde se genera la peticion si de la vista listar =>no se manda valor,  del home => 1
+* @return data.result = json donde se especifica si todo se realizo bien,
+          data.response = html para renderizar las tareas
 */
 
 $(document).on('click', "a[data-role='inactivarTarea']", function() {
 
 
     var idTarea = $(this).attr('data-tarea');
-
     var location = $(this).attr('data-location');
-    if (true) {
-
-    }
 
     if(confirm("¿Estas seguro de querer ocultar de manera permanente esta tarea??")) {
 
@@ -127,11 +127,11 @@ $(document).on('click', "a[data-role='inactivarTarea']", function() {
               data: {idTarea: idTarea, location: location},
               dataType: 'json',
               beforeSend: function() {
-              //    Loading.show();
+                $('body').showLoading()
               },
 
               complete: function(data) {
-               //   Loading.hide();
+                 $('body').hideLoading();
               },
               success: function(data) {
                   if (data.result == "ok") {
@@ -141,7 +141,7 @@ $(document).on('click', "a[data-role='inactivarTarea']", function() {
                   }
               },
               error: function(jqXHR, textStatus, errorThrown) {
-
+                  $('body').hideLoading();
               }
           })
     }
@@ -150,31 +150,31 @@ $(document).on('click', "a[data-role='inactivarTarea']", function() {
 });
 
 //::::::::::::::::::::::
-// POPUP INDEX
+// CONTENIDO EMERGENTE INDEX
 //::::::::::::::::::::::
 
 /**
-* Peticion para deshabilitar el modal
+* Peticion para deshabilitar el modal que sale en el index cuando me logueo
+* @param idPopup,
+* @return data.result = json donde se especifica si todo se realizo bien,
 */
 
 $(document).on('click', "button[data-role='inactiva-popup']", function() {
 
       var idPopup = $(this).attr('data-contenido');
-      //console.log('click desactivar modal');
-      //console.log(idPopup);
 
       $.ajax({
           type: 'POST',
           async: true,
-          url: requestUrl + '/intranet/sitio/inactiva-popup',
+          url: requestUrl + '/intranet/contenido-emergente/inactiva-contenido-emergente',
           data: {idPopup: idPopup},
           dataType: 'json',
           beforeSend: function() {
-          //    Loading.show();
+            $('body').showLoading()
           },
 
           complete: function(data) {
-           //   Loading.hide();
+             $('body').hideLoading();
           },
           success: function(data) {
               if (data.result == "ok") {
@@ -183,6 +183,7 @@ $(document).on('click', "button[data-role='inactiva-popup']", function() {
               }
           },
           error: function(jqXHR, textStatus, errorThrown) {
+              $('body').hideLoading();
           }
       })
 });
@@ -193,6 +194,8 @@ $(document).on('click', "button[data-role='inactiva-popup']", function() {
 
 /**
 * javascript para que se busque una noticia cuando presiona enter
+* @param codigos ascci que teclea el usuario
+* @return envia el formulario
 */
 $( document ).ready(function() {
 
@@ -274,7 +277,7 @@ function makeMap(jsonGrafica, patron, valorGrafica, flag) {
 * funcion con una peticion ajax para redenrizar el modal donde se seleccionaran los amigos a quienes deseo compartir el clasificado
 * @param none
 * @return data.result = json donde se especifica si todo se realizo bien,
-          data.response = html para renderizar el modal con el formulario para buscar amigos s
+          data.response = html para renderizar el modal con el formulario para buscar amigos
 */
 
 $(document).on('click', "button[data-role='widget-enviarAmigo']", function() {
@@ -286,11 +289,11 @@ $(document).on('click', "button[data-role='widget-enviarAmigo']", function() {
       url: requestUrl + '/intranet/usuario/modal-amigos?idClasificado='+idClasificado,
       dataType: 'json',
       beforeSend: function() {
-      //    Loading.show();
+        $('body').showLoading()
       },
 
       complete: function(data) {
-       //   Loading.hide();
+         $('body').hideLoading();
       },
       success: function(data) {
           if (data.result == "ok") {
@@ -302,7 +305,7 @@ $(document).on('click', "button[data-role='widget-enviarAmigo']", function() {
           }
       },
       error: function(jqXHR, textStatus, errorThrown) {
-
+          $('body').hideLoading();
       }
   });
 
@@ -326,11 +329,11 @@ $(document).on('click', "button[data-role='enviar-amigos']", function() {
       data: form.serialize(),
       dataType: 'json',
       beforeSend: function() {
-      //    Loading.show();
+        $('body').showLoading()
       },
 
       complete: function(data) {
-       //   Loading.hide();
+         $('body').hideLoading();
       },
       success: function(data) {
           if (data.result == "ok") {
@@ -338,7 +341,7 @@ $(document).on('click', "button[data-role='enviar-amigos']", function() {
           }
       },
       error: function(jqXHR, textStatus, errorThrown) {
-
+          $('body').hideLoading();
       }
   });
 
@@ -507,7 +510,6 @@ $(document).on('click', "a[data-role='eliminarDestino']", function() {
 *         data.response = html para renderizar el modal
 */
 $(document).on('click', "a[data-role='agregar-destino-oferta']", function() {
-    console.log('dio click');
 
     var form = $("#formEnviaDestinosOferta");
 
@@ -556,13 +558,64 @@ $(document).on('click', "a[data-role='agregar-destino-oferta']", function() {
 function getPlantilla(id) {
   $.get( requestUrl +'/intranet/informacion-contacto-oferta/plantilla', { id: id } )
       .done(function( data ) {
-          $( "#contenido-plantilla" ).html( data );
-          $( "#plantilla" ).show();
+          console.log(data);
+          if (data.result === 'ok') {
+            console.log(data.response);
+            $( "#contenido-plantilla" ).append( data.response );
+            $( "#plantilla" ).show();
+          }
+
       }
   );
 }
 
+/**
+* peticion ajax para mostrar la plantilla de una oferta en un popove en el home
+* @param idOferta
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html de la platilla
+*/
+$(document).on('click', "a[data-role='contacto-oferta']", function() {
+
+    var idOferta = $(this).attr('data-oferta');
+    var elemento = $(this);
+    var contenido = elemento.attr('data-content')
+    if (contenido === '' || contenido === undefined) {
+        $.ajax({
+
+            type: 'GET',
+            async: true,
+            url: requestUrl +'/intranet/informacion-contacto-oferta/plantilla?id='+idOferta,
+            dataType: 'json',
+            beforeSend: function() {
+            //    Loading.show();
+                  $('body').showLoading();
+            },
+
+            complete: function(data) {
+             //   Loading.hide();
+                $('body').hideLoading();
+            },
+            success: function(data) {
+                if (data.result == "ok") {
+                  elemento.attr('data-content',
+                      ''+data.response);
+
+                  elemento.popover('toggle');
+                  elemento.popover('show');
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                $('body').hideLoading();
+            }
+        });
+     }
+
+    return false;
+});
+
 //---------------------------------
+// funcion que por ahora redirige a el detalle del documento
 $(document).on('click', "a[data-role='hola']", function() {
   console.log('click');
   var url = $(this).attr('href');

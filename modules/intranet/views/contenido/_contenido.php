@@ -4,8 +4,8 @@ use vova07\imperavi\Widget;
 use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\Html;
+use app\modules\intranet\models\LineaTiempo;
 ?>
-
 <ul class="cbp_tmtimeline">
     <li>
         <div class="cbp_tmtime">
@@ -13,7 +13,7 @@ use yii\helpers\Html;
                 <img src= <?= Yii::$app->homeUrl . 'img/fotosperfil/' . $noticia->objUsuarioPublicacion->imagenPerfil ?> alt="" data-src="" data-src-retina="" width="80" height="80">
             </div>
             <div class="text-center time"> <?= $noticia->objUsuarioPublicacion->alias ?> </div>
-            
+
 
             <?php if (isset($noticia->fechaInicioPublicacion)): ?>
                 <?php $fdia = \DateTime::createFromFormat('Y-m-d H:i:s', $noticia->fechaInicioPublicacion) ?>
@@ -37,7 +37,7 @@ use yii\helpers\Html;
             </div>
 
             <!-- comentarios y me gusta -->
-            <?php if ($noticia->objLineaTiempo->tipo === 0): ?>
+            <?php if ($noticia->objLineaTiempo->tipo === LineaTiempo::LINEA_CON_COMENTARIOS): ?>
 
 
                 <div class="tiles grey p-t-10 p-b-10 p-l-20">

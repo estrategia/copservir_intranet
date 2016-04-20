@@ -19,7 +19,6 @@ use yii\helpers\Html;
                         'id' => 'form-contenido-denuncio',
                         'method' => 'POST',
                         'enableClientValidation' => true,
-                        //'enableAjaxValidation' => true,
                         'options' => [
                             'enctype' => 'multipart/form-data',
                             'data-pjax' => true
@@ -29,12 +28,10 @@ use yii\helpers\Html;
             <div class="modal-body">
 
                 <?php echo $form->field($modelDenuncio, 'descripcionDenuncio')->textarea(['rows' => 3]); ?>
-                
+
                 <?= Html::hiddenInput("DenunciosContenidos[idContenido]", $modelDenuncio->idContenido, ["id" => "idContenido"]); ?>
-                
+
                 <?= Html::hiddenInput("idLineaTiempo", $idLineaTiempo, ["id" => "idLineaTiempo"]); ?>
-                
-                
 
             </div>
             <div class="modal-footer">

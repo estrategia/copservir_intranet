@@ -98,11 +98,6 @@ class OfertasLaborales extends \yii\db\ActiveRecord
         return $this->hasOne(Area::className(), ['idArea' => 'idArea']);
     }
 
-    public function getContenidoDestino()
-    {
-        return $this->hasMany(ContenidoDestino::className(), ['idContenidoDestino' => 'idContenidoDestino']);
-    }
-
     /**
     * define la relacion entre los modelos ofertasLaborales y OfertasLaboralesDestino a traves del aributo idOfertaLaboral
     */

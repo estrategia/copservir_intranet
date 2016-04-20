@@ -45,8 +45,6 @@ use yii\helpers\Html;
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-role='enviar-amigos'>enviar</button>
-        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" data-role='inactiva-popup' data-contenido="<?php /*$query['idContenidoEmergente']*/ ?>" class="btn btn-primary">ocultar</button>-->
       </div>
     </div>
   </div>

@@ -23,6 +23,17 @@ class Documento extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
+    public $file;
+    public $descripcionLog;
+    // escenarios
+    const SCENARIO_CREAR = 'crear';
+    const SCENARIO_ACTUALIZAR = 'actualizar';
+    // estados del documento
+    const ESTADO_ACTIVO = 1;
+    const ESTADO_INACTIVO = 0;
+
+
     public static function tableName()
     {
         return 'm_documento';
@@ -31,12 +42,18 @@ class Documento extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
     public function rules()
     {
         return [
             [['titulo', 'descripcion', 'rutaDocumento', 'estado', 'fechaCreacion', 'fechaActualizacion'], 'required'],
             [['fechaCreacion', 'fechaActualizacion'], 'safe'],
             [['titulo', 'rutaDocumento'], 'string', 'max' => 100],
+            [['file'], 'file', 'on' => self::SCENARIO_ACTUALIZAR ],
+            [['descripcionLog'], 'required', 'on' => self::SCENARIO_ACTUALIZAR ],
+            [['descripcionLog'], 'string', 'on' => self::SCENARIO_ACTUALIZAR ],
+            [['file'], 'file', 'on' => self::SCENARIO_CREAR ],
+            [['file'], 'required', 'on' => self::SCENARIO_CREAR ],
             [['descripcion'], 'string', 'max' => 250],
             [['estado'], 'string', 'max' => 45],
         ];
@@ -55,6 +72,8 @@ class Documento extends \yii\db\ActiveRecord
             'estado' => 'Estado',
             'fechaCreacion' => 'Fecha Creacion',
             'fechaActualizacion' => 'Fecha Actualizacion',
+            'file' => 'Documento',
+            'descripcionLog' => 'Descripcion del cambio'
         ];
     }
 

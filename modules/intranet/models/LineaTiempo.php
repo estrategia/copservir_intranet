@@ -9,6 +9,9 @@ use Yii;
  *
  * @property string $idLineaTiempo
  * @property string $nombreLineaTiempo
+ * @property string $color
+ * @property string $descripcion
+ * @property string $icono
  * @property integer $estado
  * @property integer $autorizacionAutomatica
  */
@@ -17,6 +20,12 @@ class LineaTiempo extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
+    // Indican si una linea de tiempo tiene o no comentarios
+    const LINEA_CON_COMENTARIOS = 0;
+    const LINEA_SIN_COMENTARIOS = 1;
+
+
     public static function tableName()
     {
         return 't_LineasTiempo';
@@ -30,7 +39,9 @@ class LineaTiempo extends \yii\db\ActiveRecord
         return [
             [['nombreLineaTiempo', 'estado'], 'required'],
             [['estado', 'autorizacionAutomatica', 'solicitarGrupoObjetivo'], 'integer'],
-            [['nombreLineaTiempo'], 'string', 'max' => 45]
+            [['nombreLineaTiempo', 'icono'], 'string', 'max' => 45],
+            [['color'], 'string', 'max' => 7],
+            [['descripcion'], 'string', 'max' => 200],
         ];
     }
 
@@ -45,6 +56,9 @@ class LineaTiempo extends \yii\db\ActiveRecord
             'estado' => 'Estado',
             'autorizacionAutomatica' => 'Autorizacion Automatica',
             'solicitarGrupoObjetivo' => "Solicitar Grupo Objetivo",
+            'color' => 'Color',
+            'icono' => 'Icono',
+            'descripcion' => 'Descripción',
         ];
     }
 }
