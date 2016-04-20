@@ -81,8 +81,8 @@ class DocumentoController extends Controller
 
 
           $model->file = UploadedFile::getInstance($model, 'file');
-          $model->file->saveAs('contenidos/Documentos/' . $model->file->baseName . '.' . $model->file->extension);
-          $model->rutaDocumento = 'contenidos/Documentos/' .$model->file->baseName . '.' . $model->file->extension;
+          $model->file->saveAs('contenidos/documentos/' . $model->file->baseName . '.' . $model->file->extension);
+          $model->rutaDocumento = $model->file->baseName . '.' . $model->file->extension;
 
           if ($model->save()) {
 
@@ -144,8 +144,8 @@ class DocumentoController extends Controller
           var_dump($model->file);
 
           if (!is_null($model->file)) {
-              $model->file->saveAs('contenidos/Documentos/' . $model->file->baseName . '.' . $model->file->extension);
-              $model->rutaDocumento = 'contenidos/Documentos/' .$model->file->baseName . '.' . $model->file->extension;
+              $model->file->saveAs('contenidos/documentos/' . $model->file->baseName . '.' . $model->file->extension);
+              $model->rutaDocumento = $model->file->baseName . '.' . $model->file->extension;
           }
 
           if ($model->save()) {

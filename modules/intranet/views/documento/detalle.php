@@ -35,7 +35,7 @@ $this->title = $model->titulo;
               [
                   'label' => 'Descargar',
                   'format'=>'raw',
-                  'value' => Html::a('<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>', [$model->rutaDocumento], []),
+                  'value' => Html::a('<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>', Yii::getAlias('@web') . Yii::$app->params['documentos']['rutaArchivo'] .$model->rutaDocumento, []),
               ],
               [
                 'attribute' => 'estado',

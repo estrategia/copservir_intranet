@@ -9,7 +9,7 @@ use app\modules\intranet\models\EventosCalendario;
 class DefaultController extends Controller {
 
     public function actionIndex() {
-        echo \Yii::$app->params['grupo']['*'];
+        echo \Yii::$app->user->identity->numeroDocumento;
         //return $this->render('index');
     }
 
