@@ -17,7 +17,7 @@ $this->title = 'Detalle Documento';
         [
             'label' => 'Descargar',
             'format'=>'raw',
-            'value' => Html::a('<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>', [$categoriaDocumentoDetalle->objDocumento->rutaDocumento], []),
+            'value' => Html::a('<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>', Yii::getAlias('@web') . Yii::$app->params['documentos']['rutaArchivo'] .$categoriaDocumentoDetalle->objDocumento->rutaDocumento, []),
         ],
     ],
 ]);

@@ -231,6 +231,10 @@ class User extends ActiveRecord implements IdentityInterface {
     public function getGruposCodigos() {
         return [1, 2, 3];
     }
+    
+    public function getDato(){
+        return $this->username;
+    }
 
     public function getCumpleanhos() {
         setlocale(LC_ALL, "es_ES");
