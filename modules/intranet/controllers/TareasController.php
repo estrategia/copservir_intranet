@@ -202,9 +202,9 @@ class TareasController extends Controller
         $transaction = Tareas::getDb()->beginTransaction();
         try {
             if ($location == 1) {
-                $tarea->estadoTarea = Tarea::ESTADO_TAREA_NO_INDEX;
+                $tarea->estadoTarea = Tareas::ESTADO_TAREA_NO_INDEX;
             }else{
-                $tarea->estadoTarea = Tarea::ESTADO_TAREA_INACTIVA;
+                $tarea->estadoTarea = Tareas::ESTADO_TAREA_INACTIVA;
             }
 
             if ($tarea->save()) {

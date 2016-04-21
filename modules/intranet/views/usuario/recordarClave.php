@@ -40,7 +40,7 @@ $this->title = 'Recuperación contraseña';
           ],
       ])->label(false); ?>
 
-      <?= $form->field($model, 'captcha')->widget(Captcha::className())->label("Ingresa el codigo") ?>
+      <?= $form->field($model, 'captcha')->widget(Captcha::className(), ['captchaAction'=>'usuario/captcha'])->label("Ingresa el codigo") ?>
 
       <div class="form-group">
           <div class=" col-lg-11">

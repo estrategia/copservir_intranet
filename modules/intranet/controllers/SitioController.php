@@ -18,6 +18,8 @@ use app\modules\intranet\models\ContenidoEmergente;
 use app\modules\intranet\models\UsuarioWidgetInactivo;
 use app\modules\intranet\models\LogContenidos;
 use app\modules\intranet\models\PublicacionesCampanas;
+use app\modules\intranet\models\CumpleanosLaboral;
+use app\modules\intranet\models\CumpleanosPersona;
 use yii\helpers\Html;
 use yii\web\Response;
 
@@ -87,6 +89,10 @@ class SitioController extends Controller {
         $bannerAbajo = PublicacionesCampanas::getCampana($userCiudad, $userGrupos, PublicacionesCampanas::POSICION_ABAJO);
         $bannerDerecha = PublicacionesCampanas::getCampana($userCiudad, $userGrupos, PublicacionesCampanas::POSICION_DERECHA);
 
+        // cumpleaños y aniversarios
+        $cumpleanos = CumpleanosPersona::getCumpleanosIndex($userCiudad, $userGrupos);
+        $aniversarios = CumpleanosLaboral::getAniversariosIndex($userCiudad, $userGrupos);
+
         return $this->render('index', [
                     'contenidoModel' => $contenidoModel,
                     'lineasTiempo' => $lineasTiempo,
@@ -96,6 +102,8 @@ class SitioController extends Controller {
                     'bannerArriba' => $bannerArriba,
                     'bannerAbajo' => $bannerAbajo,
                     'bannerDerecha' => $bannerDerecha,
+                    'cumpleanos' => $cumpleanos,
+                    'aniversarios' => $aniversarios,
         ]);
     }
 
@@ -524,4 +532,34 @@ class SitioController extends Controller {
         return $items;
     }
 
+
+    //::::::::::::::::::::::
+    // CUMPLEAÑOS
+    //::::::::::::::::::::::
+
+    /**
+     * muestra todos los modelos cumpleaños que sean mayores a la fecha de hoy
+     * @param
+     * @return mixed
+     */
+     public function actionTodosCumpleanos()
+     {
+       $models = CumpleanosPersona::getCumpleanosVerTodos();
+       return $this->render('/cumpleanos/todosCumpleanos', [
+                   'models' => $models,
+       ]);
+     }
+
+     /**
+      * muestra todos los modelos aniversarios que sean mayores a la fecha de hoy
+      * @param
+      * @return mixed
+      */
+      public function actionTodosAniversarios()
+      {
+        $models = CumpleanosLaboral::getAniversariosVerTodos();
+        return $this->render('/cumpleanos/todosAniversarios', [
+          'models' => $models,
+        ]);
+      }
 }

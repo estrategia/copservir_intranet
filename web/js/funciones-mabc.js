@@ -188,27 +188,6 @@ $(document).on('click', "button[data-role='inactiva-popup']", function() {
       })
 });
 
-//::::::::::::::::::::::
-// BUSQUEDA NOTICIAS
-//::::::::::::::::::::::
-
-/**
-* javascript para que se busque una noticia cuando presiona enter
-* @param codigos ascci que teclea el usuario
-* @return envia el formulario
-*/
-$( document ).ready(function() {
-
-  $('#busqueda').keypress(function(event) {
-
-        if (event.which == 13) {
-            event.preventDefault();
-            $('#formBuscadorNoticias').submit();
-        }
-    });
-
-});
-
 /**
 * funcion para mapear la imagen segun su json
 * @param jsonGrafica = json con la imagen mapeada, patron = patron de busqueda, valorGrafica = valores de la grafica, flag = bandera que indica los parametros de la url
@@ -931,4 +910,51 @@ $(document).on('click', "a[data-role='hola']", function() {
   console.log('click');
   var url = $(this).attr('href');
   window.location.replace(url);
+});
+
+// ------------
+
+/**
+* Acciones que se ejecutan cuando el navegador cargue los scripts
+* @param none
+* @return none
+*/
+$( document ).ready(function() {
+
+  // carousel cumpleaños
+  $("#owl-Cumpleaños").owlCarousel({
+    //margin:10,
+    items: 4,
+    autoWidth: true,
+    autoplay: true,
+    autoplayTimeout:1000,
+    autoplayHoverPause:true,
+    responsiveClass:true,
+    loop:true,
+  });
+
+  // carousel aniversarios
+  $("#owl-Aniversarios").owlCarousel({
+    //margin:10,
+    items: 4,
+    autoWidth: true,
+    autoplay: true,
+    autoplayTimeout:1000,
+    autoplayHoverPause:true,
+    responsiveClass:true,
+    loop:true,
+  });
+
+  // carousel portales
+  $("#owl-example").owlCarousel();
+
+  // javascript para que se busque una noticia cuando presiona enter
+  $('#busqueda').keypress(function(event) {
+
+        if (event.which == 13) {
+            event.preventDefault();
+            $('#formBuscadorNoticias').submit();
+        }
+    });
+
 });

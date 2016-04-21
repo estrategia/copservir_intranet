@@ -31,6 +31,7 @@ use yii\widgets\Pjax;
                               [
                                 'attribute' => 'idCargo',
                                 'value' => function($model) {
+
                                   return $model->objCargo->nombreCargo;
                                 }
                               ],
