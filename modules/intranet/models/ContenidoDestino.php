@@ -38,7 +38,6 @@ class ContenidoDestino extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idContenidoDestino' => 'Id Contenido Destino',
             'idContenido' => 'Contenido',
             'idGrupoInteres' => 'Grupo Interes',
             'codigoCiudad' => 'Ciudad',
