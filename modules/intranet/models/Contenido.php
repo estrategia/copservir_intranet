@@ -76,13 +76,6 @@ class Contenido extends \yii\db\ActiveRecord
     public static function traerNoticias($idLineaTiempo){
         return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])
                 ->joinWith(['listContenidosDestinos'])->where(
-//                           ['and',
-//                                ['<=', 'fechaInicioPublicacion', 'now()'],
-//                                ['=', 'idLineaTiempo', $idLineaTiempo],
-//                                ['=', 'estado', Contenido::APROBADO],
-//                                ['=', 't_ContenidoDestino.codigoCiudad', Yii::$app->user->identity->getCodigoCiudad() ],
-//                                ['IN', 't_ContenidoDestino.idGrupoInteres',  Yii::$app->user->identity->getGruposCodigos() ]
-//                             ]
                         " fechaInicioPublicacion<=now() AND idLineaTiempo =:idLineaTiempo AND estado=:estado AND
                             (
                                 (t_ContenidoDestino.codigoCiudad =:ciudad AND t_ContenidoDestino.idGrupoInteres IN (".implode(", ",Yii::$app->user->identity->getGruposCodigos()).")) OR
@@ -156,7 +149,7 @@ class Contenido extends \yii\db\ActiveRecord
 
 
     /**
-    * Trae todas las noticias con ese patron
+    * consulta todas las noticias con ese patron
     * @param busqueda = patron de busqueda
     * @return dataProvider con la consulta
     */
@@ -182,7 +175,7 @@ class Contenido extends \yii\db\ActiveRecord
 
 
     /**
-    * Trae todas las noticias en ese año con ese patron
+    * consulta todas las noticias en ese año con ese patron
     * @param busqueda = patron de busqueda, a = año especifico
     * @return dataProvider con la consulta
     */
@@ -210,7 +203,7 @@ class Contenido extends \yii\db\ActiveRecord
     }
 
     /**
-    * trae todas las noticias en ese año y mes con ese patron
+    * consulta todas las noticias en ese año y mes con ese patron
     * @param busqueda = patron de busqueda,  a = año especifico, m = mes especifico
     * @return dataProvider con la consulta
     */
@@ -240,7 +233,7 @@ class Contenido extends \yii\db\ActiveRecord
 
 
     /**
-    *  trae todas las noticias en ese año mes y dia con ese patron
+    *  consulta todas las noticias en ese año mes y dia con ese patron
     * @param busqueda = patron de busqueda,  a = año especifico, m = mes especifico, d = dia especifico
     * @return dataProvider con la consulta
     */
@@ -358,4 +351,86 @@ class Contenido extends \yii\db\ActiveRecord
     public function meGusta($idUsuario){
 
     }
+
+    /**
+     * Define la relacion relacion entre los modelos Contenido y DenunciosContenidos
+     * @param none
+     * @return modelo DenunciosContenidos
+     */
+     public function getObjDenunciosContenidos(){
+        return $this->hasOne(DenunciosContenidos::className(), ['idContenido' => 'idContenido']);
+     }
+
+    /**
+     * Consulta todos los modelos Contenido con estado = 1 (pendiente)
+     * @param none
+     * @return array modelo Contenido
+     */
+     public static function getContenidosPendientesAprobacion()
+     {
+       $query = self::find()->with(['objUsuarioPublicacion', 'objLineaTiempo'])->where('( estado =:estado )')->orderBy('fechaPublicacion asc')
+       ->addParams(['estado'=>self::PENDIENTE_APROBACION]);
+
+       $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+         ]);
+
+        return $dataProvider;
+     }
+
+
+     /**
+      * Consulta un modelo Contenido por llave primaria, junto con las relaciones: usuario y linea de tiempo
+      * @param $id = identificador del contenido
+      * @return modelo Contenido
+      */
+      public static function getContenidoDetalleAprobacion($id)
+      {
+        return self::find()->where(['idContenido' => $id])->with(['objUsuarioPublicacion', 'objLineaTiempo'])->one();
+      }
+
+    //-- ACA FUE QUE
+
+      /**
+       * Consulta todos los modelos Contenido que han sido denunciados
+       * @param none
+       * @return array modelo Contenido
+       */
+       public static function getContenidosDenunciados()
+       {
+
+         $query = self::find()->joinWith(['objDenunciosContenidos'])
+                 ->where("(   t_DenunciosContenidos.estado =:estado )")
+                 ->orderBy('fechaRegistro asc')
+                 ->addParams([':estado' => DenunciosContenidos::PENDIENTE_APROBACION ])->with(['objUsuarioPublicacion', 'objLineaTiempo' ]);
+
+         $dataProvider = new ActiveDataProvider([
+              'query' => $query,
+              'pagination' => [
+                  'pageSize' => 10,
+              ],
+           ]);
+
+          return $dataProvider;
+       }
+
+
+       /**
+        * Consulta un modelo Contenido por llave primaria, junto con las relaciones: usuario, linea de tiempo y contenidoDenunciado
+        * @param $id = identificador del contenido
+        * @return modelo Contenido
+        */
+        public static function getContenidoDetalleDenuncio($id)
+        {
+          $query = self::find()->joinWith(['objDenunciosContenidos'])
+                  ->where("(   t_DenunciosContenidos.estado =:estado )")
+                  ->addParams([':estado' => DenunciosContenidos::PENDIENTE_APROBACION ])->with([
+                    'objDenunciosContenidos' => function($q) {
+                        $q->with('objUsuario');
+                    }, 'objUsuarioPublicacion', 'objLineaTiempo' ])->one();
+          return $query;
+        }
 }

@@ -58,7 +58,6 @@ class Usuario extends \yii\db\ActiveRecord
     */
     public static function listaUsuariosEnviarAmigo($idContenido)
     {
-      //Usuario::find()->where([ 'estado' => 1])->andWhere(['<>', 'numeroDocumento', Yii::$app->user->identity->numeroDocumento])->all();
       $idUsuario = Yii::$app->user->identity->numeroDocumento;
       $fecha = Date("Y-m-d H:i:s");
 

@@ -104,7 +104,7 @@ class DocumentoController extends Controller
             if ($logDocumento->save()) {
                 return $this->redirect(['detalle', 'id' => $model->idDocumento]);
             }else{
-              //error
+              //error no guardo log
               return $this->render('crear', [
                   'model' => $model,
               ]);
@@ -112,7 +112,7 @@ class DocumentoController extends Controller
 
 
           }else{
-
+            // error guardo documento
             return $this->render('crear', [
                 'model' => $model,
             ]);
@@ -120,6 +120,7 @@ class DocumentoController extends Controller
 
 
         } else {
+            // error no cargo modelo
             return $this->render('crear', [
                 'model' => $model,
             ]);
@@ -167,20 +168,19 @@ class DocumentoController extends Controller
             if ($logDocumento->save()) {
                 return $this->redirect(['detalle', 'id' => $model->idDocumento]);
             }else{
-              //error
+              //error no guardo log
               return $this->render('crear', [
                   'model' => $model,
               ]);
             }
-            //return $this->redirect(['detalle', 'id' => $model->idDocumento]);
-
           }else{
-
+            // error no guardo el documento
             return $this->render('crear', [
                 'model' => $model,
             ]);
           }
         } else {
+            // error no cargo el modelo
             return $this->render('actualizar', [
                 'model' => $model,
             ]);

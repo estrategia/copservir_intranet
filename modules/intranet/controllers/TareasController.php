@@ -74,33 +74,24 @@ class TareasController extends Controller
             $transaction = Tareas::getDb()->beginTransaction();
 
             try {
-
-
                 $model->save();
-
                 $innerTransaction = LogTareas::getDb()->beginTransaction();
-
                 try {
-
                     $modelLogTareas->idTarea = $model->idTarea;
                     $modelLogTareas->estadoTarea = $model->estadoTarea;
                     $modelLogTareas->fechaRegistro = $model->fechaRegistro;
                     $modelLogTareas->progreso = 0;
                     $modelLogTareas->prioridad = $model->idPrioridad;
-
                     $modelLogTareas->save();
                     $innerTransaction->commit();
 
                 } catch (Exception $e) {
                     $innerTransaction->rollBack();
-
                     throw $e;
                  }
 
-
                 //ejecuta la transaccion
                 $transaction->commit();
-
                 $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
                 $tareasUsuario = Tareas::getTareasListar($numeroDocumento);
                 return $this->render('listarTareas', ['tareasUsuario' => $tareasUsuario]);
@@ -109,10 +100,8 @@ class TareasController extends Controller
 
                 //devuelve los cambios
                 $transaction->rollBack();
-
                 throw $e;
             }
-
         }else{
             return $this->render('crear', [
                 'model' => $model,
@@ -135,14 +124,9 @@ class TareasController extends Controller
         if ($model->load(Yii::$app->request->post())) {
 
           $transaction = Tareas::getDb()->beginTransaction();
-
           try {
-
-
               $model->save();
-
               $innerTransaction = LogTareas::getDb()->beginTransaction();
-
               try {
 
                   $modelLogTareas->idTarea = $model->idTarea;
@@ -150,20 +134,16 @@ class TareasController extends Controller
                   $modelLogTareas->fechaRegistro = $model->fechaRegistro;
                   $modelLogTareas->progreso = $model->progreso;
                   $modelLogTareas->prioridad = $model->idPrioridad;
-
                   $modelLogTareas->save();
                   $innerTransaction->commit();
 
               } catch (Exception $e) {
                   $innerTransaction->rollBack();
-
                   throw $e;
                }
 
-
               //ejecuta la transaccion
               $transaction->commit();
-
               $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
               $tareasUsuario = Tareas::getTareasListar($numeroDocumento);
               return $this->render('listarTareas', ['tareasUsuario' => $tareasUsuario]);
@@ -172,10 +152,8 @@ class TareasController extends Controller
 
               //devuelve los cambios
               $transaction->rollBack();
-
               throw $e;
           }
-
         } else {
             return $this->render('actualizar', [
                 'model' => $model,
@@ -196,11 +174,11 @@ class TareasController extends Controller
         $logTarea = new LogTareas();
         $location = Yii::$app->request->post('location');
         $view = '';
-
         $items = [];
 
         $transaction = Tareas::getDb()->beginTransaction();
         try {
+
             if ($location == 1) {
                 $tarea->estadoTarea = Tareas::ESTADO_TAREA_NO_INDEX;
             }else{
@@ -238,7 +216,6 @@ class TareasController extends Controller
             }
             catch (Exception $e) {
                 $innerTransaction->rollBack();
-
                 throw $e;
              }
              $transaction->commit();
@@ -249,7 +226,6 @@ class TareasController extends Controller
 
             //devuelve los cambios
             $transaction->rollBack();
-
             throw $e;
         }
     }
@@ -309,20 +285,16 @@ class TareasController extends Controller
           }
           catch (Exception $e) {
               $innerTransaction->rollBack();
-
               throw $e;
            }
            $transaction->commit();
            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
            return $items;
-
-
       }
       catch(\Exception $e) {
 
           //devuelve los cambios
           $transaction->rollBack();
-
           throw $e;
       }
     }
@@ -343,7 +315,6 @@ class TareasController extends Controller
       try {
           $LogTarea = LogTareas::ultimosDosLogs($idTarea, $numeroDocumento);
           $tarea = Tareas::findOne(['numeroDocumento' => $numeroDocumento, 'idTarea' => $idTarea]);
-
           $tarea->estadoTarea = $LogTarea[0]->estadoTarea;
           $tarea->fechaRegistro = $LogTarea[0]->fechaRegistro;
           $tarea->idPrioridad = $LogTarea[0]->prioridad;
@@ -364,11 +335,9 @@ class TareasController extends Controller
 
           }  catch (Exception $e) {
               $innerTransaction->rollBack();
-
               throw $e;
            }
         $transaction->commit();
-
         $tareasUsuario = Tareas::getTareasIndex($numeroDocumento);
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $items = [
@@ -384,7 +353,6 @@ class TareasController extends Controller
 
           //devuelve los cambios
           $transaction->rollBack();
-
           throw $e;
       }
     }

@@ -142,7 +142,6 @@ class OfertasLaboralesController extends Controller
     {
         $model = $this->findModel($id);
         $destinoOfertasLaborales = OfertasLaboralesDestino::listaOfertas($id);
-        //var_dump($destinoOfertasLaborales);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['listar-ofertas']);
@@ -152,18 +151,6 @@ class OfertasLaboralesController extends Controller
                 'destinoOfertasLaborales' => $destinoOfertasLaborales
             ]);
         }
-
-
-
-        /*
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            //return $this->redirect(['detalle', 'id' => $model->idOfertaLaboral]);
-        } else {
-            return $this->render('actualizar', [
-                'model' => $model,
-                'destinoOfertasLaborales' => $destinoOfertasLaborales
-            ]);
-        }*/
     }
 
     /**
@@ -194,8 +181,6 @@ class OfertasLaboralesController extends Controller
         $ofertaDestino = OfertasLaboralesDestino::find()->where('( codigoCiudad =:idCiudad and idGrupoInteres =:idGrupoInteres and idOfertaLaboral =:idOferta )')
         ->addParams(['idCiudad'=>$idCiudad,'idGrupoInteres'=>$idGrupoInteres, 'idOferta'=>$idOferta])
         ->one();
-
-        ;
 
         $items = [
         'result' => 'error',
@@ -238,7 +223,6 @@ class OfertasLaboralesController extends Controller
 
         //si no guarda el modelo
         if (!$model->save()) {
-
 
           $ofertaDestino = OfertasLaboralesDestino::find()->where('( codigoCiudad =:idCiudad and idGrupoInteres =:idGrupoInteres and idOfertaLaboral =:idOferta )')
           ->addParams(['idCiudad'=>$idCiudad,'idGrupoInteres'=>$idGrupoInteres, 'idOferta'=>$idOferta])

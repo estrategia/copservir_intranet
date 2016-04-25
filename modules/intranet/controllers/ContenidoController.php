@@ -148,7 +148,7 @@ class ContenidoController extends Controller {
         $contenido = ContenidosComentarios::find()->where(['idContenidoComentario' => $idComentario])->one();
         $idContenido = $contenido->idContenido;
         //$contenido = ContenidosComentarios::find()->where(['idContenidoComentario' => $idComentario]);
-      
+
         $contenido->estado = ContenidosComentarios::ESTADO_ELIMINADO;
         $contenido->save();
         $comentariosContenido = ContenidosComentarios::find()->with('objUsuarioPublicacionComentario', 'objDenuncioComentarioUsuario')->where(['idContenido' => $idContenido, 'estado' => ContenidosComentarios::ESTADO_ACTIVO])->all();
@@ -214,13 +214,13 @@ class ContenidoController extends Controller {
 
     public function actionDetalleContenido($idNoticia) {
         $objNoticia = Contenido::find()->joinWith(['objLineaTiempo'])->where("t_Contenido.idContenido=:noticia")->addParams([':noticia'=>$idNoticia])->one();
-        
+
         if($objNoticia===null){
            throw new HttpException(404, 'Contenido no existente');
         }
-        
+
         //$objNoticia = Contenido::findOne(['idContenido' => $idNoticia])->joinWith('objLineaTiempo');
-        return $this->render('contenido', ['noticia' => $objNoticia, 'linea' => $objNoticia->objLineaTiempo]);
+        return $this->render('detalle', ['noticia' => $objNoticia, 'linea' => $objNoticia->objLineaTiempo]);
     }
 
     public function actionAgregarDestino() {
@@ -328,7 +328,7 @@ class ContenidoController extends Controller {
         if ( !empty($a)  and !empty($m) and !empty($d)) {
           // hacer la busqueda de ese patron en ese año, mes y dia
           $resultados = Contenido::traerBusquedaDia($busqueda, $a, $m, $d);
-          // no hacer grafica
+
         }
 
         return $this->render('busqueda', ['resultados' => $resultados, 'url'=>$url, 'flag'=>$flag, 'valorGrafica'=>$valorGrafica, 'patron'=>$busqueda ]);
@@ -426,7 +426,7 @@ class ContenidoController extends Controller {
     * accion donde el usuario envia una publicacion a un amigo
     * @param post = los usuarios que selecciono para enviar la publicación
     * @return items = []
-    *         items.result = indica si todo se realizo bien o mal 
+    *         items.result = indica si todo se realizo bien o mal
     */
     public function actionEnviarAmigo()
     {
@@ -492,6 +492,119 @@ class ContenidoController extends Controller {
           }
 
       }
+    }
+
+
+  /**
+   * Muestra los modelos Contenido que estan pendientes de aprobacion
+   * @param none
+   * @return mixed
+   */
+   public function actionListarContenidosPendientes()
+   {
+      $dataProvider = Contenido::getContenidosPendientesAprobacion();
+      return $this->render('aprobarContenidos', ['dataProvider' => $dataProvider]);
+   }
+
+   /**
+    * Muestra el detalle de un modelo Contenido que esta pendientes de aprobacion
+    * @param $id = identificador del contenido
+    * @return mixed
+    */
+    public function actionDetalleAprobacion($id)
+    {
+       $model = Contenido::getContenidoDetalleAprobacion($id);
+
+         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['listar-contenidos-pendientes']);
+         }
+
+       return $this->render('detalleAprobacion', ['model'=>$model]);
+    }
+
+
+    /**
+     * cambia el estado del modelo Contenido a eliminado
+     * @param $id = identificador del contenido
+     * @return mixed
+     */
+     public function actionEliminarContenido($id)
+     {
+        $model = Contenido::getContenidoDetalleAprobacion($id);
+        $model->estado = Contenido::ELIMINADO;
+
+        if ($model->save()) {
+             return $this->redirect(['listar-contenidos-pendientes']);
+          }
+     }
+
+       //---- ACA FUE QUE
+
+     /**
+      * Muestra los modelos Contenido que han sido denunciados
+      * @param none
+      * @return mixed
+      */
+      public function actionListarContenidosDenunciados()
+      {
+         $dataProvider = Contenido::getContenidosDenunciados();
+         return $this->render('contenidosDenunciados', ['dataProvider' => $dataProvider]);
+      }
+
+    /**
+     * Muestra el detalle de un modelo Contenido que ha sido denunciado
+     * y cambia el estado del modelo DenunciosContenidos por aprobado
+     * @param $id = identificador del contenido
+     * @return mixed
+     */
+     public function actionDetalleDenuncio($id)
+     {
+        $modelContenido = Contenido::getContenidoDetalleDenuncio($id);
+        $modelDenunciosContenidos = DenunciosContenidos::findOne(['idDenuncioContenido' => $modelContenido->objDenunciosContenidos->idDenuncioContenido]);
+
+          if ($modelDenunciosContenidos->load(Yii::$app->request->post()) && $modelDenunciosContenidos->save()) {
+            return $this->redirect(['listar-contenidos-denunciados']);
+          }
+
+        return $this->render('detalleDenuncio', ['model'=>$modelContenido]);
+     }
+
+
+   /**
+    * cambia el estado de un modelo DenunciosContenidos a eliminado
+    * @param $id = identificador del contenido
+    * @return mixed
+    */
+    public function actionEliminarContenidoDenunciado($id)
+    {
+
+       $modelDenunciosContenidos = DenunciosContenidos::findOne(['idDenuncioContenido' => $id]);
+       $modelDenunciosContenidos->estado = DenunciosContenidos::ELIMINADO;
+       $modelContenido = Contenido::getContenidoDetalleDenuncio($id);
+
+       if ($modelDenunciosContenidos->save()) {
+
+         //$modelContenido = Contenido::findOne(['idContenido' => $modelDenunciosContenidos->idContenido]);
+
+         $modelContenido->estado = Contenido::ELIMINADO_DENUNCIO;
+         $modelContenido->fechaActualizacion = Date("Y-m-d H:i:s");
+
+         if ($modelContenido->save()) {
+              return $this->redirect(['listar-contenidos-denunciados']);
+          }else{
+              //error
+              return $this->render('detalleDenuncio', ['model'=>$modelContenido]);
+          }
+
+       }else
+       {
+         //error
+         //$modelContenido = Contenido::getContenidoDetalleDenuncio($id);
+         return $this->render('detalleDenuncio', ['model'=>$modelContenido]);
+       }
+
+
+
     }
 
 }

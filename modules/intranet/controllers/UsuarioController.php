@@ -82,7 +82,6 @@ class UsuarioController extends \yii\web\Controller {
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
 
-
             // se guarda el registro de la conexion
             $objConexionesUsuario = new ConexionesUsuarios();
             $objConexionesUsuario->numeroDocumento = $model->username;
@@ -224,14 +223,14 @@ class UsuarioController extends \yii\web\Controller {
             return $this->redirect(['autenticar']);
             exit();
         }
-        
+
 
         $meGustan = MeGustaContenidos::find()->where(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento])->count();
         $contenidos = Contenido::find()->where(['numeroDocumentoPublicacion' => Yii::$app->user->identity->numeroDocumento])->count();
         $gruposReferencia = GrupoInteres::find()->where('idGrupoInteres IN (' . implode(",", Yii::$app->user->identity->getGruposCodigos()) . ')')->all();
         return $this->render('perfil', ['contenidos' => $contenidos, 'meGustan' => $meGustan, 'gruposReferencia' => $gruposReferencia]);
     }
-    
+
     public function actionCambiarFotoPerfil(){
         $modelFoto = FotoForm::find()->where(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento, 'estado' => 1])->one();
         $errorFotoPerfil = false;
@@ -250,7 +249,7 @@ class UsuarioController extends \yii\web\Controller {
                                 $rutaImagen = $file->baseName . '.' . $file->extension;
                                 $image = Image::getImagine()->open('img/fotosperfil/' . $file->baseName . '.' . $file->extension);
 
-                                // rendering information about crop of ONE option 
+                                // rendering information about crop of ONE option
                                 $cropInfo = Json::decode($modelFoto->crop_info)[0];
                                 $cropInfo['dWidth'] = (int) $cropInfo['dWidth']; //new width image
                                 $cropInfo['dHeight'] = (int) $cropInfo['dHeight']; //new height image
@@ -303,7 +302,7 @@ class UsuarioController extends \yii\web\Controller {
                 $modelFoto->addError('imagenPerfil', 'Debe recortar la imagen');
             }
         }
-        
+
         return $this->render('formFotoPerfil', ['modelFoto' => $modelFoto,]);
     }
 
