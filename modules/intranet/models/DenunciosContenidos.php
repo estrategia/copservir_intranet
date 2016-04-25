@@ -64,15 +64,10 @@ class DenunciosContenidos extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Se define la relacion entre los modelos DenunciosContenidos y Contenido
-     * @return \yii\db\ActiveQuery modelo Contenido
-     */
-    public function getObjContenido()
-    {
-        return $this->hasOne(Contenido::className(), ['idContenido' => 'idContenido']);
-    }
-
+    /*
+    * RELACIONES
+    */
+    
     /**
      * Se define la relacion entre los modelos DenunciosContenidos y Usuario
      * @return \yii\db\ActiveQuery modelo Usuarios

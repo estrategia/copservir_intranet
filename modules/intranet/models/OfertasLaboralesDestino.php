@@ -48,6 +48,10 @@ class OfertasLaboralesDestino extends \yii\db\ActiveRecord
         ];
     }
 
+    /*
+    * RELACIONES
+    */
+
     /**
     * Se define la relacion entre los modelos  OfertasLaboralesDestino y OfertasLaborales
     * @param none
@@ -74,6 +78,10 @@ class OfertasLaboralesDestino extends \yii\db\ActiveRecord
     public function getObjCiudad(){
         return $this->hasOne(Ciudad::className(), ['codigoCiudad' => 'codigoCiudad']);
     }
+
+    /*
+    * CONSULTAS
+    */
 
     /**
     * Consulta los OfertasLaboralesDestino segun el idOfertaLaboral junto con los objetos cargos relacionados

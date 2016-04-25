@@ -61,6 +61,11 @@ $this->title = 'Contenido denunciado';
             'format'=>'raw',
             'value' => '<img src="'.Yii::getAlias('@web').'/img/fotosperfil/'. $model->objDenunciosContenidos->objUsuario->imagenPerfil.'" class="img-circle img-responsive" style="width: 22%;"/><p>'.$model->objUsuarioPublicacion->alias.' </p> '
           ],
+          [
+            'label' => 'Motivo:',
+            'format'=>'raw',
+            'value' => $model->objDenunciosContenidos->descripcionDenuncio
+          ],
 
       ],
   ]) ?>

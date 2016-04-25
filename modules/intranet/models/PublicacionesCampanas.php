@@ -73,6 +73,10 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
         ];
     }
 
+    /*
+    * RELACIONES
+    */
+
     /**
      * Se define la relacion entre los modelos PublicacionesCampanas y PublicacionCampanasPortales
      * @return \yii\db\ActiveQuery modelo PublicacionCampanasPortales
@@ -90,6 +94,10 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
     {
         return $this->hasOne(TipoCampana::className(), ['idTipoCampana' => 'idTipoCampana']);
     }
+
+    /*
+    * CONSULTAS
+    */
 
     /**
      * consulta las campañas dependiendo de la ciudad, grupos de interes e indicando la posicion donde se ubica en el home
@@ -116,8 +124,4 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
 
       return $campana;
     }
-
-
-
-
 }

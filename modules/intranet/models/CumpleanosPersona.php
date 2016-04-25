@@ -84,7 +84,7 @@ class CumpleanosPersona extends \yii\db\ActiveRecord
       $todosCiudad = \Yii::$app->params['ciudad']['*'];
       $todosGrupo = \Yii::$app->params['grupo']['*'];
 
-      return CumpleanosPersona::find()->joinWith(['objGrupoInteresCargo'])->with(['objUsuario'])
+      return self::find()->joinWith(['objGrupoInteresCargo'])->with(['objUsuario'])
       ->where("( t_CumpleanosPersona.fecha>=:fecha AND ( (t_CumpleanosPersona.codigoCiudad =:codigoCiudad AND m_GrupoInteresCargo.idCargo IN ($userGrupos)) OR (t_CumpleanosPersona.codigoCiudad =:codigoCiudad AND m_GrupoInteresCargo.idCargo=:todosGrupo) OR (t_CumpleanosPersona.codigoCiudad =:todosCiudad AND m_GrupoInteresCargo.idCargo IN ($userGrupos)) OR (t_CumpleanosPersona.codigoCiudad =:todosCiudad AND m_GrupoInteresCargo.idCargo =:todosGrupo) )   )")
       ->addParams([':fecha' => $fecha->format('Y-m-d H:i:s'), ':codigoCiudad'=> $userCiudad, ':todosCiudad'=>$todosCiudad, ':todosGrupo'=> $todosGrupo])
       ->orderBy('t_CumpleanosPersona.fecha asc')
@@ -101,7 +101,7 @@ class CumpleanosPersona extends \yii\db\ActiveRecord
 
       $fecha = new \DateTime;
       $fecha->modify('-5 days');
-      return CumpleanosPersona::find()->joinWith(['objGrupoInteresCargo'])->with(['objUsuario'])
+      return self::find()->joinWith(['objGrupoInteresCargo'])->with(['objUsuario'])
       ->where("( t_CumpleanosPersona.fecha>=:fecha  )")
       ->addParams([':fecha' => $fecha->format('Y-m-d H:i:s')])
       ->orderBy('t_CumpleanosPersona.fecha asc')

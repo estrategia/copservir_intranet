@@ -52,6 +52,10 @@ class CumpleanosLaboral extends \yii\db\ActiveRecord
         ];
     }
 
+    /*
+    * RELACIONES
+    */
+
     /**
      * Se define la relacion entre los modelos CumpleanosPersona y User
      * @return \yii\db\ActiveQuery modelo User
@@ -70,6 +74,10 @@ class CumpleanosLaboral extends \yii\db\ActiveRecord
         return $this->hasMany(GrupoInteresCargo::className(), ['idCargo' => 'idCargo']);
     }
 
+    /*
+    * CONSULTAS
+    */
+
     /**
     * consulta los modelos CumpleanosLaboral que van en el index
     * @param $userCiudad = ciudad donde se encuentra el usuario, $userGrupos = grupos de interes del usuario
@@ -83,7 +91,7 @@ class CumpleanosLaboral extends \yii\db\ActiveRecord
       $todosCiudad = \Yii::$app->params['ciudad']['*'];
       $todosGrupo = \Yii::$app->params['grupo']['*'];
 
-      $query =  CumpleanosLaboral::find()->joinWith(['objGrupoInteresCargo'])->with(['objUsuario'])
+      $query =  self::find()->joinWith(['objGrupoInteresCargo'])->with(['objUsuario'])
       ->where("( t_CumpleanosLaboral.fecha>=:fecha AND ( (t_CumpleanosLaboral.codigoCiudad =:codigoCiudad AND m_GrupoInteresCargo.idCargo IN ($userGrupos)) OR (t_CumpleanosLaboral.codigoCiudad =:codigoCiudad AND m_GrupoInteresCargo.idCargo=:todosGrupo) OR (t_CumpleanosLaboral.codigoCiudad =:todosCiudad AND m_GrupoInteresCargo.idCargo IN ($userGrupos)) OR (t_CumpleanosLaboral.codigoCiudad =:todosCiudad AND m_GrupoInteresCargo.idCargo =:todosGrupo) )   )")
       ->addParams([':fecha' => $fecha, ':codigoCiudad'=> $userCiudad, ':todosCiudad'=>$todosCiudad, ':todosGrupo'=> $todosGrupo])
       ->orderBy('t_CumpleanosLaboral.fecha asc')
@@ -102,7 +110,7 @@ class CumpleanosLaboral extends \yii\db\ActiveRecord
 
       $fecha = new \DateTime;
       $fecha->modify('-5 days');
-      return CumpleanosLaboral::find()->joinWith(['objGrupoInteresCargo'])->with(['objUsuario'])
+      return self::find()->joinWith(['objGrupoInteresCargo'])->with(['objUsuario'])
       ->where("( t_CumpleanosLaboral.fecha>=:fecha  )")
       ->addParams([':fecha' => $fecha->format('Y-m-d H:i:s')])
       ->orderBy('t_CumpleanosLaboral.fecha asc')

@@ -77,6 +77,10 @@ class Documento extends \yii\db\ActiveRecord
         ];
     }
 
+    /*
+    * RELACIONES
+    */
+
     /**
      * se define la relacion entre los modelos Documento y CategoriaDocumentoDetalle
      * @return \yii\db\ActiveQuery modelo CategoriaDocumentoDetalle
@@ -95,6 +99,10 @@ class Documento extends \yii\db\ActiveRecord
         return $this->hasMany(LogDocumento::className(), ['idDocumento' => 'idDocumento']);
     }
 
+    /*
+    * CONSULTAS
+    */
+
     /**
      * consulta todos los modelos Documento
      * @param none
@@ -102,6 +110,6 @@ class Documento extends \yii\db\ActiveRecord
      */
     public static function getTodosDocumento()
     {
-        return Documento::find()->all();
+        return self::find()->all();
     }
 }

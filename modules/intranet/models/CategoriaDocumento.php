@@ -60,6 +60,10 @@ class CategoriaDocumento extends \yii\db\ActiveRecord
         ];
     }
 
+    /*
+    * RELACIONES
+    */
+
     /**
      * se define la relacion entre los modelos CategoriaDocumento y CategoriaDocumento para obtener el padre
      * @return \yii\db\ActiveQuery modelo CategoriaDocumento
@@ -88,13 +92,17 @@ class CategoriaDocumento extends \yii\db\ActiveRecord
         return $this->hasOne(CategoriaDocumentoDetalle::className(), ['idCategoriaDocumento' => 'idCategoriaDocumento']);
     }
 
+    /*
+    * CONSULLTAS
+    */
+
     /**
      * Consulta para obtener los padres del menu
      * @return \yii\db\ActiveQuery modelos CategoriaDocumento
      */
      public static function getPadres()
      {
-        return CategoriaDocumento::find()->where('idCategoriaPadre is null')->andWhere(['=', 'estado', 1])->with(['categoriaDocumentosDetalle'])->all();
+        return self::find()->where('idCategoriaPadre is null')->andWhere(['=', 'estado', 1])->with(['categoriaDocumentosDetalle'])->all();
      }
 
      /**
@@ -103,7 +111,7 @@ class CategoriaDocumento extends \yii\db\ActiveRecord
       */
       public static function getHijos($idCategoriaDocumento)
       {
-        $query = CategoriaDocumento::find()
+        $query = self::find()
         ->where("( idCategoriaPadre =:idCategoria and estado=:estado )")
         ->addParams([':idCategoria'=> $idCategoriaDocumento, ':estado'=> self::ESTADO_ACTIVO])->with(['categoriaDocumentosDetalle'])->all();
 

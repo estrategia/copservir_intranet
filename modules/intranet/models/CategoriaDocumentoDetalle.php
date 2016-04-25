@@ -50,6 +50,10 @@ class CategoriaDocumentoDetalle extends \yii\db\ActiveRecord
         ];
     }
 
+    /*
+    * RELACIONES
+    */
+
     /**
      * Se define la relacion entre los modelos CategoriaDocumentoDetalle y CategoriaDocumento
      * @return \yii\db\ActiveQuery modelo CategoriaDocumento
@@ -68,6 +72,9 @@ class CategoriaDocumentoDetalle extends \yii\db\ActiveRecord
         return $this->hasOne(Documento::className(), ['idDocumento' => 'idDocumento']);
     }
 
+    /*
+    * CONSULTAS
+    */
 
     /**
      * consulta un modelo CategoriaDocumentoDetalle por el atributo idCategoriaDocumento
@@ -76,7 +83,7 @@ class CategoriaDocumentoDetalle extends \yii\db\ActiveRecord
      */
     public static function getCategoriaDocumentoDetalle($idCategoriaDocumento)
     {
-      return CategoriaDocumentoDetalle::find()
+      return self::find()
       ->where("( idCategoriaDocumento =:idCategoriaDocumento )")
       ->addParams([':idCategoriaDocumento'=> $idCategoriaDocumento])->one();
     }
@@ -88,7 +95,7 @@ class CategoriaDocumentoDetalle extends \yii\db\ActiveRecord
      */
     public static function getRelacionCategoriaDocumento($idCategoriaDocumento, $idDocumento)
     {
-      return CategoriaDocumentoDetalle::find()
+      return self::find()
       ->where("( idCategoriaDocumento =:idCategoriaDocumento and idDocumento =:idDocumento )")
       ->addParams([':idCategoriaDocumento'=> $idCategoriaDocumento, ':idDocumento' => $idDocumento])->one();
     }

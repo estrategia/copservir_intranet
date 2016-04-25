@@ -75,24 +75,42 @@ class OfertasLaborales extends \yii\db\ActiveRecord
         ];
     }
 
+    /*
+    * RELACIONES
+    */
+
+    /**
+    * define la relacion entre los modelos ofertasLaborales Y Cargo a traves del aributo idCargo
+    * @return \yii\db\ActiveQuery modelo Cargo
+    */
     public function getObjCargo(){
         return $this->hasOne(Cargo::className(), ['idCargo' => 'idCargo']);
     }
 
+    /**
+    * define la relacion entre los modelos ofertasLaborales Y Area a traves del aributo idArea
+    * @return \yii\db\ActiveQuery modelo Area
+    */
     public function getObjArea(){
         return $this->hasOne(Area::className(), ['idArea' => 'idArea']);
     }
 
+    /**
+    * define la relacion entre los modelos ofertasLaborales Y Ciudad a traves del aributo idCiudad
+    * @return \yii\db\ActiveQuery modelo Ciudad
+    */
     public function getObjCiudad(){
         return $this->hasOne(Ciudad::className(), ['idCiudad' => 'idCiudad']);
     }
 
     /**
     * define la relacion entre los modelos ofertasLaborales e InformacionContactoOferta a traves del aributo idInformacionContacto
+    * @return \yii\db\ActiveQuery modelo InformacionContactoOferta
     */
     public function getObjInformacionContactoOferta(){
         return $this->hasOne(InformacionContactoOferta::className(), ['idInformacionContacto' => 'idInformacionContacto']);
     }
+
 
     public function getObjUsuarioPublicacion(){
         return $this->hasOne(Area::className(), ['idArea' => 'idArea']);
@@ -100,15 +118,25 @@ class OfertasLaborales extends \yii\db\ActiveRecord
 
     /**
     * define la relacion entre los modelos ofertasLaborales y OfertasLaboralesDestino a traves del aributo idOfertaLaboral
+    * @return \yii\db\ActiveQuery modelo OfertasLaboralesDestino
     */
     public function getOfertasDestino()
     {
         return $this->hasMany(OfertasLaboralesDestino::className(), ['idOfertaLaboral' => 'idOfertaLaboral']);
     }
 
+    /*
+    * CONSULTAS
+    */
+
+    /**
+    * Consulta todos los modelos ofertasLaborales
+    * @param userCiudad = ciudad del usuario, userGrupos = grupos de interes donde esta el usuario
+    * @return dataProvider
+    */
     public function getVertodos($params)
     {
-      $query = OfertasLaborales::find()->orderby('idCiudad')->with(['objCargo', 'objArea', 'objCiudad', 'objInformacionContactoOferta']);
+      $query = self::find()->orderby('idCiudad')->with(['objCargo', 'objArea', 'objCiudad', 'objInformacionContactoOferta']);
 
       $dataProvider = new ActiveDataProvider([
            'query' => $query,
@@ -130,7 +158,6 @@ class OfertasLaborales extends \yii\db\ActiveRecord
     */
     public static function getOfertasLaboralesInteres($userCiudad, $userGrupos)
     {
-      //$db = Yii::$app->db;
       $fecha = Date("Y-m-d H:i:s");
       $userGrupos = implode(',',$userGrupos);
 
@@ -163,7 +190,6 @@ class OfertasLaborales extends \yii\db\ActiveRecord
         $opciones = Area::find()->asArray()->all();
         return ArrayHelper::map($opciones, 'idArea', 'nombreArea');
     }
-
 
     /**
     * consulta todos los objetos del modelo Cargo

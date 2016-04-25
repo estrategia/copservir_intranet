@@ -73,8 +73,72 @@ class Contenido extends \yii\db\ActiveRecord
         ];
     }
 
+    /*
+    * RELACIONES
+    */
+
+    /**
+    * define la relacion entre los modelos Contenido y ContenidoRecomendacion a traves del aributo idContenido
+    */
+    public function getContenidoRecomendacion()
+    {
+        return $this->hasMany(ContenidoRecomendacion::className(), ['idContenido' => 'idContenido']);
+    }
+
+    public function getListComentarios()
+    {
+        return $this->hasMany(ContenidosComentarios::className(), ['idContenido' => 'idContenido'])->andOnCondition(['estado' => ContenidosComentarios::ESTADO_ACTIVO]);
+    }
+
+    public function getListMeGusta()
+    {
+        return $this->hasMany(MeGustaContenidos::className(), ['idContenido' => 'idContenido']);
+    }
+
+    public function getListMeGustaUsuario()
+    {
+        return $this->hasMany(MeGustaContenidos::className(), ['idContenido' => 'idContenido'])->andOnCondition(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento]);
+    }
+
+    public function getObjDenuncioComentarioUsuario()
+    {
+        return $this->hasOne(DenunciosContenidos::className(), ['idContenido' => 'idContenido'])->andOnCondition(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento]);
+    }
+
+    public function getListAdjuntos()
+    {
+        return $this->hasMany(ContenidosAdjuntos::className(), ['idContenido' => 'idContenido']);
+    }
+
+    public function getListContenidosDestinos()
+    {
+        return $this->hasMany(ContenidoDestino::className(), ['idContenido' => 'idContenido']);
+    }
+
+    /**
+     * se define la relacion entre los modelos Contenido y Usuario
+     * @return \yii\db\ActiveQuery
+     */
+    public function getObjUsuarioPublicacion()
+    {
+        return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumentoPublicacion']);
+    }
+
+    public function getObjLineaTiempo()
+    {
+        return $this->hasOne(LineaTiempo::className(), ['idLineaTiempo' => 'idLineaTiempo']);
+    }
+
+    public function meGusta($idUsuario){
+
+    }
+
+    /*
+    * CONSULTAS
+    */
+
     public static function traerNoticias($idLineaTiempo){
-        return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])
+        return $noticias = self::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])
                 ->joinWith(['listContenidosDestinos'])->where(
                         " fechaInicioPublicacion<=now() AND idLineaTiempo =:idLineaTiempo AND estado=:estado AND
                             (
@@ -97,7 +161,7 @@ class Contenido extends \yii\db\ActiveRecord
 
 
     public static function traerTodasNoticiasCopservir($idLineaTiempo){
-          return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])
+          return $noticias = self::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])
                ->where(
                            ['and',
                                 ['<=', 'fechaInicioPublicacion', new Expression('now()')],
@@ -107,15 +171,6 @@ class Contenido extends \yii\db\ActiveRecord
                             )->orderBy('fechaInicioPublicacion Desc')
 
                 ;
-    }
-
-
-    /**
-    * define la relacion entre los modelos Contenido y ContenidoRecomendacion a traves del aributo idContenido
-    */
-    public function getContenidoRecomendacion()
-    {
-        return $this->hasMany(ContenidoRecomendacion::className(), ['idContenido' => 'idContenido']);
     }
 
     /**
@@ -137,7 +192,7 @@ class Contenido extends \yii\db\ActiveRecord
 
 
     public static function traerNoticiaEspecifica($idContenido){
-        return $noticias = Contenido::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])->where(
+        return $noticias = self::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])->where(
                            ['and',
                                 ['<=', 'fechaInicioPublicacion', new Expression('now()')],
                                 ['=', 'idContenido', $idContenido],
@@ -155,7 +210,7 @@ class Contenido extends \yii\db\ActiveRecord
     */
     public static function traerBusqueda($busqueda)
     {
-      $query = Contenido::find()->andFilterWhere([
+      $query = self::find()->andFilterWhere([
                                                   'or',
                                                       ['LIKE', 'contenido', $busqueda],
                                                       ['LIKE', 'titulo', $busqueda],
@@ -182,7 +237,7 @@ class Contenido extends \yii\db\ActiveRecord
     public static function traerBusquedaAnio($busqueda, $a)
     {
 
-      $query = Contenido::find()->andFilterWhere([
+      $query = self::find()->andFilterWhere([
                                                   'or',
                                                       ['LIKE', 'contenido', $busqueda],
                                                       ['LIKE', 'titulo', $busqueda],
@@ -209,7 +264,7 @@ class Contenido extends \yii\db\ActiveRecord
     */
     public static function traerBusquedaMes($busqueda , $a, $m)
     {
-      $query = Contenido::find()->andFilterWhere([
+      $query = self::find()->andFilterWhere([
                                                   'or',
                                                       ['LIKE', 'contenido', $busqueda],
                                                       ['LIKE', 'titulo', $busqueda],
@@ -239,7 +294,7 @@ class Contenido extends \yii\db\ActiveRecord
     */
     public static function traerBusquedaDia($busqueda , $a, $m, $d)
     {
-      $query = Contenido::find()->andFilterWhere([
+      $query = self::find()->andFilterWhere([
                                                   'or',
                                                       ['LIKE', 'contenido', $busqueda],
                                                       ['LIKE', 'titulo', $busqueda],
@@ -290,7 +345,6 @@ class Contenido extends \yii\db\ActiveRecord
       return $resultado;
     }
 
-
   /**
     * cuenta cuantas noticias hay agrupadas por dias para crear la grafica
     * @param busqueda = patron de busqueda,  a = año especifico,  m = mes especifico
@@ -302,54 +356,6 @@ class Contenido extends \yii\db\ActiveRecord
       $sql = 'select year(fechaInicioPublicacion) anio, month(fechaInicioPublicacion) mes, day(fechaInicioPublicacion) etiqueta, count(idContenido) cantidad from t_Contenido where (contenido like "%'.$busqueda.'%" or titulo like "%'.$busqueda.'%") and year(fechaInicioPublicacion) = '.$a.' and month(fechaInicioPublicacion) = '.$m.' group by day(fechaInicioPublicacion) order by fechaInicioPublicacion desc';
       $resultado = $db->createCommand($sql)->queryAll();
       return $resultado;
-    }
-
-
-    public function getListComentarios()
-    {
-        return $this->hasMany(ContenidosComentarios::className(), ['idContenido' => 'idContenido'])->andOnCondition(['estado' => ContenidosComentarios::ESTADO_ACTIVO]);
-    }
-
-    public function getListMeGusta()
-    {
-        return $this->hasMany(MeGustaContenidos::className(), ['idContenido' => 'idContenido']);
-    }
-
-    public function getListMeGustaUsuario()
-    {
-        return $this->hasMany(MeGustaContenidos::className(), ['idContenido' => 'idContenido'])->andOnCondition(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento]);
-    }
-
-    public function getObjDenuncioComentarioUsuario()
-    {
-        return $this->hasOne(DenunciosContenidos::className(), ['idContenido' => 'idContenido'])->andOnCondition(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento]);
-    }
-
-    public function getListAdjuntos()
-    {
-        return $this->hasMany(ContenidosAdjuntos::className(), ['idContenido' => 'idContenido']);
-    }
-
-    public function getListContenidosDestinos()
-    {
-        return $this->hasMany(ContenidoDestino::className(), ['idContenido' => 'idContenido']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getObjUsuarioPublicacion()
-    {
-        return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumentoPublicacion']);
-    }
-
-    public function getObjLineaTiempo()
-    {
-        return $this->hasOne(LineaTiempo::className(), ['idLineaTiempo' => 'idLineaTiempo']);
-    }
-
-    public function meGusta($idUsuario){
-
     }
 
     /**
@@ -381,7 +387,6 @@ class Contenido extends \yii\db\ActiveRecord
         return $dataProvider;
      }
 
-
      /**
       * Consulta un modelo Contenido por llave primaria, junto con las relaciones: usuario y linea de tiempo
       * @param $id = identificador del contenido
@@ -391,8 +396,6 @@ class Contenido extends \yii\db\ActiveRecord
       {
         return self::find()->where(['idContenido' => $id])->with(['objUsuarioPublicacion', 'objLineaTiempo'])->one();
       }
-
-    //-- ACA FUE QUE
 
       /**
        * Consulta todos los modelos Contenido que han sido denunciados
@@ -417,7 +420,6 @@ class Contenido extends \yii\db\ActiveRecord
           return $dataProvider;
        }
 
-
        /**
         * Consulta un modelo Contenido por llave primaria, junto con las relaciones: usuario, linea de tiempo y contenidoDenunciado
         * @param $id = identificador del contenido
@@ -426,11 +428,12 @@ class Contenido extends \yii\db\ActiveRecord
         public static function getContenidoDetalleDenuncio($id)
         {
           $query = self::find()->joinWith(['objDenunciosContenidos'])
-                  ->where("(   t_DenunciosContenidos.estado =:estado )")
-                  ->addParams([':estado' => DenunciosContenidos::PENDIENTE_APROBACION ])->with([
+                  ->where("(   t_DenunciosContenidos.estado =:estado and t_Contenido.idContenido =:id )")
+                  ->addParams([':estado' => DenunciosContenidos::PENDIENTE_APROBACION, ':id' => $id ])->with([
                     'objDenunciosContenidos' => function($q) {
                         $q->with('objUsuario');
                     }, 'objUsuarioPublicacion', 'objLineaTiempo' ])->one();
+
           return $query;
         }
 }
