@@ -2,6 +2,8 @@
 
 namespace app\modules\intranet\controllers;
 
+use Yii;
+use app\modules\intranet\models\Notificaciones;
 use yii\web\Controller;
 use yii\web\Session;
 use app\modules\intranet\models\EventosCalendario;
@@ -9,8 +11,19 @@ use app\modules\intranet\models\EventosCalendario;
 class DefaultController extends Controller {
 
     public function actionIndex() {
-        echo \Yii::$app->user->identity->numeroDocumento;
-        //return $this->render('index');
+        echo date('Y-m-d H:i:s');
+        echo "<br>";
+        $objNotificacion = Notificaciones::find()->orderBy('fechaRegistro DESC')->one();
+        \yii\helpers\VarDumper::dump($objNotificacion, 10, true);
+        echo "<br>";
+        
+        echo date('Y-m-d H:i:s');
+        echo "<br>";
+        $objNotificacion = Notificaciones::find()
+                        ->where("numeroDocumentoDirigido=:usuario", [':usuario' => Yii::$app->user->identity->numeroDocumento])
+                        ->orderBy('fechaRegistro DESC')->one();
+        \yii\helpers\VarDumper::dump($objNotificacion, 10, true);
+        echo "<br>";
     }
 
     public function actionSession() {

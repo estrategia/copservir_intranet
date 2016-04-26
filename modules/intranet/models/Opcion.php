@@ -20,7 +20,7 @@ class Opcion extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'm_Opcion';
+        return 't_Opcion';
     }
 
     /**

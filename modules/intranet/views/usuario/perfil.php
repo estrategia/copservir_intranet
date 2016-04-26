@@ -36,7 +36,7 @@ use yii\helpers\Html;
                         <h4 class="semi-bold no-margin"><?= Yii::$app->user->identity->alias ?></h4>
                         <h6 class="no-margin"><?= \Yii::$app->user->identity->getProfesion() ?></h6>
                         <br>
-                        <p><i class="fa fa-briefcase"></i> <?= \Yii::$app->user->identity->getCargo() ?></p>
+                        <p><i class="fa fa-briefcase"></i> <?= \Yii::$app->user->identity->getCargoNombre() ?></p>
                     </div>
                     <div class="col-md-3  col-sm-3">
                         <h5 class="normal">Grupos ( <span class="text-success"><?= count($gruposReferencia) ?></span> )</h5>
@@ -61,21 +61,21 @@ use yii\helpers\Html;
                                 <div class="post col-md-5">
                                     <h5>Informaci&oacute;n General</h5>
                                     <p><b>Profesi&oacute;n: </b> <?= \Yii::$app->user->identity->getProfesion() ?></p>
-                                    <p><b>Cargo: </b> <?= \Yii::$app->user->identity->getCargo() ?></p>
-                                    <p><b>&Aacute;rea:</b> <?= \Yii::$app->user->identity->getArea() ?></p>
+                                    <p><b>Cargo: </b> <?= \Yii::$app->user->identity->getCargoNombre() ?></p>
+                                    <p><b>&Aacute;rea:</b> <?= \Yii::$app->user->identity->getAreaNombre() ?></p>
                                     <p><b>Vinculaci&oacute;n: </b> <?= \Yii::$app->user->identity->getVinculacion() ?></p>
                                     <p><b>Antiguedad: </b> <?= \Yii::$app->user->identity->getAntiguedad() ?></p>
-                                    <p><b>Jefe inmediato: </b> <?= \Yii::$app->user->identity->getJefeInmediato() ?></p>
+                                    <p><b>Jefe inmediato: </b> <?= \Yii::$app->user->identity->getJefeInmediatoNombre() ?></p>
                                 </div>
                                 <div class="col-md-5">
                                     <h5>Educación</h5>
-                                    <p><b>Superiores: </b> <?= \Yii::$app->user->identity->getSuperiores() ?></p>
+                                    <p><b>Superiores: </b> <?= \Yii::$app->user->identity->getEstudiosSuperiores() ?></p>
                                     <h5>Otra Informaci&oacute;n</h5>
                                     <p><b>Extensi&oacute;n: </b> <?= \Yii::$app->user->identity->getExtension() ?></p>
                                     <p><b>E-mail: </b> <?= \Yii::$app->user->identity->getEmail() ?></p>
                                     <p><b>Celular: </b> <?= \Yii::$app->user->identity->getCelular() ?></p>
                                     <p><b>Residencia: </b> <?= \Yii::$app->user->identity->getResidencia() ?></p>
-                                    <p><b>Ciudad: </b> <?= \Yii::$app->user->identity->getCiudad() ?></p>
+                                    <p><b>Ciudad: </b> <?= \Yii::$app->user->identity->getCiudadNombre() ?></p>
                                     <p><b>Cumplea&ntilde;os: </b> <?= \Yii::$app->user->identity->getCumpleanhos() ?></p>
                                 </div>
                                 <div class="col-md-2">

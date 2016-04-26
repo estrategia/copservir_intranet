@@ -159,9 +159,6 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
                         <div class="user-info">
                             <div class="greeting">Bienvenido</div>
                             <div class="username"> <span class="semi-bold"><?= $userName ?></span></div>
-                            <div class="status">Estado<a href="#">
-                                    <div class="status-icon green"></div>
-                                    Online</a></div>
                         </div>
                     </div>
                     <!-- END MINI-PROFILE -->
@@ -185,14 +182,13 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
                             <?= Html::a('<i class="fa fa-calendar"></i> <span class="title">Calendario</span> <span class="selected"></span>', ['calendario/'], []) ?>
                         </li>
 
-                        <?php foreach ($menu as $subMenu): ?>
-                            <?php Menu::menuHtml($subMenu, $opciones->getOpcionesUsuario()); ?>
-                        <?php endforeach; ?>
-
-                        <li >
+                        <li>
                             <?= Html::a('<i class="fa fa-sitemap"></i> <span class="title">Menú corporativo</span> <span class="selected"></span>', ['sitio/menu'], []) ?>
                         </li>
 
+                        <?php foreach ($menu as $subMenu): ?>
+                            <?php Menu::menuHtml($subMenu, $opciones->getOpcionesUsuario()); ?>
+                        <?php endforeach; ?>
                     </ul>
 
                     <!-- END SIDEBAR MENU -->

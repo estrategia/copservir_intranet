@@ -273,9 +273,9 @@ class TareasController extends Controller
       try {
           $tarea->progreso = Yii::$app->request->post('progresoTarea'); // acomoda el estado de la tarea dependiendo de su porcentaje enviado
           if (Yii::$app->request->post('progresoTarea') == 100) {
-              $tarea->estadoTarea = Tarea::ESTADO_TAREA_TERMINADA;
+              $tarea->estadoTarea = Tareas::ESTADO_TAREA_TERMINADA;
           }else{
-              $tarea->estadoTarea = Tarea::ESTADO_TAREA_NO_TERMINADA;
+              $tarea->estadoTarea = Tareas::ESTADO_TAREA_NO_TERMINADA;
           }
           if ($tarea->save()) {
 

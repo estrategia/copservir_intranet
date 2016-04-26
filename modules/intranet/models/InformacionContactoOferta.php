@@ -15,7 +15,7 @@ use Yii;
  * @property string $nombrePlantilla
  * @property integer $numeroDocumentoContacto
  *
- * @property TOfertaslaborales[] $tOfertaslaborales
+ * @property Ofertaslaborales[] $listOfertaslaborales
  */
 class InformacionContactoOferta extends \yii\db\ActiveRecord
 {
@@ -27,7 +27,7 @@ class InformacionContactoOferta extends \yii\db\ActiveRecord
 
     public static function tableName()
     {
-        return 't_informacioncontactooferta';
+        return 't_InformacionContactoOferta';
     }
 
     /**
@@ -63,7 +63,7 @@ class InformacionContactoOferta extends \yii\db\ActiveRecord
     /**
      * se defina la relacion entre el modelo InformacionContactoOferta y OfertasLaborales
      */
-    public function getTOfertaslaborales()
+    public function getListOfertaslaborales()
     {
         return $this->hasMany(OfertasLaborales::className(), ['idInformacionContacto' => 'idInformacionContacto']);
     }

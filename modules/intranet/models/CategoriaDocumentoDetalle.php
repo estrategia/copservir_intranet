@@ -21,7 +21,7 @@ class CategoriaDocumentoDetalle extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'm_categoriadocumentodetalle';
+        return 'm_CategoriaDocumentoDetalle';
     }
 
     /**
@@ -33,8 +33,8 @@ class CategoriaDocumentoDetalle extends \yii\db\ActiveRecord
             [['idCategoriaDocumento', 'contenido', 'idDocumento'], 'required'],
             [['idCategoriaDocumento', 'idDocumento'], 'integer'],
             [['contenido'], 'string'],
-            [['idCategoriaDocumento'], 'exist', 'skipOnError' => true, 'targetClass' => MCategoriadocumento::className(), 'targetAttribute' => ['idCategoriaDocumento' => 'idCategoriaDocumento']],
-            [['idDocumento'], 'exist', 'skipOnError' => true, 'targetClass' => MDocumento::className(), 'targetAttribute' => ['idDocumento' => 'idDocumento']],
+            [['idCategoriaDocumento'], 'exist', 'skipOnError' => true, 'targetClass' => Categoriadocumento::className(), 'targetAttribute' => ['idCategoriaDocumento' => 'idCategoriaDocumento']],
+            [['idDocumento'], 'exist', 'skipOnError' => true, 'targetClass' => Documento::className(), 'targetAttribute' => ['idDocumento' => 'idDocumento']],
         ];
     }
 

@@ -6,7 +6,7 @@ namespace app\modules\intranet\models;
 use Yii;
 use yii\helpers\ArrayHelper;
 
-use 	yii\i18n\Formatter;
+use yii\i18n\Formatter;
 use app\modules\intranet\models\PrioridadTarea;
 
 /**

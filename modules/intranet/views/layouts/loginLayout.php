@@ -25,6 +25,7 @@ $srcFondo = Yii::$app->homeUrl . 'img/work.jpg';
         <?= Html::csrfMetaTags() ?>
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
+        <script> requestUrl = "<?= Yii::$app->getUrlManager()->getBaseUrl() ?>";</script>
     </head>
     <body data-original=""  style="background-image: url('<?= "".$srcFondo ?>')">
         <?php $this->beginBody() ?>

@@ -33,7 +33,7 @@ class OfertasLaboralesController extends Controller
      */
     public function actionListarOfertas()
     {
-        $userCiudad = Yii::$app->user->identity->getCodigoCiudad();
+        $userCiudad = Yii::$app->user->identity->getCiudadCodigo();
         $ofertas = new OfertasLaborales;
         $data = $ofertas->getVertodos(Yii::$app->request->queryParams);
 

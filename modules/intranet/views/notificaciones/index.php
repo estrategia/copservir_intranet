@@ -12,7 +12,7 @@ use yii\widgets\Pjax;
         <div class="tiles-body">
             <div class="tiles-title"> NOTIFICACIONES </div>
             <br>
-            <?php Pjax::begin(['timeout' => 10000, 'clientOptions' => ['container' => 'pjax-container']]); ?>
+            <?php Pjax::begin(['id'=> 'pjax-notificaciones', 'enablePushState'=>false]); ?>
             <?=
             ListView::widget([
                 'dataProvider' => $dataProvider,

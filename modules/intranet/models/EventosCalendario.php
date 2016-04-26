@@ -80,7 +80,7 @@ class EventosCalendario extends \yii\db\ActiveRecord {
         $query = self::find()->with(['objContenido'])
                 ->joinWith(['listEventosDestinos'])->where("( ($fechaInicio<=:inicio AND $fechaFin>:inicio) OR ($fechaInicio<:fin AND $fechaFin>=:fin) OR ($fechaInicio>=:inicio AND $fechaFin<=:fin) ) AND estado=:estado AND ( (t_EventosCalendarioDestino.codigoCiudad=:ciudad AND t_EventosCalendarioDestino.idGrupoInteres IN ($grupos)) OR (t_EventosCalendarioDestino.codigoCiudad=:ciudadA AND t_EventosCalendarioDestino.idGrupoInteres IN ($grupos)) OR (t_EventosCalendarioDestino.codigoCiudad=:ciudad AND t_EventosCalendarioDestino.idGrupoInteres=:gruposA) OR (t_EventosCalendarioDestino.codigoCiudad=:ciudadA AND t_EventosCalendarioDestino.idGrupoInteres=:gruposA) )")
                 ->orderBy('fechaInicioEvento ASC')
-                ->addParams([':inicio' => $inicio,':fin'=>$fin, ':estado'=>1, ':ciudad'=> Yii::$app->user->identity->getCodigoCiudad(), ':ciudadA'=> Yii::$app->params['ciudad']['*'], ':gruposA'=>Yii::$app->params['grupo']['*']])
+                ->addParams([':inicio' => $inicio,':fin'=>$fin, ':estado'=>1, ':ciudad'=> Yii::$app->user->identity->getCiudadCodigo(), ':ciudadA'=> Yii::$app->params['ciudad']['*'], ':gruposA'=>Yii::$app->params['grupo']['*']])
                 ->all();
         return $query;
         
