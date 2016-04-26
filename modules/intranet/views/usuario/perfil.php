@@ -79,8 +79,9 @@ use yii\helpers\Html;
                                     <p><b>Cumplea&ntilde;os: </b> <?= \Yii::$app->user->identity->getCumpleanhos() ?></p>
                                 </div>
                                 <div class="col-md-2">
-                                    <?= Html::a('Actualizar datos', ['usuario/actualizar-datos'], ['class' => 'btn btn-primary btn-small', 'name' => 'forgot-button']) ?>
-                                    <?= Html::a('Cambiar contraseña', ['usuario/cambiar-clave'], ['class' => 'btn btn-primary btn-small', 'name' => 'forgot-button']) ?>
+                                    <?= Html::a('Actualizar datos', ['usuario/actualizar-datos'], ['class' => 'btn btn-primary btn-small', 'name' => 'update-button']) ?>
+                                    <?= Html::a('Cambiar contraseña', ['usuario/cambiar-clave'], ['class' => 'btn btn-primary btn-small', 'name' => 'password-button']) ?>
+                                    <?= Html::a('Cambiar fotos', ['usuario/cambiar-foto-perfil'], ['class' => 'btn btn-primary btn-small', 'name' => 'picture-button']) ?>
                                 </div>
 
 

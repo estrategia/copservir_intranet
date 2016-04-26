@@ -7,8 +7,8 @@ use yii\widgets\DetailView;
 /* @var $model app\modules\intranet\models\OfertasLaborales */
 
 $this->title = $model->idOfertaLaboral;
-$this->params['breadcrumbs'][] = ['label' => 'Ofertas Laborales', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = ['label' => 'Ofertas Laborales', 'url' => ['index']];
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ofertas-laborales-view">
 

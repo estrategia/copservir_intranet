@@ -188,27 +188,6 @@ $(document).on('click', "button[data-role='inactiva-popup']", function() {
       })
 });
 
-//::::::::::::::::::::::
-// BUSQUEDA NOTICIAS
-//::::::::::::::::::::::
-
-/**
-* javascript para que se busque una noticia cuando presiona enter
-* @param codigos ascci que teclea el usuario
-* @return envia el formulario
-*/
-$( document ).ready(function() {
-
-  $('#busqueda').keypress(function(event) {
-
-        if (event.which == 13) {
-            event.preventDefault();
-            $('#formBuscadorNoticias').submit();
-        }
-    });
-
-});
-
 /**
 * funcion para mapear la imagen segun su json
 * @param jsonGrafica = json con la imagen mapeada, patron = patron de busqueda, valorGrafica = valores de la grafica, flag = bandera que indica los parametros de la url
@@ -293,7 +272,9 @@ $(document).on('click', "button[data-role='widget-enviarAmigo']", function() {
       },
 
       complete: function(data) {
+
          $('body').hideLoading();
+         //$("#widget-enviarAmigo").remove();
       },
       success: function(data) {
           if (data.result == "ok") {
@@ -329,6 +310,7 @@ $(document).on('click', "button[data-role='enviar-amigos']", function() {
       data: form.serialize(),
       dataType: 'json',
       beforeSend: function() {
+
         $('body').showLoading()
       },
 
@@ -614,10 +596,365 @@ $(document).on('click', "a[data-role='contacto-oferta']", function() {
     return false;
 });
 
+//::::::::::::::::::::::
+// CATEGORIA DOCUMENTO
+//::::::::::::::::::::::
+
+/**
+* peticion ajax para renderizar el modal con el formulario para crear un modelo CategoriaDocumento
+* @param categoriaPadre = indica si tiene una categoria padre s
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html del modal
+*/
+$(document).on('click', "button[data-role='categoria-crear']", function() {
+
+  console.log('click crear');
+  var categoriaPadre = $(this).attr('data-padre');
+
+  $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/categoria-documento/render-crear-categoria',
+      data: {categoriaPadre: categoriaPadre},
+      dataType: 'json',
+      beforeSend: function() {
+        $("#widget-categoria").remove();
+        $('body').showLoading()
+      },
+
+      complete: function(data) {
+         $('body').hideLoading();
+      },
+      success: function(data) {
+          if (data.result == "ok") {
+            $('body').append(data.response);
+            $("#widget-categoria").modal("show");
+          }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          $('body').hideLoading();
+      }
+  });
+
+  return false;
+});
+
+/**
+* peticion ajax para renderizar el modal con el formulario para editar un modelo CategoriaDocumento
+* @param idCategoria = indica la categoria que se va a editar
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html del modal
+*/
+$(document).on('click', "button[data-role='categoria-editar']", function() {
+
+  console.log('click editar');
+
+  var idCategoria = $(this).attr('data-categoria');
+
+  $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/categoria-documento/render-editar-categoria?id='+idCategoria,
+      //data: form.serialize(),
+      dataType: 'json',
+      beforeSend: function() {
+        $("#widget-categoria").remove();
+        $('body').showLoading()
+      },
+
+      complete: function(data) {
+         $('body').hideLoading();
+      },
+      success: function(data) {
+          if (data.result == "ok") {
+            $('body').append(data.response);
+            $("#widget-categoria").modal("show");
+          }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          $('body').hideLoading();
+      }
+  });
+
+  return false;
+});
+
+/**
+* peticion ajax para guardar un nuevo modelo CategoriaDocumento
+* @param
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html de la vista
+*/
+$(document).on('click', "button[data-role='guardar-categoria']", function() {
+
+  console.log('click guardar');
+  var form = $("#formCategoria");
+
+  $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/categoria-documento/crear-categoria',
+      data: form.serialize(),
+      dataType: 'json',
+      beforeSend: function() {
+
+        $('body').showLoading()
+      },
+
+      complete: function(data) {
+         $('body').hideLoading();
+      },
+      success: function(data) {
+          if (data.result == "ok") {
+            $("#menu-categoria-documento").remove();
+            $('#container').append(data.response);
+            $("#widget-categoria").modal("hide");
+          }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          $('body').hideLoading();
+      }
+  });
+
+  return false;
+});
+
+
+/**
+* peticion ajax para guardar un modelo existente CategoriaDocumento
+* @param idCategoria = indica cual es la categoria a editar
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html de la vista
+*/
+$(document).on('click', "button[data-role='actualizar-categoria']", function() {
+
+  console.log('click editar');
+
+  var idCategoria = $(this).attr('data-categoria');
+  var form = $("#formCategoria");
+
+  $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/categoria-documento/actualizar-categoria?id='+idCategoria,
+      data: form.serialize(),
+      dataType: 'json',
+      beforeSend: function() {
+
+        $('body').showLoading()
+      },
+
+      complete: function(data) {
+         $('body').hideLoading();
+      },
+      success: function(data) {
+          if (data.result == "ok") {
+            $("#menu-categoria-documento").remove();
+            $('#container').append(data.response);
+            $("#widget-categoria").modal("hide");
+          }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          $('body').hideLoading();
+      }
+  });
+
+  return false;
+});
+
+/**
+* peticion ajax para renderizar el modal con el formulario para relacionar una CategoriaDocumento y un Documento
+* @param
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html del modal
+*/
+$(document).on('click', "button[data-role='relaciona-documento']", function() {
+
+  console.log('click relacionar');
+
+  var idCategoria = $(this).attr('data-categoria');
+
+  $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/categoria-documento/render-relacionar-documento',
+      data: {idCategoria: idCategoria},
+      dataType: 'json',
+      beforeSend: function() {
+        $("#widget-relaciona-documento").remove();
+        $('body').showLoading()
+      },
+
+      complete: function(data) {
+         $('body').hideLoading();
+      },
+      success: function(data) {
+          if (data.result == "ok") {
+            $('body').append(data.response);
+            $("#widget-relaciona-documento").modal("show");
+          }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          $('body').hideLoading();
+      }
+  });
+
+  return false;
+});
+
+/**
+* peticion ajax para guardar un modelo CategoriaDocumentoDetalle = relacion entre un CategoriaDocumento y Documento
+* @param
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html del modal
+*/
+$(document).on('click', "button[data-role='guardar-relacion']", function() {
+
+  console.log('click guardar relacion');
+
+  //var idCategoria = $(this).attr('data-categoria');
+  var form = $("#formRelacionaCategoria");
+
+  $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/categoria-documento/guardar-relacion-documento',
+      data: form.serialize(),
+      dataType: 'json',
+      beforeSend: function() {
+
+        $('body').showLoading()
+      },
+
+      complete: function(data) {
+         $('body').hideLoading();
+      },
+      success: function(data) {
+          if (data.result == "ok") {
+            $("#menu-categoria-documento").remove();
+            $('#container').append(data.response);
+            $("#widget-relaciona-documento").modal("hide");
+          }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          $('body').hideLoading();
+      }
+  });
+
+  return false;
+});
+
+
+/**
+* peticion ajax eliminar la relacion entre una CategoriaDocumento y un Documento
+* @param
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html de la vista
+*/
+$(document).on('click', "button[data-role='no-relaciona-documento']", function() {
+
+  console.log('click no relaciona');
+
+  var idCategoria = $(this).attr('data-categoria');
+  var idDocumento = $(this).attr('data-documento');
+
+  $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/categoria-documento/eliminar-relacion-documento',
+      data: {idCategoria: idCategoria, idDocumento: idDocumento},
+      dataType: 'json',
+      beforeSend: function() {
+
+        $('body').showLoading()
+      },
+
+      complete: function(data) {
+         $('body').hideLoading();
+      },
+      success: function(data) {
+          if (data.result == "ok") {
+            $("#menu-categoria-documento").remove();
+            $('#container').append(data.response);
+          }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          $('body').hideLoading();
+      }
+  });
+
+  return false;
+});
+
+
+/**
+* funcion con peticion ajax donde se pid el el documento para crear su plantilla
+* @param id = identificador del documento
+* @return retorna el contenido de la plantilla
+*/
+function getPlantillaDocumento(id) {
+  console.log(id);
+  $.get( requestUrl +'/intranet/categoria-documento/plantilla-documento', { idDocumento: id } )
+      .done(function( data ) {
+
+          if (data.result === 'ok') {
+
+            $( "#contenido-plantilla" ).append( data.response );
+          }
+      });
+}
+
 //---------------------------------
 // funcion que por ahora redirige a el detalle del documento
 $(document).on('click', "a[data-role='hola']", function() {
   console.log('click');
   var url = $(this).attr('href');
   window.location.replace(url);
+});
+
+// ------------
+
+/**
+* Acciones que se ejecutan cuando el navegador cargue los scripts
+* @param none
+* @return none
+*/
+$( document ).ready(function() {
+
+  // carousel cumpleaños
+  $("#owl-Cumpleaños").owlCarousel({
+    //margin:10,
+    items: 4,
+    autoWidth: true,
+    autoplay: true,
+    autoplayTimeout:1000,
+    autoplayHoverPause:true,
+    responsiveClass:true,
+    loop:true,
+  });
+
+  // carousel aniversarios
+  $("#owl-Aniversarios").owlCarousel({
+    //margin:10,
+    items: 4,
+    autoWidth: true,
+    autoplay: true,
+    autoplayTimeout:1000,
+    autoplayHoverPause:true,
+    responsiveClass:true,
+    loop:true,
+  });
+
+  // carousel portales
+  $("#owl-example").owlCarousel();
+
+  // javascript para que se busque una noticia cuando presiona enter
+  $('#busqueda').keypress(function(event) {
+
+        if (event.which == 13) {
+            event.preventDefault();
+            $('#formBuscadorNoticias').submit();
+        }
+    });
+
 });

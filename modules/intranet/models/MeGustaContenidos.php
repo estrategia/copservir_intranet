@@ -45,7 +45,10 @@ class MeGustaContenidos extends \yii\db\ActiveRecord
             'fechaRegistro' => 'Fecha Registro',
         ];
     }
-    
+
+    /*
+    * RELACIONES
+    */
     
     public function getObjUsuario(){
         return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumento']);

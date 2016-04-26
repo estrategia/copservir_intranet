@@ -3,6 +3,7 @@
 namespace app\modules\intranet\models;
 
 use Yii;
+use app\modules\intranet\models\CategoriaDocumentoDetalle;
 
 /**
  * This is the model class for table "m_categoriadocumento".
@@ -21,6 +22,11 @@ class CategoriaDocumento extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
+    // estados del documento
+    const ESTADO_ACTIVO = 1;
+    const ESTADO_INACTIVO = 0;
+
     public static function tableName()
     {
         return 'm_CategoriaDocumento';
@@ -54,6 +60,10 @@ class CategoriaDocumento extends \yii\db\ActiveRecord
         ];
     }
 
+    /*
+    * RELACIONES
+    */
+
     /**
      * se define la relacion entre los modelos CategoriaDocumento y CategoriaDocumento para obtener el padre
      * @return \yii\db\ActiveQuery modelo CategoriaDocumento
@@ -71,4 +81,41 @@ class CategoriaDocumento extends \yii\db\ActiveRecord
     {
         return $this->hasMany(CategoriaDocumento::className(), ['idCategoriaPadre' => 'idCategoriaDocumento']);
     }
+
+
+    /**
+     * se define la relacion entre los modelos CategoriaDocumento y CategoriaDocumentoDetalle
+     * @return \yii\db\ActiveQuery modelos CategoriaDocumentoDetalle
+     */
+    public function getCategoriaDocumentosDetalle()
+    {
+        return $this->hasOne(CategoriaDocumentoDetalle::className(), ['idCategoriaDocumento' => 'idCategoriaDocumento']);
+    }
+
+    /*
+    * CONSULLTAS
+    */
+
+    /**
+     * Consulta para obtener los padres del menu
+     * @return \yii\db\ActiveQuery modelos CategoriaDocumento
+     */
+     public static function getPadres()
+     {
+        return self::find()->where('idCategoriaPadre is null')->andWhere(['=', 'estado', 1])->with(['categoriaDocumentosDetalle'])->all();
+     }
+
+     /**
+      * Consulta para obtener los padres del menu
+      * @return \yii\db\ActiveQuery modelos CategoriaDocumento
+      */
+      public static function getHijos($idCategoriaDocumento)
+      {
+        $query = self::find()
+        ->where("( idCategoriaPadre =:idCategoria and estado=:estado )")
+        ->addParams([':idCategoria'=> $idCategoriaDocumento, ':estado'=> self::ESTADO_ACTIVO])->with(['categoriaDocumentosDetalle'])->all();
+
+        return $query;
+      }
+
 }

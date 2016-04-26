@@ -60,6 +60,10 @@ class InformacionContactoOferta extends \yii\db\ActiveRecord
         ];
     }
 
+    /*
+    * RELACIONES
+    */
+    
     /**
      * se defina la relacion entre el modelo InformacionContactoOferta y OfertasLaborales
      */

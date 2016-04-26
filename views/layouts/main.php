@@ -27,9 +27,6 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="<?= Yii::getAlias('@web') ?>/css/multiportal/style.css" rel="stylesheet">
     <link href="<?= Yii::getAlias('@web') ?>/css/multiportal/main.css" rel="stylesheet">
-    <!-- Owl Carousel Assets -->
-    <link href="<?= Yii::getAlias('@web') ?>/libs/multiportal/owl-carousel/owl.carousel.css" rel="stylesheet">
-    <link href="<?= Yii::getAlias('@web') ?>/libs/multiportal/owl-carousel/owl.theme.css" rel="stylesheet">
 
     <?php $this->head() ?>
     <script> requestUrl = "<?= Yii::$app->getUrlManager()->getBaseUrl() ?>";</script>
@@ -137,14 +134,14 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
       <!-- JavaScript de las plantillas
    ================================================== -->
    <script>window.jQuery || document.write('<script src="<?= Yii::getAlias('@web') ?>/js/multiportal/vendor/jquery.min.js"><\/script>')</script>
-    <script src="<?= Yii::getAlias('@web') ?>/libs/multiportal/owl-carousel/owl.carousel.min.js"></script>
-    <script>
+    <!--<script src="<?php //Yii::getAlias('@web') ?>/libs/multiportal/owl-carousel/owl.carousel.min.js"></script>-->
+    <!--<script>
 
     $(document).ready(function($) {
       $("#owl-example").owlCarousel();
     });
 
-    </script>
+    </script>-->
     <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
     <script src="<?= Yii::getAlias('@web') ?>/js/multiportal/timeline.js"></script>
     <script src="<?= Yii::getAlias('@web') ?>/js/multiportal/vendor/holder.min.js"></script>

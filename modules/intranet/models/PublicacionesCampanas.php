@@ -69,6 +69,10 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
         ];
     }
 
+    /*
+    * RELACIONES
+    */
+
     /**
      * Se define la relacion entre los modelos PublicacionesCampanas y PublicacionCampanasPortales
      * @return \yii\db\ActiveQuery modelo PublicacionCampanasPortales
@@ -77,6 +81,10 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
     {
         return $this->hasMany(PublicacionCampanasPortales::className(), ['idImagenCampana' => 'idImagenCampana']);
     }
+
+    /*
+    * CONSULTAS
+    */
 
     /**
      * consulta las campañas dependiendo de la ciudad, grupos de interes e indicando la posicion donde se ubica en el home

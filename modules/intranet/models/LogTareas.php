@@ -50,6 +50,10 @@ class LogTareas extends \yii\db\ActiveRecord
         ];
     }
 
+    /*
+    * RELACIONES
+    */
+
     /**
     * Se define la relacion entre los modelos LogTareas y Tareas
     * @param none
@@ -60,6 +64,10 @@ class LogTareas extends \yii\db\ActiveRecord
         return $this->hasOne(Tareas::className(), ['idTarea' => 'idTarea']);
     }
 
+    /*
+    * CONSULTAS
+    */
+    
     /**
     * consulta los dos ultimos logs de las
     * @param numeroDocumento = identificador del usuario

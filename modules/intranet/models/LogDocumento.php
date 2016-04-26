@@ -51,6 +51,10 @@ class LogDocumento extends \yii\db\ActiveRecord
         ];
     }
 
+    /*
+    * RELACIONES
+    */
+    
     /**
      * se define la relacion entre los modelos LogDocumento y Documento
      * @return \yii\db\ActiveQuery modelo Documento

@@ -18,7 +18,7 @@ ListView::widget([
     ],
     'layout' => "{summary}\n{items}\n<div class='col-md-4 col-md-offset-8'>{pager}</div>",
     'itemView' => function ($model, $var, $index, $widget) {
-            return $this->render('contenido', ['noticia' => $model]);
+            return $this->render('_contenido', ['noticia' => $model]);
     },
     'itemOptions' => [
         'tag' => false,

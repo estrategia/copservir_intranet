@@ -46,6 +46,10 @@ class GrupoInteresCargo extends \yii\db\ActiveRecord
         ];
     }
 
+    /*
+    * RELACIONES
+    */
+
     /**
     * Se define la relacion entre los modelos  GrupoInteresCargo y Cargo
     * @param none
@@ -54,6 +58,10 @@ class GrupoInteresCargo extends \yii\db\ActiveRecord
     public function getObjGrupoInteresCargo(){
         return $this->hasOne(Cargo::className(), ['idCargo' => 'idCargo']);
     }
+
+    /*
+    * CONSULTAS
+    */
 
     /**
     * Consulta los GrupoInteresCargo segun el idGrupoInteres junto con los objetos cargos relacionados
@@ -76,17 +84,4 @@ class GrupoInteresCargo extends \yii\db\ActiveRecord
       return $dataProvider;
     }
 
-    /**
-    * encuentra un modelo segun su idCargo y idGrupoInteres
-    * @param idGrupoInteres, idCargo
-    * @return
-    */
-    /*
-    public static function encontrarCargo($idGrupoInteres, $idCargo)
-    {
-        $model = GrupoInteresCargo::find()->where('( idCargo =:idCargo and idGrupoInteres =:idGrupoInteres )')
-        ->addParams(['idCargo'=>$idCargo,'idGrupoInteres'=>$idGrupoInteres])
-        ->one();
-        return $model;
-    }*/
 }

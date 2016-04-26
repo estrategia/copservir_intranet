@@ -105,6 +105,20 @@ $this->title = 'Intranet - Copservir';
 <?php endif; ?>
 
 <!-- END OFERTAS LABORALES Y TAREAS -->
+
+<!-- BEGIN CUMPLEAÑOS -->
+    <div class="col-md-12">
+      <?= $this->render('/cumpleanos/_carouselCumpleanos', ['flag'=>'Cumpleaños', 'models'=>$cumpleanos]) ?>
+    </div>
+
+<!-- END CUMPLEAÑOS -->
+
+<!-- BEGIN ANIVERSARIOS -->
+    <div class="col-md-12">
+      <?= $this->render('/cumpleanos/_carouselCumpleanos', ['flag'=>'Aniversarios', 'models'=>$aniversarios]) ?>
+    </div>
+<!-- END ANIVERSARIOS -->
+
 <!-- BEGIN DOWN BANNER -->
 <?php if(!in_array(\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_BANNER_INF,Yii::$app->user->identity->getOcultosDashboard())): ?>
 <div class="col-md-12">

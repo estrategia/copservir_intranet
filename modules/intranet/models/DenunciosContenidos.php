@@ -5,22 +5,32 @@ namespace app\modules\intranet\models;
 use Yii;
 
 /**
- * This is the model class for table "t_DenunciosContenidos".
+ * This is the model class for table "t_denuncioscontenidos".
  *
  * @property string $idDenuncioContenido
  * @property string $idContenido
  * @property string $descripcionDenuncio
  * @property string $numeroDocumento
  * @property string $fechaRegistro
+ * @property integer $estado
+ * @property string $fechaActualizacion
+ *
+ * @property TContenido $idContenido0
+ * @property MUsuario $numeroDocumento0
  */
 class DenunciosContenidos extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
+     // estados
+    const PENDIENTE_APROBACION = 1;
+    const APROBADO = 2;
+    const ELIMINADO = 3;
+
     public static function tableName()
     {
-        return 't_DenunciosContenidos';
+        return 't_denuncioscontenidos';
     }
 
     /**
@@ -29,10 +39,12 @@ class DenunciosContenidos extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idContenido', 'descripcionDenuncio', 'numeroDocumento', 'fechaRegistro'], 'required'],
-            [['idContenido', 'numeroDocumento'], 'integer'],
+            [['idContenido', 'descripcionDenuncio', 'numeroDocumento', 'fechaRegistro', 'estado', 'fechaActualizacion'], 'required'],
+            [['idContenido', 'numeroDocumento', 'estado'], 'integer'],
             [['descripcionDenuncio'], 'string'],
-            [['fechaRegistro'], 'safe']
+            [['fechaRegistro', 'fechaActualizacion'], 'safe'],
+            [['idContenido'], 'exist', 'skipOnError' => true, 'targetClass' => Contenido::className(), 'targetAttribute' => ['idContenido' => 'idContenido']],
+            [['numeroDocumento'], 'exist', 'skipOnError' => true, 'targetClass' => Usuario::className(), 'targetAttribute' => ['numeroDocumento' => 'numeroDocumento']],
         ];
     }
 
@@ -45,8 +57,23 @@ class DenunciosContenidos extends \yii\db\ActiveRecord
             'idDenuncioContenido' => 'Id Denuncio Contenido',
             'idContenido' => 'Id Contenido',
             'descripcionDenuncio' => 'Descripcion Denuncio',
-            'numeroDocumento' => 'Usuario Denunciante',
+            'numeroDocumento' => 'Numero Documento',
             'fechaRegistro' => 'Fecha Registro',
+            'estado' => 'Estado',
+            'fechaActualizacion' => 'Fecha Actualizacion',
         ];
+    }
+
+    /*
+    * RELACIONES
+    */
+    
+    /**
+     * Se define la relacion entre los modelos DenunciosContenidos y Usuario
+     * @return \yii\db\ActiveQuery modelo Usuarios
+     */
+    public function getObjUsuario()
+    {
+        return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumento']);
     }
 }

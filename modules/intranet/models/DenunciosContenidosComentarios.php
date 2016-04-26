@@ -18,6 +18,12 @@ class DenunciosContenidosComentarios extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
+     // estados
+    const PENDIENTE_APROBACION = 1;
+    const APROBADO = 2;
+    const ELIMINADO = 3;
+
     public static function tableName()
     {
         return 't_DenunciosContenidosComentarios';
@@ -30,9 +36,9 @@ class DenunciosContenidosComentarios extends \yii\db\ActiveRecord
     {
         return [
             [['idContenidoComentario', 'descripcionDenuncio', 'numeroDocumento', 'fechaRegistro'], 'required'],
-            [['idContenidoComentario', 'numeroDocumento'], 'integer'],
+            [['idContenidoComentario', 'estado', 'numeroDocumento'], 'integer'],
             [['descripcionDenuncio'], 'string'],
-            [['fechaRegistro'], 'safe']
+            [['fechaRegistro', 'fechaActualizacion'], 'safe']
         ];
     }
 
@@ -49,4 +55,27 @@ class DenunciosContenidosComentarios extends \yii\db\ActiveRecord
             'fechaRegistro' => 'Fecha Registro',
         ];
     }
+
+    /*
+    * RELACIONES
+    */
+
+    /**
+     * Se define la relacion entre los modelos DenunciosContenidos y Contenido
+     * @return \yii\db\ActiveQuery modelo Contenido
+     */
+    public function getObjContenido()
+    {
+        return $this->hasOne(Contenido::className(), ['idContenido' => 'idContenidoComentario']);
+    }
+
+    /**
+     * Se define la relacion entre los modelos DenunciosContenidos y Usuario
+     * @return \yii\db\ActiveQuery modelo Usuarios
+     */
+    public function getObjUsuario()
+    {
+        return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumento']);
+    }
+
 }

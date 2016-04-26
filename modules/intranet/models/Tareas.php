@@ -71,6 +71,10 @@ class Tareas extends \yii\db\ActiveRecord
         ];
     }
 
+    /*
+    * RELACIONES
+    */
+
     /**
     * Se define la relacion entre los modelos Tarea y PrioridadTarea
     * @param none
@@ -80,6 +84,10 @@ class Tareas extends \yii\db\ActiveRecord
         return $this->hasOne(PrioridadTarea::className(), ['idPrioridadTarea' => 'idPrioridad']);
     }
 
+    /*
+    * CONSULTAS
+    */
+
     /**
     * consulta para listar las tareas que van en el la vista lista de tareas
     * @param numeroDocumento = identificador del usuario
@@ -87,7 +95,7 @@ class Tareas extends \yii\db\ActiveRecord
     */
     public static function getTareasListar($numeroDocumento)
     {
-       return  Tareas::find()->with(['objPrioridadTareas'])->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', self::ESTADO_TAREA_INACTIVA])->all();
+       return  self::find()->with(['objPrioridadTareas'])->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', self::ESTADO_TAREA_INACTIVA])->all();
     }
 
     /**
@@ -97,7 +105,7 @@ class Tareas extends \yii\db\ActiveRecord
     */
     public static function getTareasIndex($numeroDocumento)
     {
-       return Tareas::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', self::ESTADO_TAREA_INACTIVA])->andWhere(['!=', 'estadoTarea', self::ESTADO_TAREA_NO_INDEX ])->all();
+       return self::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', self::ESTADO_TAREA_INACTIVA])->andWhere(['!=', 'estadoTarea', self::ESTADO_TAREA_NO_INDEX ])->all();
     }
 
     /**

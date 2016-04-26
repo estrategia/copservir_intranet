@@ -44,6 +44,10 @@ class GrupoInteres extends \yii\db\ActiveRecord
         ];
     }
 
+    /*
+    * RELACIONES
+    */
+
     /**
     * Se define la relacion entre los modelos GrupoInteres y GrupoInteresCargo
     * @param none
@@ -53,6 +57,10 @@ class GrupoInteres extends \yii\db\ActiveRecord
         return $this->hasMany(GrupoInteresCargo::className(), ['idGrupoInteres' => 'idGrupoInteres']);
     }
 
+
+    /*
+    * FUNCIONES
+    */
     public function getImagen(){
         return Yii::$app->homeUrl . 'img/gruposInteres/' .$this->imagenGrupo;
     }

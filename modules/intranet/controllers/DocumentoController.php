@@ -81,8 +81,8 @@ class DocumentoController extends Controller
 
 
           $model->file = UploadedFile::getInstance($model, 'file');
-          $model->file->saveAs('contenidos/Documentos/' . $model->file->baseName . '.' . $model->file->extension);
-          $model->rutaDocumento = 'contenidos/Documentos/' .$model->file->baseName . '.' . $model->file->extension;
+          $model->file->saveAs('contenidos/documentos/' . $model->file->baseName . '.' . $model->file->extension);
+          $model->rutaDocumento = $model->file->baseName . '.' . $model->file->extension;
 
           if ($model->save()) {
 
@@ -104,7 +104,7 @@ class DocumentoController extends Controller
             if ($logDocumento->save()) {
                 return $this->redirect(['detalle', 'id' => $model->idDocumento]);
             }else{
-              //error
+              //error no guardo log
               return $this->render('crear', [
                   'model' => $model,
               ]);
@@ -112,7 +112,7 @@ class DocumentoController extends Controller
 
 
           }else{
-
+            // error guardo documento
             return $this->render('crear', [
                 'model' => $model,
             ]);
@@ -120,6 +120,7 @@ class DocumentoController extends Controller
 
 
         } else {
+            // error no cargo modelo
             return $this->render('crear', [
                 'model' => $model,
             ]);
@@ -144,8 +145,8 @@ class DocumentoController extends Controller
           var_dump($model->file);
 
           if (!is_null($model->file)) {
-              $model->file->saveAs('contenidos/Documentos/' . $model->file->baseName . '.' . $model->file->extension);
-              $model->rutaDocumento = 'contenidos/Documentos/' .$model->file->baseName . '.' . $model->file->extension;
+              $model->file->saveAs('contenidos/documentos/' . $model->file->baseName . '.' . $model->file->extension);
+              $model->rutaDocumento = $model->file->baseName . '.' . $model->file->extension;
           }
 
           if ($model->save()) {
@@ -167,20 +168,19 @@ class DocumentoController extends Controller
             if ($logDocumento->save()) {
                 return $this->redirect(['detalle', 'id' => $model->idDocumento]);
             }else{
-              //error
+              //error no guardo log
               return $this->render('crear', [
                   'model' => $model,
               ]);
             }
-            //return $this->redirect(['detalle', 'id' => $model->idDocumento]);
-
           }else{
-
+            // error no guardo el documento
             return $this->render('crear', [
                 'model' => $model,
             ]);
           }
         } else {
+            // error no cargo el modelo
             return $this->render('actualizar', [
                 'model' => $model,
             ]);

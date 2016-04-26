@@ -38,7 +38,19 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <?= Html::csrfMetaTags() ?>
         <title><?= Html::encode($this->title) ?></title>
+
         <?php $this->head() ?>
+
+        <link href="<?= Yii::getAlias('@web') ?>/libs/fullcalendar/fullcalendar.css" rel="stylesheet">
+        <link href="<?= Yii::getAlias('@web') ?>/libs/boostrap-slider/css/slider.css" rel="stylesheet">
+        <link href="<?= Yii::getAlias('@web') ?>/libs/pace/pace-theme-flash.css" rel="stylesheet">
+        <link href="<?= Yii::getAlias('@web') ?>/libs/animate/animate.min.css" rel="stylesheet">
+        <link href="<?= Yii::getAlias('@web') ?>/libs/font-awesome/css/font-awesome.css" rel="stylesheet">
+        <link href="<?= Yii::getAlias('@web') ?>/libs/jquery-scrollbar/jquery.scrollbar.css" rel="stylesheet">
+        <link href="<?= Yii::getAlias('@web') ?>/libs/webarch/webarch.css" rel="stylesheet">
+        <link href="<?= Yii::getAlias('@web') ?>/css/site.css" rel="stylesheet">
+
+
         <script> requestUrl = "<?= Yii::$app->getUrlManager()->getBaseUrl() ?>";</script>
     </head>
     <body>
@@ -231,7 +243,17 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
             -->
 
 <?php $this->endBody() ?>
-
+    <script src="<?= Yii::getAlias('@web') ?>/libs/pace/pace.min.js"></script>
+    <script src="<?= Yii::getAlias('@web') ?>/libs/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="<?= Yii::getAlias('@web') ?>/libs/jquery-numberAnimate/jquery.animateNumbers.js"></script>
+    <script src="<?= Yii::getAlias('@web') ?>/libs/jquery-validation/js/jquery.validate.min.js"></script>
+    <script src="<?= Yii::getAlias('@web') ?>/libs/webarch/webarch.js"></script>
+    <script src="<?= Yii::getAlias('@web') ?>/libs/jquery-block-ui/jqueryblockui.min.js"></script>
+    <script src="<?= Yii::getAlias('@web') ?>/libs/jquery-unveil/jquery.unveil.min.js"></script>
+    <script src="<?= Yii::getAlias('@web') ?>/libs/jquery-ui/jquery-ui-1.10.1.custom.min.js"></script>
+    <script src="<?= Yii::getAlias('@web') ?>/libs/jquery-ui-touch/jquery.ui.touch-punch.min.js"></script>
+    <script src="<?= Yii::getAlias('@web') ?>/libs/boostrap-slider/js/bootstrap-slider.js"></script>
+    
     </body>
 </html>
 
