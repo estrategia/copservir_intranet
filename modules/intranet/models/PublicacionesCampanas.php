@@ -10,7 +10,6 @@ use Yii;
  * @property string $idImagenCampana
  * @property string $nombreImagen
  * @property string $rutaImagen
- * @property string $idTipoCampana
  * @property string $numeroDocumento
  * @property string $urlEnlaceNoticia
  * @property string $fechaInicio
@@ -19,7 +18,6 @@ use Yii;
  * @property string $fechaFin
  *
  * @property TPublicacioncampanasportales[] $tPublicacioncampanasportales
- * @property MTipocampana $idTipoCampana0
  */
 class PublicacionesCampanas extends \yii\db\ActiveRecord
 {
@@ -45,12 +43,11 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombreImagen', 'rutaImagen', 'idTipoCampana', 'numeroDocumento', 'fechaInicio', 'estado', 'posicion', 'fechaFin'], 'required'],
-            [['idTipoCampana', 'numeroDocumento', 'estado', 'posicion'], 'integer'],
+            [['nombreImagen', 'rutaImagen', 'numeroDocumento', 'fechaInicio', 'estado', 'posicion', 'fechaFin'], 'required'],
+            [['numeroDocumento', 'estado', 'posicion'], 'integer'],
             [['fechaInicio', 'fechaFin'], 'safe'],
             [['nombreImagen', 'rutaImagen'], 'string', 'max' => 60],
             [['urlEnlaceNoticia'], 'string', 'max' => 45],
-            [['idTipoCampana'], 'exist', 'skipOnError' => true, 'targetClass' => MTipocampana::className(), 'targetAttribute' => ['idTipoCampana' => 'idTipoCampana']],
         ];
     }
 
@@ -63,7 +60,6 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
             'idImagenCampana' => 'Id Imagen Campana',
             'nombreImagen' => 'Nombre Imagen',
             'rutaImagen' => 'Ruta Imagen',
-            'idTipoCampana' => 'Id Tipo Campana',
             'numeroDocumento' => 'Numero Documento',
             'urlEnlaceNoticia' => 'Url Enlace Noticia',
             'fechaInicio' => 'Fecha Inicio',
@@ -84,15 +80,6 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
     public function getObjPublicacionCampanasPortales()
     {
         return $this->hasMany(PublicacionCampanasPortales::className(), ['idImagenCampana' => 'idImagenCampana']);
-    }
-
-    /**
-     * Se define la relacion ente los modelos PublicacionesCampanas y TipoCampana
-     * @return \yii\db\ActiveQuery modelo TipoCampana
-     */
-    public function getObjTipoCampana()
-    {
-        return $this->hasOne(TipoCampana::className(), ['idTipoCampana' => 'idTipoCampana']);
     }
 
     /*
@@ -124,4 +111,5 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
 
       return $campana;
     }
+
 }

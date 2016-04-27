@@ -77,7 +77,7 @@ class SitioController extends Controller {
         $indicadores = Indicadores::find()->all();
 
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-        $userCiudad = Yii::$app->user->identity->getCodigoCiudad();
+        $userCiudad = Yii::$app->user->identity->getCiudadCodigo();
         $userGrupos = Yii::$app->user->identity->getGruposCodigos();
 
         //tareas

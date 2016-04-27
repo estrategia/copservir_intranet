@@ -132,7 +132,7 @@ class ContenidoEmergenteController extends Controller
     public function actionContenidoEmergenteHtml() {
 
         $db = Yii::$app->db;
-        $userCiudad = Yii::$app->user->identity->getCodigoCiudad();
+        $userCiudad = Yii::$app->user->identity->getCiudadCodigo();
         $userGrupos = Yii::$app->user->identity->getGruposCodigos();
         $userNumeroDocumento = Yii::$app->user->identity->numeroDocumento;
 

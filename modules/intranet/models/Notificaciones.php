@@ -81,6 +81,13 @@ class Notificaciones extends \yii\db\ActiveRecord {
 
         return [$horas, $minutos];
     }
+    
+    public static function consultarUltimaNotificacion($usuario){
+        return self::find()
+                ->where("numeroDocumentoDirigido=:usuario")
+                ->addParams([':usuario' => $usuario])
+                ->orderBy('fechaRegistro DESC')->one();
+    }
 
     public static function consultarNotificaciones($usuario, $dataProvider = false) {
         if ($dataProvider) {

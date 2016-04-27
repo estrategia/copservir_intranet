@@ -37,23 +37,29 @@ class NotificacionesController extends Controller {
 
     public function actionResumen() {
         set_time_limit(0); //Establece el número de segundos que se permite la ejecución de un script.
-        $fecha_ac = isset($_POST['timestamp']) ? $_POST['timestamp'] : 0;
+        $fecha_ac = isset($_POST['timestamp']) ? intval($_POST['timestamp']) : 0;
+        
+        //Yii::info("notificacionResumen:: ".\yii\helpers\VarDumper::dumpAsString($_POST['timestamp']));
 
         $fecha_bd = $fecha_ac;
         $objNotificacion = null;
+        //Yii::info("notificacionResumen::0: ".$fecha_bd);
 
         while ($fecha_bd <= $fecha_ac) {
             $objNotificacion = Notificaciones::find()->orderBy('fechaRegistro DESC')->one();
-
-            //$query3 = "SELECT timestamp FROM mensajes ORDER BY timestamp DESC LIMIT 1";
-            //$con = mysql_query($query3);
-            //$ro = mysql_fetch_array($con);
-
+            
+            /*$objNotificacion = Notificaciones::find()
+                    ->where("numeroDocumentoDirigido='".Yii::$app->user->identity->numeroDocumento."'")
+                    ->orderBy('fechaRegistro DESC')->one();
+            Yii::info("notificacionResumen::1: ".\yii\helpers\VarDumper::dumpAsString($objNotificacion));*/
+            
             usleep(100000); //anteriormente 10000
             clearstatcache();
             if ($objNotificacion !== null) {
                 $fecha_bd = \DateTime::createFromFormat('Y-m-d H:i:s', $objNotificacion->fechaRegistro);
+                //Yii::info("notificacionResumen::2: ".\yii\helpers\VarDumper::dumpAsString($fecha_bd));
                 $fecha_bd = $fecha_bd->getTimestamp();
+                //Yii::info("notificacionResumen::3: ".\yii\helpers\VarDumper::dumpAsString($fecha_bd));
             }
         }
         

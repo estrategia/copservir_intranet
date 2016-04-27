@@ -30,7 +30,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\modules\intranet\models\User',
+            'identityClass' => 'app\modules\intranet\models\Usuario',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
@@ -64,10 +64,43 @@ $config = [
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
+                    'levels' => ['error'],
+                    'categories' => ['application'],
+                    'logFile' => '@app/runtime/logs/app_error.log',
+                    'maxFileSize' => 1024 * 2,
+                    'maxLogFiles' => 50,
+                ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['warning'],
+                    'categories' => ['application'],
+                    'logFile' => '@app/runtime/logs/app_warning.log',
+                    'maxFileSize' => 1024 * 2,
+                    'maxLogFiles' => 20,
+                ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['info'],
+                    'categories' => ['application'],
+                    'logFile' => '@app/runtime/logs/app_info.log',
+                    'maxFileSize' => 1024 * 2,
+                    'maxLogFiles' => 20,
+                ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['trace'],
                 ],
             ],
         ],
+        /*'log' => [
+            'traceLevel' => YII_DEBUG ? 3 : 0,
+            'targets' => [
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error', 'warning'],
+                ],
+            ],
+        ],*/
         'db' => require(__DIR__ . '/db.php'),
         'urlManager' => [
 

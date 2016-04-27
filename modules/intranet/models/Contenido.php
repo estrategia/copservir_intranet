@@ -105,11 +105,6 @@ class Contenido extends \yii\db\ActiveRecord
         return $this->hasOne(DenunciosContenidos::className(), ['idContenido' => 'idContenido'])->andOnCondition(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento]);
     }
 
-    public function getListAdjuntos()
-    {
-        return $this->hasMany(ContenidosAdjuntos::className(), ['idContenido' => 'idContenido']);
-    }
-
     public function getListContenidosDestinos()
     {
         return $this->hasMany(ContenidoDestino::className(), ['idContenido' => 'idContenido']);
@@ -138,7 +133,7 @@ class Contenido extends \yii\db\ActiveRecord
     */
 
     public static function traerNoticias($idLineaTiempo){
-        return $noticias = self::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])
+        return $noticias = self::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])
                 ->joinWith(['listContenidosDestinos'])->where(
                         " fechaInicioPublicacion<=now() AND idLineaTiempo =:idLineaTiempo AND estado=:estado AND
                             (
@@ -149,7 +144,7 @@ class Contenido extends \yii\db\ActiveRecord
                         )"
                             )
                             ->addParams([':estado' => self::APROBADO,
-                                         ':ciudad'=> Yii::$app->user->identity->getCodigoCiudad(),
+                                         ':ciudad'=> Yii::$app->user->identity->getCiudadCodigo(),
                                          ':idLineaTiempo' => $idLineaTiempo,
                                          ':ciudadA'=> Yii::$app->params['ciudad']['*'],
                                          ':gruposA'=>Yii::$app->params['grupo']['*']]
@@ -161,7 +156,7 @@ class Contenido extends \yii\db\ActiveRecord
 
 
     public static function traerTodasNoticiasCopservir($idLineaTiempo){
-          return $noticias = self::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])
+          return $noticias = self::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])
                ->where(
                            ['and',
                                 ['<=', 'fechaInicioPublicacion', new Expression('now()')],
@@ -192,7 +187,7 @@ class Contenido extends \yii\db\ActiveRecord
 
 
     public static function traerNoticiaEspecifica($idContenido){
-        return $noticias = self::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listAdjuntos','listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])->where(
+        return $noticias = self::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])->where(
                            ['and',
                                 ['<=', 'fechaInicioPublicacion', new Expression('now()')],
                                 ['=', 'idContenido', $idContenido],
