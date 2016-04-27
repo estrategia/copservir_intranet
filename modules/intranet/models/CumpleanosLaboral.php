@@ -62,7 +62,7 @@ class CumpleanosLaboral extends \yii\db\ActiveRecord
      */
     public function getObjUsuario()
     {
-        return $this->hasOne(User::className(), ['numeroDocumento' => 'numeroDocumento']);
+        return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumento']);
     }
 
     /**
