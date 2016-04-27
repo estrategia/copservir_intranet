@@ -36,7 +36,7 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
 
     public static function tableName()
     {
-        return 't_publicacionescampanas';
+        return 't_PublicacionesCampanas';
     }
 
     /**

@@ -21,7 +21,7 @@ class LogDocumento extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 't_logdocumento';
+        return 't_LogDocumento';
     }
 
     /**
@@ -54,7 +54,7 @@ class LogDocumento extends \yii\db\ActiveRecord
     /*
     * RELACIONES
     */
-    
+
     /**
      * se define la relacion entre los modelos LogDocumento y Documento
      * @return \yii\db\ActiveQuery modelo Documento

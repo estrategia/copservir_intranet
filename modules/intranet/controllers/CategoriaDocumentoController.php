@@ -23,205 +23,127 @@ class CategoriaDocumentoController extends \yii\web\Controller
     public function actionIndex()
     {
         $padres = CategoriaDocumento::getPadres();
-        $html = $this->renderMenuDocumentos($padres, ' ');
+        $html = $this->crearMenuDocumentos($padres, ' ', false);
         return $this->render('index',['menu'=>$html]);
     }
 
 
     /**
      * Funcion auxiliar recursiva donde se crea el menu para el usuario normal
-     * @param $seccion = arreglo con los elementos de un nivel del menu, $html = string con el codigo html del menu que se va gerenando
+     * @param $arrayCategoriasDocumento = arreglo con los elementos de un categoria del menu,
+     * $html = string con el codigo html del menu que se va gerenando
+     * $flagAdmin = bandera que indica si es la vista administrador o no
      * @return $html = string con todo el codigo html del menu
      */
-    public function renderMenuDocumentos($seccion, $html)
+    public function crearMenuDocumentos($arrayCategoriasDocumento, $html, $flagAdmin)
     {
-      if (empty($seccion)) {
-        // no hay nivel CategoriaDocumento
-          $html = $html.'No hay categorias';
+      if (empty($arrayCategoriasDocumento)) {
+        // no hay categoria CategoriaDocumento
+          $html = $html.'';
       }else{
-        foreach ($seccion as $item) {
+        foreach ($arrayCategoriasDocumento as $categoria) {
 
           // se Consultan los hijos del elemento
-          $hijos = CategoriaDocumento::getHijos($item->idCategoriaDocumento);
-          //var_dump($hijos);
-          // se acomoda el data-parent para indicar las dependencias
-          // del acordeon dependiendo si es raiz o hijo
-          $dataparent = '';
-          if (is_null($item->idCategoriaPadre)) {
-              $dataparent = 'accordion';
-          }else{
-              $dataparent = $item->idCategoriaDocumento;
-          }
+          $hijos = CategoriaDocumento::getHijos($categoria->idCategoriaDocumento);
 
           if (!empty($hijos)) { // ese elemento tiene hijos
+            $html = $this->RenderCategoria($categoria, $hijos, false, $html, $flagAdmin);
 
-              $html = $html. // renderiza el titulo y su cuerpo
-              '
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h4 class="panel-title">
-                    <a href="#'.$item->idCategoriaDocumento.'" data-parent="#'.$dataparent.'" data-toggle="collapse" class="">
-                      '.$item->nombre.'
-                    </a>
-                    <!-- aca porcion editar -->
-                  </h4>
-                </div>
-                <div class="panel-collapse collapse" id="'.$item->idCategoriaDocumento.'">
-                  <div class="panel-body">
-                    <!-- aca porcion crear -->
-                      '.$this->renderMenuDocumentos($hijos, '').'
-                  </div>
-                </div>
-              </div>
-              ';
             }else{ // ese elemento no tiene hijos
-
-              // renderiza el titulo y su cuerpo
-              $htmlEnlace = Html::a($item->nombre, ['#'], []);;
-              $htmlRelaciona = '<button href="#" data-parent="#'.$dataparent.'"  class="btn btn-mini btn-success">
-                                     No hay un documento asociado
-                                </button>';
-              if (!is_null($item->categoriaDocumentosDetalle)) {
-                $htmlEnlace = Html::a($item->nombre, ['documento/detalle', 'id'=>$item->categoriaDocumentosDetalle->idDocumento], ['data-role'=>'hola']);
-                $htmlRelaciona = '';
-              }
-
-              $html = $html.
-              '
-              <div class="panel panel-default">
-
-                <div class="panel-heading">
-
-                  <h4 class="panel-title">
-                  <!-- enlace al detalle del documento -->
-                  '.$htmlEnlace.'
-                  '.$htmlRelaciona.'
-
-                  </h4>
-                  <!-- aca porcion editar -->
-                </div>
-
-                <div class="panel-collapse collapse" id="'.$item->idCategoriaDocumento.'">
-                  <div class="panel-body">
-                    <!-- aca porcion editar -->
-                  </div>
-                </div>
-              </div>
-              ';
-              $this->renderMenuDocumentos($hijos, $html);
+              $html = $this->RenderCategoria($categoria, $hijos, true, $html, $flagAdmin);
             }
           }
         }
         return $html;
     }
 
-
-    /**
-     * Funcion auxiliar recursiva donde se crea el menu para el usuario administrador
-     * @param $seccion = arreglo con los elementos de un nivel del menu, $html = string con el codigo html del menu que se va gerenando
-     * @return $html = string con todo el codigo html del menu
-     */
-    public function renderMenuDocumentosAdmin($seccion, $html)
+    public function RenderCategoria($categoria, $hijos, $flagHoja, $html, $flagAdmin)
     {
-      if (empty($seccion)) {
-        // no hay nivel CategoriaDocumento
-          $html = $html.'No hay categorias';
+      // se acomoda el data-parent para indicar las dependencias
+      // del acordeon dependiendo si es raiz o hijo
+      $dataparent = '';
+      if (is_null($categoria->idCategoriaPadre)) {
+          $dataparent = 'accordion';
       }else{
-        foreach ($seccion as $item) {
+          $dataparent = $categoria->idCategoriaDocumento;
+      }
 
-          // se Consultan los hijos del elemento
-          $hijos = CategoriaDocumento::getHijos($item->idCategoriaDocumento);
+      // variables para almacenar diferentes elementos html
+      $htmlEnlace = '<a href="#'.$categoria->idCategoriaDocumento.'" data-parent="#'.$dataparent.'" data-toggle="collapse">
+                      '.$categoria->nombre.'
+                    </a>';
+      $htmlRelaciona = '';
+      $htmlCrearCategoria = '';
+      $htmlEditaCategoria = '';
 
-          // se acomoda el data-parent para indicar las dependencias
-          // del acordeon dependiendo si es raiz o hijo
-          $dataparent = '';
-          if (is_null($item->idCategoriaPadre)) {
-              $dataparent = 'accordion';
-          }else{
-              $dataparent = $item->idCategoriaDocumento;
-          }
+      // crea los elementos html para crear y editar si viene de la vista administrador
+      if ($flagAdmin) {
 
-          if (!empty($hijos)) { // ese elemento tiene hijos
+        $htmlCrearCategoria = '<button href="#" data-role="categoria-crear" data-padre="'.$categoria->idCategoriaDocumento.'"
+                                data-parent="#'.$dataparent.'"  class="btn btn-mini btn-success">
+                                crear categoria
+                              </button><br><br>';
 
-              $html = $html. // renderiza el titulo y su cuerpo
-              '
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h4 class="panel-title">
-                    <a href="#'.$item->idCategoriaDocumento.'" data-parent="#'.$dataparent.'" data-toggle="collapse" class="">
-                      '.$item->nombre.'
-                    </a>
-                    <!-- aca porcion editar -->
-                    <button href="#" data-role="categoria-editar" data-categoria="'.$item->idCategoriaDocumento.'"  class="btn btn-mini btn-success">
-                        editar categoria
-                    </button>
-                  </h4>
-                </div>
-                <div class="panel-collapse collapse" id="'.$item->idCategoriaDocumento.'">
-                  <div class="panel-body">
-                    <!-- aca porcion crear -->
-                    <button href="#" data-role="categoria-crear" data-padre="'.$item->idCategoriaDocumento.'" data-parent="#'.$dataparent.'"  class="btn btn-mini btn-success">
-                        crear categoria
-                    </button><br><br>
-                      '.$this->renderMenuDocumentosAdmin($hijos, '').'
-                  </div>
-                </div>
-              </div>
-              ';
-            }else{ // ese elemento no tiene hijos
+        $htmlEditaCategoria = '<button href="#" data-role="categoria-editar" data-categoria="'.$categoria->idCategoriaDocumento.'"
+                                class="btn btn-mini btn-success">
+                                editar categoria
+                              </button>';
+      }
 
-              // Se verifica si tiene un documento asociado o no
-              $htmlRelaciona = '<button href="#" data-parent="#'.$dataparent.'" data-categoria="'.$item->idCategoriaDocumento.'" data-role="relaciona-documento" class="btn btn-mini btn-success">
-                               relacionar documento
-                               </button>';
+      // crea los elementos html dependiendo si la categoria tiene un documento asociado
+      if (!is_null($categoria->categoriaDocumentosDetalle)) {
 
-              $htmlCrearCategoria = '<button href="#" data-role="categoria-crear" data-padre="'.$item->idCategoriaDocumento.'" data-parent="#'.$dataparent.'"  class="btn btn-mini btn-success">
-                                   crear categoria
-                               </button><br><br>';
-
-              if (!is_null($item->categoriaDocumentosDetalle)) {
-
-                $htmlRelaciona = '<button href="#" data-parent="#'.$dataparent.'" data-role="no-relaciona-documento" data-categoria="'.$item->idCategoriaDocumento.'" data-documento="'.$item->categoriaDocumentosDetalle->idDocumento.'"  class="btn btn-mini btn-success">
-                                       quitar relacion
-                                  </button>';
-
-                $htmlCrearCategoria = '';
-
-              }
-              // renderiza el titulo y su cuerpo
-              $html = $html.
-              '
-              <div class="panel panel-default">
-
-                <div class="panel-heading">
-
-                  <h4 class="panel-title">
-                  <!-- enlace cuerpo del accordion -->
-                  <a href="#'.$item->idCategoriaDocumento.'" data-parent="#'.$dataparent.'" data-toggle="collapse" class="">
-                      '.$item->nombre.'
-                  </a>
-
-                  </h4>
-                  <!-- aca porcion editar -->
-                  <button href="#" data-role="categoria-editar" data-categoria="'.$item->idCategoriaDocumento.'"  class="btn btn-mini btn-success">
-                      editar categoria
-                  </button>
-                  '.$htmlRelaciona.'
-                </div>
-
-                <div class="panel-collapse collapse" id="'.$item->idCategoriaDocumento.'">
-                  <div class="panel-body">
-                    <!-- aca porcion crear  si no tiene relacion -->
-                    '.$htmlCrearCategoria.'
-                  </div>
-                </div>
-              </div>
-              ';
-              $this->renderMenuDocumentosAdmin($hijos, $html);
-            }
-          }
+        if ($flagAdmin && $flagHoja) {
+          $htmlRelaciona = '<button href="#" data-parent="#'.$dataparent.'" data-role="no-relaciona-documento"
+                            data-categoria="'.$categoria->idCategoriaDocumento.'"
+                            data-documento="'.$categoria->categoriaDocumentosDetalle->idDocumento.'"
+                            class="btn btn-mini btn-success">
+                                 quitar relacion
+                            </button>';
         }
-        return $html;
+
+        if (!$flagAdmin && $flagHoja) {
+          $htmlEnlace = Html::a($categoria->nombre, ['documento/detalle', 'id'=>$categoria->categoriaDocumentosDetalle->idDocumento], ['data-role'=>'hola']);
+        }
+
+      }else{
+
+        if ($flagAdmin && $flagHoja) {
+          $htmlRelaciona = '<button href="#" data-parent="#'.$dataparent.'" data-categoria="'.$categoria->idCategoriaDocumento.'"
+                            data-role="relaciona-documento" class="btn btn-mini btn-success">
+                           relacionar documento
+                           </button>';
+        }
+
+        if (!$flagAdmin && $flagHoja) {
+          $htmlEnlace = Html::a($categoria->nombre, ['#'], []);;
+          $htmlRelaciona = '<button href="#" data-parent="#'.$dataparent.'"  class="btn btn-mini btn-success">
+                                 No hay un documento asociado
+                            </button>';
+        }
+      }
+
+      // crea el string que contien el html del menu
+      $html = $html.
+      '
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+          '.$htmlEnlace.'
+          </h4>
+          '.$htmlEditaCategoria.'
+          '.$htmlRelaciona.'
+        </div>
+        <div class="panel-collapse collapse" id="'.$categoria->idCategoriaDocumento.'">
+          <div class="panel-body">
+            '.$htmlCrearCategoria.'
+            '.$this->crearMenuDocumentos($hijos, '', $flagAdmin).'
+          </div>
+        </div>
+      </div>
+      ';
+
+      return $html;
     }
 
   /**
@@ -232,8 +154,7 @@ class CategoriaDocumentoController extends \yii\web\Controller
    public function actionAdministarCategoriasDocumento()
    {
      $padres = CategoriaDocumento::getPadres();
-     //CategoriaDocumento::find()->where('idCategoriaPadre is null')->all();
-     $html = $this->renderMenuDocumentosAdmin($padres, ' ');
+     $html = $this->crearMenuDocumentos($padres, ' ', true);
      return $this->render('administrar-categorias-documento', ['menu'=>$html]);
    }
 
@@ -248,7 +169,7 @@ class CategoriaDocumentoController extends \yii\web\Controller
 
         $categoriaPadre = Yii::$app->request->post('categoriaPadre', NULL);
 
-        $items = [
+        $categorias = [
             'result' => 'ok',
             'response' => $this->renderAjax('_modalCategoria', [
                 'model' => $model,
@@ -257,7 +178,7 @@ class CategoriaDocumentoController extends \yii\web\Controller
         ];
 
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return $items;
+        return $categorias;
 
     }
 
@@ -270,7 +191,7 @@ class CategoriaDocumentoController extends \yii\web\Controller
      {
         $model = $this->findModel($id);
 
-        $items = [
+        $categorias = [
             'result' => 'ok',
             'response' => $this->renderAjax('_modalCategoria', [
                 'model' => $model,
@@ -278,7 +199,7 @@ class CategoriaDocumentoController extends \yii\web\Controller
             ])
         ];
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return $items;
+        return $categorias;
      }
 
 
@@ -290,13 +211,13 @@ class CategoriaDocumentoController extends \yii\web\Controller
       public function actionCrearCategoria()
       {
           $model = new CategoriaDocumento();
-          $items = [];
+          $categorias = [];
 
           if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
               $padres = CategoriaDocumento::getPadres();
-              $html = $this->renderMenuDocumentosAdmin($padres, ' ');
-              $items = [
+              $html = $this->crearMenuDocumentos($padres, ' ', true);
+              $categorias = [
                   'result' => 'ok',
                   'response' => $this->renderAjax('administrar-categorias-documento', [
                       'menu'=>$html
@@ -306,8 +227,8 @@ class CategoriaDocumentoController extends \yii\web\Controller
           } else {
 
               $padres = CategoriaDocumento::getPadres();
-              $html = $this->renderMenuDocumentos($padres, ' ');
-              $items = [
+              $html = $this->crearMenuDocumentos($padres, ' ');
+              $categorias = [
                   'result' => 'error',
                   'response' => $this->renderAjax('administrar-categorias-documento', [
                       'menu'=>$html
@@ -317,26 +238,26 @@ class CategoriaDocumentoController extends \yii\web\Controller
           }
 
           Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-          return $items;
+          return $categorias;
 
       }
 
 
   /**
-   * Actualiza un nuevo modelo CategoriaDocumento existente
+   * Actualiza un modelo CategoriaDocumento existente
    * @param id
    * @return mixed
    */
    public function actionActualizarCategoria($id)
    {
        $model = $this->findModel($id);
-       $items = [];
+       $categorias = [];
 
        if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
            $padres = CategoriaDocumento::getPadres();
-           $html = $this->renderMenuDocumentosAdmin($padres, ' ');
-           $items = [
+           $html = $this->crearMenuDocumentos($padres, ' ', true);
+           $categorias = [
                'result' => 'ok',
                'response' => $this->renderAjax('administrar-categorias-documento', [
                    'menu'=>$html
@@ -346,8 +267,8 @@ class CategoriaDocumentoController extends \yii\web\Controller
        } else {
 
            $padres = CategoriaDocumento::getPadres();
-           $html = $this->renderMenuDocumentosAdmin($padres, ' ');
-           $items = [
+           $html = $this->crearMenuDocumentos($padres, ' ', true);
+           $categorias = [
                'result' => 'error',
                'response' => $this->renderAjax('administrar-categorias-documento', [
                    'menu'=>$html
@@ -357,7 +278,7 @@ class CategoriaDocumentoController extends \yii\web\Controller
        }
 
        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-       return $items;
+       return $categorias;
 
    }
 
@@ -375,13 +296,13 @@ class CategoriaDocumentoController extends \yii\web\Controller
 
       $categoriaDocumentoDetalle = CategoriaDocumentoDetalle::getRelacionCategoriaDocumento($idCategoria, $idDocumento);
 
-      $items =[];
+      $categorias =[];
 
       if ($categoriaDocumentoDetalle->delete()) {
 
         $padres = CategoriaDocumento::getPadres();
-        $html = $this->renderMenuDocumentosAdmin($padres, ' ');
-        $items = [
+        $html = $this->crearMenuDocumentos($padres, ' ', true);
+        $categorias = [
             'result' => 'ok',
             'response' => $this->renderAjax('administrar-categorias-documento', [
                 'menu'=>$html
@@ -390,8 +311,8 @@ class CategoriaDocumentoController extends \yii\web\Controller
       }else{
 
         $padres = CategoriaDocumento::getPadres();
-        $html = $this->renderMenuDocumentosAdmin($padres, ' ');
-        $items = [
+        $html = $this->crearMenuDocumentos($padres, ' ', true);
+        $categorias = [
             'result' => 'error',
             'response' => $this->renderAjax('administrar-categorias-documento', [
                 'menu'=>$html
@@ -400,7 +321,7 @@ class CategoriaDocumentoController extends \yii\web\Controller
       }
 
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-      return $items;
+      return $categorias;
 
    }
 
@@ -415,7 +336,7 @@ class CategoriaDocumentoController extends \yii\web\Controller
         $listaDocumentos = ArrayHelper::map(Documento::getTodosDocumento(), 'idDocumento', 'titulo');
         $model = new CategoriaDocumentoDetalle();
 
-        $items = [
+        $categorias = [
             'result' => 'ok',
             'response' => $this->renderAjax('_modalRelacionDocumento', [
                 'model' => $model,
@@ -425,14 +346,14 @@ class CategoriaDocumentoController extends \yii\web\Controller
         ];
 
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return $items;
+        return $categorias;
 
     }
 
     /**
-     * Renderiza el modal con el formulario para relacionar un Documento y un CategoriaDocumento
-     * @param string $idCategoria
-     * @return el html con la vista del modal
+     * Crea un modelo CategoriaDocumentoDetalle donde se relaciona los modelos Documento y un CategoriaDocumento
+     * @param none
+     * @return el html con la vista administrar-categorias-documento
      */
      public function actionGuardarRelacionDocumento()
      {
@@ -445,8 +366,8 @@ class CategoriaDocumentoController extends \yii\web\Controller
              if ($model->save()) {
 
                $padres = CategoriaDocumento::getPadres();
-               $html = $this->renderMenuDocumentosAdmin($padres, ' ');
-               $items = [
+               $html = $this->crearMenuDocumentos($padres, ' ', true);
+               $categorias = [
                    'result' => 'ok',
                    'response' => $this->renderAjax('administrar-categorias-documento', [
                        'menu'=>$html
@@ -456,8 +377,8 @@ class CategoriaDocumentoController extends \yii\web\Controller
              }else{
 
                $padres = CategoriaDocumento::getPadres();
-               $html = $this->renderMenuDocumentosAdmin($padres, ' ');
-               $items = [
+               $html = $this->crearMenuDocumentos($padres, ' ', true);
+               $categorias = [
                    'result' => 'error',
                    'response' => $this->renderAjax('administrar-categorias-documento', [
                        'menu'=>$html
@@ -467,8 +388,8 @@ class CategoriaDocumentoController extends \yii\web\Controller
           }else{
 
             $padres = CategoriaDocumento::getPadres();
-            $html = $this->renderMenuDocumentosAdmin($padres, ' ');
-            $items = [
+            $html = $this->crearMenuDocumentos($padres, ' ', true);
+            $categorias = [
                 'result' => 'error',
                 'response' => $this->renderAjax('administrar-categorias-documento', [
                     'menu'=>$html
@@ -478,7 +399,7 @@ class CategoriaDocumentoController extends \yii\web\Controller
           }
 
           Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-          return $items;
+          return $categorias;
      }
 
      /**
@@ -489,7 +410,7 @@ class CategoriaDocumentoController extends \yii\web\Controller
       public function actionPlantillaDocumento($idDocumento)
       {
         $model = Documento::findOne($idDocumento);
-        $items = [
+        $categorias = [
             'result' => 'ok',
             'response' => $this->renderAjax('_plantillaDocumento', [
                 'model'=>$model
@@ -497,7 +418,7 @@ class CategoriaDocumentoController extends \yii\web\Controller
         ];
 
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return $items;
+        return $categorias;
       }
 
      /**

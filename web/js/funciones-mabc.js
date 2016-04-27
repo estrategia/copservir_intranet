@@ -11,7 +11,6 @@ $(document).on('slideStop', "input[data-role='slider-tarea']", function() {
 
     var idTarea = $(this).attr('data-tarea');
     var progresoTarea = $(this).val();
-
     $.ajax({
         type: 'POST',
         async: true,
@@ -50,7 +49,6 @@ $(document).on('change', "input[data-role='tarea-check']", function() {
     //si uncheck
     if (!$(this).is(':Checked')) {
 
-
       $.ajax({
           type: 'POST',
           async: true,
@@ -75,7 +73,6 @@ $(document).on('change', "input[data-role='tarea-check']", function() {
               $('body').hideLoading();
           }
       });
-
     }
 
     /// si check
@@ -114,7 +111,6 @@ $(document).on('change', "input[data-role='tarea-check']", function() {
 
 $(document).on('click', "a[data-role='inactivarTarea']", function() {
 
-
     var idTarea = $(this).attr('data-tarea');
     var location = $(this).attr('data-location');
 
@@ -145,7 +141,6 @@ $(document).on('click', "a[data-role='inactivarTarea']", function() {
               }
           })
     }
-
     return false;
 });
 
@@ -162,7 +157,6 @@ $(document).on('click', "a[data-role='inactivarTarea']", function() {
 $(document).on('click', "button[data-role='inactiva-popup']", function() {
 
       var idPopup = $(this).attr('data-contenido');
-
       $.ajax({
           type: 'POST',
           async: true,
@@ -172,7 +166,6 @@ $(document).on('click', "button[data-role='inactiva-popup']", function() {
           beforeSend: function() {
             $('body').showLoading()
           },
-
           complete: function(data) {
              $('body').hideLoading();
           },
@@ -254,7 +247,7 @@ function makeMap(jsonGrafica, patron, valorGrafica, flag) {
 
 /**
 * funcion con una peticion ajax para redenrizar el modal donde se seleccionaran los amigos a quienes deseo compartir el clasificado
-* @param none
+* @param idClasificado
 * @return data.result = json donde se especifica si todo se realizo bien,
           data.response = html para renderizar el modal con el formulario para buscar amigos
 */
@@ -289,20 +282,16 @@ $(document).on('click', "button[data-role='widget-enviarAmigo']", function() {
           $('body').hideLoading();
       }
   });
-
 });
-
 
 /**
 * funcion con una peticion ajax para registrar a que amigos se envia el clasificado y su respectiva notificaion
-* @param none
+* @param datos formulario
 * @return data.result = json donde se especifica si todo se realizo bien
 */
 $(document).on('click', "button[data-role='enviar-amigos']", function() {
-  //console.log('click');
-  //$('#formEnviarAmigo').submit();
-  var form = $("#formEnviarAmigo");
 
+  var form = $("#formEnviarAmigo");
   $.ajax({
       type: 'POST',
       async: true,
@@ -310,7 +299,6 @@ $(document).on('click', "button[data-role='enviar-amigos']", function() {
       data: form.serialize(),
       dataType: 'json',
       beforeSend: function() {
-
         $('body').showLoading()
       },
 
@@ -326,11 +314,8 @@ $(document).on('click', "button[data-role='enviar-amigos']", function() {
           $('body').hideLoading();
       }
   });
-
   return false;
 });
-
-
 
 //::::::::::::::::::::::
 // GRUPOS DE INTERES
@@ -338,7 +323,7 @@ $(document).on('click', "button[data-role='enviar-amigos']", function() {
 
 /**
 * peticion ajax para eliminar un cargo de un frupo de interes
-* @param none
+* @param idCargo, idGrupo
 * @return data.result = json donde se especifica si todo se realizo bien
 *         data.response = html para renderizar la grilla de los cargos de nuevo
 */
@@ -376,25 +361,21 @@ $(document).on('click', "a[data-role='eliminarCargoGrupo']", function() {
                   $('body').hideLoading();
               }
           })
-
     }
-
     return false;
 });
 
 /**
 * peticion ajax para agregar un cargo a un grupo de interes
-* @param none
+* @param idGrupo, datos formulario
 * @return data.result = json donde se especifica si todo se realizo bien
 *         data.response = html para renderizar el modal
 */
 
 $(document).on('click', "a[data-role='agregar-cargo']", function() {
-    console.log('dio click');
 
     var idGrupo = $(this).attr('data-grupo');
     var form = $("#formEnviaCargos");
-
     $.ajax({
         type: 'POST',
         async: true,
@@ -406,7 +387,6 @@ $(document).on('click', "a[data-role='agregar-cargo']", function() {
               $('body').showLoading();
               $('#listaCargos').remove();
         },
-
         complete: function(data) {
          //   Loading.hide();
             $('body').hideLoading();
@@ -425,7 +405,6 @@ $(document).on('click', "a[data-role='agregar-cargo']", function() {
             $('body').hideLoading();
         }
     });
-
     return false;
 });
 
@@ -435,12 +414,11 @@ $(document).on('click', "a[data-role='agregar-cargo']", function() {
 
 /**
 * peticion ajax para eliminar un destino de una oferta laboral
-* @param none
+* @param idOferta, idCiudad, idGrupo
 * @return data.result = json donde se especifica si todo se realizo bien
 *         data.response = html para renderizar la grilla de los destinos
 */
 $(document).on('click', "a[data-role='eliminarDestino']", function() {
-  console.log('click');
 
     var idOferta = $(this).attr('data-oferta');
     var idCiudad = $(this).attr('data-ciudad');
@@ -478,23 +456,19 @@ $(document).on('click', "a[data-role='eliminarDestino']", function() {
                   $('body').hideLoading();
               }
           })
-
     }
-
     return false;
 });
 
-
 /**
 * peticion ajax para agregar un cargo a un grupo de interes
-* @param none
+* @param datos del formulario
 * @return data.result = json donde se especifica si todo se realizo bien
 *         data.response = html para renderizar el modal
 */
 $(document).on('click', "a[data-role='agregar-destino-oferta']", function() {
 
     var form = $("#formEnviaDestinosOferta");
-
     $.ajax({
         type: 'POST',
         async: true,
@@ -527,7 +501,6 @@ $(document).on('click', "a[data-role='agregar-destino-oferta']", function() {
             $('body').hideLoading();
         }
     });
-
     return false;
 });
 
@@ -540,19 +513,16 @@ $(document).on('click', "a[data-role='agregar-destino-oferta']", function() {
 function getPlantilla(id) {
   $.get( requestUrl +'/intranet/informacion-contacto-oferta/plantilla', { id: id } )
       .done(function( data ) {
-          console.log(data);
           if (data.result === 'ok') {
-            console.log(data.response);
             $( "#contenido-plantilla" ).append( data.response );
             $( "#plantilla" ).show();
           }
-
       }
   );
 }
 
 /**
-* peticion ajax para mostrar la plantilla de una oferta en un popove en el home
+* peticion ajax para mostrar la plantilla de una oferta en un popove en el home, si la peticion ya se hizo no la hace mas
 * @param idOferta
 * @return data.result = json donde se especifica si todo se realizo bien
 *         data.response = html de la platilla
@@ -564,7 +534,6 @@ $(document).on('click', "a[data-role='contacto-oferta']", function() {
     var contenido = elemento.attr('data-content')
     if (contenido === '' || contenido === undefined) {
         $.ajax({
-
             type: 'GET',
             async: true,
             url: requestUrl +'/intranet/informacion-contacto-oferta/plantilla?id='+idOferta,
@@ -573,7 +542,6 @@ $(document).on('click', "a[data-role='contacto-oferta']", function() {
             //    Loading.show();
                   $('body').showLoading();
             },
-
             complete: function(data) {
              //   Loading.hide();
                 $('body').hideLoading();
@@ -582,7 +550,6 @@ $(document).on('click', "a[data-role='contacto-oferta']", function() {
                 if (data.result == "ok") {
                   elemento.attr('data-content',
                       ''+data.response);
-
                   elemento.popover('toggle');
                   elemento.popover('show');
                 }
@@ -592,7 +559,6 @@ $(document).on('click', "a[data-role='contacto-oferta']", function() {
             }
         });
      }
-
     return false;
 });
 
@@ -602,15 +568,13 @@ $(document).on('click', "a[data-role='contacto-oferta']", function() {
 
 /**
 * peticion ajax para renderizar el modal con el formulario para crear un modelo CategoriaDocumento
-* @param categoriaPadre = indica si tiene una categoria padre s
+* @param categoriaPadre
 * @return data.result = json donde se especifica si todo se realizo bien
 *         data.response = html del modal
 */
 $(document).on('click', "button[data-role='categoria-crear']", function() {
 
-  console.log('click crear');
   var categoriaPadre = $(this).attr('data-padre');
-
   $.ajax({
       type: 'POST',
       async: true,
@@ -621,7 +585,6 @@ $(document).on('click', "button[data-role='categoria-crear']", function() {
         $("#widget-categoria").remove();
         $('body').showLoading()
       },
-
       complete: function(data) {
          $('body').hideLoading();
       },
@@ -635,22 +598,18 @@ $(document).on('click', "button[data-role='categoria-crear']", function() {
           $('body').hideLoading();
       }
   });
-
   return false;
 });
 
 /**
 * peticion ajax para renderizar el modal con el formulario para editar un modelo CategoriaDocumento
-* @param idCategoria = indica la categoria que se va a editar
+* @param idCategoria
 * @return data.result = json donde se especifica si todo se realizo bien
 *         data.response = html del modal
 */
 $(document).on('click', "button[data-role='categoria-editar']", function() {
 
-  console.log('click editar');
-
   var idCategoria = $(this).attr('data-categoria');
-
   $.ajax({
       type: 'POST',
       async: true,
@@ -661,7 +620,6 @@ $(document).on('click', "button[data-role='categoria-editar']", function() {
         $("#widget-categoria").remove();
         $('body').showLoading()
       },
-
       complete: function(data) {
          $('body').hideLoading();
       },
@@ -675,21 +633,18 @@ $(document).on('click', "button[data-role='categoria-editar']", function() {
           $('body').hideLoading();
       }
   });
-
   return false;
 });
 
 /**
 * peticion ajax para guardar un nuevo modelo CategoriaDocumento
-* @param
+* @param datos del formulario
 * @return data.result = json donde se especifica si todo se realizo bien
 *         data.response = html de la vista
 */
 $(document).on('click', "button[data-role='guardar-categoria']", function() {
 
-  console.log('click guardar');
   var form = $("#formCategoria");
-
   $.ajax({
       type: 'POST',
       async: true,
@@ -697,10 +652,8 @@ $(document).on('click', "button[data-role='guardar-categoria']", function() {
       data: form.serialize(),
       dataType: 'json',
       beforeSend: function() {
-
         $('body').showLoading()
       },
-
       complete: function(data) {
          $('body').hideLoading();
       },
@@ -715,24 +668,19 @@ $(document).on('click', "button[data-role='guardar-categoria']", function() {
           $('body').hideLoading();
       }
   });
-
   return false;
 });
 
-
 /**
-* peticion ajax para guardar un modelo existente CategoriaDocumento
-* @param idCategoria = indica cual es la categoria a editar
+* peticion ajax para actualizar un modelo existente CategoriaDocumento
+* @param idCategoria
 * @return data.result = json donde se especifica si todo se realizo bien
 *         data.response = html de la vista
 */
 $(document).on('click', "button[data-role='actualizar-categoria']", function() {
 
-  console.log('click editar');
-
   var idCategoria = $(this).attr('data-categoria');
   var form = $("#formCategoria");
-
   $.ajax({
       type: 'POST',
       async: true,
@@ -740,10 +688,8 @@ $(document).on('click', "button[data-role='actualizar-categoria']", function() {
       data: form.serialize(),
       dataType: 'json',
       beforeSend: function() {
-
         $('body').showLoading()
       },
-
       complete: function(data) {
          $('body').hideLoading();
       },
@@ -758,22 +704,18 @@ $(document).on('click', "button[data-role='actualizar-categoria']", function() {
           $('body').hideLoading();
       }
   });
-
   return false;
 });
 
 /**
 * peticion ajax para renderizar el modal con el formulario para relacionar una CategoriaDocumento y un Documento
-* @param
+* @param idCategoria
 * @return data.result = json donde se especifica si todo se realizo bien
 *         data.response = html del modal
 */
 $(document).on('click', "button[data-role='relaciona-documento']", function() {
 
-  console.log('click relacionar');
-
   var idCategoria = $(this).attr('data-categoria');
-
   $.ajax({
       type: 'POST',
       async: true,
@@ -784,7 +726,6 @@ $(document).on('click', "button[data-role='relaciona-documento']", function() {
         $("#widget-relaciona-documento").remove();
         $('body').showLoading()
       },
-
       complete: function(data) {
          $('body').hideLoading();
       },
@@ -798,23 +739,18 @@ $(document).on('click', "button[data-role='relaciona-documento']", function() {
           $('body').hideLoading();
       }
   });
-
   return false;
 });
 
 /**
 * peticion ajax para guardar un modelo CategoriaDocumentoDetalle = relacion entre un CategoriaDocumento y Documento
-* @param
+* @param datos formulario
 * @return data.result = json donde se especifica si todo se realizo bien
 *         data.response = html del modal
 */
 $(document).on('click', "button[data-role='guardar-relacion']", function() {
 
-  console.log('click guardar relacion');
-
-  //var idCategoria = $(this).attr('data-categoria');
   var form = $("#formRelacionaCategoria");
-
   $.ajax({
       type: 'POST',
       async: true,
@@ -825,7 +761,6 @@ $(document).on('click', "button[data-role='guardar-relacion']", function() {
 
         $('body').showLoading()
       },
-
       complete: function(data) {
          $('body').hideLoading();
       },
@@ -840,24 +775,20 @@ $(document).on('click', "button[data-role='guardar-relacion']", function() {
           $('body').hideLoading();
       }
   });
-
   return false;
 });
 
 
 /**
 * peticion ajax eliminar la relacion entre una CategoriaDocumento y un Documento
-* @param
+* @param idCategoria, idDocumento = identificadores de los elemntos a relacionar
 * @return data.result = json donde se especifica si todo se realizo bien
 *         data.response = html de la vista
 */
 $(document).on('click', "button[data-role='no-relaciona-documento']", function() {
 
-  console.log('click no relaciona');
-
   var idCategoria = $(this).attr('data-categoria');
   var idDocumento = $(this).attr('data-documento');
-
   $.ajax({
       type: 'POST',
       async: true,
@@ -865,10 +796,8 @@ $(document).on('click', "button[data-role='no-relaciona-documento']", function()
       data: {idCategoria: idCategoria, idDocumento: idDocumento},
       dataType: 'json',
       beforeSend: function() {
-
         $('body').showLoading()
       },
-
       complete: function(data) {
          $('body').hideLoading();
       },
@@ -882,23 +811,20 @@ $(document).on('click', "button[data-role='no-relaciona-documento']", function()
           $('body').hideLoading();
       }
   });
-
   return false;
 });
 
 
 /**
-* funcion con peticion ajax donde se pid el el documento para crear su plantilla
+* funcion con peticion ajax donde se pide el documento para crear su plantilla
 * @param id = identificador del documento
 * @return retorna el contenido de la plantilla
 */
 function getPlantillaDocumento(id) {
-  console.log(id);
+
   $.get( requestUrl +'/intranet/categoria-documento/plantilla-documento', { idDocumento: id } )
       .done(function( data ) {
-
           if (data.result === 'ok') {
-
             $( "#contenido-plantilla" ).append( data.response );
           }
       });
@@ -907,13 +833,265 @@ function getPlantillaDocumento(id) {
 //---------------------------------
 // funcion que por ahora redirige a el detalle del documento
 $(document).on('click', "a[data-role='hola']", function() {
-  console.log('click');
   var url = $(this).attr('href');
   window.location.replace(url);
 });
 
-// ------------
+//::::::::::::::::::::::
+// MENU
+//::::::::::::::::::::::
 
+/**
+* peticion ajax para renderizar el modal con el formulario para crear un modelo Menu
+* @param idPadre
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html del modal
+*/
+$(document).on('click', "button[data-role='opcion-menu-render-crear']", function() {
+
+  var idPadre = $(this).attr('data-padre');
+  $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/sitio/render-crear-opcion-menu',
+      data: {idPadre: idPadre},
+      dataType: 'json',
+      beforeSend: function() {
+        $("#widget-opcion-menu").remove();
+        $('body').showLoading()
+      },
+      complete: function(data) {
+         $('body').hideLoading();
+      },
+      success: function(data) {
+          if (data.result == "ok") {
+            $('body').append(data.response);
+            $("#widget-opcion-menu").modal("show");
+          }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          $('body').hideLoading();
+      }
+  });
+  return false;
+});
+
+/**
+* peticion ajax para renderizar el modal con el formulario para editar un modelo Menu
+* @param idMenu
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html del modal
+*/
+$(document).on('click', "button[data-role='opcion-menu-render-actualizar']", function() {
+
+  var idMenu = $(this).attr('data-opcion');
+  $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/sitio/render-editar-opcion-menu?id='+idMenu,
+      dataType: 'json',
+      beforeSend: function() {
+        $("#widget-opcion-menu").remove();
+        $('body').showLoading()
+      },
+      complete: function(data) {
+         $('body').hideLoading();
+      },
+      success: function(data) {
+          if (data.result == "ok") {
+            $('body').append(data.response);
+            $("#widget-opcion-menu").modal("show");
+          }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          $('body').hideLoading();
+      }
+  });
+  return false;
+});
+
+/**
+* peticion ajax para guardar un nuevo modelo Menu
+* @param datos del formulario
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html de la vista
+*/
+$(document).on('click', "button[data-role='guardar-opcion-menu']", function() {
+
+  var form = $("#formMenu");
+  $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/sitio/crear-opcion-menu',
+      data: form.serialize(),
+      dataType: 'json',
+      beforeSend: function() {
+        $('body').showLoading()
+      },
+      complete: function(data) {
+         $('body').hideLoading();
+      },
+      success: function(data) {
+          if (data.result == "ok") {
+            $("#menu").remove();
+            $('#container').append(data.response);
+            $("#widget-opcion-menu").modal("hide");
+          }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          $('body').hideLoading();
+      }
+  });
+  return false;
+});
+
+/**
+* peticion ajax para actualizar un modelo existente Menu
+* @param idMenu, datos del formulario
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html de la vista
+*/
+
+$(document).on('click', "button[data-role='actualizar-opcion-menu']", function() {
+
+  var idMenu = $(this).attr('data-opcion');
+  var form = $("#formMenu");
+  $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/sitio/actualizar-opcion-menu?id='+idMenu,
+      data: form.serialize(),
+      dataType: 'json',
+      beforeSend: function() {
+        $('body').showLoading()
+      },
+      complete: function(data) {
+         $('body').hideLoading();
+      },
+      success: function(data) {
+          if (data.result == "ok") {
+            $("#menu").remove();
+            $('#container').append(data.response);
+            $("#widget-opcion-menu").modal("hide");
+          }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          $('body').hideLoading();
+      }
+  });
+  return false;
+});
+
+/**
+* peticion ajax para renderizar el modal con el formulario para crear un modelo Opcion que es donde se guarda el enlace del item del menu
+* @param idMenu
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html del modal
+*/
+$(document).on('click', "button[data-role='agregar-enlace-menu']", function() {
+
+  var idMenu = $(this).attr('data-opcion');
+  $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/sitio/render-agregar-enlace',
+      data: {idMenu: idMenu},
+      dataType: 'json',
+      beforeSend: function() {
+        $("#widget-agregar-opcion-menu").remove();
+        $('body').showLoading()
+      },
+      complete: function(data) {
+         $('body').hideLoading();
+      },
+      success: function(data) {
+          if (data.result == "ok") {
+            $('body').append(data.response);
+            $("#widget-agregar-opcion-menu").modal("show");
+          }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          $('body').hideLoading();
+      }
+  });
+  return false;
+});
+
+/**
+* peticion ajax para guardar un modelo Opcion que es donde se guarda el enlace del item del menu
+* @param
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html vista menuAdmin
+*/
+
+$(document).on('click', "button[data-role='guardar-enlace']", function() {
+
+
+  var form = $("#formAgregarEnlace");
+  $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/sitio/guardar-opcion-menu',
+      data: form.serialize(),
+      dataType: 'json',
+      beforeSend: function() {
+        $('body').showLoading()
+      },
+      complete: function(data) {
+         $('body').hideLoading();
+      },
+      success: function(data) {
+          if (data.result == "ok") {
+            $("#menu").remove();
+            $('#container').append(data.response);
+            $("#widget-agregar-opcion-menu").modal("hide");
+          }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          $('body').hideLoading();
+      }
+  });
+  return false;
+});
+
+/**
+* peticion ajax eliminar un modelo Opcion que es donde se guarda el enlace del item del menu
+* @param idOpcion
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html de la vista menuAdmin
+*/
+
+$(document).on('click', "button[data-role='quitar-enlace-menu']", function() {
+
+  var idOpcion = $(this).attr('data-opcion');
+  $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/sitio/eliminar-enlace-menu',
+      data: {idOpcion: idOpcion},
+      dataType: 'json',
+      beforeSend: function() {
+        $('body').showLoading()
+      },
+      complete: function(data) {
+         $('body').hideLoading();
+      },
+      success: function(data) {
+          if (data.result == "ok") {
+            $("#menu").remove();
+            $('#container').append(data.response);
+          }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          $('body').hideLoading();
+      }
+  });
+  return false;
+});
+
+//::::::::::::::::::::::
+// OTROS
+//::::::::::::::::::::::
 /**
 * Acciones que se ejecutan cuando el navegador cargue los scripts
 * @param none

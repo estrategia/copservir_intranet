@@ -21,7 +21,7 @@ class CumpleanosPersona extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 't_cumpleanospersona';
+        return 't_CumpleanosPersona';
     }
 
     /**

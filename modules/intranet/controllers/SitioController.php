@@ -20,6 +20,8 @@ use app\modules\intranet\models\LogContenidos;
 use app\modules\intranet\models\PublicacionesCampanas;
 use app\modules\intranet\models\CumpleanosLaboral;
 use app\modules\intranet\models\CumpleanosPersona;
+use app\modules\intranet\models\Menu;
+use app\modules\intranet\models\Opcion;
 use yii\helpers\Html;
 use yii\web\Response;
 
@@ -294,6 +296,10 @@ class SitioController extends Controller {
         }
     }
 
+    //::::::::::::::::::::::
+    // MENU
+    //::::::::::::::::::::::
+
     public function actionMenu() {
         return $this->render('menu');
     }
@@ -311,6 +317,208 @@ class SitioController extends Controller {
             }
         }
     }
+
+  /**
+   * Renderiza el template menuAdmin donde se pueden crear y editar las opciones del menu
+   * @param
+   * @return mixed
+   */
+   public function actionAdministrarMenu()
+   {
+     return $this->render('menuAdmin');
+   }
+
+   /**
+    * Renderiza el modal donde se podra crear un elemento en el menu corporativo
+    * @param none
+    * @return mixed
+    */
+    public function actionRenderCrearOpcionMenu()
+    {
+        $model = new Menu();
+        $idPadre = Yii::$app->request->post('idPadre', NULL);
+        $respond = [
+            'result' => 'ok',
+            'response' => $this->renderAjax('_modalOpcionMenu', [
+                'model' => $model,
+                'idPadre' => $idPadre
+            ])
+        ];
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $respond;
+
+    }
+
+    /**
+     * Renderiza el modal donde se podra editar una opcion del menu corporativo
+     * @param none
+     * @return mixed
+     */
+     public function actionRenderEditarOpcionMenu($id)
+     {
+        $model = Menu::findOne($id);
+        $respond = [
+            'result' => 'ok',
+            'response' => $this->renderAjax('_modalOpcionMenu', [
+                'model' => $model,
+                'idPadre' => ''
+            ])
+        ];
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $respond;
+
+     }
+
+     /**
+      * crea un nuevo modelo Menu
+      * @param none
+      * @return mixed
+      */
+      public function actionCrearOpcionMenu()
+      {
+          $model = new Menu();
+          $respond = [];
+
+          if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+              if (is_null($model->idPadre)) {
+                $model->idRaiz = $model->idMenu;
+              }else{
+                $model->idRaiz = $model->idPadre;
+              }
+
+              if ($model->save()) {
+                $respond = [
+                    'result' => 'ok',
+                    'response' => $this->renderAjax('menuAdmin', [])
+                ];
+              }else{
+                $respond = [
+                    'result' => 'error',
+                    'response' => $this->renderAjax('menuAdmin', [])
+                ];
+              }
+
+          } else {
+              $respond = [
+                  'result' => 'error',
+                  'response' => $this->renderAjax('menuAdmin', [])
+              ];
+          }
+
+          Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+          return $respond;
+      }
+
+
+  /**
+   * Actualiza un modelo Menu existente
+   * @param id
+   * @return mixed
+   */
+   public function actionActualizarOpcionMenu($id)
+   {
+     $model = Menu::findOne($id);
+     $respond = [];
+
+     if ($model->load(Yii::$app->request->post()) && $model->save()) {
+         $respond = [
+             'result' => 'ok',
+             'response' => $this->renderAjax('menuAdmin', [])
+         ];
+     } else {
+         $respond = [
+             'result' => 'error',
+             'response' => $this->renderAjax('menuAdmin', [])
+         ];
+     }
+
+     Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+     return $respond;
+
+   }
+   //--
+   /**
+    * Elimina un modelo Opcion el cual es donde se guarda el enlace al ue redirige un item del Menu
+    * Si la eliminacion es correcta renderiza de nuevo la pagina
+    * @param string $idOpcion
+    * @return el html con la vista menuAdmin
+    */
+   public function actionEliminarEnlaceMenu()
+   {
+      $idOpcion = Yii::$app->request->post('idOpcion', NULL);
+      $opcion = Opcion::findOne($idOpcion);
+
+      $respond =[];
+
+      if ($opcion->delete()) {
+
+        $respond = [
+            'result' => 'ok',
+            'response' => $this->renderAjax('menuAdmin', [])
+        ];
+      }else{
+
+        $respond = [
+            'result' => 'error',
+            'response' => $this->renderAjax('menuAdmin', [])
+        ];
+      }
+
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      return $respond;
+   }
+
+   /**
+    * Renderiza el modal con el formulario para crear un modelo Opcion qe es donde se guarda el enlance del item del menu
+    * @param string $idMenu
+    * @return el html con la vista del modal _modalAgregarEnlaceMenu
+    */
+    public function actionRenderAgregarEnlace()
+    {
+        $idMenu = Yii::$app->request->post('idMenu', NULL);
+        $model = new Opcion();
+
+        $respond = [
+            'result' => 'ok',
+            'response' => $this->renderAjax('_modalAgregarEnlaceMenu', [
+                'model' => $model,
+                'idMenu' => $idMenu
+            ])
+        ];
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $respond;
+    }
+
+    /**
+     * Crea un modelo Opcion qe es donde se guarda el enlance del item del menu
+     * @param none
+     * @return el html con la vista menuAdmin
+     */
+     public function actionGuardarOpcionMenu()
+     {
+        $model = new Opcion();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save() ) {
+
+         $respond = [
+             'result' => 'ok',
+             'response' => $this->renderAjax('menuAdmin', [])
+         ];
+        }else{
+          $respond = [
+              'result' => 'error',
+              'response' => $this->renderAjax('menuAdmin', [ ])
+          ];
+
+        }
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $respond;
+
+     }
 
     public function actionMeGustaContenido() {
         if (Yii::$app->request->post()) {

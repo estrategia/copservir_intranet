@@ -30,7 +30,7 @@ class DenunciosContenidos extends \yii\db\ActiveRecord
 
     public static function tableName()
     {
-        return 't_denuncioscontenidos';
+        return 't_DenunciosContenidos';
     }
 
     /**
@@ -67,7 +67,7 @@ class DenunciosContenidos extends \yii\db\ActiveRecord
     /*
     * RELACIONES
     */
-    
+
     /**
      * Se define la relacion entre los modelos DenunciosContenidos y Usuario
      * @return \yii\db\ActiveQuery modelo Usuarios

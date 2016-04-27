@@ -27,7 +27,7 @@ class InformacionContactoOferta extends \yii\db\ActiveRecord
 
     public static function tableName()
     {
-        return 't_informacioncontactooferta';
+        return 't_InformacionContactoOferta';
     }
 
     /**
@@ -63,7 +63,7 @@ class InformacionContactoOferta extends \yii\db\ActiveRecord
     /*
     * RELACIONES
     */
-    
+
     /**
      * se defina la relacion entre el modelo InformacionContactoOferta y OfertasLaborales
      */

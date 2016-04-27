@@ -25,6 +25,14 @@ $srcFondo = Yii::$app->homeUrl . 'img/work.jpg';
         <?= Html::csrfMetaTags() ?>
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
+        <link href="<?= Yii::getAlias('@web') ?>/libs/fullcalendar/fullcalendar.css" rel="stylesheet">
+        <link href="<?= Yii::getAlias('@web') ?>/libs/boostrap-slider/css/slider.css" rel="stylesheet">
+        <link href="<?= Yii::getAlias('@web') ?>/libs/pace/pace-theme-flash.css" rel="stylesheet">
+        <link href="<?= Yii::getAlias('@web') ?>/libs/animate/animate.min.css" rel="stylesheet">
+        <link href="<?= Yii::getAlias('@web') ?>/libs/font-awesome/css/font-awesome.css" rel="stylesheet">
+        <link href="<?= Yii::getAlias('@web') ?>/libs/jquery-scrollbar/jquery.scrollbar.css" rel="stylesheet">
+        <link href="<?= Yii::getAlias('@web') ?>/libs/webarch/webarch.css" rel="stylesheet">
+        <link href="<?= Yii::getAlias('@web') ?>/css/site.css" rel="stylesheet">
     </head>
     <body data-original=""  style="background-image: url('<?= "".$srcFondo ?>')">
         <?php $this->beginBody() ?>

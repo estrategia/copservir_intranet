@@ -21,7 +21,7 @@ class CategoriaDocumentoDetalle extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'm_categoriadocumentodetalle';
+        return 'm_CategoriaDocumentoDetalle';
     }
 
     /**

@@ -36,7 +36,7 @@ class Documento extends \yii\db\ActiveRecord
 
     public static function tableName()
     {
-        return 'm_documento';
+        return 'm_Documento';
     }
 
     /**
