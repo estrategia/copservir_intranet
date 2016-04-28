@@ -87,12 +87,12 @@ class CumpleanosLaboral extends \yii\db\ActiveRecord
     {
       $fecha = Date("Y-m-d H:i:s");
       $userGrupos = implode(',',$userGrupos);
-
+      echo $userGrupos;
       $todosCiudad = \Yii::$app->params['ciudad']['*'];
       $todosGrupo = \Yii::$app->params['grupo']['*'];
 
       $query =  self::find()->joinWith(['objGrupoInteresCargo'])->with(['objUsuario'])
-      ->where("( t_CumpleanosLaboral.fecha>=:fecha AND ( (t_CumpleanosLaboral.codigoCiudad =:codigoCiudad AND m_GrupoInteresCargo.idCargo IN ($userGrupos)) OR (t_CumpleanosLaboral.codigoCiudad =:codigoCiudad AND m_GrupoInteresCargo.idCargo=:todosGrupo) OR (t_CumpleanosLaboral.codigoCiudad =:todosCiudad AND m_GrupoInteresCargo.idCargo IN ($userGrupos)) OR (t_CumpleanosLaboral.codigoCiudad =:todosCiudad AND m_GrupoInteresCargo.idCargo =:todosGrupo) )   )")
+      ->where("( t_CumpleanosLaboral.fecha>=:fecha AND ( (t_CumpleanosLaboral.codigoCiudad =:codigoCiudad AND m_GrupoInteresCargo.idGrupoInteres IN ($userGrupos)) OR (t_CumpleanosLaboral.codigoCiudad =:codigoCiudad AND m_GrupoInteresCargo.idGrupoInteres=:todosGrupo) OR (t_CumpleanosLaboral.codigoCiudad =:todosCiudad AND m_GrupoInteresCargo.idGrupoInteres IN ($userGrupos)) OR (t_CumpleanosLaboral.codigoCiudad =:todosCiudad AND m_GrupoInteresCargo.idGrupoInteres =:todosGrupo) )   )")
       ->addParams([':fecha' => $fecha, ':codigoCiudad'=> $userCiudad, ':todosCiudad'=>$todosCiudad, ':todosGrupo'=> $todosGrupo])
       ->orderBy('t_CumpleanosLaboral.fecha asc')
       ->all();

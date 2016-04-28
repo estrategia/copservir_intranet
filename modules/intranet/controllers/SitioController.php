@@ -382,6 +382,7 @@ class SitioController extends Controller {
 
           if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
+              // pasar a una funcion en el modelo 
               if (is_null($model->idPadre)) {
                 $model->idRaiz = $model->idMenu;
               }else{
