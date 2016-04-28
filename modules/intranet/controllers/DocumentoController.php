@@ -59,6 +59,7 @@ class DocumentoController extends Controller
         ->where("( idDocumento =:id )")
         ->addParams([':id'=> $id])->all();
 
+
         return $this->render('detalle', [
             'model' => $model,
             'logDocumento'=> $logDocumento

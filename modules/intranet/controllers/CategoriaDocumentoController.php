@@ -100,6 +100,7 @@ class CategoriaDocumentoController extends \yii\web\Controller
                             class="btn btn-mini btn-success">
                                  quitar relacion
                             </button>';
+          $htmlCrearCategoria = '';
         }
 
         if (!$flagAdmin && $flagHoja) {

@@ -23,7 +23,7 @@ class Area extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function rules()
+     public function rules()
     {
         return [
             [['nombreArea'], 'required'],
@@ -32,7 +32,7 @@ class Area extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * @inherit
      */
     public function attributeLabels()
     {
