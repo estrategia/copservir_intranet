@@ -95,9 +95,9 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
                 $this->data['laboral']['jefeInmediato']['nombre'] = "Andres Tabares";
                 $this->data['laboral']['extension'] = "35689";
                 $this->data['laboral']['correoElectronico'] = "miguel.sanchez@eiso.com.co";
-                
+
                 $this->data['sesionRestaurada'] = true;
-                
+
                 $listGrupoInteresCargo = GrupoInteresCargo::find()->where("idCargo=:cargo", [':cargo'=>  $this->data['laboral']['cargo']['codigo']])->all();
                 $this->data['gruposInteres'] = [];
 
@@ -107,7 +107,7 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
 
                 \Yii::$app->session->set('user.data', $this->data);
             } catch (Exception $ex) {
-                
+
             }
         }
     }
@@ -361,7 +361,7 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
         foreach ($opciones as $opcion) {
             $opcionesOcultas[] = $opcion->widget;
         }
-        
+
         return $opcionesOcultas;
     }
 }

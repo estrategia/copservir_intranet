@@ -29,9 +29,8 @@ class Opcion extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombrePermiso', 'url', 'estado', 'idMenu'], 'required'],
-            [['estado', 'idMenu'], 'integer'],
-            [['nombrePermiso'], 'string', 'max' => 45],
+            [[ 'url', 'idMenu'], 'required'],
+            [['idMenu'], 'integer'],
             [['url'], 'string', 'max' => 255]
         ];
     }
@@ -43,9 +42,7 @@ class Opcion extends \yii\db\ActiveRecord
     {
         return [
             'idOpcion' => 'Id Opcion',
-            'nombrePermiso' => 'Nombre Permiso',
             'url' => 'Url',
-            'estado' => 'Estado',
             'idMenu' => 'Id Menu',
         ];
     }
