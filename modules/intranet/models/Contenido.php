@@ -128,6 +128,33 @@ class Contenido extends \yii\db\ActiveRecord
 
     }
 
+    /**
+     * Define la relacion relacion entre los modelos Contenido y DenunciosContenidos
+     * @param none
+     * @return modelo DenunciosContenidos
+     */
+     public function getObjDenunciosContenidos(){
+        return $this->hasOne(DenunciosContenidos::className(), ['idContenido' => 'idContenido']);
+     }
+
+    /**
+     * Se define la relacion entre los modelos Contenido y ContenidoAdjunto
+     * @return \yii\db\ActiveQuery
+     */
+    public function getObjContenidoAdjuntoImagenes()
+    {
+        return $this->hasMany(ContenidoAdjunto::className(), ['idContenido' => 'idContenido'])->from(ContenidoAdjunto::tableName().' ContenidoAdjuntoImagenes')->andOnCondition(['ContenidoAdjuntoImagenes.tipo' => 2]);
+    }
+
+    /**
+     * Se define la relacion entre los modelos Contenido y ContenidoAdjunto
+     * @return \yii\db\ActiveQuery
+     */
+    public function getObjContenidoAdjuntoDocumentos()
+    {
+        return $this->hasMany(ContenidoAdjunto::className(), ['idContenido' => 'idContenido'])->from(ContenidoAdjunto::tableName().' ContenidoAdjuntoDocumentos')->andOnCondition(['ContenidoAdjuntoDocumentos.tipo' => 1]);
+    }
+
     /*
     * CONSULTAS
     */
@@ -352,15 +379,6 @@ class Contenido extends \yii\db\ActiveRecord
       $resultado = $db->createCommand($sql)->queryAll();
       return $resultado;
     }
-
-    /**
-     * Define la relacion relacion entre los modelos Contenido y DenunciosContenidos
-     * @param none
-     * @return modelo DenunciosContenidos
-     */
-     public function getObjDenunciosContenidos(){
-        return $this->hasOne(DenunciosContenidos::className(), ['idContenido' => 'idContenido']);
-     }
 
     /**
      * Consulta todos los modelos Contenido con estado = 1 (pendiente)

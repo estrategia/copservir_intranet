@@ -4,7 +4,7 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\Html;
-
+use app\modules\intranet\models\Tareas;
 
 use kartik\datetime\DateTimePicker;
 /* @var $this yii\web\View */
@@ -21,6 +21,8 @@ use kartik\datetime\DateTimePicker;
 
     <?php if (!$model->isNewRecord): ?>
           <?= $form->field($model, 'progreso')->textInput(['type' => 'number']) ?>
+    <?php else: ?>
+          <?= $form->field($model, 'progreso')->hiddenInput(['value'=> Tareas::PROGRESO_TAREA_INICIAL])->label(false); ?>
     <?php endif ?>
 
 
@@ -28,7 +30,7 @@ use kartik\datetime\DateTimePicker;
 
     <?= $form->field($model, 'fechaRegistro')->hiddenInput(['value'=> date('YmdHis')])->label(false); ?>
 
-    <?= $form->field($model, 'estadoTarea')->hiddenInput(['value'=> 2])->label(false); ?>
+    <?= $form->field($model, 'estadoTarea')->hiddenInput(['value'=> Tareas::ESTADO_TAREA_NO_TERMINADA])->label(false); ?>
 
 
         <?php

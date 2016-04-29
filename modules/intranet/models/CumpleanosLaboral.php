@@ -87,7 +87,6 @@ class CumpleanosLaboral extends \yii\db\ActiveRecord
     {
       $fecha = Date("Y-m-d H:i:s");
       $userGrupos = implode(',',$userGrupos);
-      echo $userGrupos;
       $todosCiudad = \Yii::$app->params['ciudad']['*'];
       $todosGrupo = \Yii::$app->params['grupo']['*'];
 

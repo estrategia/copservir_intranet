@@ -27,11 +27,12 @@ class Tareas extends \yii\db\ActiveRecord
      * @inheritdoc
      */
 
-     const ESTADO_TAREA_INACTIVA = 0;  // Nunca muestra la tarea
-     const ESTADO_TAREA_TERMINADA = 1; // Tarea con progreso = 100
-     const ESTADO_TAREA_NO_TERMINADA = 2; // Tarea progreso < 100
-     const ESTADO_TAREA_NO_INDEX = 3; // La tarea no se muestra en el home
+     const ESTADO_TAREA_INACTIVA = 0;
+     const ESTADO_TAREA_TERMINADA = 1;
+     const ESTADO_TAREA_NO_TERMINADA = 2;
+     const ESTADO_TAREA_NO_INDEX = 3;
 
+     const PROGRESO_TAREA_INICIAL = 0;
 
     public static function tableName()
     {

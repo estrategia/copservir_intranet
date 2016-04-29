@@ -65,16 +65,36 @@ class TareasController extends Controller
      */
     public function actionCrear()
     {
-        $model = new Tareas();
-        $modelLogTareas = new LogTareas();
-        $db = Yii::$app->db;
+        $modelTarea = new Tareas();
+        //$modelLogTareas = new LogTareas();
+        //$db = Yii::$app->db;
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($modelTarea->load(Yii::$app->request->post())) {
 
             $transaction = Tareas::getDb()->beginTransaction();
-
             try {
-                $model->save();
+                if ($modelTarea->save()) {
+
+                   if ($this->guardarLog($modelTarea)) {
+                     // retornar lo que debe retornar
+                     $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+                     $tareasUsuario = Tareas::getTareasListar($numeroDocumento);
+                     return $this->render('listarTareas', ['tareasUsuario' => $tareasUsuario]);
+
+                   }else{
+                     // error no guardo log
+                     return $this->render('crear', [
+                         'model' => $modelTarea,
+                     ]);
+                   };
+
+                }else{
+                  //error no guardo la tarea
+                  return $this->render('crear', [
+                      'model' => $modelTarea,
+                  ]);
+                }
+                /*
                 $innerTransaction = LogTareas::getDb()->beginTransaction();
                 try {
                     $modelLogTareas->idTarea = $model->idTarea;
@@ -88,13 +108,11 @@ class TareasController extends Controller
                 } catch (Exception $e) {
                     $innerTransaction->rollBack();
                     throw $e;
-                 }
+                 }*/
 
                 //ejecuta la transaccion
                 $transaction->commit();
-                $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-                $tareasUsuario = Tareas::getTareasListar($numeroDocumento);
-                return $this->render('listarTareas', ['tareasUsuario' => $tareasUsuario]);
+
 
             } catch(\Exception $e) {
 
@@ -103,9 +121,10 @@ class TareasController extends Controller
                 throw $e;
             }
         }else{
-            return $this->render('crear', [
-                'model' => $model,
-            ]);
+          // no cargo el modelo
+          return $this->render('crear', [
+              'model' => $modelTarea,
+          ]);
         }
 
     }
@@ -356,6 +375,38 @@ class TareasController extends Controller
           throw $e;
       }
     }
+
+    /**
+     * funcion para crear un modelo LogTareas
+     * si el modelo no se crea devuelve error
+     * @param Tarea $tarea
+     * @return
+     * @throws
+     */
+     public function guardarLog($tarea)
+     {
+       $logTarea = new LogTareas();
+       $transaction = LogTareas::getDb()->beginTransaction();
+       try {
+           $logTarea->idTarea = $tarea->idTarea;
+           $logTarea->estadoTarea = $tarea->estadoTarea;
+           $logTarea->fechaRegistro =  Date("Y-m-d H:i:s");
+           $logTarea->prioridad = $tarea->idPrioridad;
+           $logTarea->progreso = $tarea->progreso;
+           if ($logTarea->save()) {
+             // guardo Log
+           }else{
+             //error al guardar el log
+           }
+
+           $transaction->commit();
+       }
+       catch (Exception $e) {
+           $transaction->rollBack();
+           throw $e;
+        }
+
+     }
 
     /**
      * encuentra una tarea por su llave primaria

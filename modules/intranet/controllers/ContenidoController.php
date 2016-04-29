@@ -274,7 +274,6 @@ class ContenidoController extends Controller {
     public function actionBuscadorNoticias()
     {
       $busqueda = trim(Yii::$app->request->post('busqueda',''));
-
       $this->redirect(['busqueda','busqueda' => $busqueda, 'a' => '', 'm' => '', 'd' => '']);
     }
 
@@ -620,7 +619,6 @@ class ContenidoController extends Controller {
         $modelComentario = ContenidosComentarios::getComentarioDenunciadoDetalle($id);
         $modelDenuncioComentario = DenunciosContenidosComentarios::findOne(['idDenuncioComentario' => $modelComentario->objDenuncioComentario->idDenuncioComentario]);
 
-
         if ($modelDenuncioComentario->load(Yii::$app->request->post()) && $modelDenuncioComentario->save()) {
           return $this->redirect(['listar-comentarios-denunciados']);
         }
@@ -646,10 +644,8 @@ class ContenidoController extends Controller {
             $modelComentario->fechaActualizacion = Date("Y-m-d H:i:s");
 
             if ($modelComentario->save()) {
-                  echo 'guardo modelo comentario';
                  return $this->redirect(['listar-comentarios-denunciados']);
              }else{
-                echo 'NO guardo modelo comentarios';
                  //error
                  return $this->render('detalleComentarioDenuncio', ['model'=>$modelComentario]);
              }
@@ -657,8 +653,19 @@ class ContenidoController extends Controller {
           }else
           {
             //error
-            echo 'NO guardo modelo denuncios';
             return $this->render('detalleComentarioDenuncio', ['model'=>$modelComentario]);
           }
+       }
+
+
+       //-------------
+       public function actionPrueba()
+       {
+         $query = Contenido::find()->joinWith(['objContenidoAdjuntoImagenes','objContenidoAdjuntoDocumentos'])
+          ->where(['t_Contenido.idContenido' => 10])
+          ;
+
+         var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
+         //var_dump($query);
        }
 }
