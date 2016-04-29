@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-
 ?>
 
 <!-- PLANTILLA -->
@@ -9,9 +8,6 @@ use yii\helpers\Html;
     <div class="col-md-12">
         <div class=" tiles white col-md-12 no-padding">
             <div class="tiles grey cover-pic-wrapper">
-
-
-
                 <img class="ajustada" src="<?= Yii::$app->homeUrl . 'img/imagenesFondo/' . \Yii::$app->user->identity->imagenFondo ?>" alt="">
             </div>
             <div class="tiles white">
@@ -80,7 +76,9 @@ use yii\helpers\Html;
                                 </div>
                                 <div class="col-md-2">
                                     <?= Html::a('Actualizar datos', ['usuario/actualizar-datos'], ['class' => 'btn btn-primary btn-small', 'name' => 'update-button']) ?>
+                                    <div style="height: 5px"></div>
                                     <?= Html::a('Cambiar contraseña', ['usuario/cambiar-clave'], ['class' => 'btn btn-primary btn-small', 'name' => 'password-button']) ?>
+                                    <div style="height: 5px"></div>
                                     <?= Html::a('Cambiar fotos', ['usuario/cambiar-foto-perfil'], ['class' => 'btn btn-primary btn-small', 'name' => 'picture-button']) ?>
                                 </div>
 

@@ -1,5 +1,7 @@
 <?php
+use app\modules\intranet\models\Tareas;
 use yii\helpers\Url;
+
 ?>
     <br><br><br>
     <div class="col-md-12 col-sm-12 spacing-bottom">
@@ -23,7 +25,7 @@ use yii\helpers\Url;
                 $check_success= '';
                 $checkeado = '';
 
-                if ($tarea->estadoTarea == 1) {
+                if ($tarea->estadoTarea == Tareas::ESTADO_TAREA_TERMINADA) {
                     $clase = 'done';
                     $check_success = 'check-success';
                     $checkeado = 'checked';
@@ -31,7 +33,7 @@ use yii\helpers\Url;
 
               ?>
               <div class= "<?=  "checkbox ".$check_success ?>" >
-                <a href='#' data-tarea= "<?= $tarea->idTarea?>" data-location='1' data-role='inactivarTarea'>
+                <a href='#' data-tarea= "<?= $tarea->idTarea?>" data-location="<?= Tareas::TAREAS_INDEX ?>" data-role='inactivarTarea'>
                   <li class="fa fa-times"></li>
                 </a>
                 <input type="checkbox" <?= $checkeado?>  id="chk_todo<?= $tarea->idTarea ?>" class="todo-list" data-tarea="<?= $tarea->idTarea ?>" data-role="tarea-check">

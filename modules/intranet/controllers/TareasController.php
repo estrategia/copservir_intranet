@@ -9,16 +9,14 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-
 /**
  * TareasController implements the CRUD actions for Tareas model.
  */
-class TareasController extends Controller
-{
+class TareasController extends Controller {
+
     public $layout = 'main';
 
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -29,32 +27,15 @@ class TareasController extends Controller
         ];
     }
 
-
-     /**
+    /**
      * accion para renderizar la vista tareas
      * @param none
      * @return mixed
      */
-     public function actionListarTareas()
-     {
+    public function actionListarTareas() {
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
         $tareasUsuario = Tareas::getTareasListar($numeroDocumento);
         return $this->render('listarTareas', ['tareasUsuario' => $tareasUsuario]);
-     }
-
-    /**
-     * muestra el detalle de la tarea
-     * @param string $id
-     * @return mixed
-     */
-    public function actionDetalle($id)
-    {
-        /*$model = Tareas::find()->andWhere(['idTarea'=>$id]);
-        //var_dump ($model);
-        //exit();
-        return $this->render('detalle', [
-            'model' => $model,
-        ]);*/
     }
 
     /**
@@ -66,67 +47,29 @@ class TareasController extends Controller
     public function actionCrear()
     {
         $modelTarea = new Tareas();
-        //$modelLogTareas = new LogTareas();
-        //$db = Yii::$app->db;
-
         if ($modelTarea->load(Yii::$app->request->post())) {
-
+          if ($modelTarea->validate()) {
             $transaction = Tareas::getDb()->beginTransaction();
             try {
                 if ($modelTarea->save()) {
-
-                   if ($this->guardarLog($modelTarea)) {
-                     // retornar lo que debe retornar
-                     $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-                     $tareasUsuario = Tareas::getTareasListar($numeroDocumento);
-                     return $this->render('listarTareas', ['tareasUsuario' => $tareasUsuario]);
-
-                   }else{
-                     // error no guardo log
-                     return $this->render('crear', [
-                         'model' => $modelTarea,
-                     ]);
-                   };
-
-                }else{
-                  //error no guardo la tarea
-                  return $this->render('crear', [
-                      'model' => $modelTarea,
-                  ]);
+                  //ejecuta la transaccion
+                  $transaction->commit();
+                  return $this->redirect('listar-tareas');
                 }
-                /*
-                $innerTransaction = LogTareas::getDb()->beginTransaction();
-                try {
-                    $modelLogTareas->idTarea = $model->idTarea;
-                    $modelLogTareas->estadoTarea = $model->estadoTarea;
-                    $modelLogTareas->fechaRegistro = $model->fechaRegistro;
-                    $modelLogTareas->progreso = 0;
-                    $modelLogTareas->prioridad = $model->idPrioridad;
-                    $modelLogTareas->save();
-                    $innerTransaction->commit();
-
-                } catch (Exception $e) {
-                    $innerTransaction->rollBack();
-                    throw $e;
-                 }*/
-
-                //ejecuta la transaccion
-                $transaction->commit();
-
 
             } catch(\Exception $e) {
-
                 //devuelve los cambios
                 $transaction->rollBack();
+                //devuelve mensajes de error
+                Yii::$app->session->setFlash('error', $e->getMessage());
                 throw $e;
             }
-        }else{
-          // no cargo el modelo
-          return $this->render('crear', [
-              'model' => $modelTarea,
-          ]);
-        }
+          }
 
+        }
+        return $this->render('crear', [
+                    'model' => $modelTarea,
+        ]);
     }
 
     /**
@@ -135,49 +78,32 @@ class TareasController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionActualizar($id)
-    {
-        $model = $this->encontrarModelo($id);
-        $modelLogTareas = new LogTareas();
+    public function actionActualizar($id) {
 
-        if ($model->load(Yii::$app->request->post())) {
+        $modelTarea = $this->encontrarModelo($id);
 
-          $transaction = Tareas::getDb()->beginTransaction();
-          try {
-              $model->save();
-              $innerTransaction = LogTareas::getDb()->beginTransaction();
-              try {
-
-                  $modelLogTareas->idTarea = $model->idTarea;
-                  $modelLogTareas->estadoTarea = $model->estadoTarea;
-                  $modelLogTareas->fechaRegistro = $model->fechaRegistro;
-                  $modelLogTareas->progreso = $model->progreso;
-                  $modelLogTareas->prioridad = $model->idPrioridad;
-                  $modelLogTareas->save();
-                  $innerTransaction->commit();
-
-              } catch (Exception $e) {
-                  $innerTransaction->rollBack();
-                  throw $e;
-               }
-
-              //ejecuta la transaccion
-              $transaction->commit();
-              $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-              $tareasUsuario = Tareas::getTareasListar($numeroDocumento);
-              return $this->render('listarTareas', ['tareasUsuario' => $tareasUsuario]);
-
-          } catch(\Exception $e) {
-
-              //devuelve los cambios
-              $transaction->rollBack();
-              throw $e;
-          }
-        } else {
-            return $this->render('actualizar', [
-                'model' => $model,
-            ]);
+        if ($modelTarea->load(Yii::$app->request->post())) {
+            if ($modelTarea->validate()) {
+                $transaction = Tareas::getDb()->beginTransaction();
+                try {
+                    if ($modelTarea->save()) {
+                      //ejecuta la transaccion
+                      $transaction->commit();
+                      return $this->redirect('listar-tareas');
+                    };
+                } catch (\Exception $e) {
+                    //devuelve los cambios
+                    $transaction->rollBack();
+                    //devuelve mensajes de error
+                    Yii::$app->session->setFlash('error', $e->getMessage());
+                    throw $e;
+                }
+            }
         }
+
+        return $this->render('actualizar', [
+                    'model' => $modelTarea,
+        ]);
     }
 
     /**
@@ -185,68 +111,50 @@ class TareasController extends Controller
      * @param POST => idtarea, location = indica de donde se esta enviando la peticion - 1 indica que viene del home
      * @return mixed
      */
-    public function actionEliminar()
-    {
-        $idTarea = Yii::$app->request->post('idTarea');
-        $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-        $tarea = Tareas::findOne(['numeroDocumento' => $numeroDocumento, 'idTarea' => $idTarea]);
-        $logTarea = new LogTareas();
-        $location = Yii::$app->request->post('location');
-        $view = '';
-        $items = [];
+    public function actionEliminar() {
+
+        $idTarea = Yii::$app->request->post('idTarea','');
+        $location = Yii::$app->request->post('location', '');
+        $modelTarea = $this->encontrarModelo($idTarea);
+        $viewRenderTarea = '';
+        $respond = [];
 
         $transaction = Tareas::getDb()->beginTransaction();
         try {
 
-            if ($location == 1) {
-                $tarea->estadoTarea = Tareas::ESTADO_TAREA_NO_INDEX;
-            }else{
-                $tarea->estadoTarea = Tareas::ESTADO_TAREA_INACTIVA;
-            }
+          $modelTarea->setEstadoDependingLocation($location);
+          $viewRenderTarea = $modelTarea->getRenderViewDependingLocation($location);
 
-            if ($tarea->save()) {
+          if ($modelTarea->save()) {
 
-              if ($location == 1) {
-                  $view = '_tareasHome';
-                  $tareasUsuario  = Tareas::getTareasIndex($numeroDocumento);
-              }else{
-                  $view = '_listaTareas';
-                  $tareasUsuario = Tareas::getTareasListar($numeroDocumento);
-              }
-
-              $items = [
+              $transaction->commit();
+              $tareasUsuario = $modelTarea->getTareasDependingLocation($location);
+              $respond = [
                   'result' => 'ok',
                   'location' => $location,
-                  'response' => $this->renderAjax($view, [
+                  'response' => $this->renderAjax($viewRenderTarea, [
                       'tareasUsuario' => $tareasUsuario,
                   ])
-                ];
-            }
-
-            $innerTransaction = LogTareas::getDb()->beginTransaction();
-            try {
-                $logTarea->idTarea = $tarea->idTarea;
-                $logTarea->estadoTarea = $tarea->estadoTarea;
-                $logTarea->fechaRegistro =  Date("Y-m-d H:i:s");
-                $logTarea->prioridad = $tarea->idPrioridad;
-                $logTarea->progreso = $tarea->progreso;
-                $logTarea->save();
-                $innerTransaction->commit();
-            }
-            catch (Exception $e) {
-                $innerTransaction->rollBack();
-                throw $e;
-             }
-             $transaction->commit();
-             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-             return $items;
-        }
-        catch(\Exception $e) {
+              ];
+          }
+        } catch (\Exception $e) {
 
             //devuelve los cambios
             $transaction->rollBack();
+            //devuelve mensajes de error
+            $tareasUsuario = $modelTarea->getTareasDependingLocation($location);
+            $respond = [
+                'result' => 'error',
+                'error'=> 'la tarea no se pudo eliminar',
+                'location' => $location,
+                'response' => $this->renderAjax($viewRenderTarea, [
+                    'tareasUsuario' => $tareasUsuario,
+                ])
+            ];
             throw $e;
         }
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $respond;
     }
 
     /**
@@ -255,69 +163,50 @@ class TareasController extends Controller
      * @param POST => idtarea
      * @return mixed
      */
-    public function actionActualizarProgreso()
-    {
-      $flagHome = Yii::$app->request->post('flagHome');
-      $idTarea = Yii::$app->request->post('idTarea');
-      $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-      $tarea = Tareas::findOne(['numeroDocumento' => $numeroDocumento, 'idTarea' => $idTarea]);
-      $logTarea = new LogTareas();
-      $items = [];
+    public function actionActualizarProgreso() {
+        $flagHome = Yii::$app->request->post('flagHome', '');
+        $idTarea = Yii::$app->request->post('idTarea', '');
+        $progresoTarea = Yii::$app->request->post('progresoTarea', '');
+        $modelTarea = $this->encontrarModelo($idTarea);
+        $respond = [];
 
-      $transaction = Tareas::getDb()->beginTransaction();
-      try {
-          $tarea->progreso = Yii::$app->request->post('progresoTarea'); // acomoda el estado de la tarea dependiendo de su porcentaje enviado
-          if (Yii::$app->request->post('progresoTarea') == 100) {
-              $tarea->estadoTarea = Tareas::ESTADO_TAREA_TERMINADA;
-          }else{
-              $tarea->estadoTarea = Tareas::ESTADO_TAREA_NO_TERMINADA;
-          }
-          if ($tarea->save()) {
+        $transaction = Tareas::getDb()->beginTransaction();
+        try {
+            $modelTarea->progreso = $progresoTarea;
+            $modelTarea->setEstadoDependingProgress();
+            if ($modelTarea->save()) {
 
-            if ($flagHome == 'true') { // si actualiza el progreso de la tarea por check del home
-
-              $tareasUsuario = Tareas::getTareasIndex($numeroDocumento);
-              $items = [
-                  'result' => 'ok',
-                  'response' => $this->renderAjax('_tareasHome', [
-                      'tareasUsuario' => $tareasUsuario,
-                          ]
-              )];
-
-            }else{ // si actualiza el progreso de la tarea por mover el slider en la lista de tareas
-
-              $items = [
-                  'result' => 'ok',
-              ];
+              $transaction->commit();
+              $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+              if ($flagHome == 'true') { // si actualiza el progreso de la tarea por check del home
+                   $tareasUsuario = Tareas::getTareasIndex($numeroDocumento);
+                   $respond = [
+                       'result' => 'ok',
+                       'response' => $this->renderAjax('_tareasHome', [
+                           'tareasUsuario' => $tareasUsuario,
+                               ]
+                   )];
+               } else { // si actualiza el progreso de la tarea por mover el slider en la lista de tareas
+                   $respond = [
+                       'result' => 'ok',
+                   ];
+               }
             }
-          }
+        } catch (\Exception $e) {
 
-          $innerTransaction = LogTareas::getDb()->beginTransaction();
-          try {
-              $logTarea->idTarea = $tarea->idTarea;
-              $logTarea->estadoTarea = $tarea->estadoTarea;
-              $logTarea->fechaRegistro =  Date("Y-m-d H:i:s");
-              $logTarea->prioridad = $tarea->idPrioridad;
-              $logTarea->progreso = $tarea->progreso;
-              $logTarea->save();
-              $innerTransaction->commit();
-          }
-          catch (Exception $e) {
-              $innerTransaction->rollBack();
-              throw $e;
-           }
-           $transaction->commit();
-           Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-           return $items;
-      }
-      catch(\Exception $e) {
+            //devuelve los cambios
+            $transaction->rollBack();
+            //devuelve mensajes de error
+            $respond = [
+                'result' => 'error',
+                'error' => 'no se pudo actualizar el progreso'
+            ];
+            throw $e;
+        }
 
-          //devuelve los cambios
-          $transaction->rollBack();
-          throw $e;
-      }
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $respond;
     }
-
 
     /**
      * devuelve la tarea a su ultimo estado segun el log y guarda un log del nuevo estado de la tarea
@@ -325,88 +214,41 @@ class TareasController extends Controller
      * @return mixed
      * @throws
      */
-    public function actionUncheckHome()
-    {
-      $idTarea = Yii::$app->request->post('idTarea');
-      $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+    public function actionUncheckHome() {
+        $idTarea = Yii::$app->request->post('idTarea');
+        $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        $modelTarea = $this->encontrarModelo($idTarea);
 
-      $transaction = Tareas::getDb()->beginTransaction();
-      try {
-          $LogTarea = LogTareas::ultimosDosLogs($idTarea, $numeroDocumento);
-          $tarea = Tareas::findOne(['numeroDocumento' => $numeroDocumento, 'idTarea' => $idTarea]);
-          $tarea->estadoTarea = $LogTarea[0]->estadoTarea;
-          $tarea->fechaRegistro = $LogTarea[0]->fechaRegistro;
-          $tarea->idPrioridad = $LogTarea[0]->prioridad;
-          $tarea->progreso = $LogTarea[0]->progreso;
-          $tarea->save();
+        $transaction = Tareas::getDb()->beginTransaction();
+        try {
+            $modelTarea->volverUltimaInstanciaTarea();
+            if ($modelTarea->save()) {
+              $transaction->commit();
+              $tareasUsuario = Tareas::getTareasIndex($numeroDocumento);
+              \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+              $respond = [
+                  'result' => 'ok',
+                  'response' => $this->renderAjax('_tareasHome', [
+                      'tareasUsuario' => $tareasUsuario,
+                          ]
+              )];
+            }
+        } catch (\Exception $e) {
 
-          $innerTransaction = LogTareas::getDb()->beginTransaction();
-          try {
-            $tarea = Tareas::findOne(['numeroDocumento' => $numeroDocumento, 'idTarea' => $idTarea]);
-            $newLog = new LogTareas();
-            $newLog->idTarea = $tarea->idTarea;
-            $newLog->estadoTarea = $tarea->estadoTarea;
-            $newLog->fechaRegistro =  Date("Y-m-d H:i:s");
-            $newLog->prioridad = $tarea->idPrioridad;
-            $newLog->progreso = $tarea->progreso;
-            $newLog->save();
-            $innerTransaction->commit();
-
-          }  catch (Exception $e) {
-              $innerTransaction->rollBack();
-              throw $e;
-           }
-        $transaction->commit();
-        $tareasUsuario = Tareas::getTareasIndex($numeroDocumento);
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $items = [
-            'result' => 'ok',
-            'response' => $this->renderAjax('_tareasHome', [
-                'tareasUsuario' => $tareasUsuario,
-                    ]
-        )];
-
-        return $items;
-
-      }catch(\Exception $e) {
-
-          //devuelve los cambios
-          $transaction->rollBack();
-          throw $e;
-      }
-    }
-
-    /**
-     * funcion para crear un modelo LogTareas
-     * si el modelo no se crea devuelve error
-     * @param Tarea $tarea
-     * @return
-     * @throws
-     */
-     public function guardarLog($tarea)
-     {
-       $logTarea = new LogTareas();
-       $transaction = LogTareas::getDb()->beginTransaction();
-       try {
-           $logTarea->idTarea = $tarea->idTarea;
-           $logTarea->estadoTarea = $tarea->estadoTarea;
-           $logTarea->fechaRegistro =  Date("Y-m-d H:i:s");
-           $logTarea->prioridad = $tarea->idPrioridad;
-           $logTarea->progreso = $tarea->progreso;
-           if ($logTarea->save()) {
-             // guardo Log
-           }else{
-             //error al guardar el log
-           }
-
-           $transaction->commit();
-       }
-       catch (Exception $e) {
-           $transaction->rollBack();
-           throw $e;
+            //devuelve los cambios
+            $transaction->rollBack();
+            $tareasUsuario = Tareas::getTareasIndex($numeroDocumento);
+            $respond = [
+                'result' => 'error',
+                'error' => 'no se pudo devolver la tarea a su estado anterior',
+                'response' => $this->renderAjax('_tareasHome', [
+                    'tareasUsuario' => $tareasUsuario,
+                        ]
+            )];
+            throw $e;
         }
-
-     }
+        return $respond;
+    }
 
     /**
      * encuentra una tarea por su llave primaria
@@ -415,12 +257,12 @@ class TareasController extends Controller
      * @return Tareas the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function encontrarModelo($id)
-    {
+    protected function encontrarModelo($id) {
         if (($model = Tareas::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }
