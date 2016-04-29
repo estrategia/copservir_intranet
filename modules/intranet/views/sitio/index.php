@@ -107,16 +107,19 @@ $this->title = 'Intranet - Copservir';
 <!-- END OFERTAS LABORALES Y TAREAS -->
 
 <!-- BEGIN CUMPLEAÑOS -->
-    <div class="col-md-12">
-      <?= $this->render('/cumpleanos/_carouselCumpleanos', ['flag'=>'Cumpleaños', 'models'=>$cumpleanos]) ?>
-    </div>
-
+    <?php if(!empty($cumpleanos)): ?>
+        <div class="col-md-12">
+          <?= $this->render('/cumpleanos/_carouselCumpleanos', ['flag'=>'Cumpleaños', 'models'=>$cumpleanos]) ?>
+        </div>
+    <?php endif;?>
 <!-- END CUMPLEAÑOS -->
 
 <!-- BEGIN ANIVERSARIOS -->
-    <div class="col-md-12">
-      <?= $this->render('/cumpleanos/_carouselCumpleanos', ['flag'=>'Aniversarios', 'models'=>$aniversarios]) ?>
-    </div>
+    <?php if(!empty($aniversarios)): ?>
+        <div class="col-md-12">
+          <?= $this->render('/cumpleanos/_carouselCumpleanos', ['flag'=>'Aniversarios', 'models'=>$aniversarios]) ?>
+        </div>
+    <?php endif;?>
 <!-- END ANIVERSARIOS -->
 
 <!-- BEGIN DOWN BANNER -->

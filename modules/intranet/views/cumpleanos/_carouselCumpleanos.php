@@ -19,8 +19,6 @@
               ]);
            ?>
         <?php endif ?>
-
-
         <a href="javascript:;" data-role="quitar-elemento" data-elemento="" class="remove"></a>
       </div>
   </div>

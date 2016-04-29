@@ -67,7 +67,8 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
     }
 
     private function restaurarSesion() {
-        if (empty(\Yii::$app->session->get('user.data'))) {
+        $userdata = \Yii::$app->session->get('user.data');
+        if (empty($userdata)) {
             $this->generarDatos();
         } else {
             $this->data = \Yii::$app->session->get('user.data');
@@ -348,6 +349,9 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
 
     public function getGruposCodigos() {
         $this->restaurarSesion();
+        if(empty($this->data['gruposInteres'])){
+            return [Yii::$app->params['grupo']['*']];
+        }
         return $this->data['gruposInteres'];
     }
 

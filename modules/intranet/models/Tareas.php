@@ -48,7 +48,7 @@ class Tareas extends \yii\db\ActiveRecord
             [['descripcion'], 'string'],
             [['numeroDocumento', 'estadoTarea', 'idPrioridad','progreso'], 'integer'],
             [['fechaRegistro'], 'safe'],
-            [['fechaEstimada'], 'date',  'format'=>'php:Y-m-d H:i:s'],
+            [['fechaEstimada'], 'date',  'format'=>'php:Y-m-d H:i'],
             [['titulo'], 'string', 'max' => 60]
         ];
     }

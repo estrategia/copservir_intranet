@@ -6312,7 +6312,7 @@ h4.custom-line-height {
 }
 .btn-primary {
   color: #ffffff;
-  background-color: #F35958;
+  background-color: #0aa699;
 }
 .btn-primary:hover,
 .btn-primary:focus,
@@ -6326,7 +6326,7 @@ h4.custom-line-height {
 .open > .dropdown-toggle.btn-primary.focus,
 .open > .dropdown-toggle.btn-primary:focus,
 .open > .dropdown-toggle.btn-primary:hover {
-  background-color: #F33E3D;
+  background-color: #099a8c;
 }
 .btn-success {
   color: #ffffff;

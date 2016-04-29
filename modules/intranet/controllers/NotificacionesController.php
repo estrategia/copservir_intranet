@@ -36,6 +36,11 @@ class NotificacionesController extends Controller {
     }
 
     public function actionResumen() {
+        /*if(Yii::$app->user->isGuest){
+            echo Json::encode(array('result' => 'error', 'response' => "No autenticado"));
+            Yii::$app->end();
+        }*/
+            
         set_time_limit(0); //Establece el número de segundos que se permite la ejecución de un script.
         $fecha_ac = isset($_POST['timestamp']) ? intval($_POST['timestamp']) : 0;
         
@@ -61,6 +66,11 @@ class NotificacionesController extends Controller {
                 $fecha_bd = $fecha_bd->getTimestamp();
                 //Yii::info("notificacionResumen::3: ".\yii\helpers\VarDumper::dumpAsString($fecha_bd));
             }
+        }
+        
+        if(Yii::$app->user->isGuest){
+            echo Json::encode(array('result' => 'error', 'response' => "No autenticado"));
+            Yii::$app->end();
         }
         
         $cantidad = Notificaciones::cantidadNoVistas(Yii::$app->user->identity->numeroDocumento);

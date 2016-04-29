@@ -4,9 +4,8 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\Html;
-
-
 use kartik\datetime\DateTimePicker;
+
 /* @var $this yii\web\View */
 /* @var $model app\modules\intranet\models\Tareas */
 /* @var $form yii\widgets\ActiveForm */
@@ -20,35 +19,34 @@ use kartik\datetime\DateTimePicker;
     <?= $form->field($model, 'descripcion')->textarea(['rows' => 6]) ?>
 
     <?php if (!$model->isNewRecord): ?>
-          <?= $form->field($model, 'progreso')->textInput(['type' => 'number']) ?>
+        <?= $form->field($model, 'progreso')->textInput(['type' => 'number']) ?>
     <?php endif ?>
 
 
-    <?= $form->field($model, 'numeroDocumento')->hiddenInput(['value'=> Yii::$app->user->identity->numeroDocumento])->label(false); ?>
+    <?= $form->field($model, 'numeroDocumento')->hiddenInput(['value' => Yii::$app->user->identity->numeroDocumento])->label(false); ?>
 
-    <?= $form->field($model, 'fechaRegistro')->hiddenInput(['value'=> date('YmdHis')])->label(false); ?>
+    <?= $form->field($model, 'fechaRegistro')->hiddenInput(['value' => date('YmdHis')])->label(false); ?>
 
-    <?= $form->field($model, 'estadoTarea')->hiddenInput(['value'=> 2])->label(false); ?>
-
-
+    <?= $form->field($model, 'estadoTarea')->hiddenInput(['value' => 2])->label(false); ?>
+    
+    <div class="form-group field-tareas-fechaestimada">
+        <label class="control-label" for="tareas-fechaestimada">Fecha estimada</label>
         <?php
-
-        echo '<label class="control-label">fecha estimada</label>';
         echo DateTimePicker::widget([
-        	'model' => $model,
-        	'attribute' => 'fechaEstimada',
-        	'options' => ['placeholder' => ''],
-        	'pluginOptions' => [
-        		'autoclose' => true,
-            'format' => 'yyyy-m-d H:i:s'
-        	]
+            'model' => $model,
+            'attribute' => 'fechaEstimada',
+            'options' => ['placeholder' => 'yyyy-mm-dd hh:mm'],
+            'pluginOptions' => [
+                'autoclose' => true,
+                'format' => 'yyyy-mm-dd hh:mm'
+            ]
         ]);
-
         ?>
+        <?php echo yii\bootstrap\Html::error($model, 'fechaEstimada', ['class' =>'help-block']); ?>
+    </div>
 
 
-
-    <?= $form->field($model, 'idPrioridad')->dropDownList($model->listaPrioridad, ['prompt' => 'Seleccione la prioridad' ]);?>
+    <?= $form->field($model, 'idPrioridad')->dropDownList($model->listaPrioridad, ['prompt' => 'Seleccione la prioridad']); ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

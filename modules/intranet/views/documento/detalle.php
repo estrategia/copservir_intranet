@@ -16,14 +16,14 @@ $this->title = $model->titulo;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Actualizar', ['actualizar', 'id' => $model->idDocumento], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['eliminar', 'id' => $model->idDocumento], [
+        <?php //echo Html::a('Actualizar', ['actualizar', 'id' => $model->idDocumento], ['class' => 'btn btn-primary']) ?>
+        <?php /*echo Html::a('Eliminar', ['eliminar', 'id' => $model->idDocumento], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Estas eguro de eliminar este documento?',
                 'method' => 'post',
             ],
-        ]) ?>
+        ]) */?>
     </p>
 
     <?php

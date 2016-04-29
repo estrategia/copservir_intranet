@@ -30,7 +30,7 @@ class DenunciosContenidos extends \yii\db\ActiveRecord
 
     public static function tableName()
     {
-        return 't_denuncioscontenidos';
+        return 't_DenunciosContenidos';
     }
 
     /**

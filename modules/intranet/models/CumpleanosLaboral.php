@@ -21,7 +21,7 @@ class CumpleanosLaboral extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 't_cumpleanoslaboral';
+        return 't_CumpleanosLaboral';
     }
 
     /**
@@ -62,7 +62,7 @@ class CumpleanosLaboral extends \yii\db\ActiveRecord
      */
     public function getObjUsuario()
     {
-        return $this->hasOne(User::className(), ['numeroDocumento' => 'numeroDocumento']);
+        return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumento']);
     }
 
     /**
@@ -92,7 +92,7 @@ class CumpleanosLaboral extends \yii\db\ActiveRecord
       $todosGrupo = \Yii::$app->params['grupo']['*'];
 
       $query =  self::find()->joinWith(['objGrupoInteresCargo'])->with(['objUsuario'])
-      ->where("( t_CumpleanosLaboral.fecha>=:fecha AND ( (t_CumpleanosLaboral.codigoCiudad =:codigoCiudad AND m_GrupoInteresCargo.idCargo IN ($userGrupos)) OR (t_CumpleanosLaboral.codigoCiudad =:codigoCiudad AND m_GrupoInteresCargo.idCargo=:todosGrupo) OR (t_CumpleanosLaboral.codigoCiudad =:todosCiudad AND m_GrupoInteresCargo.idCargo IN ($userGrupos)) OR (t_CumpleanosLaboral.codigoCiudad =:todosCiudad AND m_GrupoInteresCargo.idCargo =:todosGrupo) )   )")
+      ->where("( t_CumpleanosLaboral.fecha>=:fecha AND ( (t_CumpleanosLaboral.codigoCiudad =:codigoCiudad AND m_GrupoInteresCargo.idGrupoInteres IN ($userGrupos)) OR (t_CumpleanosLaboral.codigoCiudad =:codigoCiudad AND m_GrupoInteresCargo.idCargo=:todosGrupo) OR (t_CumpleanosLaboral.codigoCiudad =:todosCiudad AND m_GrupoInteresCargo.idGrupoInteres IN ($userGrupos)) OR (t_CumpleanosLaboral.codigoCiudad =:todosCiudad AND m_GrupoInteresCargo.idCargo =:todosGrupo) )   )")
       ->addParams([':fecha' => $fecha, ':codigoCiudad'=> $userCiudad, ':todosCiudad'=>$todosCiudad, ':todosGrupo'=> $todosGrupo])
       ->orderBy('t_CumpleanosLaboral.fecha asc')
       ->all();
