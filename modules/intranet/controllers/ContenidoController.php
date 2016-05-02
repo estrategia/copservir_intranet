@@ -441,6 +441,10 @@ class ContenidoController extends Controller {
                 if ($contenidoRecomendacion->save()) {
                   $transaction->commit();
                   $respond = $this->generarNotificacionClasificadoRecomendado($idUsuarioEnviado, $clasificado);
+
+                  if ($respond['result'] == 'error' ) {
+                    throw new Exception("Error al guardar la notificaicon:".yii\helpers\Json::enconde($logTarea->getErrors()), 101);
+                  }
                 };
             }
           } catch(\Exception $e) {

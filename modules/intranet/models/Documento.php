@@ -3,7 +3,8 @@
 namespace app\modules\intranet\models;
 
 use Yii;
-
+use yii\web\UploadedFile;
+use yii\helpers\Json;
 /**
  * This is the model class for table "m_documento".
  *
@@ -111,5 +112,43 @@ class Documento extends \yii\db\ActiveRecord
     public static function getTodosDocumento()
     {
         return self::find()->all();
+    }
+
+
+    /*
+    * FUNCIONES
+    */
+
+    /**
+     * funcion para crear un modelo LogDocumentos
+     * si el modelo no se crea devuelve una excepcionss
+     * @param
+     * @return
+     * @throws excepcion 101 el modelo no guardo su log
+     */
+    public function afterSave($inser, $changedAttributes)
+    {
+      $logDocumento = new LogDocumento();
+      $logDocumento->idDocumento = intval($this->idDocumento);
+      $this->isNewRecord ? $logDocumento->descripcion = $this->descripcionLog : $logDocumento->descripcion = 'Se crea el documento';
+      $logDocumento->fechaCreacion = Date("Y-m-d H:i:s");
+
+      if (!$logDocumento->save()) {
+
+        throw new \Exception("Error al guardar el logDocumento:", 101);
+      }
+      return parent::afterSave($inser, $changedAttributes);
+    }
+
+    /**
+     * asigna la ruta del documento cargado por el usuario
+     */
+    public function setRutaDocumento()
+    {
+      $this->file = UploadedFile::getInstance($this, 'file'); // si no selecciona nada pone null
+      if (!is_null($this->file)) {
+          $this->file->saveAs('contenidos/documentos/' . $this->file->baseName . '.' . $this->file->extension);
+          $this->rutaDocumento = $this->file->baseName . '.' . $this->file->extension;
+      }
     }
 }

@@ -9,7 +9,7 @@ use app\modules\intranet\models\LogDocumento;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\UploadedFile;
+
 
 /**
  * DocumentoController implements the CRUD actions for Documento model and other actions.
@@ -79,45 +79,19 @@ class DocumentoController extends Controller
         $model->scenario = Documento::SCENARIO_CREAR;
 
         if ($model->load(Yii::$app->request->post())) {
-
-
-          $model->file = UploadedFile::getInstance($model, 'file');
-          $model->file->saveAs('contenidos/documentos/' . $model->file->baseName . '.' . $model->file->extension);
-          $model->rutaDocumento = $model->file->baseName . '.' . $model->file->extension;
-
-          if ($model->save()) {
-
-            $logDocumento = new LogDocumento();
-            $logDocumento->idDocumento = intval($model->idDocumento);
-            $logDocumento->descripcion = 'Se crea el documento';
-            $logDocumento->fechaCreacion = Date("Y-m-d H:i:s");
-
-            /*
-            if ($logDocumento->validate()) {
-              echo 'valido';
-            }else{
-              echo 'invalido';
-              var_dump($logDocumento->getErrors()) ;
-            }*/
-
-            if ($logDocumento->save()) {
+          $model->setRutaDocumento();
+          $transaction = Documento::getDb()->beginTransaction();
+          try {
+              if ($model->save()) {
+                $transaction->commit();
                 return $this->redirect(['detalle', 'id' => $model->idDocumento]);
-            }else{
-              //error no guardo log
-              return $this->render('crear', [
-                  'model' => $model,
-              ]);
-            }
+              }
+          } catch(\Exception $e) {
 
-
-          }else{
-            // error guardo documento
-            return $this->render('crear', [
-                'model' => $model,
-            ]);
+              $transaction->rollBack();
+              Yii::$app->session->setFlash('error', $e->getMessage());
+              throw $e;
           }
-
-
         } else {
             // error no cargo modelo
             return $this->render('crear', [
@@ -139,43 +113,17 @@ class DocumentoController extends Controller
         $model->scenario = Documento::SCENARIO_ACTUALIZAR;
 
         if ($model->load(Yii::$app->request->post())) {
-
-          $model->file = UploadedFile::getInstance($model, 'file'); // si no selecciona nada pone null
-          var_dump($model->file);
-
-          if (!is_null($model->file)) {
-              $model->file->saveAs('contenidos/documentos/' . $model->file->baseName . '.' . $model->file->extension);
-              $model->rutaDocumento = $model->file->baseName . '.' . $model->file->extension;
-          }
-
-          if ($model->save()) {
-
-            $logDocumento = new LogDocumento();
-            $logDocumento->idDocumento = intval($model->idDocumento);
-            $logDocumento->descripcion = $model->descripcionLog;
-            $logDocumento->fechaCreacion = Date("Y-m-d H:i:s");
-
-            /*
-            if ($logDocumento->validate()) {
-              echo 'valido';
-            }else{
-              echo 'invalido';
-              var_dump($logDocumento->getErrors()) ;
-            }*/
-
-            if ($logDocumento->save()) {
+          $model->setRutaDocumento();
+          try {
+              if ($model->save()) {
+                $transaction->commit();
                 return $this->redirect(['detalle', 'id' => $model->idDocumento]);
-            }else{
-              //error no guardo log
-              return $this->render('crear', [
-                  'model' => $model,
-              ]);
-            }
-          }else{
-            // error no guardo el documento
-            return $this->render('crear', [
-                'model' => $model,
-            ]);
+              }
+          } catch(\Exception $e) {
+
+              $transaction->rollBack();
+              Yii::$app->session->setFlash('error', $e->getMessage());
+              throw $e;
           }
         } else {
             // error no cargo el modelo
@@ -194,7 +142,6 @@ class DocumentoController extends Controller
     public function actionEliminar($id)
     {
         $this->findModel($id)->delete();
-
         return $this->redirect(['listar']);
     }
 
