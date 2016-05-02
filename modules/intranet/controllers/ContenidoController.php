@@ -292,9 +292,8 @@ class ContenidoController extends Controller {
 
         if ( empty($a)  and empty($m) and empty($d)   ) {
 
-            //hacer busqueda del patron
+
             $resultados = Contenido::traerBusqueda($busqueda);
-            // grafica resultado por años
             $valorGrafica = Contenido::datosGraficaAnio($busqueda);
             $url = $this->makeUrlChart($valorGrafica, false);
             $valorGrafica = Json::encode($valorGrafica);
@@ -304,9 +303,7 @@ class ContenidoController extends Controller {
 
         if ( !empty($a)  and empty($m) and empty($d)   ) {
 
-            // hacer la busqueda de ese patron en ese año
             $resultados = Contenido::traerBusquedaAnio($busqueda, $a);
-            // grafica resultado por mes
             $valorGrafica = Contenido::datosGraficaMes($busqueda, $a);
             $url = $this->makeUrlChart($valorGrafica, true);
             $valorGrafica = Json::encode($valorGrafica);
@@ -315,9 +312,8 @@ class ContenidoController extends Controller {
         }
 
         if ( !empty($a)  and !empty($m) and empty($d)   ) {
-          // hacer la busqueda de ese patron en ese año y mes
+
           $resultados = Contenido::traerBusquedaMes($busqueda, $a, $m);
-          // grafica resultado por dias
           $valorGrafica = Contenido::datosGraficaDia($busqueda, $a, $m);
           $url = $this->makeUrlChart($valorGrafica, false);
           $valorGrafica = Json::encode($valorGrafica);
@@ -325,7 +321,6 @@ class ContenidoController extends Controller {
         }
 
         if ( !empty($a)  and !empty($m) and !empty($d)) {
-          // hacer la busqueda de ese patron en ese año, mes y dia
           $resultados = Contenido::traerBusquedaDia($busqueda, $a, $m, $d);
 
         }
@@ -382,9 +377,8 @@ class ContenidoController extends Controller {
       $chd = substr($chd, 0, -1);
       $chd .= '|0,';
 
-      // se pegan las cantidades de veces que se repite la noticia y sus etiquetas
       $maximo = array();
-
+      // se pegan las cantidades de veces que se repite la noticia y sus etiquetas
       foreach ($valorGrafica as $valor) {
          $chd .= $valor['cantidad'] . ',';
          if ($flag) {

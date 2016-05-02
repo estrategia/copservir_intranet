@@ -88,19 +88,13 @@ class OfertasLaboralesController extends Controller
                           $modelOfertasDestino->codigoCiudad = $ciudades[$i];
                           $modelOfertasDestino->save();
                         }
-
-                        //ejecuta la transaccion
                         $innerTransaction->commit();
-
 
                     } catch (Exception $e) {
                         $innerTransaction->rollBack();
 
                         throw $e;
                     }
-
-
-                  //ejecuta la transaccion
                   $transaction->commit();
                   return $this->redirect(['listar-ofertas']);
                 }else{
@@ -118,9 +112,7 @@ class OfertasLaboralesController extends Controller
 
             } catch(\Exception $e) {
 
-                //devuelve los cambios
                 $transaction->rollBack();
-
                 throw $e;
             }
         }else {
@@ -220,8 +212,6 @@ class OfertasLaboralesController extends Controller
         $model->codigoCiudad = Yii::$app->request->post('ciudad', '');;
         $model->idOfertaLaboral = $idOferta;
 
-
-        //si no guarda el modelo
         if (!$model->save()) {
 
           $ofertaDestino = OfertasLaboralesDestino::find()->where('( codigoCiudad =:idCiudad and idGrupoInteres =:idGrupoInteres and idOfertaLaboral =:idOferta )')
@@ -241,7 +231,6 @@ class OfertasLaboralesController extends Controller
           }
 
         }else{
-          // si guardda el modelo
           $destinoOfertasLaborales = OfertasLaboralesDestino::listaOfertas($idOferta);
           $items = [
               'result' => 'ok',

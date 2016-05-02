@@ -38,18 +38,18 @@ class CategoriaDocumentoController extends \yii\web\Controller
     public function crearMenuDocumentos($arrayCategoriasDocumento, $html, $flagAdmin)
     {
       if (empty($arrayCategoriasDocumento)) {
-        // no hay categoria CategoriaDocumento
+
           $html = $html.'';
       }else{
         foreach ($arrayCategoriasDocumento as $categoria) {
 
-          // se Consultan los hijos del elemento
+
           $hijos = CategoriaDocumento::getHijos($categoria->idCategoriaDocumento);
 
-          if (!empty($hijos)) { // ese elemento tiene hijos
+          if (!empty($hijos)) {
             $html = $this->RenderCategoria($categoria, $hijos, false, $html, $flagAdmin);
 
-            }else{ // ese elemento no tiene hijos
+            }else{ 
               $html = $this->RenderCategoria($categoria, $hijos, true, $html, $flagAdmin);
             }
           }
@@ -57,6 +57,16 @@ class CategoriaDocumentoController extends \yii\web\Controller
         return $html;
     }
 
+
+    /**
+     * Funcion auxiliar donde se va creando el string con el html del menu
+     * @param $categoria = modelo CategoriaDocumento
+     * $hijos = arreglo de modelos CategoriaDocumento cuyo padre es categoria
+     * $html = string con el codigo html del menu que se va gerenando
+     * $flagAdmin = bandera que indica si es la vista administrador o no
+     * $flagHoja = bandera que indica si el elemento es una hoja o no
+     * @return $html = string con todo el codigo html del menu
+     */
     public function RenderCategoria($categoria, $hijos, $flagHoja, $html, $flagAdmin)
     {
       // se acomoda el data-parent para indicar las dependencias
@@ -68,7 +78,6 @@ class CategoriaDocumentoController extends \yii\web\Controller
           $dataparent = $categoria->idCategoriaDocumento;
       }
 
-      // variables para almacenar diferentes elementos html
       $htmlEnlace = '<a href="#'.$categoria->idCategoriaDocumento.'" data-parent="#'.$dataparent.'" data-toggle="collapse">
                       '.$categoria->nombre.'
                     </a>';
@@ -76,7 +85,7 @@ class CategoriaDocumentoController extends \yii\web\Controller
       $htmlCrearCategoria = '';
       $htmlEditaCategoria = '';
 
-      // crea los elementos html para crear y editar si viene de la vista administrador
+
       if ($flagAdmin) {
 
         $htmlCrearCategoria = '<button href="#" data-role="categoria-crear" data-padre="'.$categoria->idCategoriaDocumento.'"
@@ -124,7 +133,6 @@ class CategoriaDocumentoController extends \yii\web\Controller
         }
       }
 
-      // crea el string que contien el html del menu
       $html = $html.
       '
       <div class="panel panel-default">

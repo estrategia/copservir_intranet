@@ -52,15 +52,13 @@ class TareasController extends Controller {
             $transaction = Tareas::getDb()->beginTransaction();
             try {
                 if ($modelTarea->save()) {
-                  //ejecuta la transaccion
                   $transaction->commit();
                   return $this->redirect('listar-tareas');
                 }
 
             } catch(\Exception $e) {
-                //devuelve los cambios
+
                 $transaction->rollBack();
-                //devuelve mensajes de error
                 Yii::$app->session->setFlash('error', $e->getMessage());
                 throw $e;
             }
@@ -92,9 +90,7 @@ class TareasController extends Controller {
                       return $this->redirect('listar-tareas');
                     };
                 } catch (\Exception $e) {
-                    //devuelve los cambios
                     $transaction->rollBack();
-                    //devuelve mensajes de error
                     Yii::$app->session->setFlash('error', $e->getMessage());
                     throw $e;
                 }
@@ -139,9 +135,7 @@ class TareasController extends Controller {
           }
         } catch (\Exception $e) {
 
-            //devuelve los cambios
             $transaction->rollBack();
-            //devuelve mensajes de error
             $tareasUsuario = $modelTarea->getTareasDependingLocation($location);
             $respond = [
                 'result' => 'error',
@@ -178,7 +172,7 @@ class TareasController extends Controller {
 
               $transaction->commit();
               $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-              if ($flagHome == 'true') { // si actualiza el progreso de la tarea por check del home
+              if ($flagHome == 'true') {
                    $tareasUsuario = Tareas::getTareasIndex($numeroDocumento);
                    $respond = [
                        'result' => 'ok',
@@ -186,7 +180,7 @@ class TareasController extends Controller {
                            'tareasUsuario' => $tareasUsuario,
                                ]
                    )];
-               } else { // si actualiza el progreso de la tarea por mover el slider en la lista de tareas
+               } else {
                    $respond = [
                        'result' => 'ok',
                    ];
@@ -235,7 +229,6 @@ class TareasController extends Controller {
             }
         } catch (\Exception $e) {
 
-            //devuelve los cambios
             $transaction->rollBack();
             $tareasUsuario = Tareas::getTareasIndex($numeroDocumento);
             $respond = [

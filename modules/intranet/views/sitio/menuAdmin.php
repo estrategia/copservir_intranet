@@ -5,6 +5,7 @@ use yii\helpers\Html;
 
 $this->title = 'Administra menu corporativo';
 $opciones = Menu::construirArrayMenu(true);
+
 ?>
 <div class="col-md-12" id="menu">
   <h1><?= Html::encode($this->title) ?></h1>

@@ -216,7 +216,7 @@ class SitioController extends Controller {
                 $contenido->fechaAprobacion = date("Y-m-d H:i:s");
                 $contenido->fechaInicioPublicacion = date("Y-m-d H:i:s");
             } else {
-                $contenido->estado = Contenido::PENDIENTE_APROBACION; // estado pendiente por aprobacion
+                $contenido->estado = Contenido::PENDIENTE_APROBACION; 
             }
 
             if ($contenido->save()) {
@@ -382,12 +382,8 @@ class SitioController extends Controller {
 
           if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-              // pasar a una funcion en el modelo 
-              if (is_null($model->idPadre)) {
-                $model->idRaiz = $model->idMenu;
-              }else{
-                $model->idRaiz = $model->idPadre;
-              }
+              // pasar a una funcion en el modelo
+              $model->setIdRaiz();
 
               if ($model->save()) {
                 $respond = [

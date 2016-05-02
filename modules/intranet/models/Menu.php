@@ -46,6 +46,9 @@ class Menu extends \yii\db\ActiveRecord {
         ];
     }
 
+    /**
+     * Relaciones
+     */
     public function getListSubMenu() {
         return $this->hasMany(Menu::className(), ['idPadre' => 'idMenu']);
     }
@@ -58,7 +61,9 @@ class Menu extends \yii\db\ActiveRecord {
         return $this->hasOne(Opcion::className(), ['idMenu' => 'idMenu']);
     }
 
-
+    /**
+     * Funciones
+     */
     public static function menuHtml($menuItem, $opciones = []) {
 
         if (!empty($opciones) &&in_array($menuItem->idMenu, $opciones)) {
@@ -170,6 +175,7 @@ class Menu extends \yii\db\ActiveRecord {
                         </div>
                       </div>",
         ];
+
       }else{ // tiene hijos
 
         $children= [];
@@ -208,4 +214,31 @@ class Menu extends \yii\db\ActiveRecord {
 
     }
 
+    /**
+     * Funcion para asignar el atributo idRaiz al modelo Menu
+     * @param
+     * @return
+     */
+    public function setIdRaiz()
+    {
+      if ($this->esNodoRaiz()) {
+        $this->idRaiz = $this->idMenu;
+      }else {
+        $this->idRaiz = $this->idPadre;
+      }
+    }
+
+    /**
+     * Funcion que indica si un modelo Menu es raiz
+     * @param
+     * @return bool true || bool false
+     */
+    public function esNodoRaiz()
+    {
+      if (is_null($this->idPadre)) {
+        return true;
+      }else{
+        return false;
+      }
+    }
 }

@@ -80,7 +80,6 @@ class GrupoInteresController extends Controller {
             return $this->render('crear', [
                         'model' => $model,
             ]);
-          //  return $this->redirect(['detalle', 'id' => $model->idGrupoInteres]);
         } else {
             return $this->render('crear', [
                         'model' => $model,
@@ -109,7 +108,6 @@ class GrupoInteresController extends Controller {
                 $model->save();
             }
 
-          //  return $this->redirect(['detalle', 'id' => $model->idGrupoInteres]);
              return $this->render('crear', [
                         'model' => $model,
             ]);
@@ -187,7 +185,7 @@ class GrupoInteresController extends Controller {
         $model->idGrupoInteres = $idGrupo;
 
         if ($model->save()) {
-          
+
         $grupoInteresCargo = GrupoInteresCargo::listaCargos($idGrupo);
 
         $items = [

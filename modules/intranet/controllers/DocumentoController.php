@@ -87,8 +87,6 @@ class DocumentoController extends Controller
 
           if ($model->save()) {
 
-
-            // guarda el el log
             $logDocumento = new LogDocumento();
             $logDocumento->idDocumento = intval($model->idDocumento);
             $logDocumento->descripcion = 'Se crea el documento';
@@ -152,7 +150,6 @@ class DocumentoController extends Controller
 
           if ($model->save()) {
 
-            // guarda el el log
             $logDocumento = new LogDocumento();
             $logDocumento->idDocumento = intval($model->idDocumento);
             $logDocumento->descripcion = $model->descripcionLog;
