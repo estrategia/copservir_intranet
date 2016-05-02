@@ -49,7 +49,7 @@ class CategoriaDocumentoController extends \yii\web\Controller
           if (!empty($hijos)) {
             $html = $this->RenderCategoria($categoria, $hijos, false, $html, $flagAdmin);
 
-            }else{ 
+            }else{
               $html = $this->RenderCategoria($categoria, $hijos, true, $html, $flagAdmin);
             }
           }
@@ -89,7 +89,7 @@ class CategoriaDocumentoController extends \yii\web\Controller
       if ($flagAdmin) {
 
         $htmlCrearCategoria = '<button href="#" data-role="categoria-crear" data-padre="'.$categoria->idCategoriaDocumento.'"
-                                data-parent="#'.$dataparent.'"  class="btn btn-mini btn-success">
+                               class="btn btn-mini btn-success">
                                 crear categoria
                               </button><br><br>';
 
@@ -103,7 +103,7 @@ class CategoriaDocumentoController extends \yii\web\Controller
       if (!is_null($categoria->categoriaDocumentosDetalle)) {
 
         if ($flagAdmin && $flagHoja) {
-          $htmlRelaciona = '<button href="#" data-parent="#'.$dataparent.'" data-role="no-relaciona-documento"
+          $htmlRelaciona = '<button href="#"  data-role="no-relaciona-documento"
                             data-categoria="'.$categoria->idCategoriaDocumento.'"
                             data-documento="'.$categoria->categoriaDocumentosDetalle->idDocumento.'"
                             class="btn btn-mini btn-success">
@@ -119,7 +119,7 @@ class CategoriaDocumentoController extends \yii\web\Controller
       }else{
 
         if ($flagAdmin && $flagHoja) {
-          $htmlRelaciona = '<button href="#" data-parent="#'.$dataparent.'" data-categoria="'.$categoria->idCategoriaDocumento.'"
+          $htmlRelaciona = '<button href="#"  data-categoria="'.$categoria->idCategoriaDocumento.'"
                             data-role="relaciona-documento" class="btn btn-mini btn-success">
                            relacionar documento
                            </button>';
@@ -127,7 +127,7 @@ class CategoriaDocumentoController extends \yii\web\Controller
 
         if (!$flagAdmin && $flagHoja) {
           $htmlEnlace = Html::a($categoria->nombre, ['#'], []);;
-          $htmlRelaciona = '<button href="#" data-parent="#'.$dataparent.'"  class="btn btn-mini btn-success">
+          $htmlRelaciona = '<button href="#"  class="btn btn-mini btn-success">
                                  No hay un documento asociado
                             </button>';
         }

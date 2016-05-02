@@ -425,66 +425,74 @@ class ContenidoController extends Controller {
     {
       $listaAmigos =  Yii::$app->request->post('enviaAmigo',[]);
       $clasificado =  Yii::$app->request->post('clasificado','');
-      $items = [];
+      $respond = [];
 
       if ($listaAmigos != [] and $clasificado != '') {
 
           $transaction = ContenidoRecomendacion::getDb()->beginTransaction();
           try {
-            foreach ($listaAmigos as $amigo) {
+            foreach ($listaAmigos as $idUsuarioEnviado) {
                 $contenidoRecomendacion = new ContenidoRecomendacion();
                 $contenidoRecomendacion->idContenido = $clasificado;
                 $contenidoRecomendacion->numeroDocumentoDirige = Yii::$app->user->identity->numeroDocumento;
-                $contenidoRecomendacion->numeroDocumentoDirigido = $amigo;
+                $contenidoRecomendacion->numeroDocumentoDirigido = $idUsuarioEnviado;
                 $contenidoRecomendacion->fechaRegistro = Date("Y-m-d H:i:s");
-                $contenidoRecomendacion->save();
+
+                if ($contenidoRecomendacion->save()) {
+                  $transaction->commit();
+                  $respond = $this->generarNotificacionClasificadoRecomendado($idUsuarioEnviado, $clasificado);
+                };
             }
-
-              $innerTransaction = Notificaciones::getDb()->beginTransaction();
-
-              try {
-
-                foreach ($listaAmigos as $amigo) {
-
-                    $notificacion = new Notificaciones();
-                    $notificacion->idContenido = $clasificado;
-                    $notificacion->numeroDocumentoDirige = Yii::$app->user->identity->numeroDocumento;
-                    $notificacion->numeroDocumentoDirigido = $amigo;
-                    $notificacion->descripcion = 'recomienda un clasificado';
-                    $notificacion->estadoNotificacion = Notificaciones::ESTADO_CREADA;
-                    $notificacion->fechaRegistro = Date("Y-m-d H:i:s");
-                    $notificacion->tipoNotificacion = Notificaciones::NOTIFICACION_RECOMENDACION;
-                    $notificacion->save();
-                }
-
-                $innerTransaction->commit();
-
-                $items = [
-                    'result' => 'ok',
-                  ];
-
-
-              } catch (Exception $e) {
-                  $innerTransaction->rollBack();
-                  throw $e;
-               }
-
-
-              //ejecuta la transaccion
-              $transaction->commit();
-              Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-              return $items;
-
-
           } catch(\Exception $e) {
 
               //devuelve los cambios
               $transaction->rollBack();
-
+              $respond = [
+                  'result' => 'error',
+                ];
               throw $e;
           }
 
+          Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+          return $respond;
       }
+    }
+
+    /**
+    * @param idUsuarioEnviado, idClasificado
+    * @return respond[] = indica si la operacion se hizo con exito o no
+    */
+    public function generarNotificacionClasificadoRecomendado($idUsuarioEnviado, $idClasificado)
+    {
+      $transaction = Notificaciones::getDb()->beginTransaction();
+      $respond = [];
+
+      try {
+        $notificacion = new Notificaciones();
+        $notificacion->idContenido = $idClasificado;
+        $notificacion->numeroDocumentoDirige = Yii::$app->user->identity->numeroDocumento;
+        $notificacion->numeroDocumentoDirigido = $idUsuarioEnviado;
+        $notificacion->descripcion = 'recomienda un clasificado';
+        $notificacion->estadoNotificacion = Notificaciones::ESTADO_CREADA;
+        $notificacion->fechaRegistro = Date("Y-m-d H:i:s");
+        $notificacion->tipoNotificacion = Notificaciones::NOTIFICACION_RECOMENDACION;
+
+        if ($notificacion->save()) {
+          $transaction->commit();
+          $respond = [
+              'result' => 'ok',
+            ];
+        };
+      } catch (Exception $e) {
+
+          $transaction->rollBack();
+          $respond = [
+              'result' => 'error',
+            ];
+          throw $e;
+       }
+
+       return $respond;
     }
 
 
