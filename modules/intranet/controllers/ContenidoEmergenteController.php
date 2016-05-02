@@ -104,7 +104,6 @@ class ContenidoEmergenteController extends Controller
     public function actionEliminar($id)
     {
         $this->findModel($id)->delete();
-
         return $this->redirect(['listar']);
     }
 
@@ -139,43 +138,43 @@ class ContenidoEmergenteController extends Controller
         $query = ContenidoEmergente::getContenidoEmergente($userCiudad, $userGrupos, $userNumeroDocumento);
 
         if ($query) {
-            $items = [
+            $respond = [
                 'result' => 'ok',
                 'response' => $this->renderAjax('_contenidoemergenteHtml', ['query' => $query]),
             ];
         } else {
-            $items = [
+            $respond = [
                 'result' => 'ok',
                 'response' => '',
             ];
         }
 
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return $items;
+        return $respond;
     }
 
     /**
      * inactiva un ContenidoEmergente con esto el usuario no lo vera mas
      * @param idPopup = idContenidoEmergente
-     * @return items.result = indica si la operacion se realizo correctamente o no
+     * @return respond.result = indica si la operacion se realizo correctamente o no
      */
     public function actionInactivaContenidoEmergente() {
 
-        $idPopup = Yii::$app->request->post('idPopup');
-        $modelContenido = ContenidoEmergente::findone(['idContenidoEmergente' => $idPopup]);
+        $idPopup = Yii::$app->request->post('idPopup','');
+        $modelContenido = findModel($idPopup);
         $modelContenido->estado = ContenidoEmergente::ESTADO_INACTIVO;
-        $items = [];
+        $respond = [];
         if ($modelContenido->save()) {
-          $items = [
+          $respond = [
               'result' => 'ok',
           ];
         }else{
-          $items = [
+          $respond = [
               'result' => 'error',
           ];
         }
 
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return $items;
+        return $respond;
     }
 }

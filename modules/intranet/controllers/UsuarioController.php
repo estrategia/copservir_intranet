@@ -341,16 +341,16 @@ class UsuarioController extends \yii\web\Controller {
     /**
      * accion para renderizar el modal de enviar a un amigo
      * @param none
-     * @return items = []
-     *         items.result = indica si todo se realizo bien o mal
-     *         items.response = html para renderizar el modal tiene como parametros: listaUsuarios = usuarios a seleccionar, modelClasificado = modelo del contenido que desea compartir
+     * @return respond = []
+     *         respond.result = indica si todo se realizo bien o mal
+     *         respond.response = html para renderizar el modal tiene como parametros: listaUsuarios = usuarios a seleccionar, modelClasificado = modelo del contenido que desea compartir
      */
     public function actionModalAmigos($idClasificado) {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $listaUsuarios = Usuario::listaUsuariosEnviarAmigo($idClasificado);
         $clasificado = Contenido::traerNoticiaEspecifica($idClasificado);
 
-        $items = [
+        $respond = [
             'result' => 'ok',
             'response' => $this->renderAjax('_modalEnviarAmigo', [
                 'listaUsuarios' => $listaUsuarios,
@@ -358,7 +358,7 @@ class UsuarioController extends \yii\web\Controller {
                     ]
         )];
 
-        return $items;
+        return $respond;
     }
 
 }

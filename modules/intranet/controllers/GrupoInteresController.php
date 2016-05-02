@@ -66,17 +66,8 @@ class GrupoInteresController extends Controller {
         $model = new GrupoInteres();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model->imagenGrupo = UploadedFile::getInstances($model, 'imagenGrupo');
-
-
-            if ($model->imagenGrupo) {
-                foreach ($model->imagenGrupo as $file) {
-                    $file->saveAs('img/gruposInteres/' . $file->baseName . '.' . $file->extension);
-                }
-                $model->imagenGrupo = $file->baseName . '.' . $file->extension;
-
-                $model->save();
-            }
+            $model->asignarImagenGrupo();
+            $model->save();
             return $this->render('crear', [
                         'model' => $model,
             ]);
@@ -97,18 +88,10 @@ class GrupoInteresController extends Controller {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model->imagenGrupo = UploadedFile::getInstances($model, 'imagenGrupo');
 
-            if ($model->imagenGrupo) {
-                foreach ($model->imagenGrupo as $file) {
-                    $file->saveAs('img/gruposInteres/' . $file->baseName . '.' . $file->extension);
-                }
-                $model->imagenGrupo = $file->baseName . '.' . $file->extension;
-
-                $model->save();
-            }
-
-             return $this->render('crear', [
+            $model->asignarImagenGrupo();
+            $model->save();
+            return $this->render('crear', [
                         'model' => $model,
             ]);
         } else {
@@ -126,7 +109,6 @@ class GrupoInteresController extends Controller {
      */
     public function actionEliminar($id) {
         $this->findModel($id)->delete();
-
         return $this->redirect(['listar']);
     }
 
@@ -147,16 +129,13 @@ class GrupoInteresController extends Controller {
 
         ;
 
-        $items = [
+        $respond = [
         'result' => 'error',
         ];
 
         if ($grupoInteresCargo->delete()) {
-
-
           $grupoInteresCargo = GrupoInteresCargo::listaCargos($idGrupoInteres);
-
-          $items = [
+          $respond = [
               'result' => 'ok',
               'response' => $this->renderPartial('cargosGrupoInteres', [
                 'grupoInteresCargo' => $grupoInteresCargo,
@@ -164,20 +143,20 @@ class GrupoInteresController extends Controller {
             ];
         }
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return $items;
+        return $respond;
     }
 
     /**
      * accion para renderizar el modal de agregar cargos
      * @param none
-     * @return items = []
-     *         items.result = indica si todo se realizo bien o mal
-     *         items.response = html para renderizar los cargos asociados a el grupo
+     * @return respond = []
+     *         respond.result = indica si todo se realizo bien o mal
+     *         respond.response = html para renderizar los cargos asociados a el grupo
      */
      public function actionAgregaCargo($idGrupo)
      {
         $model = new GrupoInteresCargo();
-        $items = [
+        $respond = [
         'result' => 'error',
         ];
 
@@ -188,7 +167,7 @@ class GrupoInteresController extends Controller {
 
         $grupoInteresCargo = GrupoInteresCargo::listaCargos($idGrupo);
 
-        $items = [
+        $respond = [
             'result' => 'ok',
             'response' => $this->renderPartial('cargosGrupoInteres', [
                 'grupoInteresCargo' => $grupoInteresCargo,
@@ -196,7 +175,7 @@ class GrupoInteresController extends Controller {
         )];
         }
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return $items;
+        return $respond;
      }
 
      /**

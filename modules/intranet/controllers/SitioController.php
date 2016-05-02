@@ -188,14 +188,14 @@ class SitioController extends Controller {
 
         $noticias = Contenido::traerNoticias($lineaTiempo);
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $items = [
+        $respond = [
             'result' => 'ok',
             'response' => $this->renderAjax('_lineaTiempo', [
                 'linea' => $linea,
                 'noticias' => $noticias
                     ]
         )];
-        return $items;
+        return $respond;
     }
 
     /*
@@ -216,7 +216,7 @@ class SitioController extends Controller {
                 $contenido->fechaAprobacion = date("Y-m-d H:i:s");
                 $contenido->fechaInicioPublicacion = date("Y-m-d H:i:s");
             } else {
-                $contenido->estado = Contenido::PENDIENTE_APROBACION; 
+                $contenido->estado = Contenido::PENDIENTE_APROBACION;
             }
 
             if ($contenido->save()) {
@@ -268,14 +268,14 @@ class SitioController extends Controller {
 
                     $noticias = Contenido::traerNoticias($contenido->idLineaTiempo);
                     \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-                    $items = [
+                    $respond = [
                         'result' => 'ok',
                         'response' => $this->renderAjax('_lineaTiempo', [
                             'contenidoModel' => $contenidoModel,
                             'linea' => $linea,
                             'noticias' => $noticias
                     ])];
-                    return $items;
+                    return $respond;
                 } else {
                     return [
                         'result' => 'error',
@@ -531,12 +531,12 @@ class SitioController extends Controller {
                     $contenido = Contenido::find()->where(['idContenido' => $meGusta->idContenido])->one();
 
                     if (empty($contenido)) {
-                        $items = [
+                        $respond = [
                             'result' => 'error',
                             'response' => 'El contenido ya no existe'
                         ];
                     } else {
-                        $items = [
+                        $respond = [
                             'result' => 'error',
                             'response' => 'Error al guardar el comentario'
                         ];
@@ -556,7 +556,7 @@ class SitioController extends Controller {
 
                         if (!$notificacion->save()) {
                             $result = false;
-                            $items = [
+                            $respond = [
                                 'result' => 'error',
                                 'response' => 'No se puede registrar notificación'
                             ];
@@ -570,7 +570,7 @@ class SitioController extends Controller {
             if ($result) {
 
                 $numeroMeGusta = count(MeGustaContenidos::find()->where(['idContenido' => $post['idContenido']])->all());
-                $items = [
+                $respond = [
                     'result' => 'ok',
                     'response' => ($numeroMeGusta > 0) ?
                             Html::a($numeroMeGusta . " Me Gusta", '#', [
@@ -582,7 +582,7 @@ class SitioController extends Controller {
                 ];
             }
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            return $items;
+            return $respond;
         }
     }
 
@@ -617,7 +617,7 @@ class SitioController extends Controller {
 
                     if (!$notificacion->save()) {
 
-                        $items = [
+                        $respond = [
                             'result' => 'error',
                             'response' => 'Error a notificar el comentario'
                         ];
@@ -642,7 +642,7 @@ class SitioController extends Controller {
 
                     if (!$notificacion->save()) {
 
-                        $items = [
+                        $respond = [
                             'result' => 'error',
                             'response' => 'Error a notificar el comentario'
                         ];
@@ -652,7 +652,7 @@ class SitioController extends Controller {
                 $noticia = Contenido::traerNoticiaEspecifica($comentario->idContenido);
                 $linea = LineaTiempo::find()->where(['idLineaTiempo' => $noticia->idLineaTiempo])->one();
 
-                $items = [
+                $respond = [
                     'result' => 'ok',
                     'response' => $this->renderAjax('/contenido/_contenido', ['noticia' => $noticia, 'linea' => $linea])
                 ];
@@ -661,19 +661,19 @@ class SitioController extends Controller {
                 $contenido = Contenido::find()->where(['idContenido' => $comentario->idContenido])->one();
 
                 if (empty($contenido)) {
-                    $items = [
+                    $respond = [
                         'result' => 'error',
                         'response' => 'El contenido ya no existe'
                     ];
                 } else {
-                    $items = [
+                    $respond = [
                         'result' => 'error',
                         'response' => 'Error al guardar el comentario'
                     ];
                 }
             }
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            return $items;
+            return $respond;
         }
     }
 
@@ -718,23 +718,23 @@ class SitioController extends Controller {
 
 
             if ($model->save()) {
-                $items = [
+                $respond = [
                     'result' => 'ok'
                 ];
             } else {
-                $items = [
+                $respond = [
                     'result' => 'error'
                 ];
             }
         } else if ($opcion == 1) {
 
             UsuarioWidgetInactivo::deleteAll('widget = :widget AND widget = :widget', [':widget' => $elemento, ':numeroDocumento' => Yii::$app->user->identity->numeroDocumento]);
-            $items = [
+            $respond = [
                 'result' => 'ok'
             ];
         }
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return $items;
+        return $respond;
     }
 
 

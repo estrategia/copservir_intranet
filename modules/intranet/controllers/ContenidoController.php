@@ -126,19 +126,19 @@ class ContenidoController extends Controller {
             $contenido = Contenido::find()->where(['idContenido' => $modelDenuncio->idContenido])->one();
 
             if (empty($contenido)) {
-                $items = [
+                $respond = [
                     'result' => 'error',
                     'response' => 'El contenido ya no existe'
                 ];
             } else {
-                $items = [
+                $respond = [
                     'result' => 'error',
                     'response' => 'Error al guardar el comentario'
                 ];
             }
 
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            return $items;
+            return $respond;
         }
     }
 
@@ -196,19 +196,19 @@ class ContenidoController extends Controller {
             $contenido = ContenidosComentarios::find()->where(['idContenidoComentario' => $modelDenuncio->idContenidoComentario])->one();
 
             if (empty($contenido)) {
-                $items = [
+                $respond = [
                     'result' => 'error',
                     'response' => 'El contenido ya no existe'
                 ];
             } else {
-                $items = [
+                $respond = [
                     'result' => 'error',
                     'response' => 'Error al guardar el denuncio'
                 ];
             }
 
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            return $items;
+            return $respond;
         }
     }
 
@@ -418,8 +418,8 @@ class ContenidoController extends Controller {
     /**
     * accion donde el usuario envia una publicacion a un amigo
     * @param post = los usuarios que selecciono para enviar la publicación
-    * @return items = []
-    *         items.result = indica si todo se realizo bien o mal
+    * @return respond = []
+    *         respond.result = indica si todo se realizo bien o mal
     */
     public function actionEnviarAmigo()
     {

@@ -115,7 +115,6 @@ class InformacionContactoOfertaController extends Controller
     public function actionEliminar($id)
     {
         $this->findModel($id)->delete();
-
         return $this->redirect(['listar']);
     }
 
@@ -129,12 +128,11 @@ class InformacionContactoOfertaController extends Controller
     public function actionPlantilla($id)
     {
 
-        $model = InformacionContactoOferta::findOne($id);
-
-        $items = [];
+        $model = findModel($id);
+        $respond = [];
 
           // consultar la informacion del contacto
-          $items = [
+          $respond = [
               'result' => 'ok',
               'response' =>  $this->renderAjax('_plantillaOferta', [
                   'plantilla' => $model,
@@ -144,7 +142,7 @@ class InformacionContactoOfertaController extends Controller
           ];
 
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return $items;
+        return $respond;
     }
 
     /**

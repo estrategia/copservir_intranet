@@ -65,4 +65,17 @@ class GrupoInteres extends \yii\db\ActiveRecord
         return Yii::$app->homeUrl . 'img/gruposInteres/' .$this->imagenGrupo;
     }
 
+
+    public function asignarImagenGrupo()
+    {
+      $this->imagenGrupo = UploadedFile::getInstances($this, 'imagenGrupo');
+
+      if ($this->imagenGrupo) {
+          foreach ($this->imagenGrupo as $file) {
+              $file->saveAs('img/gruposInteres/' . $file->baseName . '.' . $file->extension);
+          }
+          $this->imagenGrupo = $file->baseName . '.' . $file->extension;
+      }
+    }
+
 }

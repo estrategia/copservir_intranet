@@ -98,12 +98,6 @@ class OfertasLaboralesController extends Controller
                   $transaction->commit();
                   return $this->redirect(['listar-ofertas']);
                 }else{
-                  /*if ($model->validate()) {
-                    echo 'valido';
-                  }else{
-                    echo 'invalido';
-                    var_dump($model->getErrors()) ;
-                  }*/
                   //ocurrio un error al guardar
                   return $this->render('crear', [
                       'model' => $model,
@@ -174,7 +168,7 @@ class OfertasLaboralesController extends Controller
         ->addParams(['idCiudad'=>$idCiudad,'idGrupoInteres'=>$idGrupoInteres, 'idOferta'=>$idOferta])
         ->one();
 
-        $items = [
+        $respond = [
         'result' => 'error',
         ];
 
@@ -182,7 +176,7 @@ class OfertasLaboralesController extends Controller
 
           $destinoOfertasLaborales = OfertasLaboralesDestino::listaOfertas($idOferta);
 
-          $items = [
+          $respond = [
               'result' => 'ok',
               'response' => $this->renderPartial('_destinoOfertas', [
                 'destinoOfertasLaborales' => $destinoOfertasLaborales
@@ -190,20 +184,20 @@ class OfertasLaboralesController extends Controller
             ];
         }
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return $items;
+        return $respond;
     }
 
     /**
      * accion para para agregar un destino a una oferta laboral
      * @param none
-     * @return items = []
-     *         items.result = indica si todo se realizo bien o mal
-     *         items.response = html para renderizar los destinos de las ofertas
+     * @return respond = []
+     *         respond.result = indica si todo se realizo bien o mal
+     *         respond.response = html para renderizar los destinos de las ofertas
      */
      public function actionAgregaDestinoOferta()
      {
         $model = new OfertasLaboralesDestino();
-        $items = [
+        $respond = [
         'result' => 'error',
         ];
 
@@ -219,12 +213,12 @@ class OfertasLaboralesController extends Controller
           ->one();
 
           if (empty($ofertaDestino)) {
-              $items = [
+              $respond = [
                   'result' => 'error',
                   'response' => 'El destino ya no existe'
               ];
           } else {
-              $items = [
+              $respond = [
                   'result' => 'error',
                   'response' => 'Error al guardar el destino'
               ];
@@ -232,7 +226,7 @@ class OfertasLaboralesController extends Controller
 
         }else{
           $destinoOfertasLaborales = OfertasLaboralesDestino::listaOfertas($idOferta);
-          $items = [
+          $respond = [
               'result' => 'ok',
               'response' => $this->renderPartial('_destinoOfertas', [
                 'destinoOfertasLaborales' => $destinoOfertasLaborales
@@ -241,7 +235,7 @@ class OfertasLaboralesController extends Controller
         }
 
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return $items;
+        return $respond;
      }
 
 
