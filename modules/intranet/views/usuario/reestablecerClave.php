@@ -19,41 +19,41 @@ $this->title = 'Restablecer contraseña';
     <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
       <?php
       $form = ActiveForm::begin([
-                  'id' => 'login-form',
-                  'options' => ['class' => 'form-horizontal'],
-                  'fieldConfig' => [
-                      'template' => "{label}\n<div class=\"col-md-6 col-sm-6\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
-                      'labelOptions' => ['class' => 'col-lg-11'],
-                  ],
+        'id' => 'login-form',
+        'options' => ['class' => 'form-horizontal'],
+        'fieldConfig' => [
+          'template' => "{label}\n<div class=\"col-md-6 col-sm-6\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
+          'labelOptions' => ['class' => 'col-lg-11'],
+        ],
       ]);
       ?>
 
       <?= $form->field($model, 'password', [
+        'inputOptions' => [
+          'placeholder' => $model->getAttributeLabel('password'),
+        ],
+        ])->label(false)->input('password'); ?>
+
+        <?= $form->field($model, 'password2', [
           'inputOptions' => [
-                'placeholder' => $model->getAttributeLabel('password'),
+            'placeholder' => $model->getAttributeLabel('Confirmar contraseña'),
           ],
-      ])->label(false)->input('password'); ?>
+          ])->label(false)->input('password'); ?>
 
-      <?= $form->field($model, 'password2', [
-          'inputOptions' => [
-                'placeholder' => $model->getAttributeLabel('Confirmar contraseña'),
-          ],
-      ])->label(false)->input('password'); ?>
-
-      <?= $form->field($model, 'captcha', [
-          'inputOptions' => [
-                'placeholder' => $model->getAttributeLabel('Ingresa el codigo'),
-          ],
-      ])->label('ingresa el codigo')->widget(Captcha::className()); ?>
+          <?= $form->field($model, 'captcha', [
+            'inputOptions' => [
+              'placeholder' => $model->getAttributeLabel('Ingresa el codigo'),
+            ],
+            ])->label('ingresa el codigo')->widget(Captcha::className()); ?>
 
 
 
-      <div class="form-group">
-          <div class="col-lg-11">
-              <?= Html::submitButton('Actualizar', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+            <div class="form-group">
+              <div class="col-lg-11">
+                <?= Html::submitButton('Actualizar', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+              </div>
+            </div>
+            <?php ActiveForm::end(); ?>
           </div>
+        </div>
       </div>
-      <?php ActiveForm::end(); ?>
-    </div>
-  </div>
-</div>

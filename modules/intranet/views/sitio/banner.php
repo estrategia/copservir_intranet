@@ -1,11 +1,11 @@
 <?php
-    $idItem = '';
-    if ($location == 0) {
-      $idItem = 'bannerArriba';
-    }else if ($location == 1) {
-      $idItem = 'bannerAbajo';
-    }
- ?>
+$idItem = '';
+if ($location == 0) {
+  $idItem = 'bannerArriba';
+}else if ($location == 1) {
+  $idItem = 'bannerAbajo';
+}
+?>
 
 <div id="<?= $idItem ?>" class="carousel slide" data-ride="carousel">
 

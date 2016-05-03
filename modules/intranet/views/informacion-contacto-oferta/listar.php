@@ -12,37 +12,37 @@ $this->title = 'Plantillas';
 ?>
 <div class="informacion-contacto-oferta-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+  <h1><?= Html::encode($this->title) ?></h1>
+  <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Crea una plantilla', ['crear'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+  <p>
+    <?= Html::a('Crea una plantilla', ['crear'], ['class' => 'btn btn-success']) ?>
+  </p>
+  <?= GridView::widget([
+    'dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
+    'columns' => [
+      ['class' => 'yii\grid\SerialColumn'],
 
-            'nombrePlantilla',
-            'plantillaContactoHtml:ntext',
-            'fechaRegistro',
-            [
-              'class' => 'yii\grid\ActionColumn',
-              'headerOptions'=> ['style'=>'width: 70px;'],
-              'template' => '{detalle} {actualizar} {eliminar}',
-              'buttons' => [
-                  'detalle' => function ($url, $model) {
-                      return  Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url);
-                  },
-                  'actualizar' => function ($url, $model) {
-                      return  Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url);
-                  },
-                  'eliminar' => function ($url, $model) {
-                      return  Html::a('<span class="glyphicon glyphicon-trash"></span>', $url);
-                  }
-              ],
-            ],
+      'nombrePlantilla',
+      'plantillaContactoHtml:ntext',
+      'fechaRegistro',
+      [
+        'class' => 'yii\grid\ActionColumn',
+        'headerOptions'=> ['style'=>'width: 70px;'],
+        'template' => '{detalle} {actualizar} {eliminar}',
+        'buttons' => [
+          'detalle' => function ($url, $model) {
+            return  Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url);
+          },
+          'actualizar' => function ($url, $model) {
+            return  Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url);
+          },
+          'eliminar' => function ($url, $model) {
+            return  Html::a('<span class="glyphicon glyphicon-trash"></span>', $url);
+          }
         ],
-    ]); ?>
+      ],
+    ],
+  ]); ?>
 </div>

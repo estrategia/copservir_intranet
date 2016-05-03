@@ -17,26 +17,26 @@ use kartik\select2\Select2;
       <div class="modal-body">
 
 
-          <?php $form = ActiveForm::begin(['id'=>'formRelacionaCategoria']); ?>
+        <?php $form = ActiveForm::begin(['id'=>'formRelacionaCategoria']); ?>
 
-          <?= Select2::widget([
-              'model'=> $model,
-              'name' => 'CategoriaDocumentoDetalle[idDocumento]',
-              'id'=> 'relacion',
-              'data' => $listaDocumentos,
-              'options' => ['placeholder' => 'Seleccione', 'onchange' => ' $( "#plantilla-documento" ).remove(); getPlantillaDocumento($(this).val())'],
-              'pluginOptions' => [
-                  'allowClear' => true
-              ],
-          ]);
-          ?>
+        <?= Select2::widget([
+          'model'=> $model,
+          'name' => 'CategoriaDocumentoDetalle[idDocumento]',
+          'id'=> 'relacion',
+          'data' => $listaDocumentos,
+          'options' => ['placeholder' => 'Seleccione', 'onchange' => ' $( "#plantilla-documento" ).remove(); getPlantillaDocumento($(this).val())'],
+          'pluginOptions' => [
+            'allowClear' => true
+          ],
+        ]);
+        ?>
 
-          <?= $form->field($model, 'idCategoriaDocumento')->hiddenInput(['value'=> $idCategoriaDocumento])->label(false); ?>
+        <?= $form->field($model, 'idCategoriaDocumento')->hiddenInput(['value'=> $idCategoriaDocumento])->label(false); ?>
 
-          <?php ActiveForm::end(); ?>
-          <div id = "contenido-plantilla">
+        <?php ActiveForm::end(); ?>
+        <div id = "contenido-plantilla">
 
-          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>

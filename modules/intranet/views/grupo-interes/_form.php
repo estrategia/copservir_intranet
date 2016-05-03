@@ -10,15 +10,15 @@ use yii\widgets\ActiveForm;
 
 <div class="grupo-interes-form">
 
-    <?php $form = ActiveForm::begin(["options" => ["enctype" => "multipart/form-data"],]); ?>
+  <?php $form = ActiveForm::begin(["options" => ["enctype" => "multipart/form-data"],]); ?>
 
-    <?= $form->field($model, 'nombreGrupo')->textInput(['maxlength' => true]) ?>
-     <?= $form->field($model, "imagenGrupo")->fileInput(['multiple' => false ]) ?>  
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-       
-    </div>
+  <?= $form->field($model, 'nombreGrupo')->textInput(['maxlength' => true]) ?>
+  <?= $form->field($model, "imagenGrupo")->fileInput(['multiple' => false ]) ?>
+  <div class="form-group">
+    <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 
-    <?php ActiveForm::end(); ?>
+  </div>
+
+  <?php ActiveForm::end(); ?>
 
 </div>

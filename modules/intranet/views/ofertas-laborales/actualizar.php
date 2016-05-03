@@ -10,11 +10,11 @@ $this->params['breadcrumbs'][] = ['label' => 'Ofertas Laborales', 'url' => ['ind
 ?>
 <div class="ofertas-laborales-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+  <h1><?= Html::encode($this->title) ?></h1>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-        'destinoOfertasLaborales' => $destinoOfertasLaborales
+  <?= $this->render('_form', [
+    'model' => $model,
+    'destinoOfertasLaborales' => $destinoOfertasLaborales
     ]) ?>
 
-</div>
+  </div>

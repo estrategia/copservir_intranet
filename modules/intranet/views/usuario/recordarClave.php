@@ -25,29 +25,29 @@ $this->title = 'Recuperación contraseña';
     <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
       <?php
       $form = ActiveForm::begin([
-                  'id' => 'login-form',
-                  'options' => ['class' => 'form-horizontal'],
-                  'fieldConfig' => [
-                      'template' => "{label}<br>\n<div class=\"col-md-6 col-sm-6\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
-                      'labelOptions' => ['class' => 'col-lg-11'],
-                  ],
+        'id' => 'login-form',
+        'options' => ['class' => 'form-horizontal'],
+        'fieldConfig' => [
+          'template' => "{label}<br>\n<div class=\"col-md-6 col-sm-6\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
+          'labelOptions' => ['class' => 'col-lg-11'],
+        ],
       ]);
       ?>
 
       <?= $form->field($model, 'username', [
-          'inputOptions' => [
-                'placeholder' => $model->getAttributeLabel('username'),
-          ],
-      ])->label(false); ?>
+        'inputOptions' => [
+          'placeholder' => $model->getAttributeLabel('username'),
+        ],
+        ])->label(false); ?>
 
-      <?= $form->field($model, 'captcha')->widget(Captcha::className(), ['captchaAction'=>'usuario/captcha'])->label("Ingresa el codigo") ?>
+        <?= $form->field($model, 'captcha')->widget(Captcha::className(), ['captchaAction'=>'usuario/captcha'])->label("Ingresa el codigo") ?>
 
-      <div class="form-group">
+        <div class="form-group">
           <div class=" col-lg-11">
-              <?= Html::submitButton('Enviar recuperación', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+            <?= Html::submitButton('Enviar recuperación', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
           </div>
+        </div>
+        <?php ActiveForm::end(); ?>
       </div>
-      <?php ActiveForm::end(); ?>
     </div>
   </div>
-</div>

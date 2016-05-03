@@ -9,139 +9,139 @@
 */
 $(document).on('slideStop', "input[data-role='slider-tarea']", function() {
 
-    var idTarea = $(this).attr('data-tarea');
-    var progresoTarea = $(this).val();
-    $.ajax({
-        type: 'POST',
-        async: true,
-        url: requestUrl + '/intranet/tareas/actualizar-progreso',
-        data: {idTarea: idTarea, progresoTarea: progresoTarea, flagHome: false},
-        dataType: 'json',
-        beforeSend: function() {
-          $('body').showLoading()
-        },
+  var idTarea = $(this).attr('data-tarea');
+  var progresoTarea = $(this).val();
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/tareas/actualizar-progreso',
+    data: {idTarea: idTarea, progresoTarea: progresoTarea, flagHome: false},
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading()
+    },
 
-        complete: function(data) {
-          $('body').hideLoading();
-        },
-        success: function(data) {
-            if (data.result == "ok") {
-                //console.log('progreso actualizado');
-            }
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-           $('body').hideLoading();
-        }
-    });
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        //console.log('progreso actualizado');
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
 });
 
 /**
 * peticion ajax cuando checkea una tarea en el home
 * @param idTarea
 * @return data.result = json donde se especifica si todo se realizo bien,
-          data.response = html para renderizar las tareas del home
+data.response = html para renderizar las tareas del home
 */
 
 $(document).on('change', "input[data-role='tarea-check']", function() {
 
-    var idTarea = $(this).attr('data-tarea');
+  var idTarea = $(this).attr('data-tarea');
 
-    //si uncheck
-    if (!$(this).is(':Checked')) {
+  //si uncheck
+  if (!$(this).is(':Checked')) {
 
-      $.ajax({
-          type: 'POST',
-          async: true,
-          url: requestUrl + '/intranet/tareas/uncheck-home',
-          data: {idTarea: idTarea},
-          dataType: 'json',
-          beforeSend: function() {
-            $('body').showLoading()
-          },
+    $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/tareas/uncheck-home',
+      data: {idTarea: idTarea},
+      dataType: 'json',
+      beforeSend: function() {
+        $('body').showLoading()
+      },
 
-          complete: function(data) {
-             $('body').hideLoading();
-          },
-          success: function(data) {
+      complete: function(data) {
+        $('body').hideLoading();
+      },
+      success: function(data) {
 
-              if (data.result == "ok") {
+        if (data.result == "ok") {
 
-                  $('#widget-tareas').html(data.response);
-              }
-          },
-          error: function(jqXHR, textStatus, errorThrown) {
-              $('body').hideLoading();
-          }
-      });
-    }
+          $('#widget-tareas').html(data.response);
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        $('body').hideLoading();
+      }
+    });
+  }
 
-    /// si check
-    if ($(this).is(':Checked')) {
-      $.ajax({
-          type: 'POST',
-          async: true,
-          url: requestUrl + '/intranet/tareas/actualizar-progreso',
-          data: {idTarea: idTarea, progresoTarea: 100, flagHome: true},
-          dataType: 'json',
-          beforeSend: function() {
-            $('body').showLoading()
-          },
+  /// si check
+  if ($(this).is(':Checked')) {
+    $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/tareas/actualizar-progreso',
+      data: {idTarea: idTarea, progresoTarea: 100, flagHome: true},
+      dataType: 'json',
+      beforeSend: function() {
+        $('body').showLoading()
+      },
 
-          complete: function(data) {
-             $('body').hideLoading();
-          },
-          success: function(data) {
-              if (data.result == "ok") {
-                  $('#widget-tareas').html(data.response);
-              }
-          },
-          error: function(jqXHR, textStatus, errorThrown) {
-              $('body').hideLoading();
-          }
-      });
-    }
+      complete: function(data) {
+        $('body').hideLoading();
+      },
+      success: function(data) {
+        if (data.result == "ok") {
+          $('#widget-tareas').html(data.response);
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        $('body').hideLoading();
+      }
+    });
+  }
 });
 
 /**
 * peticion ajax para inactivar una tarea
 * @param idTarea, location = indica de donde se genera la peticion si de la vista listar =>no se manda valor,  del home => 1
 * @return data.result = json donde se especifica si todo se realizo bien,
-          data.response = html para renderizar las tareas
+data.response = html para renderizar las tareas
 */
 
 $(document).on('click', "a[data-role='inactivarTarea']", function() {
 
-    var idTarea = $(this).attr('data-tarea');
-    var location = $(this).attr('data-location');
+  var idTarea = $(this).attr('data-tarea');
+  var location = $(this).attr('data-location');
 
-    if(confirm("¿Estas seguro de querer ocultar de manera permanente esta tarea??")) {
+  if(confirm("¿Estas seguro de querer ocultar de manera permanente esta tarea??")) {
 
-          $.ajax({
-              type: 'POST',
-              async: true,
-              url: requestUrl + '/intranet/tareas/eliminar',
-              data: {idTarea: idTarea, location: location},
-              dataType: 'json',
-              beforeSend: function() {
-                $('body').showLoading()
-              },
+    $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/tareas/eliminar',
+      data: {idTarea: idTarea, location: location},
+      dataType: 'json',
+      beforeSend: function() {
+        $('body').showLoading()
+      },
 
-              complete: function(data) {
-                 $('body').hideLoading();
-              },
-              success: function(data) {
-                  if (data.result == "ok") {
-                      //console.log('tarea inactiva');
-                      $('#widget-tareas').html(data.response);
-                      //$('#widget-tareas').html(data.response);
-                  }
-              },
-              error: function(jqXHR, textStatus, errorThrown) {
-                  $('body').hideLoading();
-              }
-          })
-    }
-    return false;
+      complete: function(data) {
+        $('body').hideLoading();
+      },
+      success: function(data) {
+        if (data.result == "ok") {
+          //console.log('tarea inactiva');
+          $('#widget-tareas').html(data.response);
+          //$('#widget-tareas').html(data.response);
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        $('body').hideLoading();
+      }
+    })
+  }
+  return false;
 });
 
 //::::::::::::::::::::::
@@ -156,29 +156,29 @@ $(document).on('click', "a[data-role='inactivarTarea']", function() {
 
 $(document).on('click', "button[data-role='inactiva-popup']", function() {
 
-      var idPopup = $(this).attr('data-contenido');
-      $.ajax({
-          type: 'POST',
-          async: true,
-          url: requestUrl + '/intranet/contenido-emergente/inactiva-contenido-emergente',
-          data: {idPopup: idPopup},
-          dataType: 'json',
-          beforeSend: function() {
-            $('body').showLoading()
-          },
-          complete: function(data) {
-             $('body').hideLoading();
-          },
-          success: function(data) {
-              if (data.result == "ok") {
-                  //console.log('popup inactiva');
-                  $('#widget-popup').modal('hide');
-              }
-          },
-          error: function(jqXHR, textStatus, errorThrown) {
-              $('body').hideLoading();
-          }
-      })
+  var idPopup = $(this).attr('data-contenido');
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/contenido-emergente/inactiva-contenido-emergente',
+    data: {idPopup: idPopup},
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        //console.log('popup inactiva');
+        $('#widget-popup').modal('hide');
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  })
 });
 
 /**
@@ -216,29 +216,29 @@ function makeMap(jsonGrafica, patron, valorGrafica, flag) {
     if (i>tamValorGrafica) {
 
       if (flag === 'a') {
-          a = valorGrafica[count]['etiqueta'];
+        a = valorGrafica[count]['etiqueta'];
       }
 
       if (flag === 'am') {
-          a = valorGrafica[count]['anio'];
-          m = valorGrafica[count]['etiqueta'];
+        a = valorGrafica[count]['anio'];
+        m = valorGrafica[count]['etiqueta'];
       }
 
       if (flag === 'amd') {
-          a = valorGrafica[count]['anio'];
-          m = valorGrafica[count]['mes'];
-          d = valorGrafica[count]['etiqueta'];
+        a = valorGrafica[count]['anio'];
+        m = valorGrafica[count]['mes'];
+        d = valorGrafica[count]['etiqueta'];
       }
 
       mapString += "\n  <area name='"  + area.name + "' shape='"  + area.type
-        + "' coords='" + area.coords.join(",") + "' href=\""+requestUrl+"/intranet/contenido/busqueda?busqueda="+patron+"&a="+a+"&m="+m+"&d="+d+"\"  title=''>";
+      + "' coords='" + area.coords.join(",") + "' href=\""+requestUrl+"/intranet/contenido/busqueda?busqueda="+patron+"&a="+a+"&m="+m+"&d="+d+"\"  title=''>";
 
       count ++;
 
     }else{
 
       mapString += "\n  <area name='"  + area.name + "' shape='"  + area.type
-        + "' coords='" + area.coords.join(",") + "' title=''>";
+      + "' coords='" + area.coords.join(",") + "' title=''>";
     }
   }
   mapString += "\n</map>";
@@ -249,38 +249,38 @@ function makeMap(jsonGrafica, patron, valorGrafica, flag) {
 * funcion con una peticion ajax para redenrizar el modal donde se seleccionaran los amigos a quienes deseo compartir el clasificado
 * @param idClasificado
 * @return data.result = json donde se especifica si todo se realizo bien,
-          data.response = html para renderizar el modal con el formulario para buscar amigos
+data.response = html para renderizar el modal con el formulario para buscar amigos
 */
 
 $(document).on('click', "button[data-role='widget-enviarAmigo']", function() {
 
   var idClasificado = $(this).attr('data-clasificado');
   $.ajax({
-      type: 'GET',
-      async: true,
-      url: requestUrl + '/intranet/usuario/modal-amigos?idClasificado='+idClasificado,
-      dataType: 'json',
-      beforeSend: function() {
-        $('body').showLoading()
-      },
+    type: 'GET',
+    async: true,
+    url: requestUrl + '/intranet/usuario/modal-amigos?idClasificado='+idClasificado,
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading()
+    },
 
-      complete: function(data) {
+    complete: function(data) {
 
-         $('body').hideLoading();
-         //$("#widget-enviarAmigo").remove();
-      },
-      success: function(data) {
-          if (data.result == "ok") {
-              //console.log('progreso actualizado');
-              if (data.result == "ok") {
-                $('body').append(data.response);
-                $("#widget-enviarAmigo").modal("show");
-              }
-          }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-          $('body').hideLoading();
+      $('body').hideLoading();
+      //$("#widget-enviarAmigo").remove();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        //console.log('progreso actualizado');
+        if (data.result == "ok") {
+          $('body').append(data.response);
+          $("#widget-enviarAmigo").modal("show");
+        }
       }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
   });
 });
 
@@ -293,26 +293,26 @@ $(document).on('click', "button[data-role='enviar-amigos']", function() {
 
   var form = $("#formEnviarAmigo");
   $.ajax({
-      type: 'POST',
-      async: true,
-      url: requestUrl + '/intranet/contenido/enviar-amigo',
-      data: form.serialize(),
-      dataType: 'json',
-      beforeSend: function() {
-        $('body').showLoading()
-      },
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/contenido/enviar-amigo',
+    data: form.serialize(),
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading()
+    },
 
-      complete: function(data) {
-         $('body').hideLoading();
-      },
-      success: function(data) {
-          if (data.result == "ok") {
-              $("#widget-enviarAmigo").modal('hide');
-          }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-          $('body').hideLoading();
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $("#widget-enviarAmigo").modal('hide');
       }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
   });
   return false;
 });
@@ -329,40 +329,40 @@ $(document).on('click', "button[data-role='enviar-amigos']", function() {
 */
 $(document).on('click', "a[data-role='eliminarCargoGrupo']", function() {
 
-    var idCargo = $(this).attr('data-cargo');
-    var idGrupo = $(this).attr('data-grupo');
+  var idCargo = $(this).attr('data-cargo');
+  var idGrupo = $(this).attr('data-grupo');
 
-    if(confirm("¿Estas seguro de querer eliminar este cargo de este grupo de interes?")) {
+  if(confirm("¿Estas seguro de querer eliminar este cargo de este grupo de interes?")) {
 
-          $.ajax({
-              type: 'POST',
-              async: true,
-              url: requestUrl + '/intranet/grupo-interes/eliminar-cargo',
-              data: {idCargo: idCargo, idGrupo: idGrupo},
-              dataType: 'json',
-              beforeSend: function() {
-              //    Loading.show();
-                    $('body').showLoading();
-                    $('#listaCargos').remove();
-              },
+    $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/grupo-interes/eliminar-cargo',
+      data: {idCargo: idCargo, idGrupo: idGrupo},
+      dataType: 'json',
+      beforeSend: function() {
+        //    Loading.show();
+        $('body').showLoading();
+        $('#listaCargos').remove();
+      },
 
-              complete: function(data) {
-                   //   Loading.hide();
-                   $('body').hideLoading();
-              },
-              success: function(data) {
-                  if (data.result == "ok") {
-                      $('#select2-agregaCargos-container').attr('title','');
-                      $('#select2-agregaCargos-container').text('');
-                      $('#cargosGrupo').append(data.response);
-                  }
-              },
-              error: function(jqXHR, textStatus, errorThrown) {
-                  $('body').hideLoading();
-              }
-          })
-    }
-    return false;
+      complete: function(data) {
+        //   Loading.hide();
+        $('body').hideLoading();
+      },
+      success: function(data) {
+        if (data.result == "ok") {
+          $('#select2-agregaCargos-container').attr('title','');
+          $('#select2-agregaCargos-container').text('');
+          $('#cargosGrupo').append(data.response);
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        $('body').hideLoading();
+      }
+    })
+  }
+  return false;
 });
 
 /**
@@ -374,38 +374,38 @@ $(document).on('click', "a[data-role='eliminarCargoGrupo']", function() {
 
 $(document).on('click', "a[data-role='agregar-cargo']", function() {
 
-    var idGrupo = $(this).attr('data-grupo');
-    var form = $("#formEnviaCargos");
-    $.ajax({
-        type: 'POST',
-        async: true,
-        url: requestUrl + '/intranet/grupo-interes/agrega-cargo?idGrupo='+idGrupo,
-        data: form.serialize(),
-        dataType: 'json',
-        beforeSend: function() {
-        //    Loading.show();
-              $('body').showLoading();
-              $('#listaCargos').remove();
-        },
-        complete: function(data) {
-         //   Loading.hide();
-            $('body').hideLoading();
-        },
-        success: function(data) {
-            if (data.result == "ok") {
-                //console.log('progreso actualizado');
-                if (data.result == "ok") {
-                  $('#select2-agregaCargos-container').attr('title','');
-                  $('#select2-agregaCargos-container').text('');
-                  $('#cargosGrupo').append(data.response);
-                }
-            }
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            $('body').hideLoading();
+  var idGrupo = $(this).attr('data-grupo');
+  var form = $("#formEnviaCargos");
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/grupo-interes/agrega-cargo?idGrupo='+idGrupo,
+    data: form.serialize(),
+    dataType: 'json',
+    beforeSend: function() {
+      //    Loading.show();
+      $('body').showLoading();
+      $('#listaCargos').remove();
+    },
+    complete: function(data) {
+      //   Loading.hide();
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        //console.log('progreso actualizado');
+        if (data.result == "ok") {
+          $('#select2-agregaCargos-container').attr('title','');
+          $('#select2-agregaCargos-container').text('');
+          $('#cargosGrupo').append(data.response);
         }
-    });
-    return false;
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
 });
 
 //::::::::::::::::::::::
@@ -420,44 +420,44 @@ $(document).on('click', "a[data-role='agregar-cargo']", function() {
 */
 $(document).on('click', "a[data-role='eliminarDestino']", function() {
 
-    var idOferta = $(this).attr('data-oferta');
-    var idCiudad = $(this).attr('data-ciudad');
-    var idGrupo = $(this).attr('data-grupo');
+  var idOferta = $(this).attr('data-oferta');
+  var idCiudad = $(this).attr('data-ciudad');
+  var idGrupo = $(this).attr('data-grupo');
 
-    if(confirm("¿Estas seguro de querer eliminar?")) {
+  if(confirm("¿Estas seguro de querer eliminar?")) {
 
-          $.ajax({
-              type: 'POST',
-              async: true,
-              url: requestUrl + '/intranet/ofertas-laborales/eliminar-oferta-destino',
-              data: {idCiudad: idCiudad, idGrupo: idGrupo, idOferta: idOferta},
-              dataType: 'json',
-              beforeSend: function() {
-              //    Loading.show();
-                    $('body').showLoading();
-                    $('#listaOfertas').remove();
-              },
+    $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/ofertas-laborales/eliminar-oferta-destino',
+      data: {idCiudad: idCiudad, idGrupo: idGrupo, idOferta: idOferta},
+      dataType: 'json',
+      beforeSend: function() {
+        //    Loading.show();
+        $('body').showLoading();
+        $('#listaOfertas').remove();
+      },
 
-              complete: function(data) {
-                   //   Loading.hide();
-                   $('body').hideLoading();
-              },
-              success: function(data) {
-                  if (data.result == "ok") {
+      complete: function(data) {
+        //   Loading.hide();
+        $('body').hideLoading();
+      },
+      success: function(data) {
+        if (data.result == "ok") {
 
-                      $('#select2-Grupo_-container').attr('title','');
-                      $('#select2-Grupo_-container').text('');
-                      $('#select2-ciudad_-container').attr('title','');
-                      $('#select2-ciudad_-container').text('');
-                      $('#destinosOfertas').append(data.response);
-                  }
-              },
-              error: function(jqXHR, textStatus, errorThrown) {
-                  $('body').hideLoading();
-              }
-          })
-    }
-    return false;
+          $('#select2-Grupo_-container').attr('title','');
+          $('#select2-Grupo_-container').text('');
+          $('#select2-ciudad_-container').attr('title','');
+          $('#select2-ciudad_-container').text('');
+          $('#destinosOfertas').append(data.response);
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        $('body').hideLoading();
+      }
+    })
+  }
+  return false;
 });
 
 /**
@@ -468,40 +468,40 @@ $(document).on('click', "a[data-role='eliminarDestino']", function() {
 */
 $(document).on('click', "a[data-role='agregar-destino-oferta']", function() {
 
-    var form = $("#formEnviaDestinosOferta");
-    $.ajax({
-        type: 'POST',
-        async: true,
-        url: requestUrl + '/intranet/ofertas-laborales/agrega-destino-oferta',
-        data: form.serialize(),
-        dataType: 'json',
-        beforeSend: function() {
-        //    Loading.show();
-              $('body').showLoading();
-              $('#listaOfertas').remove();
-        },
+  var form = $("#formEnviaDestinosOferta");
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/ofertas-laborales/agrega-destino-oferta',
+    data: form.serialize(),
+    dataType: 'json',
+    beforeSend: function() {
+      //    Loading.show();
+      $('body').showLoading();
+      $('#listaOfertas').remove();
+    },
 
-        complete: function(data) {
-         //   Loading.hide();
-            $('body').hideLoading();
-        },
-        success: function(data) {
-            if (data.result == "ok") {
-                //console.log('progreso actualizado');
-                if (data.result == "ok") {
-                  $('#select2-Grupo_-container').attr('title','');
-                  $('#select2-Grupo_-container').text('');
-                  $('#select2-ciudad_-container').attr('title','');
-                  $('#select2-ciudad_-container').text('');
-                  $('#destinosOfertas').append(data.response);
-                }
-            }
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            $('body').hideLoading();
+    complete: function(data) {
+      //   Loading.hide();
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        //console.log('progreso actualizado');
+        if (data.result == "ok") {
+          $('#select2-Grupo_-container').attr('title','');
+          $('#select2-Grupo_-container').text('');
+          $('#select2-ciudad_-container').attr('title','');
+          $('#select2-ciudad_-container').text('');
+          $('#destinosOfertas').append(data.response);
         }
-    });
-    return false;
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
 });
 
 
@@ -512,13 +512,13 @@ $(document).on('click', "a[data-role='agregar-destino-oferta']", function() {
 */
 function getPlantilla(id) {
   $.get( requestUrl +'/intranet/informacion-contacto-oferta/plantilla', { id: id } )
-      .done(function( data ) {
-          if (data.result === 'ok') {
-            $( "#contenido-plantilla" ).append( data.response );
-            $( "#plantilla" ).show();
-          }
-      }
-  );
+  .done(function( data ) {
+    if (data.result === 'ok') {
+      $( "#contenido-plantilla" ).append( data.response );
+      $( "#plantilla" ).show();
+    }
+  }
+);
 }
 
 /**
@@ -529,37 +529,37 @@ function getPlantilla(id) {
 */
 $(document).on('click', "a[data-role='contacto-oferta']", function() {
 
-    var idOferta = $(this).attr('data-oferta');
-    var elemento = $(this);
-    var contenido = elemento.attr('data-content')
-    if (contenido === '' || contenido === undefined) {
-        $.ajax({
-            type: 'GET',
-            async: true,
-            url: requestUrl +'/intranet/informacion-contacto-oferta/plantilla?id='+idOferta,
-            dataType: 'json',
-            beforeSend: function() {
-            //    Loading.show();
-                  $('body').showLoading();
-            },
-            complete: function(data) {
-             //   Loading.hide();
-                $('body').hideLoading();
-            },
-            success: function(data) {
-                if (data.result == "ok") {
-                  elemento.attr('data-content',
-                      ''+data.response);
-                  elemento.popover('toggle');
-                  elemento.popover('show');
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                $('body').hideLoading();
-            }
-        });
-     }
-    return false;
+  var idOferta = $(this).attr('data-oferta');
+  var elemento = $(this);
+  var contenido = elemento.attr('data-content')
+  if (contenido === '' || contenido === undefined) {
+    $.ajax({
+      type: 'GET',
+      async: true,
+      url: requestUrl +'/intranet/informacion-contacto-oferta/plantilla?id='+idOferta,
+      dataType: 'json',
+      beforeSend: function() {
+        //    Loading.show();
+        $('body').showLoading();
+      },
+      complete: function(data) {
+        //   Loading.hide();
+        $('body').hideLoading();
+      },
+      success: function(data) {
+        if (data.result == "ok") {
+          elemento.attr('data-content',
+          ''+data.response);
+          elemento.popover('toggle');
+          elemento.popover('show');
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        $('body').hideLoading();
+      }
+    });
+  }
+  return false;
 });
 
 //::::::::::::::::::::::
@@ -576,27 +576,27 @@ $(document).on('click', "button[data-role='categoria-crear']", function() {
 
   var categoriaPadre = $(this).attr('data-padre');
   $.ajax({
-      type: 'POST',
-      async: true,
-      url: requestUrl + '/intranet/categoria-documento/render-crear-categoria',
-      data: {categoriaPadre: categoriaPadre},
-      dataType: 'json',
-      beforeSend: function() {
-        $("#widget-categoria").remove();
-        $('body').showLoading()
-      },
-      complete: function(data) {
-         $('body').hideLoading();
-      },
-      success: function(data) {
-          if (data.result == "ok") {
-            $('body').append(data.response);
-            $("#widget-categoria").modal("show");
-          }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-          $('body').hideLoading();
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/categoria-documento/render-crear-categoria',
+    data: {categoriaPadre: categoriaPadre},
+    dataType: 'json',
+    beforeSend: function() {
+      $("#widget-categoria").remove();
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $('body').append(data.response);
+        $("#widget-categoria").modal("show");
       }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
   });
   return false;
 });
@@ -611,27 +611,27 @@ $(document).on('click', "button[data-role='categoria-editar']", function() {
 
   var idCategoria = $(this).attr('data-categoria');
   $.ajax({
-      type: 'POST',
-      async: true,
-      url: requestUrl + '/intranet/categoria-documento/render-editar-categoria?id='+idCategoria,
-      //data: form.serialize(),
-      dataType: 'json',
-      beforeSend: function() {
-        $("#widget-categoria").remove();
-        $('body').showLoading()
-      },
-      complete: function(data) {
-         $('body').hideLoading();
-      },
-      success: function(data) {
-          if (data.result == "ok") {
-            $('body').append(data.response);
-            $("#widget-categoria").modal("show");
-          }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-          $('body').hideLoading();
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/categoria-documento/render-editar-categoria?id='+idCategoria,
+    //data: form.serialize(),
+    dataType: 'json',
+    beforeSend: function() {
+      $("#widget-categoria").remove();
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $('body').append(data.response);
+        $("#widget-categoria").modal("show");
       }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
   });
   return false;
 });
@@ -646,27 +646,27 @@ $(document).on('click', "button[data-role='guardar-categoria']", function() {
 
   var form = $("#formCategoria");
   $.ajax({
-      type: 'POST',
-      async: true,
-      url: requestUrl + '/intranet/categoria-documento/crear-categoria',
-      data: form.serialize(),
-      dataType: 'json',
-      beforeSend: function() {
-        $('body').showLoading()
-      },
-      complete: function(data) {
-         $('body').hideLoading();
-      },
-      success: function(data) {
-          if (data.result == "ok") {
-            $("#menu-categoria-documento").remove();
-            $('#container').append(data.response);
-            $("#widget-categoria").modal("hide");
-          }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-          $('body').hideLoading();
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/categoria-documento/crear-categoria',
+    data: form.serialize(),
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $("#menu-categoria-documento").remove();
+        $('#container').append(data.response);
+        $("#widget-categoria").modal("hide");
       }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
   });
   return false;
 });
@@ -682,27 +682,27 @@ $(document).on('click', "button[data-role='actualizar-categoria']", function() {
   var idCategoria = $(this).attr('data-categoria');
   var form = $("#formCategoria");
   $.ajax({
-      type: 'POST',
-      async: true,
-      url: requestUrl + '/intranet/categoria-documento/actualizar-categoria?id='+idCategoria,
-      data: form.serialize(),
-      dataType: 'json',
-      beforeSend: function() {
-        $('body').showLoading()
-      },
-      complete: function(data) {
-         $('body').hideLoading();
-      },
-      success: function(data) {
-          if (data.result == "ok") {
-            $("#menu-categoria-documento").remove();
-            $('#container').append(data.response);
-            $("#widget-categoria").modal("hide");
-          }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-          $('body').hideLoading();
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/categoria-documento/actualizar-categoria?id='+idCategoria,
+    data: form.serialize(),
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $("#menu-categoria-documento").remove();
+        $('#container').append(data.response);
+        $("#widget-categoria").modal("hide");
       }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
   });
   return false;
 });
@@ -717,27 +717,27 @@ $(document).on('click', "button[data-role='relaciona-documento']", function() {
 
   var idCategoria = $(this).attr('data-categoria');
   $.ajax({
-      type: 'POST',
-      async: true,
-      url: requestUrl + '/intranet/categoria-documento/render-relacionar-documento',
-      data: {idCategoria: idCategoria},
-      dataType: 'json',
-      beforeSend: function() {
-        $("#widget-relaciona-documento").remove();
-        $('body').showLoading()
-      },
-      complete: function(data) {
-         $('body').hideLoading();
-      },
-      success: function(data) {
-          if (data.result == "ok") {
-            $('body').append(data.response);
-            $("#widget-relaciona-documento").modal("show");
-          }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-          $('body').hideLoading();
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/categoria-documento/render-relacionar-documento',
+    data: {idCategoria: idCategoria},
+    dataType: 'json',
+    beforeSend: function() {
+      $("#widget-relaciona-documento").remove();
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $('body').append(data.response);
+        $("#widget-relaciona-documento").modal("show");
       }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
   });
   return false;
 });
@@ -752,28 +752,28 @@ $(document).on('click', "button[data-role='guardar-relacion']", function() {
 
   var form = $("#formRelacionaCategoria");
   $.ajax({
-      type: 'POST',
-      async: true,
-      url: requestUrl + '/intranet/categoria-documento/guardar-relacion-documento',
-      data: form.serialize(),
-      dataType: 'json',
-      beforeSend: function() {
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/categoria-documento/guardar-relacion-documento',
+    data: form.serialize(),
+    dataType: 'json',
+    beforeSend: function() {
 
-        $('body').showLoading()
-      },
-      complete: function(data) {
-         $('body').hideLoading();
-      },
-      success: function(data) {
-          if (data.result == "ok") {
-            $("#menu-categoria-documento").remove();
-            $('#container').append(data.response);
-            $("#widget-relaciona-documento").modal("hide");
-          }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-          $('body').hideLoading();
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $("#menu-categoria-documento").remove();
+        $('#container').append(data.response);
+        $("#widget-relaciona-documento").modal("hide");
       }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
   });
   return false;
 });
@@ -790,26 +790,26 @@ $(document).on('click', "button[data-role='no-relaciona-documento']", function()
   var idCategoria = $(this).attr('data-categoria');
   var idDocumento = $(this).attr('data-documento');
   $.ajax({
-      type: 'POST',
-      async: true,
-      url: requestUrl + '/intranet/categoria-documento/eliminar-relacion-documento',
-      data: {idCategoria: idCategoria, idDocumento: idDocumento},
-      dataType: 'json',
-      beforeSend: function() {
-        $('body').showLoading()
-      },
-      complete: function(data) {
-         $('body').hideLoading();
-      },
-      success: function(data) {
-          if (data.result == "ok") {
-            $("#menu-categoria-documento").remove();
-            $('#container').append(data.response);
-          }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-          $('body').hideLoading();
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/categoria-documento/eliminar-relacion-documento',
+    data: {idCategoria: idCategoria, idDocumento: idDocumento},
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $("#menu-categoria-documento").remove();
+        $('#container').append(data.response);
       }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
   });
   return false;
 });
@@ -823,11 +823,11 @@ $(document).on('click', "button[data-role='no-relaciona-documento']", function()
 function getPlantillaDocumento(id) {
 
   $.get( requestUrl +'/intranet/categoria-documento/plantilla-documento', { idDocumento: id } )
-      .done(function( data ) {
-          if (data.result === 'ok') {
-            $( "#contenido-plantilla" ).append( data.response );
-          }
-      });
+  .done(function( data ) {
+    if (data.result === 'ok') {
+      $( "#contenido-plantilla" ).append( data.response );
+    }
+  });
 }
 
 //---------------------------------
@@ -851,27 +851,27 @@ $(document).on('click', "button[data-role='opcion-menu-render-crear']", function
 
   var idPadre = $(this).attr('data-padre');
   $.ajax({
-      type: 'POST',
-      async: true,
-      url: requestUrl + '/intranet/sitio/render-crear-opcion-menu',
-      data: {idPadre: idPadre},
-      dataType: 'json',
-      beforeSend: function() {
-        $("#widget-opcion-menu").remove();
-        $('body').showLoading()
-      },
-      complete: function(data) {
-         $('body').hideLoading();
-      },
-      success: function(data) {
-          if (data.result == "ok") {
-            $('body').append(data.response);
-            $("#widget-opcion-menu").modal("show");
-          }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-          $('body').hideLoading();
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/sitio/render-crear-opcion-menu',
+    data: {idPadre: idPadre},
+    dataType: 'json',
+    beforeSend: function() {
+      $("#widget-opcion-menu").remove();
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $('body').append(data.response);
+        $("#widget-opcion-menu").modal("show");
       }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
   });
   return false;
 });
@@ -886,26 +886,26 @@ $(document).on('click', "button[data-role='opcion-menu-render-actualizar']", fun
 
   var idMenu = $(this).attr('data-opcion');
   $.ajax({
-      type: 'POST',
-      async: true,
-      url: requestUrl + '/intranet/sitio/render-editar-opcion-menu?id='+idMenu,
-      dataType: 'json',
-      beforeSend: function() {
-        $("#widget-opcion-menu").remove();
-        $('body').showLoading()
-      },
-      complete: function(data) {
-         $('body').hideLoading();
-      },
-      success: function(data) {
-          if (data.result == "ok") {
-            $('body').append(data.response);
-            $("#widget-opcion-menu").modal("show");
-          }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-          $('body').hideLoading();
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/sitio/render-editar-opcion-menu?id='+idMenu,
+    dataType: 'json',
+    beforeSend: function() {
+      $("#widget-opcion-menu").remove();
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $('body').append(data.response);
+        $("#widget-opcion-menu").modal("show");
       }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
   });
   return false;
 });
@@ -920,27 +920,27 @@ $(document).on('click', "button[data-role='guardar-opcion-menu']", function() {
 
   var form = $("#formMenu");
   $.ajax({
-      type: 'POST',
-      async: true,
-      url: requestUrl + '/intranet/sitio/crear-opcion-menu',
-      data: form.serialize(),
-      dataType: 'json',
-      beforeSend: function() {
-        $('body').showLoading()
-      },
-      complete: function(data) {
-         $('body').hideLoading();
-      },
-      success: function(data) {
-          if (data.result == "ok") {
-            $("#menu").remove();
-            $('#container').append(data.response);
-            $("#widget-opcion-menu").modal("hide");
-          }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-          $('body').hideLoading();
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/sitio/crear-opcion-menu',
+    data: form.serialize(),
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $("#menu").remove();
+        $('#container').append(data.response);
+        $("#widget-opcion-menu").modal("hide");
       }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
   });
   return false;
 });
@@ -957,27 +957,27 @@ $(document).on('click', "button[data-role='actualizar-opcion-menu']", function()
   var idMenu = $(this).attr('data-opcion');
   var form = $("#formMenu");
   $.ajax({
-      type: 'POST',
-      async: true,
-      url: requestUrl + '/intranet/sitio/actualizar-opcion-menu?id='+idMenu,
-      data: form.serialize(),
-      dataType: 'json',
-      beforeSend: function() {
-        $('body').showLoading()
-      },
-      complete: function(data) {
-         $('body').hideLoading();
-      },
-      success: function(data) {
-          if (data.result == "ok") {
-            $("#menu").remove();
-            $('#container').append(data.response);
-            $("#widget-opcion-menu").modal("hide");
-          }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-          $('body').hideLoading();
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/sitio/actualizar-opcion-menu?id='+idMenu,
+    data: form.serialize(),
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $("#menu").remove();
+        $('#container').append(data.response);
+        $("#widget-opcion-menu").modal("hide");
       }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
   });
   return false;
 });
@@ -992,27 +992,27 @@ $(document).on('click', "button[data-role='agregar-enlace-menu']", function() {
 
   var idMenu = $(this).attr('data-opcion');
   $.ajax({
-      type: 'POST',
-      async: true,
-      url: requestUrl + '/intranet/sitio/render-agregar-enlace',
-      data: {idMenu: idMenu},
-      dataType: 'json',
-      beforeSend: function() {
-        $("#widget-agregar-opcion-menu").remove();
-        $('body').showLoading()
-      },
-      complete: function(data) {
-         $('body').hideLoading();
-      },
-      success: function(data) {
-          if (data.result == "ok") {
-            $('body').append(data.response);
-            $("#widget-agregar-opcion-menu").modal("show");
-          }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-          $('body').hideLoading();
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/sitio/render-agregar-enlace',
+    data: {idMenu: idMenu},
+    dataType: 'json',
+    beforeSend: function() {
+      $("#widget-agregar-opcion-menu").remove();
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $('body').append(data.response);
+        $("#widget-agregar-opcion-menu").modal("show");
       }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
   });
   return false;
 });
@@ -1029,27 +1029,27 @@ $(document).on('click', "button[data-role='guardar-enlace']", function() {
 
   var form = $("#formAgregarEnlace");
   $.ajax({
-      type: 'POST',
-      async: true,
-      url: requestUrl + '/intranet/sitio/guardar-opcion-menu',
-      data: form.serialize(),
-      dataType: 'json',
-      beforeSend: function() {
-        $('body').showLoading()
-      },
-      complete: function(data) {
-         $('body').hideLoading();
-      },
-      success: function(data) {
-          if (data.result == "ok") {
-            $("#menu").remove();
-            $('#container').append(data.response);
-            $("#widget-agregar-opcion-menu").modal("hide");
-          }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-          $('body').hideLoading();
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/sitio/guardar-opcion-menu',
+    data: form.serialize(),
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $("#menu").remove();
+        $('#container').append(data.response);
+        $("#widget-agregar-opcion-menu").modal("hide");
       }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
   });
   return false;
 });
@@ -1065,26 +1065,26 @@ $(document).on('click', "button[data-role='quitar-enlace-menu']", function() {
 
   var idOpcion = $(this).attr('data-opcion');
   $.ajax({
-      type: 'POST',
-      async: true,
-      url: requestUrl + '/intranet/sitio/eliminar-enlace-menu',
-      data: {idOpcion: idOpcion},
-      dataType: 'json',
-      beforeSend: function() {
-        $('body').showLoading()
-      },
-      complete: function(data) {
-         $('body').hideLoading();
-      },
-      success: function(data) {
-          if (data.result == "ok") {
-            $("#menu").remove();
-            $('#container').append(data.response);
-          }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-          $('body').hideLoading();
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/sitio/eliminar-enlace-menu',
+    data: {idOpcion: idOpcion},
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $("#menu").remove();
+        $('#container').append(data.response);
       }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
   });
   return false;
 });
@@ -1129,10 +1129,10 @@ $( document ).ready(function() {
   // javascript para que se busque una noticia cuando presiona enter
   $('#busqueda').keypress(function(event) {
 
-        if (event.which == 13) {
-            event.preventDefault();
-            $('#formBuscadorNoticias').submit();
-        }
-    });
+    if (event.which == 13) {
+      event.preventDefault();
+      $('#formBuscadorNoticias').submit();
+    }
+  });
 
 });

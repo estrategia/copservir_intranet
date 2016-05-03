@@ -18,55 +18,55 @@ $this->title = 'Contenido denunciado';
   <!-- si el conteniido se encuentra pendiente de aprobacion -->
   <?php if ($model->objDenunciosContenidos->estado == DenunciosContenidos::PENDIENTE_APROBACION): ?>
     <?php $form = ActiveForm::begin(); ?>
-      <?= $form->field($model->objDenunciosContenidos, 'estado')->hiddenInput(['value'=> DenunciosContenidos::APROBADO ])->label(false); ?>
-      <?= $form->field($model->objDenunciosContenidos, 'fechaActualizacion')->hiddenInput(['value'=>  Date("Y-m-d H:i:s")])->label(false); ?>
-      <div class="form-group col-md-2">
-          <?= Html::submitButton('mantener contenido', ['class' => 'btn btn-success' ]) ?>
-      </div>
+    <?= $form->field($model->objDenunciosContenidos, 'estado')->hiddenInput(['value'=> DenunciosContenidos::APROBADO ])->label(false); ?>
+    <?= $form->field($model->objDenunciosContenidos, 'fechaActualizacion')->hiddenInput(['value'=>  Date("Y-m-d H:i:s")])->label(false); ?>
+    <div class="form-group col-md-2">
+      <?= Html::submitButton('mantener contenido', ['class' => 'btn btn-success' ]) ?>
+    </div>
     <?php ActiveForm::end(); ?>
 
     <?= Html::a('Eliminar contenido', ['eliminar-contenido-denunciado', 'id' => $model->objDenunciosContenidos->idDenuncioContenido], [
-        'class' => 'btn btn-danger',
-        'data' => [
-            'confirm' => 'Estas seguro de eliminar este contenido?',
-            'method' => 'post',
-        ],
-    ]) ?>
+      'class' => 'btn btn-danger',
+      'data' => [
+        'confirm' => 'Estas seguro de eliminar este contenido?',
+        'method' => 'post',
+      ],
+      ]) ?>
 
-  <?php endif; ?>
+    <?php endif; ?>
 
-  <?= DetailView::widget([
+    <?= DetailView::widget([
       'model' => $model,
       'attributes' => [
-          'titulo',
-          [
+        'titulo',
+        [
 
-            'attribute' =>'contenido',
-            'format'=>'raw',
-            'value'=>$model->contenido,
+          'attribute' =>'contenido',
+          'format'=>'raw',
+          'value'=>$model->contenido,
 
-          ],
-          [
-            'label' => 'Linea de tiempo',
-            'value'=>$model->objLineaTiempo->nombreLineaTiempo,
-          ],
-          'fechaPublicacion',
-          [
-            'label' => 'Publicado por:',
-            'format'=>'raw',
-            'value' => '<img src="'.Yii::getAlias('@web').'/img/fotosperfil/'. $model->objUsuarioPublicacion->imagenPerfil.'" class="img-circle img-responsive" style="width: 22%;"/><p>'.$model->objUsuarioPublicacion->alias.' </p> '
-          ],
-          [
-            'label' => 'Denunciado por:',
-            'format'=>'raw',
-            'value' => '<img src="'.Yii::getAlias('@web').'/img/fotosperfil/'. $model->objDenunciosContenidos->objUsuario->imagenPerfil.'" class="img-circle img-responsive" style="width: 22%;"/><p>'.$model->objUsuarioPublicacion->alias.' </p> '
-          ],
-          [
-            'label' => 'Motivo:',
-            'format'=>'raw',
-            'value' => $model->objDenunciosContenidos->descripcionDenuncio
-          ],
+        ],
+        [
+          'label' => 'Linea de tiempo',
+          'value'=>$model->objLineaTiempo->nombreLineaTiempo,
+        ],
+        'fechaPublicacion',
+        [
+          'label' => 'Publicado por:',
+          'format'=>'raw',
+          'value' => '<img src="'.Yii::getAlias('@web').'/img/fotosperfil/'. $model->objUsuarioPublicacion->imagenPerfil.'" class="img-circle img-responsive" style="width: 22%;"/><p>'.$model->objUsuarioPublicacion->alias.' </p> '
+        ],
+        [
+          'label' => 'Denunciado por:',
+          'format'=>'raw',
+          'value' => '<img src="'.Yii::getAlias('@web').'/img/fotosperfil/'. $model->objDenunciosContenidos->objUsuario->imagenPerfil.'" class="img-circle img-responsive" style="width: 22%;"/><p>'.$model->objUsuarioPublicacion->alias.' </p> '
+        ],
+        [
+          'label' => 'Motivo:',
+          'format'=>'raw',
+          'value' => $model->objDenunciosContenidos->descripcionDenuncio
+        ],
 
       ],
-  ]) ?>
-</div>
+      ]) ?>
+    </div>

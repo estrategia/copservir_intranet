@@ -13,11 +13,11 @@ $this->title = 'Actualizar Grupo Interes: ' . ' ' . $model->nombreGrupo;
 <div class="col-md-12">
   <div class="grupo-interes-update">
 
-      <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1>
 
-      <?= $this->render('_form', [
-          'model' => $model,
+    <?= $this->render('_form', [
+      'model' => $model,
       ]) ?>
 
+    </div>
   </div>
-</div>

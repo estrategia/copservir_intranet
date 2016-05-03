@@ -22,11 +22,11 @@ $this->title = 'Cumpleaños';
             <br>
             <p>
               <?php
-                $fecha_dividida = explode("-", $model->fecha);
-                $mes = \Yii::$app->params['calendario']['meses'][ (int)$fecha_dividida[1]];
-                $dia = $fecha_dividida[2];
-                echo "Cumple el ".$dia.' de '.$mes;
-               ?>
+              $fecha_dividida = explode("-", $model->fecha);
+              $mes = \Yii::$app->params['calendario']['meses'][ (int)$fecha_dividida[1]];
+              $dia = $fecha_dividida[2];
+              echo "Cumple el ".$dia.' de '.$mes;
+              ?>
             </p>
           </div>
         </div>

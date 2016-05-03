@@ -12,10 +12,10 @@ $this->title = 'Crea un Contenido Emergente';
 ?>
 <div class="contenido-emergente-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+  <h1><?= Html::encode($this->title) ?></h1>
 
-    <?= $this->render('_form', [
-        'model' => $model,
+  <?= $this->render('_form', [
+    'model' => $model,
     ]) ?>
 
-</div>
+  </div>

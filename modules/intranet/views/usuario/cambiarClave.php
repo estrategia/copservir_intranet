@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="col-md-8">
   <div class="page-title">
-      <h4> Actualiza tu clave de acceso</h4>
+    <h4> Actualiza tu clave de acceso</h4>
   </div>
 
   <div class="grid simple">
@@ -24,12 +24,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
       <?php
       $form = ActiveForm::begin([
-                  'id' => 'login-form',
-                  'options' => ['class' => 'form-horizontal', 'enableClientValidation' => true],
-                  'fieldConfig' => [
-                      'template' => "{label}\n<div class=\"col-md-6 controls\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
-                      'labelOptions' => ['class' => 'col-lg-11'],
-                  ],
+        'id' => 'login-form',
+        'options' => ['class' => 'form-horizontal', 'enableClientValidation' => true],
+        'fieldConfig' => [
+          'template' => "{label}\n<div class=\"col-md-6 controls\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
+          'labelOptions' => ['class' => 'col-lg-11'],
+        ],
       ]);
       ?>
 
@@ -38,9 +38,9 @@ $this->params['breadcrumbs'][] = $this->title;
       <?= $form->field($model, 'captcha')->widget(Captcha::className(), ['captchaAction'=>'usuario/captcha'])->label("Ingresa el codigo") ?>
 
       <div class="form-group">
-          <div class="col-lg-offset-1 col-lg-11">
-              <?= Html::submitButton('Actualizar', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-          </div>
+        <div class="col-lg-offset-1 col-lg-11">
+          <?= Html::submitButton('Actualizar', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+        </div>
       </div>
       <?php ActiveForm::end(); ?>
 

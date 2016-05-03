@@ -6,5 +6,5 @@ $this->title = 'Menu documentos';
 
 <!-- MENU -->
 <div data-toggle="collapse" id="accordion" class="panel-group">
-    <?= $menu ?>
+  <?= $menu ?>
 </div>

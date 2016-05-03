@@ -12,11 +12,11 @@ $this->title = 'Crear Ofertas Laborales';
 ?>
 <div class="ofertas-laborales-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+  <h1><?= Html::encode($this->title) ?></h1>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-        'destinoOfertasLaborales' => ''
+  <?= $this->render('_form', [
+    'model' => $model,
+    'destinoOfertasLaborales' => ''
     ]) ?>
 
-</div>
+  </div>

@@ -15,12 +15,12 @@ use yii\helpers\Url;
       </div>
       <div class="modal-body">
 
-          <?php $form = ActiveForm::begin(['id'=>'formAgregarEnlace']); ?>
+        <?php $form = ActiveForm::begin(['id'=>'formAgregarEnlace']); ?>
 
-                <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
-                <?= $form->field($model, 'idMenu')->hiddenInput(['value'=> $idMenu])->label(false); ?>
+        <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'idMenu')->hiddenInput(['value'=> $idMenu])->label(false); ?>
 
-          <?php ActiveForm::end(); ?>
+        <?php ActiveForm::end(); ?>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>

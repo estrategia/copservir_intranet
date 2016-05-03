@@ -12,36 +12,36 @@ $this->title = $model->idOfertaLaboral;
 ?>
 <div class="ofertas-laborales-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+  <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Actualizar', ['actualizar', 'id' => $model->idOfertaLaboral], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['eliminar', 'id' => $model->idOfertaLaboral], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Estas seguro de eliminar esta oferta laboral?',
-                'method' => 'post',
-            ],
-        ]) ?>
+  <p>
+    <?= Html::a('Actualizar', ['actualizar', 'id' => $model->idOfertaLaboral], ['class' => 'btn btn-primary']) ?>
+    <?= Html::a('Eliminar', ['eliminar', 'id' => $model->idOfertaLaboral], [
+      'class' => 'btn btn-danger',
+      'data' => [
+        'confirm' => 'Estas seguro de eliminar esta oferta laboral?',
+        'method' => 'post',
+      ],
+      ]) ?>
     </p>
 
     <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'idOfertaLaboral',
-            'idCiudad',
-            'fechaPublicacion',
-            'fechaCierre',
-            'numeroDocumento',
-            'fechaInicioPublicacion',
-            'fechaFinPublicacion',
-            'tituloOferta',
-            'urlElEmpleo:url',
-            'idCargo',
-            'idArea',
-            'descripcionContactoOferta:ntext',
-            'idInformacionContacto',
-        ],
-    ]) ?>
+      'model' => $model,
+      'attributes' => [
+        'idOfertaLaboral',
+        'idCiudad',
+        'fechaPublicacion',
+        'fechaCierre',
+        'numeroDocumento',
+        'fechaInicioPublicacion',
+        'fechaFinPublicacion',
+        'tituloOferta',
+        'urlElEmpleo:url',
+        'idCargo',
+        'idArea',
+        'descripcionContactoOferta:ntext',
+        'idInformacionContacto',
+      ],
+      ]) ?>
 
-</div>
+    </div>

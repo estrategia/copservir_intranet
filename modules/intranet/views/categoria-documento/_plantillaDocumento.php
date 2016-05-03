@@ -8,9 +8,9 @@ use yii\helpers\Html;
     Descripción: <?= $model->descripcion  ?>
   </p>
   <p>
-      <?= Html::a('ver documento', Yii::getAlias('@web') . Yii::$app->params['documentos']['rutaArchivo'] .$model->rutaDocumento, [
-              'target' => '_blank',
-          ]);
-      ?>
+    <?= Html::a('ver documento', Yii::getAlias('@web') . Yii::$app->params['documentos']['rutaArchivo'] .$model->rutaDocumento, [
+      'target' => '_blank',
+    ]);
+    ?>
   </p>
 </div>

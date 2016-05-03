@@ -13,65 +13,65 @@ use yii\helpers\Url;
 
 <div class="contenido-emergente-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+  <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'contenido')->textarea(['rows' => 6]) ?>
+  <?= $form->field($model, 'contenido')->textarea(['rows' => 6]) ?>
 
-    <?php
-      echo \vova07\imperavi\Widget::widget([
-          'selector' => '#contenidoemergente-contenido',
-          'settings' => [
-              'lang' => 'es',
-              'minHeight' => 80,
-              'imageManagerJson' => Url::to(['/default/images-get']),
-              'plugins' => [
-                  'imagemanager'
-              ]
-          ]
-      ]);
-    ?>
-
-    <?php
-
-    echo '<label class="control-label">Fecha de inicio de campaña</label>';
-    echo DateTimePicker::widget([
-      'model' => $model,
-      'attribute' => 'fechaInicio',
-      'options' => ['placeholder' => ''],
-      'pluginOptions' => [
-        'autoclose' => true,
-        'format' => 'yyyy-m-d H:i:s'
+  <?php
+  echo \vova07\imperavi\Widget::widget([
+    'selector' => '#contenidoemergente-contenido',
+    'settings' => [
+      'lang' => 'es',
+      'minHeight' => 80,
+      'imageManagerJson' => Url::to(['/default/images-get']),
+      'plugins' => [
+        'imagemanager'
       ]
-    ]);
+    ]
+  ]);
+  ?>
 
-    ?>
-    <br>
-    <?php
+  <?php
 
-    echo '<label class="control-label">Fecha de fin de campaña</label>';
-    echo DateTimePicker::widget([
-      'model' => $model,
-      'attribute' => 'fechaFin',
-      'options' => ['placeholder' => ''],
-      'pluginOptions' => [
-        'autoclose' => true,
-        'format' => 'yyyy-m-d H:i:s'
-      ]
-    ]);
+  echo '<label class="control-label">Fecha de inicio de campaña</label>';
+  echo DateTimePicker::widget([
+    'model' => $model,
+    'attribute' => 'fechaInicio',
+    'options' => ['placeholder' => ''],
+    'pluginOptions' => [
+      'autoclose' => true,
+      'format' => 'yyyy-m-d H:i:s'
+    ]
+  ]);
 
-    ?>
-    <br>
+  ?>
+  <br>
+  <?php
 
-    <?php $model->estado = $model->isNewRecord ? 1 : $model->estado;  ?>
-    <?= $form->field($model, 'estado')->dropDownList(['0' => 'Inactivo', '1' => 'Activo']); ?>
+  echo '<label class="control-label">Fecha de fin de campaña</label>';
+  echo DateTimePicker::widget([
+    'model' => $model,
+    'attribute' => 'fechaFin',
+    'options' => ['placeholder' => ''],
+    'pluginOptions' => [
+      'autoclose' => true,
+      'format' => 'yyyy-m-d H:i:s'
+    ]
+  ]);
 
-    <?php $fechaRegistro = $model->isNewRecord ? Date("Y-m-d H:i:s") : $model->fechaRegistro;  ?>
-    <?= $form->field($model, 'fechaRegistro')->hiddenInput(['value'=> $fechaRegistro])->label(false); ?>
+  ?>
+  <br>
 
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>
+  <?php $model->estado = $model->isNewRecord ? 1 : $model->estado;  ?>
+  <?= $form->field($model, 'estado')->dropDownList(['0' => 'Inactivo', '1' => 'Activo']); ?>
 
-    <?php ActiveForm::end(); ?>
+  <?php $fechaRegistro = $model->isNewRecord ? Date("Y-m-d H:i:s") : $model->fechaRegistro;  ?>
+  <?= $form->field($model, 'fechaRegistro')->hiddenInput(['value'=> $fechaRegistro])->label(false); ?>
+
+  <div class="form-group">
+    <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+  </div>
+
+  <?php ActiveForm::end(); ?>
 
 </div>

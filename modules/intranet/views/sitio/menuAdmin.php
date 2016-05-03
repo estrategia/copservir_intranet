@@ -11,22 +11,22 @@ $opciones = Menu::construirArrayMenu(true);
   <h1><?= Html::encode($this->title) ?></h1>
 
   <p>
-      <button type="button" name="button" class="btn btn-success" data-role="opcion-menu-render-crear" >Crear opcion del menu</button>
+    <button type="button" name="button" class="btn btn-success" data-role="opcion-menu-render-crear" >Crear opcion del menu</button>
   </p>
 
   <?=   yii2mod\tree\Tree::widget([
-              'items' => $opciones,
-              'options' => [
-                  'autoCollapse' => true,
-                  'clickFolderMode' => 2,
-                  'activate' => new \yii\web\JsExpression('
-                          function(node, data) {
-                                node  = data.node;
-                                // Log node title
-                                console.log(node.title);
-                          }
-                  ')
-              ]
-          ]);
+    'items' => $opciones,
+    'options' => [
+      'autoCollapse' => true,
+      'clickFolderMode' => 2,
+      'activate' => new \yii\web\JsExpression('
+      function(node, data) {
+        node  = data.node;
+        // Log node title
+        console.log(node.title);
+      }
+      ')
+    ]
+  ]);
   ?>
 </div>

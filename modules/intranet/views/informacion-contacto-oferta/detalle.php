@@ -12,27 +12,27 @@ $this->title = $model->nombrePlantilla;
 ?>
 <div class="informacion-contacto-oferta-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+  <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Actualizar', ['actualizar', 'id' => $model->idInformacionContacto], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['eliminar', 'id' => $model->idInformacionContacto], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'estas seguro de eliminar esta plantilla?',
-                'method' => 'post',
-            ],
-        ]) ?>
+  <p>
+    <?= Html::a('Actualizar', ['actualizar', 'id' => $model->idInformacionContacto], ['class' => 'btn btn-primary']) ?>
+    <?= Html::a('Eliminar', ['eliminar', 'id' => $model->idInformacionContacto], [
+      'class' => 'btn btn-danger',
+      'data' => [
+        'confirm' => 'estas seguro de eliminar esta plantilla?',
+        'method' => 'post',
+      ],
+      ]) ?>
     </p>
 
     <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
+      'model' => $model,
+      'attributes' => [
 
-            'nombrePlantilla',
-            'plantillaContactoHtml:ntext',
-            'fechaRegistro',
-        ],
-    ]) ?>
+        'nombrePlantilla',
+        'plantillaContactoHtml:ntext',
+        'fechaRegistro',
+      ],
+      ]) ?>
 
-</div>
+    </div>

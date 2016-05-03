@@ -1,5 +1,5 @@
 <?php
-  use yii\helpers\Html;
+use yii\helpers\Html;
 ?>
 
 <!-- ALIADOS -->
@@ -9,17 +9,17 @@
     <div id="owl-example" class="owl-carousel">
 
       <?= Html::a('intranet
-        <div class="item darkCyan">
-        <img src="http://placehold.it/200x150" alt="Touch">
-        </div>
-        ', ['intranet/sitio/index'])
+      <div class="item darkCyan">
+      <img src="http://placehold.it/200x150" alt="Touch">
+      </div>
+      ', ['intranet/sitio/index'])
       ?>
 
       <?= Html::a('Proveedores
-        <div class="item forestGreen">
-          <img src="http://placehold.it/200x150" alt="Grab">
-        </div>
-        ', ['proveedores/sitio/index'])
+      <div class="item forestGreen">
+      <img src="http://placehold.it/200x150" alt="Grab">
+      </div>
+      ', ['proveedores/sitio/index'])
       ?>
 
       <div class="item orange">
