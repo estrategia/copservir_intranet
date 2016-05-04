@@ -12,17 +12,12 @@ use Yii;
 */
 class Area extends \yii\db\ActiveRecord
 {
-  /**
-  * @inheritdoc
-  */
+
   public static function tableName()
   {
     return 'm_Area';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules()
   {
     return [
@@ -31,9 +26,6 @@ class Area extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * @inherit
-  */
   public function attributeLabels()
   {
     return [

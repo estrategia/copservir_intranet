@@ -13,16 +13,10 @@ use Yii;
 */
 class EventosCalendarioDestino extends \yii\db\ActiveRecord {
 
-  /**
-  * @inheritdoc
-  */
   public static function tableName() {
     return 't_EventosCalendarioDestino';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules() {
     return [
       [['idEventoCalendario', 'idGrupoInteres', 'codigoCiudad'], 'required'],
@@ -30,9 +24,6 @@ class EventosCalendarioDestino extends \yii\db\ActiveRecord {
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels() {
     return [
       'idEventoCalendario' => 'Id Evento Calendario',

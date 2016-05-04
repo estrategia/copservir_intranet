@@ -12,17 +12,11 @@ use Yii;
 */
 class UsuariosOpcionesFavoritos extends \yii\db\ActiveRecord
 {
-  /**
-  * @inheritdoc
-  */
   public static function tableName()
   {
     return 't_UsuariosOpcionesFavoritos';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules()
   {
     return [
@@ -31,9 +25,6 @@ class UsuariosOpcionesFavoritos extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels()
   {
     return [
@@ -42,6 +33,8 @@ class UsuariosOpcionesFavoritos extends \yii\db\ActiveRecord
     ];
   }
 
+  //RELACIONES
+  
   public function getObjMenu()
   {
     return $this->hasOne(Menu::className(), ['idMenu' => 'idMenu']);

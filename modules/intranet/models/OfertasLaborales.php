@@ -31,17 +31,11 @@ use yii\helpers\ArrayHelper;
 */
 class OfertasLaborales extends \yii\db\ActiveRecord
 {
-  /**
-  * @inheritdoc
-  */
   public static function tableName()
   {
     return 't_OfertasLaborales';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules()
   {
     return [
@@ -53,9 +47,6 @@ class OfertasLaborales extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels()
   {
     return [
@@ -75,60 +66,35 @@ class OfertasLaborales extends \yii\db\ActiveRecord
     ];
   }
 
-  /*
-  * RELACIONES
-  */
+  // RELACIONES
 
-  /**
-  * define la relacion entre los modelos ofertasLaborales Y Cargo a traves del aributo idCargo
-  * @return \yii\db\ActiveQuery modelo Cargo
-  */
   public function getObjCargo(){
     return $this->hasOne(Cargo::className(), ['idCargo' => 'idCargo']);
   }
 
-  /**
-  * define la relacion entre los modelos ofertasLaborales Y Area a traves del aributo idArea
-  * @return \yii\db\ActiveQuery modelo Area
-  */
   public function getObjArea(){
     return $this->hasOne(Area::className(), ['idArea' => 'idArea']);
   }
 
-  /**
-  * define la relacion entre los modelos ofertasLaborales Y Ciudad a traves del aributo idCiudad
-  * @return \yii\db\ActiveQuery modelo Ciudad
-  */
   public function getObjCiudad(){
     return $this->hasOne(Ciudad::className(), ['idCiudad' => 'idCiudad']);
   }
 
-  /**
-  * define la relacion entre los modelos ofertasLaborales e InformacionContactoOferta a traves del aributo idInformacionContacto
-  * @return \yii\db\ActiveQuery modelo InformacionContactoOferta
-  */
   public function getObjInformacionContactoOferta(){
     return $this->hasOne(InformacionContactoOferta::className(), ['idInformacionContacto' => 'idInformacionContacto']);
   }
-
 
   public function getObjUsuarioPublicacion(){
     return $this->hasOne(Area::className(), ['idArea' => 'idArea']);
   }
 
-  /**
-  * define la relacion entre los modelos ofertasLaborales y OfertasLaboralesDestino a traves del aributo idOfertaLaboral
-  * @return \yii\db\ActiveQuery modelo OfertasLaboralesDestino
-  */
   public function getOfertasDestino()
   {
     return $this->hasMany(OfertasLaboralesDestino::className(), ['idOfertaLaboral' => 'idOfertaLaboral']);
   }
 
-  /*
-  * CONSULTAS
-  */
-
+  // CONSULTAS
+  
   /**
   * Consulta todos los modelos ofertasLaborales
   * @param userCiudad = ciudad del usuario, userGrupos = grupos de interes donde esta el usuario

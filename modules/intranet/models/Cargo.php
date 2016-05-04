@@ -14,17 +14,12 @@ use app\modules\intranet\models\GrupoInteresCargo;
 */
 class Cargo extends \yii\db\ActiveRecord
 {
-  /**
-  * @inheritdoc
-  */
+
   public static function tableName()
   {
     return 'm_Cargo';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules()
   {
     return [
@@ -35,9 +30,6 @@ class Cargo extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels()
   {
     return [

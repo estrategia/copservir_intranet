@@ -17,17 +17,11 @@ use app\modules\intranet\models\Ciudad;
 */
 class OfertasLaboralesDestino extends \yii\db\ActiveRecord
 {
-  /**
-  * @inheritdoc
-  */
   public static function tableName()
   {
     return 't_OfertasLaboralesDestino';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules()
   {
     return [
@@ -36,9 +30,6 @@ class OfertasLaboralesDestino extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels()
   {
     return [
@@ -48,40 +39,21 @@ class OfertasLaboralesDestino extends \yii\db\ActiveRecord
     ];
   }
 
-  /*
-  * RELACIONES
-  */
+  // RELACIONES
 
-  /**
-  * Se define la relacion entre los modelos  OfertasLaboralesDestino y OfertasLaborales
-  * @param none
-  * @return modelo OfertasLaborales
-  */
   public function getObjOfertaLaboral(){
     return $this->hasOne(OfertasLaborales::className(), ['idOfertaLaboral' => 'idOfertaLaboral']);
   }
 
-  /**
-  * Se define la relacion entre los modelos  OfertasLaboralesDestino y GrupoInteres
-  * @param none
-  * @return modelo GrupoInteres
-  */
   public function getObjGrupoInteres(){
     return $this->hasOne(GrupoInteres::className(), ['idGrupoInteres' => 'idGrupoInteres']);
   }
 
-  /**
-  * Se define la relacion entre los modelos  OfertasLaboralesDestino y Ciudad
-  * @param none
-  * @return modelo Ciudad
-  */
   public function getObjCiudad(){
     return $this->hasOne(Ciudad::className(), ['codigoCiudad' => 'codigoCiudad']);
   }
 
-  /*
-  * CONSULTAS
-  */
+  // CONSULTAS
 
   /**
   * Consulta los OfertasLaboralesDestino segun el idOfertaLaboral junto con los objetos cargos relacionados

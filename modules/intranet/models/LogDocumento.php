@@ -16,17 +16,11 @@ use Yii;
 */
 class LogDocumento extends \yii\db\ActiveRecord
 {
-  /**
-  * @inheritdoc
-  */
   public static function tableName()
   {
     return 't_LogDocumento';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules()
   {
     return [
@@ -38,9 +32,6 @@ class LogDocumento extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels()
   {
     return [
@@ -51,14 +42,9 @@ class LogDocumento extends \yii\db\ActiveRecord
     ];
   }
 
-  /*
-  * RELACIONES
-  */
 
-  /**
-  * se define la relacion entre los modelos LogDocumento y Documento
-  * @return \yii\db\ActiveQuery modelo Documento
-  */
+  // RELACIONES
+
   public function getObjDocumento()
   {
     return $this->hasOne(Documento::className(), ['idDocumento' => 'idDocumento']);

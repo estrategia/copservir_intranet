@@ -1,56 +1,93 @@
 <?php
-
 use yii\helpers\Html;
 use bupy7\cropbox\Cropbox;
-?> 
-<div id="<?= $this->context->id; ?>" class="cropbox">
-    <div class="alert alert-info"></div>
-    <div class="workarea-cropbox">
-        <div class="bg-cropbox">
-            <img class="image-cropbox">
-            <div class="membrane-cropbox"></div>
-        </div>
-        <div class="frame-cropbox">
-            <div class="resize-cropbox"></div>
-        </div>
+use kartik\slider\Slider;
+use kartik\icons\Icon;
+
+Icon::map($this, Icon::FA);
+?>
+<div id="<?= $idWidget; ?>" class="cropbox">
+    <div class="imageBox">
+        <div class="thumbBox"></div>
     </div>
+    <p class="message"></p>
     <div class="btn-group">
         <span class="btn btn-primary btn-file">
-        <?= '<i class="glyphicon glyphicon-folder-open"></i> '
-            . Cropbox::t('Browse') 
-            . Html::activeFileInput($this->context->model, $this->context->attribute, $this->context->options); ?>
+            <?= Icon::show('folder-open') . Cropbox::t('Browse') . Html::activeFileInput($model, $attribute, $options); ?>
         </span>
-        <?= Html::button('<i class="glyphicon glyphicon-scissors"></i> ' . Cropbox::t('Crop'), [
-            'class' => 'btn btn-success btn-crop',
-        ]); ?>
-        <?= Html::button('<i class="glyphicon glyphicon-repeat"></i> ' . Cropbox::t('Reset'), [
-            'class' => 'btn btn-warning btn-reset',
-        ]); ?>
+        <?php
+        echo Html::button(Icon::show('expand '), [
+            'class' => 'btn btn-default btnZoomIn',
+        ]);
+        echo Html::button(Icon::show('compress'), [
+            'class' => 'btn btn-default btnZoomOut',
+        ]);
+        echo Html::button(Icon::show('crop') . Cropbox::t('Crop'), [
+            'class' => 'btn btn-success btnCrop',
+        ]);
+        ?>
+    </div>
+    <div class="form-horizontal">
+        <div class="form-group resizeWidth">
+            <label for="<?= $idWidget; ?>_cbox_resize_width" class="col-md-3"><?= Cropbox::t('Width'); ?></label>
+            <div class="col-md-6">
+                <?= Slider::widget([
+                    'name' => $idWidget . '_cbox_resize_width',
+                    'sliderColor' => Slider::TYPE_GREY,
+                    'handleColor' => Slider::TYPE_PRIMARY,
+                    'pluginOptions' => [
+                        'orientation' => 'horizontal',
+                        'handle' => 'round',
+                        'step' => 1,
+                        'tooltip' => 'hide',
+                    ],
+                    'pluginEvents' => [
+                        'slide' => "function(e) {
+                            $('#{$idWidget}').cropbox('resizeThumbBox', {width: e.value});
+                        }",
+                    ],
+                ]); ?>
+            </div>
+        </div>
+        <div class="form-group resizeHeight">
+            <label for="<?= $idWidget; ?>_cbox_resize_height" class="col-md-3"><?= Cropbox::t('Height'); ?></label>
+            <div class="col-md-6">
+                <?= Slider::widget([
+                    'name' => $idWidget . '_cbox_resize_height',
+                    'sliderColor' => Slider::TYPE_GREY,
+                    'handleColor' => Slider::TYPE_PRIMARY,
+                    'pluginOptions' => [
+                        'orientation' => 'horizontal',
+                        'handle' => 'round',
+                        'step' => 1,
+                        'tooltip' => 'hide',
+                    ],
+                    'pluginEvents' => [
+                        'slide' => "function(e) {
+                            $('#{$idWidget}').cropbox('resizeThumbBox', {height: e.value});
+                        }",
+                    ],
+                ]); ?>
+            </div>
+        </div>
     </div>
     <div class="cropped">
-        <p>
-            <?php 
-            if (!empty($this->context->originalImageUrl)) {
-                echo Html::a(
-                    '<i class="glyphicon glyphicon-eye-open"></i> ' . Cropbox::t('Show original'), 
-                    $this->context->originalImageUrl, 
-                    [
-                        'target' => '_blank',
-                        'class' => 'btn btn-info',
-                    ]
-                );
-            } 
-            ?>
-        </p>
         <?php
-        if (!empty($this->context->previewImagesUrl)) {
-            foreach ($this->context->previewImagesUrl as $url) {
-                if (!empty($url)) {
-                    echo Html::img($url, ['class' => 'img-thumbnail']);
-                }
+        if (is_string($originalUrl) && !empty($originalUrl))
+        {
+            echo Html::a(Icon::show('eye') . Cropbox::t('Show original'), $originalUrl, [
+                'target' => '_blank',
+                'class' => 'btn btn-info',
+            ]);
+        }
+        if (!empty($previewUrl))
+        {
+            foreach ($previewUrl as $url) {
+                echo Html::img($url, ['class' => 'img-thumbnail']);
             }
         }
         ?>
     </div>
-    <?= Html::activeHiddenInput($this->context->model, $this->context->attributeCropInfo); ?>
 </div>
+<?php
+echo Html::activeHiddenInput($model, $attributeCropInfo);

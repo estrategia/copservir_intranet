@@ -19,11 +19,6 @@ use app\modules\intranet\models\CategoriaDocumentoDetalle;
 */
 class CategoriaDocumento extends \yii\db\ActiveRecord
 {
-  /**
-  * @inheritdoc
-  */
-
-  // estados del documento
   const ESTADO_ACTIVO = 1;
   const ESTADO_INACTIVO = 0;
 
@@ -32,9 +27,6 @@ class CategoriaDocumento extends \yii\db\ActiveRecord
     return 'm_CategoriaDocumento';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules()
   {
     return [
@@ -46,9 +38,6 @@ class CategoriaDocumento extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels()
   {
     return [
@@ -60,45 +49,30 @@ class CategoriaDocumento extends \yii\db\ActiveRecord
     ];
   }
 
-  /*
-  * RELACIONES
-  */
 
-  /**
-  * se define la relacion entre los modelos CategoriaDocumento y CategoriaDocumento para obtener el padre
-  * @return \yii\db\ActiveQuery modelo CategoriaDocumento
-  */
+  // RELACIONES
+
   public function getIdCategoriaPadre0()
   {
     return $this->hasOne(CategoriaDocumento::className(), ['idCategoriaDocumento' => 'idCategoriaPadre']);
   }
 
-  /**
-  * se define la relacion entre los modelos CategoriaDocumento y CategoriaDocumento para obtener los hijos s
-  * @return \yii\db\ActiveQuery modelos CategoriaDocumento
-  */
   public function getCategoriaDocumentos()
   {
     return $this->hasMany(CategoriaDocumento::className(), ['idCategoriaPadre' => 'idCategoriaDocumento']);
   }
 
-
-  /**
-  * se define la relacion entre los modelos CategoriaDocumento y CategoriaDocumentoDetalle
-  * @return \yii\db\ActiveQuery modelos CategoriaDocumentoDetalle
-  */
   public function getCategoriaDocumentosDetalle()
   {
     return $this->hasOne(CategoriaDocumentoDetalle::className(), ['idCategoriaDocumento' => 'idCategoriaDocumento']);
   }
 
-  /*
-  * CONSULLTAS
-  */
+  // CONSULLTAS
+
 
   /**
   * Consulta para obtener los padres del menu
-  * @return \yii\db\ActiveQuery modelos CategoriaDocumento
+  * @return modelos CategoriaDocumento
   */
   public static function getPadres()
   {
@@ -106,8 +80,8 @@ class CategoriaDocumento extends \yii\db\ActiveRecord
   }
 
   /**
-  * Consulta para obtener los padres del menu
-  * @return \yii\db\ActiveQuery modelos CategoriaDocumento
+  * Consulta para obtener los hijos del un modelo Menu
+  * @return modelos CategoriaDocumento
   */
   public static function getHijos($idCategoriaDocumento)
   {

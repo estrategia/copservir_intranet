@@ -16,17 +16,11 @@ use app\modules\intranet\models\Tareas;
 */
 class LogTareas extends \yii\db\ActiveRecord
 {
-  /**
-  * @inheritdoc
-  */
   public static function tableName()
   {
     return 't_LogTareas';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules()
   {
     return [
@@ -36,9 +30,6 @@ class LogTareas extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels()
   {
     return [
@@ -50,37 +41,22 @@ class LogTareas extends \yii\db\ActiveRecord
     ];
   }
 
-  /*
-  * RELACIONES
-  */
+  // RELACIONES
 
-  /**
-  * Se define la relacion entre los modelos LogTareas y Tareas
-  * @param none
-  * @return modelo Tareas
-  */
   public function getobjLogTareas()
   {
     return $this->hasOne(Tareas::className(), ['idTarea' => 'idTarea']);
   }
 
-  /*
-  * CONSULTAS
-  */
+  // CONSULTAS
 
   /**
-  * consulta los dos ultimos logs de las
+  * consulta los dos ultimos modelos LogTareas de un modelo Tarea
   * @param numeroDocumento = identificador del usuario
   * @return array = resultado de la consulta
   */
   public static function ultimosDosLogs($idTarea, $idUsuario)
   {
-    /*SELECT * FROM  t_logtareas
-    left join t_tareas on t_logtareas.idTarea = t_tareas.idTarea
-    where ( t_tareas.numeroDocumento = 123456 and t_logtareas.idTarea = 15)
-    ORDER BY t_logtareas.fechaRegistro  asc
-    limit 2; */
-
     $query = self::find()->joinWith(['objLogTareas'])
     ->where("( t_Tareas.numeroDocumento =:idUsuario and t_LogTareas.idTarea =:idTarea  )")
     ->addParams([':idUsuario' => $idUsuario,':idTarea'=>$idTarea])->orderBy('t_LogTareas.fechaRegistro  asc')->limit(2)->all();

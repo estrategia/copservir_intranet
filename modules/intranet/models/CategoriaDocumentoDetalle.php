@@ -16,17 +16,11 @@ use Yii;
 */
 class CategoriaDocumentoDetalle extends \yii\db\ActiveRecord
 {
-  /**
-  * @inheritdoc
-  */
   public static function tableName()
   {
     return 'm_CategoriaDocumentoDetalle';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules()
   {
     return [
@@ -38,9 +32,6 @@ class CategoriaDocumentoDetalle extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels()
   {
     return [
@@ -50,36 +41,25 @@ class CategoriaDocumentoDetalle extends \yii\db\ActiveRecord
     ];
   }
 
-  /*
-  * RELACIONES
-  */
 
-  /**
-  * Se define la relacion entre los modelos CategoriaDocumentoDetalle y CategoriaDocumento
-  * @return \yii\db\ActiveQuery modelo CategoriaDocumento
-  */
+  // RELACIONES
+
   public function getObjCategoriaDocumento()
   {
     return $this->hasOne(CategoriaDocumento::className(), ['idCategoriaDocumento' => 'idCategoriaDocumento']);
   }
 
-  /**
-  * Se define la relacion entre los modelos CategoriaDocumentoDetalle y Documento
-  * @return \yii\db\ActiveQuery modelo Documento
-  */
   public function getObjDocumento()
   {
     return $this->hasOne(Documento::className(), ['idDocumento' => 'idDocumento']);
   }
 
-  /*
-  * CONSULTAS
-  */
+  // CONSULTAS
 
   /**
   * consulta un modelo CategoriaDocumentoDetalle por el atributo idCategoriaDocumento
   * @param idCategoriaDocumento = categoria
-  * @return \yii\db\ActiveQuery modelo Documento
+  * @return modelo Documento
   */
   public static function getCategoriaDocumentoDetalle($idCategoriaDocumento)
   {
@@ -91,7 +71,7 @@ class CategoriaDocumentoDetalle extends \yii\db\ActiveRecord
   /**
   * consulta un modelo CategoriaDocumentoDetalle por los atributos idCategoriaDocumento y idDocumento
   * @param idCategoriaDocumento = categoria, idDocumento = documento
-  * @return \yii\db\ActiveQuery modelo Documento
+  * @return modelo Documento
   */
   public static function getRelacionCategoriaDocumento($idCategoriaDocumento, $idDocumento)
   {

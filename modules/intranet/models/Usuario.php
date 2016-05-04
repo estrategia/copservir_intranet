@@ -53,9 +53,6 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
     'gruposInteres' => []
   ];
 
-  /**
-  * @inheritdoc
-  */
   public static function tableName() {
     return 'm_Usuario';
   }
@@ -112,9 +109,6 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
     }
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules() {
     return [
       [['numeroDocumento', 'estado'], 'required'],
@@ -125,9 +119,6 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels() {
     return [
       'idUsuario' => 'Id Usuario',
@@ -150,10 +141,10 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
     return false;
   }
 
+  //CONSULTAS
+
   /**
   * Consulta una lista de usuarios que sera cargada en el selector de enviar a un amigo
-  * @param none
-  * @return array usuarios
   */
   public static function listaUsuariosEnviarAmigo($idContenido) {
     //Usuario::find()->where([ 'estado' => 1])->andWhere(['<>', 'numeroDocumento', Yii::$app->user->identity->numeroDocumento])->all();
@@ -171,16 +162,10 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
     return $query;
   }
 
-  /**
-  * @inheritdoc
-  */
   public static function findIdentity($id) {
     return static::findOne(['idUsuario' => $id, 'estado' => 1]);
   }
 
-  /**
-  * @inheritdoc
-  */
   public static function findIdentityByAccessToken($token, $type = null) {
     throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
   }
@@ -195,23 +180,14 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
     return static::find()->where(['AND', ['=', 'numeroDocumento', $username], ['=', 'estado', 1], ['!=', 'numeroDocumento', 0]])->one();
   }
 
-  /**
-  * @inheritdoc
-  */
   public function getId() {
     return $this->getPrimaryKey();
   }
 
-  /**
-  * @inheritdoc
-  */
   public function getAuthKey() {
     return $this->llaveAutenticacion;
   }
 
-  /**
-  * @inheritdoc
-  */
   public function validateAuthKey($llaveAutenticacion) {
     return $this->llaveAutenticacion = $llaveAutenticacion;
   }

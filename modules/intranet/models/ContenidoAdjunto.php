@@ -16,17 +16,12 @@ use Yii;
 */
 class ContenidoAdjunto extends \yii\db\ActiveRecord
 {
-  /**
-  * @inheritdoc
-  */
+
   public static function tableName()
   {
     return 't_ContenidoAdjunto';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules()
   {
     return [
@@ -37,9 +32,6 @@ class ContenidoAdjunto extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels()
   {
     return [
@@ -50,14 +42,9 @@ class ContenidoAdjunto extends \yii\db\ActiveRecord
     ];
   }
 
-  /*
-  RELACIONES
-  */
 
-  /**
-  * Se define la relacion entre los modelos ContenidoAdjunto y Contenido
-  * @return \yii\db\ActiveQuery
-  */
+  //RELACIONES
+
   public function getObjContenido()
   {
     return $this->hasOne(Contenido::className(), ['idContenido' => 'idContenido']);

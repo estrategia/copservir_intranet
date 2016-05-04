@@ -12,17 +12,12 @@ use Yii;
 */
 class AreasOrganigrama extends \yii\db\ActiveRecord
 {
-  /**
-  * @inheritdoc
-  */
+
   public static function tableName()
   {
     return 'm_AreasOrganigrama';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules()
   {
     return [
@@ -31,9 +26,6 @@ class AreasOrganigrama extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels()
   {
     return [

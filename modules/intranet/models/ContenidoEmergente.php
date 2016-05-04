@@ -19,10 +19,6 @@ use Yii;
 */
 class ContenidoEmergente extends \yii\db\ActiveRecord
 {
-  /**
-  * @inheritdoc
-  */
-  // estados del modelo ContenidoEmergente
   const ESTADO_ACTIVO = 1;
   const ESTADO_INACTIVO = 0;
 
@@ -31,9 +27,6 @@ class ContenidoEmergente extends \yii\db\ActiveRecord
     return 'm_ContenidoEmergente';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules()
   {
     return [
@@ -44,9 +37,6 @@ class ContenidoEmergente extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels()
   {
     return [
@@ -59,26 +49,22 @@ class ContenidoEmergente extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * relacion entre los modelos ContenidoEmergente y ContenidoEmergenteDestino
-  * @return \yii\db\ActiveQuery modelo ContenidoEmergenteDestino
-  */
+  //RELACIONES
+
   public function getObjContenidoEmergenteDestinos()
   {
     return $this->hasMany(ContenidoEmergenteDestino::className(), ['idContenidoEmergente' => 'idContenidoEmergente']);
   }
 
-  /**
-  * relacion entre los modelos ContenidoEmergente y ContenidoEmegenteVisto
-  * @return \yii\db\ActiveQuery modelo ContenidoEmegenteVisto
-  */
   public function getTContenidoemergentevistos()
   {
     return $this->hasMany(ContenidoEmergenteVisto::className(), ['idContenidoEmergente' => 'idContenidoEmergente']);
   }
 
+  //CONSULTAS
+
   /**
-  * consulta dem anera aleatoria los modelos ContenidoEmergente dependiendo de la ciudad, grupos de interes del usuario
+  * consulta de manera aleatoria los modelos ContenidoEmergente dependiendo de la ciudad, grupos de interes del usuario
   * @param userCiudad = ciudad donde se encuentra el usuario, userGrupos = grupos de interes del usuario,
   * @return modelos ContenidoEmergente
   */

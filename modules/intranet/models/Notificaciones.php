@@ -17,9 +17,6 @@ use Yii;
 */
 class Notificaciones extends \yii\db\ActiveRecord {
 
-  /**
-  * @inheritdoc
-  */
   const NOTIFICACION_MEGUSTA = 1;
   const NOTIFICACION_COMENTARIO = 2;
   const NOTIFICACION_RECOMENDACION = 3;
@@ -30,9 +27,6 @@ class Notificaciones extends \yii\db\ActiveRecord {
     return 't_Notificaciones';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules() {
     return [
       [['numeroDocumentoDirige', 'numeroDocumentoDirigido', 'tipoNotificacion', 'estadoNotificacion', 'idContenido'], 'integer'],
@@ -41,9 +35,6 @@ class Notificaciones extends \yii\db\ActiveRecord {
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels() {
     return [
       'idNotificacion' => 'Id Notificacion',
@@ -60,16 +51,11 @@ class Notificaciones extends \yii\db\ActiveRecord {
   public function consultarTiempo() {
     $dateFin = new \DateTime;
 
-    //echo $dateFin->format('Y-m-d H:i:s');
-    //echo "<br/>";
-
     if ($dateFin->format('H:i:s') == '23:59:00') {
       $dateFin->modify('+1 minute');
     }
 
     $dateInicio = \DateTime::createFromFormat('Y-m-d H:i:s', $this->fechaRegistro);
-    //echo $dateInicio->format('Y-m-d H:i:s');
-    //echo "<br/>";
 
     if ($dateInicio->format('H:i:s') == '23:59:00') {
       $dateInicio->modify('+1 minute');

@@ -21,15 +21,12 @@ use Yii;
 */
 class PublicacionesCampanas extends \yii\db\ActiveRecord
 {
-  /**
-  * @inheritdoc
-  */
-  // indica la pisicion de la campaña en el home
+  // posicion en el home
   const POSICION_ARRIBA = 0;
   const POSICION_ABAJO = 1;
   const POSICION_DERECHA = 2;
 
-  // indica los estados de la campaña
+  // estados
   const ESTADO_ACTIVO = 1;
 
   public static function tableName()
@@ -37,9 +34,6 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
     return 't_PublicacionesCampanas';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules()
   {
     return [
@@ -51,9 +45,6 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels()
   {
     return [
@@ -69,23 +60,15 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
     ];
   }
 
-  /*
-  * RELACIONES
-  */
+  // RELACIONES
 
-  /**
-  * Se define la relacion entre los modelos PublicacionesCampanas y PublicacionCampanasPortales
-  * @return \yii\db\ActiveQuery modelo PublicacionCampanasPortales
-  */
   public function getObjPublicacionCampanasPortales()
   {
     return $this->hasMany(PublicacionCampanasPortales::className(), ['idImagenCampana' => 'idImagenCampana']);
   }
 
-  /*
-  * CONSULTAS
-  */
-
+  // CONSULTAS
+  
   /**
   * consulta las campañas dependiendo de la ciudad, grupos de interes e indicando la posicion donde se ubica en el home
   * @param userCiudad = ciudad donde se encuentra el usuario, userGrupos = grupos de interes del usuario,

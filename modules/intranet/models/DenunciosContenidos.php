@@ -20,9 +20,6 @@ use Yii;
 */
 class DenunciosContenidos extends \yii\db\ActiveRecord
 {
-  /**
-  * @inheritdoc
-  */
   // estados
   const PENDIENTE_APROBACION = 1;
   const APROBADO = 2;
@@ -33,9 +30,6 @@ class DenunciosContenidos extends \yii\db\ActiveRecord
     return 't_DenunciosContenidos';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules()
   {
     return [
@@ -48,9 +42,6 @@ class DenunciosContenidos extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels()
   {
     return [
@@ -64,14 +55,9 @@ class DenunciosContenidos extends \yii\db\ActiveRecord
     ];
   }
 
-  /*
-  * RELACIONES
-  */
 
-  /**
-  * Se define la relacion entre los modelos DenunciosContenidos y Usuario
-  * @return \yii\db\ActiveQuery modelo Usuarios
-  */
+  //RELACIONES
+
   public function getObjUsuario()
   {
     return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumento']);

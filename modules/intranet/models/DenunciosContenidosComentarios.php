@@ -15,9 +15,6 @@ use Yii;
 */
 class DenunciosContenidosComentarios extends \yii\db\ActiveRecord
 {
-  /**
-  * @inheritdoc
-  */
 
   // estados
   const PENDIENTE_APROBACION = 1;
@@ -29,9 +26,6 @@ class DenunciosContenidosComentarios extends \yii\db\ActiveRecord
     return 't_DenunciosContenidosComentarios';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules()
   {
     return [
@@ -42,9 +36,6 @@ class DenunciosContenidosComentarios extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels()
   {
     return [
@@ -56,23 +47,13 @@ class DenunciosContenidosComentarios extends \yii\db\ActiveRecord
     ];
   }
 
-  /*
-  * RELACIONES
-  */
+  // RELACIONES
 
-  /**
-  * Se define la relacion entre los modelos DenunciosContenidos y Contenido
-  * @return \yii\db\ActiveQuery modelo Contenido
-  */
   public function getObjContenido()
   {
     return $this->hasOne(Contenido::className(), ['idContenido' => 'idContenidoComentario']);
   }
 
-  /**
-  * Se define la relacion entre los modelos DenunciosContenidos y Usuario
-  * @return \yii\db\ActiveQuery modelo Usuarios
-  */
   public function getObjUsuario()
   {
     return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumento']);

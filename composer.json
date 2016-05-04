@@ -30,7 +30,8 @@
         "kartik-v/yii2-widget-datetimepicker": "*",
 
         "sadovojav/yii2-image-cutter": "dev-master",
-        "bupy7/yii2-widget-cropbox": "*"
+        "bupy7/yii2-widget-cropbox": "*",
+        "kartik-v/yii2-widget-fileinput": "@dev"
 
     },
     "require-dev": {

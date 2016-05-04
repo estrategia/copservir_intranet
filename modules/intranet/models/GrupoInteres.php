@@ -13,17 +13,11 @@ use app\modules\intranet\models\GrupoInteresCargo;
 */
 class GrupoInteres extends \yii\db\ActiveRecord
 {
-  /**
-  * @inheritdoc
-  */
   public static function tableName()
   {
     return 'm_GrupoInteres';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules()
   {
     return [
@@ -32,9 +26,6 @@ class GrupoInteres extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels()
   {
     return [
@@ -44,23 +35,15 @@ class GrupoInteres extends \yii\db\ActiveRecord
     ];
   }
 
-  /*
-  * RELACIONES
-  */
 
-  /**
-  * Se define la relacion entre los modelos GrupoInteres y GrupoInteresCargo
-  * @param none
-  * @return modelo GrupoInteresCargo
-  */
+  // RELACIONES
+
   public function getObjGrupoInteresCargo(){
     return $this->hasMany(GrupoInteresCargo::className(), ['idGrupoInteres' => 'idGrupoInteres']);
   }
 
+  // FUNCIONES
 
-  /*
-  * FUNCIONES
-  */
   public function getImagen(){
     return Yii::$app->homeUrl . 'img/gruposInteres/' .$this->imagenGrupo;
   }

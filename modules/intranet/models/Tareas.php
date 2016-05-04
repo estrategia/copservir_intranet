@@ -23,9 +23,6 @@ use app\modules\intranet\models\PrioridadTarea;
 */
 class Tareas extends \yii\db\ActiveRecord
 {
-  /**
-  * @inheritdoc
-  */
 
   const ESTADO_TAREA_INACTIVA = 0;
   const ESTADO_TAREA_TERMINADA = 1;
@@ -41,9 +38,6 @@ class Tareas extends \yii\db\ActiveRecord
     return 't_Tareas';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules()
   {
     return [
@@ -56,9 +50,6 @@ class Tareas extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels()
   {
     return [
@@ -73,23 +64,13 @@ class Tareas extends \yii\db\ActiveRecord
       'progreso' => 'Progreso',
     ];
   }
+  // RELACIONES
 
-  /*
-  * RELACIONES
-  */
-
-  /**
-  * Se define la relacion entre los modelos Tarea y PrioridadTarea
-  * @param none
-  * @return modelo PrioridadTarea
-  */
   public function getObjPrioridadTareas(){
     return $this->hasOne(PrioridadTarea::className(), ['idPrioridadTarea' => 'idPrioridad']);
   }
 
-  /*
-  * CONSULTAS
-  */
+  // CONSULTAS
 
   /**
   * consulta los modelos Tareas que van en el la vista lista de tareas
@@ -132,14 +113,12 @@ class Tareas extends \yii\db\ActiveRecord
     return ArrayHelper::map($opciones, 'idPrioridadTarea', 'nombre');
   }
 
-  /*
-  FUNCIONES
-  */
+
+  //FUNCIONES
+
   /**
   * funcion para crear un modelo LogTareas
   * si el modelo no se crea devuelve una excepcionss
-  * @param
-  * @return
   * @throws excepcion 101 el modelo no guardo su log
   */
   public function afterSave($inser, $changedAttributes)
@@ -159,8 +138,6 @@ class Tareas extends \yii\db\ActiveRecord
 
   /**
   * funcion para modificar el formato del atributo fechaEstimada
-  * @param
-  * @return
   */
   public function afterFind()
   {
@@ -171,7 +148,6 @@ class Tareas extends \yii\db\ActiveRecord
   /**
   * Asigna el estado al modelo dependiendo de la locacion
   * @param int $location = indica la vista
-  * @return
   */
   public function setEstadoDependingLocation($location)
   {
@@ -213,8 +189,7 @@ class Tareas extends \yii\db\ActiveRecord
 
   /**
   * funcion que permite indicar si las tareas son de la vista sitio/index o de la vista tareas/_listaTareas
-  * @param
-  * @return
+  * @param int $location = indica la vista
   */
   public function isLocationIndex($location)
   {
@@ -227,8 +202,6 @@ class Tareas extends \yii\db\ActiveRecord
 
   /**
   * Asigna el estado al modelo dependiendo de la locacion
-  * @param int $location = indica la vista
-  * @return
   */
   public function setEstadoDependingProgress()
   {
@@ -244,8 +217,6 @@ class Tareas extends \yii\db\ActiveRecord
 
   /**
   * devuelve una instancia del modelo Tareas a su estado anterior
-  * @param int $location = indica la vista
-  * @return
   */
   public function volverUltimaInstanciaTarea()
   {

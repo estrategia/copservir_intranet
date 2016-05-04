@@ -14,17 +14,11 @@ use Yii;
 */
 class ContenidoRecomendacion extends \yii\db\ActiveRecord
 {
-  /**
-  * @inheritdoc
-  */
   public static function tableName()
   {
     return 't_ContenidoRecomendacion';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules()
   {
     return [
@@ -34,9 +28,6 @@ class ContenidoRecomendacion extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels()
   {
     return [

@@ -26,16 +26,10 @@ use yii\helpers\Url;
 */
 class EventosCalendario extends \yii\db\ActiveRecord {
 
-  /**
-  * @inheritdoc
-  */
   public static function tableName() {
     return 't_EventosCalendario';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules() {
     return [
       [['idContenido', 'numeroDocumento', 'estado'], 'integer'],
@@ -46,9 +40,6 @@ class EventosCalendario extends \yii\db\ActiveRecord {
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels() {
     return [
       'idEventoCalendario' => 'Id Evento',

@@ -19,24 +19,6 @@ use yii\web\HttpException;
 
 class ContenidoController extends Controller {
 
-  public function actionPublicar() {
-    $request = \Yii::$app->request;
-    $render = $request->post('render', false);
-
-    if ($render) {
-      $idLinea = $request->post('linea');
-      $objLineaTiempo = LineaTiempo::findOne($idLinea);
-      \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-      $response = [
-        'result' => 'ok',
-        'response' => $this->renderAjax('formContenido', ['objLineaTiempo' => $objLineaTiempo, 'objContenido' => new Contenido])
-      ];
-      return $response;
-    } else {
-
-    }
-  }
-
   public function actionListadoMeGustaContenido() {
     $request = \Yii::$app->request;
     $render = $request->post('render', false);
@@ -147,17 +129,16 @@ class ContenidoController extends Controller {
     $idComentario = $request->post('idComentario');
     $contenido = ContenidosComentarios::find()->where(['idContenidoComentario' => $idComentario])->one();
     $idContenido = $contenido->idContenido;
-    //$contenido = ContenidosComentarios::find()->where(['idContenidoComentario' => $idComentario]);
-
     $contenido->estado = ContenidosComentarios::ESTADO_ELIMINADO;
-    $contenido->save();
-    $comentariosContenido = ContenidosComentarios::find()->with('objUsuarioPublicacionComentario', 'objDenuncioComentarioUsuario')->where(['idContenido' => $idContenido, 'estado' => ContenidosComentarios::ESTADO_ACTIVO])->all();
+    if ($contenido->save()) {
+      $comentariosContenido = ContenidosComentarios::find()->with('objUsuarioPublicacionComentario', 'objDenuncioComentarioUsuario')->where(['idContenido' => $idContenido, 'estado' => ContenidosComentarios::ESTADO_ACTIVO])->all();
+      \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      return [
+        'result' => 'ok',
+        'response' => $this->renderPartial('_listadoComentarios', ['comentariosContenido' => $comentariosContenido])
+      ];
+    };
 
-    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-    return [
-      'result' => 'ok',
-      'response' => $this->renderPartial('_listadoComentarios', ['comentariosContenido' => $comentariosContenido])
-    ];
   }
 
   public function actionDenunciarComentario() {
@@ -194,7 +175,6 @@ class ContenidoController extends Controller {
     } else {
 
       $contenido = ContenidosComentarios::find()->where(['idContenidoComentario' => $modelDenuncio->idContenidoComentario])->one();
-
       if (empty($contenido)) {
         $respond = [
           'result' => 'error',
@@ -235,11 +215,6 @@ class ContenidoController extends Controller {
 
 
     $linea = LineaTiempo::find()->where(['idLineaTiempo' => $lineaTiempo])->one();
-    //      $noticias = Contenido::traerTodasNoticiasCopservir($lineaTiempo);
-    //      return $this->render('/sitio/_lineaTiempo', [
-    //                'linea' => $linea,
-    //                'noticias' => $noticias
-    //                    ]);
 
     $dataProvider = new ActiveDataProvider([
       'query' => Contenido::traerTodasNoticiasCopservir($lineaTiempo),
@@ -440,16 +415,14 @@ class ContenidoController extends Controller {
 
           if ($contenidoRecomendacion->save()) {
             $transaction->commit();
-            $respond = $this->generarNotificacionClasificadoRecomendado($idUsuarioEnviado, $clasificado);
-
-            if ($respond['result'] == 'error' ) {
-              throw new Exception("Error al guardar la notificaicon:".yii\helpers\Json::enconde($logTarea->getErrors()), 101);
-            }
+            $this->generarNotificacionClasificadoRecomendado($idUsuarioEnviado, $clasificado);
+            $respond = [
+              'result' => 'ok',
+            ];
           };
         }
       } catch(\Exception $e) {
 
-        //devuelve los cambios
         $transaction->rollBack();
         $respond = [
           'result' => 'error',
@@ -468,35 +441,18 @@ class ContenidoController extends Controller {
   */
   public function generarNotificacionClasificadoRecomendado($idUsuarioEnviado, $idClasificado)
   {
-    $transaction = Notificaciones::getDb()->beginTransaction();
-    $respond = [];
+    $notificacion = new Notificaciones();
+    $notificacion->idContenido = $idClasificado;
+    $notificacion->numeroDocumentoDirige = Yii::$app->user->identity->numeroDocumento;
+    $notificacion->numeroDocumentoDirigido = $idUsuarioEnviado;
+    $notificacion->descripcion = 'recomienda un clasificado';
+    $notificacion->estadoNotificacion = Notificaciones::ESTADO_CREADA;
+    $notificacion->fechaRegistro = Date("Y-m-d H:i:s");
+    $notificacion->tipoNotificacion = Notificaciones::NOTIFICACION_RECOMENDACION;
 
-    try {
-      $notificacion = new Notificaciones();
-      $notificacion->idContenido = $idClasificado;
-      $notificacion->numeroDocumentoDirige = Yii::$app->user->identity->numeroDocumento;
-      $notificacion->numeroDocumentoDirigido = $idUsuarioEnviado;
-      $notificacion->descripcion = 'recomienda un clasificado';
-      $notificacion->estadoNotificacion = Notificaciones::ESTADO_CREADA;
-      $notificacion->fechaRegistro = Date("Y-m-d H:i:s");
-      $notificacion->tipoNotificacion = Notificaciones::NOTIFICACION_RECOMENDACION;
-
-      if ($notificacion->save()) {
-        $transaction->commit();
-        $respond = [
-          'result' => 'ok',
-        ];
-      };
-    } catch (Exception $e) {
-
-      $transaction->rollBack();
-      $respond = [
-        'result' => 'error',
-      ];
-      throw $e;
-    }
-
-    return $respond;
+    if (!$notificacion->save()) {
+      throw new Exception("Error no se genero la notificacion:".yii\helpers\Json::enconde($notificacion->getErrors()), 100);
+    };
   }
 
 
@@ -540,6 +496,8 @@ class ContenidoController extends Controller {
 
     if ($model->save()) {
       return $this->redirect(['listar-contenidos-pendientes']);
+    }else{
+      //error
     }
   }
 
@@ -579,26 +537,24 @@ class ContenidoController extends Controller {
   */
   public function actionEliminarContenidoDenunciado($id)
   {
-    $modelDenunciosContenidos = DenunciosContenidos::findOne(['idDenuncioContenido' => $id]);
-    $modelDenunciosContenidos->estado = DenunciosContenidos::ELIMINADO;
-    $modelDenunciosContenidos->fechaActualizacion = Date("Y-m-d H:i:s");
-    $modelContenido = Contenido::getContenidoDetalleDenuncio($modelDenunciosContenidos->idContenido);
+    $modelDenunciosContenidos = DenunciosContenidos::findOne(['idDenuncioContenido' => $id]);    
+    $transaction = DenunciosContenidos::getDb()->beginTransaction();
+    try {
+      $modelDenunciosContenidos->estado = DenunciosContenidos::ELIMINADO;
+      $modelDenunciosContenidos->fechaActualizacion = Date("Y-m-d H:i:s");
 
-    if ($modelDenunciosContenidos->save()) {
+      if ($modelDenunciosContenidos->save()) {
+        $modelContenido = Contenido::getContenidoDetalleDenuncio($modelDenunciosContenidos->idContenido);
+        $modelContenido->saveEstadoEliminado();
 
-      $modelContenido->estado = Contenido::ELIMINADO_DENUNCIO;
-      $modelContenido->fechaActualizacion = Date("Y-m-d H:i:s");
+        $transaction->commit();
 
-      if ($modelContenido->save()) {
         return $this->redirect(['listar-contenidos-denunciados']);
-      }else{
-        //error
-        return $this->render('detalleDenuncio', ['model'=>$modelContenido]);
       }
+    }catch(\Exception $e) {
 
-    }else
-    {
-      //error
+      $transaction->rollBack();
+      throw $e;
       return $this->render('detalleDenuncio', ['model'=>$modelContenido]);
     }
   }
@@ -640,25 +596,24 @@ class ContenidoController extends Controller {
   public function actionEliminarComentarioDenunciado($id)
   {
     $modelDenuncioComentario = DenunciosContenidosComentarios::findOne(['idDenuncioComentario' => $id]);
-    $modelDenuncioComentario->estado = DenunciosContenidosComentarios::ELIMINADO;
-    $modelDenuncioComentario->fechaActualizacion = Date("Y-m-d H:i:s");
-    $modelComentario = ContenidosComentarios::getComentarioDenunciadoDetalle($modelDenuncioComentario->idContenidoComentario);
 
-    if ($modelDenuncioComentario->save()) {
+    $transaction = DenunciosContenidosComentarios::getDb()->beginTransaction();
+    try {
+      $modelDenuncioComentario->estado = DenunciosContenidosComentarios::ELIMINADO;
+      $modelDenuncioComentario->fechaActualizacion = Date("Y-m-d H:i:s");
 
-      $modelComentario->estado = ContenidosComentarios::ESTADO_ELIMINADO;
-      $modelComentario->fechaActualizacion = Date("Y-m-d H:i:s");
+      if ($modelDenuncioComentario->save()) {
+        $modelComentario = ContenidosComentarios::getComentarioDenunciadoDetalle($modelDenuncioComentario->idContenidoComentario);
+        $modelComentario->saveEstadoEliminado();
 
-      if ($modelComentario->save()) {
+        $transaction->commit();
+
         return $this->redirect(['listar-comentarios-denunciados']);
-      }else{
-        //error
-        return $this->render('detalleComentarioDenuncio', ['model'=>$modelComentario]);
       }
+    }catch(\Exception $e) {
 
-    }else
-    {
-      //error
+      $transaction->rollBack();
+      throw $e;
       return $this->render('detalleComentarioDenuncio', ['model'=>$modelComentario]);
     }
   }

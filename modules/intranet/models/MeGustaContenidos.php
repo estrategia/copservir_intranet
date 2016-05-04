@@ -14,17 +14,11 @@ use Yii;
 */
 class MeGustaContenidos extends \yii\db\ActiveRecord
 {
-  /**
-  * @inheritdoc
-  */
   public static function tableName()
   {
     return 't_MeGustaContenidos';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules()
   {
     return [
@@ -34,9 +28,6 @@ class MeGustaContenidos extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels()
   {
     return [
@@ -46,9 +37,7 @@ class MeGustaContenidos extends \yii\db\ActiveRecord
     ];
   }
 
-  /*
-  * RELACIONES
-  */
+  // RELACIONES
 
   public function getObjUsuario(){
     return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumento']);

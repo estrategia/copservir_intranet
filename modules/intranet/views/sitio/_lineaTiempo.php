@@ -1,33 +1,42 @@
 <?php
 
 use yii\helpers\Html;
+use \app\modules\intranet\models\Contenido;
 ?>
 
 <div class="alert alert-block alert-info fade in">
-  <!--<button type="button" class="close" data-dismiss="alert"></button> // para cerrar el alert -->
+
   <h4 class="alert-heading"><i class="icon-warning-sign"></i> <?= $linea->nombreLineaTiempo ?></h4>
   <p> <?= $linea->descripcion ?> </p>
-  <!--<div class="button-set">
-  <button class="btn btn-danger btn-cons" type="button">Do this</button>
-  <button class="btn btn-white btn-cons" type="button">Or this</button>
-</div>-->
+
 </div>
 <!-- las noticias -->
-<?=
+
+<!-- Boton donde se despliega el modal  -->
+<div class="col-md-12">
+  <hr>
+</div>
+<?php
+   echo $this->render('/contenido/formContenido', ['objLineaTiempo' => $linea, 'objContenido' => new Contenido]);
+/*
 Html::button('<i class="fa fa-pencil"></i> Crear publicaci&oacute;n '. ($linea->autorizacionAutomatica == 0 ? '<i><small>Requiere Aprobaci&oacute;n</small></i>':''), [
-  //'id' => 'showFormPublications' . $linea->idLineaTiempo,
   'class' => 'btn btn-primary btn-lg btn-large',
   'data-role' => 'contenido-publicar',
   'data-linea' => $linea->idLineaTiempo,
-
-]);
+]);*/
 ?>
+<div class="col-md-12">
+  <hr>
+</div>
+<div class="col-md-12">
+  <?php foreach ($noticias as $noticia): ?>
+    <span id='contenido_<?= $noticia->idContenido ?>'>
+      <?php echo $this->render('/contenido/_contenido', ['noticia' => $noticia, 'linea' => $linea]); ?>
+    </span>
+  <?php endforeach; ?>
+</div>
 
-<?php foreach ($noticias as $noticia): ?>
-  <span id='contenido_<?= $noticia->idContenido ?>'>
-    <?php echo $this->render('/contenido/_contenido', ['noticia' => $noticia, 'linea' => $linea]); ?>
-  </span>
-<?php endforeach; ?>
+
 <div class="row">
   <div class="col-md-6">
 

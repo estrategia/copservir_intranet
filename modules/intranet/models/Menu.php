@@ -15,16 +15,10 @@ use Yii;
 */
 class Menu extends \yii\db\ActiveRecord {
 
-  /**
-  * @inheritdoc
-  */
   public static function tableName() {
     return 't_Menu';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules() {
     return [
       [['descripcion', 'estado'], 'required'],
@@ -33,9 +27,6 @@ class Menu extends \yii\db\ActiveRecord {
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels() {
     return [
       'idMenu' => 'Id Menu',
@@ -46,9 +37,8 @@ class Menu extends \yii\db\ActiveRecord {
     ];
   }
 
-  /**
-  * Relaciones
-  */
+  // RELACIONES
+
   public function getListSubMenu() {
     return $this->hasMany(Menu::className(), ['idPadre' => 'idMenu']);
   }
@@ -61,9 +51,9 @@ class Menu extends \yii\db\ActiveRecord {
     return $this->hasOne(Opcion::className(), ['idMenu' => 'idMenu']);
   }
 
-  /**
-  * Funciones
-  */
+
+  // FUNCIONES
+
   public static function menuHtml($menuItem, $opciones = []) {
 
     if (!empty($opciones) &&in_array($menuItem->idMenu, $opciones)) {
@@ -216,8 +206,6 @@ class Menu extends \yii\db\ActiveRecord {
 
   /**
   * Funcion para asignar el atributo idRaiz al modelo Menu
-  * @param
-  * @return
   */
   public function setIdRaiz()
   {
@@ -230,7 +218,6 @@ class Menu extends \yii\db\ActiveRecord {
 
   /**
   * Funcion que indica si un modelo Menu es raiz
-  * @param
   * @return bool true || bool false
   */
   public function esNodoRaiz()

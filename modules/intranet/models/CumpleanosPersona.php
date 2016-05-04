@@ -16,17 +16,11 @@ use Yii;
 */
 class CumpleanosPersona extends \yii\db\ActiveRecord
 {
-  /**
-  * @inheritdoc
-  */
   public static function tableName()
   {
     return 't_CumpleanosPersona';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules()
   {
     return [
@@ -37,9 +31,6 @@ class CumpleanosPersona extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels()
   {
     return [
@@ -52,26 +43,20 @@ class CumpleanosPersona extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * Se define la relacion entre los modelos CumpleanosLaboral y User
-  * @return \yii\db\ActiveQuery modelo User
-  */
+  // RELACIONES
+
   public function getObjUsuario()
   {
     return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumento']);
   }
 
-  /**
-  * Se define la relacion entre los modelos CumpleanosLaboral y GrupoInteresCargo
-  * @return \yii\db\ActiveQuery modelo GrupoInteresCargo
-  */
   public function getObjGrupoInteresCargo()
   {
     return $this->hasMany(GrupoInteresCargo::className(), ['idCargo' => 'idCargo']);
   }
+  // CONSULTAS
 
   /**
-  * consulta los modelos CumpleanosPersona que van en el index
   * @param $userCiudad = ciudad donde se encuentra el usuario, $userGrupos = grupos de interes del usuario
   * @return array modelo CumpleanosLaboral
   */
@@ -94,7 +79,6 @@ class CumpleanosPersona extends \yii\db\ActiveRecord
 
   /**
   * consulta todos los modelos CumpleanosPersona a partir de 5 dias atras de la fecha actual
-  * @param
   * @return array modelo CumpleanosLaboral
   */
   public static function getCumpleanosVerTodos(){

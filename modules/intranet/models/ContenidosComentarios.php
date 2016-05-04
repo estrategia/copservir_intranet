@@ -23,17 +23,11 @@ class ContenidosComentarios extends \yii\db\ActiveRecord
   const ESTADO_ACTIVO = 1;
   const ESTADO_DENUNCIADO = 2;
 
-  /**
-  * @inheritdoc
-  */
   public static function tableName()
   {
     return 't_ContenidosComentarios';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules()
   {
     return [
@@ -44,9 +38,6 @@ class ContenidosComentarios extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels()
   {
     return [
@@ -60,41 +51,24 @@ class ContenidosComentarios extends \yii\db\ActiveRecord
     ];
   }
 
-  /*
-  * RELACIONES
-  */
 
-  /**
-  * Se define la relacion entre los modelos ContenidosComentarios y Usuario
-  * @return \yii\db\ActiveQuery modelo Usuario
-  */
+  // RELACIONES
+
   public function getObjUsuarioPublicacionComentario()
   {
     return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumento']);
   }
 
-  /**
-  *
-  * @return \yii\db\ActiveQuery modelo Usuarios
-  */
   public function getObjDenuncioComentarioUsuario()
   {
     return $this->hasOne(DenunciosContenidosComentarios::className(), ['idContenidoComentario' => 'idContenidoComentario'])->andOnCondition(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento]);
   }
 
-  /**
-  * Se define la relacion entre los modelos ContenidosComentarios Y DenunciosContenidosComentarios
-  * @return \yii\db\ActiveQuery modelo Usuarios
-  */
   public function getObjDenuncioComentario()
   {
     return $this->hasOne(DenunciosContenidosComentarios::className(), ['idContenidoComentario' => 'idContenidoComentario']);
   }
 
-  /**
-  * Se define la relacion entre los modelos ContenidosComentarios y Contenido
-  * @return \yii\db\ActiveQuery modelo Contenido
-  */
   public function getObjContenido()
   {
     return $this->hasOne(Contenido::className(), ['idContenido' => 'idContenido']);
@@ -145,5 +119,17 @@ class ContenidosComentarios extends \yii\db\ActiveRecord
     'objContenido'])->one();
 
     return $query;
+  }
+
+  //FUNCIONES
+
+  public function saveEstadoEliminado()
+  {
+    $this->estado = ContenidosComentarios::ESTADO_ELIMINADO;
+    $this->fechaActualizacion = Date("Y-m-d H:i:s");
+
+    if (!$this->save()) {
+      throw new Exception("Error al guardar el logTarea:".yii\helpers\Json::enconde($logTarea->getErrors()), 101);
+    }
   }
 }

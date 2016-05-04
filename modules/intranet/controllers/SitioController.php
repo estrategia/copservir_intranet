@@ -205,96 +205,63 @@ class SitioController extends Controller {
   public function actionGuardarContenido() {
 
     $contenido = new Contenido();
+    $respond = [];
+
     if ($contenido->load(Yii::$app->request->post())) {
+
       $contenido->numeroDocumentoPublicacion = Yii::$app->user->identity->numeroDocumento;
       $contenido->fechaPublicacion = $contenido->fechaActualizacion = date("Y-m-d H:i:s");
-      $error = false;
-      $lineaTiempo = LineaTiempo::find()->where(['=', 'idLineaTiempo', $contenido->idLineaTiempo])->one();
 
-      if ($lineaTiempo->autorizacionAutomatica == 1) {
-        $contenido->estado = Contenido::APROBADO; // estado aprobado
-        $contenido->fechaAprobacion = date("Y-m-d H:i:s");
-        $contenido->fechaInicioPublicacion = date("Y-m-d H:i:s");
-      } else {
-        $contenido->estado = Contenido::PENDIENTE_APROBACION;
-      }
+      $lineaTiempo = LineaTiempo::findOne($contenido->idLineaTiempo);
+      $contenido->setEstadoDependiendoAprovacion($lineaTiempo);
+      // aca funcion guardar imagenes
 
-      if ($contenido->save()) {
+      $transaction = Contenido::getDb()->beginTransaction();
+      try {
 
-        $solicitarGrupo = Yii::$app->request->post('SolicitarGrupoObjetivo');
+        if ($contenido->save()) {
+          $solicitarGrupo = Yii::$app->request->post('SolicitarGrupoObjetivo');
 
-        if ($solicitarGrupo == 1) {
-          $contenidodestino = Yii::$app->request->post('ContenidoDestino');
-          $ciudades = $contenidodestino['codigoCiudad'];
-          $gruposInteres = $contenidodestino['idGrupoInteres'];
-
-          for ($i = 0; $i < count($gruposInteres); $i++) {
-            $contenidodestino = new ContenidoDestino();
-            $contenidodestino->idGrupoInteres = $gruposInteres[$i];
-            $contenidodestino->codigoCiudad = $ciudades[$i];
-            $contenidodestino->idContenido = $contenido->idContenido;
-
-            if (!$contenidodestino->save()) {
-              $error = true;
-            }
+          if ($solicitarGrupo == 1) {
+            $contenidodestino = Yii::$app->request->post('ContenidoDestino');
+            $contenido->guardarContenidoDestino($contenidodestino);
+          }else{
+            $contenido->guardarContenidoDestinoTodos();
           }
-        } else {
-          $contenidodestino = new ContenidoDestino();
-          $contenidodestino->idGrupoInteres = Yii::$app->params['grupo']['*'];
-          $contenidodestino->codigoCiudad = Yii::$app->params['ciudad']['*'];
-          $contenidodestino->idContenido = $contenido->idContenido;
 
-          if (!$contenidodestino->save()) {
-            $error = true;
-          }
-        }
-
-        if (!$error) {
-
-          $logContenido = new LogContenidos();
-          $logContenido->idContenido = $contenido->idContenido;
-          $logContenido->estado = $contenido->estado;
-          $logContenido->fechaRegistro = $contenido->fechaPublicacion;
-          $logContenido->numeroDocumento = $contenido->numeroDocumentoPublicacion;
-
-          if (!$logContenido->save()) {
-            $error = true;
-          }
-        }
-
-        if (!$error) {
+          $transaction->commit();
           $contenidoModel = new Contenido();
-          $linea = LineaTiempo::find()->where(['idLineaTiempo' => $contenido->idLineaTiempo])->one();
-
           $noticias = Contenido::traerNoticias($contenido->idLineaTiempo);
-          \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
           $respond = [
             'result' => 'ok',
             'response' => $this->renderAjax('_lineaTiempo', [
               'contenidoModel' => $contenidoModel,
-              'linea' => $linea,
+              'linea' => $lineaTiempo,
               'noticias' => $noticias
               ])];
-              return $respond;
-            } else {
-              return [
-                'result' => 'error',
-                'response' => 'Error al guardar el contenido'
-              ];
-            }
-          } else {
-            return [
-              'result' => 'error',
-              'response' => 'Error al guardar el contenido'
-            ];
-          }
-        } else {
-          return [
-            'result' => 'error',
-            'response' => 'Error al guardar el contenido'
-          ];
         }
+
+      }catch(\Exception $e) {
+
+        $transaction->rollBack();
+        throw $e;
+        $respond =  [
+          'result' => 'error',
+          'response' => 'Error al guardar el contenido'
+        ];
+      }
+    } else {
+      $respond =  [
+        'result' => 'error',
+        'response' => 'Error al guardar el contenido'
+      ];
+    }
+
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $respond;
   }
+
+
 
   //::::::::::::::::::::::
   // MENU
@@ -680,7 +647,7 @@ class SitioController extends Controller {
   /*
   accion para renderizar el formulario para publicar un contenido en una linea de tiempo
   */
-
+  /*
   public function actionFormNoticia($lineaTiempo) {
     $contenidoModel = new Contenido();
     $linea = LineaTiempo::find()->where(['idLineaTiempo' => $lineaTiempo])->one();
@@ -688,7 +655,7 @@ class SitioController extends Controller {
       'contenidoModel' => $contenidoModel,
       'linea' => $linea,
     ]);
-  }
+  }*/
 
   /*
   accion para renderizar la vista calendario

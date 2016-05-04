@@ -5,5 +5,4 @@ return [
     'Show original' => 'Eredeti megjelenítése',
     'Height' => 'Magasság',
     'Width' => 'Szélesség',
-    'Reset' => 'Visszaállítása'
 ];

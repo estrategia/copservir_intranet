@@ -19,9 +19,6 @@ use Yii;
 */
 class InformacionContactoOferta extends \yii\db\ActiveRecord
 {
-  /**
-  * @inheritdoc
-  */
   const PLANTILLA_ACTIVA = 1;
   const PLANTILLA_INACTIVA = 0;
 
@@ -30,9 +27,6 @@ class InformacionContactoOferta extends \yii\db\ActiveRecord
     return 't_InformacionContactoOferta';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules()
   {
     return [
@@ -44,9 +38,6 @@ class InformacionContactoOferta extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels()
   {
     return [
@@ -60,13 +51,8 @@ class InformacionContactoOferta extends \yii\db\ActiveRecord
     ];
   }
 
-  /*
-  * RELACIONES
-  */
+  // RELACIONES
 
-  /**
-  * se defina la relacion entre el modelo InformacionContactoOferta y OfertasLaborales
-  */
   public function getListOfertaslaborales()
   {
     return $this->hasMany(OfertasLaborales::className(), ['idInformacionContacto' => 'idInformacionContacto']);

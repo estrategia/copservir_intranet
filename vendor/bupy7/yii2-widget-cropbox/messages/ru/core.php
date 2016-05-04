@@ -5,5 +5,4 @@ return [
     'Show original' => 'Показать оригинал',
     'Height' => 'Высота',
     'Width' => 'Ширина',
-    'Reset' => 'Сброс',
 ];

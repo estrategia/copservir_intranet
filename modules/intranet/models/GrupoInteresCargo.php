@@ -15,17 +15,11 @@ use app\modules\intranet\models\Cargo;
 */
 class GrupoInteresCargo extends \yii\db\ActiveRecord
 {
-  /**
-  * @inheritdoc
-  */
   public static function tableName()
   {
     return 'm_GrupoInteresCargo';
   }
 
-  /**
-  * @inheritdoc
-  */
   public function rules()
   {
     return [
@@ -35,9 +29,6 @@ class GrupoInteresCargo extends \yii\db\ActiveRecord
     ];
   }
 
-  /**
-  * @inheritdoc
-  */
   public function attributeLabels()
   {
     return [
@@ -46,22 +37,15 @@ class GrupoInteresCargo extends \yii\db\ActiveRecord
     ];
   }
 
-  /*
-  * RELACIONES
-  */
+  // RELACIONES
 
-  /**
-  * Se define la relacion entre los modelos  GrupoInteresCargo y Cargo
-  * @param none
-  * @return modelo Cargo
-  */
   public function getObjGrupoInteresCargo(){
     return $this->hasOne(Cargo::className(), ['idCargo' => 'idCargo']);
   }
 
-  /*
-  * CONSULTAS
-  */
+
+  // CONSULTAS
+
 
   /**
   * Consulta los GrupoInteresCargo segun el idGrupoInteres junto con los objetos cargos relacionados
