@@ -85,13 +85,27 @@ $(document).on('click', "a[data-role='quitar-destino-contenido']", function () {
 */
 $(document).on('click', "a[data-role='guardar-contenido']", function () {
 
-  var form = $("#form-contenido-publicar");
+  var formElement = document.getElementById("form-contenido-publicar");
+  var formData = new FormData(formElement);
+  //var files = $('#contenido-imagenes').fileinput('getFileStack');
   var href = $(this).attr('data-href');
+
+  /*
+  $.each(files, function(key, data)
+    {
+        console.log(data);
+        //formData.append('imagen', data, );
+    });*/
+
+
+  //console.log(files);
+
   $.ajax({
     type: 'POST',
-    async: true,
+    processData: false,
+    contentType:false,
     url: requestUrl + '/intranet/sitio/guardar-contenido',
-    data: form.serialize(),
+    data: formData,
     dataType: 'json',
     beforeSend: function () {
       $('body').showLoading();

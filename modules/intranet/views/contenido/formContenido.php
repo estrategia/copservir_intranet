@@ -15,13 +15,7 @@ use kartik\file\FileInput;
   <?php
   $form = ActiveForm::begin([
     'id' => 'form-contenido-publicar',
-    'action' => 'intranet/contenido/publicar',
-    'method' => 'POST',
-    'enableClientValidation' => true,
-    'options' => [
-      'enctype' => 'multipart/form-data',
-      'data-pjax' => true
-    ],
+    'options'=>['encytype'=>'multipart/form-data']
   ]);
   ?>
 
@@ -46,9 +40,12 @@ use kartik\file\FileInput;
     ?>
 
     <?php
-    echo $form->field($objContenido, 'imagenes[]')->widget(FileInput::classname(), [
+    echo FileInput::widget([
+      'name'=> 'imagen[]',
+      'id' => 'contenido-imagenes',
       'options' => ['multiple' => true, 'accept' => 'image/*'],
       'pluginOptions' => [
+        //'uploadAsync'=> false,
         'previewFileType' => 'image',
         'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
         'browseLabel' =>  '',
@@ -56,7 +53,7 @@ use kartik\file\FileInput;
         'showCaption' => true,
         'showRemove' => true,
         'showUpload' => false,
-        'uploadUrl' => Url::to(['/site/file-upload']),
+        'uploadUrl' => Url::to(['/intranet/contenido/prueba']),
         'layoutTemplates' => [
           'actions' => '<div class="file-actions">' .
                       '    <div class="file-footer-buttons">' .

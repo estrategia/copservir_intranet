@@ -209,17 +209,20 @@ class SitioController extends Controller {
 
     if ($contenido->load(Yii::$app->request->post())) {
 
-      $contenido->numeroDocumentoPublicacion = Yii::$app->user->identity->numeroDocumento;
-      $contenido->fechaPublicacion = $contenido->fechaActualizacion = date("Y-m-d H:i:s");
-
-      $lineaTiempo = LineaTiempo::findOne($contenido->idLineaTiempo);
-      $contenido->setEstadoDependiendoAprovacion($lineaTiempo);
-      // aca funcion guardar imagenes
-
       $transaction = Contenido::getDb()->beginTransaction();
+
       try {
 
+        $contenido->numeroDocumentoPublicacion = Yii::$app->user->identity->numeroDocumento;
+        $contenido->fechaPublicacion = $contenido->fechaActualizacion = date("Y-m-d H:i:s");
+        $contenido->imagenes = $_FILES['imagen'];
+        $lineaTiempo = LineaTiempo::findOne($contenido->idLineaTiempo);
+        $contenido->setEstadoDependiendoAprovacion($lineaTiempo);
+
+        //exit();
+
         if ($contenido->save()) {
+          $contenido->guardarImagenes();
           $solicitarGrupo = Yii::$app->request->post('SolicitarGrupoObjetivo');
 
           if ($solicitarGrupo == 1) {
@@ -253,15 +256,13 @@ class SitioController extends Controller {
     } else {
       $respond =  [
         'result' => 'error',
-        'response' => 'Error al guardar el contenido'
+        'response' => 'Error al cargar el contenido'
       ];
     }
 
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return $respond;
+    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+    return $respond;
   }
-
-
 
   //::::::::::::::::::::::
   // MENU

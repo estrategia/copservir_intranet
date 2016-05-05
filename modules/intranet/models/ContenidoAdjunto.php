@@ -16,6 +16,7 @@ use Yii;
 */
 class ContenidoAdjunto extends \yii\db\ActiveRecord
 {
+  const TIPO_IMAGEN = 1;
 
   public static function tableName()
   {

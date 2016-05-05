@@ -119,7 +119,7 @@ class Documento extends \yii\db\ActiveRecord
 
     if (!$logDocumento->save()) {
 
-      throw new \Exception("Error al guardar el logDocumento:", 101);
+      throw new \Exception("Error al guardar el logDocumento:".json_encode($logDocumento->getErrors()), 101);
     }
     return parent::afterSave($inser, $changedAttributes);
   }

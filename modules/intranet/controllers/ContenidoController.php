@@ -537,7 +537,7 @@ class ContenidoController extends Controller {
   */
   public function actionEliminarContenidoDenunciado($id)
   {
-    $modelDenunciosContenidos = DenunciosContenidos::findOne(['idDenuncioContenido' => $id]);    
+    $modelDenunciosContenidos = DenunciosContenidos::findOne(['idDenuncioContenido' => $id]);
     $transaction = DenunciosContenidos::getDb()->beginTransaction();
     try {
       $modelDenunciosContenidos->estado = DenunciosContenidos::ELIMINADO;
@@ -622,11 +622,20 @@ class ContenidoController extends Controller {
   //-------------
   public function actionPrueba()
   {
+    /*
     $query = Contenido::find()->joinWith(['objContenidoAdjuntoImagenes','objContenidoAdjuntoDocumentos'])
     ->where(['t_Contenido.idContenido' => 10])
     ;
 
     var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
-    //var_dump($query);
+    //var_dump($query);*/
+    //$numUploadedfiles = count();
+    //var_dump($_FILES['imagen']);
+
+    /*for($i = 0; $i < $numUploadedfiles; $i++)
+    {
+        echo "<br>filename " . $i . " is: " . $_FILES['uploadFile'][$i];
+        // or do whatever
+    }*/
   }
 }

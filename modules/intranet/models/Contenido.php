@@ -5,7 +5,10 @@ namespace app\modules\intranet\models;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\Expression;
+use yii\web\UploadedFile;
 use app\modules\intranet\models\ContenidoDestino;
+use app\modules\intranet\models\ContenidoAdjunto;
+use yii\helpers\Json;
 
 /**
 * This is the model class for table "t_Contenido".
@@ -31,7 +34,7 @@ class Contenido extends \yii\db\ActiveRecord
   const ELIMINADO_DENUNCIO = 4;
 
   public $anexos;
-  public $imagenes = [];
+  public $imagenes;
 
   public static function tableName()
   {
@@ -433,7 +436,7 @@ class Contenido extends \yii\db\ActiveRecord
     $logContenido->numeroDocumento = $this->numeroDocumentoPublicacion;
     if (!$logContenido->save()) {
       //error al guardar el log
-      throw new Exception("Error al guardar el logContenido:".yii\helpers\Json::enconde($logContenido->getErrors()), 101);
+      throw new \Exception("Error al guardar el logContenido:".json_encode($logContenido->getErrors()), 101);
     }
     return parent::afterSave($inser, $changedAttributes);
   }
@@ -469,6 +472,10 @@ class Contenido extends \yii\db\ActiveRecord
     $this->estado = Contenido::PENDIENTE_APROBACION;
   }
 
+  /**
+  * Crea los modelos ContenidoDestino
+  * si no crea uno arroja una excepcion
+  */
   public function guardarContenidoDestino($contenidodestino)
   {
     $ciudades = $contenidodestino['codigoCiudad'];
@@ -481,11 +488,15 @@ class Contenido extends \yii\db\ActiveRecord
       $contenidodestino->idContenido = $this->idContenido;
 
       if (!$contenidodestino->save()) {
-        throw new Exception("Error al guardar el destino:".yii\helpers\Json::enconde($contenidodestino->getErrors()), 102);
+        throw new \Exception("Error al guardar el destino:".json_encode($contenidodestino->getErrors()), 102);
       }
     }
   }
 
+  /**
+  * Crea un modelo ContenidoDestino con los valores de todos los grupos y todas las ciudades
+  * si no crea uno arroja una excepcion
+  */
   public function guardarContenidoDestinoTodos(){
     $contenidodestino = new ContenidoDestino();
     $contenidodestino->idGrupoInteres = Yii::$app->params['grupo']['*'];
@@ -493,17 +504,54 @@ class Contenido extends \yii\db\ActiveRecord
     $contenidodestino->idContenido = $this->idContenido;
 
     if (!$contenidodestino->save()) {
-      throw new Exception("Error al guardar el destino:".yii\helpers\Json::enconde($contenidodestino->getErrors()), 102);
+      throw new \Exception("Error al guardar el destino:".json_encode($contenidodestino->getErrors()), 102);
     }
   }
 
+  /**
+  * Asigna los atributos estado y fechaActualizacion para que el contenido sea eliminado
+  * si no actualiza arroja una excepcion
+  */
   public function saveEstadoEliminado()
   {
     $this->estado = Contenido::ELIMINADO_DENUNCIO;
     $this->fechaActualizacion = Date("Y-m-d H:i:s");
 
     if (!$this->save()) {
-      throw new Exception("Error al guardar el logTarea:".yii\helpers\Json::enconde($logTarea->getErrors()), 101);
+      throw new \Exception("Error al guardar el logTarea:".json_encode($this->getErrors()), 101);
     }
   }
+
+  /**
+  * crea modelos ContenidoAdjunto para guardar las imagenes
+  * si no crea arroja una excepcion
+  */
+  public function guardarImagenes()
+  {
+    if (!empty($this->imagenes)) {
+
+      foreach ($this->imagenes['tmp_name'] as $key => $value) {
+
+        if (is_uploaded_file($value)){
+
+          $rutaGuardarArchivo = Yii::getAlias('@webroot')."/img/imagenesContenidos/".$this->imagenes['name'][$key];
+          $contenidoAdjunto = new ContenidoAdjunto;
+
+          $contenidoAdjunto->idContenido = $this->idContenido;
+          $contenidoAdjunto->tipo = ContenidoAdjunto::TIPO_IMAGEN;
+          $contenidoAdjunto->rutaArchivo = $this->imagenes['name'][$key];
+
+          if (!is_file($rutaGuardarArchivo)){
+              move_uploaded_file($value, $rutaGuardarArchivo);
+          }
+
+          if (!$contenidoAdjunto->save()) {
+
+            throw new \Exception("Error al guardar las imagenes:".json_encode($contenidoAdjunto->getErrors()), 100);
+          }
+        }
+      }
+    }
+  }
+
 }
