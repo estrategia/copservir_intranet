@@ -45,7 +45,9 @@ use kartik\file\FileInput;
       'id' => 'contenido-imagenes',
       'options' => ['multiple' => true, 'accept' => 'image/*'],
       'pluginOptions' => [
-        //'uploadAsync'=> false,
+
+        'maxFileCount' => 5,
+        'maxFileSize' => 5120,
         'previewFileType' => 'image',
         'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
         'browseLabel' =>  '',
