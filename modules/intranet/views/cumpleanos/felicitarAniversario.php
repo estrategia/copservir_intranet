@@ -73,7 +73,7 @@
           <?= Html::hiddenInput("numeroDocumentoDirigido", $modelCumpleanosLaboral->numeroDocumento, []); ?>
         <br>
         <div class="form-group">
-          <?= Html::submitButton('enviar', ['class' =>'btn btn-primary', 'data-role'=>'felicitaAniversario', 'data-aniversario'=>$modelCumpleanosLaboral->idCumpleanosPersona]) ?>
+          <?= Html::submitButton('enviar', ['class' =>'btn btn-primary', 'data-role'=>'felicitaAniversario', 'data-aniversario'=>$modelCumpleanosLaboral->idCumpleanosLaboral]) ?>
         </div>
         <?php ActiveForm::end(); ?>
 

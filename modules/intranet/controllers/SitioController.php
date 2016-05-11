@@ -743,7 +743,7 @@ class SitioController extends Controller {
 
           $modelContenido->numeroDocumentoPublicacion = Yii::$app->user->identity->numeroDocumento;
           if (!empty($_FILES['imagenes'])) {
-              $contenido->imagenes = $_FILES['imagenes'];
+              $modelContenido->imagenes = $_FILES['imagenes'];
           }
           $modelContenido->fechaPublicacion = Date("Y-m-d H:i:s");
           $modelContenido->idLineaTiempo = LineaTiempo::MIS_PUBLICACIONES;
@@ -753,9 +753,9 @@ class SitioController extends Controller {
             $modelContenido->guardarImagenes();
 
             $contenidoRecomendacion = new ContenidoRecomendacion();
-            $contenidoRecomendacion->guardarContenidoRecomendacion($modelContenido->idContenido, $modelCumpleanosPersona->numeroDocumento);
+            $contenidoRecomendacion->guardarContenidoRecomendacion($modelContenido->idContenido, $modelCumpleanosLaboral->numeroDocumento);
 
-            $this->generarNotificacionFelicitacion($modelContenido->idContenido, $modelCumpleanosPersona->numeroDocumento);
+            $this->generarNotificacionFelicitacion($modelContenido->idContenido, $modelCumpleanosLaboral->numeroDocumento);
 
             $transaction->commit();
             $respond = [
@@ -805,7 +805,7 @@ class SitioController extends Controller {
 
           $modelContenido->numeroDocumentoPublicacion = Yii::$app->user->identity->numeroDocumento;
           if (!empty($_FILES['imagenes'])) {
-              $contenido->imagenes = $_FILES['imagenes'];
+              $modelContenido->imagenes = $_FILES['imagenes'];
           }
           $modelContenido->fechaPublicacion = Date("Y-m-d H:i:s");
           $modelContenido->idLineaTiempo = LineaTiempo::MIS_PUBLICACIONES;

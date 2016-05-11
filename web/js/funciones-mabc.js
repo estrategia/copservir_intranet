@@ -1145,7 +1145,8 @@ $(document).on('click', "button[data-role='felicitaAniversario']", function() {
 
   var formElement = document.getElementById("formAniversario");
   var formData = new FormData(formElement);
-  var id = $(this).attr('data-anivesario');
+  var id = $(this).attr('data-aniversario');
+  console.log(id);
   var files = $('#contenido-imagenes').fileinput('getFileStack');
 
   if (files.length > 0) {
