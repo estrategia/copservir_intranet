@@ -760,13 +760,11 @@ class SitioController extends Controller {
             $transaction->commit();
             $respond = [
               'result' => 'ok',
-              /*'response' => $this->renderAjax('_lineaTiempo', [
-                'contenidoModel' => $contenidoModel,
-                'linea' => $lineaTiempo,
-                'noticias' => $noticias
-                ])*/
+              'response' => $this->renderAjax('/cumpleanos/felicitarAniversario', [
+                'modelCumpleanosLaboral' => $modelCumpleanosLaboral,
+                'modelContenido' => new Contenido,
+                ])
               ];
-
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             return $respond;
           }
@@ -822,13 +820,11 @@ class SitioController extends Controller {
             $transaction->commit();
             $respond = [
               'result' => 'ok',
-              /*'response' => $this->renderAjax('_lineaTiempo', [
-                'contenidoModel' => $contenidoModel,
-                'linea' => $lineaTiempo,
-                'noticias' => $noticias
-                ])*/
+              'response' => $this->renderAjax('/cumpleanos/felicitarCumpleanos', [
+                'modelCumpleanosPersona' => $modelCumpleanosPersona,
+                'modelContenido' => new Contenido,
+                ])
               ];
-
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             return $respond;
           }

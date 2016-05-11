@@ -1125,7 +1125,8 @@ $(document).on('click', "button[data-role='felicitaCumpleaños']", function() {
     },
     success: function(data) {
       if (data.result == "ok") {
-        console.log('exito');
+        $("#felicitar").remove();
+        $('#container').append(data.response);
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -1170,7 +1171,8 @@ $(document).on('click', "button[data-role='felicitaAniversario']", function() {
     },
     success: function(data) {
       if (data.result == "ok") {
-        console.log('exito');
+        $("#felicitar").remove();
+        $('#container').append(data.response);
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {

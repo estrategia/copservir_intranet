@@ -8,7 +8,7 @@
   $this->title = 'Cumpleaños';
  ?>
 
-<div class="col-md-12 center-block">
+<div class="col-md-12 center-block" id="felicitar">
   <div class="grid simple horizontal green">
     <div class="grid-title  center-block">
       <h4>

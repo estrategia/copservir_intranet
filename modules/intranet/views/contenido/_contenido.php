@@ -48,7 +48,7 @@ use app\modules\intranet\models\LineaTiempo;
 
                   if ($contador ==  1  ) { //cambiar por una constante
                     if (($contador) != count($noticia->objContenidoAdjuntoImagenes)) {
-                      $mensaje = (count($noticia->objContenidoAdjuntoImagenes)-1).'+' ;
+                      $mensaje = (count($noticia->objContenidoAdjuntoImagenes)-1).'+' ; // cambiar por una constante
                     }
 
                   }
@@ -89,8 +89,7 @@ use app\modules\intranet\models\LineaTiempo;
       <!-- comentarios y me gusta -->
 
       <?php if ($noticia->objLineaTiempo->tipo === LineaTiempo::LINEA_CON_COMENTARIOS): ?>
-      <!--<div class="p-t-10 p-b-10 p-l-20 ">-->
-
+      
         <ul class="action-links col-md-12" style="border-bottom:1px solid #eee;border-top: 1px solid #eee;padding: 5px;">
           <li>
             <?php $noExisteMeGusta = (empty($noticia->listMeGustaUsuario) || count($noticia->listMeGustaUsuario) < 1) ?>
