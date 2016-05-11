@@ -42,10 +42,10 @@ use app\modules\intranet\models\LineaTiempo;
                   $contador++;
                   $style = '';
                   $mensaje = '';
-                  if ($contador>1) { //cambiar el 3 por una constante
+                  if ($contador>1) { //cambiar por una constante
                     $style = 'display:none';
                   }
-                  if ($contador=1) { //cambiar el 3 por una constante
+                  if ($contador=1 && ($contador-1) != 0) { //cambiar por una constante
                     $mensaje = (count($noticia->objContenidoAdjuntoImagenes)-1).'+' ;
                   }
                 ?>
@@ -70,7 +70,7 @@ use app\modules\intranet\models\LineaTiempo;
               $this->registerJs("
 
                 jQuery('.gallery$noticia->idContenido').lightbox();
-              
+
               ");
             ?>
             <script type="text/javascript">
