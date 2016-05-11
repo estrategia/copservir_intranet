@@ -44,10 +44,22 @@ use yii\helpers\Html;
                 $dia = $fecha_dividida[2];
                 if ($flag=='Cumpleaños') {
                   echo "Cumple el ".$dia.' de '.$mes;
+                  echo '<p>';
+                  echo
+                  Html::a('Felicitar',  ['felicitar-cumpleanos', 'id'=>$model->idCumpleanosPersona], [
+                    'class' => 'btn btn-primary',
+                  ]);
+                  echo '</p>';
                 }else{
                   echo "Aniversario el ".$dia.' de '.$mes;
+                  echo '<p>';
+                  echo
+                  Html::a('Felicitar',  ['felicitar-aniversario','id'=>$model->idCumpleanosLaboral], [
+                    'class' => 'btn btn-primary',
+                  ]);
+                  echo '</p>';
                 }
-
+//                ['actualizar', 'id' => $model->idDocumento]
                 ?>
               </p>
             </div>

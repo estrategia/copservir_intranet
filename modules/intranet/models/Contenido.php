@@ -119,18 +119,18 @@ class Contenido extends \yii\db\ActiveRecord
 
   public function getObjContenidoAdjuntoImagenes()
   {
-    return $this->hasMany(ContenidoAdjunto::className(), ['idContenido' => 'idContenido'])->from(ContenidoAdjunto::tableName().' ContenidoAdjuntoImagenes')->andOnCondition(['ContenidoAdjuntoImagenes.tipo' => 2]);
+    return $this->hasMany(ContenidoAdjunto::className(), ['idContenido' => 'idContenido'])->from(ContenidoAdjunto::tableName().' ContenidoAdjuntoImagenes')->andOnCondition(['ContenidoAdjuntoImagenes.tipo' => ContenidoAdjunto::TIPO_IMAGEN]);
   }
 
   public function getObjContenidoAdjuntoDocumentos()
   {
-    return $this->hasMany(ContenidoAdjunto::className(), ['idContenido' => 'idContenido'])->from(ContenidoAdjunto::tableName().' ContenidoAdjuntoDocumentos')->andOnCondition(['ContenidoAdjuntoDocumentos.tipo' => 1]);
+    return $this->hasMany(ContenidoAdjunto::className(), ['idContenido' => 'idContenido'])->from(ContenidoAdjunto::tableName().' ContenidoAdjuntoDocumentos')->andOnCondition(['ContenidoAdjuntoDocumentos.tipo' => 3]);
   }
 
   //CONSULTAS
 
   public static function traerNoticias($idLineaTiempo){
-    return $noticias = self::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])
+    return $noticias = self::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario', 'objContenidoAdjuntoImagenes'])
     ->joinWith(['listContenidosDestinos'])->where(
     " fechaInicioPublicacion<=now() AND idLineaTiempo =:idLineaTiempo AND estado=:estado AND
     (
@@ -153,7 +153,7 @@ class Contenido extends \yii\db\ActiveRecord
 
 
   public static function traerTodasNoticiasCopservir($idLineaTiempo){
-    return $noticias = self::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])
+    return $noticias = self::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario', 'objContenidoAdjuntoImagenes'])
     ->where(
       ['and',
         ['<=', 'fechaInicioPublicacion', new Expression('now()')],
@@ -171,7 +171,7 @@ class Contenido extends \yii\db\ActiveRecord
 
     $fecha = Date("Y-m-d H:i:s");
     $idUsuario = Yii::$app->user->identity->numeroDocumento;
-    $query = self::find()->joinWith(['contenidoRecomendacion'])
+    $query = self::find()->joinWith(['contenidoRecomendacion'])->with(['objContenidoAdjuntoImagenes'])
     ->where("( (t_Contenido.numeroDocumentoPublicacion =:idUsuario and t_Contenido.estado=:estado and t_Contenido.fechaInicioPublicacion <=:fechaPublicacion) or (t_ContenidoRecomendacion.numeroDocumentoDirigido =:idUsuario and t_ContenidoRecomendacion.fechaRegistro <=:fechaRegistro) )")
     ->addParams([':fechaPublicacion' => $fecha,':fechaRegistro'=>$fecha, ':idUsuario'=> $idUsuario, ':estado'=>self::APROBADO])
     ->orderBy('t_Contenido.fechaInicioPublicacion DESC,t_ContenidoRecomendacion.fechaRegistro DESC');
@@ -181,7 +181,7 @@ class Contenido extends \yii\db\ActiveRecord
 
 
   public static function traerNoticiaEspecifica($idContenido){
-      return $noticias = self::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario'])->where(
+      return $noticias = self::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario', 'objContenidoAdjuntoImagenes'])->where(
       ['and',
         ['<=', 'fechaInicioPublicacion', new Expression('now()')],
         ['=', 'idContenido', $idContenido],
@@ -197,7 +197,7 @@ class Contenido extends \yii\db\ActiveRecord
   */
   public static function traerBusqueda($busqueda)
   {
-    $query = self::find()->andFilterWhere([
+    $query = self::find()->with(['objContenidoAdjuntoImagenes'])->andFilterWhere([
       'or',
       ['LIKE', 'contenido', $busqueda],
       ['LIKE', 'titulo', $busqueda],
@@ -222,7 +222,7 @@ class Contenido extends \yii\db\ActiveRecord
   */
   public static function traerBusquedaAnio($busqueda, $a)
   {
-    $query = self::find()->andFilterWhere([
+    $query = self::find()->with(['objContenidoAdjuntoImagenes'])->andFilterWhere([
       'or',
         ['LIKE', 'contenido', $busqueda],
         ['LIKE', 'titulo', $busqueda],
@@ -249,7 +249,7 @@ class Contenido extends \yii\db\ActiveRecord
   */
   public static function traerBusquedaMes($busqueda , $a, $m)
   {
-    $query = self::find()->andFilterWhere([
+    $query = self::find()->with(['objContenidoAdjuntoImagenes'])->andFilterWhere([
       'or',
       ['LIKE', 'contenido', $busqueda],
       ['LIKE', 'titulo', $busqueda],
@@ -277,7 +277,7 @@ class Contenido extends \yii\db\ActiveRecord
   */
   public static function traerBusquedaDia($busqueda , $a, $m, $d)
   {
-    $query = self::find()->andFilterWhere([
+    $query = self::find()->with(['objContenidoAdjuntoImagenes'])->andFilterWhere([
       'or',
       ['LIKE', 'contenido', $busqueda],
       ['LIKE', 'titulo', $busqueda],
@@ -376,7 +376,7 @@ class Contenido extends \yii\db\ActiveRecord
   * @param $id = identificador del contenido
   * @return modelo Contenido
   */
-  public static function getContenidoDetalleAprobacion($id)
+  public static function getContenidoDetalleAprobacion($id) // aca
   {
     return self::find()->where(['idContenido' => $id])->with(['objUsuarioPublicacion', 'objLineaTiempo'])->one();
   }
@@ -408,7 +408,7 @@ class Contenido extends \yii\db\ActiveRecord
   * @param $id = identificador del contenido
   * @return modelo Contenido
   */
-  public static function getContenidoDetalleDenuncio($id)
+  public static function getContenidoDetalleDenuncio($id) // aca
   {
     $query = self::find()->joinWith(['objDenunciosContenidos'])
     ->where("(   t_DenunciosContenidos.estado =:estado and t_Contenido.idContenido =:id )")
@@ -518,7 +518,7 @@ class Contenido extends \yii\db\ActiveRecord
     $this->fechaActualizacion = Date("Y-m-d H:i:s");
 
     if (!$this->save()) {
-      throw new \Exception("Error al guardar el logTarea:".json_encode($this->getErrors()), 101);
+      throw new \Exception("Error al guardar:".json_encode($this->getErrors()), 101);
     }
   }
 
@@ -553,5 +553,7 @@ class Contenido extends \yii\db\ActiveRecord
       }
     }
   }
+
+
 
 }

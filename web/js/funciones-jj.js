@@ -87,18 +87,17 @@ $(document).on('click', "a[data-role='guardar-contenido']", function () {
 
   var formElement = document.getElementById("form-contenido-publicar");
   var formData = new FormData(formElement);
-  //var files = $('#contenido-imagenes').fileinput('getFileStack');
   var href = $(this).attr('data-href');
+  var files = $('#contenido-imagenes').fileinput('getFileStack');
 
-  /*
-  $.each(files, function(key, data)
-    {
-        console.log(data);
-        //formData.append('imagen', data, );
-    });*/
+  if (files.length > 0) {
+    $.each(files, function (key, data) {
+          formData.append('imagenes[]', data, files[key].name);
+    });
+  }
 
 
-  //console.log(files);
+
 
   $.ajax({
     type: 'POST',

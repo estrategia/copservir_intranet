@@ -54,6 +54,7 @@ class CumpleanosPersona extends \yii\db\ActiveRecord
   {
     return $this->hasMany(GrupoInteresCargo::className(), ['idCargo' => 'idCargo']);
   }
+
   // CONSULTAS
 
   /**
@@ -90,5 +91,20 @@ class CumpleanosPersona extends \yii\db\ActiveRecord
     ->addParams([':fecha' => $fecha->format('Y-m-d H:i:s')])
     ->orderBy('t_CumpleanosPersona.fecha asc')
     ->all();
+  }
+
+
+  public static function encontrarModelo($id)
+  {
+    $model = self::find()->with(['objUsuario'])->where(['idCumpleanosPersona' => $id])->one();
+    //var_dump($model);
+    //exit();
+
+    if ( $model !== null) {
+      return $model;
+    } else {
+      throw new \Exception('el modelo no existe.');
+
+    }
   }
 }

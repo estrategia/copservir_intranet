@@ -48,6 +48,9 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
   <link href="<?= Yii::getAlias('@web') ?>/libs/font-awesome/css/font-awesome.css" rel="stylesheet">
   <link href="<?= Yii::getAlias('@web') ?>/libs/jquery-scrollbar/jquery.scrollbar.css" rel="stylesheet">
   <link href="<?= Yii::getAlias('@web') ?>/libs/webarch/webarch.css" rel="stylesheet">
+
+  <link href="<?= Yii::getAlias('@web') ?>/libs/bootstrap-media-lightbox-master/bootstrap-media-lightbox.css" rel="stylesheet">
+
   <link href="<?= Yii::getAlias('@web') ?>/css/site.css" rel="stylesheet">
 
 
@@ -254,6 +257,7 @@ $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
 <script src="<?= Yii::getAlias('@web') ?>/libs/jquery-ui-touch/jquery.ui.touch-punch.min.js"></script>
 <script src="<?= Yii::getAlias('@web') ?>/libs/boostrap-slider/js/bootstrap-slider.js"></script>
 
+<script src="<?= Yii::getAlias('@web') ?>/libs/bootstrap-media-lightbox-master/bootstrap-media-lightbox.min.js"></script>
 </body>
 </html>
 

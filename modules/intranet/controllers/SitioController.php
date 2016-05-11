@@ -15,6 +15,7 @@ use app\modules\intranet\models\Notificaciones;
 use app\modules\intranet\models\Tareas;
 use app\modules\intranet\models\ContenidoDestino;
 use app\modules\intranet\models\ContenidoEmergente;
+use app\modules\intranet\models\ContenidoRecomendacion;
 use app\modules\intranet\models\UsuarioWidgetInactivo;
 use app\modules\intranet\models\LogContenidos;
 use app\modules\intranet\models\PublicacionesCampanas;
@@ -208,18 +209,20 @@ class SitioController extends Controller {
     $respond = [];
 
     if ($contenido->load(Yii::$app->request->post())) {
-
+      //var_dump(Yii::$app->request->post());
+      //exit();
       $transaction = Contenido::getDb()->beginTransaction();
 
       try {
 
         $contenido->numeroDocumentoPublicacion = Yii::$app->user->identity->numeroDocumento;
         $contenido->fechaPublicacion = $contenido->fechaActualizacion = date("Y-m-d H:i:s");
-        $contenido->imagenes = $_FILES['imagen'];
+        if (!empty($_FILES['imagenes'])) {
+            $contenido->imagenes = $_FILES['imagenes'];
+        }
+
         $lineaTiempo = LineaTiempo::findOne($contenido->idLineaTiempo);
         $contenido->setEstadoDependiendoAprovacion($lineaTiempo);
-
-        //exit();
 
         if ($contenido->save()) {
           $contenido->guardarImagenes();
@@ -646,19 +649,6 @@ class SitioController extends Controller {
   }
 
   /*
-  accion para renderizar el formulario para publicar un contenido en una linea de tiempo
-  */
-  /*
-  public function actionFormNoticia($lineaTiempo) {
-    $contenidoModel = new Contenido();
-    $linea = LineaTiempo::find()->where(['idLineaTiempo' => $lineaTiempo])->one();
-    echo $this->renderAjax('formNoticia', [
-      'contenidoModel' => $contenidoModel,
-      'linea' => $linea,
-    ]);
-  }*/
-
-  /*
   accion para renderizar la vista calendario
   */
 
@@ -734,5 +724,146 @@ class SitioController extends Controller {
     return $this->render('/cumpleanos/todosAniversarios', [
       'models' => $models,
     ]);
+  }
+
+  /**
+  * template para felicitar a un usuario por su cumpleaños
+  * @return mixed
+  */
+  public function actionFelicitarAniversario($id)
+  {
+    $modelCumpleanosLaboral = CumpleanosLaboral::encontrarModelo($id);
+    $modelContenido = new Contenido;
+    if (Yii::$app->request->isAjax) {
+      if ($modelContenido->load(Yii::$app->request->post())) {
+        $transaction = Contenido::getDb()->beginTransaction();
+        try {
+
+          $lineaTiempo = LineaTiempo::encontrarModelo(LineaTiempo::MIS_PUBLICACIONES);
+
+          $modelContenido->numeroDocumentoPublicacion = Yii::$app->user->identity->numeroDocumento;
+          if (!empty($_FILES['imagenes'])) {
+              $contenido->imagenes = $_FILES['imagenes'];
+          }
+          $modelContenido->fechaPublicacion = Date("Y-m-d H:i:s");
+          $modelContenido->idLineaTiempo = LineaTiempo::MIS_PUBLICACIONES;
+          $modelContenido->setEstadoDependiendoAprovacion($lineaTiempo);
+
+          if ($modelContenido->save()) {
+            $modelContenido->guardarImagenes();
+
+            $contenidoRecomendacion = new ContenidoRecomendacion();
+            $contenidoRecomendacion->guardarContenidoRecomendacion($modelContenido->idContenido, $modelCumpleanosPersona->numeroDocumento);
+
+            $this->generarNotificacionFelicitacion($modelContenido->idContenido, $modelCumpleanosPersona->numeroDocumento);
+
+            $transaction->commit();
+            $respond = [
+              'result' => 'ok',
+              /*'response' => $this->renderAjax('_lineaTiempo', [
+                'contenidoModel' => $contenidoModel,
+                'linea' => $lineaTiempo,
+                'noticias' => $noticias
+                ])*/
+              ];
+
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return $respond;
+          }
+
+        } catch(\Exception $e) {
+
+          $transaction->rollBack();
+          Yii::$app->session->setFlash('error', $e->getMessage());
+          throw $e;
+        }
+      }
+    }//
+
+    return $this->render('/cumpleanos/felicitarAniversario', [
+      'modelCumpleanosLaboral' => $modelCumpleanosLaboral,
+      'modelContenido' => $modelContenido
+    ]);
+  }
+
+  /**
+  * template para felicitar a un usuario por su aniversario
+  * @return mixed
+  */
+  public function actionFelicitarCumpleanos($id)
+  {
+    $modelCumpleanosPersona = CumpleanosPersona::encontrarModelo($id);
+    $modelContenido = new Contenido;
+
+    if (Yii::$app->request->isAjax) {
+
+      if ($modelContenido->load(Yii::$app->request->post())) {
+        $transaction = Contenido::getDb()->beginTransaction();
+        try {
+
+          $lineaTiempo = LineaTiempo::encontrarModelo(LineaTiempo::MIS_PUBLICACIONES);
+
+          $modelContenido->numeroDocumentoPublicacion = Yii::$app->user->identity->numeroDocumento;
+          if (!empty($_FILES['imagenes'])) {
+              $contenido->imagenes = $_FILES['imagenes'];
+          }
+          $modelContenido->fechaPublicacion = Date("Y-m-d H:i:s");
+          $modelContenido->idLineaTiempo = LineaTiempo::MIS_PUBLICACIONES;
+          $modelContenido->setEstadoDependiendoAprovacion($lineaTiempo);
+
+          if ($modelContenido->save()) {
+            $modelContenido->guardarImagenes();
+
+            $contenidoRecomendacion = new ContenidoRecomendacion();
+            $contenidoRecomendacion->guardarContenidoRecomendacion($modelContenido->idContenido, $modelCumpleanosPersona->numeroDocumento);
+
+            $this->generarNotificacionFelicitacion($modelContenido->idContenido, $modelCumpleanosPersona->numeroDocumento);
+
+            $transaction->commit();
+            $respond = [
+              'result' => 'ok',
+              /*'response' => $this->renderAjax('_lineaTiempo', [
+                'contenidoModel' => $contenidoModel,
+                'linea' => $lineaTiempo,
+                'noticias' => $noticias
+                ])*/
+              ];
+
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return $respond;
+          }
+
+        } catch(\Exception $e) {
+
+          $transaction->rollBack();
+          Yii::$app->session->setFlash('error', $e->getMessage());
+          throw $e;
+        }
+      }
+    }
+
+    return $this->render('/cumpleanos/felicitarCumpleanos', [
+      'modelCumpleanosPersona' => $modelCumpleanosPersona,
+      'modelContenido' => $modelContenido
+    ]);
+  }
+
+  /**
+  * @param idUsuarioEnviado, idClasificado
+  */
+  public function generarNotificacionFelicitacion($idContenido, $idUsuarioDirigido)
+  {
+    $notificacion = new Notificaciones();
+    $notificacion->idContenido = $idContenido;
+    $notificacion->numeroDocumentoDirige = Yii::$app->user->identity->numeroDocumento;
+    $notificacion->numeroDocumentoDirigido = $idUsuarioDirigido;
+    $notificacion->descripcion = 'te han felicitado';
+    $notificacion->estadoNotificacion = Notificaciones::ESTADO_CREADA;
+    $notificacion->fechaRegistro = Date("Y-m-d H:i:s");
+    $notificacion->tipoNotificacion = Notificaciones::NOTIFICACION_RECOMENDACION;
+
+    if (!$notificacion->save()) {
+      throw new Exception("Error no se genero la notificacion:".yii\helpers\Json::enconde($notificacion->getErrors()), 100);
+    };
   }
 }

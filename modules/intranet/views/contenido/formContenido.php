@@ -5,7 +5,6 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use app\modules\intranet\models\ContenidoDestino;
 use kartik\file\FileInput;
-//use kartik\FileInput;
 
 ?>
 
@@ -45,8 +44,9 @@ use kartik\file\FileInput;
       'id' => 'contenido-imagenes',
       'options' => ['multiple' => true, 'accept' => 'image/*'],
       'pluginOptions' => [
-
+        'uploadAsync'=>false,
         'maxFileCount' => 5,
+        'validateInitialCount'=> true,
         'maxFileSize' => 5120,
         'previewFileType' => 'image',
         'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',

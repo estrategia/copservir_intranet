@@ -26,6 +26,12 @@ $this->title = 'Cumpleaños';
               $mes = \Yii::$app->params['calendario']['meses'][ (int)$fecha_dividida[1]];
               $dia = $fecha_dividida[2];
               echo "Cumple el ".$dia.' de '.$mes;
+              echo '<p>';
+              echo
+              Html::a('Felicitar',  ['felicitar-cumpleanos', 'id'=>$model->idCumpleanosPersona], [
+                'class' => 'btn btn-primary',
+              ]);
+              echo '</p>';
               ?>
             </p>
           </div>

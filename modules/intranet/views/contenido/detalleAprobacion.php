@@ -19,6 +19,7 @@ $this->title = 'Aprobar contenido';
     <?php $form = ActiveForm::begin(); ?>
     <?= $form->field($model, 'estado')->hiddenInput(['value'=> Contenido::APROBADO ])->label(false); ?>
     <?= $form->field($model, 'fechaActualizacion')->hiddenInput(['value'=>  Date("Y-m-d H:i:s")])->label(false); ?>
+    <?= $form->field($model, 'fechaInicioPublicacion')->hiddenInput(['value'=>  Date("Y-m-d H:i:s")])->label(false); ?>
     <div class="form-group col-md-2">
       <?= Html::submitButton('Aprobar contenido', ['class' => 'btn btn-success' ]) ?>
     </div>

@@ -94,4 +94,15 @@ class CumpleanosLaboral extends \yii\db\ActiveRecord
     ->orderBy('t_CumpleanosLaboral.fecha asc')
     ->all();
   }
+
+  public static function encontrarModelo($id)
+  {
+    $model = self::find()->with(['objUsuario'])->where(['idCumpleanosLaboral' => $id])->one();
+
+    if ( $model !== null) {
+      return $model;
+    } else {
+      throw new \Exception('el modelo no existe.');
+    }
+  }
 }

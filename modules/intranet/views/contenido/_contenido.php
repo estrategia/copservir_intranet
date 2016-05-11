@@ -32,20 +32,69 @@ use app\modules\intranet\models\LineaTiempo;
         <!--<div class="muted">Publicación Compartida - 12:45pm</div> si la publicacion fue compartida-->
         <p class="m-t-5 dark-text">
           <?= $noticia->contenido ?>
+
+          <!-- IMAGENES -->
+
+          <?php if (!empty($noticia->objContenidoAdjuntoImagenes)): ?>
+             <?php $contador = 0; ?>
+            <?php foreach ($noticia->objContenidoAdjuntoImagenes as $imagenes): ?>
+                <?php
+                  $contador++;
+                  $style = '';
+                  $mensaje = '';
+                  if ($contador>1) { //cambiar el 3 por una constante
+                    $style = 'display:none';
+                  }
+                  if ($contador=1) { //cambiar el 3 por una constante
+                    $mensaje = (count($noticia->objContenidoAdjuntoImagenes)-1).'+' ;
+                  }
+                ?>
+
+              <a class="lightbox gallery<?=$noticia->idContenido?>" href="<?= Yii::getAlias('@web')."/img/imagenesContenidos/".$imagenes->rutaArchivo ?>" style="<?= $style ?>">
+                <div class="col-md-6  col-sm-6" data-aspect-ratio="true">
+                    <div class="slide-front ha tiles green  slide">
+                      <div class="overlayer bottom-left fullwidth">
+                        <div class="overlayer-wrapper">
+                          <div class="tiles gradient-black p-l-20 p-r-20 p-b-20 p-t-20" style="text-align:center;">
+                            <h1 style="color:#fff !important;"><span class="semi-bold"><?= $mensaje ?></span></h1>
+                          </div>
+                        </div>
+                      </div>
+                        <img src="<?= Yii::getAlias('@web')."/img/imagenesContenidos/".$imagenes->rutaArchivo ?>" class="img-thumbnail" />
+                     </div>
+                </div>
+              </a>
+
+            <?php endforeach; ?>
+            <?php
+              $this->registerJs("
+
+                jQuery('.gallery$noticia->idContenido').lightbox();
+              
+              ");
+            ?>
+            <script type="text/javascript">
+              jQuery('.lightbox').lightbox();
+            </script>
+          <?php endif; ?>
+
         </p>
       </div>
 
+
       <!-- comentarios y me gusta -->
+
       <?php if ($noticia->objLineaTiempo->tipo === LineaTiempo::LINEA_CON_COMENTARIOS): ?>
-      <div class="tiles grey p-t-10 p-b-10 p-l-20">
-        <ul class="action-links">
+      <!--<div class="p-t-10 p-b-10 p-l-20 ">-->
+
+        <ul class="action-links col-md-12" style="border-bottom:1px solid #eee;border-top: 1px solid #eee;padding: 5px;">
           <li>
             <?php $noExisteMeGusta = (empty($noticia->listMeGustaUsuario) || count($noticia->listMeGustaUsuario) < 1) ?>
 
-            <a id='megusta_<?= $noticia->idContenido ?>' class="btn btn-default" data-role='me-gusta-contenido' data-contenido='<?= $noticia->idContenido ?>' data-value='1' style='display: <?= $noExisteMeGusta ? '' : 'none' ?>'>
+            <a id='megusta_<?= $noticia->idContenido ?>' class="" data-role='me-gusta-contenido' data-contenido='<?= $noticia->idContenido ?>' data-value='1' style='display: <?= $noExisteMeGusta ? '' : 'none' ?>'>
             <span class="glyphicon glyphicon-thumbs-up"></span> Me gusta</a>
 
-            <a id='no_megusta_<?= $noticia->idContenido ?>' class="btn btn-default" data-role='me-gusta-contenido' data-contenido='<?= $noticia->idContenido ?>' data-value='0' style='display: <?= $noExisteMeGusta ? 'none' : '' ?>'>
+            <a id='no_megusta_<?= $noticia->idContenido ?>' class="" data-role='me-gusta-contenido' data-contenido='<?= $noticia->idContenido ?>' data-value='0' style='display: <?= $noExisteMeGusta ? 'none' : '' ?>'>
             <span class="glyphicon glyphicon-thumbs-down"></span> Ya no me gusta</a>
 
 
@@ -87,13 +136,16 @@ use app\modules\intranet\models\LineaTiempo;
             <?php endif; ?>
           </li>
         </ul>
+        <!--<div class="clearfix"></div>-->
+      <!--</div>-->
         <div class="clearfix"></div>
-        </div>
         <textarea id="comentario_<?= $noticia->idContenido ?>" placeholder="Comentar Publicación..." class="form-control" rows="2"></textarea>
         <?php
         echo \vova07\imperavi\Widget::widget([
         'selector' => '#comentario_' . $noticia->idContenido,
+
         'settings' => [
+        'buttons' => ['format', 'bold', 'italic'],
         'lang' => 'es',
         'minHeight' => 80,
         'imageManagerJson' => Url::to(['/default/images-get']),

@@ -21,6 +21,8 @@ class LineaTiempo extends \yii\db\ActiveRecord
   const LINEA_SIN_COMENTARIOS = 1;
   const AUTORIZACION_AUTOMATICA = 1;
 
+  const MIS_PUBLICACIONES = 2;
+
   public static function tableName()
   {
     return 't_LineasTiempo';
@@ -63,6 +65,17 @@ class LineaTiempo extends \yii\db\ActiveRecord
       return true;
     }else{
       return false;
+    }
+  }
+
+  public static function encontrarModelo($id)
+  {
+    $model = self::find()->where(['idLineaTiempo' => $id])->one();
+
+    if ( $model !== null) {
+      return $model;
+    } else {
+      throw new NotFoundHttpException('el modelo no existe.');
     }
   }
 }

@@ -1090,6 +1090,97 @@ $(document).on('click', "button[data-role='quitar-enlace-menu']", function() {
 });
 
 //::::::::::::::::::::::
+// CUMPLEAÑOS
+//::::::::::::::::::::::
+/**
+* peticion ajax para guardar una felicitacion de cumpleaños
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response =
+*/
+$(document).on('click', "button[data-role='felicitaCumpleaños']", function() {
+
+  var formElement = document.getElementById("formCumpleanos");
+  var formData = new FormData(formElement);
+  var id = $(this).attr('data-cumpleanos');
+  var files = $('#contenido-imagenes').fileinput('getFileStack');
+
+  if (files.length > 0) {
+    $.each(files, function (key, data) {
+          formData.append('imagenes[]', data, files[key].name);
+    });
+  }
+
+  $.ajax({
+    type: 'POST',
+    processData: false,
+    contentType:false,
+    url: requestUrl + '/intranet/sitio/felicitar-cumpleanos?id='+id,
+    data: formData,
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        console.log('exito');
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
+
+/**
+* peticion ajax para guardar una felicitacion de aniversario
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response =
+*/
+
+$(document).on('click', "button[data-role='felicitaAniversario']", function() {
+
+  var formElement = document.getElementById("formAniversario");
+  var formData = new FormData(formElement);
+  var id = $(this).attr('data-anivesario');
+  var files = $('#contenido-imagenes').fileinput('getFileStack');
+
+  if (files.length > 0) {
+    $.each(files, function (key, data) {
+          formData.append('imagenes[]', data, files[key].name);
+    });
+  }
+
+  $.ajax({
+    type: 'POST',
+    processData: false,
+    contentType:false,
+    url: requestUrl + '/intranet/sitio/felicitar-aniversario?id='+id,
+    data: formData,
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        console.log('exito');
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
+
+
+//::::::::::::::::::::::
 // OTROS
 //::::::::::::::::::::::
 /**

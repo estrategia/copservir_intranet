@@ -37,4 +37,17 @@ class ContenidoRecomendacion extends \yii\db\ActiveRecord
       'fechaRegistro' => 'Fecha Registro',
     ];
   }
+
+  public function guardarContenidoRecomendacion($idContenido,$idUsuarioDirigido)
+  {
+    $this->idContenido = $idContenido;
+    $this->numeroDocumentoDirige = Yii::$app->user->identity->numeroDocumento;
+    $this->numeroDocumentoDirigido = $idUsuarioDirigido;
+    $this->fechaRegistro = Date("Y-m-d H:i:s");
+
+    if (!$this->save()) {
+
+      throw new \Exception("Error al guardar el contenido recomendacion:".json_encode($this->getErrors()), 100);
+    }
+  }
 }

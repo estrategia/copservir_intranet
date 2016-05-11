@@ -437,7 +437,6 @@ class ContenidoController extends Controller {
 
   /**
   * @param idUsuarioEnviado, idClasificado
-  * @return respond[] = indica si la operacion se hizo con exito o no
   */
   public function generarNotificacionClasificadoRecomendado($idUsuarioEnviado, $idClasificado)
   {
@@ -458,7 +457,6 @@ class ContenidoController extends Controller {
 
   /**
   * Muestra los modelos Contenido que estan pendientes de aprobacion
-  * @param none
   * @return mixed
   */
   public function actionListarContenidosPendientes()
@@ -503,7 +501,6 @@ class ContenidoController extends Controller {
 
   /**
   * Muestra los modelos Contenido que han sido denunciados
-  * @param none
   * @return mixed
   */
   public function actionListarContenidosDenunciados()
@@ -561,7 +558,6 @@ class ContenidoController extends Controller {
 
   /**
   * Muestra los modelos ContenidosComentarios que han sido denunciados
-  * @param none
   * @return mixed
   */
   public function actionListarComentariosDenunciados()
