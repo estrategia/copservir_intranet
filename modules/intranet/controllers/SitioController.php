@@ -23,6 +23,7 @@ use app\modules\intranet\models\CumpleanosLaboral;
 use app\modules\intranet\models\CumpleanosPersona;
 use app\modules\intranet\models\Menu;
 use app\modules\intranet\models\Opcion;
+use app\modules\intranet\models\ContenidoPortal;
 use yii\helpers\Html;
 use yii\web\Response;
 
@@ -209,8 +210,6 @@ class SitioController extends Controller {
     $respond = [];
 
     if ($contenido->load(Yii::$app->request->post())) {
-      //var_dump(Yii::$app->request->post());
-      //exit();
       $transaction = Contenido::getDb()->beginTransaction();
 
       try {
@@ -265,6 +264,58 @@ class SitioController extends Controller {
 
     \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
     return $respond;
+  }
+
+  public function actionPublicarPortales()
+  {
+    $contenidoModel = new Contenido;
+    $contenidoModel->scenario = Contenido::SCENARIO_PUBLICAR_PORTALES;
+
+    if ($contenidoModel->load(Yii::$app->request->post())) {
+
+      if (is_null($contenidoModel->idLineaTiempo)) {
+        $contenidoModel->scenario = Contenido::SCENARIO_PUBLICAR_PORTALES_CON_LINEA_TIEMPO;
+      }
+
+      $transaction = Contenido::getDb()->beginTransaction();
+      try {
+
+        $contenidoModel->numeroDocumentoPublicacion = Yii::$app->user->identity->numeroDocumento;
+        $contenidoModel->fechaPublicacion = $contenidoModel->fechaActualizacion = date("Y-m-d H:i:s");
+        $contenidoModel->aprobarPublicacion();
+        $contenidoModel->numeroDocumentoAprobacion = Yii::$app->user->identity->numeroDocumento;
+
+        if ($contenidoModel->save()) {
+
+          $this->guardarContenidoPortal($contenidoModel);
+          $transaction->commit();
+
+        }
+
+      }catch(\Exception $e) {
+
+        $transaction->rollBack();
+        throw $e;
+      }
+    }
+
+    return $this->render('/contenido/publicar-portales', [
+      'contenidoModel' => $contenidoModel,
+    ]);
+  }
+
+  public function guardarContenidoPortal($contenidoModel)
+  {
+    foreach ($contenidoModel->portales as $idPortal) {
+
+        $modelContenidoPortal =  new ContenidoPortal;
+        $modelContenidoPortal->idContenido = $contenidoModel->idContenido;
+        $modelContenidoPortal->idPortal = $idPortal;
+
+        if (!$modelContenidoPortal->save()) {
+          throw new Exception("Error al guardar el contenidoPortal:".yii\helpers\Json::enconde($$modelContenidoPortal->getErrors()), 101);
+        }
+    }
   }
 
   //::::::::::::::::::::::
@@ -746,7 +797,6 @@ class SitioController extends Controller {
               $modelContenido->imagenes = $_FILES['imagenes'];
           }
           $modelContenido->fechaPublicacion = Date("Y-m-d H:i:s");
-          $modelContenido->idLineaTiempo = LineaTiempo::MIS_PUBLICACIONES;
           $modelContenido->setEstadoDependiendoAprovacion($lineaTiempo);
 
           if ($modelContenido->save()) {
@@ -806,7 +856,6 @@ class SitioController extends Controller {
               $modelContenido->imagenes = $_FILES['imagenes'];
           }
           $modelContenido->fechaPublicacion = Date("Y-m-d H:i:s");
-          $modelContenido->idLineaTiempo = LineaTiempo::MIS_PUBLICACIONES;
           $modelContenido->setEstadoDependiendoAprovacion($lineaTiempo);
 
           if ($modelContenido->save()) {

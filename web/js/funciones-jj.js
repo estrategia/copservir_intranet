@@ -96,9 +96,6 @@ $(document).on('click', "a[data-role='guardar-contenido']", function () {
     });
   }
 
-
-
-
   $.ajax({
     type: 'POST',
     processData: false,

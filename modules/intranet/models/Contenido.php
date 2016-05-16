@@ -6,9 +6,13 @@ use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\Expression;
 use yii\web\UploadedFile;
+use yii\helpers\Json;
+use yii\helpers\ArrayHelper;
 use app\modules\intranet\models\ContenidoDestino;
 use app\modules\intranet\models\ContenidoAdjunto;
-use yii\helpers\Json;
+use app\modules\intranet\models\Portal;
+use app\modules\intranet\models\LineaTiempo;
+
 
 /**
 * This is the model class for table "t_Contenido".
@@ -33,8 +37,12 @@ class Contenido extends \yii\db\ActiveRecord
   const ELIMINADO = 3;
   const ELIMINADO_DENUNCIO = 4;
 
+  const SCENARIO_PUBLICAR_PORTALES = 'crearPortales';
+  const SCENARIO_PUBLICAR_PORTALES_CON_LINEA_TIEMPO = 'crearPortalesLinea';
+
   public $anexos;
   public $imagenes;
+  public $portales;
 
   public static function tableName()
   {
@@ -44,12 +52,15 @@ class Contenido extends \yii\db\ActiveRecord
   public function rules()
   {
     return [
-      [['contenido', 'numeroDocumentoPublicacion', 'fechaPublicacion', 'idLineaTiempo'], 'required'],
+      [['contenido', 'numeroDocumentoPublicacion', 'fechaPublicacion'], 'required'],
       [['contenido'], 'string'],
       [['numeroDocumentoPublicacion', 'estado', 'numeroDocumentoAprobacion', 'idLineaTiempo'], 'integer'],
       [['fechaPublicacion', 'fechaActualizacion', 'fechaAprobacion', 'fechaInicioPublicacion'], 'safe'],
       [['titulo'], 'string', 'max' => 45],
       [['imagenes'], 'safe'],
+      [['portales'], 'required', 'on' => self::SCENARIO_PUBLICAR_PORTALES ],
+      [['idLineaTiempo'], 'required', 'on' => self::SCENARIO_PUBLICAR_PORTALES_CON_LINEA_TIEMPO ],
+      [['portales'], 'required', 'on' => self::SCENARIO_PUBLICAR_PORTALES_CON_LINEA_TIEMPO ],
     ];
   }
 
@@ -66,7 +77,8 @@ class Contenido extends \yii\db\ActiveRecord
       'fechaAprobacion' => 'Fecha Aprobacion',
       'numeroDocumentoAprobacion' => 'Usuario Aprobacion',
       'fechaInicioPublicacion' => 'Fecha Inicio Publicacion',
-      'idLineaTiempo' => 'Id Linea Tiempo',
+      'idLineaTiempo' => 'Linea de Tiempo',
+      'portales' => 'Portales',
     ];
   }
 
@@ -147,7 +159,6 @@ class Contenido extends \yii\db\ActiveRecord
     ':gruposA'=>Yii::$app->params['grupo']['*']]
     )
     ->orderBy('fechaInicioPublicacion Desc')
-
     ->all();
   }
 
@@ -421,6 +432,24 @@ class Contenido extends \yii\db\ActiveRecord
   }
 
   // FUNCIONES
+
+  /**
+  * @return array con modelos Portal mapeados por idPortal y nombrePortal
+  */
+  public function getListaPortales()
+  {
+    $opciones = Portal::find()->asArray()->all();
+    return ArrayHelper::map($opciones, 'idPortal', 'nombrePortal');
+  }
+
+  /**
+  * @return array con modelos Portal mapeados por idPortal y nombrePortal
+  */
+  public function getListaLineasTiempo()
+  {
+    $opciones = LineaTiempo::find()->asArray()->all();
+    return ArrayHelper::map($opciones, 'idLineaTiempo', 'nombreLineaTiempo');
+  }
 
   /**
   * funcion para crear un modelo LogContenidos

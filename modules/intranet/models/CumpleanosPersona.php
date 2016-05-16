@@ -97,8 +97,6 @@ class CumpleanosPersona extends \yii\db\ActiveRecord
   public static function encontrarModelo($id)
   {
     $model = self::find()->with(['objUsuario'])->where(['idCumpleanosPersona' => $id])->one();
-    //var_dump($model);
-    //exit();
 
     if ( $model !== null) {
       return $model;

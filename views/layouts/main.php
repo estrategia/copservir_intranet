@@ -1,8 +1,8 @@
 <?php
 use yii\helpers\Html;
-use app\assets\AppAsset;
+use app\assets\MultiportalAsset;
 
-AppAsset::register($this);
+MultiportalAsset::register($this);
 
 // Rutas imagenes
 $srcLogo = Yii::$app->homeUrl . 'img/multiportal/copservir/logo.png';
@@ -12,9 +12,7 @@ $srcTw =  Yii::$app->homeUrl . 'img/multiportal/copservir/tw.png';
 $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
 
 ?>
-
 <?php $this->beginPage() ?>
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -22,20 +20,12 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-
-    <!-- ESTILOS DE LA PLANTILLA  -->
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="<?= Yii::getAlias('@web') ?>/css/multiportal/style.css" rel="stylesheet">
-    <link href="<?= Yii::getAlias('@web') ?>/css/multiportal/main.css" rel="stylesheet">
-
     <?php $this->head() ?>
     <script> requestUrl = "<?= Yii::$app->getUrlManager()->getBaseUrl() ?>";</script>
-
   </head>
   <body>
     <?php $this->beginBody() ?>
-    <!-- NAVBAR
-================================================== -->
+    <!-- NAVBAR -->
     <div class="navbar-wrapper">
 
         <nav class="navbar navbar-coop navbar-static-top">
@@ -59,15 +49,16 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
             </div>
           </div>
         </nav>
+
     </div>
 
+    <!-- CONTAINER -->
     <div id="container">
         <?= $content ?>
-
     </div>
 
     <!-- FOOTER -->
-      <footer>
+    <footer>
       <div class="footer-top">
         <div class="container marketing">
           <div class="row">
@@ -129,25 +120,10 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
           <p>&copy; 2016 Copservir Ltda.</p>
         </div>
       </div>
-      </footer>
+    </footer>
 
-      <!-- JavaScript de las plantillas
-   ================================================== -->
-   <script>window.jQuery || document.write('<script src="<?= Yii::getAlias('@web') ?>/js/multiportal/vendor/jquery.min.js"><\/script>')</script>
-    <!--<script src="<?php //Yii::getAlias('@web') ?>/libs/multiportal/owl-carousel/owl.carousel.min.js"></script>-->
-    <!--<script>
-
-    $(document).ready(function($) {
-      $("#owl-example").owlCarousel();
-    });
-
-    </script>-->
-    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-    <script src="<?= Yii::getAlias('@web') ?>/js/multiportal/timeline.js"></script>
-    <script src="<?= Yii::getAlias('@web') ?>/js/multiportal/vendor/holder.min.js"></script>
-    <script src="<?= Yii::getAlias('@web') ?>/js/multiportal/main.js"></script>
-
-
+    <!-- JavaScript de las plantillas-->
+    <script>window.jQuery || document.write('<script src="<?= Yii::getAlias('@web') ?>/js/multiportal/vendor/jquery.min.js"><\/script>')</script>
     <?php $this->endBody() ?>
   </body>
 </html>

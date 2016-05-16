@@ -5,7 +5,6 @@ namespace app\modules\intranet\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
-
 use yii\i18n\Formatter;
 use app\modules\intranet\models\PrioridadTarea;
 
@@ -102,6 +101,8 @@ class Tareas extends \yii\db\ActiveRecord
     return self::findOne(['numeroDocumento' => $numeroDocumento, 'idTarea' => $idTarea]);
   }
 
+  //FUNCIONES
+
   /**
   * Se consultan las prioridades y se retornan mapeados por idPrioridadTarea y nombre
   * @param none
@@ -112,9 +113,6 @@ class Tareas extends \yii\db\ActiveRecord
     $opciones = PrioridadTarea::find()->asArray()->all();
     return ArrayHelper::map($opciones, 'idPrioridadTarea', 'nombre');
   }
-
-
-  //FUNCIONES
 
   /**
   * funcion para crear un modelo LogTareas
