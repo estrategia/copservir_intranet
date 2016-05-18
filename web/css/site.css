@@ -120,3 +120,25 @@ img.ajustada {
 ul.cbp_tmtimeline > li > div.cbp_tmlabel img {
     max-width: 100%;
 }
+
+.file-drop-zone-title {
+    font-size: 14px !important;
+    padding: 0px !important;
+}
+
+.file-preview {
+    padding: 0 !important;
+}
+
+.redactor-editor {
+    min-height: 10px !important;
+    padding: 0 !important;
+}
+
+.redactor-box {
+    margin-bottom: 5px !important;
+}
+
+.redactor-placeholder::after {
+    top: 5px !important;
+}
