@@ -273,7 +273,7 @@ class SitioController extends Controller {
 
     if ($contenidoModel->load(Yii::$app->request->post())) {
 
-      if (is_null($contenidoModel->idLineaTiempo)) {
+      if (!is_null($contenidoModel->idLineaTiempo)) {
         $contenidoModel->scenario = Contenido::SCENARIO_PUBLICAR_PORTALES_CON_LINEA_TIEMPO;
       }
 
@@ -284,12 +284,10 @@ class SitioController extends Controller {
         $contenidoModel->fechaPublicacion = $contenidoModel->fechaActualizacion = date("Y-m-d H:i:s");
         $contenidoModel->aprobarPublicacion();
         $contenidoModel->numeroDocumentoAprobacion = Yii::$app->user->identity->numeroDocumento;
-
+        
         if ($contenidoModel->save()) {
-
           $this->guardarContenidoPortal($contenidoModel);
           $transaction->commit();
-
         }
 
       }catch(\Exception $e) {

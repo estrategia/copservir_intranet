@@ -52,9 +52,17 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/proveedores/proveedores.pn
 
 <div class="space-2"></div>
 <!-- -->
-<?= $this->render('_ultimasNoticias', []) ?>
+<?php // var_dump($contenidoModels) ?>
+
+
+<?php
+  echo $this->render('//common/_ultimasNoticias', [
+    'contenidoModels' => $contenidoModels,
+    'numeroNoticias' => $numeroNoticias,
+  ]);
+?>
 <div class="space-2"></div>
 <!-- ALIADOS -->
-<?= $this->render('_portales', []) ?>
+<?= $this->render('//common/_portales', []) ?>
 <div class="space-1"></div>
 <!-- /ALIADOS -->
