@@ -44,4 +44,17 @@ class Portal extends \yii\db\ActiveRecord
             'estado' => 'Estado',
         ];
     }
+
+    //CONSULTAS
+
+    public static function encontrarModeloPorNombre($nombre)
+    {
+      $model = self::find()->where(['nombrePortal' => $nombre])->one();
+
+      if ( $model !== null) {
+        return $model;
+      } else {
+        throw new \Exception('el modelo no existe.');
+      }
+    }
 }

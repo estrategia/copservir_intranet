@@ -139,6 +139,11 @@ class Contenido extends \yii\db\ActiveRecord
     return $this->hasMany(ContenidoAdjunto::className(), ['idContenido' => 'idContenido'])->from(ContenidoAdjunto::tableName().' ContenidoAdjuntoDocumentos')->andOnCondition(['ContenidoAdjuntoDocumentos.tipo' => 3]);
   }
 
+  public function getObjContenidoPortal()
+  {
+    return $this->hasMany(ContenidoPortal::className(), ['idContenido' => 'idContenido']);
+  }
+
   //CONSULTAS
 
   public static function traerNoticias($idLineaTiempo){
@@ -162,6 +167,52 @@ class Contenido extends \yii\db\ActiveRecord
     ->all();
   }
 
+  public static function traerNoticiasIndexPortal($idPortal)
+  {
+    $query = self::find()->joinWith(['objContenidoPortal'])
+    ->where('fechaInicioPublicacion<=:fecha AND estado=:estado and t_contenidoportal.idPortal=:idPortal')
+    ->limit(4)
+    ->orderBy('fechaInicioPublicacion Desc')
+    ->addParams([':estado' => self::APROBADO, ':fecha' => Date("Y-m-d H:i:s"), ':idPortal' => $idPortal])->all();
+
+    return $query;
+    //var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
+  }
+
+  public static function contarTotalNoticiasPortal($idPortal){
+    $query = self::find()->joinWith(['objContenidoPortal'])
+    ->where('fechaInicioPublicacion<=:fecha AND estado=:estado and t_contenidoportal.idPortal=:idPortal')
+    ->orderBy('fechaInicioPublicacion Desc')
+    ->addParams([':estado' => self::APROBADO, ':fecha' => Date("Y-m-d H:i:s"), ':idPortal' => $idPortal])->count();
+
+    return $query;
+  }
+
+  public static function traerTodasNoticiasPortal($idPortal){
+
+    $query = self::find()->joinWith(['objContenidoPortal'])
+    ->where('fechaInicioPublicacion<=:fecha AND estado=:estado and t_contenidoportal.idPortal=:idPortal')
+    ->orderBy('fechaInicioPublicacion Desc')
+    ->addParams([':estado' => self::APROBADO, ':fecha' => Date("Y-m-d H:i:s"), ':idPortal' => $idPortal]);
+
+    $dataProvider = new ActiveDataProvider([
+      'query' => $query,
+      'pagination' => [
+        'pageSize' => 5,
+      ],
+    ]);
+
+    return $dataProvider;
+  }
+
+  public static function traerNoticiaPortal($idPortal, $idContenido){
+    $query = self::find()->joinWith(['objContenidoPortal'])
+    ->where('t_Contenido.idContenido=:idContenido AND fechaInicioPublicacion<=:fecha AND estado=:estado and t_contenidoportal.idPortal=:idPortal')
+    ->orderBy('fechaInicioPublicacion Desc')
+    ->addParams([':estado' => self::APROBADO, ':fecha' => Date("Y-m-d H:i:s"), ':idPortal' => $idPortal, ':idContenido' => $idContenido])->all();
+
+    return $query;
+  }
 
   public static function traerTodasNoticiasCopservir($idLineaTiempo){
     return $noticias = self::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listMeGusta', 'listComentarios','listMeGustaUsuario', 'objDenuncioComentarioUsuario', 'objContenidoAdjuntoImagenes'])

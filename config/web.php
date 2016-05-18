@@ -125,6 +125,9 @@ $config = [
         'proveedores' => [
             'class' => 'app\modules\proveedores\ProveedoresModule',
         ],
+        'coopservir' => [
+            'class' => 'app\modules\coopservir\CoopservirModule',
+        ],
         'treemanager' => [
             'class' => '\kartik\tree\Module',
         // other module settings, refer detailed documentation

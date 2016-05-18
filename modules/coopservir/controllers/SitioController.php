@@ -1,12 +1,15 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\coopservir\controllers;
 
 use Yii;
-use yii\web\Controller;
 use yii\helpers\Html;
+use yii\web\Controller;
+use app\modules\intranet\models\Portal;
+use app\modules\intranet\models\Contenido;
+use app\controllers\CController;
 
-class SitioController extends Controller {
+class SitioController extends CController {
 
     public function actions() {
         return [
@@ -22,7 +25,15 @@ class SitioController extends Controller {
     * @return mixed
      */
     public function actionIndex() {
-        return $this->render('index');
+
+      $portalModel = Portal::encontrarModeloPorNombre($this->module->id);
+      $contenidoModels  = Contenido::traerNoticiasIndexPortal($portalModel->idPortal);
+      $numeroNoticias = Contenido::contarTotalNoticiasPortal($portalModel->idPortal);
+
+      return $this->render('index', [
+        'contenidoModels' => $contenidoModels,
+        'numeroNoticias' => $numeroNoticias,
+      ]);
     }
 
     /**
