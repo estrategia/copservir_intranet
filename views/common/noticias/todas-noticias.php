@@ -20,11 +20,11 @@ $this->title = 'Todas las noticias';
         <?php $form = ActiveForm::begin(); ?>
 
         <?=
-        $form->field($searchModel, 'fechaPublicacion')->widget(DateTimePicker::classname(), [
+        $form->field($searchModel, 'fechaInicioPublicacion')->widget(DateTimePicker::classname(), [
           'options' => ['placeholder' => 'busque una noticia por fecha'],
           'pluginOptions' => [
             'autoclose' => true,
-            'format' => 'Y-m-d H:i:s'
+            'format' => 'yyyy-mm-dd'
           ]
           ])->label(false);
           ?>

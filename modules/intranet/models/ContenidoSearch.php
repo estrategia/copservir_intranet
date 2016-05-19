@@ -47,7 +47,7 @@ class ContenidoSearch extends Contenido
       $query = self::find()->joinWith(['objContenidoPortal'])
       ->where('fechaInicioPublicacion<=:fecha AND estado=:estado and t_contenidoportal.idPortal=:idPortal')
       ->orderBy('fechaInicioPublicacion Desc')
-      ->addParams([':estado' => self::APROBADO, ':fecha' => Date("Y-m-d H:i:s"), ':idPortal' => $portalModel->idPortal]);
+      ->addParams([':estado' => self::APROBADO, ':fecha' => Date("Y-m-d"), ':idPortal' => $portalModel->idPortal]);
 
       $dataProvider = new ActiveDataProvider([
           'query' => $query,
@@ -58,7 +58,7 @@ class ContenidoSearch extends Contenido
 
 
 
-      var_dump( $this->fechaPublicacion);
+      var_dump( $this->fechaInicioPublicacion);
       if (!$this->validate()) {
           // uncomment the following line if you do not want to return any records when validation fails
           // $query->where('0=1');
@@ -66,22 +66,16 @@ class ContenidoSearch extends Contenido
           return $dataProvider;
       }
 
-      // grid filtering conditions
-      $query->andFilterWhere([
-          'idContenido' => $this->idContenido,
-          'numeroDocumentoPublicacion' => $this->numeroDocumentoPublicacion,
-          'fechaPublicacion' => $this->fechaPublicacion,
-          'fechaActualizacion' => $this->fechaActualizacion,
-          'estado' => $this->estado,
-          'fechaAprobacion' => $this->fechaAprobacion,
-          'numeroDocumentoAprobacion' => $this->numeroDocumentoAprobacion,
-          'fechaInicioPublicacion' => $this->fechaInicioPublicacion,
-          'idLineaTiempo' => $this->idLineaTiempo,
-      ]);
+      if (!is_null($this->fechaInicioPublicacion)) {
 
-      $query->andFilterWhere(['like', 'titulo', $this->titulo])
-          ->andFilterWhere(['like', 'contenido', $this->contenido]);
+        $query->andFilterWhere([
+            '>=',  'fechaInicioPublicacion', Date("Y-m-d H:i:s", strtotime($this->fechaInicioPublicacion.' 00:00:00')),
+        ]);
 
+        $query->andFilterWhere([
+            '<=',  'fechaInicioPublicacion', Date("Y-m-d H:i:s", strtotime($this->fechaInicioPublicacion.' 23:59:59')),
+        ]);
+      }
       return $dataProvider;
     }
 }
