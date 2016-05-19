@@ -1,8 +1,8 @@
 <?php
 use yii\helpers\Html;
-use app\assets\MultiportalAsset;
+use app\assets\ConveniosAsset;
 
-MultiportalAsset::register($this);
+ConveniosAsset::register($this);
 
 // Rutas imagenes
 $srcLogo = Yii::$app->homeUrl . 'img/multiportal/convenios/logo-convenios-empresariales.png';

@@ -125,6 +125,9 @@ $config = [
         'proveedores' => [
             'class' => 'app\modules\proveedores\ProveedoresModule',
         ],
+        'convenios' => [
+            'class' => 'app\modules\convenios\ConveniosModule',
+        ],
         'coopservir' => [
             'class' => 'app\modules\coopservir\CoopservirModule',
         ],

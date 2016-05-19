@@ -7,6 +7,7 @@ use yii\helpers\Html;
 use yii\web\Controller;
 use app\modules\intranet\models\Portal;
 use app\modules\intranet\models\Contenido;
+use app\modules\intranet\models\ContenidoSearch;
 
 abstract class CController extends Controller {
 
@@ -18,33 +19,37 @@ abstract class CController extends Controller {
         ];
     }
 
-    public function actionVerTodasNoticias($nombrePortal)
+    public function actionIndex()
     {
+        $flagVerMas = false;
+        $contenidoModels  = Contenido::traerNoticiasIndexPortal($this->module->id, $flagVerMas);
 
-      $portalModel = Portal::encontrarModeloPorNombre($nombrePortal);
-      $dataProviderNoticias  = Contenido::traerTodasNoticiasPortal($portalModel->idPortal);
+        return $this->render('index', [
+          'contenidoModels' => $contenidoModels,
+          'flagVerMas' => $flagVerMas,
+        ]);
+    }
 
-      return $this->render('/common/noticias/todas-noticias', [
+    public function actionVerTodasNoticias()
+    {
+      $searchModel = new ContenidoSearch();
+      $searchModel->load(Yii::$app->request->post());
+
+      $dataProviderNoticias = $searchModel->searchNoticiasPortal(Yii::$app->request->queryParams, $this->module->id);
+
+      return $this->render('//common/noticias/todas-noticias', [
         'dataProviderNoticias' => $dataProviderNoticias,
+        'searchModel' => $searchModel,
       ]);
     }
 
-    public function actionDetalleNoticia($idNoticia, $nombrePortal)
+    public function actionDetalleNoticia($idNoticia)
     {
-      $portalModel = Portal::encontrarModeloPorNombre($nombrePortal);
-      $contenidoModel  = Contenido::traerNoticiasIndexPortal($portalModel->idPortal, $idNoticia);
+      $contenidoModel  = Contenido::traerNoticiaPortal($this->module->id, $idNoticia);
 
       return $this->render('//common/noticias/detalle-noticia', [
         'contenidoModel' => $contenidoModel,
       ]);
     }
-
-    public function actionHola()
-    {
-      echo $this->module->id;
-    }
-
-
-
 
 }

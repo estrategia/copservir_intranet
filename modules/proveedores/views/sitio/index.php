@@ -1,5 +1,8 @@
 <?php
 use yii\helpers\Html;
+
+$this->title = 'Proveedores';
+
 // Rutas imagenes
 $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/proveedores/proveedores.png';
 ?>
@@ -52,13 +55,10 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/proveedores/proveedores.pn
 
 <div class="space-2"></div>
 <!-- -->
-<?php // var_dump($contenidoModels) ?>
-
-
 <?php
   echo $this->render('//common/_ultimasNoticias', [
     'contenidoModels' => $contenidoModels,
-    'numeroNoticias' => $numeroNoticias,
+    'flagVerMas' => $flagVerMas,
   ]);
 ?>
 <div class="space-2"></div>

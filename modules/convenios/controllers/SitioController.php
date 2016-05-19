@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\proveedores\controllers;
+namespace app\modules\convenios\controllers;
 
 use app\controllers\CController;
 use Yii;

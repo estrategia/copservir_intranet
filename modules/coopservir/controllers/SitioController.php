@@ -20,23 +20,6 @@ class SitioController extends CController {
     }
 
     /**
-    * renderiza la pagina principal de la app multiportal
-    * @param none
-    * @return mixed
-     */
-    public function actionIndex() {
-
-      $portalModel = Portal::encontrarModeloPorNombre($this->module->id);
-      $contenidoModels  = Contenido::traerNoticiasIndexPortal($portalModel->idPortal);
-      $numeroNoticias = Contenido::contarTotalNoticiasPortal($portalModel->idPortal);
-
-      return $this->render('index', [
-        'contenidoModels' => $contenidoModels,
-        'numeroNoticias' => $numeroNoticias,
-      ]);
-    }
-
-    /**
     * renderiza la pagina de contacto
     * @param none
     * @return mixed

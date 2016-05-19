@@ -1,4 +1,6 @@
 <?php
+$this->title = 'Mision - Vision';
+
 // Rutas imagenes
 $srcMision = Yii::$app->homeUrl . 'img/multiportal/copservir/mision-vision.png';
 ?>
