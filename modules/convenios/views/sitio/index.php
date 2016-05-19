@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 // Rutas imagenes
 $srcProvedores =  Yii::$app->homeUrl . 'img/multiportal/convenios/proveedores.png';
+$this->title = 'convenios';
 ?>
 
     <img src=<?= "" . $srcProvedores ?> alt="">
@@ -44,16 +45,18 @@ $srcProvedores =  Yii::$app->homeUrl . 'img/multiportal/convenios/proveedores.pn
         </div>
       </div>
 
-      <</section> <!-- / acerca de home -->
+      </section> <!-- / acerca de home -->
       </div>
       <div class="space-2"></div>
       <!-- -->
-      <?= $this->render('_ultimasNoticias', []) ?>
+      <?php
+        echo $this->render('//common/_ultimasNoticias', [
+          'contenidoModels' => $contenidoModels,
+          'flagVerMas' => $flagVerMas,
+        ]);
+      ?>
       <div class="space-2"></div>
       <!-- ALIADOS -->
-      <div class="container internal">
-          <h2 class="company-color-2">Nuestros proveedores</h2>
-      </div>
-      <?= $this->render('_portales', []) ?>
+      <?= $this->render('//common/_portales', []) ?>
     <div class="space-1"></div>
       <!-- /ALIADOS -->

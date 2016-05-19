@@ -1,5 +1,8 @@
 <?php
 use yii\helpers\Html;
+
+$this->title = 'Coopservir';
+
 // Rutas imagenes
 $srcSlide = Yii::$app->homeUrl . 'img/multiportal/copservir/slide_1.jpg';
 ?>
@@ -114,7 +117,7 @@ $srcSlide = Yii::$app->homeUrl . 'img/multiportal/copservir/slide_1.jpg';
       <?php
         echo $this->render('//common/_ultimasNoticias', [
           'contenidoModels' => $contenidoModels,
-          'numeroNoticias' => $numeroNoticias,
+          'flagVerMas' => $flagVerMas,
         ]);
       ?>
       <div class="space-2"></div>

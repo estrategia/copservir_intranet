@@ -143,6 +143,11 @@ h2 {
 .right-line {
   border-right: 2px solid #fff;
 }
+
+.left-line {
+  border-left: 2px solid #fff;
+}
+
 .btn-primary {
   padding: 10px 20px;
   background-color: #3DB04B;

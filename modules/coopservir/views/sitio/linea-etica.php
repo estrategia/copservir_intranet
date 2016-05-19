@@ -1,4 +1,7 @@
 <?php
+
+$this->title = 'Linea Etica';
+
 // Rutas imagenes
 $srcLinea = Yii::$app->homeUrl . 'img/multiportal/copservir/linea-etica.png';
 ?>

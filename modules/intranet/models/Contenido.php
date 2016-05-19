@@ -167,19 +167,27 @@ class Contenido extends \yii\db\ActiveRecord
     ->all();
   }
 
-  public static function traerNoticiasIndexPortal($idPortal)
+  public static function traerNoticiasIndexPortal($nombrePortal, &$flagVerMas)
   {
+    $portalModel = Portal::encontrarModeloPorNombre($nombrePortal);
+    $numeroNoticias = Contenido::contarTotalNoticiasPortal($portalModel->idPortal);
+
+    if ($numeroNoticias > 4) { // cambiar el cuatro por un parametro
+      $flagVerMas = true;
+    }
+
     $query = self::find()->joinWith(['objContenidoPortal'])
     ->where('fechaInicioPublicacion<=:fecha AND estado=:estado and t_contenidoportal.idPortal=:idPortal')
     ->limit(4)
     ->orderBy('fechaInicioPublicacion Desc')
-    ->addParams([':estado' => self::APROBADO, ':fecha' => Date("Y-m-d H:i:s"), ':idPortal' => $idPortal])->all();
+    ->addParams([':estado' => self::APROBADO, ':fecha' => Date("Y-m-d H:i:s"), ':idPortal' => $portalModel->idPortal])->all();
 
     return $query;
     //var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
   }
 
   public static function contarTotalNoticiasPortal($idPortal){
+
     $query = self::find()->joinWith(['objContenidoPortal'])
     ->where('fechaInicioPublicacion<=:fecha AND estado=:estado and t_contenidoportal.idPortal=:idPortal')
     ->orderBy('fechaInicioPublicacion Desc')
@@ -188,12 +196,15 @@ class Contenido extends \yii\db\ActiveRecord
     return $query;
   }
 
-  public static function traerTodasNoticiasPortal($idPortal){
+  /*
+  public static function traerTodasNoticiasPortal($nombrePortal){
+
+    $portalModel = Portal::encontrarModeloPorNombre($nombrePortal);
 
     $query = self::find()->joinWith(['objContenidoPortal'])
     ->where('fechaInicioPublicacion<=:fecha AND estado=:estado and t_contenidoportal.idPortal=:idPortal')
     ->orderBy('fechaInicioPublicacion Desc')
-    ->addParams([':estado' => self::APROBADO, ':fecha' => Date("Y-m-d H:i:s"), ':idPortal' => $idPortal]);
+    ->addParams([':estado' => self::APROBADO, ':fecha' => Date("Y-m-d H:i:s"), ':idPortal' => $portalModel->idPortal]);
 
     $dataProvider = new ActiveDataProvider([
       'query' => $query,
@@ -204,12 +215,16 @@ class Contenido extends \yii\db\ActiveRecord
 
     return $dataProvider;
   }
+  */
 
-  public static function traerNoticiaPortal($idPortal, $idContenido){
+  public static function traerNoticiaPortal($nombrePortal, $idContenido){
+
+    $portalModel = Portal::encontrarModeloPorNombre($nombrePortal);
+
     $query = self::find()->joinWith(['objContenidoPortal'])
     ->where('t_Contenido.idContenido=:idContenido AND fechaInicioPublicacion<=:fecha AND estado=:estado and t_contenidoportal.idPortal=:idPortal')
     ->orderBy('fechaInicioPublicacion Desc')
-    ->addParams([':estado' => self::APROBADO, ':fecha' => Date("Y-m-d H:i:s"), ':idPortal' => $idPortal, ':idContenido' => $idContenido])->all();
+    ->addParams([':estado' => self::APROBADO, ':fecha' => Date("Y-m-d H:i:s"), ':idPortal' => $portalModel->idPortal, ':idContenido' => $idContenido])->one();
 
     return $query;
   }

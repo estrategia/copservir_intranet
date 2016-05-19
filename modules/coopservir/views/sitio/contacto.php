@@ -1,4 +1,6 @@
-
+<?php
+$this->title = 'Contacto';
+?>
     <!-- colocar migas de pan -->
     <div class="page-header">
       <div class="container">

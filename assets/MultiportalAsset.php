@@ -44,9 +44,9 @@ class MultiportalAsset extends AssetBundle {
         // carousel
         'libs/multiportal/owl-carousel/owl.carousel.min.js',
         //propios
-        'js/funciones-jj.js',
-        'js/funciones-mabc.js',
-        'js/funciones-masm.js',
+        //'js/funciones-jj.js',
+        //'js/funciones-mabc.js',
+        //'js/funciones-masm.js',
 
     ];
     public $depends = [

@@ -12,24 +12,30 @@ use yii\helpers\Html;
       <div class="item darkCyan">
       <img src="http://placehold.it/200x150" alt="Touch">
       </div>
-      ', ['intranet/sitio/index'])
+      ', ['/intranet/sitio/index'])
       ?>
 
       <?= Html::a('Proveedores
       <div class="item forestGreen">
       <img src="http://placehold.it/200x150" alt="Grab">
       </div>
-      ', ['proveedores/sitio/index'])
+      ', ['/proveedores/sitio/index'])
       ?>
 
-      <div class="item orange">
-        <img src="http://placehold.it/200x150" alt="Responsive">
+      <?= Html::a('Coopsevir
+      <div class="item forestGreen">
+      <img src="http://placehold.it/200x150" alt="Grab">
       </div>
+      ', ['/coopservir/sitio/index'])
+      ?>
 
-      <div class="item yellow">
-        <img src="http://placehold.it/200x150" alt="CSS3">
+      <?= Html::a('Convenios Empresariales
+      <div class="item forestGreen">
+      <img src="http://placehold.it/200x150" alt="Grab">
       </div>
-
+      ', ['/convenios/sitio/index'])
+      ?>
+      
       <div class="item dodgerBlue">
         <img src="http://placehold.it/200x150" alt="Multi">
       </div>

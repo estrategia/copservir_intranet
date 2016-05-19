@@ -1,4 +1,7 @@
 <?php
+
+$this->title = 'Historia';
+
 // Rutas imagenes
 $srcHistoria = Yii::$app->homeUrl . 'img/multiportal/copservir/historia.png';
 $srcIconMovie = Yii::$app->homeUrl . 'img/multiportal/copservir/cd-icon-movie.svg';
