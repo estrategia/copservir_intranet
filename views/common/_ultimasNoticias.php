@@ -27,7 +27,7 @@ use yii\helpers\Html;
         <div class="item item-last">
           <?=
             Html::a('Leer más',
-              ['detalle-noticia','idNoticia' => $noticia->idContenido, 'nombrePortal'=>Yii::$app->controller->module->id], ['class' => 'company-color-2'])
+              ['detalle-noticia','idNoticia' => $noticia->idContenido], ['class' => 'company-color-2'])
           ?>
         </div>
       </div>
@@ -37,7 +37,7 @@ use yii\helpers\Html;
       <div class="space-2"></div>
       <div class="space-2"></div>
         <?=
-          Html::a('Ver más', ['ver-todas-noticias', 'nombrePortal'=>Yii::$app->controller->module->id], ['class' => 'btn-primary company-bgcolor-2']);
+          Html::a('Ver más', ['ver-todas-noticias'], ['class' => 'btn-primary company-bgcolor-2']);
         ?>
       </div>
     <?php endif; ?>

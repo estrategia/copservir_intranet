@@ -39,11 +39,11 @@ class ContenidoSearch extends Contenido
      *
      * @return ActiveDataProvider
      */
-    public function searchNoticiasPortal($params)
+    public function searchNoticiasPortal($params, $nombrePortal)
     {
       $this->load($params);
       //var_dump($params);
-      $portalModel = Portal::encontrarModeloPorNombre($params['nombrePortal']);
+      $portalModel = Portal::encontrarModeloPorNombre($nombrePortal);
 
       $query = self::find()->joinWith(['objContenidoPortal'])
       ->where('fechaInicioPublicacion<=:fecha AND estado=:estado and t_contenidoportal.idPortal=:idPortal')

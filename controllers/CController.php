@@ -30,14 +30,12 @@ abstract class CController extends Controller {
         ]);
     }
 
-    public function actionVerTodasNoticias($nombrePortal)
+    public function actionVerTodasNoticias()
     {
-      //$dataProviderNoticias  = Contenido::traerTodasNoticiasPortal($this->module->id);
-
       $searchModel = new ContenidoSearch();
       $searchModel->load(Yii::$app->request->post());
 
-      $dataProviderNoticias = $searchModel->searchNoticiasPortal(Yii::$app->request->queryParams);
+      $dataProviderNoticias = $searchModel->searchNoticiasPortal(Yii::$app->request->queryParams, $this->module->id);
 
       return $this->render('//common/noticias/todas-noticias', [
         'dataProviderNoticias' => $dataProviderNoticias,
@@ -45,7 +43,7 @@ abstract class CController extends Controller {
       ]);
     }
 
-    public function actionDetalleNoticia($idNoticia, $nombrePortal)
+    public function actionDetalleNoticia($idNoticia)
     {
       $contenidoModel  = Contenido::traerNoticiaPortal($this->module->id, $idNoticia);
 
