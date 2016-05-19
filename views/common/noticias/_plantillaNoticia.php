@@ -15,7 +15,7 @@ use yii\helpers\Html;
   <div class="item item-last">
     <?=
       Html::a('Leer más',
-        ['detalle-noticia','idNoticia' => $modelContenido->idContenido, 'nombrePortal'=>Yii::$app->controller->module->id], ['class' => 'company-color-2'])
+        ['detalle-noticia','idNoticia' => $modelContenido->idContenido], ['class' => 'company-color-2'])
     ?>
   </div>
 </div>

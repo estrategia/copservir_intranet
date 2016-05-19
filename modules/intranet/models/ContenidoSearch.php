@@ -42,7 +42,6 @@ class ContenidoSearch extends Contenido
     public function searchNoticiasPortal($params, $nombrePortal)
     {
       $this->load($params);
-      //var_dump($params);
       $portalModel = Portal::encontrarModeloPorNombre($nombrePortal);
 
       $query = self::find()->joinWith(['objContenidoPortal'])
