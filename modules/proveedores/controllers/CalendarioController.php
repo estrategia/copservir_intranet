@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\intranet\controllers;
+namespace app\modules\proveedores\controllers;
 
 use app\controllers\ControllerCalendar;
 

@@ -11,21 +11,19 @@ use Yii;
  * @property string $nombrePortal
  * @property integer $estado
  */
-class Portal extends \yii\db\ActiveRecord
-{
+class Portal extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
-        return 'm_portal';
+    public static function tableName() {
+        return 'm_Portal';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['nombrePortal', 'estado'], 'required'],
             [['estado'], 'integer'],
@@ -36,8 +34,7 @@ class Portal extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'idPortal' => 'Id Portal',
             'nombrePortal' => 'Nombre Portal',
@@ -47,14 +44,14 @@ class Portal extends \yii\db\ActiveRecord
 
     //CONSULTAS
 
-    public static function encontrarModeloPorNombre($nombre)
-    {
-      $model = self::find()->where(['nombrePortal' => $nombre])->one();
+    public static function encontrarModeloPorNombre($nombre) {
+        $model = self::find()->where(['nombrePortal' => $nombre])->one();
 
-      if ( $model !== null) {
-        return $model;
-      } else {
-        throw new \Exception('el modelo no existe.');
-      }
+        if ($model !== null) {
+            return $model;
+        } else {
+            throw new \Exception('el modelo no existe.');
+        }
     }
+
 }

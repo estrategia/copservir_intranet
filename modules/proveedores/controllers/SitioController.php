@@ -8,17 +8,24 @@ use yii\web\Controller;
 use app\modules\intranet\models\Portal;
 use app\modules\intranet\models\Contenido;
 
-class SitioController extends CController
-{
-    public function actionIndex()
-    {
+class SitioController extends CController {
+
+    public function actions() {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ],
+        ];
+    }
+
+    public function actionIndex() {
         $portalModel = Portal::encontrarModeloPorNombre($this->module->id);
-        $contenidoModels  = Contenido::traerNoticiasIndexPortal($portalModel->idPortal);
+        $contenidoModels = Contenido::traerNoticiasIndexPortal($portalModel->idPortal);
         $numeroNoticias = Contenido::contarTotalNoticiasPortal($portalModel->idPortal);
 
         return $this->render('index', [
-          'contenidoModels' => $contenidoModels,
-          'numeroNoticias' => $numeroNoticias,
+                    'contenidoModels' => $contenidoModels,
+                    'numeroNoticias' => $numeroNoticias,
         ]);
     }
 

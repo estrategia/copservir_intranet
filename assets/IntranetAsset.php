@@ -22,7 +22,7 @@ class IntranetAsset extends AssetBundle {
         'libs/boostrapv3/css/bootstrap.min.css',
         'libs/boostrapv3/css/bootstrap-theme.min.css',
         // calendario intranet
-        'libs/fullcalendar/fullcalendar.css',
+        //'libs/fullcalendar/fullcalendar.css',
         //slider tareas intranet
         'libs/boostrap-slider/css/slider.css',
         // carousel
@@ -61,7 +61,7 @@ class IntranetAsset extends AssetBundle {
         // carousel
         'libs/multiportal/owl-carousel/owl.carousel.min.js',
         //propios
-        'libs/fullcalendar/fullcalendar.js',
+        //'libs/fullcalendar/fullcalendar.js',
         'js/funciones-jj.js',
         'js/funciones-mabc.js',
         'js/funciones-masm.js',

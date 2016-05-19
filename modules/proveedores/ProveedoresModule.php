@@ -1,6 +1,7 @@
 <?php
 
 namespace app\modules\proveedores;
+use Yii;
 
 class ProveedoresModule extends \yii\base\Module {
 
@@ -11,10 +12,10 @@ class ProveedoresModule extends \yii\base\Module {
     public function init() {
         parent::init();
 
-        // ...  otro código de inicialización ...
-        //Yii::$app->errorHandler->errorAction = 'proveedores/sitio/error';
+        Yii::$app->errorHandler->errorAction = 'proveedores/sitio/error';
+
+
+        // custom initialization code goes here
     }
 
 }
-
-?>
