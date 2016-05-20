@@ -27,9 +27,9 @@ class ProveedoresAsset extends AssetBundle {
         'libs/multiportal/owl-carousel/owl.theme.css',
 
         //genericas plantilla intranet
-        'css/multiportal/style.css',
-        'css/multiportal/main.css'
-
+        'css/portales-style.css',
+        'css/portales-main.css',
+        'css/common.css'
     ];
     public $js = [
         // boostrap

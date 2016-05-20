@@ -26,9 +26,9 @@ class MultiportalAsset extends AssetBundle {
         'libs/multiportal/owl-carousel/owl.carousel.css',
         'libs/multiportal/owl-carousel/owl.theme.css',
         //genericas plantilla intranet
-        'css/multiportal/style.css',
-        'css/multiportal/main.css'
-
+        'css/portales-style.css',
+        'css/portales-main.css',
+        'css/common.css'
     ];
     public $js = [
         // boostrap
@@ -44,10 +44,6 @@ class MultiportalAsset extends AssetBundle {
         // carousel
         'libs/multiportal/owl-carousel/owl.carousel.min.js',
         //propios
-        //'js/funciones-jj.js',
-        //'js/funciones-mabc.js',
-        //'js/funciones-masm.js',
-
     ];
     public $depends = [
         'yii\web\YiiAsset',
