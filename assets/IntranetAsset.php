@@ -35,7 +35,8 @@ class IntranetAsset extends AssetBundle {
         'libs/jquery-scrollbar/jquery.scrollbar.css',
         'libs/webarch/webarch.css',
         'libs/bootstrap-media-lightbox-master/bootstrap-media-lightbox.css',
-        'css/site.css'
+        'css/intranet.css',
+        'css/common.css'
     ];
     public $js = [
         // boostrap

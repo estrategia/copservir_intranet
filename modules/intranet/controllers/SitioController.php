@@ -28,7 +28,7 @@ use app\modules\intranet\models\ContenidoPortal;
 use yii\helpers\Html;
 use yii\web\Response;
 
-class SitioController extends Controller {
+class SitioController extends \app\controllers\CController {
 
   public function actionUrl() {
     echo Yii::getAlias('@app') . '@web/img/post';
