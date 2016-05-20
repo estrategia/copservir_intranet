@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use app\assets\MultiportalAsset;
+use app\modules\intranet\models\MenuPortales;
 
 MultiportalAsset::register($this);
 
@@ -10,6 +11,8 @@ $srcLogoFooter = Yii::$app->homeUrl . 'img/multiportal/copservir/logo-footer.jpg
 $srcFb =  Yii::$app->homeUrl . 'img/multiportal/copservir/fb.png';
 $srcTw =  Yii::$app->homeUrl . 'img/multiportal/copservir/tw.png';
 $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
+
+$menuPortales = MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id);
 
 ?>
 <?php $this->beginPage() ?>
@@ -45,6 +48,16 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
                 <li class="active"> <?= Html::a('Inicio', ['index']) ?></li>
                 <li><?= Html::a('Acerca de', ['acerca-de']) ?></li>
                 <li><?= Html::a('Contacto', ['contacto']) ?></li>
+
+                <?php foreach ($menuPortales as $itemMenu): ?>
+                  <li>
+                    <?php if ($itemMenu->esExterno()): ?>
+                      <?= "<a href='$itemMenu->urlMenu' target='_blank'> <i class='$itemMenu->icono'></i> <span class='title'>$itemMenu->nombre</span> <span class='selected'></span> </a>" ?>
+                    <?php else: ?>
+                        <?= Html::a('<i class="'.$itemMenu->icono.'"></i> <span class="title">'.$itemMenu->nombre.'</span> <span class="selected"></span>', [ $itemMenu->urlMenu], []) ?>
+                    <?php endif; ?>
+                  </li>
+                <?php endforeach; ?>
               </ul>
             </div>
           </div>

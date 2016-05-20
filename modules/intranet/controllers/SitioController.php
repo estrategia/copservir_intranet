@@ -22,7 +22,6 @@ use app\modules\intranet\models\PublicacionesCampanas;
 use app\modules\intranet\models\CumpleanosLaboral;
 use app\modules\intranet\models\CumpleanosPersona;
 use app\modules\intranet\models\Menu;
-use app\modules\intranet\models\MenuPortales;
 use app\modules\intranet\models\Opcion;
 use app\modules\intranet\models\ContenidoPortal;
 use yii\helpers\Html;

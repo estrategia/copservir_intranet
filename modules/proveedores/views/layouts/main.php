@@ -1,11 +1,14 @@
 <?php
 use yii\helpers\Html;
 use app\assets\ProveedoresAsset;
+use app\modules\intranet\models\MenuPortales;
 
 ProveedoresAsset::register($this);
 
 // Rutas imagenes
 $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.png';
+
+$menuPortales = MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -38,6 +41,15 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.pn
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
               <li class="active"> <?= Html::a('Inicio', ['index']) ?></li>
+              <?php foreach ($menuPortales as $itemMenu): ?>
+                <li>
+                  <?php if ($itemMenu->esExterno()): ?>
+                    <?= "<a href='$itemMenu->urlMenu' target='_blank'> <i class='$itemMenu->icono'></i> <span class='title'>$itemMenu->nombre</span> <span class='selected'></span> </a>" ?>
+                  <?php else: ?>
+                      <?= Html::a('<i class="'.$itemMenu->icono.'"></i> <span class="title">'.$itemMenu->nombre.'</span> <span class="selected"></span>', [ $itemMenu->urlMenu], []) ?>
+                  <?php endif; ?>
+                </li>
+              <?php endforeach; ?>
             </ul>
           </div>
         </div>

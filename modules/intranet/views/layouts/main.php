@@ -1,11 +1,13 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\bootstrap\Dropdown;
 use yii\widgets\Breadcrumbs;
 use app\assets\IntranetAsset;
 use app\modules\intranet\models\Menu;
+use app\modules\intranet\models\MenuPortales;
 use app\modules\intranet\models\Opcion;
 use app\modules\intranet\models\OpcionesUsuario;
 use nirvana\showloading\ShowLoadingAsset;
@@ -17,6 +19,9 @@ $srcPictureUser = "''";
 $srcLogo = Yii::$app->homeUrl . 'img/logo_copservir.png';
 
 $menu = Menu::find()->with('listSubMenu')->where('idPadre is NULL')->all();
+
+$menuPortales = MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id);
+
 $opciones = new OpcionesUsuario();
 $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
 
@@ -51,10 +56,10 @@ if (!Yii::$app->user->isGuest) {
             </li>
           </ul>
 
-          <a href="index.html"><!-- BEGIN LOGO -->
-            <img src=<?= "" . $srcLogo ?> class="logo" alt=""  data-src="" data-src-retina="" style="margin: 6px 30px;
-            width: 180px; position:relative"/>
-          </a><!-- END LOGO -->
+          <!-- BEGIN LOGO -->
+          <?= Html::a('<img src='.$srcLogo.' class="logo" data-src="" data-src-retina=""
+            style="margin: 6px 30px; width: 180px; position:relative"/>', ['sitio/index'], []) ?>
+          <!-- END LOGO -->
           <ul class="nav pull-right notifcation-center"></ul>
         </div><!-- END RESPONSIVE MENU TOGGLER -->
 
@@ -152,16 +157,27 @@ if (!Yii::$app->user->isGuest) {
             <li >
               <?= Html::a('<i class="fa fa-calendar"></i> <span class="title">Calendario</span> <span class="selected"></span>', ['calendario/'], []) ?>
             </li>
+            <!-- MENU CORPORATIVO -->
             <li>
               <?= Html::a('<i class="fa fa-sitemap"></i> <span class="title">Menú corporativo</span> <span class="selected"></span>', ['sitio/menu'], []) ?>
             </li>
 
-            <!-- MENU PORTALES -->
-            $menuPortales = MenuPortales::traerMenuPortalesIndex($this->module->id);
-
             <?php foreach ($menu as $subMenu): ?>
               <?php Menu::menuHtml($subMenu, $opciones->getOpcionesUsuario()); ?>
             <?php endforeach; ?>
+
+            <!-- MENU PORTALES -->
+            <?php foreach ($menuPortales as $itemMenu): ?>
+              <li>
+                <?php if ($itemMenu->esExterno()): ?>
+                  <?= "<a href='$itemMenu->urlMenu' target='_blank'> <i class='$itemMenu->icono'></i> <span class='title'>$itemMenu->nombre</span> <span class='selected'></span> </a>" ?>
+                <?php else: ?>
+                    <?= Html::a('<i class="'.$itemMenu->icono.'"></i> <span class="title">'.$itemMenu->nombre.'</span> <span class="selected"></span>', [ $itemMenu->urlMenu], []) ?>
+                <?php endif; ?>
+
+              </li>
+            <?php endforeach; ?>
+
           </ul><!-- END SIDEBAR MENU -->
         </div>
       </div>

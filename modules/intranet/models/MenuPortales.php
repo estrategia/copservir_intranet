@@ -77,11 +77,21 @@ class MenuPortales extends \yii\db\ActiveRecord
     {
       $portalModel = Portal::encontrarModeloPorNombre($nombrePortal);
 
-       $query = self::find()->select(['nombre', 'icono', 'tipo', 'urlMenu'])
-       ->where('( idPortal=:idPortal )')
+       $query = MenuPortales::find()->select(['nombre', 'icono', 'tipo', 'urlMenu'])
+       ->where('( idPortal=:idPortal and estado=:estado )')
        ->addParams([':estado' => self::APROBADO, ':idPortal' => $portalModel->idPortal])
        ->all();
 
        return $query;
+    }
+
+    // FUNCIONES
+    public function esExterno()
+    {
+      if ($this->tipo == self::ENLACE_EXTERNO) {
+        return true;
+      }else{
+        return false;
+      }
     }
 }
