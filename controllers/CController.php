@@ -46,6 +46,10 @@ abstract class CController extends Controller {
     public function actionDetalleNoticia($idNoticia)
     {
       $contenidoModel  = Contenido::traerNoticiaPortal($this->module->id, $idNoticia);
+      
+      if($contenidoModel===null){
+          throw new \yii\web\HttpException(404, 'Contenido no existente');
+      }
 
       return $this->render('//common/noticias/detalle-noticia', [
         'contenidoModel' => $contenidoModel,
