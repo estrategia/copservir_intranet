@@ -45,7 +45,7 @@ class ContenidoSearch extends Contenido
       $portalModel = Portal::encontrarModeloPorNombre($nombrePortal);
 
       $query = self::find()->joinWith(['objContenidoPortal'])
-      ->where('fechaInicioPublicacion<=:fecha AND estado=:estado and t_contenidoportal.idPortal=:idPortal')
+      ->where('fechaInicioPublicacion<=:fecha AND estado=:estado and t_ContenidoPortal.idPortal=:idPortal')
       ->orderBy('fechaInicioPublicacion Desc')
       ->addParams([':estado' => self::APROBADO, ':fecha' => Date("Y-m-d"), ':idPortal' => $portalModel->idPortal]);
 

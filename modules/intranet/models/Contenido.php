@@ -177,7 +177,7 @@ class Contenido extends \yii\db\ActiveRecord
     }
 
     $query = self::find()->joinWith(['objContenidoPortal'])
-    ->where('fechaInicioPublicacion<=:fecha AND estado=:estado and t_contenidoportal.idPortal=:idPortal')
+    ->where('fechaInicioPublicacion<=:fecha AND estado=:estado and t_ContenidoPortal.idPortal=:idPortal')
     ->limit(4)
     ->orderBy('fechaInicioPublicacion Desc')
     ->addParams([':estado' => self::APROBADO, ':fecha' => Date("Y-m-d H:i:s"), ':idPortal' => $portalModel->idPortal])->all();
@@ -189,40 +189,19 @@ class Contenido extends \yii\db\ActiveRecord
   public static function contarTotalNoticiasPortal($idPortal){
 
     $query = self::find()->joinWith(['objContenidoPortal'])
-    ->where('fechaInicioPublicacion<=:fecha AND estado=:estado and t_contenidoportal.idPortal=:idPortal')
+    ->where('fechaInicioPublicacion<=:fecha AND estado=:estado and t_ContenidoPortal.idPortal=:idPortal')
     ->orderBy('fechaInicioPublicacion Desc')
     ->addParams([':estado' => self::APROBADO, ':fecha' => Date("Y-m-d H:i:s"), ':idPortal' => $idPortal])->count();
 
     return $query;
   }
 
-  /*
-  public static function traerTodasNoticiasPortal($nombrePortal){
-
-    $portalModel = Portal::encontrarModeloPorNombre($nombrePortal);
-
-    $query = self::find()->joinWith(['objContenidoPortal'])
-    ->where('fechaInicioPublicacion<=:fecha AND estado=:estado and t_contenidoportal.idPortal=:idPortal')
-    ->orderBy('fechaInicioPublicacion Desc')
-    ->addParams([':estado' => self::APROBADO, ':fecha' => Date("Y-m-d H:i:s"), ':idPortal' => $portalModel->idPortal]);
-
-    $dataProvider = new ActiveDataProvider([
-      'query' => $query,
-      'pagination' => [
-        'pageSize' => 5,
-      ],
-    ]);
-
-    return $dataProvider;
-  }
-  */
-
   public static function traerNoticiaPortal($nombrePortal, $idContenido){
 
     $portalModel = Portal::encontrarModeloPorNombre($nombrePortal);
 
     $query = self::find()->joinWith(['objContenidoPortal'])
-    ->where('t_Contenido.idContenido=:idContenido AND fechaInicioPublicacion<=:fecha AND estado=:estado and t_contenidoportal.idPortal=:idPortal')
+    ->where('t_Contenido.idContenido=:idContenido AND fechaInicioPublicacion<=:fecha AND estado=:estado and t_ContenidoPortal.idPortal=:idPortal')
     ->orderBy('fechaInicioPublicacion Desc')
     ->addParams([':estado' => self::APROBADO, ':fecha' => Date("Y-m-d H:i:s"), ':idPortal' => $portalModel->idPortal, ':idContenido' => $idContenido])->one();
 

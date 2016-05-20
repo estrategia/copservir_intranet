@@ -155,6 +155,10 @@ if (!Yii::$app->user->isGuest) {
             <li>
               <?= Html::a('<i class="fa fa-sitemap"></i> <span class="title">Menú corporativo</span> <span class="selected"></span>', ['sitio/menu'], []) ?>
             </li>
+
+            <!-- MENU PORTALES -->
+            $menuPortales = MenuPortales::traerMenuPortalesIndex($this->module->id);
+
             <?php foreach ($menu as $subMenu): ?>
               <?php Menu::menuHtml($subMenu, $opciones->getOpcionesUsuario()); ?>
             <?php endforeach; ?>
