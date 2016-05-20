@@ -29,5 +29,8 @@ return [
     ],
     'documentos' => [
         'rutaArchivo' => '/contenidos/documentos/'
+    ],
+    'imagenesNoticias' => [
+        'limiteVisualizar' => 1
     ]
 ];

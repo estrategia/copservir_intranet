@@ -42,13 +42,13 @@ use app\modules\intranet\models\LineaTiempo;
                   $contador++;
                   $style = '';
                   $mensaje = '';
-                  if ($contador > 1) { //cambiar por una constante
+                  if ($contador >  \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) { //cambiar por una constante
                     $style = 'display:none';
                   }
 
-                  if ($contador ==  1  ) { //cambiar por una constante
+                  if ($contador ==   \Yii::$app->params['imagenesNoticias']['limiteVisualizar']  ) { //cambiar por una constante
                     if (($contador) != count($noticia->objContenidoAdjuntoImagenes)) {
-                      $mensaje = (count($noticia->objContenidoAdjuntoImagenes)-1).'+' ; // cambiar por una constante
+                      $mensaje = (count($noticia->objContenidoAdjuntoImagenes)- \Yii::$app->params['imagenesNoticias']['limiteVisualizar']).'+' ; // cambiar por una constante
                     }
 
                   }
@@ -89,76 +89,95 @@ use app\modules\intranet\models\LineaTiempo;
       <!-- comentarios y me gusta -->
 
       <?php if ($noticia->objLineaTiempo->tipo === LineaTiempo::LINEA_CON_COMENTARIOS): ?>
-      
+
         <ul class="action-links col-md-12" style="border-bottom:1px solid #eee;border-top: 1px solid #eee;padding: 5px;">
-          <li>
+          <li style="width:100%;">
             <?php $noExisteMeGusta = (empty($noticia->listMeGustaUsuario) || count($noticia->listMeGustaUsuario) < 1) ?>
 
-            <a id='megusta_<?= $noticia->idContenido ?>' class="" data-role='me-gusta-contenido' data-contenido='<?= $noticia->idContenido ?>' data-value='1' style='display: <?= $noExisteMeGusta ? '' : 'none' ?>'>
+            <a id='megusta_<?= $noticia->idContenido ?>' class="" data-role='me-gusta-contenido' data-contenido='<?= $noticia->idContenido ?>' data-value='1' style='font-weight: bold; display: <?= $noExisteMeGusta ? '' : 'none' ?>'>
             <span class="glyphicon glyphicon-thumbs-up"></span> Me gusta</a>
 
-            <a id='no_megusta_<?= $noticia->idContenido ?>' class="" data-role='me-gusta-contenido' data-contenido='<?= $noticia->idContenido ?>' data-value='0' style='display: <?= $noExisteMeGusta ? 'none' : '' ?>'>
+            <a id='no_megusta_<?= $noticia->idContenido ?>' class="" data-role='me-gusta-contenido' data-contenido='<?= $noticia->idContenido ?>' data-value='0' style='font-weight: bold; display: <?= $noExisteMeGusta ? 'none' : '' ?>'>
             <span class="glyphicon glyphicon-thumbs-down"></span> Ya no me gusta</a>
-
-
-            <?php // echo ($megusta > 0 )? $megusta ." Me Gusta": '' ?> &nbsp;
-            <span id='numero-megusta_<?= $noticia->idContenido ?>'>
-            <?php
-            echo (count($noticia->listMeGusta) > 0 ) ?
-            Html::a(count($noticia->listMeGusta) . " Me Gusta", '#', [
-            //'id' => 'showFormPublications' . $linea->idLineaTiempo,
-            'data-role' => 'listado-me-gusta-contenido',
-            'data-contenido' => $noticia->idContenido,
-            'onclick' => 'return false'
-            ]) : ''
-            ?> &nbsp;
-            </span>
-            <span id='numero-comentarios_<?= $noticia->idContenido ?>'>
-            <?php
-            echo (count($noticia->listComentarios) > 0 ) ? Html::a(count($noticia->listComentarios) . " Comentarios", '#', [
-            //'id' => 'showFormPublications' . $linea->idLineaTiempo,
-            'data-role' => 'listado-comentarios-contenido',
-            'data-contenido' => $noticia->idContenido,
-            'onclick' => 'return false'
-            ]) : ''
-            ?>  &nbsp;
-            </span>
 
             <?php if (empty($noticia->objDenuncioComentarioUsuario)): ?>
             &nbsp; <?php
-            echo Html::a('Denunciar', '#', [
+            echo Html::a('<span class="fa fa-exclamation-circle" aria-hidden="true"></span> Denunciar', '#', [
             //'id' => 'showFormPublications' . $linea->idLineaTiempo,
             'data-role' => 'denunciar-contenido',
             'data-contenido' => $noticia->idContenido,
             'data-linea-tiempo' => $noticia->idLineaTiempo,
-            'onclick' => 'return false'
+            'onclick' => 'return false',
+            'style'=>'font-weight: bold;'
             ])
             ?>  &nbsp;
             <?php else: ?>
             &nbsp;&nbsp;Ya denunciaste
             <?php endif; ?>
+
+            <!-- # de megusta  -->
+            <?php if (count($noticia->listMeGusta) > 0 ): ?>
+                <span class="badge badge-info pull-right"  id='numero-megusta_<?= $noticia->idContenido ?>'>
+                <?=
+                  Html::a(count($noticia->listMeGusta) . " <span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'></span>", '#', [
+                  //'id' => 'showFormPublications' . $linea->idLineaTiempo,
+                  'data-role' => 'listado-me-gusta-contenido',
+                  'data-contenido' => $noticia->idContenido,
+                  'onclick' => 'return false',
+                  'style'=>'color:white;'
+                  ]);
+                ?>
+               </span>
+            <?php endif; ?>
+
+            <!-- # de comentarios -->
+            <?php if (count($noticia->listComentarios) > 0 ): ?>
+              <span class="badge badge-info pull-right" style="margin-right: 5px;" id='numero-comentarios_<?= $noticia->idContenido ?>'>
+              <?=
+                Html::a(count($noticia->listComentarios) . " <span class='glyphicon glyphicon-comment' aria-hidden='true'></span>", '#', [
+                //'id' => 'showFormPublications' . $linea->idLineaTiempo,
+                'data-role' => 'listado-comentarios-contenido',
+                'data-contenido' => $noticia->idContenido,
+                'onclick' => 'return false',
+                'style'=>'color:white;'
+                ])
+              ?>
+              </span>
+            <?php endif; ?>
           </li>
         </ul>
-        <!--<div class="clearfix"></div>-->
-      <!--</div>-->
-        <div class="clearfix"></div>
-        <textarea id="comentario_<?= $noticia->idContenido ?>" placeholder="Comentar Publicación..." class="form-control" rows="2"></textarea>
-        <?php
-        echo \vova07\imperavi\Widget::widget([
-        'selector' => '#comentario_' . $noticia->idContenido,
+        <div class="row">
+          <div class="col-md-2" style="padding-top: 7px;overflow: hidden;">
 
-        'settings' => [
-        'buttons' => ['format', 'bold', 'italic'],
-        'lang' => 'es',
-        'minHeight' => 80,
-        'imageManagerJson' => Url::to(['/default/images-get']),
-        'plugins' => [
-          'imagemanager'
-        ]
-        ]
-        ]);
-        ?>
-        <button class="btn btn-primary btn-xs comentar" data-role='guardar-comentario-contenido' data-contenido='<?= $noticia->idContenido ?>' value="" type="button"><i class="fa fa-pencil"></i>
+
+                <img class=" img-responsive" src=<?= Yii::$app->homeUrl . 'img/fotosperfil/' . $noticia->objUsuarioPublicacion->imagenPerfil ?>
+                  alt="" data-src="" data-src-retina="" width="60" height="60">
+
+
+          </div>
+          <div class="col-md-10">
+            <textarea id="comentario_<?= $noticia->idContenido ?>" placeholder="Comentar Publicación..." class="form-control" rows="2"></textarea>
+            <?php
+            echo \vova07\imperavi\Widget::widget([
+            'selector' => '#comentario_' . $noticia->idContenido,
+
+            'settings' => [
+            'buttons' => ['format', 'bold', 'italic'],
+            'lang' => 'es',
+            'minHeight' => 80,
+            'imageManagerJson' => Url::to(['/default/images-get']),
+            'plugins' => [
+              'imagemanager'
+            ]
+            ]
+            ]);
+            ?>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+
+        <br>
+        <button class="btn btn-primary btn-small" data-role='guardar-comentario-contenido' data-contenido='<?= $noticia->idContenido ?>' value="" type="button"><i class="fa fa-pencil"></i>
         Comentar
         </button>
         <div class="clearfix"></div>

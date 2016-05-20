@@ -86,7 +86,7 @@ use kartik\file\FileInput;
     <?= Html::hiddenInput("SolicitarGrupoObjetivo", $objLineaTiempo->solicitarGrupoObjetivo, ["id" => "SolicitarGrupoObjetivo"]); ?>
 
     <?php $requiere = ($objLineaTiempo->autorizacionAutomatica == 0) ? ' (Requiere aprobación)' : ''; ?>
-    <?= Html::a(Yii::t('app', 'Publicar Noticia' . $requiere), '#', ['class' => 'btn btn-primary', 'data-role' => 'guardar-contenido', 'data-href' => "#lt$objLineaTiempo->idLineaTiempo", 'id' => 'btnAgregarContenido']) ?>
+    <?= Html::a(Yii::t('app', 'Publicar Noticia' . $requiere), '#', ['class' => 'btn btn-primary btn-small', 'data-role' => 'guardar-contenido', 'data-href' => "#lt$objLineaTiempo->idLineaTiempo", 'id' => 'btnAgregarContenido']) ?>
 
 
     <?php ActiveForm::end(); ?>
