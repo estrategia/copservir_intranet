@@ -112,15 +112,24 @@ $(document).on('click', "a[data-role='guardar-contenido']", function () {
     },
     success: function (data) {
       if (data.result == "ok") {
-        $("#modal-contenido-publicar").modal('hide')
+        //$("#modal-contenido-publicar").modal('hide')
         $(".lineastiempo").html("");
         $(href).html(data.response);
       }
+
+      if (data.result == 'error') {
+
+        $(".lineastiempo").html("");
+        $(href).html(data.response);
+
+        $("#btnAgregarContenido").attr('disabled',false);
+
+      }
+
     },
     error: function (jqXHR, textStatus, errorThrown) {
       $('body').hideLoading();
       $("#btnAgregarContenido").attr('disabled',false);
-
     }
   });
 

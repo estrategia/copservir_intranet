@@ -14,6 +14,7 @@ use kartik\file\FileInput;
   <?php
   $form = ActiveForm::begin([
     'id' => 'form-contenido-publicar',
+    'enableAjaxValidation' => true,
     'options'=>['encytype'=>'multipart/form-data']
   ]);
   ?>

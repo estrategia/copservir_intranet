@@ -16,15 +16,13 @@ use \app\modules\intranet\models\Contenido;
 <div class="col-md-12">
   <hr>
 </div>
-<?php
-   echo $this->render('/contenido/formContenido', ['objLineaTiempo' => $linea, 'objContenido' => new Contenido]);
-/*
-Html::button('<i class="fa fa-pencil"></i> Crear publicaci&oacute;n '. ($linea->autorizacionAutomatica == 0 ? '<i><small>Requiere Aprobaci&oacute;n</small></i>':''), [
-  'class' => 'btn btn-primary btn-lg btn-large',
-  'data-role' => 'contenido-publicar',
-  'data-linea' => $linea->idLineaTiempo,
-]);*/
-?>
+
+<div id="publicarContenido">
+  <?php
+     echo $this->render('/contenido/formContenido', ['objLineaTiempo' => $linea, 'objContenido' => $contenidoModel]);
+  ?>
+</div>
+
 <div class="col-md-12">
   <hr>
 </div>

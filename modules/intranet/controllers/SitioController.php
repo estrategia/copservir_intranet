@@ -26,6 +26,7 @@ use app\modules\intranet\models\Opcion;
 use app\modules\intranet\models\ContenidoPortal;
 use yii\helpers\Html;
 use yii\web\Response;
+use yii\widgets\ActiveForm;
 
 class SitioController extends \app\controllers\CController {
 
@@ -187,13 +188,14 @@ class SitioController extends \app\controllers\CController {
   public function actionCambiarLineaTiempo($lineaTiempo) {
 
     $linea = LineaTiempo::find()->where(['idLineaTiempo' => $lineaTiempo])->one();
-
+    $contenidoModel = new Contenido();
     $noticias = Contenido::traerNoticias($lineaTiempo);
     \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
     $respond = [
       'result' => 'ok',
       'response' => $this->renderAjax('_lineaTiempo', [
         'linea' => $linea,
+        'contenidoModel' => $contenidoModel,
         'noticias' => $noticias
       ]
       )];
@@ -209,7 +211,12 @@ class SitioController extends \app\controllers\CController {
     $contenido = new Contenido();
     $respond = [];
 
-    if ($contenido->load(Yii::$app->request->post())) {
+
+    if ($contenido->load(Yii::$app->request->post()) ) {
+
+      $lineaTiempo = LineaTiempo::findOne($contenido->idLineaTiempo);
+      $noticias = Contenido::traerNoticias($contenido->idLineaTiempo);
+
       $transaction = Contenido::getDb()->beginTransaction();
 
       try {
@@ -220,7 +227,7 @@ class SitioController extends \app\controllers\CController {
             $contenido->imagenes = $_FILES['imagenes'];
         }
 
-        $lineaTiempo = LineaTiempo::findOne($contenido->idLineaTiempo);
+
         $contenido->setEstadoDependiendoAprovacion($lineaTiempo);
 
         if ($contenido->save()) {
@@ -236,11 +243,19 @@ class SitioController extends \app\controllers\CController {
 
           $transaction->commit();
           $contenidoModel = new Contenido();
-          $noticias = Contenido::traerNoticias($contenido->idLineaTiempo);
           $respond = [
             'result' => 'ok',
             'response' => $this->renderAjax('_lineaTiempo', [
               'contenidoModel' => $contenidoModel,
+              'linea' => $lineaTiempo,
+              'noticias' => $noticias
+              ])];
+        }else{
+
+          $respond = [
+            'result' => 'ok',
+            'response' => $this->renderAjax('_lineaTiempo', [
+              'contenidoModel' => $contenido,
               'linea' => $lineaTiempo,
               'noticias' => $noticias
               ])];
@@ -250,14 +265,18 @@ class SitioController extends \app\controllers\CController {
 
         $transaction->rollBack();
         throw $e;
-        $respond =  [
-          'result' => 'error',
-          'response' => 'Error al guardar el contenido'
-        ];
+        $respond = [
+          'result' => 'ok',
+          'response' => $this->renderAjax('_lineaTiempo', [
+            'contenidoModel' => $contenido,
+            'linea' => $lineaTiempo,
+            'noticias' => $noticias
+            ])];
+
       }
     } else {
       $respond =  [
-        'result' => 'error',
+        'result' => 'error2',
         'response' => 'Error al cargar el contenido'
       ];
     }
