@@ -41,7 +41,7 @@ class IntranetAsset extends AssetBundle {
     public $js = [
         // boostrap
         'libs/boostrapv3/js/bootstrap.min.js',
-
+        
         //genericas plantilla intranet
         'libs/pace/pace.min.js',
         'libs/jquery-scrollbar/jquery.scrollbar.min.js',
