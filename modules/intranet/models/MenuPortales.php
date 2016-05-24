@@ -21,21 +21,18 @@ use Yii;
  *
  * @property Portal $idPortal
  */
-class MenuPortales extends \yii\db\ActiveRecord
-{
+class MenuPortales extends \yii\db\ActiveRecord {
+
     const APROBADO = 1;
     const INACTIVO = 0;
-
     const ENLACE_INTERNO = 1;
     const ENLACE_EXTERNO = 2;
 
-    public static function tableName()
-    {
+    public static function tableName() {
         return 't_MenuPortales';
     }
 
-    public function rules()
-    {
+    public function rules() {
         return [
             [['idPortal', 'nombre', 'urlMenu', 'tipo', 'icono', 'fechaInicio', 'fechaFin', 'estado', 'fechaRegistro'], 'required'],
             [['idPortal', 'tipo', 'estado'], 'integer'],
@@ -47,8 +44,7 @@ class MenuPortales extends \yii\db\ActiveRecord
         ];
     }
 
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'idMenuPortales' => 'Id Menu Portales',
             'idPortal' => 'Id Portal',
@@ -66,32 +62,38 @@ class MenuPortales extends \yii\db\ActiveRecord
 
     // RELACIONES
 
-    public function getObjPortal()
-    {
+    public function getObjPortal() {
         return $this->hasOne(Portal::className(), ['idPortal' => 'idPortal']);
     }
 
     // CONSULTAS
 
-    public static function traerMenuPortalesIndex($nombrePortal)
-    {
-      $portalModel = Portal::encontrarModeloPorNombre($nombrePortal);
+    public static function traerMenuPortalesIndex($nombrePortal) {
+        $portalModel = Portal::encontrarModeloPorNombre($nombrePortal);
 
-       $query = MenuPortales::find()->select(['nombre', 'icono', 'tipo', 'urlMenu'])
-       ->where('( idPortal=:idPortal and estado=:estado )')
-       ->addParams([':estado' => self::APROBADO, ':idPortal' => $portalModel->idPortal])
-       ->all();
+        $query = MenuPortales::find()->select(['nombre', 'icono', 'tipo', 'urlMenu'])
+                ->where('( idPortal=:idPortal and estado=:estado )')
+                ->addParams([':estado' => self::APROBADO, ':idPortal' => $portalModel->idPortal])
+                ->all();
 
-       return $query;
+        return $query;
     }
 
     // FUNCIONES
-    public function esExterno()
-    {
-      if ($this->tipo == self::ENLACE_EXTERNO) {
-        return true;
-      }else{
-        return false;
-      }
+    public function esExterno() {
+        if ($this->tipo == self::ENLACE_EXTERNO) {
+            return true;
+        } else {
+            return false;
+        }
     }
+
+    public static function traerMenuPortal($nombrePortal,$idMenu) {
+        return $objMenu = self::find()
+                ->joinWith(['objPortal'])
+                ->where("m_Portal.nombrePortal=:portal AND t_MenuPortales.idMenuPortales=:menu", 
+                        [':portal'=>  $nombrePortal,':menu'=>$idMenu])
+                ->one();
+    }
+
 }
