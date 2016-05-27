@@ -9,6 +9,9 @@ $config = [
     'language' => 'es',
     'bootstrap' => ['log'],
     'components' => [
+      'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
         'assetManager' => [
             'bundles' => [
                 /*'yii\web\JqueryAsset' => [

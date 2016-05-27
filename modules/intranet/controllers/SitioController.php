@@ -24,6 +24,8 @@ use app\modules\intranet\models\CumpleanosPersona;
 use app\modules\intranet\models\Menu;
 use app\modules\intranet\models\Opcion;
 use app\modules\intranet\models\ContenidoPortal;
+use app\modules\intranet\models\Usuario;
+use app\modules\intranet\models\AuthAssignment;
 use yii\helpers\Html;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
@@ -891,7 +893,7 @@ class SitioController extends \app\controllers\CController {
 
         if (!$notificacion->save()) {
             throw new Exception("Error no se genero la notificacion:" . yii\helpers\Json::enconde($notificacion->getErrors()), 100);
-        };
+        }
     }
 
 }
