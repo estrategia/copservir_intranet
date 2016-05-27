@@ -31,6 +31,10 @@ return [
         'rutaArchivo' => '/contenidos/documentos/'
     ],
     'imagenesNoticias' => [
-        'limiteVisualizar' => 1
+        'limiteVisualizar' => 3
+    ],
+    'lineasTiempo' => [
+        'cumpleanios' => 5,
+        'aniversario' => 6
     ]
 ];

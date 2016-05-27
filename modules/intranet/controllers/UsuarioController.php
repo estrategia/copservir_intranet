@@ -199,7 +199,7 @@ class UsuarioController extends \yii\web\Controller {
 
       $objRecuperacionClave = RecuperacionClave::find()->where(['recuperacionCodigo' => $codigo])->orderBy('recuperacionFecha DESC')->one();
       $usuario = Usuario::find()->where(['numeroDocumento' => $objRecuperacionClave->numeroDocumento, 'estado' => 1])->one();
-      ;
+      
       if ($usuario === null) {
         throw new \yii\web\HttpException(404, 'usuario sin codigo');
       }
