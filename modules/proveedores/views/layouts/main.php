@@ -46,7 +46,7 @@ $menuPortales = MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->modu
                   <?php if ($itemMenu->esExterno()): ?>
                     <?= "<a href='$itemMenu->urlMenu' target='_blank'> <i class='$itemMenu->icono'></i> <span class='title'>$itemMenu->nombre</span> <span class='selected'></span> </a>" ?>
                   <?php else: ?>
-                      <?= Html::a('<i class="'.$itemMenu->icono.'"></i> <span class="title">'.$itemMenu->nombre.'</span> <span class="selected"></span>', [ $itemMenu->urlMenu], []) ?>
+                      <?= Html::a('<i class="'.$itemMenu->icono.'"></i> <span class="title">'.$itemMenu->nombre.'</span> <span class="selected"></span>', [ 'contenido?menu='.$itemMenu->urlMenu], []) ?>
                   <?php endif; ?>
                 </li>
               <?php endforeach; ?>

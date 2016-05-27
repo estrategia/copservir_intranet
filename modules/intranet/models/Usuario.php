@@ -6,6 +6,8 @@ use Yii;
 use yii\web\IdentityInterface;
 use yii\base\NotSupportedException;
 use yii\base\Event;
+use yii\web\ForbiddenHttpException;
+use yii\data\ActiveDataProvider;
 
 /**
 * This is the model class for table "m_usuario".
@@ -180,6 +182,21 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
     return static::find()->where(['AND', ['=', 'numeroDocumento', $username], ['=', 'estado', 1], ['!=', 'numeroDocumento', 0]])->one();
   }
 
+  public static function dataProviderFindAllUsers() {
+
+    $query = static::find()->where(['AND', ['=', 'estado', 1]]);
+
+    $dataProvider = new ActiveDataProvider([
+      'query' => $query,
+      'pagination' => [
+        'pageSize' => 10,
+      ],
+    ]);
+
+    return $dataProvider;
+
+  }
+
   public function getId() {
     return $this->getPrimaryKey();
   }
@@ -339,5 +356,14 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
     }
 
     return $opcionesOcultas;
+  }
+
+  public function tienePermiso($nombrePermiso)
+  {
+    if (Yii::$app->authManager->checkAccess(Yii::$app->user->identity->numeroDocumento, $nombrePermiso)) {
+      return true;
+    }else{
+        throw new ForbiddenHttpException('no tienes permiso para acceder');
+    }
   }
 }

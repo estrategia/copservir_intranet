@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <section> 
+    <section>
         <?php if (!empty($objModulo->descripcion)): ?>
             <div class="row-fluid">
                 <div class="col-md-12 title">
@@ -8,7 +8,7 @@
                 </div>
             </div>
         <?php endif; ?>
-    </section> 
+    </section>
     <br>
     <?php echo $objModulo->contenido ?>
 </div>

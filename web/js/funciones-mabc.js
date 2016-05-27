@@ -522,6 +522,24 @@ function getPlantilla(id) {
 }
 
 /**
+* peticion ajax para mostrar la lista de permisos que tiene un rol cuando lo seleccionan
+* @param id = identificador de la oferta laboral
+* @return retorna el contenido de la plantilla
+*/
+function getListaPermisos(nombreRol) {
+
+  if (nombreRol) {
+    $.get( requestUrl +'/intranet/sitio/render-lista-permisos', { nombreRol: nombreRol } )
+    .done(function( data ) {
+      if (data.result === 'ok') {
+        $( "#lista-permisos" ).append( data.response );
+      }
+    });
+  }
+
+}
+
+/**
 * peticion ajax para mostrar la plantilla de una oferta en un popove en el home, si la peticion ya se hizo no la hace mas
 * @param idOferta
 * @return data.result = json donde se especifica si todo se realizo bien
