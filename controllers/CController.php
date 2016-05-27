@@ -53,8 +53,14 @@ abstract class CController extends Controller {
         ]);
     }
 
-    public function actionContenido($grupo) {
-        $listModulos = \app\modules\intranet\models\ModuloContenido::getModulosGrupo($grupo);
+    public function actionContenido($menu) {
+        $objMenu = \app\modules\intranet\models\MenuPortales::traerMenuPortal($this->module->id,$menu);
+        
+        if($objMenu===null){
+            throw new \yii\web\HttpException(404, 'Contenido no disponible en ' . $this->module->id);
+        }
+        
+        $listModulos = \app\modules\intranet\models\ModuloContenido::getModulosGrupo($objMenu->urlMenu);
 
         if (empty($listModulos)) {
             throw new \yii\web\HttpException(404, 'Contenido no disponible');

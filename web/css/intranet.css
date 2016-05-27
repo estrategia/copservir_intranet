@@ -142,3 +142,11 @@ ul.cbp_tmtimeline > li > div.cbp_tmlabel img {
 .redactor-placeholder::after {
     top: 5px !important;
 }
+
+/*div.dataTables_length select {
+    padding: 7px;
+}*/
+
+.data-tables-group {
+    background-color: #bcbcbc;
+}
