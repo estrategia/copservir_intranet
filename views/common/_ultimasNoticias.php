@@ -33,7 +33,7 @@ use yii\helpers\Html;
       </div>
     <?php endforeach; ?>
 
-    <?php if ($flagVerMas): ?> <!-- cambiar por un parametro  -->
+    <?php if ($flagVerMas): ?>
       <div class="space-2"></div>
       <div class="space-2"></div>
         <?=
