@@ -22,7 +22,7 @@ $this->title = 'Intranet - Copservir';
     <?php foreach ($lineasTiempo as $linea): ?>
       <li <?= $i == 0 ? 'class="active"' : '' ?> style="background-color:<?= $linea->color ?>;">
         <a id="#lt<?= $linea->idLineaTiempo ?>" data-toggle="tab" data-role="cambiar-timeline"  data-timeline="<?= $linea->idLineaTiempo ?>" href="#lt<?= $linea->idLineaTiempo ?>">
-          <span class="glyphicon <?= $linea->icono ?>" aria-hidden="true"></span>
+          <span class="<?= $linea->icono ?>" aria-hidden="true"></span>
           <?= $linea->nombreLineaTiempo ?>
         </a>
       </li>

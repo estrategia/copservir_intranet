@@ -3,6 +3,7 @@
 namespace app\modules\intranet\models;
 
 use Yii;
+use yii\web\UploadedFile;
 
 /**
 * This is the model class for table "t_publicacionescampanas".
@@ -29,6 +30,8 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
   // estados
   const ESTADO_ACTIVO = 1;
 
+
+
   public static function tableName()
   {
     return 't_PublicacionesCampanas';
@@ -40,8 +43,9 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
       [['nombreImagen', 'rutaImagen', 'numeroDocumento', 'fechaInicio', 'estado', 'posicion', 'fechaFin'], 'required'],
       [['numeroDocumento', 'estado', 'posicion'], 'integer'],
       [['fechaInicio', 'fechaFin'], 'safe'],
-      [['nombreImagen', 'rutaImagen'], 'string', 'max' => 60],
+      [['nombreImagen'], 'string', 'max' => 60],
       [['urlEnlaceNoticia'], 'string', 'max' => 45],
+      [['rutaImagen'], 'safe']
     ];
   }
 
@@ -68,7 +72,7 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
   }
 
   // CONSULTAS
-  
+
   /**
   * consulta las campañas dependiendo de la ciudad, grupos de interes e indicando la posicion donde se ubica en el home
   * @param userCiudad = ciudad donde se encuentra el usuario, userGrupos = grupos de interes del usuario,
@@ -93,6 +97,17 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
     ->queryAll();
 
     return $campana;
+  }
+
+  // FUNCIONES
+  public function guardarImagen()
+  {
+    $file = UploadedFile::getInstance($this, 'rutaImagen'); // si no selecciona nada pone null
+
+    if (!is_null($file)) {
+      $file->saveAs('img/campanas/' . $file->baseName . '.' . $file->extension);
+      $this->rutaImagen = $file->baseName . '.' . $file->extension;
+    }
   }
 
 }

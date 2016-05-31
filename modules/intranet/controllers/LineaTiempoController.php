@@ -10,13 +10,10 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * LineaTiempoController implements the CRUD actions for LineaTiempo model.
+ * LineaTiempoController.
  */
 class LineaTiempoController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
     public function behaviors()
     {
         return [
@@ -30,7 +27,7 @@ class LineaTiempoController extends Controller
     }
 
     /**
-     * Lists all LineaTiempo models.
+     * Lista todos los modelos LineaTiempo.
      * @return mixed
      */
     public function actionIndex()
@@ -45,61 +42,58 @@ class LineaTiempoController extends Controller
     }
 
     /**
-     * Displays a single LineaTiempo model.
+     * Muestra un solo modelo LineaTiempo.
      * @param string $id
      * @return mixed
      */
-    public function actionView($id)
+    public function actionDetalle($id)
     {
-        return $this->render('view', [
+        return $this->render('detalle', [
             'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new LineaTiempo model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * Crea un nuevo modelo LineaTiempo.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCrear()
     {
         $model = new LineaTiempo();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idLineaTiempo]);
+            return $this->redirect(['detalle', 'id' => $model->idLineaTiempo]);
         } else {
-            return $this->render('create', [
+            return $this->render('crear', [
                 'model' => $model,
             ]);
         }
     }
 
     /**
-     * Updates an existing LineaTiempo model.
-     * If update is successful, the browser will be redirected to the 'view' page.
+     * Actualiza un modelo LineaTiempo existente.
      * @param string $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionActualizar($id)
     {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idLineaTiempo]);
+            return $this->redirect(['detalle', 'id' => $model->idLineaTiempo]);
         } else {
-            return $this->render('update', [
+            return $this->render('actualizar', [
                 'model' => $model,
             ]);
         }
     }
 
     /**
-     * Deletes an existing LineaTiempo model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * Elimina un modelo LineaTiempo existente.
      * @param string $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionEliminar($id)
     {
         $this->findModel($id)->delete();
 
@@ -107,8 +101,7 @@ class LineaTiempoController extends Controller
     }
 
     /**
-     * Finds the LineaTiempo model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
+     * Encuentra un modelo LineaTiempo basado en su llave primaria.
      * @param string $id
      * @return LineaTiempo the loaded model
      * @throws NotFoundHttpException if the model cannot be found

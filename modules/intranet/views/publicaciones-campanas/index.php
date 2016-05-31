@@ -2,13 +2,14 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\modules\intranet\models\PublicacionesCampanas;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\intranet\models\PublicacionesCampanasSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Publicaciones Campanas';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Campañas publicitarias';
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="publicaciones-campanas-index">
 
@@ -16,25 +17,50 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Publicaciones Campanas', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear una campanas', ['crear'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        //'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'idImagenCampana',
             'nombreImagen',
-            'rutaImagen',
-            'numeroDocumento',
-            'urlEnlaceNoticia:url',
-            // 'fechaInicio',
-            // 'estado',
-            // 'posicion',
-            // 'fechaFin',
+            [
+              'label'=>'Imagen',
+              'attribute' => 'rutaImagen',
+              'format'=>'raw',
+              'value' => function($model) {
+                return '<img src="'.Yii::getAlias('@web').'/img/campanas/'. $model->rutaImagen.'" class="img-responsive"
+                  style="width: 22%;"/>';
+              }
+            ],
+            [
+              'attribute' => 'estado',
+              'value' => function($model) {
+                if ($model->estado == PublicacionesCampanas::ESTADO_ACTIVO ) {
+                  return 'Activo';
+                }else{
+                  return 'Inactivo';
+                }
+              }
+            ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+              'class' => 'yii\grid\ActionColumn',
+              'headerOptions'=> ['style'=>'width: 70px;'],
+              'template' => '{detalle} {actualizar} {eliminar}',
+              'buttons' => [
+                'detalle' => function ($url, $model) {
+                  return  Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url);
+                },
+                'actualizar' => function ($url, $model) {
+                  return  Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url);
+                },
+                'eliminar' => function ($url, $model) {
+                  return  Html::a('<span class="glyphicon glyphicon-trash"></span>', $url);
+                }
+              ],
+            ],
         ],
     ]); ?>
 </div>
