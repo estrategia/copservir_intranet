@@ -10,13 +10,10 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * PublicacionesCampanasController implements the CRUD actions for PublicacionesCampanas model.
+ * PublicacionesCampanasController.
  */
 class PublicacionesCampanasController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
     public function behaviors()
     {
         return [
@@ -30,7 +27,7 @@ class PublicacionesCampanasController extends Controller
     }
 
     /**
-     * Lists all PublicacionesCampanas models.
+     * Lista todos lo modelos PublicacionesCampanas.
      * @return mixed
      */
     public function actionIndex()
@@ -45,61 +42,85 @@ class PublicacionesCampanasController extends Controller
     }
 
     /**
-     * Displays a single PublicacionesCampanas model.
+     * Muestra un solo modelo PublicacionesCampanas.
      * @param string $id
      * @return mixed
      */
-    public function actionView($id)
+    public function actionDetalle($id)
     {
-        return $this->render('view', [
+        return $this->render('detalle', [
             'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new PublicacionesCampanas model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * Crea un nuevo modelo PublicacionesCampanas.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCrear()
     {
         $model = new PublicacionesCampanas();
+        if ($model->load(Yii::$app->request->post())) {
+            $model->guardarImagen();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idImagenCampana]);
+            $transaction = PublicacionesCampanas::getDb()->beginTransaction();
+
+            try {
+              if ($model->save()) {
+                $transaction->commit();
+                return $this->redirect(['detalle', 'id' => $model->idImagenCampana]);
+              }
+            } catch(\Exception $e) {
+
+              $transaction->rollBack();
+              Yii::$app->session->setFlash('error', $e->getMessage());
+              throw $e;
+            }
         } else {
-            return $this->render('create', [
+            return $this->render('crear', [
                 'model' => $model,
             ]);
         }
     }
 
     /**
-     * Updates an existing PublicacionesCampanas model.
-     * If update is successful, the browser will be redirected to the 'view' page.
+     * Actualiza un modelo PublicacionesCampanas existente.
      * @param string $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionActualizar($id)
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idImagenCampana]);
+        if ($model->load(Yii::$app->request->post())) {
+          $model->guardarImagen();
+          exit();
+          $transaction = PublicacionesCampanas::getDb()->beginTransaction();
+
+          try {
+            if ($model->save()) {
+              $transaction->commit();
+              return $this->redirect(['detalle', 'id' => $model->idImagenCampana]);
+            }
+          } catch(\Exception $e) {
+
+            $transaction->rollBack();
+            Yii::$app->session->setFlash('error', $e->getMessage());
+            throw $e;
+          }
         } else {
-            return $this->render('update', [
+            return $this->render('actualizar', [
                 'model' => $model,
             ]);
         }
     }
 
     /**
-     * Deletes an existing PublicacionesCampanas model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * Elimina un modelo PublicacionesCampanas existente.
      * @param string $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionEliminar($id)
     {
         $this->findModel($id)->delete();
 
@@ -107,8 +128,7 @@ class PublicacionesCampanasController extends Controller
     }
 
     /**
-     * Finds the PublicacionesCampanas model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
+     * Encuentra un modelo PublicacionesCampanas basado en su llave primaria.
      * @param string $id
      * @return PublicacionesCampanas the loaded model
      * @throws NotFoundHttpException if the model cannot be found
