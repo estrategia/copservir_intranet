@@ -36,5 +36,10 @@ return [
     'lineasTiempo' => [
         'cumpleanios' => 5,
         'aniversario' => 6
+    ],
+    'modulosContenido' => [
+        '1' => 'Html',
+        '2' => 'DataTable',
+        '3' => 'Grupos Módulos'
     ]
 ];
