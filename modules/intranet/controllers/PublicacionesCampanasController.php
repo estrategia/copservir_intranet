@@ -3,6 +3,7 @@
 namespace app\modules\intranet\controllers;
 
 use Yii;
+use app\modules\intranet\models\CampanasDestino;
 use app\modules\intranet\models\PublicacionesCampanas;
 use app\modules\intranet\models\PublicacionesCampanasSearch;
 use yii\web\Controller;
@@ -68,7 +69,7 @@ class PublicacionesCampanasController extends Controller
             try {
               if ($model->save()) {
                 $transaction->commit();
-                return $this->redirect(['detalle', 'id' => $model->idImagenCampana]);
+                return $this->redirect(['actualizar', 'id' => $model->idImagenCampana]);
               }
             } catch(\Exception $e) {
 
@@ -91,10 +92,12 @@ class PublicacionesCampanasController extends Controller
     public function actionActualizar($id)
     {
         $model = $this->findModel($id);
+        $destinoCampanas = CampanasDestino::listaDestinos($model->idImagenCampana);
+        $modelDestinoCampana = new CampanasDestino;
+
 
         if ($model->load(Yii::$app->request->post())) {
           $model->guardarImagen();
-          exit();
           $transaction = PublicacionesCampanas::getDb()->beginTransaction();
 
           try {
@@ -109,9 +112,12 @@ class PublicacionesCampanasController extends Controller
             throw $e;
           }
         } else {
-            return $this->render('actualizar', [
-                'model' => $model,
-            ]);
+          return $this->render('actualizar', [
+              'model' => $model,
+              'destinoCampanas' => $destinoCampanas,
+              'modelDestinoCampana' => $modelDestinoCampana
+          ]);
+
         }
     }
 
@@ -127,6 +133,72 @@ class PublicacionesCampanasController extends Controller
         return $this->redirect(['index']);
     }
 
+
+    /**
+    * @return mixed
+    */
+    public function actionEliminarCampanaDestino() {
+
+      $idCiudad = Yii::$app->request->post('idCiudad','');
+      $idGrupoInteres = Yii::$app->request->post('idGrupo','');
+      $idCampana = Yii::$app->request->post('idCampana','');
+      $respond = [
+        'result' => 'error',
+      ];
+
+      $campanaDestino = $this->findModelCampanaDestino($idCampana, $idGrupoInteres, $idCiudad);
+
+      if ($campanaDestino->delete()) {
+
+        $model = $this->findModel($idCampana);
+        $destinoCampanas = CampanasDestino::listaDestinos($model->idImagenCampana);
+        $modelDestinoCampana = new CampanasDestino;
+
+        $respond = [
+          'result' => 'ok',
+          'response' => $this->renderAjax('_destinoCampanas', [
+            'model' => $model,
+            'destinoCampanas' => $destinoCampanas,
+            'modelDestinoCampana' => $modelDestinoCampana
+        ])];
+
+      }
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      return $respond;
+    }
+
+    /**
+    * @return respond = []
+    *         respond.result = indica si todo se realizo bien o mal
+    *         respond.response = html para renderizar los destinos de las ofertas
+    */
+    public function actionAgregaDestinoCampana()
+    {
+      $modelDestinoCampana = new CampanasDestino;
+
+      if ($modelDestinoCampana->load(Yii::$app->request->post())) {
+
+        if ($modelDestinoCampana->save()) {
+            $modelDestinoCampana = new CampanasDestino;
+        }
+
+        $model = $this->findModel($modelDestinoCampana->idImagenCampana);
+        $destinoCampana = CampanasDestino::listaDestinos($model->idImagenCampana);
+
+        $respond = [
+          'result' => 'ok',
+          'response' => $this->renderAjax('_destinoCampanas', [
+            'model' => $model,
+            'destinoCampanas' => $destinoCampana,
+            'modelDestinoCampana' => $modelDestinoCampana
+        ])];
+
+      }
+
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      return $respond;
+    }
+
     /**
      * Encuentra un modelo PublicacionesCampanas basado en su llave primaria.
      * @param string $id
@@ -140,5 +212,18 @@ class PublicacionesCampanasController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    protected function findModelCampanaDestino($idImagenCampana, $idGrupoInteres, $idCiudad)
+    {
+      $model = CampanasDestino::find()->where('( codigoCiudad =:idCiudad and idGrupoInteres =:idGrupoInteres and idImagenCampana =:idImagenCampana )')
+      ->addParams(['idCiudad'=>$idCiudad,'idGrupoInteres'=>$idGrupoInteres, 'idImagenCampana'=>$idImagenCampana])
+      ->one();
+
+      if ($model  !== null) {
+        return $model;
+      } else {
+        throw new NotFoundHttpException('The requested page does not exist.');
+      }
     }
 }

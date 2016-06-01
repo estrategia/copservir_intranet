@@ -4,6 +4,8 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\datetime\DateTimePicker;
 use kartik\file\FileInput;
+use kartik\select2\Select2;
+use app\modules\intranet\models\CampanasDestino;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\intranet\models\PublicacionesCampanas */
@@ -21,7 +23,6 @@ use kartik\file\FileInput;
         $form->field($model, 'rutaImagen')->widget(FileInput::classname(), [
           'options' => ['accept' => 'image/*'],
           'pluginOptions' => [
-            //'initialPreviewAsData'=>true,
             'maxFileCount' => 1,
             'validateInitialCount'=> true,
             'maxFileSize' => 5120,
@@ -45,7 +46,7 @@ use kartik\file\FileInput;
                 />'
 
             ],
-            //'initialPreviewAsData'=>true,
+            'initialPreviewAsData'=>true,
             'maxFileCount' => 1,
             'validateInitialCount'=> true,
             'maxFileSize' => 5120,
@@ -91,9 +92,21 @@ use kartik\file\FileInput;
     ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
+</div>
 
+<div class="col-md-12"> <hr> </div>
+
+<div class="col-md-12">
+  <?php if (!$model->isNewRecord): ?>
+    <div class="col-md-12">
+      <br><br>
+      <div id="destinosCampana">
+        <?= $this->render('_destinoCampanas', ['model' => $model, 'destinoCampanas' => $destinoCampanas, 'modelDestinoCampana' => $modelDestinoCampana]) ?>
+      </div>
+    </div>
+  <?php endif ?>
 </div>
