@@ -16,6 +16,8 @@ $this->title = 'Actualiza una Campaña Publicitaria';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'destinoCampanas' => $destinoCampanas,
+        'modelDestinoCampana' => $modelDestinoCampana
     ]) ?>
 
 </div>

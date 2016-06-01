@@ -72,31 +72,8 @@ class OfertasLaboralesController extends Controller
 
         if ($model->save()) {
 
-          $ofertaDestino = Yii::$app->request->post('ContenidoDestino','');
-          $ciudades = $ofertaDestino['codigoCiudad'];
-          $gruposInteres = $ofertaDestino['idGrupoInteres'];
-
-          $innerTransaction = OfertasLaboralesDestino::getDb()->beginTransaction();
-
-          try {
-
-            for ($i = 0; $i < count($gruposInteres); $i++) {
-
-              $modelOfertasDestino = new OfertasLaboralesDestino();
-              $modelOfertasDestino->idOfertaLaboral = $model->idOfertaLaboral;
-              $modelOfertasDestino->idGrupoInteres = $gruposInteres[$i];
-              $modelOfertasDestino->codigoCiudad = $ciudades[$i];
-              $modelOfertasDestino->save();
-            }
-            $innerTransaction->commit();
-
-          } catch (Exception $e) {
-            $innerTransaction->rollBack();
-
-            throw $e;
-          }
           $transaction->commit();
-          return $this->redirect(['listar-ofertas']);
+          return $this->redirect(['actualizar', 'id'=>$model->idOfertaLaboral]);
         }else{
           //ocurrio un error al guardar
           return $this->render('crear', [
@@ -128,13 +105,15 @@ class OfertasLaboralesController extends Controller
   {
     $model = $this->findModel($id);
     $destinoOfertasLaborales = OfertasLaboralesDestino::listaOfertas($id);
+    $modelDestinoOferta = new OfertasLaboralesDestino;
 
     if ($model->load(Yii::$app->request->post()) && $model->save()) {
       return $this->redirect(['listar-ofertas']);
     }else{
       return $this->render('actualizar', [
         'model' => $model,
-        'destinoOfertasLaborales' => $destinoOfertasLaborales
+        'destinoOfertasLaborales' => $destinoOfertasLaborales,
+        'modelDestinoOferta' => $modelDestinoOferta
       ]);
     }
   }
@@ -153,9 +132,6 @@ class OfertasLaboralesController extends Controller
   }
 
   /**
-  * Borra un registro de GrupoInteresCargo donde este ese cargo
-  * si la elimiancion es existosa el navegador redirige a la vista index (Listar).
-  * @param string $id
   * @return mixed
   */
   public function actionEliminarOfertaDestino() {
@@ -163,32 +139,32 @@ class OfertasLaboralesController extends Controller
     $idCiudad = Yii::$app->request->post('idCiudad','');
     $idGrupoInteres = Yii::$app->request->post('idGrupo','');
     $idOferta = Yii::$app->request->post('idOferta','');
-
-    $ofertaDestino = OfertasLaboralesDestino::find()->where('( codigoCiudad =:idCiudad and idGrupoInteres =:idGrupoInteres and idOfertaLaboral =:idOferta )')
-    ->addParams(['idCiudad'=>$idCiudad,'idGrupoInteres'=>$idGrupoInteres, 'idOferta'=>$idOferta])
-    ->one();
-
     $respond = [
       'result' => 'error',
     ];
 
+    $ofertaDestino = $this->findModelOfertaDestino($idOferta, $idGrupoInteres, $idCiudad);
+
     if ($ofertaDestino->delete()) {
 
+      $model = $this->findModel($idOferta);
       $destinoOfertasLaborales = OfertasLaboralesDestino::listaOfertas($idOferta);
+      $modelDestinoOferta = new OfertasLaboralesDestino;
 
       $respond = [
         'result' => 'ok',
-        'response' => $this->renderPartial('_destinoOfertas', [
-          'destinoOfertasLaborales' => $destinoOfertasLaborales
-        ])
-      ];
+        'response' => $this->renderAjax('_destinoOfertas', [
+          'model' => $model,
+          'destinoOfertasLaborales' => $destinoOfertasLaborales,
+          'modelDestinoOferta' => $modelDestinoOferta
+      ])];
+
     }
     Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
     return $respond;
   }
 
   /**
-  * accion para para agregar un destino a una oferta laboral
   * @param none
   * @return respond = []
   *         respond.result = indica si todo se realizo bien o mal
@@ -196,42 +172,26 @@ class OfertasLaboralesController extends Controller
   */
   public function actionAgregaDestinoOferta()
   {
-    $model = new OfertasLaboralesDestino();
-    $respond = [
-      'result' => 'error',
-    ];
+    $modelDestinoOferta = new OfertasLaboralesDestino();
 
-    $idOferta = Yii::$app->request->post('ofertaLaboral', '');
-    $model->idGrupoInteres = Yii::$app->request->post('grupo', '');
-    $model->codigoCiudad = Yii::$app->request->post('ciudad', '');;
-    $model->idOfertaLaboral = $idOferta;
 
-    if (!$model->save()) {
+    if ($modelDestinoOferta->load(Yii::$app->request->post())) {
 
-      $ofertaDestino = OfertasLaboralesDestino::find()->where('( codigoCiudad =:idCiudad and idGrupoInteres =:idGrupoInteres and idOfertaLaboral =:idOferta )')
-      ->addParams(['idCiudad'=>$idCiudad,'idGrupoInteres'=>$idGrupoInteres, 'idOferta'=>$idOferta])
-      ->one();
-
-      if (empty($ofertaDestino)) {
-        $respond = [
-          'result' => 'error',
-          'response' => 'El destino ya no existe'
-        ];
-      } else {
-        $respond = [
-          'result' => 'error',
-          'response' => 'Error al guardar el destino'
-        ];
+      if ($modelDestinoOferta->save()) {
+          $modelDestinoOferta = new CampanasDestino;
       }
 
-    }else{
-      $destinoOfertasLaborales = OfertasLaboralesDestino::listaOfertas($idOferta);
+      $model = $this->findModel($modelDestinoOferta->idOfertaLaboral);
+      $destinoOfertasLaborales = OfertasLaboralesDestino::listaOfertas($modelDestinoOferta->idOfertaLaboral);
+
       $respond = [
         'result' => 'ok',
-        'response' => $this->renderPartial('_destinoOfertas', [
-          'destinoOfertasLaborales' => $destinoOfertasLaborales
-        ])
-      ];
+        'response' => $this->renderAjax('_destinoOfertas', [
+          'model' => $model,
+          'destinoOfertasLaborales' => $destinoOfertasLaborales,
+          'modelDestinoOferta' => $modelDestinoOferta
+      ])];
+
     }
 
     Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -249,6 +209,20 @@ class OfertasLaboralesController extends Controller
   protected function findModel($id)
   {
     if (($model = OfertasLaborales::findOne($id)) !== null) {
+      return $model;
+    } else {
+      throw new NotFoundHttpException('The requested page does not exist.');
+    }
+  }
+
+
+  protected function findModelOfertaDestino($idOferta, $idGrupoInteres, $idCiudad)
+  {
+    $model = OfertasLaboralesDestino::find()->where('( codigoCiudad =:idCiudad and idGrupoInteres =:idGrupoInteres and idOfertaLaboral =:idOferta )')
+    ->addParams(['idCiudad'=>$idCiudad,'idGrupoInteres'=>$idGrupoInteres, 'idOferta'=>$idOferta])
+    ->one();
+
+    if ($model  !== null) {
       return $model;
     } else {
       throw new NotFoundHttpException('The requested page does not exist.');

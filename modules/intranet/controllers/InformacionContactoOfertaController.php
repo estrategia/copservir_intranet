@@ -128,7 +128,7 @@ class InformacionContactoOfertaController extends Controller
   public function actionPlantilla($id)
   {
 
-    $model = findModel($id);
+    $model = $this->findModel($id);
     $respond = [];
 
     // consultar la informacion del contacto
@@ -154,7 +154,7 @@ class InformacionContactoOfertaController extends Controller
   */
   protected function findModel($id)
   {
-    if (($model = InformacionContactoOferta::findOne($id)->with(['objInformacionContactoOferta'])) !== null) {
+    if (($model = InformacionContactoOferta::findOne($id)) !== null) {
       return $model;
     } else {
       throw new NotFoundHttpException('no existe.');

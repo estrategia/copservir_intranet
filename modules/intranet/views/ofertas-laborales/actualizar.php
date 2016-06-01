@@ -14,7 +14,8 @@ $this->params['breadcrumbs'][] = ['label' => 'Ofertas Laborales', 'url' => ['ind
 
   <?= $this->render('_form', [
     'model' => $model,
-    'destinoOfertasLaborales' => $destinoOfertasLaborales
+    'destinoOfertasLaborales' => $destinoOfertasLaborales,
+    'modelDestinoOferta' => $modelDestinoOferta
     ]) ?>
 
   </div>
