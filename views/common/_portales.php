@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 ?>
 
-<!-- ALIADOS -->
+<!-- -->
 <section id="carousel-clients">
   <div class="container internal">
     <div class="space-1"></div>
@@ -10,56 +10,56 @@ use yii\helpers\Html;
 
       <?= Html::a('intranet
       <div class="item darkCyan">
-      <img src="http://placehold.it/200x150" alt="Touch">
+      <img src="http://placehold.it/200x150" alt="">
       </div>
       ', ['/intranet/sitio/index'])
       ?>
 
       <?= Html::a('Proveedores
       <div class="item forestGreen">
-      <img src="http://placehold.it/200x150" alt="Grab">
+      <img src="http://placehold.it/200x150" alt="">
       </div>
       ', ['/proveedores/sitio/index'])
       ?>
 
       <?= Html::a('Coopsevir
       <div class="item forestGreen">
-      <img src="http://placehold.it/200x150" alt="Grab">
+      <img src="http://placehold.it/200x150" alt="">
       </div>
       ', ['/coopservir/sitio/index'])
       ?>
 
       <?= Html::a('Convenios Empresariales
       <div class="item forestGreen">
-      <img src="http://placehold.it/200x150" alt="Grab">
+      <img src="http://placehold.it/200x150" alt="">
       </div>
       ', ['/convenios/sitio/index'])
       ?>
-      
+
       <div class="item dodgerBlue">
-        <img src="http://placehold.it/200x150" alt="Multi">
+        <img src="http://placehold.it/200x150" alt="">
       </div>
 
       <div class="item skyBlue">
-        <img src="http://placehold.it/200x150" alt="Modern Browsers">
+        <img src="http://placehold.it/200x150" alt="">
       </div>
 
       <div class="item zombieGreen">
-        <img src="http://placehold.it/200x150" alt="Zombie Browsers - old ones">
+        <img src="http://placehold.it/200x150" alt="">
       </div>
 
       <div class="item violet">
-        <img src="http://placehold.it/200x150" alt="Take Control">
+        <img src="http://placehold.it/200x150" alt="">
       </div>
 
       <div class="item yellowLight">
-        <img src="http://placehold.it/200x150" alt="Light">
+        <img src="http://placehold.it/200x150" alt="">
       </div>
 
       <div class="item steelGray">
-        <img src="http://placehold.it/200x150" alt="Tons of Opotions">
+        <img src="http://placehold.it/200x150" alt="">
       </div>
 
     </div>
-  </div><!-- /.container -->
+  </div>
 </section>

@@ -444,11 +444,6 @@ $(document).on('click', "a[data-role='eliminarDestino']", function() {
       },
       success: function(data) {
         if (data.result == "ok") {
-
-          $('#select2-Grupo_-container').attr('title','');
-          $('#select2-Grupo_-container').text('');
-          $('#select2-ciudad_-container').attr('title','');
-          $('#select2-ciudad_-container').text('');
           $('#destinosOfertas').append(data.response);
         }
       },
@@ -486,16 +481,10 @@ $(document).on('click', "a[data-role='agregar-destino-oferta']", function() {
       $('body').hideLoading();
     },
     success: function(data) {
-      if (data.result == "ok") {
-        //console.log('progreso actualizado');
+
         if (data.result == "ok") {
-          $('#select2-Grupo_-container').attr('title','');
-          $('#select2-Grupo_-container').text('');
-          $('#select2-ciudad_-container').attr('title','');
-          $('#select2-ciudad_-container').text('');
           $('#destinosOfertas').append(data.response);
         }
-      }
     },
     error: function(jqXHR, textStatus, errorThrown) {
       $('body').hideLoading();
@@ -1200,6 +1189,89 @@ $(document).on('click', "button[data-role='felicitaAniversario']", function() {
   return false;
 });
 
+//::::::::::::::::::::::
+// CAMPAÑAS
+//::::::::::::::::::::::
+/**
+* peticion ajax para eliminar un destino de una oferta laboral
+* @param idOferta, idCiudad, idGrupo
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html para renderizar la grilla de los destinos
+*/
+$(document).on('click', "a[data-role='eliminarDestinoCampana']", function() {
+
+  var idCampana = $(this).attr('data-campana');
+  var idCiudad = $(this).attr('data-ciudad');
+  var idGrupo = $(this).attr('data-grupo');
+
+  if(confirm("¿Estas seguro de querer eliminar?")) {
+
+    $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/publicaciones-campanas/eliminar-campana-destino',
+      data: {idCiudad: idCiudad, idGrupo: idGrupo, idCampana: idCampana},
+      dataType: 'json',
+      beforeSend: function() {
+        //    Loading.show();
+        $('body').showLoading();
+        $('#listaCampanas').remove();
+      },
+
+      complete: function(data) {
+        //   Loading.hide();
+        $('body').hideLoading();
+      },
+      success: function(data) {
+        if (data.result == "ok") {
+          $('#destinosCampana').append(data.response);
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        $('body').hideLoading();
+      }
+    })
+  }
+  return false;
+});
+
+/**
+* peticion ajax para agregar un cargo a un grupo de interes
+* @param datos del formulario
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html para renderizar el modal
+*/
+$(document).on('click', "a[data-role='agregar-destino-campana']", function() {
+
+  var form = $("#formEnviaDestinosCampana");
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/publicaciones-campanas/agrega-destino-campana',
+    data: form.serialize(),
+    dataType: 'json',
+    beforeSend: function() {
+      //    Loading.show();
+      $('body').showLoading();
+      $('#listaCampanas').remove();
+    },
+
+    complete: function(data) {
+      //   Loading.hide();
+      $('body').hideLoading();
+    },
+    success: function(data) {
+
+        if (data.result == "ok") {
+          $('#destinosCampana').append(data.response);
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
 
 //::::::::::::::::::::::
 // OTROS

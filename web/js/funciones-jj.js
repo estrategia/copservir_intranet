@@ -546,3 +546,100 @@ $(document).on('click', 'input[data-role="toggle-elemento"]', function () {
   });
 
 });
+
+$(document).on('click', 'a[data-role="agregar-modulo"]', function () {
+
+  var idModulo = $(this).attr('data-modulo');
+  var idGrupo = $("#idGrupo").val();
+
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    async: true,
+    url: requestUrl + '/intranet/modulos-administrables/agregar-modulo',
+    data: {idModulo: idModulo, idGrupo: idGrupo},
+    beforeSend: function () {
+      $('body').showLoading()
+    },
+    complete: function () {
+      $('body').hideLoading();
+      
+
+    },
+    success: function (data) {
+        if(data.result == 'ok'){
+            $("#tabla_agregados").yiiGridView("applyFilter");
+        }
+        
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+
+      alert('Error: ' + errorThrown);
+    }
+  });
+return false;
+});
+
+$(document).on('click', 'a[data-role="eliminar-modulo"]', function () {
+
+  var idModulo = $(this).attr('data-modulo');
+  var idGrupo = $("#idGrupo").val();
+
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    async: true,
+    url: requestUrl + '/intranet/modulos-administrables/eliminar-modulo',
+    data: {idModulo: idModulo, idGrupo: idGrupo},
+    beforeSend: function () {
+      $('body').showLoading()
+    },
+    complete: function () {
+      $('body').hideLoading();
+    },
+    success: function (data) {
+        if(data.result == 'ok'){
+            $("#tabla_agregados").yiiGridView("applyFilter");
+        }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+
+      alert('Error: ' + errorThrown);
+    }
+  });
+return false;
+});
+
+$(document).on('click', 'a[data-role="editar-modulo"]', function () {
+
+  var idModulo = $(this).attr('data-modulo');
+  var idGrupo = $("#idGrupo").val();
+  var orden = $("#orden_"+idModulo).val();
+
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    async: true,
+    url: requestUrl + '/intranet/modulos-administrables/editar-modulo',
+    data: {idModulo: idModulo, idGrupo: idGrupo, orden: orden},
+    beforeSend: function () {
+      $('body').showLoading()
+    },
+    complete: function () {
+      $('body').hideLoading();
+    },
+    success: function (data) {
+        if(data.result == 'ok'){
+            $("#tabla_agregados").yiiGridView("applyFilter");
+        }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+
+      alert('Error: ' + errorThrown);
+    }
+  });
+return false;
+});

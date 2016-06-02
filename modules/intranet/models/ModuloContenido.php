@@ -20,14 +20,15 @@ use Yii;
 class ModuloContenido extends \yii\db\ActiveRecord {
     const TIPO_HTML = 1;
     const TIPO_DATATABLE = 2;
-
+    const TIPO_GROUP_MODULES = 3;
+    
     public static function tableName() {
         return 'm_ModuloContenido';
     }
 
     public function rules() {
         return [
-            [['tipo', 'titulo', 'descripcion', 'contenido', 'fechaRegistro'], 'required'],
+            [['tipo', 'titulo', 'descripcion',  'fechaRegistro'], 'required'],
             [['tipo'], 'integer'],
             [['contenido'], 'string'],
             [['fechaRegistro', 'fechaActualizacion'], 'safe'],
@@ -53,7 +54,7 @@ class ModuloContenido extends \yii\db\ActiveRecord {
     public function getListGruposModulos() {
         return $this->hasMany(GruposModulos::className(), ['idModulo' => 'idModulo']);
     }
-
+    
     public static function getModulosGrupo($idGrupo) {
         $query = self::find()
                 ->joinWith(['listGruposModulos'])
@@ -63,5 +64,5 @@ class ModuloContenido extends \yii\db\ActiveRecord {
                 ->all();
         return $query;
     }
-
+  
 }

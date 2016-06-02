@@ -22,6 +22,8 @@ class LineaTiempo extends \yii\db\ActiveRecord {
     const TIPO_ANIVERSARIO = 2;
     const AUTORIZACION_AUTOMATICA = 1;
     const MIS_PUBLICACIONES = 2;
+    const ESTADO_ACTIVO = 1;
+    const TIENE_GRUPO_OBJETIVO = 1;
 
     public static function tableName() {
         return 't_LineasTiempo';

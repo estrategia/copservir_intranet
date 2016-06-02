@@ -210,7 +210,7 @@ class SitioController extends \app\controllers\CController {
     public function actionGuardarContenido() {
         $contenido = new Contenido();
         $respond = [];
-        
+
         if ($contenido->load(Yii::$app->request->post())) {
             $lineaTiempo = LineaTiempo::findOne($contenido->idLineaTiempo);
 
@@ -773,7 +773,7 @@ class SitioController extends \app\controllers\CController {
     public function actionFelicitarAniversario($id) {
         $modelCumpleanosLaboral = CumpleanosLaboral::encontrarModelo($id);
         $modelContenido = new Contenido;
-        
+
         if (Yii::$app->request->isAjax) {
             if ($modelContenido->load(Yii::$app->request->post())) {
                 $transaction = Contenido::getDb()->beginTransaction();
@@ -896,4 +896,64 @@ class SitioController extends \app\controllers\CController {
         }
     }
 
+    // GESTION DE PERMISOS
+
+  public function actionListaUsuarios()
+  {
+    $dataProviderUsuarios = Usuario::dataProviderFindAllUsers();
+
+    return $this->render('lista-usuarios', [
+        'dataProviderUsuarios' => $dataProviderUsuarios,
+    ]);
+
+  }
+
+  public function actionPermisosUsuario($id)
+  {
+    $autAssignment = new AuthAssignment;
+    $usuario = Usuario::findByUsername($id);
+    $roles = Yii::$app->authManager->getRolesByUser($id);
+
+    if ($autAssignment->load(Yii::$app->request->post()) && $autAssignment->save()) {
+        return $this->redirect(['permisos-usuario', 'id'=>$id]);
+    }
+
+    return $this->render('permisos-usuario', [
+        'autAssignment' => $autAssignment,
+        'usuario' => $usuario,
+        'roles' => $roles,
+    ]);
+  }
+
+  public function actionRenderListaPermisos($nombreRol)
+  {
+    $roles =[];
+    if (isset($nombreRol)) {
+      array_push ( $roles , Yii::$app->authManager->getRole($nombreRol) );
+    }
+
+    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+    $respond = [
+      'result' => 'ok',
+      'response' => $this->renderAjax('_listaPermisos', [
+        'roles' => $roles,
+      ]
+      )];
+      return $respond;
+  }
+
+  public function actionEliminarRol($nombreRol, $numeroDocumento)
+  {
+    $this->findModelAuthAssignment($nombreRol, $numeroDocumento)->delete();
+    return $this->redirect(['permisos-usuario', 'id'=>$numeroDocumento]);
+  }
+
+  protected function findModelAuthAssignment($nombreRol, $numeroDocumento)
+  {
+      if (($model = AuthAssignment::findOne([$nombreRol, $numeroDocumento])) !== null) {
+          return $model;
+      } else {
+          throw new NotFoundHttpException('The requested page does not exist.');
+      }
+  }
 }
