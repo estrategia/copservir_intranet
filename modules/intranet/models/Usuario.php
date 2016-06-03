@@ -363,7 +363,8 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
     if (Yii::$app->authManager->checkAccess(Yii::$app->user->identity->numeroDocumento, $nombrePermiso)) {
       return true;
     }else{
-        throw new ForbiddenHttpException('no tienes permiso para acceder');
+        //throw new ForbiddenHttpException('no tienes permiso para acceder');
+        return false;
     }
   }
 }
