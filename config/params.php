@@ -2,6 +2,7 @@
 
 return [
     'adminEmail' => 'admin@example.com',
+    'rutaGruposModulos' => '/web/intranet/sitio/contenido?modulo=',
     'ciudad' => ['*' => 999999],
     'grupo' => ['*' => 999999],
     'calendario' => [

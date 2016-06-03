@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use \yii\widgets\Breadcrumbs;
+use app\modules\intranet\models\ModuloContenido;
 /* @var $this yii\web\View */
 /* @var $model app\models\TipoPQRS */
 
@@ -28,6 +29,9 @@ Breadcrumbs::widget([
                     <?=  Html::a('Editar',['update','id' => $params['model']->idModulo],['class' => "btn btn-primary ".(($params['opcion'] == 'editar')?"active":"")] )?>
                     <?=  Html::a('Contenido',['contenido','id' => $params['model']->idModulo],['class' =>"btn btn-primary ".(($params['opcion'] == "contenido")?"active":"")] )?>
                 </div>
+                <?php if($params['model']->tipo == ModuloContenido::TIPO_GROUP_MODULES):?>
+                    <?= Yii::$app->params['rutaGruposModulos'].$params['model']->idModulo?>
+                <?php endif;?>
             </div>
             <br/>
             <div>
