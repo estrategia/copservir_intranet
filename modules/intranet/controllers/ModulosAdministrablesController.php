@@ -36,13 +36,20 @@ class ModulosAdministrablesController extends Controller {
         ]);
     }
 
+    function actionVerContenido() {
+       \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $this->renderPartial('visualizarContenidoModal', [
+                    'contenido' => Yii::$app->request->post('contenido')
+        ]);
+    }
+    
     function actionCreate() {
         $model = new ModuloContenido();
 
         $model->fechaRegistro = Date("Y-m-d H:i:s");
         $model->fechaActualizacion = Date("Y-m-d H:i:s");
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            return $this->redirect(['update' ,'id' => $model->idModulo]);
         }
 
         return $this->render('create', [
@@ -55,6 +62,29 @@ class ModulosAdministrablesController extends Controller {
         if ($id != null) {
             $model = ModuloContenido::find()->where(['idModulo' => $id])->one();
 
+            $model->fechaActualizacion = Date("Y-m-d H:i:s");
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['update', 'id' => $model->idModulo]);
+            }
+            $params['vista'] = '_form';
+            $params['opcion'] = 'editar';
+
+            $params['model'] = $model;
+            return $this->render('update', [
+                        'params' => $params,
+            ]);
+        }
+    }
+    
+    function actionContenido($id = null) {
+
+        if ($id != null) {
+            $model = ModuloContenido::find()->where(['idModulo' => $id])->one();
+
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['index']);
+            }
+            
             $modelExisten = ModuloContenido::find()->joinWith(['listGruposModulos'])
                     ->where("t_GruposModulos.idGruposModulos =:grupo")
                     ->orderBy('t_GruposModulos.orden ASC')
@@ -70,17 +100,15 @@ class ModulosAdministrablesController extends Controller {
                 'query' => $modelNoExisten,
             ]);
 
-            $model->fechaActualizacion = Date("Y-m-d H:i:s");
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return $this->redirect(['index']);
-            }
+            $params['vista'] = '_contenido';
+            $params['opcion'] = 'contenido';
 
             $params['model'] = $model;
             return $this->render('update', [
                         'params' => $params,
             ]);
         }
-    }
+    }    
 
     function actionDelete($id = null) {
 

@@ -24,15 +24,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'titulo',
             'tipo',
             'descripcion',
-            'contenido',
-//            [
-//                'attribute' => 'IdOrigenCaso',
-//                'label' => 'Origen Caso',
-//                'format' => 'text',
-//                'content' => function($data) {
-//                    return $data->idOrigenCaso->DescripcionOrigenCaso . " -- " . $data->idOrigenCaso->idConceptoCaso->DescripcionConceptoCaso;
-//                },
-//            ],
+          //  'contenido',
+            [
+                'attribute' => 'contenido',
+                'label' => 'Contenido',
+                'format' => 'text',
+                'content' => function($data) {
+                    return Html::a('Visualizar','#',['data-role' => 'ver-contenido-administrable' , 'data-contenido' => $data->contenido]);
+                },
+            ],
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{update} {delete}'
