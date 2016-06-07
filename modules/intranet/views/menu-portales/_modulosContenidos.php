@@ -3,15 +3,16 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\modules\intranet\models\ModuloContenido;
+use yii\widgets\Pjax;
+
 ?>
 <div class="menu-portales-index">
-
+    <?php Pjax::begin(['timeout' => 10000, 'clientOptions' => ['container' => 'pjax-container']]); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProviderModuloContenido,
-        //'filterModel' => $searchModel,
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'titulo',
             'descripcion',
             [
@@ -38,4 +39,5 @@ use app\modules\intranet\models\ModuloContenido;
             ]
         ],
     ]); ?>
+    <?php Pjax::end(); ?>
 </div>

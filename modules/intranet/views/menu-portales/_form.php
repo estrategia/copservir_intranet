@@ -13,7 +13,7 @@ use app\modules\intranet\models\MenuPortales;
 
 <div class="menu-portales-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['id' => 'formMenuportales']]); ?>
 
     <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 
@@ -32,27 +32,12 @@ use app\modules\intranet\models\MenuPortales;
       ]);
     ?>
 
-    <?=
-       $form->field($model, 'tipo')->widget(Select2::classname(), [
-        'data' => [ MenuPortales::ENLACE_INTERNO => 'Enlace interno', MenuPortales::ENLACE_EXTERNO => 'Enlace externo'],
-        'options' => ['placeholder' => 'Seleccione un tipo'],
-        'pluginEvents' => [
-                            "select2:selecting" => "function(e) { setInputUrl(e.params.args.data.id);}",
-                          ],
-        'pluginOptions' => [
-            'allowClear' => true,
-        ],
-      ]);
-    ?>
+
 
     <div id="divUrlMenu">
 
     </div>
-    <div id="gridView-moduloContenido" hidden>
-      <?= $this->render('_modulosContenidos', [
-          'dataProviderModuloContenido'=> $dataProviderModuloContenido
-      ]) ?>
-    </div>
+
 
     <?=
       $form->field($model, 'fechaInicio')->widget(DateTimePicker::classname(), [
@@ -78,10 +63,18 @@ use app\modules\intranet\models\MenuPortales;
     <?php $model->fechaActualizacion = $model->isNewRecord ? date("Y-m-d H:i:s") : date("Y-m-d H:i:s");  ?>
     <?= $form->field($model, 'fechaActualizacion')->hiddenInput(['value'=> $model->fechaActualizacion])->label(false); ?>
 
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>
-
+    <?=
+       $form->field($model, 'tipo')->widget(Select2::classname(), [
+        'data' => [ MenuPortales::ENLACE_INTERNO => 'Enlace interno', MenuPortales::ENLACE_EXTERNO => 'Enlace externo'],
+        'options' => ['placeholder' => 'Seleccione un tipo'],
+        'pluginEvents' => [
+                            "select2:selecting" => "function(e) { setInputUrl(e.params.args.data.id);}",
+                          ],
+        'pluginOptions' => [
+            'allowClear' => true,
+        ],
+      ]);
+    ?>
 
     <!--  ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  -->
     <?php
@@ -96,8 +89,6 @@ use app\modules\intranet\models\MenuPortales;
       if (!$model->isNewRecord) {
           $bandera = 'true';
       }
-
-
 
       $this->registerJs("
           $( document ).ready(function() {
@@ -142,5 +133,17 @@ use app\modules\intranet\models\MenuPortales;
       ");
     ?>
     <?php ActiveForm::end(); ?>
+
+    <div id="gridView-moduloContenido" hidden>
+      <?= $this->render('_modulosContenidos', [
+          'dataProviderModuloContenido'=> $dataProviderModuloContenido,
+          'model' => $model,
+          'searchModel' => $searchModel
+      ]) ?>
+    </div>
+
+    <div class="form-group">
+        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary', 'id'=>'enviaFormularioMenuPortales']) ?>
+    </div>
 
 </div>

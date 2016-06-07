@@ -15,6 +15,7 @@ $this->title = 'Crea un menu en un portal';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'searchModel' => $searchModel,
         'dataProviderModuloContenido'=> $dataProviderModuloContenido
     ]) ?>
 
