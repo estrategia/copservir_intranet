@@ -4,6 +4,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 use yii\bootstrap\Html;
 use yii\grid\GridView;
 
@@ -20,28 +21,37 @@ $this->params['breadcrumbs'][] = $this->title;
     <?=
     GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => [
             'titulo',
-            'tipo',
-            'descripcion',
-            'contenido',
-//            [
-//                'attribute' => 'IdOrigenCaso',
-//                'label' => 'Origen Caso',
-//                'format' => 'text',
-//                'content' => function($data) {
-//                    return $data->idOrigenCaso->DescripcionOrigenCaso . " -- " . $data->idOrigenCaso->idConceptoCaso->DescripcionConceptoCaso;
-//                },
-//            ],
             [
-                'class' => 'yii\grid\ActionColumn',
-                'template' => '{update} {delete}'
+                'attribute' => 'tipo',
+                'format' => 'text',
+                'label' => 'tipo',
+                'content' => function($data) {
+                    return Yii::$app->params['modulosContenido'][$data->tipo];
+                },
+                'filter' => Html::dropDownList("ModuloContenido[tipo]", null, Yii::$app->params['modulosContenido'], ['class' => 'form-control', 'prompt' => 'Seleccione'])
             ],
-        ],
+            'descripcion',
+            [
+                'attribute' => 'contenido',
+                'label' => 'Contenido',
+                'format' => 'text',
+                'filter' => '',
+                'content' => function($data) {
+                    return Html::a('Visualizar', '#', ['data-role' => 'ver-contenido-administrable', 'data-contenido' => $data->contenido]);
+                },
+            ],
+            [
+                        'class' => 'yii\grid\ActionColumn',
+                        'template' => '{update} {delete}'
+            ],
+          ],
         'options' => [
-            'class' => 'table-responsive'
+              'class' => 'table-responsive'
         ]
-    ]);
-    ?>
+            ]);
+            ?>
 
 </div>
