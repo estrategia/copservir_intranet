@@ -14,6 +14,7 @@ $this->title = 'Actualiza un menu de un portal: ';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'searchModel' => $searchModel,
         'dataProviderModuloContenido'=> $dataProviderModuloContenido
     ]) ?>
 

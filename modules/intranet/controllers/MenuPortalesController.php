@@ -5,6 +5,7 @@ namespace app\modules\intranet\controllers;
 use Yii;
 use app\modules\intranet\models\MenuPortales;
 use app\modules\intranet\models\MenuPortalesSearch;
+use app\modules\intranet\models\ModuloContenidoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -58,13 +59,16 @@ class MenuPortalesController extends Controller
     public function actionCrear()
     {
         $model = new MenuPortales();
-        $dataProviderModuloContenido = $model->getDataProviderModuloContenido();
+        $searchModel = new ModuloContenidoSearch();
+        $dataProviderModuloContenido = $searchModel->search(Yii::$app->request->queryParams);
+
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['detalle', 'id' => $model->idMenuPortales]);
         } else {
             return $this->render('crear', [
                 'model' => $model,
+                'searchModel' => $searchModel,
                 'dataProviderModuloContenido'=> $dataProviderModuloContenido
             ]);
         }
@@ -78,7 +82,8 @@ class MenuPortalesController extends Controller
     public function actionActualizar($id)
     {
         $model = $this->findModel($id);
-        $dataProviderModuloContenido = $model->getDataProviderModuloContenido();
+        $searchModel = new ModuloContenidoSearch();
+        $dataProviderModuloContenido = $searchModel->search(Yii::$app->request->queryParams);
 
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -86,6 +91,7 @@ class MenuPortalesController extends Controller
         } else {
             return $this->render('actualizar', [
                 'model' => $model,
+                'searchModel' => $searchModel,
                 'dataProviderModuloContenido'=> $dataProviderModuloContenido
             ]);
         }

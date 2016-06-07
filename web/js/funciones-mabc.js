@@ -1276,6 +1276,12 @@ $(document).on('click', "a[data-role='agregar-destino-campana']", function() {
 //::::::::::::::::::::::
 // OTROS
 //::::::::::::::::::::::
+
+$(document).on('click', "#enviaFormularioMenuPortales", function() {
+  //console.log('dio click envia formulario');
+  $('#formMenuportales').submit();
+});
+
 /**
 * Acciones que se ejecutan cuando el navegador cargue los scripts
 * @param none

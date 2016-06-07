@@ -4,8 +4,6 @@ namespace app\modules\intranet\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
-use app\modules\intranet\models\ModuloContenido;
-use yii\data\ActiveDataProvider;
 
 /**
  * This is the model class for table "t_MenuPortales".
@@ -95,23 +93,6 @@ class MenuPortales extends \yii\db\ActiveRecord {
     {
       $opciones = Portal::find()->asArray()->all();
       return ArrayHelper::map($opciones, 'idPortal', 'nombrePortal');
-    }
-
-
-    public function getDataProviderModuloContenido()
-    {
-      $query = ModuloContenido::find()
-      ->where("( tipo =:tipo )")
-      ->addParams([':tipo' => ModuloContenido::TIPO_GROUP_MODULES]);
-
-      $dataProvider = new ActiveDataProvider([
-        'query' => $query,
-        'pagination' => [
-          'pageSize' => 10,
-        ],
-      ]);
-
-      return $dataProvider;
     }
 
     public static function traerMenuPortal($nombrePortal,$idMenu) {
