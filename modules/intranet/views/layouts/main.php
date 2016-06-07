@@ -172,7 +172,7 @@ if (!Yii::$app->user->isGuest) {
                 <?php if ($itemMenu->esExterno()): ?>
                   <?= "<a href='$itemMenu->urlMenu' target='_blank'> <i class='$itemMenu->icono'></i> <span class='title'>$itemMenu->nombre</span> <span class='selected'></span> </a>" ?>
                 <?php else: ?>                                                                                                                      <!--/intranet/sitio/contenido?menu=6-->
-                    <?= Html::a('<i class="'.$itemMenu->icono.'"></i> <span class="title">'.$itemMenu->nombre.'</span> <span class="selected"></span>', [ 'contenido?menu='.$itemMenu->urlMenu], []) ?>
+                    <?= Html::a('<i class="'.$itemMenu->icono.'"></i> <span class="title">'.$itemMenu->nombre.'</span> <span class="selected"></span>', [ 'contenido?menu='.$itemMenu->idMenuPortales], []) ?>
                 <?php endif; ?>
 
               </li>

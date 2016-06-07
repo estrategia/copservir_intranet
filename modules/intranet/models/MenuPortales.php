@@ -3,6 +3,9 @@
 namespace app\modules\intranet\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
+use app\modules\intranet\models\ModuloContenido;
+use yii\data\ActiveDataProvider;
 
 /**
  * This is the model class for table "t_MenuPortales".
@@ -47,13 +50,13 @@ class MenuPortales extends \yii\db\ActiveRecord {
     public function attributeLabels() {
         return [
             'idMenuPortales' => 'Id Menu Portales',
-            'idPortal' => 'Id Portal',
+            'idPortal' => 'Portal',
             'nombre' => 'Nombre',
             'urlMenu' => 'Url Menu',
             'tipo' => 'Tipo',
             'icono' => 'Icono',
-            'fechaInicio' => 'Fecha Inicio',
-            'fechaFin' => 'Fecha Fin',
+            'fechaInicio' => 'Fecha de Inicio',
+            'fechaFin' => 'Fecha de Fin',
             'estado' => 'Estado',
             'fechaRegistro' => 'Fecha Registro',
             'fechaActualizacion' => 'Fecha Actualizacion',
@@ -71,7 +74,7 @@ class MenuPortales extends \yii\db\ActiveRecord {
     public static function traerMenuPortalesIndex($nombrePortal) {
         $portalModel = Portal::encontrarModeloPorNombre($nombrePortal);
 
-        $query = MenuPortales::find()->select(['nombre', 'icono', 'tipo', 'urlMenu'])
+        $query = MenuPortales::find()->select(['nombre', 'icono', 'tipo', 'urlMenu', 'idMenuPortales'])
                 ->where('( idPortal=:idPortal and estado=:estado )')
                 ->addParams([':estado' => self::APROBADO, ':idPortal' => $portalModel->idPortal])
                 ->all();
@@ -88,10 +91,33 @@ class MenuPortales extends \yii\db\ActiveRecord {
         }
     }
 
+    public function getListaPortales()
+    {
+      $opciones = Portal::find()->asArray()->all();
+      return ArrayHelper::map($opciones, 'idPortal', 'nombrePortal');
+    }
+
+
+    public function getDataProviderModuloContenido()
+    {
+      $query = ModuloContenido::find()
+      ->where("( tipo =:tipo )")
+      ->addParams([':tipo' => ModuloContenido::TIPO_GROUP_MODULES]);
+
+      $dataProvider = new ActiveDataProvider([
+        'query' => $query,
+        'pagination' => [
+          'pageSize' => 10,
+        ],
+      ]);
+
+      return $dataProvider;
+    }
+
     public static function traerMenuPortal($nombrePortal,$idMenu) {
         return $objMenu = self::find()
                 ->joinWith(['objPortal'])
-                ->where("m_Portal.nombrePortal=:portal AND t_MenuPortales.idMenuPortales=:menu", 
+                ->where("m_Portal.nombrePortal=:portal AND t_MenuPortales.idMenuPortales=:menu",
                         [':portal'=>  $nombrePortal,':menu'=>$idMenu])
                 ->one();
     }
