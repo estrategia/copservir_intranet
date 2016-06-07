@@ -10,6 +10,7 @@ use yii\web\Response;
 
 class TestController extends Controller {
     public function actionDatatable(){
+        echo "";
         return $this->render("datatable");
     }
   
