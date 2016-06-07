@@ -9,8 +9,8 @@
  * Released under the MIT license
  * https://github.com/mar10/fancytree/wiki/LicenseInfo
  *
- * @version 2.16.1
- * @date 2016-03-18T22:15
+ * @version 2.18.0
+ * @date 2016-05-02T19:34
  */
 
 ;(function($, window, document, undefined) {
@@ -376,9 +376,9 @@ $.ui.fancytree.registerExtension({
 	 *     _onDragEvent("stop", sourceNode, null, event, ui, draggable);
 	 */
 	_onDragEvent: function(eventName, node, otherNode, event, ui, draggable) {
-		if(eventName !== "over"){
-			this.debug("tree.ext.dnd._onDragEvent(%s, %o, %o) - %o", eventName, node, otherNode, this);
-		}
+		// if(eventName !== "over"){
+		// 	this.debug("tree.ext.dnd._onDragEvent(%s, %o, %o) - %o", eventName, node, otherNode, this);
+		// }
 		var accept, nodeOfs, parentRect, rect, relPos, relPos2,
 			enterResponse, hitMode, r,
 			opts = this.options,
@@ -409,8 +409,9 @@ $.ui.fancytree.registerExtension({
 					.hide();
 			} else {
 				if( dnd.smartRevert ) {
-					// #567: fix revert position
-					rect = node.li.getBoundingClientRect();
+					// #567, #593: fix revert position
+					// rect = node.li.getBoundingClientRect();
+					rect = node[ctx.tree.nodeContainerAttrName].getBoundingClientRect();
 					parentRect = $(draggable.options.appendTo)[0].getBoundingClientRect();
 					draggable.originalPosition.left = Math.max(0, rect.left - parentRect.left);
 					draggable.originalPosition.top = Math.max(0, rect.top - parentRect.top);
@@ -453,7 +454,7 @@ $.ui.fancytree.registerExtension({
 				};
 			}
 			ui.helper.data("enterResponse", res);
-			this.debug("helper.enterResponse: %o", res);
+			// this.debug("helper.enterResponse: %o", res);
 			break;
 
 		case "over":

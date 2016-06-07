@@ -7,8 +7,8 @@
  * Released under the MIT license
  * https://github.com/mar10/fancytree/wiki/LicenseInfo
  *
- * @version 2.16.1
- * @date 2016-03-18T22:15
+ * @version 2.18.0
+ * @date 2016-05-02T19:34
  */
 
 /** Core Fancytree module.
@@ -29,6 +29,48 @@ if ( $.ui && $.ui.fancytree ) {
 /* *****************************************************************************
  * Private functions and variables
  */
+
+var i, attr,
+	FT = null, // initialized below
+	TEST_IMG = new RegExp(/\.|\//),  // strings are considered image urls if they conatin '.' or '/'
+	REX_HTML = /[&<>"'\/]/g,
+	RECURSIVE_REQUEST_ERROR = "$recursive_request",
+	ENTITY_MAP = {"&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;", "/": "&#x2F;"},
+	IGNORE_KEYCODES = { 16: true, 17: true, 18: true },
+	SPECIAL_KEYCODES = {
+		8: "backspace", 9: "tab", 10: "return", 13: "return",
+		// 16: null, 17: null, 18: null, // ignore shift, ctrl, alt
+		19: "pause", 20: "capslock", 27: "esc", 32: "space", 33: "pageup",
+		34: "pagedown", 35: "end", 36: "home", 37: "left", 38: "up",
+		39: "right", 40: "down", 45: "insert", 46: "del", 59: ";", 61: "=",
+		96: "0", 97: "1", 98: "2", 99: "3", 100: "4", 101: "5", 102: "6",
+		103: "7", 104: "8", 105: "9", 106: "*", 107: "+", 109: "-", 110: ".",
+		111: "/", 112: "f1", 113: "f2", 114: "f3", 115: "f4", 116: "f5",
+		117: "f6", 118: "f7", 119: "f8", 120: "f9", 121: "f10", 122: "f11",
+		123: "f12", 144: "numlock", 145: "scroll", 173: "-", 186: ";", 187: "=",
+		188: ",", 189: "-", 190: ".", 191: "/", 192: "`", 219: "[", 220: "\\",
+		221: "]", 222: "'"},
+	MOUSE_BUTTONS = { 0: "", 1: "left", 2: "middle", 3: "right" },
+	//boolean attributes that can be set with equivalent class names in the LI tags
+	CLASS_ATTRS = "active expanded focus folder hideCheckbox lazy selected unselectable".split(" "),
+	CLASS_ATTR_MAP = {},
+	//	Top-level Fancytree node attributes, that can be set by dict
+	NODE_ATTRS = "expanded extraClasses folder hideCheckbox icon key lazy refKey selected statusNodeType title tooltip unselectable".split(" "),
+	NODE_ATTR_MAP = {},
+	// Mapping of lowercase -> real name (because HTML5 data-... attribute only supports lowercase)
+	NODE_ATTR_LOWERCASE_MAP = {},
+	// Attribute names that should NOT be added to node.data
+	NONE_NODE_DATA_MAP = {"active": true, "children": true, "data": true, "focus": true};
+
+for(i=0; i<CLASS_ATTRS.length; i++){ CLASS_ATTR_MAP[CLASS_ATTRS[i]] = true; }
+for(i=0; i<NODE_ATTRS.length; i++) {
+	attr = NODE_ATTRS[i];
+	NODE_ATTR_MAP[attr] = true;
+	if( attr !== attr.toLowerCase() ) {
+		NODE_ATTR_LOWERCASE_MAP[attr.toLowerCase()] = attr;
+	}
+}
+
 
 function _assert(cond, msg){
 	// TODO: see qunit.js extractStacktrace()
@@ -195,6 +237,13 @@ function _getElementDataAsDict($el){
 }
 
 
+function _escapeHtml(s){
+	return ("" + s).replace(REX_HTML, function (s) {
+		return ENTITY_MAP[s];
+	});
+}
+
+
 // TODO: use currying
 function _makeNodeTitleMatcher(s){
 	s = s.toLowerCase();
@@ -209,46 +258,6 @@ function _makeNodeTitleStartMatcher(s){
 	return function(node){
 		return reMatch.test(node.title);
 	};
-}
-
-var i, attr,
-	FT = null, // initialized below
-	TEST_IMG = new RegExp(/\.|\//),  // strings are considered image urls if they conatin '.' or '/'
-	RECURSIVE_REQUEST_ERROR = "$recursive_request",
-	ENTITY_MAP = {"&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;", "/": "&#x2F;"},
-	IGNORE_KEYCODES = { 16: true, 17: true, 18: true },
-	SPECIAL_KEYCODES = {
-		8: "backspace", 9: "tab", 10: "return", 13: "return",
-		// 16: null, 17: null, 18: null, // ignore shift, ctrl, alt
-		19: "pause", 20: "capslock", 27: "esc", 32: "space", 33: "pageup",
-		34: "pagedown", 35: "end", 36: "home", 37: "left", 38: "up",
-		39: "right", 40: "down", 45: "insert", 46: "del", 59: ";", 61: "=",
-		96: "0", 97: "1", 98: "2", 99: "3", 100: "4", 101: "5", 102: "6",
-		103: "7", 104: "8", 105: "9", 106: "*", 107: "+", 109: "-", 110: ".",
-		111: "/", 112: "f1", 113: "f2", 114: "f3", 115: "f4", 116: "f5",
-		117: "f6", 118: "f7", 119: "f8", 120: "f9", 121: "f10", 122: "f11",
-		123: "f12", 144: "numlock", 145: "scroll", 173: "-", 186: ";", 187: "=",
-		188: ",", 189: "-", 190: ".", 191: "/", 192: "`", 219: "[", 220: "\\",
-		221: "]", 222: "'"},
-	MOUSE_BUTTONS = { 0: "", 1: "left", 2: "middle", 3: "right" },
-	//boolean attributes that can be set with equivalent class names in the LI tags
-	CLASS_ATTRS = "active expanded focus folder hideCheckbox lazy selected unselectable".split(" "),
-	CLASS_ATTR_MAP = {},
-	//	Top-level Fancytree node attributes, that can be set by dict
-	NODE_ATTRS = "expanded extraClasses folder hideCheckbox icon key lazy refKey selected statusNodeType title tooltip unselectable".split(" "),
-	NODE_ATTR_MAP = {},
-	// Mapping of lowercase -> real name (because HTML5 data-... attribute only supports lowercase)
-	NODE_ATTR_LOWERCASE_MAP = {},
-	// Attribute names that should NOT be added to node.data
-	NONE_NODE_DATA_MAP = {"active": true, "children": true, "data": true, "focus": true};
-
-for(i=0; i<CLASS_ATTRS.length; i++){ CLASS_ATTR_MAP[CLASS_ATTRS[i]] = true; }
-for(i=0; i<NODE_ATTRS.length; i++) {
-	attr = NODE_ATTRS[i];
-	NODE_ATTR_MAP[attr] = true;
-	if( attr !== attr.toLowerCase() ) {
-		NODE_ATTR_LOWERCASE_MAP[attr.toLowerCase()] = attr;
-	}
 }
 
 
@@ -275,7 +284,8 @@ for(i=0; i<NODE_ATTRS.length; i++) {
  *     For lazy nodes, null or undefined means 'not yet loaded'. Use an empty array
  *     to define a node that has no children.
  * @property {boolean} expanded Use isExpanded(), setExpanded() to access this property.
- * @property {string} extraClasses Addtional CSS classes, added to the node's `&lt;span>`
+ * @property {string} extraClasses Additional CSS classes, added to the node's `&lt;span>`.<br>
+ *     Note: use `node.add/remove/toggleClass()` to modify.
  * @property {boolean} folder Folder nodes have different default icons and click behavior.<br>
  *     Note: Also non-folders may have children.
  * @property {string} statusNodeType null for standard nodes. Otherwise type of special system node: 'error', 'loading', 'nodata', or 'paging'.
@@ -428,6 +438,16 @@ FancytreeNode.prototype = /** @lends FancytreeNode# */{
 			this.fixSelection3FromEndNodes();
 		}
 		return firstNode;
+	},
+	/**
+	 * Add class to node's span tag and to .extraClasses.
+	 *
+	 * @param {string} className class name
+	 *
+	 * @since 2.17
+	 */
+	addClass: function(className){
+		return this.toggleClass(className, true);
 	},
 	/**
 	 * Append or prepend a node, or append a child node.
@@ -597,6 +617,14 @@ FancytreeNode.prototype = /** @lends FancytreeNode# */{
 	discard: function(){
 		this.warn("FancytreeNode.discard() is deprecated since 2014-02-16. Use .resetLazy() instead.");
 		return this.resetLazy();
+	},
+	/** Remove DOM elements for all descendents. May be called on .collapse event
+	 * to keep the DOM small.
+	 * @param {boolean} [includeSelf=false]
+	 */
+	discardMarkup: function(includeSelf){
+		var fn = includeSelf ? "nodeRemoveMarkup" : "nodeRemoveChildMarkup";
+		this.tree._callHook(fn, this);
 	},
 
 	// TODO: expand(flag)
@@ -809,13 +837,21 @@ FancytreeNode.prototype = /** @lends FancytreeNode# */{
 		return $.inArray(this, this.parent.children); // indexOf doesn't work in IE7
 	},
 	/** Return the hierarchical child index (1-based, e.g. '3.2.4').
+	 * @param {string} [separator="."]
+	 * @param {int} [digits=1]
 	 * @returns {string}
 	 */
-	getIndexHier: function(separator) {
+	getIndexHier: function(separator, digits) {
 		separator = separator || ".";
-		var res = [];
+		var s,
+			res = [];
 		$.each(this.getParentList(false, true), function(i, o){
-			res.push(o.getIndex() + 1);
+			s = "" + (o.getIndex() + 1);
+			if( digits ){
+				// prepend leading zeroes
+				s = ("0000000" + s).substr(-digits);
+			}
+			res.push(s);
 		});
 		return res.join(separator);
 	},
@@ -1180,6 +1216,7 @@ FancytreeNode.prototype = /** @lends FancytreeNode# */{
 	 *      'child': append this node as last child of targetNode.
 	 *               This is the default. To be compatble with the D'n'd
 	 *               hitMode, we also accept 'over'.
+	 *      'firstChild': add this node as first child of targetNode.
 	 *      'before': add this node as sibling before targetNode.
 	 *      'after': add this node as sibling after targetNode.</pre>
 	 *  @param {function} [map] optional callback(FancytreeNode) to allow modifcations
@@ -1187,6 +1224,13 @@ FancytreeNode.prototype = /** @lends FancytreeNode# */{
 	moveTo: function(targetNode, mode, map) {
 		if(mode === undefined || mode === "over"){
 			mode = "child";
+		} else if ( mode === "firstChild" ) {
+			if( targetNode.children && targetNode.children.length ) {
+				mode = "before";
+				targetNode = targetNode.children[0];
+			} else {
+				mode = "child";
+			}
 		}
 		var pos,
 			prevParent = this.parent,
@@ -1430,6 +1474,16 @@ FancytreeNode.prototype = /** @lends FancytreeNode# */{
 	 */
 	removeChildren: function() {
 		return this.tree._callHook("nodeRemoveChildren", this);
+	},
+	/**
+	 * Remove class from node's span tag and .extraClasses.
+	 *
+	 * @param {string} className class name
+	 *
+	 * @since 2.17
+	 */
+	removeClass: function(className){
+		return this.toggleClass(className, false);
 	},
 	/**
 	 * This method renders and updates all HTML markup that is required
@@ -1756,6 +1810,49 @@ FancytreeNode.prototype = /** @lends FancytreeNode# */{
 		}
 		return dict;
 	},
+	/**
+	 * Set, clear, or toggle class of node's span tag and .extraClasses.
+	 *
+	 * @param {string} className class name (separate multiple classes by space)
+	 * @param {boolean} [flag] true/false to add/remove class. If omitted, class is toggled.
+	 * @returns {boolean} true if a class was added
+	 *
+	 * @since 2.17
+	 */
+	toggleClass: function(value, flag){
+		var className, hasClass,
+			rnotwhite = ( /\S+/g ),
+			classNames = value.match( rnotwhite ) || [],
+			i = 0,
+			wasAdded = false,
+			statusElem = this[this.tree.statusClassPropName],
+			curClasses = (" " + (this.extraClasses || "") + " ");
+
+		// this.info("toggleClass('" + value + "', " + flag + ")", curClasses);
+		// Modify DOM element directly if it already exists
+		if( statusElem ) {
+			$(statusElem).toggleClass(value, flag);
+		}
+		// Modify node.extraClasses to make this change persistent
+		// Toggle if flag was not passed
+		while ( className = classNames[ i++ ] ) {
+			hasClass = curClasses.indexOf(" " + className + " ") >= 0;
+			flag = (flag === undefined) ? (!hasClass) : !!flag;
+			if ( flag ) {
+				if( !hasClass ) {
+					curClasses += className + " ";
+					wasAdded = true;
+				}
+			} else {
+				while ( curClasses.indexOf( " " + className + " " ) > -1 ) {
+					curClasses = curClasses.replace( " " + className + " ", " " );
+				}
+			}
+		}
+		this.extraClasses = $.trim(curClasses);
+		// this.info("-> toggleClass('" + value + "', " + flag + "): '" + this.extraClasses + "'");
+		return wasAdded;
+	},
 	/** Flip expanded status.  */
 	toggleExpanded: function(){
 		return this.tree._callHook("nodeToggleExpanded", this);
@@ -1972,7 +2069,9 @@ function Fancytree(widget) {
 	}
 	// Add container to the TAB chain
 	// See http://www.w3.org/TR/wai-aria-practices/#focus_activedescendant
-	this.$container.attr("tabindex", this.options.tabbable ? "0" : "-1");
+	// #577: Allow to set tabindex to "0", "-1" and ""
+	this.$container.attr("tabindex", this.options.tabindex);
+	// this.$container.attr("tabindex", this.options.tabbable ? "0" : "-1");
 	if(this.options.aria){
 		this.$container
 			.attr("role", "tree")
@@ -3146,7 +3245,7 @@ $.extend(Fancytree.prototype,
 					// TODO: why doesn't this work:
 //					node.li.role = "treeitem";
 //                    $(node.li).attr("role", "treeitem")
-//                    .attr("aria-labelledby", "ftal_" + node.key);
+//                    .attr("aria-labelledby", "ftal_" + opts.idPrefix + node.key);
 				}
 				if( node.key && opts.generateIds ){
 					node.li.id = opts.idPrefix + node.key;
@@ -3154,7 +3253,7 @@ $.extend(Fancytree.prototype,
 				node.span = document.createElement("span");
 				node.span.className = "fancytree-node";
 				if(aria){
-					$(node.span).attr("aria-labelledby", "ftal_" + node.key);
+					$(node.span).attr("aria-labelledby", "ftal_" + opts.idPrefix + node.key);
 				}
 				node.li.appendChild(node.span);
 
@@ -3350,12 +3449,15 @@ $.extend(Fancytree.prototype,
 			nodeTitle = opts.renderTitle.call(tree, {type: "renderTitle"}, ctx) || "";
 		}
 		if(!nodeTitle){
-			tooltip = node.tooltip ? " title='" + FT.escapeHtml(node.tooltip) + "'" : "";
-			id = aria ? " id='ftal_" + node.key + "'" : "";
+			tooltip = node.tooltip ? " title='" + _escapeHtml(node.tooltip) + "'" : "";
+			id = aria ? " id='ftal_" + opts.idPrefix + node.key + "'" : "";
 			role = aria ? " role='treeitem'" : "";
 			tabindex = opts.titlesTabbable ? " tabindex='0'" : "";
 
-			nodeTitle = "<span " + role + " class='fancytree-title'" + id + tooltip + tabindex + ">" + node.title + "</span>";
+			nodeTitle = "<span " + role + " class='fancytree-title'" +
+				id + tooltip + tabindex + ">" +
+				(opts.escapeTitles ? _escapeHtml(node.title) : node.title) +
+				"</span>";
 		}
 		ares.push(nodeTitle);
 		// Note: this will trigger focusout, if node had the focus
@@ -3363,6 +3465,10 @@ $.extend(Fancytree.prototype,
 		node.span.innerHTML = ares.join("");
 		// Update CSS classes
 		this.nodeRenderStatus(ctx);
+		if ( opts.enhanceTitle ){
+			ctx.$title = $(">span.fancytree-title", node.span);
+			nodeTitle = opts.enhanceTitle.call(tree, {type: "enhanceTitle"}, ctx) || "";
+		}
 	},
 	/** Update element classes according to node state.
 	 * @param {EventData} ctx
@@ -4068,6 +4174,7 @@ $.widget("ui.fancytree",
 		debugLevel: null, // 0..2 (null: use global setting $.ui.fancytree.debugInfo)
 		disabled: false, // TODO: required anymore?
 		enableAspx: true, // TODO: document
+		escapeTitles: false,
 		extensions: [],
 		// fx: { height: "toggle", duration: 200 },
 		// toggleEffect: { effect: "drop", options: {direction: "left"}, duration: 200 },
@@ -4090,7 +4197,8 @@ $.widget("ui.fancytree",
 			moreData: "More&#8230;",
 			noData: "No data."
 		},
-		tabbable: true,
+		// tabbable: true,  // @deprecated
+		tabindex: "0",
 		titlesTabbable: false,
 		_classNames: {
 			node: "fancytree-node",
@@ -4162,6 +4270,10 @@ $.widget("ui.fancytree",
 				opts.icon = opts.iconClass;
 			}
 		}
+		if( opts.tabbable !== undefined ) {  // 2016-04-04
+			opts.tabindex = opts.tabbable ? "0" : "-1";
+			this.tree.warn("'tabbable' tree option is deprecated since v2.17.0: use 'tabindex='" + opts.tabindex + "' instead");
+		}
 		//
 		this.tree._callHook("treeCreate", this.tree);
 		// Note: 'fancytreecreate' event is fired by widget base class
@@ -4186,9 +4298,13 @@ $.widget("ui.fancytree",
 		case "checkbox":
 		case "icon":
 		case "minExpandLevel":
-		case "tabbable":
+		// case "tabbable":
+		case "tabindex":
 //		case "nolink":
 			this.tree._callHook("treeCreate", this.tree);
+			rerender = true;
+			break;
+		case "escapeTitles":
 			rerender = true;
 			break;
 		case "source":
@@ -4368,7 +4484,7 @@ $.extend($.ui.fancytree,
 	/** @lends Fancytree_Static# */
 	{
 	/** @type {string} */
-	version: "2.16.1",      // Set to semver by 'grunt release'
+	version: "2.18.0",      // Set to semver by 'grunt release'
 	/** @type {string} */
 	buildType: "production", // Set to 'production' by 'grunt build'
 	/** @type {int} */
@@ -4437,11 +4553,7 @@ $.extend($.ui.fancytree,
 	 * @param {string} s
 	 * @returns {string}
 	 */
-	escapeHtml: function(s){
-		return ("" + s).replace(/[&<>"'\/]/g, function (s) {
-			return ENTITY_MAP[s];
-		});
-	},
+	escapeHtml: _escapeHtml,
 	/** Make jQuery.position() arguments backwards compatible, i.e. if
 	 * jQuery UI version <= 1.8, convert
 	 *   { my: "left+3 center", at: "left bottom", of: $target }

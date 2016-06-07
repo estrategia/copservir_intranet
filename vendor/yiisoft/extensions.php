@@ -165,28 +165,10 @@ return array (
       '@yii/imagine' => $vendorDir . '/yiisoft/yii2-imagine',
     ),
   ),
-  'kartik-v/yii2-icons' => 
-  array (
-    'name' => 'kartik-v/yii2-icons',
-    'version' => '1.4.1.0',
-    'alias' => 
-    array (
-      '@kartik/icons' => $vendorDir . '/kartik-v/yii2-icons',
-    ),
-  ),
-  'kartik-v/yii2-slider' => 
-  array (
-    'name' => 'kartik-v/yii2-slider',
-    'version' => '1.3.2.0',
-    'alias' => 
-    array (
-      '@kartik/slider' => $vendorDir . '/kartik-v/yii2-slider',
-    ),
-  ),
   'bupy7/yii2-widget-cropbox' => 
   array (
     'name' => 'bupy7/yii2-widget-cropbox',
-    'version' => '3.0.1.0',
+    'version' => '4.1.1.0',
     'alias' => 
     array (
       '@bupy7/cropbox' => $vendorDir . '/bupy7/yii2-widget-cropbox',
