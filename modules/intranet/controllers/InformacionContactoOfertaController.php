@@ -25,6 +25,12 @@ class InformacionContactoOfertaController extends Controller {
                     'admin', 'detalle', 'crear', 'actualizar', 'eliminar', 'plantilla'
                 ],
             ],
+            [
+                'class' => \app\components\IntranetAdminFilter::className(),
+                'only' => [
+                    'admin', 'detalle', 'crear', 'actualizar', 'plantilla'
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

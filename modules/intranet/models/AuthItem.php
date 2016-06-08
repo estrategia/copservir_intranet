@@ -86,6 +86,8 @@ class AuthItem extends \yii\db\ActiveRecord {
                 ->all();
         
         return $listPermisos;
+        var_dump($listPermisos->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
+        exit();
     }
 
 }

@@ -23,6 +23,12 @@ class LineaTiempoController extends Controller {
                     'admin', 'detalle', 'crear', 'actualizar', 'eliminar'
                 ],
             ],
+            [
+                'class' => \app\components\IntranetAdminFilter::className(),
+                'only' => [
+                    'admin', 'detalle', 'crear', 'actualizar', 'eliminar'
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -45,10 +51,6 @@ class LineaTiempoController extends Controller {
      * @return mixed
      */
     public function actionAdmin() {
-        if (!Yii::$app->user->identity->tienePermiso('intranet_admin')) {
-            throw new NotFoundHttpException('Acceso no permitdo.');
-        }
-
         $searchModel = new LineaTiempoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

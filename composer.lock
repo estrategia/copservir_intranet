@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "db492efe537f682eace2bcef36d79745",
-    "content-hash": "8a0666593be9ded42890814518a45ef7",
+    "hash": "7f445d09717bcdc24c4253f77820936b",
+    "content-hash": "a1153b87064bbbd3304e1c25cbf0fb72",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -1175,12 +1175,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-fileinput.git",
-                "reference": "fb36b8051b7bb13520171fe234a7f3ad6a10c116"
+                "reference": "14cda11159a217db3056160e0ec8303979a9febd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-fileinput/zipball/fb36b8051b7bb13520171fe234a7f3ad6a10c116",
-                "reference": "fb36b8051b7bb13520171fe234a7f3ad6a10c116",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-fileinput/zipball/14cda11159a217db3056160e0ec8303979a9febd",
+                "reference": "14cda11159a217db3056160e0ec8303979a9febd",
                 "shasum": ""
             },
             "require": {
@@ -1222,7 +1222,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-05-22 16:51:00"
+            "time": "2016-06-03 18:15:55"
         },
         {
             "name": "kartik-v/yii2-widget-select2",
@@ -1234,7 +1234,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/f44fcca6778157ec6034cde0b78ec60a5230e36d",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/00c29bf2ea42df7be2ae6aa2b2be049807a8134b",
                 "reference": "f44fcca6778157ec6034cde0b78ec60a5230e36d",
                 "shasum": ""
             },
@@ -1329,6 +1329,67 @@
                 "yii2"
             ],
             "time": "2015-01-11 18:55:14"
+        },
+        {
+            "name": "phpoffice/phpexcel",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPOffice/PHPExcel.git",
+                "reference": "fcc5c6585574054bd2dce530d5fb3f5da745bc49"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/fcc5c6585574054bd2dce530d5fb3f5da745bc49",
+                "reference": "fcc5c6585574054bd2dce530d5fb3f5da745bc49",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "ext-xml": "*",
+                "ext-xmlwriter": "*",
+                "php": "^5.2|^7.0"
+            },
+            "require-dev": {
+                "squizlabs/php_codesniffer": "2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PHPExcel": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1"
+            ],
+            "authors": [
+                {
+                    "name": "Maarten Balliauw",
+                    "homepage": "http://blog.maartenballiauw.be"
+                },
+                {
+                    "name": "Mark Baker"
+                },
+                {
+                    "name": "Erik Tilt"
+                },
+                {
+                    "name": "Franck Lefevre",
+                    "homepage": "http://rootslabs.net"
+                }
+            ],
+            "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+            "homepage": "http://phpexcel.codeplex.com",
+            "keywords": [
+                "OpenXML",
+                "excel",
+                "php",
+                "spreadsheet",
+                "xls",
+                "xlsx"
+            ],
+            "time": "2016-06-05 15:48:23"
         },
         {
             "name": "sadovojav/yii2-image-cutter",
@@ -2241,7 +2302,8 @@
         "kartik-v/yii2-widget-select2": 20,
         "nirvana-msu/yii2-showloading": 20,
         "sadovojav/yii2-image-cutter": 20,
-        "kartik-v/yii2-widget-fileinput": 20
+        "kartik-v/yii2-widget-fileinput": 20,
+        "phpoffice/phpexcel": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
