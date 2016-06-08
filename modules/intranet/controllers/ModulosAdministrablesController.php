@@ -92,36 +92,42 @@ class ModulosAdministrablesController extends Controller {
                     ->where("t_GruposModulos.idGruposModulos =:grupo")
             ;
 
-
-
             $params = [];
+            if ($model->tipo == ModuloContenido::TIPO_HTML) {
+                $params['vista'] = '_contenido';
+                $params['opcion'] = 'contenido';
+            } else if ($model->tipo == ModuloContenido::TIPO_DATATABLE) {
+                
+            } else if ($model->tipo == ModuloContenido::TIPO_GROUP_MODULES) {
+                $params['searchModelAgregar'] = new ModuloContenido();
 
-            $params['searchModelAgregar'] = new ModuloContenido();
+                $modelExisten->orderBy('t_GruposModulos.orden ASC')
+                        ->addParams([':grupo' => $id]);
 
-            $modelExisten->orderBy('t_GruposModulos.orden ASC')
-                    ->addParams([':grupo' => $id]);
+                $params['dataProviderAgregados'] = new ActiveDataProvider([
+                    'query' => $modelExisten,
+                ]);
 
-            $params['dataProviderAgregados'] = new ActiveDataProvider([
-                'query' => $modelExisten,
-            ]);
+                $modelNoExisten = ModuloContenido::find()->where('tipo <> ' . ModuloContenido::TIPO_GROUP_MODULES);
 
-            $modelNoExisten = ModuloContenido::find()->where('tipo <> ' . ModuloContenido::TIPO_GROUP_MODULES);
+                if ($params['searchModelAgregar']->load(Yii::$app->request->get())) {
 
-            if ($params['searchModelAgregar']->load(Yii::$app->request->get())) {
+                    $modelNoExisten->andWhere("titulo like '%" . $params['searchModelAgregar']->titulo . "%'");
+                    $modelNoExisten->andWhere("descripcion like '%" . $params['searchModelAgregar']->descripcion . "%'");
 
-                $modelNoExisten->andWhere("titulo like '%" . $params['searchModelAgregar']->titulo . "%'");
-                $modelNoExisten->andWhere("descripcion like '%" . $params['searchModelAgregar']->descripcion . "%'");
-
-                if (!empty($params['searchModelAgregar']->tipo)) {
-                    $modelNoExisten->andWhere("tipo = '" . $params['searchModelAgregar']->tipo . "'");
+                    if (!empty($params['searchModelAgregar']->tipo)) {
+                        $modelNoExisten->andWhere("tipo = '" . $params['searchModelAgregar']->tipo . "'");
+                    }
                 }
-            }
-            $params['dataProviderNoAgregados'] = new ActiveDataProvider([
-                'query' => $modelNoExisten,
-            ]);
+                $params['dataProviderNoAgregados'] = new ActiveDataProvider([
+                    'query' => $modelNoExisten,
+                ]);
 
-            $params['vista'] = '_contenido';
-            $params['opcion'] = 'contenido';
+                $params['vista'] = '_gruposModulos';
+                $params['opcion'] = 'contenido';
+            }
+
+
 
             $params['model'] = $model;
             return $this->render('update', [
@@ -161,6 +167,10 @@ class ModulosAdministrablesController extends Controller {
                     'result' => 'error',
                 ];
             }
+        }else{
+             return [
+                    'result' => 'error',
+                ];
         }
     }
 
