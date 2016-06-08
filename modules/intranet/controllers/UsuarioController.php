@@ -31,7 +31,7 @@ class UsuarioController extends \yii\web\Controller {
         return [
             [
                 'class' => \app\components\AccessFilter::className(),
-                'only' => ['autenticar', 'cambiar-clave', 'perfil'],
+                'only' => ['autenticar', 'cambiar-clave', 'perfil', 'cambiar-foto-perfil', 'actualizar-datos','pantalla-inicio','modal-amigos'],
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -298,10 +298,6 @@ class UsuarioController extends \yii\web\Controller {
      */
 
     public function actionActualizarDatos() {
-        if (Yii::$app->user->isGuest) {
-            return $this->redirect(['autenticar']);
-            exit();
-        }
         $model = new DatosForm();
         if ($model->load(Yii::$app->request->post())) {
             // llamar al webservice y mandar los datos
@@ -312,9 +308,7 @@ class UsuarioController extends \yii\web\Controller {
     }
 
     public function actionPantallaInicio() {
-
         // obtener opciones desactivadas
-
         $opcionesDesactivadas = UsuarioWidgetInactivo::find()->where(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento])->all();
         $arrayOpciones = [];
 

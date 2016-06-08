@@ -17,11 +17,25 @@ class LineaTiempoController extends Controller {
 
     public function behaviors() {
         return [
+            [
+                'class' => \app\components\AccessFilter::className(),
+                'only' => [
+                    'admin', 'detalle', 'crear', 'actualizar', 'eliminar'
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
+            ],
+        ];
+    }
+    
+    public function actions() {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
             ],
         ];
     }
@@ -31,10 +45,10 @@ class LineaTiempoController extends Controller {
      * @return mixed
      */
     public function actionAdmin() {
-        if(!Yii::$app->user->identity->tienePermiso('intranet_admin')){
+        if (!Yii::$app->user->identity->tienePermiso('intranet_admin')) {
             throw new NotFoundHttpException('Acceso no permitdo.');
         }
-        
+
         $searchModel = new LineaTiempoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

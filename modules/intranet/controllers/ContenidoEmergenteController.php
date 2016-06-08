@@ -20,11 +20,25 @@ class ContenidoEmergenteController extends Controller {
      */
     public function behaviors() {
         return [
+            [
+                'class' => \app\components\AccessFilter::className(),
+                'only' => [
+                    'admin', 'detalle', 'crear', 'actualizar', 'eliminar',
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
+            ],
+        ];
+    }
+    
+    public function actions() {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
             ],
         ];
     }

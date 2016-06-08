@@ -31,11 +31,12 @@ class AccessFilter extends ActionFilter {
 
         if (Yii::$app->getUser()->isGuest && Yii::$app->getRequest()->url !== \yii\helpers\Url::to($this->redirectUri)) {
             if (Yii::$app->request->isAjax) {
-                Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-                return [
+                //Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                echo \yii\helpers\Json::encode([
                     'result' => 'error',
                     'response' => "Requiere autenticacion"
-                ];
+                ]);
+                exit();
             } else {
                 Yii::$app->getResponse()->redirect($this->redirectUri)->send();
                 exit(0);

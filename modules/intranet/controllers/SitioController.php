@@ -34,20 +34,18 @@ class SitioController extends \app\controllers\CController {
 
     public function behaviors() {
         return [
-            'access' => [
-                'class' => \yii\filters\AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
+            [
+                'class' => \app\components\AccessFilter::className(),
+                'only' => [
+                    'index', 'image-upload', 'cambiar-linea-tiempo',
+                    'guardar-contenido', 'publicar-portales', 'menu', 'agregar-opcion-menu',
+                    'administrar-menu','crear-opcion-menu', 'actualizar-opcion-menu',
+                    'me-gusta-contenido', 'guardar-comentario',
+                    'calendario', 'organigrama', 'quitar-elemento',
+                    'TodosCumpleanos', 'TodosAniversarios','FelicitarAniversario','FelicitarCumpleanos'
                 ],
             ],
         ];
-    }
-
-    public function actionUrl() {
-        echo Yii::getAlias('@app') . '@web/img/post';
     }
 
     public function actions() {
@@ -704,10 +702,6 @@ class SitioController extends \app\controllers\CController {
       accion para renderizar la vista calendario
      */
 
-    public function actionCalendario() {
-        return $this->render('calendario', []);
-    }
-
     /*
       accion para renderizar la vista organigrama
      */
@@ -904,60 +898,5 @@ class SitioController extends \app\controllers\CController {
             throw new Exception("Error no se genero la notificacion:" . yii\helpers\Json::enconde($notificacion->getErrors()), 100);
         }
     }
-
-    // GESTION DE PERMISOS
-
-    public function actionListaUsuarios() {
-        $dataProviderUsuarios = Usuario::dataProviderFindAllUsers();
-
-        return $this->render('lista-usuarios', [
-                    'dataProviderUsuarios' => $dataProviderUsuarios,
-        ]);
-    }
-
-    public function actionPermisosUsuario($id) {
-        $autAssignment = new AuthAssignment;
-        $usuario = Usuario::findByUsername($id);
-        $roles = Yii::$app->authManager->getRolesByUser($id);
-
-        if ($autAssignment->load(Yii::$app->request->post()) && $autAssignment->save()) {
-            return $this->redirect(['permisos-usuario', 'id' => $id]);
-        }
-
-        return $this->render('permisos-usuario', [
-                    'autAssignment' => $autAssignment,
-                    'usuario' => $usuario,
-                    'roles' => $roles,
-        ]);
-    }
-
-    public function actionRenderListaPermisos($nombreRol) {
-        $roles = [];
-        if (isset($nombreRol)) {
-            array_push($roles, Yii::$app->authManager->getRole($nombreRol));
-        }
-
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $respond = [
-            'result' => 'ok',
-            'response' => $this->renderAjax('_listaPermisos', [
-                'roles' => $roles,
-                    ]
-        )];
-        return $respond;
-    }
-
-    public function actionEliminarRol($nombreRol, $numeroDocumento) {
-        $this->findModelAuthAssignment($nombreRol, $numeroDocumento)->delete();
-        return $this->redirect(['permisos-usuario', 'id' => $numeroDocumento]);
-    }
-
-    protected function findModelAuthAssignment($nombreRol, $numeroDocumento) {
-        if (($model = AuthAssignment::findOne([$nombreRol, $numeroDocumento])) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-
+    
 }

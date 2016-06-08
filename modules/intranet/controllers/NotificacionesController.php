@@ -10,6 +10,17 @@ use yii\data\ActiveDataProvider;
 
 class NotificacionesController extends Controller {
 
+    public function behaviors() {
+        return [
+            [
+                'class' => \app\components\AccessFilter::className(),
+                'only' => [
+                    'index', 'resumen', 'visto'
+                ],
+            ],
+        ];
+    }
+    
     public function actions() {
         return [
             'error' => [
