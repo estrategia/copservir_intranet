@@ -20,19 +20,28 @@ class ModulosAdministrablesController extends Controller {
         $modelo = ModuloContenido::find();
         $searchModel = new ModuloContenido();
 
-//
-//        if ($searchModel->load(\Yii::$app->request->get())) {
-//            $modelo->andWhere("DescripcionPQRS like '%$searchModel->DescripcionPQRS%'");
-//            
-//            if(!empty($searchModel->IdOrigenCaso)){
-//                $modelo->andWhere("IdOrigenCaso = '$searchModel->IdOrigenCaso'");
-//            }
-//        }
+        if ($searchModel->load(Yii::$app->request->get())) {
+
+            $modelo->andWhere("titulo like '%" . $searchModel->titulo . "%'");
+            $modelo->andWhere("descripcion like '%" . $searchModel->descripcion . "%'");
+
+            if (!empty($searchModel->tipo)) {
+                $modelo->andWhere("tipo = '" . $searchModel->tipo . "'");
+            }
+        }
         $dataProvider = new ActiveDataProvider([
             'query' => $modelo,
         ]);
         return $this->render('index', [
-                    'dataProvider' => $dataProvider
+                    'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel
+        ]);
+    }
+
+    function actionVerContenido() {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $this->renderPartial('visualizarContenidoModal', [
+                    'contenido' => Yii::$app->request->post('contenido')
         ]);
     }
 
@@ -42,7 +51,7 @@ class ModulosAdministrablesController extends Controller {
         $model->fechaRegistro = Date("Y-m-d H:i:s");
         $model->fechaActualizacion = Date("Y-m-d H:i:s");
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            return $this->redirect(['update', 'id' => $model->idModulo]);
         }
 
         return $this->render('create', [
@@ -55,25 +64,64 @@ class ModulosAdministrablesController extends Controller {
         if ($id != null) {
             $model = ModuloContenido::find()->where(['idModulo' => $id])->one();
 
+            $model->fechaActualizacion = Date("Y-m-d H:i:s");
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['update', 'id' => $model->idModulo]);
+            }
+            $params['vista'] = '_form';
+            $params['opcion'] = 'editar';
+
+            $params['model'] = $model;
+            return $this->render('update', [
+                        'params' => $params,
+            ]);
+        }
+    }
+
+    function actionContenido($id = null) {
+
+        if ($id != null) {
+            $model = ModuloContenido::find()->where(['idModulo' => $id])->one();
+
+
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['index']);
+            }
+
             $modelExisten = ModuloContenido::find()->joinWith(['listGruposModulos'])
                     ->where("t_GruposModulos.idGruposModulos =:grupo")
-                    ->orderBy('t_GruposModulos.orden ASC')
-                    ->addParams([':grupo' => $id]);
+            ;
+
+
 
             $params = [];
+
+            $params['searchModelAgregar'] = new ModuloContenido();
+
+            $modelExisten->orderBy('t_GruposModulos.orden ASC')
+                    ->addParams([':grupo' => $id]);
+
             $params['dataProviderAgregados'] = new ActiveDataProvider([
                 'query' => $modelExisten,
             ]);
 
             $modelNoExisten = ModuloContenido::find()->where('tipo <> ' . ModuloContenido::TIPO_GROUP_MODULES);
+
+            if ($params['searchModelAgregar']->load(Yii::$app->request->get())) {
+
+                $modelNoExisten->andWhere("titulo like '%" . $params['searchModelAgregar']->titulo . "%'");
+                $modelNoExisten->andWhere("descripcion like '%" . $params['searchModelAgregar']->descripcion . "%'");
+
+                if (!empty($params['searchModelAgregar']->tipo)) {
+                    $modelNoExisten->andWhere("tipo = '" . $params['searchModelAgregar']->tipo . "'");
+                }
+            }
             $params['dataProviderNoAgregados'] = new ActiveDataProvider([
                 'query' => $modelNoExisten,
             ]);
 
-            $model->fechaActualizacion = Date("Y-m-d H:i:s");
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return $this->redirect(['index']);
-            }
+            $params['vista'] = '_contenido';
+            $params['opcion'] = 'contenido';
 
             $params['model'] = $model;
             return $this->render('update', [
