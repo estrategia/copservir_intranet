@@ -161,7 +161,7 @@ class CategoriaDocumentoController extends \yii\web\Controller
   * @param none
   * @return mixed
   */
-  public function actionAdministarCategoriasDocumento()
+  public function actionAdmin()
   {
     $padres = CategoriaDocumento::getPadres();
     $html = $this->crearMenuDocumentos($padres, ' ', true);

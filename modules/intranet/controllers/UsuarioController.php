@@ -31,10 +31,10 @@ class UsuarioController extends \yii\web\Controller {
     return [
       'access' => [
         'class' => AccessControl::className(),
-        'only' => ['salir'],
+        //'only' => ['salir'],
         'rules' => [
           [
-            'actions' => ['salir'],
+            //'actions' => ['salir'],
             'allow' => true,
             'roles' => ['@'],
           ],

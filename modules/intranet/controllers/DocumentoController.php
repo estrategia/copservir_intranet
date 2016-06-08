@@ -35,7 +35,7 @@ class DocumentoController extends Controller
   * Lista todos los modelos Documento.
   * @return mixed
   */
-  public function actionListar()
+  public function actionAdmin()
   {
     $searchModel = new DocumentoSearch();
     $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -142,7 +142,7 @@ class DocumentoController extends Controller
   public function actionEliminar($id)
   {
     $this->findModel($id)->delete();
-    return $this->redirect(['listar']);
+    return $this->redirect(['admin']);
   }
 
   /**

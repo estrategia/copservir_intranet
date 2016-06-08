@@ -11,6 +11,7 @@ $config = [
     'components' => [
       'authManager' => [
             'class' => 'yii\rbac\DbManager',
+            //'defaultRoles' => ['usuario'],
         ],
         'assetManager' => [
             'bundles' => [
@@ -33,6 +34,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
+            'loginUrl' => ['/intranet/usuario/autenticar'],  
             'identityClass' => 'app\modules\intranet\models\Usuario',
             'enableAutoLogin' => true,
         ],

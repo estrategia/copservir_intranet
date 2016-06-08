@@ -31,8 +31,8 @@
 
         "sadovojav/yii2-image-cutter": "dev-master",
         "bupy7/yii2-widget-cropbox": "*",
-        "kartik-v/yii2-widget-fileinput": "@dev"
-
+        "kartik-v/yii2-widget-fileinput": "@dev",
+        "phpoffice/phpexcel": "dev-develop"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

@@ -31,7 +31,7 @@ class PublicacionesCampanasController extends Controller
      * Lista todos lo modelos PublicacionesCampanas.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionAdmin()
     {
         $searchModel = new PublicacionesCampanasSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -130,7 +130,7 @@ class PublicacionesCampanasController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['admin']);
     }
 
 

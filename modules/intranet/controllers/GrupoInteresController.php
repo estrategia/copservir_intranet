@@ -32,7 +32,7 @@ class GrupoInteresController extends Controller {
   * Lista todos los modelos Grupointeres.
   * @return mixed
   */
-  public function actionListar() {
+  public function actionAdmin() {
     $searchModel = new GrupoInteresSearch();
     $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -109,7 +109,7 @@ class GrupoInteresController extends Controller {
   */
   public function actionEliminar($id) {
     $this->findModel($id)->delete();
-    return $this->redirect(['listar']);
+    return $this->redirect(['admin']);
   }
 
   /**

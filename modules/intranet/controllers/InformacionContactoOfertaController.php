@@ -33,7 +33,7 @@ class InformacionContactoOfertaController extends Controller
   * Lista todos los modelos InformacionContactoOferta.
   * @return mixed
   */
-  public function actionListar()
+  public function actionAdmin()
   {
     $searchModel = new InformacionContactoOfertaSearch();
     $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -115,7 +115,7 @@ class InformacionContactoOfertaController extends Controller
   public function actionEliminar($id)
   {
     $this->findModel($id)->delete();
-    return $this->redirect(['listar']);
+    return $this->redirect(['admin']);
   }
 
 

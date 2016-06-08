@@ -72,7 +72,7 @@ class MenuPortales extends \yii\db\ActiveRecord {
     public static function traerMenuPortalesIndex($nombrePortal) {
         $portalModel = Portal::encontrarModeloPorNombre($nombrePortal);
 
-        $query = MenuPortales::find()->select(['nombre', 'icono', 'tipo', 'urlMenu', 'idMenuPortales'])
+        $query = MenuPortales::find()->select(['idMenuPortales', 'nombre', 'icono', 'tipo', 'urlMenu'])
                 ->where('( idPortal=:idPortal and estado=:estado )')
                 ->addParams([':estado' => self::APROBADO, ':idPortal' => $portalModel->idPortal])
                 ->all();
@@ -95,12 +95,19 @@ class MenuPortales extends \yii\db\ActiveRecord {
       return ArrayHelper::map($opciones, 'idPortal', 'nombrePortal');
     }
 
-    public static function traerMenuPortal($nombrePortal,$idMenu) {
-        return $objMenu = self::find()
+    public static function traerMenuPortal($nombrePortal, $idMenu) {
+        $objMenu = self::find()
                 ->joinWith(['objPortal'])
-                ->where("m_Portal.nombrePortal=:portal AND t_MenuPortales.idMenuPortales=:menu",
+                ->where("m_Portal.nombrePortal=:portal AND t_MenuPortales.idMenuPortales=:menu", 
                         [':portal'=>  $nombrePortal,':menu'=>$idMenu])
                 ->one();
+
+        return $objMenu;
+        var_dump($objMenu->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);exit();
+    }
+    
+    public function getUrl($nombrePortal){
+        return [ "/$nombrePortal/sitio/contenido?menu=".$this->idMenuPortales];
     }
 
 }

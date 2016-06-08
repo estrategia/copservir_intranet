@@ -12,10 +12,10 @@ use yii\filters\VerbFilter;
 /**
  * LineaTiempoController.
  */
-class LineaTiempoController extends Controller
-{
-    public function behaviors()
-    {
+class LineaTiempoController extends Controller {
+    public $defaultAction = "admin";
+
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -30,14 +30,17 @@ class LineaTiempoController extends Controller
      * Lista todos los modelos LineaTiempo.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionAdmin() {
+        if(!Yii::$app->user->identity->tienePermiso('intranet_admin')){
+            throw new NotFoundHttpException('Acceso no permitdo.');
+        }
+        
         $searchModel = new LineaTiempoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -46,10 +49,9 @@ class LineaTiempoController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionDetalle($id)
-    {
+    public function actionDetalle($id) {
         return $this->render('detalle', [
-            'model' => $this->findModel($id),
+                    'model' => $this->findModel($id),
         ]);
     }
 
@@ -57,15 +59,14 @@ class LineaTiempoController extends Controller
      * Crea un nuevo modelo LineaTiempo.
      * @return mixed
      */
-    public function actionCrear()
-    {
+    public function actionCrear() {
         $model = new LineaTiempo();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['detalle', 'id' => $model->idLineaTiempo]);
         } else {
             return $this->render('crear', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -75,15 +76,14 @@ class LineaTiempoController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionActualizar($id)
-    {
+    public function actionActualizar($id) {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['detalle', 'id' => $model->idLineaTiempo]);
         } else {
             return $this->render('actualizar', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -93,11 +93,10 @@ class LineaTiempoController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionEliminar($id)
-    {
+    public function actionEliminar($id) {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['admin']);
     }
 
     /**
@@ -106,12 +105,12 @@ class LineaTiempoController extends Controller
      * @return LineaTiempo the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = LineaTiempo::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }
