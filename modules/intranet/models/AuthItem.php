@@ -22,19 +22,16 @@ use Yii;
  * @property AuthItem[] $children
  * @property AuthItem[] $parents
  */
-class AuthItem extends \yii\db\ActiveRecord
-{
+class AuthItem extends \yii\db\ActiveRecord {
 
     const TIPO_ROL = 1;
     const TIPO_PERMISO = 2;
 
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'auth_item';
     }
 
-    public function rules()
-    {
+    public function rules() {
         return [
             [['name', 'type'], 'required'],
             [['type', 'created_at', 'updated_at'], 'integer'],
@@ -44,8 +41,7 @@ class AuthItem extends \yii\db\ActiveRecord
         ];
     }
 
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'name' => 'Name',
             'type' => 'Type',
@@ -57,33 +53,41 @@ class AuthItem extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getAuthAssignments()
-    {
+    public function getAuthAssignments() {
         return $this->hasMany(AuthAssignment::className(), ['item_name' => 'name']);
     }
 
-    public function getRuleName()
-    {
+    public function getRuleName() {
         return $this->hasOne(AuthRule::className(), ['name' => 'rule_name']);
     }
 
-    public function getAuthItemChildren()
-    {
+    public function getAuthItemChildren() {
         return $this->hasMany(AuthItemChild::className(), ['parent' => 'name']);
     }
 
-    public function getAuthItemChildren0()
-    {
+    public function getAuthItemChildren0() {
         return $this->hasMany(AuthItemChild::className(), ['child' => 'name']);
     }
 
-    public function getChildren()
-    {
+    public function getChildren() {
         return $this->hasMany(AuthItem::className(), ['name' => 'child'])->viaTable('auth_item_child', ['parent' => 'name']);
     }
 
-    public function getParents()
-    {
+    public function getParents() {
         return $this->hasMany(AuthItem::className(), ['name' => 'parent'])->viaTable('auth_item_child', ['child' => 'name']);
     }
+
+    public static function consultarPermisosXRol($usuario, $rol='intranet_admin') {
+        $listPermisos = AuthItem::find()
+                ->alias('permiso')
+                ->joinWith(['parents as rol', 'parents.authAssignments as rolasignacion'])
+                ->where("permiso.type=:tipoPermiso AND rol.name=:rol AND rolasignacion.user_id=:usuario")
+                ->addParams([':tipoPermiso' => 2, ':rol' => $rol, ':usuario' => $usuario])
+                ->all();
+        
+        return $listPermisos;
+        var_dump($listPermisos->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
+        exit();
+    }
+
 }

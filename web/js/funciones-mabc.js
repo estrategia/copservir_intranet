@@ -277,6 +277,8 @@ $(document).on('click', "button[data-role='widget-enviarAmigo']", function() {
           $('body').append(data.response);
           $("#widget-enviarAmigo").modal("show");
         }
+      }else{
+          alert(data.response);
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -519,7 +521,7 @@ function getPlantilla(id) {
 function getListaPermisos(nombreRol) {
 
   if (nombreRol) {
-    $.get( requestUrl +'/intranet/sitio/render-lista-permisos', { nombreRol: nombreRol } )
+    $.get( requestUrl +'/intranet/permisos/render-lista', { nombreRol: nombreRol } )
     .done(function( data ) {
       if (data.result === 'ok') {
         $( "#lista-permisos" ).append( data.response );

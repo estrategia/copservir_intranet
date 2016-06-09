@@ -53,22 +53,36 @@ abstract class CController extends Controller {
         ]);
     }
 
-    public function actionContenido($menu) {
-        $objMenu = \app\modules\intranet\models\MenuPortales::traerMenuPortal($this->module->id,$menu);
+    public function actionContenido() {
+        if(isset($_GET['menu'])){
+            return $this->verMenu($_GET['menu']);
+        }else if($_GET['modulo']){
+            return $this->verModulo($_GET['modulos']);
+        }
+        
+        throw new \yii\web\HttpException(404, 'Solicitud inv&aacute;lida');
+    }
+    
+    private function verMenu($idMenu){
+        $objMenu = \app\modules\intranet\models\MenuPortales::traerMenuPortal($this->module->id,$idMenu);
         
         if($objMenu===null){
             throw new \yii\web\HttpException(404, 'Contenido no disponible en ' . $this->module->id);
         }
         
         $listModulos = \app\modules\intranet\models\ModuloContenido::getModulosGrupo($objMenu->urlMenu);
-
+        
         if (empty($listModulos)) {
             throw new \yii\web\HttpException(404, 'Contenido no disponible');
         }
-
+        
         return $this->render('//common/contenido/modulos', array(
             'listModulos' => $listModulos
         ));
+    }
+    
+    private function verModulo($idModulo){
+        
     }
 
 }

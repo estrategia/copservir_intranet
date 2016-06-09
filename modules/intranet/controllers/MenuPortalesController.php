@@ -10,12 +10,17 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-
-class MenuPortalesController extends Controller
-{
-    public function behaviors()
-    {
+class MenuPortalesController extends Controller {
+    public $defaultAction = 'admin';
+    
+    public function behaviors() {
         return [
+            [
+                'class' => \app\components\AccessFilter::className(),
+                'only' => [
+                    'admin', 'detalle', 'crear', 'actualizar', 'eliminar'
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -24,19 +29,26 @@ class MenuPortalesController extends Controller
             ],
         ];
     }
+    
+    public function actions() {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ],
+        ];
+    }
 
     /**
      * Lista todos los modelos MenuPortales.
      * @return mixed
      */
-    public function actionAdmin()
-    {
+    public function actionAdmin() {
         $searchModel = new MenuPortalesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -45,10 +57,9 @@ class MenuPortalesController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionDetalle($id)
-    {
+    public function actionDetalle($id) {
         return $this->render('detalle', [
-            'model' => $this->findModel($id),
+                    'model' => $this->findModel($id),
         ]);
     }
 
@@ -56,8 +67,7 @@ class MenuPortalesController extends Controller
      * Crea un nuevo modelo MenuPortales.
      * @return mixed
      */
-    public function actionCrear()
-    {
+    public function actionCrear() {
         $model = new MenuPortales();
         $searchModel = new ModuloContenidoSearch();
         $dataProviderModuloContenido = $searchModel->search(Yii::$app->request->queryParams);
@@ -67,9 +77,9 @@ class MenuPortalesController extends Controller
             return $this->redirect(['detalle', 'id' => $model->idMenuPortales]);
         } else {
             return $this->render('crear', [
-                'model' => $model,
-                'searchModel' => $searchModel,
-                'dataProviderModuloContenido'=> $dataProviderModuloContenido
+                        'model' => $model,
+                        'searchModel' => $searchModel,
+                        'dataProviderModuloContenido' => $dataProviderModuloContenido
             ]);
         }
     }
@@ -79,8 +89,7 @@ class MenuPortalesController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionActualizar($id)
-    {
+    public function actionActualizar($id) {
         $model = $this->findModel($id);
         $searchModel = new ModuloContenidoSearch();
         $dataProviderModuloContenido = $searchModel->search(Yii::$app->request->queryParams);
@@ -90,9 +99,9 @@ class MenuPortalesController extends Controller
             return $this->redirect(['detalle', 'id' => $model->idMenuPortales]);
         } else {
             return $this->render('actualizar', [
-                'model' => $model,
-                'searchModel' => $searchModel,
-                'dataProviderModuloContenido'=> $dataProviderModuloContenido
+                        'model' => $model,
+                        'searchModel' => $searchModel,
+                        'dataProviderModuloContenido' => $dataProviderModuloContenido
             ]);
         }
     }
@@ -102,8 +111,7 @@ class MenuPortalesController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionEliminar($id)
-    {
+    public function actionEliminar($id) {
         $this->findModel($id)->delete();
 
         return $this->redirect(['admin']);
@@ -115,12 +123,12 @@ class MenuPortalesController extends Controller
      * @return MenuPortales the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = MenuPortales::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

@@ -8,6 +8,7 @@ use yii\widgets\Breadcrumbs;
 use app\assets\IntranetAsset;
 use app\modules\intranet\models\Menu;
 use app\modules\intranet\models\MenuPortales;
+use app\modules\intranet\models\AuthItem;
 use app\modules\intranet\models\Opcion;
 use app\modules\intranet\models\OpcionesUsuario;
 use nirvana\showloading\ShowLoadingAsset;
@@ -19,9 +20,6 @@ $srcPictureUser = "''";
 $srcLogo = Yii::$app->homeUrl . 'img/logo_copservir.png';
 
 $menu = Menu::find()->with('listSubMenu')->where('idPadre is NULL')->all();
-
-$menuPortales = MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id);
-
 $opciones = new OpcionesUsuario();
 $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
 
@@ -167,16 +165,25 @@ if (!Yii::$app->user->isGuest) {
             <?php endforeach; ?>
 
             <!-- MENU PORTALES -->
-            <?php foreach ($menuPortales as $itemMenu): ?>
+            <?php foreach (MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id) as $itemMenu): ?>
               <li>
                 <?php if ($itemMenu->esExterno()): ?>
                   <?= "<a href='$itemMenu->urlMenu' target='_blank'> <i class='$itemMenu->icono'></i> <span class='title'>$itemMenu->nombre</span> <span class='selected'></span> </a>" ?>
-                <?php else: ?>                                                                                                                      <!--/intranet/sitio/contenido?menu=6-->
-                    <?= Html::a('<i class="'.$itemMenu->icono.'"></i> <span class="title">'.$itemMenu->nombre.'</span> <span class="selected"></span>', [ 'contenido?menu='.$itemMenu->idMenuPortales], []) ?>
+                <?php else: ?>
+                    <?= Html::a('<i class="'.$itemMenu->icono.'"></i> <span class="title">'.$itemMenu->nombre.'</span> <span class="selected"></span>', $itemMenu->getUrl(Yii::$app->controller->module->id), []) ?>
                 <?php endif; ?>
 
               </li>
             <?php endforeach; ?>
+              
+              <!-- MENU ADMIN -->
+            <?php if (!Yii::$app->user->isGuest): ?>
+                <?php foreach (AuthItem::consultarPermisosXRol(Yii::$app->user->identity->numeroDocumento) as $objPermiso): ?>
+                  <li>
+                    <?= Html::a('<i class="glyphicon glyphicon-cog"></i> <span class="title">'.$objPermiso->title.'</span> <span class="selected"></span>', [$objPermiso->url], []) ?>
+                  </li>
+                <?php endforeach; ?>
+            <?php endif;?>
 
           </ul><!-- END SIDEBAR MENU -->
         </div>

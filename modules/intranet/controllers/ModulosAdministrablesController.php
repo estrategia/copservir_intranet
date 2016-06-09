@@ -13,21 +13,14 @@ use yii\web\Controller;
 use \app\modules\intranet\models\ModuloContenido;
 use \yii\data\ActiveDataProvider;
 use app\modules\intranet\models\GruposModulos;
+use app\modules\intranet\models\DataTableForm;
+use yii\web\UploadedFile;
 
 class ModulosAdministrablesController extends Controller {
 
     function actionIndex() {
         $modelo = ModuloContenido::find();
         $searchModel = new ModuloContenido();
-
-//
-//        if ($searchModel->load(\Yii::$app->request->get())) {
-//            $modelo->andWhere("DescripcionPQRS like '%$searchModel->DescripcionPQRS%'");
-//            
-//            if(!empty($searchModel->IdOrigenCaso)){
-//                $modelo->andWhere("IdOrigenCaso = '$searchModel->IdOrigenCaso'");
-//            }
-//        }
 
         if ($searchModel->load(Yii::$app->request->get())) {
 
@@ -98,39 +91,80 @@ class ModulosAdministrablesController extends Controller {
             }
 
             $modelExisten = ModuloContenido::find()->joinWith(['listGruposModulos'])
-                    ->where("t_GruposModulos.idGruposModulos =:grupo")
-            ;
-
-
+                    ->where("t_GruposModulos.idGruposModulos =:grupo");
 
             $params = [];
+            if ($model->tipo == ModuloContenido::TIPO_HTML) {
+                $params['vista'] = '_contenido';
+                $params['opcion'] = 'contenido';
+            } else if ($model->tipo == ModuloContenido::TIPO_DATATABLE) {
+                $params['opcion'] = 'contenido';
+                $params['vista'] = '_dataTable';
+                
+                
+                $modelForm = new DataTableForm;
 
-            $params['searchModelAgregar'] = new ModuloContenido();
+                if ($modelForm->load(Yii::$app->request->post())) {
+                    $archivo = UploadedFile::getInstance($modelForm, 'archivo');
 
-            $modelExisten->orderBy('t_GruposModulos.orden ASC')
-                    ->addParams([':grupo' => $id]);
+                    if (!is_null($archivo)) {
+                        $rutaDirectorio = Yii::$app->params['documentos']['rutaDataTables'];
+                        $rutaDocumento = Yii::$app->user->identity->numeroDocumento . "_" .date('YmdHis') . '.' . $archivo->extension;
+                        $archivo->saveAs($rutaDirectorio . $rutaDocumento);
+                        
 
-            $params['dataProviderAgregados'] = new ActiveDataProvider([
-                'query' => $modelExisten,
-            ]);
+                        $extension['xlsx'] = '\PHPExcel_Reader_Excel2007';
+                        $extension['xls'] = '\PHPExcel_Reader_Excel5';
+                        $objReader = new $extension[$archivo->extension];
+                        $objPHPExcel = $objReader->load($rutaDirectorio . $rutaDocumento);
 
-            $modelNoExisten = ModuloContenido::find()->where('tipo <> ' . ModuloContenido::TIPO_GROUP_MODULES);
+                        $nHojas = $objPHPExcel->getSheetCount();
+                        $hojas = $objPHPExcel->getSheetNames();
 
-            if ($params['searchModelAgregar']->load(Yii::$app->request->get())) {
-
-                $modelNoExisten->andWhere("titulo like '%" . $params['searchModelAgregar']->titulo . "%'");
-                $modelNoExisten->andWhere("descripcion like '%" . $params['searchModelAgregar']->descripcion . "%'");
-
-                if (!empty($params['searchModelAgregar']->tipo)) {
-                    $modelNoExisten->andWhere("tipo = '" . $params['searchModelAgregar']->tipo . "'");
+                        $dataTableHTML = $this->renderPartial('datatable_read', 
+                                ['objPHPExcel' => $objPHPExcel, 'nHojas' => $nHojas, 'hojas' => $hojas, 'idModulo' => $model->idModulo]);
+                        $model->contenido = $dataTableHTML;
+                        if($model->save()){
+                            Yii::$app->session->setFlash('success', "Tabla generada con &eacute;xito");
+                        }else{
+                            Yii::$app->session->setFlash('error', "Error al generar tabla");
+                        }
+                    }
                 }
-            }
-            $params['dataProviderNoAgregados'] = new ActiveDataProvider([
-                'query' => $modelNoExisten,
-            ]);
+                
+                $params['modelForm'] = $modelForm;
 
-            $params['vista'] = '_contenido';
-            $params['opcion'] = 'contenido';
+
+            } else if ($model->tipo == ModuloContenido::TIPO_GROUP_MODULES) {
+                $params['searchModelAgregar'] = new ModuloContenido();
+
+                $modelExisten->orderBy('t_GruposModulos.orden ASC')
+                        ->addParams([':grupo' => $id]);
+
+                $params['dataProviderAgregados'] = new ActiveDataProvider([
+                    'query' => $modelExisten,
+                ]);
+
+                $modelNoExisten = ModuloContenido::find()->where('tipo <> ' . ModuloContenido::TIPO_GROUP_MODULES);
+
+                if ($params['searchModelAgregar']->load(Yii::$app->request->get())) {
+
+                    $modelNoExisten->andWhere("titulo like '%" . $params['searchModelAgregar']->titulo . "%'");
+                    $modelNoExisten->andWhere("descripcion like '%" . $params['searchModelAgregar']->descripcion . "%'");
+
+                    if (!empty($params['searchModelAgregar']->tipo)) {
+                        $modelNoExisten->andWhere("tipo = '" . $params['searchModelAgregar']->tipo . "'");
+                    }
+                }
+                $params['dataProviderNoAgregados'] = new ActiveDataProvider([
+                    'query' => $modelNoExisten,
+                ]);
+
+                $params['vista'] = '_gruposModulos';
+                $params['opcion'] = 'contenido';
+            }
+
+
 
             $params['model'] = $model;
             return $this->render('update', [
@@ -170,6 +204,10 @@ class ModulosAdministrablesController extends Controller {
                     'result' => 'error',
                 ];
             }
+        }else{
+             return [
+                    'result' => 'error',
+                ];
         }
     }
 
