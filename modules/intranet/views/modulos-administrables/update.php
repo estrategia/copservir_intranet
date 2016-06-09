@@ -21,6 +21,8 @@ Breadcrumbs::widget([
     ],
 ]);?>
 <br/>
+<?= $this->render('/common/errores', []) ?>
+
 <div class="box-content row" id='botones-modulos'>
     <div class="col-md-12">
         <div class="form-group">

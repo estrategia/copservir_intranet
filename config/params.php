@@ -29,7 +29,8 @@ return [
         ]
     ],
     'documentos' => [
-        'rutaArchivo' => '/contenidos/documentos/'
+        'rutaArchivo' => '/contenidos/documentos/',
+        'rutaDataTables' => 'contenidos/datatable/',
     ],
     'imagenesNoticias' => [
         'limiteVisualizar' => 3

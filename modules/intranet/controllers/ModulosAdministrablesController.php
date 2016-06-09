@@ -13,6 +13,8 @@ use yii\web\Controller;
 use \app\modules\intranet\models\ModuloContenido;
 use \yii\data\ActiveDataProvider;
 use app\modules\intranet\models\GruposModulos;
+use app\modules\intranet\models\DataTableForm;
+use yii\web\UploadedFile;
 
 class ModulosAdministrablesController extends Controller {
 
@@ -89,15 +91,50 @@ class ModulosAdministrablesController extends Controller {
             }
 
             $modelExisten = ModuloContenido::find()->joinWith(['listGruposModulos'])
-                    ->where("t_GruposModulos.idGruposModulos =:grupo")
-            ;
+                    ->where("t_GruposModulos.idGruposModulos =:grupo");
 
             $params = [];
             if ($model->tipo == ModuloContenido::TIPO_HTML) {
                 $params['vista'] = '_contenido';
                 $params['opcion'] = 'contenido';
             } else if ($model->tipo == ModuloContenido::TIPO_DATATABLE) {
+                $params['opcion'] = 'contenido';
+                $params['vista'] = '_dataTable';
                 
+                
+                $modelForm = new DataTableForm;
+
+                if ($modelForm->load(Yii::$app->request->post())) {
+                    $archivo = UploadedFile::getInstance($modelForm, 'archivo');
+
+                    if (!is_null($archivo)) {
+                        $rutaDirectorio = Yii::$app->params['documentos']['rutaDataTables'];
+                        $rutaDocumento = Yii::$app->user->identity->numeroDocumento . "_" .date('YmdHis') . '.' . $archivo->extension;
+                        $archivo->saveAs($rutaDirectorio . $rutaDocumento);
+                        
+
+                        $extension['xlsx'] = '\PHPExcel_Reader_Excel2007';
+                        $extension['xls'] = '\PHPExcel_Reader_Excel5';
+                        $objReader = new $extension[$archivo->extension];
+                        $objPHPExcel = $objReader->load($rutaDirectorio . $rutaDocumento);
+
+                        $nHojas = $objPHPExcel->getSheetCount();
+                        $hojas = $objPHPExcel->getSheetNames();
+
+                        $dataTableHTML = $this->renderPartial('datatable_read', 
+                                ['objPHPExcel' => $objPHPExcel, 'nHojas' => $nHojas, 'hojas' => $hojas, 'idModulo' => $model->idModulo]);
+                        $model->contenido = $dataTableHTML;
+                        if($model->save()){
+                            Yii::$app->session->setFlash('success', "Tabla generada con &eacute;xito");
+                        }else{
+                            Yii::$app->session->setFlash('error', "Error al generar tabla");
+                        }
+                    }
+                }
+                
+                $params['modelForm'] = $modelForm;
+
+
             } else if ($model->tipo == ModuloContenido::TIPO_GROUP_MODULES) {
                 $params['searchModelAgregar'] = new ModuloContenido();
 
