@@ -14,6 +14,7 @@ use yii\filters\VerbFilter;
  * DocumentoController implements the CRUD actions for Documento model and other actions.
  */
 class DocumentoController extends Controller {
+    public $defaultAction = "admin";
 
     /**
      * @inheritdoc

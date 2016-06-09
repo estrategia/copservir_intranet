@@ -64,26 +64,30 @@ class EventosCalendario extends \yii\db\ActiveRecord {
     }
 
     public static function consultarEventos($inicio, $fin, $portal, $destino, $resumen = false) {
-        $fechaInicio = "t_EventosCalendario.fechaInicioVisible";
-        $fechaFin = "t_EventosCalendario.fechaFinVisible";
+        $fechaInicio = "t.fechaInicioVisible";
+        $fechaFin = "t.fechaFinVisible";
 
         if ($resumen) {
-            $fechaInicio = "t_EventosCalendario.fechaInicioEvento";
-            $fechaFin = "t_EventosCalendario.fechaFinEvento";
+            $fechaInicio = "t.fechaInicioEvento";
+            $fechaFin = "t.fechaFinEvento";
         }
 
         $query = array();
 
         if (empty($destino)) {
-            $query = self::find()->with(['objContenido'])
-                    ->joinWith(['listEventosPortales.objPortal'])->where("( ($fechaInicio<=:inicio AND $fechaFin>:inicio) OR ($fechaInicio<:fin AND $fechaFin>=:fin) OR ($fechaInicio>=:inicio AND $fechaFin<=:fin) ) AND t_EventosCalendario.estado=:estado AND m_Portal.nombrePortal=:portal")
+            $query = self::find()
+                    ->alias('t')
+                    ->with(['objContenido'])
+                    ->joinWith(['objPortal as objPortal'])->where("( ($fechaInicio<=:inicio AND $fechaFin>:inicio) OR ($fechaInicio<:fin AND $fechaFin>=:fin) OR ($fechaInicio>=:inicio AND $fechaFin<=:fin) ) AND t.estado=:estado AND objPortal.nombrePortal=:portal")
                     ->orderBy('fechaInicioEvento ASC')
                     ->addParams([':inicio' => $inicio, ':fin' => $fin, ':estado' => 1, ':portal' => $portal])
                     ->all();
             return $query;
         } else {
-            $query = self::find()->with(['objContenido'])
-                    ->joinWith(['listEventosDestinos', 'listEventosPortales.objPortal'])->where("( ($fechaInicio<=:inicio AND $fechaFin>:inicio) OR ($fechaInicio<:fin AND $fechaFin>=:fin) OR ($fechaInicio>=:inicio AND $fechaFin<=:fin) ) AND t_EventosCalendario.estado=:estado AND m_Portal.nombrePortal=:portal AND ( (t_EventosCalendarioDestino.codigoCiudad=:ciudad AND t_EventosCalendarioDestino.idGrupoInteres IN (" . $destino['grupos'] . ")) OR (t_EventosCalendarioDestino.codigoCiudad=:ciudadA AND t_EventosCalendarioDestino.idGrupoInteres IN (" . $destino['grupos'] . ")) OR (t_EventosCalendarioDestino.codigoCiudad=:ciudad AND t_EventosCalendarioDestino.idGrupoInteres=:gruposA) OR (t_EventosCalendarioDestino.codigoCiudad=:ciudadA AND t_EventosCalendarioDestino.idGrupoInteres=:gruposA) )")
+            $query = self::find()
+                    ->alias('t')
+                    ->with(['objContenido'])
+                    ->joinWith(['listEventosDestinos as destinos', 'objPortal as objPortal'])->where("( ($fechaInicio<=:inicio AND $fechaFin>:inicio) OR ($fechaInicio<:fin AND $fechaFin>=:fin) OR ($fechaInicio>=:inicio AND $fechaFin<=:fin) ) AND t.estado=:estado AND objPortal.nombrePortal=:portal AND ( (destinos.codigoCiudad=:ciudad AND destinos.idGrupoInteres IN (" . $destino['grupos'] . ")) OR (destinos.codigoCiudad=:ciudadA AND destinos.idGrupoInteres IN (" . $destino['grupos'] . ")) OR (destinos.codigoCiudad=:ciudad AND destinos.idGrupoInteres=:gruposA) OR (destinos.codigoCiudad=:ciudadA AND destinos.idGrupoInteres=:gruposA) )")
                     ->orderBy('fechaInicioEvento ASC')
                     ->addParams([':inicio' => $inicio, ':fin' => $fin, ':estado' => 1, ':portal' => $portal, ':ciudad' => $destino['ciudad'], ':ciudadA' => Yii::$app->params['ciudad']['*'], ':gruposA' => Yii::$app->params['grupo']['*']])
                     ->all();
@@ -126,8 +130,8 @@ class EventosCalendario extends \yii\db\ActiveRecord {
         return $this->hasMany(EventosCalendarioDestino::className(), ['idEventoCalendario' => 'idEventoCalendario']);
     }
 
-    public function getListEventosPortales() {
-        return $this->hasMany(EventosCalendarioPortal::className(), ['idEventoCalendario' => 'idEventoCalendario']);
+    public function getObjPortal() {
+        return $this->hasOne(Portal::className(), ['idPortal' => 'idPortal']);
     }
 
     public function getObjContenido() {

@@ -45,7 +45,7 @@ class DefaultController extends Controller {
     $fin = '2016-03-31';
 
 
-    $listEventos = EventosCalendario::consultarEventos($inicio, $fin, true);
+    $listEventos = EventosCalendario::consultarEventos($inicio, $fin, 'intranet', [], false);
 
     \yii\helpers\VarDumper::dump($listEventos, 5, true);
   }

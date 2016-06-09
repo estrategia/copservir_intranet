@@ -306,7 +306,7 @@ class UsuarioController extends \yii\web\Controller {
                     'model' => $model,
         ]);
     }
-
+    
     public function actionPantallaInicio() {
         // obtener opciones desactivadas
         $opcionesDesactivadas = UsuarioWidgetInactivo::find()->where(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento])->all();

@@ -32,12 +32,6 @@ class ContenidoController extends Controller {
                     'listar-comentarios-denunciados', 'detalle-comentario-denuncio', 'eliminar-comentario-denunciado',
                 ],
             ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
         ];
     }
 

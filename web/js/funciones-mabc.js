@@ -1440,9 +1440,6 @@ $( document ).ready(function() {
     loop:true,
   });
 
-  // carousel portales
-  $("#owl-example").owlCarousel();
-
   // javascript para que se busque una noticia cuando presiona enter
   $('#busqueda').keypress(function(event) {
 

@@ -114,3 +114,6 @@ jQuery(function ($) {
 	$this.countTo(options);
   }
 });
+
+// carousel portales
+  $("#owl-portales.owl-carousel").owlCarousel();

@@ -101,7 +101,6 @@ class ModulosAdministrablesController extends Controller {
                 $params['opcion'] = 'contenido';
                 $params['vista'] = '_dataTable';
                 
-                
                 $modelForm = new DataTableForm;
 
                 if ($modelForm->load(Yii::$app->request->post())) {
@@ -121,8 +120,14 @@ class ModulosAdministrablesController extends Controller {
                         $nHojas = $objPHPExcel->getSheetCount();
                         $hojas = $objPHPExcel->getSheetNames();
 
-                        $dataTableHTML = $this->renderPartial('datatable_read', 
-                                ['objPHPExcel' => $objPHPExcel, 'nHojas' => $nHojas, 'hojas' => $hojas, 'idModulo' => $model->idModulo]);
+                        $dataTableHTML = $this->renderPartial(
+                                'datatable_read', 
+                                [
+                                    'objPHPExcel' => $objPHPExcel, 
+                                    'nHojas' => $nHojas, 
+                                    'hojas' => $hojas, 
+                                    'idModulo' => $model->idModulo
+                                ]);
                         $model->contenido = $dataTableHTML;
                         if($model->save()){
                             Yii::$app->session->setFlash('success', "Tabla generada con &eacute;xito");
@@ -133,7 +138,6 @@ class ModulosAdministrablesController extends Controller {
                 }
                 
                 $params['modelForm'] = $modelForm;
-
 
             } else if ($model->tipo == ModuloContenido::TIPO_GROUP_MODULES) {
                 $params['searchModelAgregar'] = new ModuloContenido();

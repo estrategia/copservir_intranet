@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attribute' => 'rutaDocumento',
         'format'=>'raw',
         'value' => function($model) {
-          return Html::a('<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>', [$model->rutaDocumento], []);
+          return Html::a('<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>', Yii::getAlias('@web') . Yii::$app->params['documentos']['rutaArchivo'] .$model->rutaDocumento, ['target'=>'_blank']);
         }
       ],
       [

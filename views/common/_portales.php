@@ -6,7 +6,7 @@ use yii\helpers\Html;
 <section id="carousel-clients">
   <div class="container internal">
     <div class="space-1"></div>
-    <div id="owl-example" class="owl-carousel">
+    <div id="owl-portales" class="owl-carousel">
 
       <?= Html::a('intranet
       <div class="item darkCyan">
@@ -37,7 +37,7 @@ use yii\helpers\Html;
       ?>
 
       <div class="item dodgerBlue">
-        <img src="http://placehold.it/200x150" alt="">
+          <a href="#" ><img src="http://placehold.it/200x150" alt=""></a>
       </div>
 
       <div class="item skyBlue">

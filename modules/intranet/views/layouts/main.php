@@ -141,7 +141,7 @@ if (!Yii::$app->user->isGuest) {
           <p class="menu-title">MENU</p> <!-- BEGIN SIDEBAR MENU -->
           <ul>
             <li class="start  open active ">
-              <?= Html::a('<i class="icon-custom-home"></i> <span class="title">Panel de control</span> <span class="selected"></span>', ['sitio/index'], []) ?>
+              <?= Html::a('<i class="icon-custom-home"></i> <span class="title">Inicio</span> <span class="selected"></span>', ['sitio/index'], []) ?>
             </li>
             <li >
               <?= Html::a('<i class="fa fa-list-alt"></i> <span class="title">Mis Publicaciones</span> <span class="selected"></span>', ['contenido/mis-publicaciones'], []) ?>

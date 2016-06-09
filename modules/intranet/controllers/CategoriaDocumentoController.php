@@ -23,12 +23,12 @@ class CategoriaDocumentoController extends \yii\web\Controller {
                     'eliminar-relacion-documento', 'guardar-relacion-documento'
                 ],
             ],
-            'verbs' => [
+            /*'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-            ],
+            ],*/
         ];
     }
     

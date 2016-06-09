@@ -118,7 +118,7 @@ $config = [
             ],
         ],
     ],
-    'defaultRoute' => 'sitio/index',
+    'defaultRoute' => '/coopservir/sitio',
     'params' => $params,
     'modules' => [
         'intranet' => [

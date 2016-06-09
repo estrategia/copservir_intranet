@@ -131,7 +131,7 @@ class Documento extends \yii\db\ActiveRecord
   {
     $this->file = UploadedFile::getInstance($this, 'file'); // si no selecciona nada pone null
     if (!is_null($this->file)) {
-      $this->file->saveAs('contenidos/documentos/' . $this->file->baseName . '.' . $this->file->extension);
+      $this->file->saveAs(Yii::getAlias('@webroot') . \Yii::$app->params['documentos']['rutaArchivo'] . $this->file->baseName . '.' . $this->file->extension);
       $this->rutaDocumento = $this->file->baseName . '.' . $this->file->extension;
     }
   }
