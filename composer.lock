@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "db492efe537f682eace2bcef36d79745",
-    "content-hash": "8a0666593be9ded42890814518a45ef7",
+    "hash": "c72a301c0c1005bb061a9876ac3bac8e",
+    "content-hash": "9c9291ac0a248de34682a1282996a8d7",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -1121,6 +1121,60 @@
             "time": "2015-12-11 19:07:50"
         },
         {
+            "name": "kartik-v/yii2-widget-datepicker",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-widget-datepicker.git",
+                "reference": "52606c8764a174aa0d5e6483ed811f617c74ee4e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/52606c8764a174aa0d5e6483ed811f617c74ee4e",
+                "reference": "52606c8764a174aa0d5e6483ed811f617c74ee4e",
+                "shasum": ""
+            },
+            "require": {
+                "kartik-v/yii2-krajee-base": "~1.7"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "kartik\\date\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "Enhanced Yii2 wrapper for the bootstrap datepicker plugin (sub repo split from yii2-widgets).",
+            "homepage": "https://github.com/kartik-v/yii2-widget-datepicker",
+            "keywords": [
+                "date",
+                "extension",
+                "form",
+                "jquery",
+                "picker",
+                "plugin",
+                "select2",
+                "widget",
+                "yii2"
+            ],
+            "time": "2016-04-08 10:42:51"
+        },
+        {
             "name": "kartik-v/yii2-widget-datetimepicker",
             "version": "v1.4.2",
             "source": {
@@ -1175,12 +1229,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-fileinput.git",
-                "reference": "fb36b8051b7bb13520171fe234a7f3ad6a10c116"
+                "reference": "14cda11159a217db3056160e0ec8303979a9febd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-fileinput/zipball/fb36b8051b7bb13520171fe234a7f3ad6a10c116",
-                "reference": "fb36b8051b7bb13520171fe234a7f3ad6a10c116",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-fileinput/zipball/14cda11159a217db3056160e0ec8303979a9febd",
+                "reference": "14cda11159a217db3056160e0ec8303979a9febd",
                 "shasum": ""
             },
             "require": {
@@ -1222,7 +1276,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-05-22 16:51:00"
+            "time": "2016-06-03 18:15:55"
         },
         {
             "name": "kartik-v/yii2-widget-select2",
@@ -1230,12 +1284,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-select2.git",
-                "reference": "f44fcca6778157ec6034cde0b78ec60a5230e36d"
+                "reference": "00c29bf2ea42df7be2ae6aa2b2be049807a8134b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/f44fcca6778157ec6034cde0b78ec60a5230e36d",
-                "reference": "f44fcca6778157ec6034cde0b78ec60a5230e36d",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/00c29bf2ea42df7be2ae6aa2b2be049807a8134b",
+                "reference": "00c29bf2ea42df7be2ae6aa2b2be049807a8134b",
                 "shasum": ""
             },
             "require": {
@@ -1275,7 +1329,56 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-06-02 16:20:58"
+            "time": "2016-06-03 10:10:39"
+        },
+        {
+            "name": "kartik-v/yii2-widget-timepicker",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-widget-timepicker.git",
+                "reference": "fa230caf281fbf6abea29a5dc1c28ebc005e4438"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-timepicker/zipball/fa230caf281fbf6abea29a5dc1c28ebc005e4438",
+                "reference": "fa230caf281fbf6abea29a5dc1c28ebc005e4438",
+                "shasum": ""
+            },
+            "require": {
+                "kartik-v/yii2-krajee-base": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "kartik\\time\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD 3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "Enhanced Yii2 wrapper for the bootstrap timepicker plugin (sub repo split from yii2-widgets)",
+            "homepage": "https://github.com/kartik-v/yii2-widget-timepicker",
+            "keywords": [
+                "bootstrap",
+                "extension",
+                "form",
+                "jquery",
+                "picker",
+                "plugin",
+                "time",
+                "widget",
+                "yii2"
+            ],
+            "time": "2016-01-12 09:50:39"
         },
         {
             "name": "nirvana-msu/yii2-showloading",
@@ -2240,6 +2343,7 @@
         "execut/yii2-widget-bootstraptreeview": 20,
         "kartik-v/yii2-widget-select2": 20,
         "nirvana-msu/yii2-showloading": 20,
+        "kartik-v/yii2-widget-datepicker": 20,
         "sadovojav/yii2-image-cutter": 20,
         "kartik-v/yii2-widget-fileinput": 20
     },

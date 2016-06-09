@@ -42,12 +42,13 @@ class ContenidoSearch extends Contenido
     public function searchNoticiasPortal($params, $nombrePortal)
     {
       $this->load($params);
+
       $portalModel = Portal::encontrarModeloPorNombre($nombrePortal);
 
-      $query = self::find()->joinWith(['objContenidoPortal'])
-      ->where('fechaInicioPublicacion<=:fecha AND estado=:estado and t_ContenidoPortal.idPortal=:idPortal')
+      $query = self::find()->joinWith(['objContenidoPortal'])->with('objLineaTiempo')
+      ->where('estado=:estado and t_ContenidoPortal.idPortal=:idPortal')//->where('fechaInicioPublicacion<=:fecha AND estado=:estado and t_ContenidoPortal.idPortal=:idPortal')
       ->orderBy('fechaInicioPublicacion Desc')
-      ->addParams([':estado' => self::APROBADO, ':fecha' => Date("Y-m-d"), ':idPortal' => $portalModel->idPortal]);
+      ->addParams([':estado' => self::APROBADO,  ':idPortal' => $portalModel->idPortal]); //':fecha' => Date("Y-m-d"),
 
       $dataProvider = new ActiveDataProvider([
           'query' => $query,
@@ -65,6 +66,7 @@ class ContenidoSearch extends Contenido
 
       if (!is_null($this->fechaInicioPublicacion)) {
 
+
         $query->andFilterWhere([
             '>=',  'fechaInicioPublicacion', Date("Y-m-d H:i:s", strtotime($this->fechaInicioPublicacion.' 00:00:00')),
         ]);
@@ -73,6 +75,17 @@ class ContenidoSearch extends Contenido
             '<=',  'fechaInicioPublicacion', Date("Y-m-d H:i:s", strtotime($this->fechaInicioPublicacion.' 23:59:59')),
         ]);
       }
+
+      $query->andFilterWhere([
+        'idLineaTiempo' => $this->idLineaTiempo,
+      ]);
+
+      $query->andFilterWhere(['like', 'titulo', $this->titulo]);
+
+      //$query->andFilterWhere(['idLineaTiempo', $this->idLineaTiempo]);
+
+
       return $dataProvider;
     }
+
 }

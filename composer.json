@@ -28,6 +28,8 @@
         "nirvana-msu/yii2-showloading": "1.0.*@dev",
 
         "kartik-v/yii2-widget-datetimepicker": "*",
+        "kartik-v/yii2-widget-timepicker": "*",
+        "kartik-v/yii2-widget-datepicker": "@dev",
 
         "sadovojav/yii2-image-cutter": "dev-master",
         "bupy7/yii2-widget-cropbox": "*",

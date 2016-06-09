@@ -3,6 +3,7 @@
 namespace app\modules\intranet\models;
 
 use Yii;
+use yii\data\ActiveDataProvider;
 
 /**
 * This is the model class for table "t_EventosCalendarioDestino".
@@ -30,6 +31,40 @@ class EventosCalendarioDestino extends \yii\db\ActiveRecord {
       'idGrupoInteres' => 'Id Grupo Interes',
       'codigoCiudad' => 'Codigo Ciudad',
     ];
+  }
+
+  public function getObjGrupoInteres(){
+    return $this->hasOne(GrupoInteres::className(), ['idGrupoInteres' => 'idGrupoInteres']);
+  }
+
+  public function getObjCiudad(){
+    return $this->hasOne(Ciudad::className(), ['codigoCiudad' => 'codigoCiudad']);
+  }
+
+  public function getObjEventoCalendario(){
+    return $this->hasOne(EventosCalendario::className(), ['idEventoCalendario' => 'idEventoCalendario']);
+  }
+
+  /**
+  * Consulta los OfertasLaboralesDestino segun el idOfertaLaboral junto con los objetos cargos relacionados
+  * @param idOfertaLaboral
+  * @return data provider con OfertasLaboralesDestino
+  */
+  public static function listaOfertas($idEventoCalendario)
+  {
+
+    $query = self::find()->joinWith(['objEventoCalendario'])
+    ->where("(  t_EventosCalendario.idEventoCalendario =:idEventoCalendario )")
+    ->addParams([':idEventoCalendario' => $idEventoCalendario])->with(['objEventoCalendario','objGrupoInteres','objCiudad']);
+
+    $dataProvider = new ActiveDataProvider([
+      'query' => $query,
+      'pagination' => [
+        'pageSize' => 10,
+      ],
+    ]);
+
+    return $dataProvider;
   }
 
 }

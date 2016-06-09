@@ -6,10 +6,6 @@ use kartik\datetime\DateTimePicker;
 use kartik\file\FileInput;
 use kartik\select2\Select2;
 use app\modules\intranet\models\CampanasDestino;
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\PublicacionesCampanas */
-/* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="publicaciones-campanas-form">

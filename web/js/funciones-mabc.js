@@ -246,7 +246,8 @@ function makeMap(jsonGrafica, patron, valorGrafica, flag) {
 }
 
 /**
-* funcion con una peticion ajax para redenrizar el modal donde se seleccionaran los amigos a quienes deseo compartir el clasificado
+* funcion con una peticion ajax para redenrizar el modal donde se seleccionaran los amigos a
+* quienes deseo compartir el clasificado
 * @param idClasificado
 * @return data.result = json donde se especifica si todo se realizo bien,
 data.response = html para renderizar el modal con el formulario para buscar amigos
@@ -322,7 +323,7 @@ $(document).on('click', "button[data-role='enviar-amigos']", function() {
 //::::::::::::::::::::::
 
 /**
-* peticion ajax para eliminar un cargo de un frupo de interes
+* peticion ajax para eliminar un cargo de un grupo de interes
 * @param idCargo, idGrupo
 * @return data.result = json donde se especifica si todo se realizo bien
 *         data.response = html para renderizar la grilla de los cargos de nuevo
@@ -456,7 +457,7 @@ $(document).on('click', "a[data-role='eliminarDestino']", function() {
 });
 
 /**
-* peticion ajax para agregar un cargo a un grupo de interes
+* peticion ajax para agregar destino  a una oferta laboral
 * @param datos del formulario
 * @return data.result = json donde se especifica si todo se realizo bien
 *         data.response = html para renderizar el modal
@@ -529,7 +530,7 @@ function getListaPermisos(nombreRol) {
 }
 
 /**
-* peticion ajax para mostrar la plantilla de una oferta en un popove en el home, si la peticion ya se hizo no la hace mas
+* peticion ajax para mostrar la plantilla de una oferta en un popover en el home, si la peticion ya se hizo no la hace mas
 * @param idOferta
 * @return data.result = json donde se especifica si todo se realizo bien
 *         data.response = html de la platilla
@@ -990,7 +991,8 @@ $(document).on('click', "button[data-role='actualizar-opcion-menu']", function()
 });
 
 /**
-* peticion ajax para renderizar el modal con el formulario para crear un modelo Opcion que es donde se guarda el enlace del item del menu
+* peticion ajax para renderizar el modal con el formulario para crear un modelo Opcion que es donde se
+* guarda el enlace del item del menu
 * @param idMenu
 * @return data.result = json donde se especifica si todo se realizo bien
 *         data.response = html del modal
@@ -1193,7 +1195,7 @@ $(document).on('click', "button[data-role='felicitaAniversario']", function() {
 // CAMPAÑAS
 //::::::::::::::::::::::
 /**
-* peticion ajax para eliminar un destino de una oferta laboral
+* peticion ajax para eliminar un destino de una campana
 * @param idOferta, idCiudad, idGrupo
 * @return data.result = json donde se especifica si todo se realizo bien
 *         data.response = html para renderizar la grilla de los destinos
@@ -1236,10 +1238,10 @@ $(document).on('click', "a[data-role='eliminarDestinoCampana']", function() {
 });
 
 /**
-* peticion ajax para agregar un cargo a un grupo de interes
+* peticion ajax para agregar un destino a una campana
 * @param datos del formulario
 * @return data.result = json donde se especifica si todo se realizo bien
-*         data.response = html para renderizar el modal
+*         data.response = html para renderizar la grilla de los destinos
 */
 $(document).on('click', "a[data-role='agregar-destino-campana']", function() {
 
@@ -1265,6 +1267,129 @@ $(document).on('click', "a[data-role='agregar-destino-campana']", function() {
         if (data.result == "ok") {
           $('#destinosCampana').append(data.response);
         }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
+
+//::::::::::::::::::::::
+// EVENTOS CALENDARIO
+//::::::::::::::::::::::
+/**
+* peticion ajax para eliminar un destino de una oferta laboral
+* @param idOferta, idCiudad, idGrupo
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html para renderizar la grilla de los destinos
+*/
+$(document).on('click', "a[data-role='eliminarDestinoEventoCalendario']", function() {
+
+  var idEvento = $(this).attr('data-evento');
+  var idCiudad = $(this).attr('data-ciudad');
+  var idGrupo = $(this).attr('data-grupo');
+
+  if(confirm("¿Estas seguro de querer eliminar?")) {
+
+    $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/calendario/eliminar-evento-destino',
+      data: {idCiudad: idCiudad, idGrupo: idGrupo, idEvento: idEvento},
+      dataType: 'json',
+      beforeSend: function() {
+        //    Loading.show();
+        $('body').showLoading();
+        $('#listaEventos').remove();
+      },
+
+      complete: function(data) {
+        //   Loading.hide();
+        $('body').hideLoading();
+      },
+      success: function(data) {
+        if (data.result == "ok") {
+          $('#destinosEventos').append(data.response);
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        $('body').hideLoading();
+      }
+    })
+  }
+  return false;
+});
+
+/**
+* peticion ajax para agregar un destino a un evento
+* @param datos del formulario
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html para renderizar la grilla de los destinos
+*/
+$(document).on('click', "a[data-role='agregar-destino-evento-calendario']", function() {
+
+  var form = $("#formEnviaDestinosEventos");
+
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/calendario/agrega-destino-evento',
+    data: form.serialize(),
+    dataType: 'json',
+    beforeSend: function() {
+      //    Loading.show();
+      $('body').showLoading();
+      $('#listaEventos').remove();
+    },
+
+    complete: function(data) {
+      //   Loading.hide();
+      $('body').hideLoading();
+    },
+    success: function(data) {
+
+        if (data.result == "ok") {
+          $('#destinosEventos').append(data.response);
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
+
+
+$(document).on('click', "a[data-role='asignar-contenido-evento-calendario']", function() {
+
+  var idContenido = $(this).attr('data-contenido');
+  var idEvento = $('#modelo').attr('data-evento');
+  var url = $(this).attr('href')
+
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: url, //requestUrl + '/intranet/calendario/asignar-contenido-evento',
+    data: {idContenido: idContenido, idEvento: idEvento},
+    dataType: 'json',
+    beforeSend: function() {
+      //    Loading.show();
+      $('body').showLoading();
+      $('#contenidos-lista').remove();
+    },
+
+    complete: function(data) {
+      //   Loading.hide();
+      $('body').hideLoading();
+    },
+    success: function(data) {
+
+      if (data.result == "ok") {
+        //location.reload();
+        $('#lista-contenido-asignar').append(data.response);
+
+      }
     },
     error: function(jqXHR, textStatus, errorThrown) {
       $('body').hideLoading();

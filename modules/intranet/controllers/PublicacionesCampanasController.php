@@ -178,12 +178,12 @@ class PublicacionesCampanasController extends Controller
 
       if ($modelDestinoCampana->load(Yii::$app->request->post())) {
 
+        $model = $this->findModel($modelDestinoCampana->idImagenCampana);
+        $destinoCampana = CampanasDestino::listaDestinos($model->idImagenCampana);
+
         if ($modelDestinoCampana->save()) {
             $modelDestinoCampana = new CampanasDestino;
         }
-
-        $model = $this->findModel($modelDestinoCampana->idImagenCampana);
-        $destinoCampana = CampanasDestino::listaDestinos($model->idImagenCampana);
 
         $respond = [
           'result' => 'ok',

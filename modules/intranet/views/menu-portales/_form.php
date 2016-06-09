@@ -137,7 +137,7 @@ use app\modules\intranet\models\MenuPortales;
     <div id="gridView-moduloContenido" hidden>
       <?= $this->render('_modulosContenidos', [
           'dataProviderModuloContenido'=> $dataProviderModuloContenido,
-          'model' => $model,
+          'modelo' => $model,
           'searchModel' => $searchModel
       ]) ?>
     </div>

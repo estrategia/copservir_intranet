@@ -5,6 +5,8 @@ namespace app\modules\intranet\models;
 use Yii;
 use yii\db\Expression;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
+use app\modules\intranet\models\Portal;
 
 /**
  * This is the model class for table "t_EventosCalendario".
@@ -25,15 +27,18 @@ use yii\helpers\Url;
  */
 class EventosCalendario extends \yii\db\ActiveRecord {
 
+  const ACTIVO = 1;
+  const INACTIVO = 0;
+
     public static function tableName() {
         return 't_EventosCalendario';
     }
 
     public function rules() {
         return [
-            [['idContenido', 'numeroDocumento', 'estado'], 'integer'],
-            [['tituloEvento', 'descripcionEvento', 'numeroDocumento', 'fechaRegistro', 'fechaInicioEvento', 'fechaFinEvento', 'fechaInicioVisible', 'fechaFinVisible'], 'required'],
-            [['fechaRegistro', 'fechaInicioEvento', 'horaInicioEvento', 'fechaFinEvento', 'horaFinEvento', 'fechaInicioVisible', 'fechaFinVisible'], 'safe'],
+            [['idContenido', 'numeroDocumento', 'estado', 'idPortal'], 'integer'],
+            [['tituloEvento', 'descripcionEvento', 'numeroDocumento', 'fechaRegistro', 'fechaInicioEvento', 'fechaFinEvento', 'fechaInicioVisible', 'fechaFinVisible', 'idPortal'], 'required'],
+            [['fechaRegistro', 'fechaInicioEvento', 'horaInicioEvento', 'horaFinEvento', 'fechaFinEvento', 'horaFinEvento', 'fechaInicioVisible', 'fechaFinVisible'], 'safe'],
             [['tituloEvento'], 'string', 'max' => 45],
             [['descripcionEvento'], 'string', 'max' => 200]
         ];
@@ -54,6 +59,7 @@ class EventosCalendario extends \yii\db\ActiveRecord {
             'fechaInicioVisible' => 'Fecha Inicio Visible',
             'fechaFinVisible' => 'Fecha Fin Visible',
             'estado' => 'Estado',
+            'idPortal' => 'Portal',
         ];
     }
 
@@ -132,4 +138,15 @@ class EventosCalendario extends \yii\db\ActiveRecord {
         return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumento']);
     }
 
+    public function getObjPortal() {
+        return $this->hasOne(Portal::className(), ['idPortal' => 'idPortal']);
+    }
+
+    /**
+     * @return array con modelos Portal mapeados por idPortal y nombrePortal
+     */
+    public function getListaPortales() {
+        $opciones = Portal::find()->asArray()->all();
+        return ArrayHelper::map($opciones, 'idPortal', 'nombrePortal');
+    }
 }
