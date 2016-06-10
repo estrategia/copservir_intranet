@@ -4,6 +4,7 @@ use vova07\imperavi\Widget;
 use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\Html;
+use app\modules\intranet\models\ContenidoDestino;
 
 
 $this->title = 'Publicar en portales';
@@ -61,6 +62,26 @@ $this->title = 'Publicar en portales';
   </div>
   <br>
   <br>
+  <!-- DESTINOS -->
+
+  <div id="divDestinos" hidden>
+    <?=
+    Html::a('<i class = "fa fa-plus-square" ></i>', '#', [
+      'data-role' => 'agregar-destino-contenido',
+      'title' => 'Agregar nuevo'
+    ]);
+    ?>
+    <?= Html::label('Añadir otro') ?>
+
+    <div id="contenido-destino">
+      <?php echo $this->render('_formDestinoContenido', ['objContenidoDestino' => new ContenidoDestino]) ?>
+    </div>
+
+  </div>
+
+
+  <br>
+  <br>
   <div class="form-group">
     <?=
       Html::submitButton('Publicar', ['class' => 'btn btn-primary'])
@@ -83,13 +104,14 @@ $this->title = 'Publicar en portales';
           console.log('entro');
           $('.field-contenido-idlineatiempo').remove();
           $('#divTimeLime').append('$inputTimeLine');
-
+          $('#divDestinos').show();
         }
       }
 
       function setInputTimeLimeHide(selectedOption) {
         if(selectedOption === 'intranet'){
           $('.field-contenido-idlineatiempo').remove();
+          $('#divDestinos').hide();
         }
       }
     ");

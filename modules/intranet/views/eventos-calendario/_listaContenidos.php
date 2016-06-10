@@ -11,11 +11,10 @@ if ($modelo->objPortal->nombrePortal == 'intranet') {
     ['class' => 'yii\grid\SerialColumn'],
 
     'titulo',
+
     [
       'attribute' => 'idLineaTiempo',
-      'value' => function($model) {
-        return $model->objLineaTiempo->nombreLineaTiempo;
-      }
+      'value' => 'objLineaTiempo.nombreLineaTiempo',
     ],
     [
       'class' => 'yii\grid\ActionColumn',

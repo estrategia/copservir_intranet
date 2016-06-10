@@ -18,8 +18,8 @@ class ContenidoSearch extends Contenido
     public function rules()
     {
         return [
-            [['idContenido', 'numeroDocumentoPublicacion', 'estado', 'numeroDocumentoAprobacion', 'idLineaTiempo'], 'integer'],
-            [['titulo', 'contenido', 'fechaPublicacion', 'fechaActualizacion', 'fechaAprobacion', 'fechaInicioPublicacion'], 'safe'],
+            [['idContenido', 'numeroDocumentoPublicacion', 'estado', 'numeroDocumentoAprobacion'], 'integer'],
+            [['titulo', 'idLineaTiempo', 'contenido', 'fechaPublicacion', 'fechaActualizacion', 'fechaAprobacion', 'fechaInicioPublicacion'], 'safe'],
         ];
     }
 
@@ -46,7 +46,7 @@ class ContenidoSearch extends Contenido
       $portalModel = Portal::encontrarModeloPorNombre($nombrePortal);
 
       $query = self::find()->joinWith(['objContenidoPortal'])->with('objLineaTiempo')
-      ->where('estado=:estado and t_ContenidoPortal.idPortal=:idPortal')//->where('fechaInicioPublicacion<=:fecha AND estado=:estado and t_ContenidoPortal.idPortal=:idPortal')
+      ->where('t_Contenido.estado=:estado and t_ContenidoPortal.idPortal=:idPortal')//->where('fechaInicioPublicacion<=:fecha AND estado=:estado and t_ContenidoPortal.idPortal=:idPortal')
       ->orderBy('fechaInicioPublicacion Desc')
       ->addParams([':estado' => self::APROBADO,  ':idPortal' => $portalModel->idPortal]); //':fecha' => Date("Y-m-d"),
 
@@ -76,13 +76,10 @@ class ContenidoSearch extends Contenido
         ]);
       }
 
-      $query->andFilterWhere([
-        'idLineaTiempo' => $this->idLineaTiempo,
-      ]);
 
       $query->andFilterWhere(['like', 'titulo', $this->titulo]);
-
-      //$query->andFilterWhere(['idLineaTiempo', $this->idLineaTiempo]);
+      $query->joinWith('objLineaTiempo');
+      $query->andFilterWhere(['like', 'nombreLineaTiempo', $this->idLineaTiempo]);
 
 
       return $dataProvider;

@@ -288,8 +288,10 @@ class SitioController extends \app\controllers\CController {
     public function actionPublicarPortales() {
         $contenidoModel = new Contenido;
         $contenidoModel->scenario = Contenido::SCENARIO_PUBLICAR_PORTALES;
+        $contenidodestino = Yii::$app->request->post('ContenidoDestino');
 
         if ($contenidoModel->load(Yii::$app->request->post())) {
+            //var_dump($contenidoModel->portales);
 
             if (!is_null($contenidoModel->idLineaTiempo)) {
                 $contenidoModel->scenario = Contenido::SCENARIO_PUBLICAR_PORTALES_CON_LINEA_TIEMPO;
@@ -305,6 +307,10 @@ class SitioController extends \app\controllers\CController {
 
                 if ($contenidoModel->save()) {
                     $this->guardarContenidoPortal($contenidoModel);
+
+                    if (!empty($contenidodestino['codigoCiudad']) && !empty($contenidodestino['idGrupoInteres']) && in_array("1", $contenidoModel->portales)) {
+                      $contenidoModel->guardarContenidoDestino($contenidodestino);
+                    }
                     $transaction->commit();
                 }
             } catch (\Exception $e) {
@@ -898,5 +904,5 @@ class SitioController extends \app\controllers\CController {
             throw new Exception("Error no se genero la notificacion:" . yii\helpers\Json::enconde($notificacion->getErrors()), 100);
         }
     }
-    
+
 }

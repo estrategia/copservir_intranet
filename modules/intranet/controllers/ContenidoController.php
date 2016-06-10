@@ -16,18 +16,19 @@ use app\modules\intranet\models\ContenidoDestino;
 use app\modules\intranet\models\ContenidoRecomendacion;
 use app\modules\intranet\models\Notificaciones;
 use yii\web\HttpException;
+use yii\filters\VerbFilter;
 
 class ContenidoController extends Controller {
-    
+
     public function behaviors() {
         return [
             [
                 'class' => \app\components\AccessFilter::className(),
                 'only' => [
-                    'listado-me-gusta-contenido', 'listado-comentarios-contenido', 'denunciar-contenido', 'guardar-denuncio-contenido', 
+                    'listado-me-gusta-contenido', 'listado-comentarios-contenido', 'denunciar-contenido', 'guardar-denuncio-contenido',
                     'eliminar-comentario', 'denunciar-comentario', 'guardar-denuncio-comentario', 'detalle-contenido', 'agregar-destino',
-                    'noticias', 'mis-publicaciones', 'buscador-noticias', 'busqueda', 'enviar-amigo', 'listar-contenidos-pendientes', 
-                    'detalle-aprobacion', 'eliminar-contenido', 'listar-contenidos-denunciados', 'detalle-denuncio', 'eliminar-contenido-denunciado', 
+                    'noticias', 'mis-publicaciones', 'buscador-noticias', 'busqueda', 'enviar-amigo', 'listar-contenidos-pendientes',
+                    'detalle-aprobacion', 'eliminar-contenido', 'listar-contenidos-denunciados', 'detalle-denuncio', 'eliminar-contenido-denunciado',
                     'listar-comentarios-denunciados', 'detalle-comentario-denuncio', 'eliminar-comentario-denunciado',
                 ],
             ],
@@ -39,7 +40,7 @@ class ContenidoController extends Controller {
             ],
         ];
     }
-    
+
     public function actions() {
         return [
             'error' => [
@@ -63,7 +64,7 @@ class ContenidoController extends Controller {
                 'response' => $this->renderPartial('_modalMeGusta', ['usuariosMeGusta' => $usuariosMeGusta])
             ];
         } else {
-            
+
         }
     }
 
@@ -82,7 +83,7 @@ class ContenidoController extends Controller {
                 'response' => $this->renderPartial('_modalComentarios', ['comentariosContenido' => $comentariosContenido])
             ];
         } else {
-            
+
         }
     }
 
@@ -102,7 +103,7 @@ class ContenidoController extends Controller {
                 'response' => $this->renderPartial('_modalDenuncio', ['modelDenuncio' => $modelDenuncio, 'idLineaTiempo' => $idLinea])
             ];
         } else {
-            
+
         }
     }
 
