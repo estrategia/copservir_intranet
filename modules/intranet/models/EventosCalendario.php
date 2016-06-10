@@ -142,10 +142,6 @@ class EventosCalendario extends \yii\db\ActiveRecord {
         return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumento']);
     }
 
-    public function getObjPortal() {
-        return $this->hasOne(Portal::className(), ['idPortal' => 'idPortal']);
-    }
-
     /**
      * @return array con modelos Portal mapeados por idPortal y nombrePortal
      */
