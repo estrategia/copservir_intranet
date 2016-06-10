@@ -20,3 +20,4 @@ phpunit.phar
 # local phpunit config
 /phpunit.xml
 /vendor/
+/composer.lock
