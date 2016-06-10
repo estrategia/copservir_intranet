@@ -129,7 +129,7 @@ class ContenidosComentarios extends \yii\db\ActiveRecord
     $this->fechaActualizacion = Date("Y-m-d H:i:s");
 
     if (!$this->save()) {
-      throw new Exception("Error al guardar el logTarea:".yii\helpers\Json::enconde($logTarea->getErrors()), 101);
+      throw new Exception("Error al guardar comentario:".yii\helpers\Json::encode($this->getErrors()), 101);
     }
   }
 }

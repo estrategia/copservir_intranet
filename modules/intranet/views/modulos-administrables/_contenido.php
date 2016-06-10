@@ -5,7 +5,6 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use vova07\imperavi\Widget;
 use app\modules\intranet\models\ModuloContenido;
-use yii\grid\GridView;
 ?>
 <input type='hidden' value='<?= $model->idModulo ?>' id='idGrupo' name='idGrupo'/>
 <?php if ($model->tipo != ModuloContenido::TIPO_GROUP_MODULES): ?>
@@ -18,8 +17,8 @@ use yii\grid\GridView;
             'lang' => 'es',
             'minHeight' => 100,
             //  'buttons' => ['format', 'bold', 'italic'],
-            //'imageUpload' => Url::toRoute('sitio/cargar-imagen'),
-            'fileUpload' => Url::toRoute('sitio/cargar-archivo'),
+            'imageUpload' => Url::toRoute('contenido/cargar-imagen'),
+            'fileUpload' => Url::toRoute('contenido/cargar-archivo'),
             'plugins' => [
                 //'imagemanager',
                 'fullscreen'

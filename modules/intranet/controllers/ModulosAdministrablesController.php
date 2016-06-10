@@ -18,7 +18,9 @@ use yii\web\UploadedFile;
 
 class ModulosAdministrablesController extends Controller {
 
-    function actionIndex() {
+    public $defaultAction = "admin";
+
+    function actionAdmin() {
         $modelo = ModuloContenido::find();
         $searchModel = new ModuloContenido();
 
@@ -34,7 +36,7 @@ class ModulosAdministrablesController extends Controller {
         $dataProvider = new ActiveDataProvider([
             'query' => $modelo,
         ]);
-        return $this->render('index', [
+        return $this->render('admin', [
                     'dataProvider' => $dataProvider,
                     'searchModel' => $searchModel
         ]);
@@ -47,34 +49,34 @@ class ModulosAdministrablesController extends Controller {
         ]);
     }
 
-    function actionCreate() {
+    function actionCrear() {
         $model = new ModuloContenido();
 
         $model->fechaRegistro = Date("Y-m-d H:i:s");
         $model->fechaActualizacion = Date("Y-m-d H:i:s");
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['update', 'id' => $model->idModulo]);
+            return $this->redirect(['actualizar', 'id' => $model->idModulo]);
         }
 
-        return $this->render('create', [
+        return $this->render('crear', [
                     'model' => $model
         ]);
     }
 
-    function actionUpdate($id = null) {
+    function actionActualizar($id = null) {
 
         if ($id != null) {
             $model = ModuloContenido::find()->where(['idModulo' => $id])->one();
 
             $model->fechaActualizacion = Date("Y-m-d H:i:s");
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return $this->redirect(['update', 'id' => $model->idModulo]);
+                return $this->redirect(['actualizar', 'id' => $model->idModulo]);
             }
             $params['vista'] = '_form';
             $params['opcion'] = 'editar';
 
             $params['model'] = $model;
-            return $this->render('update', [
+            return $this->render('actualizar', [
                         'params' => $params,
             ]);
         }
@@ -85,11 +87,6 @@ class ModulosAdministrablesController extends Controller {
         if ($id != null) {
             $model = ModuloContenido::find()->where(['idModulo' => $id])->one();
 
-
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return $this->redirect(['index']);
-            }
-
             $modelExisten = ModuloContenido::find()->joinWith(['listGruposModulos'])
                     ->where("t_GruposModulos.idGruposModulos =:grupo");
 
@@ -97,10 +94,18 @@ class ModulosAdministrablesController extends Controller {
             if ($model->tipo == ModuloContenido::TIPO_HTML) {
                 $params['vista'] = '_contenido';
                 $params['opcion'] = 'contenido';
+                
+                if ($model->load(Yii::$app->request->post())) {
+                    if ($model->save()) {
+                        Yii::$app->session->setFlash('success', "HTML guardado con &eacute;xito");
+                    } else {
+                        Yii::$app->session->setFlash('error', "Error al guardar HTML." . \yii\helpers\Json::encode($model->getErrors()));
+                    }
+                }
             } else if ($model->tipo == ModuloContenido::TIPO_DATATABLE) {
                 $params['opcion'] = 'contenido';
                 $params['vista'] = '_dataTable';
-                
+
                 $modelForm = new DataTableForm;
 
                 if ($modelForm->load(Yii::$app->request->post())) {
@@ -108,9 +113,9 @@ class ModulosAdministrablesController extends Controller {
 
                     if (!is_null($archivo)) {
                         $rutaDirectorio = Yii::$app->params['documentos']['rutaDataTables'];
-                        $rutaDocumento = Yii::$app->user->identity->numeroDocumento . "_" .date('YmdHis') . '.' . $archivo->extension;
+                        $rutaDocumento = Yii::$app->user->identity->numeroDocumento . "_" . date('YmdHis') . '.' . $archivo->extension;
                         $archivo->saveAs($rutaDirectorio . $rutaDocumento);
-                        
+
 
                         $extension['xlsx'] = '\PHPExcel_Reader_Excel2007';
                         $extension['xls'] = '\PHPExcel_Reader_Excel5';
@@ -121,24 +126,22 @@ class ModulosAdministrablesController extends Controller {
                         $hojas = $objPHPExcel->getSheetNames();
 
                         $dataTableHTML = $this->renderPartial(
-                                'datatable_read', 
-                                [
-                                    'objPHPExcel' => $objPHPExcel, 
-                                    'nHojas' => $nHojas, 
-                                    'hojas' => $hojas, 
-                                    'idModulo' => $model->idModulo
-                                ]);
+                                'datatable_read', [
+                            'objPHPExcel' => $objPHPExcel,
+                            'nHojas' => $nHojas,
+                            'hojas' => $hojas,
+                            'idModulo' => $model->idModulo
+                        ]);
                         $model->contenido = $dataTableHTML;
-                        if($model->save()){
+                        if ($model->save()) {
                             Yii::$app->session->setFlash('success', "Tabla generada con &eacute;xito");
-                        }else{
+                        } else {
                             Yii::$app->session->setFlash('error', "Error al generar tabla");
                         }
                     }
                 }
-                
-                $params['modelForm'] = $modelForm;
 
+                $params['modelForm'] = $modelForm;
             } else if ($model->tipo == ModuloContenido::TIPO_GROUP_MODULES) {
                 $params['searchModelAgregar'] = new ModuloContenido();
 
@@ -171,18 +174,18 @@ class ModulosAdministrablesController extends Controller {
 
 
             $params['model'] = $model;
-            return $this->render('update', [
+            return $this->render('actualizar', [
                         'params' => $params,
             ]);
         }
     }
 
-    function actionDelete($id = null) {
+    function actionEliminar($id = null) {
 
         if ($id != null) {
 
             if (ModuloContenido::deleteAll(['idModulo' => $id])) {
-                return $this->redirect(['index']);
+                return $this->redirect(['admin']);
             }
         }
     }
@@ -208,10 +211,10 @@ class ModulosAdministrablesController extends Controller {
                     'result' => 'error',
                 ];
             }
-        }else{
-             return [
-                    'result' => 'error',
-                ];
+        } else {
+            return [
+                'result' => 'error',
+            ];
         }
     }
 

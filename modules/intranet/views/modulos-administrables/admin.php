@@ -7,15 +7,33 @@
 
 use yii\bootstrap\Html;
 use yii\grid\GridView;
+use yii\widgets\Breadcrumbs;
 
 $this->title = Yii::t('app', 'Modulos Contenidos');
 // $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Intranet'), 'url' => [Yii::$app->session['layoutConfiguracion'].'/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<?=
+Breadcrumbs::widget([
+    'itemTemplate' => "<li>{link}</li>\n",
+    'homeLink' => [
+        'label' => 'Inicio',
+        'url' => ['/intranet/'],
+    ],
+    'links' => [
+        [
+            'label' => 'Modulos Administrativos'
+        ]
+    ],
+]);
+?>
+<div class="space-1"></div>
+
 <div class="">
 
     <p>
-        <?= Html::a(Yii::t('app', 'Crear Modulo'), ['create'], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Crear Modulo'), ['crear'], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?=
@@ -44,14 +62,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             [
-                        'class' => 'yii\grid\ActionColumn',
-                        'template' => '{update} {delete}'
-            ],
-          ],
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{actualizar} {eliminar}',
+                'buttons' => [
+                    'actualizar' => function ($url, $model) {
+                      return  Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url);
+                    },
+                    'eliminar' => function ($url, $model) {
+                      return  Html::a('<span class="glyphicon glyphicon-trash"></span>', $url);
+                    }
+                ],
+            ],  
+        ],
         'options' => [
-              'class' => 'table-responsive'
+            'class' => 'table-responsive'
         ]
-            ]);
-            ?>
+    ]);
+?>
 
 </div>

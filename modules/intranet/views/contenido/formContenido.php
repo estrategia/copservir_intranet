@@ -28,8 +28,8 @@ use kartik\file\FileInput;
       'lang' => 'es',
       'minHeight' => 100,
       'buttons' => ['format', 'bold', 'italic'],
-      //'imageUpload' => Url::toRoute('sitio/cargar-imagen'),
-      'fileUpload' => Url::toRoute('sitio/cargar-archivo'),
+      //'imageUpload' => Url::toRoute('contenido/cargar-imagen'),
+      'fileUpload' => Url::toRoute('contenido/cargar-archivo'),
       'plugins' => [
         //'imagemanager',
         'fullscreen'

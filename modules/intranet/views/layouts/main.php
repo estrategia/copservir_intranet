@@ -140,24 +140,27 @@ if (!Yii::$app->user->isGuest) {
 
           <p class="menu-title">MENU</p> <!-- BEGIN SIDEBAR MENU -->
           <ul>
-            <li class="start  open active ">
-              <?= Html::a('<i class="icon-custom-home"></i> <span class="title">Inicio</span> <span class="selected"></span>', ['sitio/index'], []) ?>
+            <li class="start open active">
+              <?= Html::a('<i class="icon-custom-home"></i> <span class="title">Inicio</span> <span class="selected"></span>', ['/intranet/sitio/index'], []) ?>
             </li>
             <li >
-              <?= Html::a('<i class="fa fa-list-alt"></i> <span class="title">Mis Publicaciones</span> <span class="selected"></span>', ['contenido/mis-publicaciones'], []) ?>
+              <?= Html::a('<i class="fa fa-list-alt"></i> <span class="title">Mis Publicaciones</span> <span class="selected"></span>', ['/intranet/contenido/mis-publicaciones'], []) ?>
             </li>
             <li >
-              <?= Html::a('<i class="fa fa-list-ul"></i> <span class="title">Tareas</span> <span class="selected"></span>', ['tareas/listar-tareas'], []) ?>
+              <?= Html::a('<i class="fa fa-list-ul"></i> <span class="title">Tareas</span> <span class="selected"></span>', ['/intranet/tareas/listar-tareas'], []) ?>
             </li>
             <li >
-              <?= Html::a('<i class="fa fa-sitemap"></i> <span class="title">Organigrama</span> <span class="selected"></span>', ['sitio/organigrama'], []) ?>
+              <?= Html::a('<i class="fa fa-sitemap"></i> <span class="title">Organigrama</span> <span class="selected"></span>', ['intranet/sitio/organigrama'], []) ?>
             </li>
             <li >
-              <?= Html::a('<i class="fa fa-calendar"></i> <span class="title">Calendario</span> <span class="selected"></span>', ['calendario/'], []) ?>
+              <?= Html::a('<i class="fa fa-calendar"></i> <span class="title">Calendario</span> <span class="selected"></span>', ['/intranet/calendario/'], []) ?>
+            </li>
+            <li >
+              <?= Html::a('<i class="fa fa-book"></i> <span class="title">Docs procedimientos</span> <span class="selected"></span>', ['/intranet/categoria-documento/'], []) ?>
             </li>
             <!-- MENU CORPORATIVO -->
             <li>
-              <?= Html::a('<i class="fa fa-sitemap"></i> <span class="title">Menú corporativo</span> <span class="selected"></span>', ['sitio/menu'], []) ?>
+              <?= Html::a('<i class="fa fa-sitemap"></i> <span class="title">Menú corporativo</span> <span class="selected"></span>', ['/intranet/sitio/menu'], []) ?>
             </li>
 
             <?php foreach ($menu as $subMenu): ?>

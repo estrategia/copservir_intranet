@@ -9,22 +9,22 @@ use yii\widgets\Breadcrumbs;
 $this->title = Yii::t('app', 'Crear Modulo');
 
 echo Breadcrumbs::widget([
-    'itemTemplate' => "<li>{link}</li>\n", // template for all links
+    'itemTemplate' => "<li>{link}</li>\n",
+    'homeLink' => [
+        'label' => 'Inicio',
+        'url' => ['/intranet/'],
+    ],
     'links' => [
         [
             'label' => 'Modulos Administrativos',
-            'url' => ['index'],
+            'url' => ['admin'],
         ],
         'Crear Módulo',
     ],
 ]);?>
 
 <div class="tipo-pqrs-create">
-
-    <h1><?php //echo Html::encode($this->title) ?></h1>
-
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
-
 </div>

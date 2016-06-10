@@ -40,7 +40,8 @@ $menuPortales = MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->modu
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"> <?= Html::a('Inicio', ['index']) ?></li>
+              <li class="active"> <?= Html::a('Inicio', ['/proveedores/index']) ?></li>
+              <li class="active"> <?= Html::a('Calendario', ['/proveedores/calendario']) ?></li>
               <?php foreach ($menuPortales as $itemMenu): ?>
                 <li>
                   <?php if ($itemMenu->esExterno()): ?>

@@ -56,8 +56,8 @@ abstract class CController extends Controller {
     public function actionContenido() {
         if(isset($_GET['menu'])){
             return $this->verMenu($_GET['menu']);
-        }else if($_GET['modulo']){
-            return $this->verModulo($_GET['modulos']);
+        }else if(isset($_GET['modulo'])){
+            return $this->verModulo($_GET['modulo']);
         }
         
         throw new \yii\web\HttpException(404, 'Solicitud inv&aacute;lida');

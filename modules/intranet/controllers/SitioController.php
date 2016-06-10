@@ -53,27 +53,6 @@ class SitioController extends \app\controllers\CController {
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
-            'cargar-imagen' => [
-                'class' => 'vova07\imperavi\actions\UploadAction',
-                'url' => Yii::getAlias('@web') . '/contenidos/imagenes/', //Yii::$app->realpath().'/imagenes', // Directory URL address, where files are stored.
-                'path' => '@app/web/contenidos/imagenes/', // Or absolute path to directory where files are stored.
-                'validatorOptions' => [
-                    'maxWidth' => Yii::$app->params['contenido']['imagen']['ancho'],
-                    'maxHeight' => Yii::$app->params['contenido']['imagen']['alto'],
-                    'maxSize' => Yii::$app->params['contenido']['imagen']['tamanho'] * 1024 * 1024,
-                    'extensions' => Yii::$app->params['contenido']['imagen']['formatosValidos']
-                ]
-            ],
-            'cargar-archivo' => [
-                'class' => 'vova07\imperavi\actions\UploadAction',
-                'url' => Yii::getAlias('@web') . '/contenidos/archivos/',
-                'path' => '@app/web/contenidos/archivos/',
-                'uploadOnlyImage' => false,
-                'validatorOptions' => [
-                    'maxSize' => Yii::$app->params['contenido']['archivo']['tamanho'] * 1024 * 1024,
-                    'extensions' => Yii::$app->params['contenido']['archivo']['formatosValidos']
-                ]
-            ]
         ];
     }
 
