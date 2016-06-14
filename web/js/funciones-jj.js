@@ -359,7 +359,7 @@ $(document).on('click', 'a[data-role="denunciar-contenido"]', function () {
         },
         success: function (data) {
             if (data.result == 'ok') {
-                $('body').append(data.response);
+                $('.div-modal-denuncio-contenido').append(data.response);
                 $("#modal-contenido-denuncio").modal("show");
 
             } else {
@@ -401,11 +401,13 @@ $(document).on('click', 'button[data-role="guardar-denuncio-contenido"]', functi
                 $("#modal-contenido-denuncio").modal("hide");
 
             } else {
-                $("#modal-contenido-denuncio").modal("hide")
-                $("#modal-contenido-denuncio").remove();
-                $('body').append(data.response);
-                $("#modal-contenido-denuncio").modal("show");
-                $(".error").text(data.error);
+
+                $("#modal-contenido-denuncio").modal("hide");
+                // $(".div-modal-denuncio-contenido").empty();
+                //$(".div-modal-denuncio-contenido").html(data.response);
+                //$('body').append(data.response);
+                //$("#modal-contenido-denuncio").modal("show");
+                //$(".error").text(data.error);
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -436,7 +438,7 @@ $(document).on('click', 'a[data-role="eliminar-comentario"]', function () {
         },
         success: function (data) {
             if (data.result == 'ok') {
-                
+
                 $("#numero-comentarios_"+data.idContenido).empty();
                 $("#numero-comentarios_"+data.idContenido).append(data.numeroComentarios);
                 $("#comentarios_contenido").html(data.response);

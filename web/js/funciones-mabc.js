@@ -506,6 +506,7 @@ function getPlantilla(id) {
   $.get( requestUrl +'/intranet/informacion-contacto-oferta/plantilla', { id: id } )
   .done(function( data ) {
     if (data.result === 'ok') {
+      $( "#contenido-plantilla" ).empty();
       $( "#contenido-plantilla" ).append( data.response );
       $( "#plantilla" ).show();
     }

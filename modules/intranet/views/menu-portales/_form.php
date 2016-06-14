@@ -32,13 +32,6 @@ use app\modules\intranet\models\MenuPortales;
       ]);
     ?>
 
-
-
-    <div id="divUrlMenu">
-
-    </div>
-
-
     <?=
       $form->field($model, 'fechaInicio')->widget(DateTimePicker::classname(), [
       'pluginOptions' => [
@@ -75,6 +68,10 @@ use app\modules\intranet\models\MenuPortales;
         ],
       ]);
     ?>
+
+    <div id="divUrlMenu">
+
+    </div>
 
     <!--  ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  -->
     <?php

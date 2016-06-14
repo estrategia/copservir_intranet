@@ -1,4 +1,4 @@
-<div class="col-md-12">
+<div class="col-md-12 preview">
   <div class="col-md-12"> <!-- se pega el contenido de la plantilla -->
       <?= $plantilla->plantillaContactoHtml  ?>
   </div>

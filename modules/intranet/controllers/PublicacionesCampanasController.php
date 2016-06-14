@@ -182,11 +182,15 @@ class PublicacionesCampanasController extends Controller {
     public function actionAgregaDestinoCampana() {
         $modelDestinoCampana = new CampanasDestino;
 
-        $model = $this->findModel($modelDestinoCampana->idImagenCampana);
-        $destinoCampana = CampanasDestino::listaDestinos($model->idImagenCampana);
+        if ($modelDestinoCampana->load(Yii::$app->request->post())) {
 
-        if ($modelDestinoCampana->save()) {
-            $modelDestinoCampana = new CampanasDestino;
+          $model = $this->findModel($modelDestinoCampana->idImagenCampana);
+          $destinoCampana = CampanasDestino::listaDestinos($model->idImagenCampana);
+
+
+          if ($modelDestinoCampana->save()) {
+              $modelDestinoCampana = new CampanasDestino;
+          }
         }
 
         $respond = [

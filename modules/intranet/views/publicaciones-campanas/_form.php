@@ -42,6 +42,7 @@ use app\modules\intranet\models\CampanasDestino;
                 />'
 
             ],
+            'overwriteInitial'=>false,
             'initialPreviewAsData'=>true,
             'maxFileCount' => 1,
             'validateInitialCount'=> true,

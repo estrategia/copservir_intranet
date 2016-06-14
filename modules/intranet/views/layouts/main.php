@@ -178,7 +178,7 @@ if (!Yii::$app->user->isGuest) {
 
               </li>
             <?php endforeach; ?>
-              
+
               <!-- MENU ADMIN -->
             <?php if (!Yii::$app->user->isGuest): ?>
                 <?php foreach (AuthItem::consultarPermisosXRol(Yii::$app->user->identity->numeroDocumento) as $objPermiso): ?>
@@ -211,6 +211,7 @@ if (!Yii::$app->user->isGuest) {
         </div>
       </div><!-- END CONTAINER -->
 
+      <div class="div-modal-denuncio-contenido"></div>
   <?php $this->endBody() ?>
   </body>
 </html>

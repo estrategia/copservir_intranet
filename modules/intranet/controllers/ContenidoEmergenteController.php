@@ -34,7 +34,7 @@ class ContenidoEmergenteController extends Controller {
             ],
         ];
     }
-    
+
     public function actions() {
         return [
             'error' => [
@@ -169,7 +169,7 @@ class ContenidoEmergenteController extends Controller {
     public function actionInactivaContenidoEmergente() {
 
         $idPopup = Yii::$app->request->post('idPopup', '');
-        $modelContenido = findModel($idPopup);
+        $modelContenido = $this->findModel($idPopup);
         $modelContenido->estado = ContenidoEmergente::ESTADO_INACTIVO;
         $respond = [];
         if ($modelContenido->save()) {

@@ -175,12 +175,12 @@ class OfertasLaboralesController extends Controller {
 
         if ($modelDestinoOferta->load(Yii::$app->request->post())) {
 
-            if ($modelDestinoOferta->save()) {
-                $modelDestinoOferta = new CampanasDestino;
-            }
-
             $model = $this->findModel($modelDestinoOferta->idOfertaLaboral);
             $destinoOfertasLaborales = OfertasLaboralesDestino::listaOfertas($modelDestinoOferta->idOfertaLaboral);
+
+            if ($modelDestinoOferta->save()) {
+                $modelDestinoOferta = new OfertasLaboralesDestino;
+            }
 
             $respond = [
                 'result' => 'ok',

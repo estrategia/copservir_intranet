@@ -161,7 +161,7 @@ class ContenidoController extends Controller {
                   $respond = [
                       'result' => 'error',
                       'response' => $this->renderAjax('_modalDenuncio', ['modelDenuncio' => $modelDenuncio, 'idLineaTiempo' => $idLineaTiempo]),
-                      'error' => 'Error al guardar el comentario'. json_encode($modelDenuncio->getErrors())
+                      //'error' => 'Error al guardar el comentario'//. json_encode($modelDenuncio->getErrors())
                   ];
               }
 

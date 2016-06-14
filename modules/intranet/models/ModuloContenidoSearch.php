@@ -62,15 +62,14 @@ class ModuloContenidoSearch extends ModuloContenido
         // grid filtering conditions
         $query->andFilterWhere([
             'tipo' => $this->tipo,
-            'titulo' => $this->titulo,
-            'descripcion' => $this->descripcion,
             'fechaRegistro' => $this->fechaRegistro,
             'contenido' => $this->contenido,
             'fechaActualizacion'=>  $this->fechaActualizacion
 
         ]);
 
-
+        $query->andFilterWhere(['like', 'titulo', $this->titulo])
+            ->andFilterWhere(['like', 'descripcion', $this->descripcion]);
 
         return $dataProvider;
     }
