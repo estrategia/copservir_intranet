@@ -126,7 +126,7 @@ use app\modules\intranet\models\LineaTiempo;
                             <span class="badge badge-info pull-right" style="margin-right: 5px;" id='numero-comentarios_<?= $noticia->idContenido ?>'>
                                 <?=
                                 Html::a(count($noticia->listComentarios) . " <span class='glyphicon glyphicon-comment' aria-hidden='true'></span>", '#', [
-                                    //'id' => 'showFormPublications' . $linea->idLineaTiempo,
+                                    'id' => 'numeroComentarios',
                                     'data-role' => 'listado-comentarios-contenido',
                                     'data-contenido' => $noticia->idContenido,
                                     'onclick' => 'return false',

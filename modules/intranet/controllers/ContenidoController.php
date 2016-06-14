@@ -17,6 +17,7 @@ use app\modules\intranet\models\ContenidoRecomendacion;
 use app\modules\intranet\models\Notificaciones;
 use yii\web\HttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Html;
 
 class ContenidoController extends Controller {
 
@@ -181,7 +182,15 @@ class ContenidoController extends Controller {
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             return [
                 'result' => 'ok',
-                'response' => $this->renderPartial('_listadoComentarios', ['comentariosContenido' => $comentariosContenido])
+                'response' => $this->renderPartial('_listadoComentarios', ['comentariosContenido' => $comentariosContenido]),
+                'numeroComentarios' => Html::a(count($comentariosContenido) . " <span class='glyphicon glyphicon-comment' aria-hidden='true'></span>", '#', [
+                    'id' => 'numeroComentarios',
+                    'data-role' => 'listado-comentarios-contenido',
+                    'data-contenido' => $idContenido,
+                    'onclick' => 'return false',
+                    'style' => 'color:white;'
+                ]),
+                'idContenido' => $idContenido,
             ];
         };
     }

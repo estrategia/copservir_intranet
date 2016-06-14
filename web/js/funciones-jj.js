@@ -436,7 +436,9 @@ $(document).on('click', 'a[data-role="eliminar-comentario"]', function () {
         },
         success: function (data) {
             if (data.result == 'ok') {
-
+                
+                $("#numero-comentarios_"+data.idContenido).empty();
+                $("#numero-comentarios_"+data.idContenido).append(data.numeroComentarios);
                 $("#comentarios_contenido").html(data.response);
 
             } else {
