@@ -265,43 +265,54 @@ class SitioController extends \app\controllers\CController {
     }
 
     public function actionPublicarPortales() {
-        $contenidoModel = new Contenido;
-        $contenidoModel->scenario = Contenido::SCENARIO_PUBLICAR_PORTALES;
-        $contenidodestino = Yii::$app->request->post('ContenidoDestino');
 
-        if ($contenidoModel->load(Yii::$app->request->post())) {
-            //var_dump($contenidoModel->portales);
+      if (!Yii::$app->user->identity->tienePermiso('intranet_sitio_publicar-portales')) {
+        throw new \yii\web\ForbiddenHttpException('Acceso no permitdo.',403);
+      }
 
-            if (!is_null($contenidoModel->idLineaTiempo)) {
-                $contenidoModel->scenario = Contenido::SCENARIO_PUBLICAR_PORTALES_CON_LINEA_TIEMPO;
-            }
+      $esAdmin = false;
+      if (Yii::$app->user->identity->tienePermiso('intranet_admin')) {
+        $esAdmin = true;
+      }
 
-            $transaction = Contenido::getDb()->beginTransaction();
-            try {
+      $contenidoModel = new Contenido;
+      $contenidoModel->scenario = Contenido::SCENARIO_PUBLICAR_PORTALES;
+      $contenidodestino = Yii::$app->request->post('ContenidoDestino');
 
-                $contenidoModel->numeroDocumentoPublicacion = Yii::$app->user->identity->numeroDocumento;
-                $contenidoModel->fechaPublicacion = $contenidoModel->fechaActualizacion = date("Y-m-d H:i:s");
-                $contenidoModel->aprobarPublicacion();
-                $contenidoModel->numeroDocumentoAprobacion = Yii::$app->user->identity->numeroDocumento;
+      if ($contenidoModel->load(Yii::$app->request->post())) {
+          //var_dump($contenidoModel->portales);
 
-                if ($contenidoModel->save()) {
-                    $this->guardarContenidoPortal($contenidoModel);
+          if (!is_null($contenidoModel->idLineaTiempo)) {
+              $contenidoModel->scenario = Contenido::SCENARIO_PUBLICAR_PORTALES_CON_LINEA_TIEMPO;
+          }
 
-                    if (!empty($contenidodestino['codigoCiudad']) && !empty($contenidodestino['idGrupoInteres']) && in_array("1", $contenidoModel->portales)) {
-                      $contenidoModel->guardarContenidoDestino($contenidodestino);
-                    }
-                    $transaction->commit();
-                }
-            } catch (\Exception $e) {
+          $transaction = Contenido::getDb()->beginTransaction();
+          try {
 
-                $transaction->rollBack();
-                throw $e;
-            }
-        }
+              $contenidoModel->numeroDocumentoPublicacion = Yii::$app->user->identity->numeroDocumento;
+              $contenidoModel->fechaPublicacion = $contenidoModel->fechaActualizacion = date("Y-m-d H:i:s");
+              $contenidoModel->aprobarPublicacion();
+              $contenidoModel->numeroDocumentoAprobacion = Yii::$app->user->identity->numeroDocumento;
 
-        return $this->render('/contenido/publicar-portales', [
-                    'contenidoModel' => $contenidoModel,
-        ]);
+              if ($contenidoModel->save()) {
+                  $this->guardarContenidoPortal($contenidoModel);
+
+                  if (!empty($contenidodestino['codigoCiudad']) && !empty($contenidodestino['idGrupoInteres']) && in_array("1", $contenidoModel->portales)) {
+                    $contenidoModel->guardarContenidoDestino($contenidodestino);
+                  }
+                  $transaction->commit();
+              }
+          } catch (\Exception $e) {
+
+              $transaction->rollBack();
+              throw $e;
+          }
+      }
+
+      return $this->render('/contenido/publicar-portales', [
+                  'contenidoModel' => $contenidoModel,
+                  'esAdmin' => $esAdmin,
+      ]);
     }
 
     public function guardarContenidoPortal($contenidoModel) {

@@ -1,9 +1,6 @@
 <?php
 
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use app\modules\intranet\models\GrupoInteres;
-use app\modules\intranet\models\Ciudad;
 use kartik\select2\Select2;
 ?>
 <?php $uid = uniqid(); ?>
@@ -14,7 +11,7 @@ use kartik\select2\Select2;
     echo Select2::widget([
       'name' => 'ContenidoDestino[idGrupoInteres][]',
       'id' => "grupo_$uid",
-      'data' => ArrayHelper::map(GrupoInteres::find()->orderBy('nombreGrupo')->all(), 'idGrupoInteres', 'nombreGrupo'),
+      'data' => $objContenidoDestino->getListaGrupoInteres($consultaTodos),
       'options' => ['placeholder' => 'Selecione ...'],
       'pluginOptions' => [
         'allowClear' => true
@@ -31,7 +28,7 @@ use kartik\select2\Select2;
       'name' => 'ContenidoDestino[codigoCiudad][]',
       'value' => '',
       'id' => "ciudad_$uid",
-      'data' => ArrayHelper::map(Ciudad::find()->orderBy('nombreCiudad')->all(), 'codigoCiudad', 'nombreCiudad'),
+      'data' => $objContenidoDestino->getListaCiudades($consultaTodos),
       'options' => ['placeholder' => 'Selecione ...'],
       'hideSearch' => false,
       'pluginOptions' => [

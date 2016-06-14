@@ -7,6 +7,8 @@ use yii\helpers\Html;
 use app\modules\intranet\models\ContenidoDestino;
 
 
+
+
 $this->title = 'Publicar en portales';
 ?>
 
@@ -43,8 +45,8 @@ $this->title = 'Publicar en portales';
 
   <?php
     echo $form->field($contenidoModel, 'portales')->widget(Select2::classname(), [
-      'data' => $contenidoModel->getListaPortales(),
-      'options' => ['placeholder' => 'Seleccione los portales'],
+      'data' => $contenidoModel->getListaPortales($esAdmin),
+      'options' => ['placeholder' => 'Seleccione los portales', 'class'=>'js-example-disabled-multi'],
       'pluginEvents' => [
                           "select2:selecting" => "function(e) { setInputTimeLine(e.params.args.data.text); }",
                           "select2:unselecting" => "function(e) { setInputTimeLimeHide(e.params.args.data.text); }",
@@ -74,7 +76,7 @@ $this->title = 'Publicar en portales';
     <?= Html::label('Añadir otro') ?>
 
     <div id="contenido-destino">
-      <?php echo $this->render('_formDestinoContenido', ['objContenidoDestino' => new ContenidoDestino]) ?>
+      <?php echo $this->render('_formDestinoContenido', ['objContenidoDestino' => new ContenidoDestino, 'consultaTodos' => $esAdmin]) ?>
     </div>
 
   </div>
@@ -97,11 +99,29 @@ $this->title = 'Publicar en portales';
 
     $inputTimeLine = str_replace("\n", "", $inputTimeLine);
 
+
+    $bandera = 'true';
+    if ($esAdmin) {
+        $bandera = 'false';
+    }
+
     $this->registerJs("
 
+      $( document ).ready(function() {
+
+        if ($bandera) {
+           $('.js-example-disabled-multi').prop('disabled', true);
+           $('.select2-search__field').remove()
+           $('.js-example-disabled-multi').val(1);
+           $('.js-example-disabled-multi').change();
+           setInputTimeLine($('.js-example-disabled-multi option:selected').text());
+        }
+      });
+
       function setInputTimeLine(selectedOption) {
+
         if(selectedOption === 'intranet'){
-          console.log('entro');
+
           $('.field-contenido-idlineatiempo').remove();
           $('#divTimeLime').append('$inputTimeLine');
           $('#divDestinos').show();

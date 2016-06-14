@@ -448,9 +448,19 @@ class Contenido extends \yii\db\ActiveRecord {
     /**
      * @return array con modelos Portal mapeados por idPortal y nombrePortal
      */
-    public function getListaPortales() {
+    public function getListaPortales($esAdmin) {
+
+      if ($esAdmin) {
         $opciones = Portal::find()->asArray()->all();
         return ArrayHelper::map($opciones, 'idPortal', 'nombrePortal');
+      }else{
+        $opciones = Portal::find()->where(' (m_Portal.nombrePortal=:nombrePortal)')
+        ->addParams([':nombrePortal' => 'intranet'])
+        ->asArray()
+        ->all();
+        return ArrayHelper::map($opciones, 'idPortal', 'nombrePortal');
+      }
+
     }
 
     /**

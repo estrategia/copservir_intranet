@@ -3,6 +3,9 @@
 namespace app\modules\intranet\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
+use app\modules\intranet\models\GrupoInteres;
+use app\modules\intranet\models\Ciudad;
 
 /**
 * This is the model class for table "t_ContenidoDestino".
@@ -33,5 +36,55 @@ class ContenidoDestino extends \yii\db\ActiveRecord
       'idGrupoInteres' => 'Grupo Interes',
       'codigoCiudad' => 'Ciudad',
     ];
+  }
+
+  /**
+   * @return array con modelos Portal mapeados por idPortal y nombrePortal
+   */
+  public function getListaGrupoInteres($bandera) {
+
+    if ($bandera) {
+
+      $opciones = GrupoInteres::find()->orderBy('nombreGrupo')->asArray()->all();
+
+      return ArrayHelper::map($opciones, 'idGrupoInteres', 'nombreGrupo');
+
+    }else{
+
+      $userGrupos = Yii::$app->user->identity->getGruposCodigos();
+      $userGrupos = implode(',',$userGrupos);
+
+      $opciones = GrupoInteres::find()->where(" ( idGrupoInteres IN ($userGrupos))")
+      ->orderBy('nombreGrupo')
+      ->asArray()
+      ->all();
+
+      return ArrayHelper::map($opciones, 'idGrupoInteres', 'nombreGrupo');
+    }
+
+  }
+
+  /**
+   * @return array con modelos Portal mapeados por idPortal y nombrePortal
+   */
+  public function getListaCiudades($bandera) {
+
+    if ($bandera) {
+
+      $opciones = Ciudad::find()->orderBy('nombreCiudad')->asArray()->all();
+
+      return ArrayHelper::map($opciones, 'codigoCiudad', 'nombreCiudad');
+
+    }else{
+
+      $opciones = Ciudad::find()->where(' ( codigoCiudad=:codigoCiudad)')
+      ->orderBy('nombreCiudad')
+      ->addParams([':codigoCiudad' => Yii::$app->user->identity->getCiudadCodigo()])
+      ->asArray()
+      ->all();
+
+      return ArrayHelper::map($opciones, 'codigoCiudad', 'nombreCiudad');
+    }
+
   }
 }

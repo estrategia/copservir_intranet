@@ -4,7 +4,11 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use app\modules\intranet\models\ContenidoDestino;
+use app\modules\intranet\models\Parametros;
 use kartik\file\FileInput;
+
+$maxFileCount = Parametros::obtenerValorParametro('contenido_maxFileCount');
+$maxFileSize = Parametros::obtenerValorParametro('contenido_maxFileSize');
 
 ?>
 
@@ -46,9 +50,9 @@ use kartik\file\FileInput;
       'options' => ['multiple' => true, 'accept' => 'image/*'],
       'pluginOptions' => [
         'uploadAsync'=>false,
-        'maxFileCount' => 5,
+        'maxFileCount' => $maxFileCount,
         'validateInitialCount'=> true,
-        'maxFileSize' => 5120,
+        'maxFileSize' => $maxFileSize,
         'previewFileType' => 'image',
         'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
         'browseLabel' =>  '',
@@ -79,7 +83,7 @@ use kartik\file\FileInput;
       ?>
       <?= Html::label('Añadir otro') ?>
       <div id="contenido-destino">
-        <?php echo $this->render('_formDestinoContenido', ['objContenidoDestino' => new ContenidoDestino]) ?>
+        <?php echo $this->render('_formDestinoContenido', ['objContenidoDestino' => new ContenidoDestino, 'consultaTodos' => true]) ?>
       </div>
     <?php endif; ?>
 

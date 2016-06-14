@@ -7,14 +7,8 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\modules\intranet\models\Contenido;
 
-/**
- * ContenidoSearch represents the model behind the search form about `app\modules\intranet\models\Contenido`.
- */
 class ContenidoSearch extends Contenido
 {
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -23,20 +17,14 @@ class ContenidoSearch extends Contenido
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function scenarios()
     {
-        // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
 
     /**
      * Creates data provider instance with search query applied
-     *
      * @param array $params
-     *
      * @return ActiveDataProvider
      */
     public function searchNoticiasPortal($params, $nombrePortal)
@@ -58,14 +46,10 @@ class ContenidoSearch extends Contenido
       ]);
 
       if (!$this->validate()) {
-          // uncomment the following line if you do not want to return any records when validation fails
-          // $query->where('0=1');
-
           return $dataProvider;
       }
 
       if (!is_null($this->fechaInicioPublicacion)) {
-
 
         $query->andFilterWhere([
             '>=',  'fechaInicioPublicacion', Date("Y-m-d H:i:s", strtotime($this->fechaInicioPublicacion.' 00:00:00')),
@@ -76,11 +60,9 @@ class ContenidoSearch extends Contenido
         ]);
       }
 
-
       $query->andFilterWhere(['like', 'titulo', $this->titulo]);
       $query->joinWith('objLineaTiempo');
       $query->andFilterWhere(['like', 'nombreLineaTiempo', $this->idLineaTiempo]);
-
 
       return $dataProvider;
     }
