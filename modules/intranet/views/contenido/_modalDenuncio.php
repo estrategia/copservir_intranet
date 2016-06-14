@@ -33,13 +33,19 @@ use yii\helpers\Html;
 
         <?= Html::hiddenInput("idLineaTiempo", $idLineaTiempo, ["id" => "idLineaTiempo"]); ?>
 
+        <div class="error text-danger"></div>
+
       </div>
+
+
+
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
         <?= Html::button(Yii::t('app', 'Denunciar' ), ['class' => 'btn btn-primary', 'data-role' => 'guardar-denuncio-contenido', 'data-linea-tiempo' => $idLineaTiempo]) ?>
       </div>
-
       <?php ActiveForm::end(); ?>
+
+
     </div>
   </div>
 </div>

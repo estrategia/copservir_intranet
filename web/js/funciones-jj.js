@@ -140,7 +140,6 @@ $(document).on('click', "a[data-role='guardar-contenido']", function () {
         },
         success: function (data) {
             if (data.result == "ok") {
-                //$("#modal-contenido-publicar").modal('hide')
                 $(".lineastiempo").html("");
                 $(href).html(data.response);
             }
@@ -342,7 +341,7 @@ $(document).on('click', 'a[data-role="listado-comentarios-contenido"]', function
     return false;
 });
 
-
+// renderiza el modal del denuncio contenido
 $(document).on('click', 'a[data-role="denunciar-contenido"]', function () {
     $.ajax({
         type: 'POST',
@@ -376,10 +375,12 @@ $(document).on('click', 'a[data-role="denunciar-contenido"]', function () {
     return false;
 });
 
-
+//guarda el denuncio de un contenido
 $(document).on('click', 'button[data-role="guardar-denuncio-contenido"]', function () {
 
     var form = $("#form-contenido-denuncio")
+    var elemento = $(this).attr('data-linea-tiempo');
+
     $.ajax({
         type: 'POST',
         dataType: 'json',
@@ -391,22 +392,26 @@ $(document).on('click', 'button[data-role="guardar-denuncio-contenido"]', functi
             $('body').showLoading()
         },
         complete: function () {
-            //Loading.hide();
+            $('body').hideLoading();
         },
         success: function (data) {
             if (data.result == 'ok') {
 
-                $("#lt" + $(this).attr('data-linea-tiempo')).html(data.response);
+                $("#lt" + elemento).html(data.response);
                 $("#modal-contenido-denuncio").modal("hide");
 
             } else {
-                alert(data.response);
+                $("#modal-contenido-denuncio").modal("hide")
+                $("#modal-contenido-denuncio").remove();
+                $('body').append(data.response);
+                $("#modal-contenido-denuncio").modal("show");
+                $(".error").text(data.error);
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('body').hideLoading();
 
-            alert('Error: ' + errorThrown);
+            //alert('Error: ' + errorThrown);
         }
     });
     return false;

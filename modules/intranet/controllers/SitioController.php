@@ -590,12 +590,14 @@ class SitioController extends \app\controllers\CController {
                 $respond = [
                     'result' => 'ok',
                     'response' => ($numeroMeGusta > 0) ?
-                            Html::a($numeroMeGusta . " Me Gusta", '#', [
+                            Html::a($numeroMeGusta . " <span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'></span>", '#', [
                                 //'id' => 'showFormPublications' . $linea->idLineaTiempo,
                                 'data-role' => 'listado-me-gusta-contenido',
                                 'data-contenido' => $post['idContenido'],
-                                'onclick' => 'return false'
-                            ]) : ''
+                                'onclick' => 'return false',
+                                'style' => 'color:white;'
+                            ])
+                             : ''
                 ];
             }
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;

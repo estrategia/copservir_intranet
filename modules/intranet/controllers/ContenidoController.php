@@ -117,55 +117,56 @@ class ContenidoController extends Controller {
                 'result' => 'ok',
                 'response' => $this->renderPartial('_modalDenuncio', ['modelDenuncio' => $modelDenuncio, 'idLineaTiempo' => $idLinea])
             ];
-        } else {
-
         }
     }
 
     public function actionGuardarDenuncioContenido() {
-        $request = \Yii::$app->request;
-        $render = $request->post('render', false);
 
-        $post = $request->post('DenunciosContenidos');
+        $request = \Yii::$app->request;
 
         $idLineaTiempo = $request->post('idLineaTiempo');
+        $linea = LineaTiempo::find()->where(['idLineaTiempo' => $idLineaTiempo])->one();
+        $noticias = Contenido::traerNoticias($idLineaTiempo);
+
         $modelDenuncio = new DenunciosContenidos();
-        $modelDenuncio->load($request->post());
-        $modelDenuncio->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-        $modelDenuncio->fechaRegistro = Date("Y-m-d H:i:s");
 
-        if ($modelDenuncio->save()) {
-            $linea = LineaTiempo::find()->where(['idLineaTiempo' => $idLineaTiempo])->one();
+        if ($modelDenuncio->load($request->post())) {
+            $modelDenuncio->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+            $modelDenuncio->fechaRegistro = Date("Y-m-d H:i:s");
+            $modelDenuncio->fechaActualizacion = Date("Y-m-d H:i:s");
+            $modelDenuncio->estado = DenunciosContenidos::PENDIENTE_APROBACION;
 
-            $noticias = Contenido::traerNoticias($idLineaTiempo);
+            if ($modelDenuncio->save()) {
+              $contenidoModel = new Contenido();
+              \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+              return [
+                  'result' => 'ok',
+                  'response' => $this->renderAjax('/sitio/_lineaTiempo', [
+                      'linea' => $linea,
+                      'contenidoModel' => $contenidoModel,
+                      'noticias' => $noticias
+                          ]
+                  )
+              ];
+            }else{
+              $contenido = Contenido::find()->where(['idContenido' => $modelDenuncio->idContenido])->one();
+              if (empty($contenido)) {
+                  $respond = [
+                      'result' => 'error',
+                      'response' => $this->renderAjax('_modalDenuncio', ['modelDenuncio' => $modelDenuncio, 'idLineaTiempo' => $idLineaTiempo]),
+                      'error' => 'El contenido ya no existe'
+                  ];
+              } else {
+                  $respond = [
+                      'result' => 'error',
+                      'response' => $this->renderAjax('_modalDenuncio', ['modelDenuncio' => $modelDenuncio, 'idLineaTiempo' => $idLineaTiempo]),
+                      'error' => 'Error al guardar el comentario'. json_encode($modelDenuncio->getErrors())
+                  ];
+              }
 
-            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            return [
-                'result' => 'ok',
-                'response' => $this->renderAjax('/sitio/_lineaTiempo', [
-                    'linea' => $linea,
-                    'noticias' => $noticias
-                        ]
-                )
-            ];
-        } else {
-
-            $contenido = Contenido::find()->where(['idContenido' => $modelDenuncio->idContenido])->one();
-
-            if (empty($contenido)) {
-                $respond = [
-                    'result' => 'error',
-                    'response' => 'El contenido ya no existe'
-                ];
-            } else {
-                $respond = [
-                    'result' => 'error',
-                    'response' => 'Error al guardar el comentario'
-                ];
+              \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+              return $respond;
             }
-
-            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            return $respond;
         }
     }
 
