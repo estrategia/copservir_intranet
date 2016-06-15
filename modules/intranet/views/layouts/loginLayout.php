@@ -9,7 +9,7 @@ use app\assets\IntranetAsset;
 IntranetAsset::register($this);
 
 $srcLogo = Yii::$app->homeUrl . 'img/logo_copservir.png';
-$srcFondo = Yii::$app->homeUrl . 'img/work.jpg';
+//$srcFondo = Yii::$app->homeUrl . 'img/work.jpg';
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -22,7 +22,7 @@ $srcFondo = Yii::$app->homeUrl . 'img/work.jpg';
   <?php $this->head() ?>
   <script> requestUrl = "<?= Yii::$app->getUrlManager()->getBaseUrl() ?>";</script>
 </head>
-  <body data-original=""  style="background-image: url('<?= "" . $srcFondo ?>')">
+  <body data-original=""  style="background-color: #1aab9c">
     <?php $this->beginBody() ?>
     <div class="container">
       <?=

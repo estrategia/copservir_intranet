@@ -12,10 +12,17 @@ use Yii;
 
 class OpcionesUsuario{
 
-  private $opcionesUsuario;
+  private $opcionesUsuario = null;
+  private $usuario;
+  
+  public function __construct($usuario) {
+      $this->usuario = $usuario;
+      $this->opcionesUsuario();
+  }
 
-  public function opcionesUsuario($usuario){
-    $opcionesUsuario = UsuariosOpcionesFavoritos::find()->where(['=', 'numeroDocumento', $usuario])->all();
+  private function opcionesUsuario(){
+      $this->opcionesUsuario = array();
+    $opcionesUsuario = UsuariosOpcionesFavoritos::find()->where(['=', 'numeroDocumento', $this->usuario])->all();
 
     foreach($opcionesUsuario as $opcion){
       $this->opcionesUsuario[] = $opcion->idMenu;
@@ -37,6 +44,9 @@ class OpcionesUsuario{
   }
 
   public function getOpcionesUsuario(){
+      if($this->opcionesUsuario===null){
+          $this->opcionesUsuario();
+      }
     return $this->opcionesUsuario;
   }
 }

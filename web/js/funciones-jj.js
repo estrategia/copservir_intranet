@@ -20,7 +20,7 @@ function cambiarTimeline(lineaTiempo, href) {
         data: {lineaTiempo: lineaTiempo},
         dataType: 'json',
         beforeSend: function () {
-            $('body').showLoading()
+            $('body').showLoading();
         },
         complete: function (data) {
             $('body').hideLoading();

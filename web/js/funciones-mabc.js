@@ -164,7 +164,7 @@ $(document).on('click', "button[data-role='inactiva-popup']", function() {
     data: {idPopup: idPopup},
     dataType: 'json',
     beforeSend: function() {
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -178,7 +178,7 @@ $(document).on('click', "button[data-role='inactiva-popup']", function() {
     error: function(jqXHR, textStatus, errorThrown) {
       $('body').hideLoading();
     }
-  })
+  });
 });
 
 /**
