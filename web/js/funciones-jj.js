@@ -181,7 +181,7 @@ $(document).on('click', "input[data-role='agregar-opcion']", function () {
         data: {idMenu: idMenu, value: isChecked},
         dataType: 'json',
         beforeSend: function () {
-            $('body').showLoading()
+            $('body').showLoading();
         },
         complete: function (data) {
             $('body').hideLoading();
@@ -191,6 +191,7 @@ $(document).on('click', "input[data-role='agregar-opcion']", function () {
             if (data.result == "ok") {
               $('.list-menu-corporativo').remove();
               $(data.response).insertAfter('#list-menu-corporativo');
+              $.Webarch.init();
               //
               //document.insertBefore(data.response, document.getElementById('list-menu-corporativo'));
             }
