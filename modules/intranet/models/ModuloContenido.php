@@ -64,5 +64,13 @@ class ModuloContenido extends \yii\db\ActiveRecord {
                 ->all();
         return $query;
     }
+    
+    public static function getModulo($idModulo) {
+        $query = self::find()
+                ->where("idModulo=:modulo")
+                ->addParams([':modulo' => $idModulo])
+                ->one();
+        return $query;
+    }
   
 }
