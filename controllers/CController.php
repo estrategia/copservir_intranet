@@ -82,7 +82,23 @@ abstract class CController extends Controller {
     }
     
     private function verModulo($idModulo){
+        $objModulo = \app\modules\intranet\models\ModuloContenido::getModulo($idModulo);
         
+        if ($objModulo==null) {
+            throw new \yii\web\HttpException(404, 'Contenido no disponible');
+        }
+        
+        $listModulos = array();
+        
+        if($objModulo->tipo == \app\modules\intranet\models\ModuloContenido::TIPO_GROUP_MODULES){
+            $listModulos = \app\modules\intranet\models\ModuloContenido::getModulosGrupo($idModulo);
+        }else{
+            $listModulos[] = $objModulo;
+        }
+        
+        return $this->render('//common/contenido/modulos', array(
+            'listModulos' => $listModulos
+        ));
     }
 
 }
