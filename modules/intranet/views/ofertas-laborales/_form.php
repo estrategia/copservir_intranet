@@ -57,10 +57,7 @@ use yii\helpers\Url;
   <br>
   <?php
 
-  echo '<label class="control-label">fecha publicacion</label>';
-  echo DateTimePicker::widget([
-    'model' => $model,
-    'attribute' => 'fechaPublicacion',
+  echo  $form->field($model, 'fechaPublicacion')->widget(DateTimePicker::classname(), [
     'options' => ['placeholder' => ''],
     'pluginOptions' => [
       'autoclose' => true,
@@ -71,10 +68,7 @@ use yii\helpers\Url;
 
   <?php
 
-  echo '<label class="control-label">fecha cierra</label>';
-  echo DateTimePicker::widget([
-    'model' => $model,
-    'attribute' => 'fechaCierre',
+  echo  $form->field($model, 'fechaCierre')->widget(DateTimePicker::classname(), [
     'options' => ['placeholder' => ''],
     'pluginOptions' => [
       'autoclose' => true,
@@ -86,10 +80,7 @@ use yii\helpers\Url;
   <?= $form->field($model, 'numeroDocumento')->hiddenInput(['value'=> Yii::$app->user->identity->numeroDocumento])->label(false); ?>
 
   <?php
-  echo '<label class="control-label">fecha inicio publicacion</label>';
-  echo DateTimePicker::widget([
-    'model' => $model,
-    'attribute' => 'fechaInicioPublicacion',
+  echo  $form->field($model, 'fechaInicioPublicacion')->widget(DateTimePicker::classname(), [
     'options' => ['placeholder' => ''],
     'pluginOptions' => [
       'autoclose' => true,
@@ -99,11 +90,7 @@ use yii\helpers\Url;
   ?>
 
   <?php
-
-  echo '<label class="control-label">fecha fin publicacion</label>';
-  echo DateTimePicker::widget([
-    'model' => $model,
-    'attribute' => 'fechaFinPublicacion',
+  echo  $form->field($model, 'fechaFinPublicacion')->widget(DateTimePicker::classname(), [
     'options' => ['placeholder' => ''],
     'pluginOptions' => [
       'autoclose' => true,

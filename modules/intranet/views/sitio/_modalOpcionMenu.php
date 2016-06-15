@@ -20,7 +20,10 @@ use yii\helpers\Url;
       <div class="modal-body">
 
         <?php $form = ActiveForm::begin(['id'=>'formMenu']); ?>
+
         <?= $form->field($model, 'descripcion')->textInput(['maxlength' => true]) ?>
+
+        <?= $form->field($model, 'orden')->textInput(['type' => 'number']) ?>
 
         <?php $model->idPadre = $model->isNewRecord ? $idPadre : $model->idPadre;  ?>
         <?= $form->field($model, 'idPadre')->hiddenInput(['value'=> $model->idPadre])->label(false); ?>

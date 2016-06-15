@@ -162,10 +162,13 @@ if (!Yii::$app->user->isGuest) {
             <li>
               <?= Html::a('<i class="fa fa-sitemap"></i> <span class="title">Menú corporativo</span> <span class="selected"></span>', ['/intranet/sitio/menu'], []) ?>
             </li>
+            <li id='list-menu-corporativo'>
+            </li>
+            <!--OPCIONES SELECCIONADAS POR EL USUARIO DEL MENU CORPORATIVO
+            <li id="list-menu-corporativo">
+            </li> -->
+            <?= $this->render('_menuCorporativoUsuario', ['menu' => $menu, 'opciones' => $opciones]); ?>
 
-            <?php foreach ($menu as $subMenu): ?>
-              <?php Menu::menuHtml($subMenu, $opciones->getOpcionesUsuario()); ?>
-            <?php endforeach; ?>
 
             <!-- MENU PORTALES -->
             <?php foreach (MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id) as $itemMenu): ?>

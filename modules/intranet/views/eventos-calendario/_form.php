@@ -47,6 +47,10 @@ use app\modules\intranet\models\EventosCalendarioDestino;
       $form->field($model, 'horaInicioEvento')->widget(TimePicker::classname(), [
       'pluginOptions' => [
         'autoclose' => true,
+        'minuteStep' => 5,
+        'secondStep' => 5,
+        'showMeridian' => false,
+
       ]
     ]);
     ?>
@@ -55,21 +59,16 @@ use app\modules\intranet\models\EventosCalendarioDestino;
       $form->field($model, 'horaFinEvento')->widget(TimePicker::classname(), [
       'pluginOptions' => [
         'autoclose' => true,
+        'minuteStep' => 5,
+        'secondStep' => 5,
+        'showMeridian' => false,
+
       ]
     ]);
     ?>
 
     <?=
       $form->field($model, 'fechaInicioVisible')->widget(DatePicker::classname(), [
-      'pluginOptions' => [
-        'autoclose' => true,
-        'format' => 'yyyy-mm-dd'
-      ]
-    ]);
-    ?>
-
-    <?=
-      $form->field($model, 'fechaFinVisible')->widget(DatePicker::classname(), [
       'pluginOptions' => [
         'autoclose' => true,
         'format' => 'yyyy-mm-dd'

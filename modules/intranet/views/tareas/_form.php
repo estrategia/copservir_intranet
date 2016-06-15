@@ -42,9 +42,7 @@ use kartik\datetime\DateTimePicker;
   <div class="form-group field-tareas-fechaestimada">
     <label class="control-label" for="tareas-fechaestimada">Fecha estimada</label>
     <?php
-    echo DateTimePicker::widget([
-      'model' => $model,
-      'attribute' => 'fechaEstimada',
+    echo  $form->field($model, 'fechaEstimada')->widget(DateTimePicker::classname(), [
       'options' => ['placeholder' => 'yyyy-mm-dd hh:mm'],
       'pluginOptions' => [
         'autoclose' => true,

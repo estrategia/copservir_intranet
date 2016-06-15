@@ -23,20 +23,18 @@ use yii\helpers\Url;
     'settings' => [
       'lang' => 'es',
       'minHeight' => 80,
-      'imageManagerJson' => Url::to(['/default/images-get']),
+      'imageUpload' => Url::toRoute('contenido/cargar-imagen'),
+      'fileUpload' => Url::toRoute('contenido/cargar-archivo'),
       'plugins' => [
-        'imagemanager'
-      ]
+        'imagemanager',
+      ],
+      'fileManagerJson' => Url::to(['sitio/files-get']),
     ]
   ]);
   ?>
 
   <?php
-
-  echo '<label class="control-label">Fecha de inicio de campaña</label>';
-  echo DateTimePicker::widget([
-    'model' => $model,
-    'attribute' => 'fechaInicio',
+  echo  $form->field($model, 'fechaInicio')->widget(DateTimePicker::classname(), [
     'options' => ['placeholder' => ''],
     'pluginOptions' => [
       'autoclose' => true,
@@ -48,10 +46,7 @@ use yii\helpers\Url;
   <br>
   <?php
 
-  echo '<label class="control-label">Fecha de fin de campaña</label>';
-  echo DateTimePicker::widget([
-    'model' => $model,
-    'attribute' => 'fechaFin',
+  echo  $form->field($model, 'fechaFin')->widget(DateTimePicker::classname(), [
     'options' => ['placeholder' => ''],
     'pluginOptions' => [
       'autoclose' => true,
@@ -74,4 +69,17 @@ use yii\helpers\Url;
 
   <?php ActiveForm::end(); ?>
 
+</div>
+
+<div class="col-md-12"> <hr> </div>
+
+<div class="col-md-12">
+  <?php if (!$model->isNewRecord): ?>
+    <div class="col-md-12">
+      <br><br>
+      <div id="destinosContenidoEmergente">
+        <?= $this->render('_destinoContenidoEmergente', ['model' => $model, 'destinoContenidoEmergente' => $destinoContenidoEmergente, 'modelDestinoContenidoEmergente' => $modelDestinoContenidoEmergente]) ?>
+      </div>
+    </div>
+  <?php endif ?>
 </div>

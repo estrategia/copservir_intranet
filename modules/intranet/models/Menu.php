@@ -21,8 +21,8 @@ class Menu extends \yii\db\ActiveRecord {
 
   public function rules() {
     return [
-      [['descripcion', 'estado'], 'required'],
-      [['idPadre', 'idRaiz', 'estado'], 'integer'],
+      [['descripcion', 'estado', 'orden'], 'required'],
+      [['idPadre', 'idRaiz', 'estado', 'orden'], 'integer'],
       [['descripcion'], 'string', 'max' => 45]
     ];
   }
@@ -34,13 +34,14 @@ class Menu extends \yii\db\ActiveRecord {
       'idPadre' => 'Id Padre',
       'idRaiz' => 'Id Raiz',
       'estado' => 'Estado',
+      'orden' => 'Orden'
     ];
   }
 
   // RELACIONES
 
   public function getListSubMenu() {
-    return $this->hasMany(Menu::className(), ['idPadre' => 'idMenu']);
+    return $this->hasMany(Menu::className(), ['idPadre' => 'idMenu'])->orderBy('orden');
   }
 
   public function getObjPadre() {
@@ -58,7 +59,8 @@ class Menu extends \yii\db\ActiveRecord {
 
     if (!empty($opciones) &&in_array($menuItem->idMenu, $opciones)) {
       if (empty($menuItem->objOpcion)) { // no tiene hipervinculo
-        echo '<li >
+        //style=" font-size: 14px; font-weight: normal; color:#ffffff;
+        echo '<li class="list-menu-corporativo">
         <a href="javascript:;"> <i class="icon-custom-ui"></i> <span class="title">' . $menuItem->descripcion . '</span> <span class=" arrow" ></span> </a>
         <ul class="sub-menu">';
 
@@ -81,7 +83,7 @@ class Menu extends \yii\db\ActiveRecord {
   */
   public static function construirArrayMenu($flagAdmin){
 
-    $opciones = Menu::find()->where('idPadre is null')->all();
+    $opciones = Menu::find()->where('idPadre is null')->orderBy('orden')->all();
     $opcionesUsuario = UsuariosOpcionesFavoritos::find()->where(['=', 'numeroDocumento', Yii::$app->user->identity->numeroDocumento])->all();
     $opcionesUsuarioArray = [];
     $opcionArray=[];
@@ -116,8 +118,8 @@ class Menu extends \yii\db\ActiveRecord {
       if(in_array($opcion->idMenu, $opcionesUsuario)){
         $checked = " checked";
       }
-      return ['title' => "<a href='".$opcion->objOpcion->url."' class='btn btn-default  btn-xs menu_corporativo'>
-      <input type='checkbox' id='$opcion->idMenu' data-role='agregar-opcion' data-id='$opcion->idMenu' $checked> <label style='display: inline;' for='$opcion->idMenu'><span><span></span></span></label> $opcion->descripcion  </a> "];
+      return ['title' => "<div class='panel-default'><div class=' panel-heading'>
+      <input type='checkbox' id='$opcion->idMenu' data-role='agregar-opcion' data-id='$opcion->idMenu' $checked> <label class='panel-title' style='display: inline; font-size: 13px;color: #505458;' for='$opcion->idMenu'><span><span></span></span> $opcion->descripcion </label></div></div> "];
     }else{
       $children= [];
 

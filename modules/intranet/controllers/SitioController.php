@@ -22,6 +22,7 @@ use app\modules\intranet\models\PublicacionesCampanas;
 use app\modules\intranet\models\CumpleanosLaboral;
 use app\modules\intranet\models\CumpleanosPersona;
 use app\modules\intranet\models\Menu;
+use app\modules\intranet\models\OpcionesUsuario;
 use app\modules\intranet\models\Opcion;
 use app\modules\intranet\models\ContenidoPortal;
 use app\modules\intranet\models\Usuario;
@@ -348,6 +349,21 @@ class SitioController extends \app\controllers\CController {
                 UsuariosOpcionesFavoritos::deleteAll('idMenu = :idMenu AND numeroDocumento = :idUsuario', [':idMenu' => $post['idMenu'], ':idUsuario' => Yii::$app->user->identity->numeroDocumento]);
             }
         }
+
+        $menu = Menu::find()->with('listSubMenu')->where('idPadre is NULL')->all();
+        $opciones = new OpcionesUsuario();
+        $opciones->opcionesUsuario(Yii::$app->user->identity->numeroDocumento);
+
+        $respond = [
+            'result' => 'ok',
+            'response' => $this->renderAjax('/layouts/_menuCorporativoUsuario', [
+                'menu' => $menu,
+                'opciones' => $opciones,
+
+        ])];
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $respond;
     }
 
     /**

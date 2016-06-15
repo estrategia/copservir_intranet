@@ -189,7 +189,10 @@ $(document).on('click', "input[data-role='agregar-opcion']", function () {
         },
         success: function (data) {
             if (data.result == "ok") {
-
+              $('.list-menu-corporativo').remove();
+              $(data.response).insertAfter('#list-menu-corporativo');
+              //
+              //document.insertBefore(data.response, document.getElementById('list-menu-corporativo'));
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -359,7 +362,7 @@ $(document).on('click', 'a[data-role="denunciar-contenido"]', function () {
         },
         success: function (data) {
             if (data.result == 'ok') {
-                $('.div-modal-denuncio-contenido').append(data.response);
+                $('body').append(data.response);
                 $("#modal-contenido-denuncio").modal("show");
 
             } else {
@@ -389,7 +392,7 @@ $(document).on('click', 'button[data-role="guardar-denuncio-contenido"]', functi
         data: form.serialize(),
         beforeSend: function () {
 
-            $('body').showLoading()
+            $('body').showLoading();
         },
         complete: function () {
             $('body').hideLoading();
@@ -402,12 +405,12 @@ $(document).on('click', 'button[data-role="guardar-denuncio-contenido"]', functi
 
             } else {
 
-                $("#modal-contenido-denuncio").modal("hide");
-                // $(".div-modal-denuncio-contenido").empty();
-                //$(".div-modal-denuncio-contenido").html(data.response);
+                $("#modal-contenido-denuncio").remove();//modal("hide");
+                //$(".div-modal-denuncio-contenido").empty();
+                $("body").append(data.response);
                 //$('body').append(data.response);
-                //$("#modal-contenido-denuncio").modal("show");
-                //$(".error").text(data.error);
+                $("#modal-contenido-denuncio").modal("show");
+                $(".error").tsext(data.error);
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {

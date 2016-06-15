@@ -22,7 +22,6 @@ use app\modules\intranet\models\Portal;
  * @property string $fechaFinEvento
  * @property string $horaFinEvento
  * @property string $fechaInicioVisible
- * @property string $fechaFinVisible
  * @property integer $estado
  */
 class EventosCalendario extends \yii\db\ActiveRecord {
@@ -37,8 +36,8 @@ class EventosCalendario extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['idContenido', 'numeroDocumento', 'estado', 'idPortal'], 'integer'],
-            [['tituloEvento', 'descripcionEvento', 'numeroDocumento', 'fechaRegistro', 'fechaInicioEvento', 'fechaFinEvento', 'fechaInicioVisible', 'fechaFinVisible', 'idPortal'], 'required'],
-            [['fechaRegistro', 'fechaInicioEvento', 'horaInicioEvento', 'horaFinEvento', 'fechaFinEvento', 'horaFinEvento', 'fechaInicioVisible', 'fechaFinVisible'], 'safe'],
+            [['tituloEvento', 'descripcionEvento', 'numeroDocumento', 'fechaRegistro', 'fechaInicioEvento', 'fechaFinEvento', 'fechaInicioVisible', 'idPortal'], 'required'],
+            [['fechaRegistro', 'fechaInicioEvento', 'horaInicioEvento', 'fechaFinEvento', 'horaFinEvento', 'fechaInicioVisible'], 'safe'],
             [['tituloEvento'], 'string', 'max' => 45],
             [['descripcionEvento'], 'string', 'max' => 200]
         ];
@@ -48,16 +47,15 @@ class EventosCalendario extends \yii\db\ActiveRecord {
         return [
             'idEventoCalendario' => 'Id Evento',
             'idContenido' => 'Contenido',
-            'tituloEvento' => 'T&iacute;tulo Evento',
-            'descripcionEvento' => 'Descripci&oacute;n Evento',
-            'numeroDocumento' => 'N&uacute;mero Documento',
+            'tituloEvento' => 'Título Evento',
+            'descripcionEvento' => 'Descripción Evento',
+            'numeroDocumento' => 'Número Documento',
             'fechaRegistro' => 'Fecha Registro',
             'fechaInicioEvento' => 'Fecha Inicio Evento',
             'horaInicioEvento' => 'Hora Inicio Evento',
             'fechaFinEvento' => 'Fecha Fin Evento',
             'horaFinEvento' => 'Hora Fin Evento',
             'fechaInicioVisible' => 'Fecha Inicio Visible',
-            'fechaFinVisible' => 'Fecha Fin Visible',
             'estado' => 'Estado',
             'idPortal' => 'Portal',
         ];

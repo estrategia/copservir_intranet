@@ -30,7 +30,6 @@ $this->title = "Detalle evento";
           'fechaInicioEvento',
           'fechaFinEvento',
           'horaInicioEvento',
-          'horaFinEvento',
           'fechaInicioVisible',
           'fechaFinVisible',
           [

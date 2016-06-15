@@ -16,6 +16,8 @@ $this->title = 'Actualiza el Contenido Emergente: ';
 
   <?= $this->render('_form', [
     'model' => $model,
+    'destinoContenidoEmergente' => $destinoContenidoEmergente,
+    'modelDestinoContenidoEmergente' => $modelDestinoContenidoEmergente
     ]) ?>
 
   </div>
