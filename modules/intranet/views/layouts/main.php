@@ -212,7 +212,7 @@ if (!Yii::$app->user->isGuest) {
             <div class="page-content"><!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
                 <div class="content ">
                     <div class="page-title"></div>
-                    <div id="container" class="row">
+                    <div id="container" class="">
                     <?= $content ?>
                     </div><!-- END PAGE -->
                 </div>
