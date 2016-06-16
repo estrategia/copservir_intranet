@@ -5,13 +5,21 @@ use yii\helpers\Url;
 ?>
 <br><br><br>
 <div class="col-md-12 col-sm-12 spacing-bottom">
-  <div class="widget">
-    <div class="widget-title dark">
+  <div class="grid simple">
+    <div class="grid-title no-border " style='background-color:#FF7F00 !important'>
       <div class="pull-left ">
         <a href="<?= Url::to(['/intranet/tareas/listar-tareas']) ?>" class="btn btn-dark  btn-small"><i class="fa fa-plus"></i></a>
       </div>
-      Tareas
-      <div class="controller"> <a href="javascript:;" class="collapse"></a> <a href="javascript:;" class="remove" data-role="quitar-elemento" data-elemento="<?=\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_TAREAS?>"></a> </div>
+      <h4 style='color:#fff !important;'>Tareas</h4>
+      <div class="tools">
+        <a href="javascript:;" data-role="quitar-elemento"
+        data-elemento="<?=\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_TAREAS?> " class="remove">
+
+        </a>
+      </div>
+      <!--<div class="controller tools">
+         <a href="javascript:;" class="collapse"></a> <a href="javascript:;" class="remove" data-role="quitar-elemento" data-elemento="<?=\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_TAREAS?>"></a>
+      </div>-->
     </div>
     <div class="widget-body">
       <br>

@@ -1,7 +1,10 @@
-<?php use app\modules\intranet\models\Menu; ?>
+<?php use app\modules\intranet\models\Menu;
+$items = $opciones->getOpcionesUsuario();
 
-<?php if (!empty($opciones->getOpcionesUsuario())): ?>
+?>
+
+<?php if (!empty($items)): ?>
     <?php foreach ($menu as $subMenu): ?>
-        <?php Menu::menuHtml($subMenu, $opciones->getOpcionesUsuario()); ?>
+        <?php Menu::menuHtml($subMenu, $items); ?>
     <?php endforeach; ?>
 <?php endif; ?>
