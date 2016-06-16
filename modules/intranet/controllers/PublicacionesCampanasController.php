@@ -73,8 +73,10 @@ class PublicacionesCampanasController extends Controller {
      */
     public function actionCrear() {
         $model = new PublicacionesCampanas();
+        $model->scenario = PublicacionesCampanas::SCENARIO_CREAR;
+
         if ($model->load(Yii::$app->request->post())) {
-            $model->guardarImagen();
+            $model->guardarImagen('');
 
             $transaction = PublicacionesCampanas::getDb()->beginTransaction();
 
@@ -102,19 +104,29 @@ class PublicacionesCampanasController extends Controller {
      * @return mixed
      */
     public function actionActualizar($id) {
+
         $model = $this->findModel($id);
+        $atributoRutaImagen = $model->rutaImagen;
+
         $destinoCampanas = CampanasDestino::listaDestinos($model->idImagenCampana);
         $modelDestinoCampana = new CampanasDestino;
 
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->guardarImagen();
+            $model->guardarImagen($atributoRutaImagen);
+
+
             $transaction = PublicacionesCampanas::getDb()->beginTransaction();
 
             try {
                 if ($model->save()) {
                     $transaction->commit();
-                    return $this->redirect(['detalle', 'id' => $model->idImagenCampana]);
+                    return $this->render('actualizar', [
+                                'model' => $model,
+                                'destinoCampanas' => $destinoCampanas,
+                                'modelDestinoCampana' => $modelDestinoCampana
+                    ]);
+                    //return $this->redirect(['detalle', 'id' => $model->idImagenCampana]);
                 }
             } catch (\Exception $e) {
 

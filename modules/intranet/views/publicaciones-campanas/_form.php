@@ -19,8 +19,6 @@ use app\modules\intranet\models\CampanasDestino;
         $form->field($model, 'rutaImagen')->widget(FileInput::classname(), [
           'options' => ['accept' => 'image/*'],
           'pluginOptions' => [
-            'maxFileCount' => 1,
-            'validateInitialCount'=> true,
             'maxFileSize' => 5120,
             'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
             'showPreview' => true,
@@ -42,10 +40,7 @@ use app\modules\intranet\models\CampanasDestino;
                 />'
 
             ],
-            'overwriteInitial'=>false,
-            'initialPreviewAsData'=>true,
-            'maxFileCount' => 1,
-            'validateInitialCount'=> true,
+            'initialPreviewAsData'=>false,
             'maxFileSize' => 5120,
             'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
             'showPreview' => true,

@@ -22,14 +22,13 @@ use yii\web\UploadedFile;
 */
 class PublicacionesCampanas extends \yii\db\ActiveRecord
 {
-  // posicion en el home
   const POSICION_ARRIBA = 0;
   const POSICION_ABAJO = 1;
   const POSICION_DERECHA = 2;
 
-  // estados
   const ESTADO_ACTIVO = 1;
 
+  const SCENARIO_CREAR = 'crear';
 
 
   public static function tableName()
@@ -40,12 +39,13 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
   public function rules()
   {
     return [
-      [['nombreImagen', 'rutaImagen', 'numeroDocumento', 'fechaInicio', 'estado', 'posicion', 'fechaFin'], 'required'],
+      [['nombreImagen', 'numeroDocumento', 'fechaInicio', 'estado', 'posicion', 'fechaFin'], 'required'],
       [['numeroDocumento', 'estado', 'posicion'], 'integer'],
       [['fechaInicio', 'fechaFin'], 'safe'],
       [['nombreImagen'], 'string', 'max' => 60],
       [['urlEnlaceNoticia'], 'string', 'max' => 45],
-      [['rutaImagen'], 'safe']
+      [['rutaImagen'], 'safe'],
+      [['rutaImagen'], 'required', 'on' => self::SCENARIO_CREAR ],
     ];
   }
 
@@ -100,13 +100,15 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
   }
 
   // FUNCIONES
-  public function guardarImagen()
+  public function guardarImagen($rutaAnterior)
   {
     $file = UploadedFile::getInstance($this, 'rutaImagen'); // si no selecciona nada pone null
 
     if (!is_null($file)) {
       $file->saveAs('img/campanas/' . $file->baseName . '.' . $file->extension);
       $this->rutaImagen = $file->baseName . '.' . $file->extension;
+    }else{
+      $this->rutaImagen = $rutaAnterior;
     }
   }
 
