@@ -31,7 +31,6 @@ $this->title = "Detalle evento";
           'fechaFinEvento',
           'horaInicioEvento',
           'fechaInicioVisible',
-          'fechaFinVisible',
           [
             'attribute' => 'idPortal',
             'value' =>  $model->objPortal->nombrePortal
