@@ -114,7 +114,11 @@ class Documento extends \yii\db\ActiveRecord
   {
     $logDocumento = new LogDocumento();
     $logDocumento->idDocumento = intval($this->idDocumento);
-    $this->isNewRecord ? $logDocumento->descripcion = $this->descripcionLog : $logDocumento->descripcion = 'Se crea el documento';
+    if($this->scenario==self::SCENARIO_CREAR)
+        $logDocumento->descripcion = 'Se crea el documento';
+    else if($this->scenario==self::SCENARIO_ACTUALIZAR)
+        $logDocumento->descripcion = $this->descripcionLog;
+    
     $logDocumento->fechaCreacion = Date("Y-m-d H:i:s");
 
     if (!$logDocumento->save()) {

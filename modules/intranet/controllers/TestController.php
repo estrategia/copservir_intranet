@@ -21,11 +21,21 @@ class TestController extends Controller {
                 'class' => \app\components\AccessFilter::className(),
                 'only' => ['index'],
             ],
+            [
+                'class' => \app\components\AuthItemFilter::className(),
+                'only' => [
+                    'url-test','menu'
+                ],
+                'authsActions' => [
+                    'url-test' => 'intranet_test_url',
+                ]
+            ],
         ];
     }
     
-    public function actionUrl(){
-        echo Yii::getAlias('@webroot');
+    public function actionUrlTest(){
+        echo Yii::$app->controller->module->id . "/" . Yii::$app->controller->id . "/" . Yii::$app->controller->action->id;
+        //echo Yii::getAlias('@webroot');
         //echo \yii\helpers\Url::to("['/intranet/calendario']");
     }
 
@@ -44,14 +54,17 @@ class TestController extends Controller {
 
     public function actionPermiso() {
                   
-        $listPermisos = AuthItem::find()
+        /*$listPermisos = AuthItem::find()
                 ->alias('permiso')
                 ->joinWith(['parents as rol', 'parents.authAssignments as rolasignacion'])
                 ->where("permiso.type=:tipoPermiso AND rol.name=:rol AND rolasignacion.user_id=:usuario")
                 ->addParams([':tipoPermiso' => 2, ':rol' => 'intranet_admin', ':usuario' => 1113618983])
-                ->all();
+                ->all();*/
+        
+             
+             $listPermisos = AuthItem::consultarPermisos('1113618983');
 
-        foreach (AuthItem::consultarPermisosXRol(Yii::$app->user->identity->numeroDocumento) as $objPermiso) {
+        foreach ($listPermisos as $objPermiso) {
             echo "$objPermiso->name - $objPermiso->type - $objPermiso->title - $objPermiso->url<br>";
         }
 

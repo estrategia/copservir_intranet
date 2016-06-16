@@ -14,7 +14,7 @@ use yii\filters\VerbFilter;
  * OfertasLaboralesController implements the CRUD actions for OfertasLaborales model.
  */
 class OfertasLaboralesController extends Controller {
-    public $defaultAction = 'admin';
+    //public $defaultAction = 'admin';
 
     public function behaviors() {
         return [
@@ -35,12 +35,19 @@ class OfertasLaboralesController extends Controller {
             ],
         ];
     }
-
     /**
      * Lists all OfertasLaborales models.
      * @return mixed
      */
     public function actionAdmin() {
+        
+    }
+
+    /**
+     * Lists all OfertasLaborales models.
+     * @return mixed
+     */
+    public function actionIndex() {
         $userCiudad = Yii::$app->user->identity->getCiudadCodigo();
         $ofertas = new OfertasLaborales;
         $data = $ofertas->getVertodos(Yii::$app->request->queryParams);

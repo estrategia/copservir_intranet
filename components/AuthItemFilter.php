@@ -17,18 +17,23 @@ namespace app\components;
 use Yii;
 use yii\base\ActionFilter;
 
-class IntranetAdminFilter extends ActionFilter {
+class AuthItemFilter extends ActionFilter {
+
+    public $authsActions = [];
+
     public function beforeAction($action) {
-        if (!Yii::$app->user->identity->tienePermiso('intranet_admin')) {
+        $actualAction = Yii::$app->controller->action->id;
+        $auth = isset($this->authsActions[$actualAction]) ? $this->authsActions[$actualAction] : Yii::$app->controller->module->id . "_" . Yii::$app->controller->id . "_" . $actualAction;
+        
+        if (!Yii::$app->user->identity->tienePermiso($auth)) {
             if (Yii::$app->request->isAjax) {
                 echo \yii\helpers\Json::encode([
                     'result' => 'error',
                     'response' => "Acceso no permitido"
                 ]);
-                exit();
+                \Yii::$app->end();
             } else {
-                throw new \yii\web\ForbiddenHttpException('Acceso no permitdo.',403);
-                exit();
+                throw new \yii\web\ForbiddenHttpException('Acceso no permitdo.', 403);
             }
         }
 

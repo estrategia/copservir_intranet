@@ -187,7 +187,7 @@ if (!Yii::$app->user->isGuest) {
 
                         <!-- MENU ADMIN -->
                         <?php if (!Yii::$app->user->isGuest): ?>
-                            <?php $listPermisos =  AuthItem::consultarPermisosXRol(Yii::$app->user->identity->numeroDocumento)?>
+                            <?php $listPermisos =  AuthItem::consultarPermisos(Yii::$app->user->identity->numeroDocumento)?>
                             <?php if(!empty($listPermisos)): ?>
                                 <li class=""> <a href="javascript:;"> <i class="glyphicon glyphicon-cog"></i> <span class="title">Administraci&oacute;n</span> <span class="arrow "></span> </a>
                                     <ul class="sub-menu">

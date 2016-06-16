@@ -24,10 +24,16 @@ class LineaTiempoController extends Controller {
                 ],
             ],
             [
-                'class' => \app\components\IntranetAdminFilter::className(),
+                'class' => \app\components\AuthItemFilter::className(),
                 'only' => [
                     'admin', 'detalle', 'crear', 'actualizar', 'eliminar'
                 ],
+                'authsActions' => [
+                    'detalle' => 'intranet_linea-tiempo_admin',
+                    'crear' => 'intranet_linea-tiempo_admin',
+                    'actualizar' => 'intranet_linea-tiempo_admin',
+                    'eliminar' => 'intranet_linea-tiempo_admin',
+                ]
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),

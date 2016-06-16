@@ -26,10 +26,16 @@ class InformacionContactoOfertaController extends Controller {
                 ],
             ],
             [
-                'class' => \app\components\IntranetAdminFilter::className(),
+                'class' => \app\components\AuthItemFilter::className(),
                 'only' => [
                     'admin', 'detalle', 'crear', 'actualizar', 'plantilla'
                 ],
+                'authsActions' => [
+                    'detalle' => 'intranet_informacion-contacto-oferta_admin',
+                    'crear' => 'intranet_informacion-contacto-oferta_admin',
+                    'actualizar' => 'intranet_informacion-contacto-oferta_admin',
+                    'plantilla' => 'intranet_informacion-contacto-oferta_admin',
+                ]
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
