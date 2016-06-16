@@ -123,6 +123,8 @@ class DocumentoController extends Controller {
 
         if ($model->load(Yii::$app->request->post())) {
             $model->setRutaDocumento();
+            
+            $transaction = \Yii::$app->db->beginTransaction(); 
             try {
                 if ($model->save()) {
                     $transaction->commit();

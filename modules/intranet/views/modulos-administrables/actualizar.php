@@ -35,11 +35,11 @@ Breadcrumbs::widget([
                     <?=  Html::a('Editar',['actualizar','id' => $params['model']->idModulo],['class' => "btn btn-primary ".(($params['opcion'] == 'editar')?"active":"")] )?>
                     <?=  Html::a('Contenido',['contenido','id' => $params['model']->idModulo],['class' =>"btn btn-primary ".(($params['opcion'] == "contenido")?"active":"")] )?>
                 </div>
-                <?php if($params['model']->tipo == ModuloContenido::TIPO_GROUP_MODULES):?>
+                <?php //if($params['model']->tipo == ModuloContenido::TIPO_GROUP_MODULES):?>
                 <div>
                     <?= Yii::$app->params['rutaGruposModulos'].$params['model']->idModulo?>
                 </div>
-                <?php endif;?>
+                <?php //endif;?>
             </div>
             <br/>
             <div>

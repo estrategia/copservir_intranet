@@ -71,7 +71,13 @@ class Menu extends \yii\db\ActiveRecord {
         echo '</ul>
         </li>';
       } else { // tiene hipervinculo
-        echo "<li > <a href='" . $menuItem->objOpcion->url . "'> $menuItem->descripcion </a> </li>";
+        if (strpos($menuItem->objOpcion->url, 'https://') !== false || strpos($menuItem->objOpcion->url, 'http://') !== false ) {
+            echo "<li > <a target='_blank' href='" . $menuItem->objOpcion->url . "'> $menuItem->descripcion </a> </li>";
+        }else{
+            echo "<li>";
+            echo \yii\bootstrap\Html::a($menuItem->descripcion, [$menuItem->objOpcion->url]);
+            echo "</li>";
+        }
       }
     }
   }

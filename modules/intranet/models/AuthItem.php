@@ -77,12 +77,12 @@ class AuthItem extends \yii\db\ActiveRecord {
         return $this->hasMany(AuthItem::className(), ['name' => 'parent'])->viaTable('auth_item_child', ['child' => 'name']);
     }
 
-    public static function consultarPermisosXRol($usuario, $rol='intranet_admin') {
+    public static function consultarPermisos($usuario) {
         $listPermisos = AuthItem::find()
                 ->alias('permiso')
                 ->joinWith(['parents as rol', 'parents.authAssignments as rolasignacion'])
-                ->where("permiso.type=:tipoPermiso AND rol.name=:rol AND rolasignacion.user_id=:usuario")
-                ->addParams([':tipoPermiso' => 2, ':rol' => $rol, ':usuario' => $usuario])
+                ->where("permiso.type=:tipoPermiso AND rolasignacion.user_id=:usuario")
+                ->addParams([':tipoPermiso' => 2, ':usuario' => $usuario])
                 ->all();
         
         return $listPermisos;

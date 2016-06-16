@@ -20,10 +20,10 @@ function cambiarTimeline(lineaTiempo, href) {
         data: {lineaTiempo: lineaTiempo},
         dataType: 'json',
         beforeSend: function () {
-            $('body').showLoading()
+            $('html').showLoading();
         },
         complete: function (data) {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
         },
         success: function (data) {
@@ -33,7 +33,7 @@ function cambiarTimeline(lineaTiempo, href) {
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
         }
     });
@@ -55,10 +55,10 @@ $(document).on('click', "a[data-role='agregar-destino-contenido']", function () 
         url: requestUrl + '/intranet/contenido/agregar-destino',
         dataType: 'json',
         beforeSend: function () {
-            $('body').showLoading()
+            $('html').showLoading()
         },
         complete: function (data) {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
         },
         success: function (data) {
@@ -67,7 +67,7 @@ $(document).on('click', "a[data-role='agregar-destino-contenido']", function () 
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
         }
     });
@@ -83,11 +83,11 @@ $(document).on('click', "a[data-role='ver-contenido-administrable']", function (
         dataType: 'json',
         data: {contenido: $(this).attr('data-contenido')},
         beforeSend: function () {
-            $('body').showLoading();
+            $('html').showLoading();
             $("#modal-contenido-administrable").remove();
         },
         complete: function (data) {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
         },
         success: function (data) {
@@ -95,7 +95,7 @@ $(document).on('click', "a[data-role='ver-contenido-administrable']", function (
             $("#modal-contenido-administrable").modal("show");
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
         }
     });
@@ -132,11 +132,11 @@ $(document).on('click', "a[data-role='guardar-contenido']", function () {
         data: formData,
         dataType: 'json',
         beforeSend: function () {
-            $('body').showLoading();
+            $('html').showLoading();
             $("#btnAgregarContenido").attr('disabled', true);
         },
         complete: function (data) {
-            $('body').hideLoading();
+            $('html').hideLoading();
         },
         success: function (data) {
             if (data.result == "ok") {
@@ -155,7 +155,7 @@ $(document).on('click', "a[data-role='guardar-contenido']", function () {
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('body').hideLoading();
+            $('html').hideLoading();
             $("#btnAgregarContenido").attr('disabled', false);
         }
     });
@@ -181,22 +181,23 @@ $(document).on('click', "input[data-role='agregar-opcion']", function () {
         data: {idMenu: idMenu, value: isChecked},
         dataType: 'json',
         beforeSend: function () {
-            $('body').showLoading()
+            $('html').showLoading();
         },
         complete: function (data) {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
         },
         success: function (data) {
             if (data.result == "ok") {
               $('.list-menu-corporativo').remove();
               $(data.response).insertAfter('#list-menu-corporativo');
+              $.Webarch.init();
               //
               //document.insertBefore(data.response, document.getElementById('list-menu-corporativo'));
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
         }
     });
@@ -215,10 +216,10 @@ $(document).on('click', "a[data-role='me-gusta-contenido']", function () {
         data: {idContenido: idContenido, value: val},
         dataType: 'json',
         beforeSend: function () {
-            $('body').showLoading()
+            $('html').showLoading()
         },
         complete: function (data) {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
         },
         success: function (data) {
@@ -235,7 +236,7 @@ $(document).on('click', "a[data-role='me-gusta-contenido']", function () {
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
         }
     });
@@ -254,12 +255,12 @@ $(document).on('click', "button[data-role='guardar-comentario-contenido']", func
         data: {idContenido: idContenido, comentario: comentario},
         dataType: 'json',
         beforeSend: function () {
-            $('body').showLoading()
+            $('html').showLoading()
             $('#comentario_' + idContenido).prop('disabled', true);
             $(".comentar").attr('disabled', true);
         },
         complete: function (data) {
-            $('body').hideLoading();
+            $('html').hideLoading();
             $(".comentar").attr('disabled', false);
             $('#comentario_' + idContenido).prop('disabled', false);
         },
@@ -270,7 +271,7 @@ $(document).on('click', "button[data-role='guardar-comentario-contenido']", func
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('body').hideLoading();
+            $('html').hideLoading();
             $('#comentario_' + idContenido).prop('disabled', false);
             $(".comentar").attr('disabled', false);
         }
@@ -287,10 +288,10 @@ $(document).on('click', 'a[data-role="listado-me-gusta-contenido"]', function ()
         data: {render: true, idContenido: $(this).attr('data-contenido')},
         beforeSend: function () {
             $("#modal-me-gusta-contenido").remove();
-            $('body').showLoading()
+            $('html').showLoading()
         },
         complete: function () {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
         },
         success: function (data) {
@@ -302,7 +303,7 @@ $(document).on('click', 'a[data-role="listado-me-gusta-contenido"]', function ()
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
             alert('Error: ' + errorThrown);
         }
@@ -320,10 +321,10 @@ $(document).on('click', 'a[data-role="listado-comentarios-contenido"]', function
         data: {render: true, idContenido: $(this).attr('data-contenido')},
         beforeSend: function () {
             $("#modal-comentarios-contenido").remove();
-            $('body').showLoading()
+            $('html').showLoading()
         },
         complete: function () {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
         },
         success: function (data) {
@@ -336,7 +337,7 @@ $(document).on('click', 'a[data-role="listado-comentarios-contenido"]', function
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
             alert('Error: ' + errorThrown);
         }
@@ -354,10 +355,10 @@ $(document).on('click', 'a[data-role="denunciar-contenido"]', function () {
         data: {render: true, idContenido: $(this).attr('data-contenido'), idLineaTiempo: $(this).attr('data-linea-tiempo')},
         beforeSend: function () {
             $("#modal-comentarios-contenido").remove();
-            $('body').showLoading()
+            $('html').showLoading()
         },
         complete: function () {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
         },
         success: function (data) {
@@ -370,7 +371,7 @@ $(document).on('click', 'a[data-role="denunciar-contenido"]', function () {
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
             alert('Error: ' + errorThrown);
         }
@@ -392,10 +393,10 @@ $(document).on('click', 'button[data-role="guardar-denuncio-contenido"]', functi
         data: form.serialize(),
         beforeSend: function () {
 
-            $('body').showLoading();
+            $('html').showLoading();
         },
         complete: function () {
-            $('body').hideLoading();
+            $('html').hideLoading();
         },
         success: function (data) {
             if (data.result == 'ok') {
@@ -414,7 +415,7 @@ $(document).on('click', 'button[data-role="guardar-denuncio-contenido"]', functi
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
             //alert('Error: ' + errorThrown);
         }
@@ -433,10 +434,10 @@ $(document).on('click', 'a[data-role="eliminar-comentario"]', function () {
         data: {idComentario: idComentario},
         beforeSend: function () {
 
-            $('body').showLoading()
+            $('html').showLoading()
         },
         complete: function () {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
         },
         success: function (data) {
@@ -451,7 +452,7 @@ $(document).on('click', 'a[data-role="eliminar-comentario"]', function () {
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
             alert('Error: ' + errorThrown);
         }
@@ -470,10 +471,10 @@ $(document).on('click', 'a[data-role="denunciar-comentario"]', function () {
         data: {idComentario: idComentario},
         beforeSend: function () {
             $("#modal-comentario-denuncio").remove();
-            $('body').showLoading()
+            $('html').showLoading()
         },
         complete: function () {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
         },
         success: function (data) {
@@ -487,7 +488,7 @@ $(document).on('click', 'a[data-role="denunciar-comentario"]', function () {
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
             alert('Error: ' + errorThrown);
         }
@@ -506,10 +507,10 @@ $(document).on('click', 'button[data-role="guardar-denuncio-comentario"]', funct
         data: form.serialize(),
         beforeSend: function () {
 
-            $('body').showLoading()
+            $('html').showLoading()
         },
         complete: function () {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
         },
         success: function (data) {
@@ -520,7 +521,7 @@ $(document).on('click', 'button[data-role="guardar-denuncio-comentario"]', funct
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
             alert('Error: ' + errorThrown);
         }
@@ -538,19 +539,17 @@ $(document).on('click', 'a[data-role="quitar-elemento"]', function () {
         url: requestUrl + '/intranet/sitio/quitar-elemento',
         data: {elemento: elemento, opcion: 2},
         beforeSend: function () {
-
-            $('body').showLoading()
+            $('html').showLoading();
         },
         complete: function () {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
         },
         success: function (data) {
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('body').hideLoading();
-
+            $('html').hideLoading();
             alert('Error: ' + errorThrown);
         }
     });
@@ -569,17 +568,17 @@ $(document).on('click', 'input[data-role="toggle-elemento"]', function () {
         url: requestUrl + '/intranet/sitio/quitar-elemento',
         data: {elemento: elemento, opcion: opcion},
         beforeSend: function () {
-            $('body').showLoading()
+            $('html').showLoading()
         },
         complete: function () {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
         },
         success: function (data) {
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
             alert('Error: ' + errorThrown);
         }
@@ -599,10 +598,10 @@ $(document).on('click', 'a[data-role="agregar-modulo"]', function () {
         url: requestUrl + '/intranet/modulos-administrables/agregar-modulo',
         data: {idModulo: idModulo, idGrupo: idGrupo},
         beforeSend: function () {
-            $('body').showLoading()
+            $('html').showLoading()
         },
         complete: function () {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
 
         },
@@ -613,7 +612,7 @@ $(document).on('click', 'a[data-role="agregar-modulo"]', function () {
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
             alert('Error: ' + errorThrown);
         }
@@ -633,10 +632,10 @@ $(document).on('click', 'a[data-role="eliminar-modulo"]', function () {
         url: requestUrl + '/intranet/modulos-administrables/eliminar-modulo',
         data: {idModulo: idModulo, idGrupo: idGrupo},
         beforeSend: function () {
-            $('body').showLoading()
+            $('html').showLoading()
         },
         complete: function () {
-            $('body').hideLoading();
+            $('html').hideLoading();
         },
         success: function (data) {
             if (data.result == 'ok') {
@@ -644,7 +643,7 @@ $(document).on('click', 'a[data-role="eliminar-modulo"]', function () {
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
             alert('Error: ' + errorThrown);
         }
@@ -665,10 +664,10 @@ $(document).on('click', 'a[data-role="editar-modulo"]', function () {
         url: requestUrl + '/intranet/modulos-administrables/editar-modulo',
         data: {idModulo: idModulo, idGrupo: idGrupo, orden: orden},
         beforeSend: function () {
-            $('body').showLoading()
+            $('html').showLoading()
         },
         complete: function () {
-            $('body').hideLoading();
+            $('html').hideLoading();
         },
         success: function (data) {
             if (data.result == 'ok') {
@@ -676,7 +675,7 @@ $(document).on('click', 'a[data-role="editar-modulo"]', function () {
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('body').hideLoading();
+            $('html').hideLoading();
 
             alert('Error: ' + errorThrown);
         }
