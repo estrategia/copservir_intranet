@@ -48,6 +48,7 @@ class EventosCalendarioSearch extends EventosCalendario
       'fechaFinEvento' => $this->fechaFinEvento,
       'fechaInicioVisible' => $this->fechaInicioVisible,
       'fechaInicioVisible' => $this->fechaInicioVisible,
+      //'fechaFinVisible' => $this->fechaFinVisible,
     ]);
 
     $query->andFilterWhere(['like', 'tituloEvento', $this->tituloEvento])

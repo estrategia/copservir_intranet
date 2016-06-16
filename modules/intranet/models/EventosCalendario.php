@@ -62,13 +62,15 @@ class EventosCalendario extends \yii\db\ActiveRecord {
     }
 
     public static function consultarEventos($inicio, $fin, $portal, $destino, $resumen = false) {
-        $fechaInicio = "t.fechaInicioVisible";
-        $fechaFin = "t.fechaFinVisible";
+        //$fechaInicio = "t.fechaInicioVisible";
+        //$fechaFin = "t.fechaFinVisible";
+        $fechaInicio = "t.fechaInicioEvento";
+        $fechaFin = "t.fechaFinEvento";
 
-        if ($resumen) {
+        /*if ($resumen) {
             $fechaInicio = "t.fechaInicioEvento";
             $fechaFin = "t.fechaFinEvento";
-        }
+        }*/
 
         $query = array();
 
