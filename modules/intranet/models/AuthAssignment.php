@@ -50,7 +50,7 @@ class AuthAssignment extends \yii\db\ActiveRecord
     public function getListaRoles($numeroDocumento)
     {
       $opciones = AuthItem::find()
-      ->where('(  type=:tipo and name not in (select item_name from Auth_Assignment where user_id =:numeroDocumento) )')
+      ->where('(  type=:tipo and name not in (select item_name from auth_assignment where user_id =:numeroDocumento) )')
       ->addParams([':tipo' => AuthItem::TIPO_ROL, ':numeroDocumento' => $numeroDocumento])
       ->asArray()
       ->all();
