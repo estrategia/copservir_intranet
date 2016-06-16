@@ -43,7 +43,7 @@ class LineaTiempoController extends Controller {
             ],
         ];
     }
-    
+
     public function actions() {
         return [
             'error' => [
@@ -101,9 +101,12 @@ class LineaTiempoController extends Controller {
     public function actionActualizar($id) {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['detalle', 'id' => $model->idLineaTiempo]);
+        if ($model->load(Yii::$app->request->post()) ) {//&& $model->save()
+            var_dump($model->fechaFin);
+            var_dump($model->fechaInicio);
+            //return $this->redirect(['detalle', 'id' => $model->idLineaTiempo]);
         } else {
+
             return $this->render('actualizar', [
                         'model' => $model,
             ]);
