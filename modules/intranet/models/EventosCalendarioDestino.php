@@ -27,9 +27,9 @@ class EventosCalendarioDestino extends \yii\db\ActiveRecord {
 
   public function attributeLabels() {
     return [
-      'idEventoCalendario' => 'Id Evento Calendario',
-      'idGrupoInteres' => 'Id Grupo Interes',
-      'codigoCiudad' => 'Codigo Ciudad',
+      'idEventoCalendario' => 'Evento Calendario',
+      'idGrupoInteres' => 'Grupo Interes',
+      'codigoCiudad' => 'Ciudad',
     ];
   }
 

@@ -2,8 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use yii\web\JsExpression;
-use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $grupo app\modules\intranet\grupos\GrupoInteres */
@@ -30,6 +28,13 @@ $this->title = $grupo->nombreGrupo;
           'model' => $grupo,
           'attributes' => [
               'nombreGrupo',
+              [
+                'label' => 'Imagen',
+                'format'=>'raw',
+                'value' => ( empty($grupo->imagenGrupo)) ? 'No hay imagen' :
+                  '<img src="'.Yii::getAlias('@web').'/img/gruposInteres/'. $grupo->imagenGrupo.'"
+                  class="img-circle img-responsive" style="width: 15%;"/>',
+              ],
           ],
       ]) ?>
 
@@ -37,56 +42,5 @@ $this->title = $grupo->nombreGrupo;
 </div>
 
 <div class="col-md-12" id="cargosGrupo">
-  <h4>Cargos asociados al grupo de interes</h4>
-  <p>
-    agrega un cargo a este grupo
-  </p>
-  <?= Html::beginForm(['grupo-interes/agregar-cargo'], 'post', ['id'=> 'formEnviaCargos']); ?>
-  <?php
-      $url = \yii\helpers\Url::to(['lista-cargos']);
-      $initScript = <<< SCRIPT
-function (element, callback) {
-   var id=$(element).val();
-   if (id !== "") {
-       $.ajax("{$url}?id=" + id, {
-           dataType: "json"
-       }).done(function(data) { callback(data.results);});
-   }
-}
-SCRIPT;
-      echo Select2::widget([
-            'name' => 'agregaCargos',
-            'showToggleAll' => false,
-            'options' => ['placeholder' => 'buscar cargos...','id'=>'agregaCargos'],
-            'pluginOptions' => [
-              'allowClear' => false,
-              'ajax' => [
-                    'url' => $url,
-                    'dataType' => 'json',
-                    'tags' => true,
-                    'data' => new JsExpression('function(params) { return {search:params.term, page: params.page}; }'),
-                    'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
-              ],
-              'initSelection' => new JsExpression($initScript),
-              'initValueText'=>'buscar'
-            ],
-
-      ])
-
-  ?>
-
-  <?=  Html::hiddenInput('grupoInteres', $grupo->idGrupoInteres, []);  ?>
-  <?= Html::endForm()     ?>
-  <br>
-
-  <?= Html::a('Agregar cargo', ['#'],
-                  [
-                    'class' => 'btn btn-primary',
-                    'data-grupo' => $grupo->idGrupoInteres,
-                    'data-role' => 'agregar-cargo'
-                  ])
-  ?>
-  <br>
-
-  <?= $this->render('cargosGrupoInteres', ['grupoInteresCargo' => $grupoInteresCargo, 'idGrupo'=>$grupo->idGrupoInteres]) ?>
+  <?= $this->render('cargosGrupoInteres', ['grupoInteresCargo' => $grupoInteresCargo, 'modelGrupoInteresCargo' => $modelGrupoInteresCargo,'grupo'=>$grupo]) ?>
 </div>

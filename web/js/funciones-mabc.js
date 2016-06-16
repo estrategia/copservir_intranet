@@ -145,7 +145,7 @@ $(document).on('click', "a[data-role='inactivarTarea']", function() {
 });
 
 //::::::::::::::::::::::
-// CONTENIDO EMERGENTE INDEX
+// CONTENIDO EMERGENTE
 //::::::::::::::::::::::
 
 /**
@@ -182,69 +182,88 @@ $(document).on('click', "button[data-role='inactiva-popup']", function() {
 });
 
 /**
-* funcion para mapear la imagen segun su json
-* @param jsonGrafica = json con la imagen mapeada, patron = patron de busqueda, valorGrafica = valores de la grafica, flag = bandera que indica los parametros de la url
-* @return pega la el html de la imagen mapeada en el contenedor
+* peticion ajax para eliminar un destino de un contenido emergente
+* @param idContenidoEmergente, idCiudad, idGrupo
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html para renderizar la grilla de los destinos
 */
-function makeMap(jsonGrafica, patron, valorGrafica, flag) {
+$(document).on('click', "a[data-role='eliminarDestinoContenidoEmergente']", function() {
 
-  var a = ''; // para referenciar si la url tiene año
-  var m = ''; // para referenciar si la url tiene mes
-  var d = ''; // para referenciar si la url tiene dia
-  var tamValorGrafica = valorGrafica.length;
-  var mapBox = $('.map-img');
-  var jsonObj = false;
-  var mapString = "";
-  jsonObj = jsonGrafica;
+  var idContenidoEmergente = $(this).attr('data-contenido-emergente');
+  var idCiudad = $(this).attr('data-ciudad');
+  var idGrupo = $(this).attr('data-grupo');
 
-  if (typeof JSON != 'object') {
-    alert("Please enter a valid JSON response string.");
-    return;
-  } else if (!jsonObj.chartshape) {
-    alert("No map elements");
-    return;
+  if(confirm("¿Estas seguro de querer eliminar?")) {
+
+    $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/contenido-emergente/eliminar-contenido-emergente-destino',
+      data: {idCiudad: idCiudad, idGrupo: idGrupo, idContenidoEmergente: idContenidoEmergente},
+      dataType: 'json',
+      beforeSend: function() {
+        //    Loading.show();
+        $('body').showLoading();
+        $('#listaContenidoEmergente').remove();
+      },
+
+      complete: function(data) {
+        //   Loading.hide();
+        $('body').hideLoading();
+      },
+      success: function(data) {
+        if (data.result == "ok") {
+          $('#destinosContenidoEmergente').append(data.response);
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        $('body').hideLoading();
+      }
+    })
   }
+  return false;
+});
 
-  mapString = "<map name='archivo-timeline'>";
-  var area = false;
-  var chart = jsonObj.chartshape;
-  var count = 0;
-  for (var i = 0; i < chart.length; i++) {
+/**
+* peticion ajax para agregar un destino a una campana
+* @param datos del formulario
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html para renderizar la grilla de los destinos
+*/
+$(document).on('click', "a[data-role='agregar-destino-contenido-emergente']", function() {
 
-    area = chart[i];
+  var form = $("#formEnviaDestinosContenidoEmergente");
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/contenido-emergente/agrega-destino-contenido-emergente',
+    data: form.serialize(),
+    dataType: 'json',
+    beforeSend: function() {
+      //    Loading.show();
+      $('body').showLoading();
+      $('#listaContenidoEmergente').remove();
+    },
 
-    if (i>tamValorGrafica) {
+    complete: function(data) {
+      //   Loading.hide();
+      $('body').hideLoading();
+    },
+    success: function(data) {
 
-      if (flag === 'a') {
-        a = valorGrafica[count]['etiqueta'];
-      }
-
-      if (flag === 'am') {
-        a = valorGrafica[count]['anio'];
-        m = valorGrafica[count]['etiqueta'];
-      }
-
-      if (flag === 'amd') {
-        a = valorGrafica[count]['anio'];
-        m = valorGrafica[count]['mes'];
-        d = valorGrafica[count]['etiqueta'];
-      }
-
-      mapString += "\n  <area name='"  + area.name + "' shape='"  + area.type
-      + "' coords='" + area.coords.join(",") + "' href=\""+requestUrl+"/intranet/contenido/busqueda?busqueda="+patron+"&a="+a+"&m="+m+"&d="+d+"\"  title=''>";
-
-      count ++;
-
-    }else{
-
-      mapString += "\n  <area name='"  + area.name + "' shape='"  + area.type
-      + "' coords='" + area.coords.join(",") + "' title=''>";
+        if (data.result == "ok") {
+          $('#destinosContenidoEmergente').append(data.response);
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
     }
-  }
-  mapString += "\n</map>";
-  mapBox.append(mapString);
-}
+  });
+  return false;
+});
 
+
+// -----------------------------------------------------------------------------
 /**
 * funcion con una peticion ajax para redenrizar el modal donde se seleccionaran los amigos a
 * quienes deseo compartir el clasificado
@@ -1404,6 +1423,69 @@ $(document).on('click', "a[data-role='asignar-contenido-evento-calendario']", fu
 //::::::::::::::::::::::
 // OTROS
 //::::::::::::::::::::::
+/**
+* funcion para mapear la imagen segun su json
+* @param jsonGrafica = json con la imagen mapeada, patron = patron de busqueda, valorGrafica = valores de la grafica, flag = bandera que indica los parametros de la url
+* @return pega la el html de la imagen mapeada en el contenedor
+*/
+function makeMap(jsonGrafica, patron, valorGrafica, flag) {
+
+  var a = ''; // para referenciar si la url tiene año
+  var m = ''; // para referenciar si la url tiene mes
+  var d = ''; // para referenciar si la url tiene dia
+  var tamValorGrafica = valorGrafica.length;
+  var mapBox = $('.map-img');
+  var jsonObj = false;
+  var mapString = "";
+  jsonObj = jsonGrafica;
+
+  if (typeof JSON != 'object') {
+    alert("Please enter a valid JSON response string.");
+    return;
+  } else if (!jsonObj.chartshape) {
+    alert("No map elements");
+    return;
+  }
+
+  mapString = "<map name='archivo-timeline'>";
+  var area = false;
+  var chart = jsonObj.chartshape;
+  var count = 0;
+  for (var i = 0; i < chart.length; i++) {
+
+    area = chart[i];
+
+    if (i>tamValorGrafica) {
+
+      if (flag === 'a') {
+        a = valorGrafica[count]['etiqueta'];
+      }
+
+      if (flag === 'am') {
+        a = valorGrafica[count]['anio'];
+        m = valorGrafica[count]['etiqueta'];
+      }
+
+      if (flag === 'amd') {
+        a = valorGrafica[count]['anio'];
+        m = valorGrafica[count]['mes'];
+        d = valorGrafica[count]['etiqueta'];
+      }
+
+      mapString += "\n  <area name='"  + area.name + "' shape='"  + area.type
+      + "' coords='" + area.coords.join(",") + "' href=\""+requestUrl+"/intranet/contenido/busqueda?busqueda="+patron+"&a="+a+"&m="+m+"&d="+d+"\"  title=''>";
+
+      count ++;
+
+    }else{
+
+      mapString += "\n  <area name='"  + area.name + "' shape='"  + area.type
+      + "' coords='" + area.coords.join(",") + "' title=''>";
+    }
+  }
+  mapString += "\n</map>";
+  mapBox.append(mapString);
+}
 
 $(document).on('click', "#enviaFormularioMenuPortales", function() {
   //console.log('dio click envia formulario');

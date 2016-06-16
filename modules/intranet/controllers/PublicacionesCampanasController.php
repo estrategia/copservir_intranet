@@ -177,7 +177,7 @@ class PublicacionesCampanasController extends Controller {
     /**
      * @return respond = []
      *         respond.result = indica si todo se realizo bien o mal
-     *         respond.response = html para renderizar los destinos de las ofertas
+     *         respond.response = html para renderizar los destinos de las Campañas
      */
     public function actionAgregaDestinoCampana() {
         $modelDestinoCampana = new CampanasDestino;
@@ -220,6 +220,12 @@ class PublicacionesCampanasController extends Controller {
         }
     }
 
+    /**
+     * Encuentra un modelo CampanasDestino.
+     * @param string $idImagenCampana, idGrupoInteres, idCiudad
+     * @return CampanasDestino the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
     protected function findModelCampanaDestino($idImagenCampana, $idGrupoInteres, $idCiudad) {
         $model = CampanasDestino::find()->where('( codigoCiudad =:idCiudad and idGrupoInteres =:idGrupoInteres and idImagenCampana =:idImagenCampana )')
                 ->addParams(['idCiudad' => $idCiudad, 'idGrupoInteres' => $idGrupoInteres, 'idImagenCampana' => $idImagenCampana])

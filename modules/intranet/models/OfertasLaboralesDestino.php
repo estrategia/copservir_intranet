@@ -33,9 +33,9 @@ class OfertasLaboralesDestino extends \yii\db\ActiveRecord
   public function attributeLabels()
   {
     return [
-      'idOfertaLaboral' => 'Id Oferta Laboral',
-      'idGrupoInteres' => 'Id Grupo Interes',
-      'codigoCiudad' => 'Codigo Ciudad',
+      'idOfertaLaboral' => 'Oferta Laboral',
+      'idGrupoInteres' => 'Grupo Interes',
+      'codigoCiudad' => 'Ciudad',
     ];
   }
 

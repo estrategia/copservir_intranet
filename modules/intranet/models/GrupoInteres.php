@@ -4,6 +4,7 @@ namespace app\modules\intranet\models;
 
 use Yii;
 use app\modules\intranet\models\GrupoInteresCargo;
+use yii\web\UploadedFile;
 
 /**
 * This is the model class for table "m_GrupoInteres".
