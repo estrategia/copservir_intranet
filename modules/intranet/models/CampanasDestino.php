@@ -36,9 +36,9 @@ class CampanasDestino extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idImagenCampana' => 'Id Imagen Campana',
-            'codigoCiudad' => 'Codigo Ciudad',
-            'idGrupoInteres' => 'Id Grupo Interes',
+            'idImagenCampana' => 'Imagen Campana',
+            'codigoCiudad' => 'Ciudad',
+            'idGrupoInteres' => 'Grupo Interes',
         ];
     }
 
@@ -62,9 +62,9 @@ class CampanasDestino extends \yii\db\ActiveRecord
     // CONSULTAS
 
     /**
-    * Consulta los CampanasDestino segun el idImagenCampana junto con los objetos cargos relacionados
+    * Consulta los CampanasDestino segun el idImagenCampana
     * @param idImagenCampana
-    * @return data provider con OfertasLaboralesDestino
+    * @return data provider con CampanasDestino
     */
     public static function listaDestinos($idImagenCampana)
     {

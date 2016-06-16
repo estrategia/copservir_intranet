@@ -4,6 +4,7 @@ namespace app\modules\intranet\controllers;
 
 use Yii;
 use app\modules\intranet\models\ContenidoEmergente;
+use app\modules\intranet\models\ContenidoEmergenteDestino;
 use app\modules\intranet\models\ContenidoEmergenteSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -95,12 +96,16 @@ class ContenidoEmergenteController extends Controller {
      */
     public function actionActualizar($id) {
         $model = $this->findModel($id);
+        $destinoContenidoEmergente = ContenidoEmergenteDestino::listaDestinos($model->idContenidoEmergente);
+        $modelDestinoContenidoEmergente = new ContenidoEmergenteDestino;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['detalle', 'id' => $model->idContenidoEmergente]);
         } else {
             return $this->render('actualizar', [
                         'model' => $model,
+                        'destinoContenidoEmergente' => $destinoContenidoEmergente,
+                        'modelDestinoContenidoEmergente' => $modelDestinoContenidoEmergente
             ]);
         }
     }
@@ -185,5 +190,91 @@ class ContenidoEmergenteController extends Controller {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $respond;
     }
+
+
+    //------------------------------------------------------
+    /**
+     * @return mixed
+     */
+    public function actionEliminarContenidoEmergenteDestino() {
+
+        $idCiudad = Yii::$app->request->post('idCiudad', '');
+        $idGrupoInteres = Yii::$app->request->post('idGrupo', '');
+        $idContenidoEmergente = Yii::$app->request->post('idContenidoEmergente', '');
+        $respond = [
+            'result' => 'error',
+        ];
+
+        $contenidoEmergenteDestino = $this->findModelContenidoEmergenteDestino($idContenidoEmergente, $idGrupoInteres, $idCiudad);
+
+        if ($contenidoEmergenteDestino->delete()) {
+
+          $model = $this->findModel($idContenidoEmergente);
+          $destinoContenidoEmergente = ContenidoEmergenteDestino::listaDestinos($idContenidoEmergente);
+          $modelDestinoContenidoEmergente = new ContenidoEmergenteDestino;
+
+            $respond = [
+                'result' => 'ok',
+                'response' => $this->renderAjax('_destinoContenidoEmergente', [
+                    'model' => $model,
+                    'destinoContenidoEmergente' => $destinoContenidoEmergente,
+                    'modelDestinoContenidoEmergente' => $modelDestinoContenidoEmergente
+            ])];
+        }
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $respond;
+    }
+
+    /**
+     * @return respond = []
+     *         respond.result = indica si todo se realizo bien o mal
+     *         respond.response = html para renderizar los destinos de los Contenidos Emergente
+     */
+     public function actionAgregaDestinoContenidoEmergente() {
+       $modelDestinoContenidoEmergente = new ContenidoEmergenteDestino;
+       $model = '';
+       $destinoContenidoEmergente = '';
+
+       if ($modelDestinoContenidoEmergente->load(Yii::$app->request->post())) {
+
+         $model = $this->findModel($modelDestinoContenidoEmergente->idContenidoEmergente);
+         $destinoContenidoEmergente = ContenidoEmergenteDestino::listaDestinos($model->idContenidoEmergente);
+
+
+         if ($modelDestinoContenidoEmergente->save()) {
+             $modelDestinoContenidoEmergente = new ContenidoEmergenteDestino;
+         }
+       }
+
+       $respond = [
+         'result' => 'ok',
+         'response' => $this->renderAjax('_destinoContenidoEmergente', [
+           'model' => $model,
+           'destinoContenidoEmergente' => $destinoContenidoEmergente,
+           'modelDestinoContenidoEmergente' => $modelDestinoContenidoEmergente
+       ])];
+
+       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+       return $respond;
+    }
+
+    /**
+     * Encuentra un modelo ContenidoEmergenteDestino.
+     * @param string $idContenidoEmergente, idGrupoInteres, idCiudad
+     * @return ContenidoEmergenteDestino the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModelContenidoEmergenteDestino($idContenidoEmergente, $idGrupoInteres, $idCiudad) {
+        $model = ContenidoEmergenteDestino::find()->where('( codigoCiudad =:idCiudad and idGrupoInteres =:idGrupoInteres and idContenidoEmergente =:idContenidoEmergente )')
+                ->addParams(['idCiudad' => $idCiudad, 'idGrupoInteres' => $idGrupoInteres, 'idContenidoEmergente' => $idContenidoEmergente])
+                ->one();
+
+        if ($model !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+    //------------------------------------------------------
 
 }

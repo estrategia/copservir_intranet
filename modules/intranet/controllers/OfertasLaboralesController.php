@@ -178,8 +178,9 @@ class OfertasLaboralesController extends Controller {
      */
     public function actionAgregaDestinoOferta() {
         $modelDestinoOferta = new OfertasLaboralesDestino();
-
-
+        $model = '';
+        $destinoOfertasLaborales = '';
+        
         if ($modelDestinoOferta->load(Yii::$app->request->post())) {
 
             $model = $this->findModel($modelDestinoOferta->idOfertaLaboral);
@@ -188,15 +189,15 @@ class OfertasLaboralesController extends Controller {
             if ($modelDestinoOferta->save()) {
                 $modelDestinoOferta = new OfertasLaboralesDestino;
             }
-
-            $respond = [
-                'result' => 'ok',
-                'response' => $this->renderAjax('_destinoOfertas', [
-                    'model' => $model,
-                    'destinoOfertasLaborales' => $destinoOfertasLaborales,
-                    'modelDestinoOferta' => $modelDestinoOferta
-            ])];
         }
+
+        $respond = [
+            'result' => 'ok',
+            'response' => $this->renderAjax('_destinoOfertas', [
+                'model' => $model,
+                'destinoOfertasLaborales' => $destinoOfertasLaborales,
+                'modelDestinoOferta' => $modelDestinoOferta
+        ])];
 
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $respond;

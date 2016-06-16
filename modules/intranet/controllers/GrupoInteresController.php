@@ -10,7 +10,7 @@ use app\modules\intranet\models\Cargo;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\UploadedFile;
+
 use yii\db\Query;
 
 /**
@@ -35,7 +35,7 @@ class GrupoInteresController extends Controller {
             ],
         ];
     }
-    
+
     public function actions() {
         return [
             'error' => [
@@ -65,10 +65,12 @@ class GrupoInteresController extends Controller {
      */
     public function actionDetalle($id) {
         $grupo = $this->findModel($id);
+        $modelGrupoInteresCargo = new GrupoInteresCargo;
         $grupoInteresCargo = GrupoInteresCargo::listaCargos($id);
 
         return $this->render('detalle', [
                     'grupo' => $grupo,
+                    'modelGrupoInteresCargo' => $modelGrupoInteresCargo,
                     'grupoInteresCargo' => $grupoInteresCargo,
         ]);
     }
@@ -84,9 +86,9 @@ class GrupoInteresController extends Controller {
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $model->asignarImagenGrupo();
             $model->save();
-            return $this->render('crear', [
-                        'model' => $model,
-            ]);
+
+            return $this->redirect(['detalle', 'id' => $model->idGrupoInteres]);
+
         } else {
             return $this->render('crear', [
                         'model' => $model,
@@ -107,9 +109,8 @@ class GrupoInteresController extends Controller {
 
             $model->asignarImagenGrupo();
             $model->save();
-            return $this->render('crear', [
-                        'model' => $model,
-            ]);
+            return $this->redirect(['detalle', 'id' => $model->idGrupoInteres]);
+
         } else {
             return $this->render('actualizar', [
                         'model' => $model,
@@ -143,20 +144,25 @@ class GrupoInteresController extends Controller {
                 ->addParams(['idCargo' => $idCargo, 'idGrupoInteres' => $idGrupoInteres])
                 ->one();
 
-        ;
-
         $respond = [
             'result' => 'error',
         ];
 
         if ($grupoInteresCargo->delete()) {
+
+            $grupo = $this->findModel($idGrupoInteres);
             $grupoInteresCargo = GrupoInteresCargo::listaCargos($idGrupoInteres);
+            $model = new GrupoInteresCargo;
+
             $respond = [
                 'result' => 'ok',
-                'response' => $this->renderPartial('cargosGrupoInteres', [
-                    'grupoInteresCargo' => $grupoInteresCargo,
-                ])
-            ];
+                'response' => $this->renderAjax('cargosGrupoInteres', [
+                  'grupo' => $grupo,
+                  'modelGrupoInteresCargo' => $model,
+                  'grupoInteresCargo' => $grupoInteresCargo,
+                        ]
+            )];
+
         }
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $respond;
@@ -170,25 +176,31 @@ class GrupoInteresController extends Controller {
      *         respond.response = html para renderizar los cargos asociados a el grupo
      */
     public function actionAgregaCargo($idGrupo) {
-        $model = new GrupoInteresCargo();
-        $respond = [
-            'result' => 'error',
-        ];
 
-        $model->idCargo = Yii::$app->request->post('agregaCargos');
-        $model->idGrupoInteres = $idGrupo;
+        $model = new GrupoInteresCargo;
+        $grupoInteresCargo = '';
+        $grupo = '';
 
-        if ($model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
 
-            $grupoInteresCargo = GrupoInteresCargo::listaCargos($idGrupo);
+          $grupoInteresCargo = GrupoInteresCargo::listaCargos($idGrupo);
+          $grupo = $this->findModel($idGrupo);
 
-            $respond = [
-                'result' => 'ok',
-                'response' => $this->renderPartial('cargosGrupoInteres', [
-                    'grupoInteresCargo' => $grupoInteresCargo,
-                        ]
-            )];
+
+          if ($model->save()) {
+            $model = new GrupoInteresCargo;
+          }
         }
+
+        $respond = [
+            'result' => 'ok',
+            'response' => $this->renderAjax('cargosGrupoInteres', [
+              'grupo' => $grupo,
+              'modelGrupoInteresCargo' => $model,
+              'grupoInteresCargo' => $grupoInteresCargo,
+                    ]
+        )];
+
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $respond;
     }

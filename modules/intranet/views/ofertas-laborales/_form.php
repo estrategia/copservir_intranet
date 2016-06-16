@@ -24,10 +24,11 @@ use yii\helpers\Url;
 
   <?= $form->field($model, 'urlElEmpleo')->textInput(['maxlength' => true]) ?>
 
-  <?= Select2::widget([
-    'name' => 'OfertasLaborales[idCargo]',
-    'value' => $model->idCargo,
-    'id' => "grupo1_",
+  <?=
+  $form->field($model, 'idCargo')->widget(Select2::classname(), [
+    //'name' => 'OfertasLaborales[idCargo]',
+    //'value' => $model->idCargo,
+    //'id' => "grupo1_",
     'data' => $model->listaCargo,
     'options' => ['placeholder' => 'Seleccione el cargo de la oferta']
   ]);
@@ -35,10 +36,11 @@ use yii\helpers\Url;
 
   <br>
 
-  <?= Select2::widget([
-    'name' => 'OfertasLaborales[idArea]',
-    'value' => $model->idArea,
-    'id' => "grupo2_",
+  <?=
+   $form->field($model, 'idArea')->widget(Select2::classname(), [
+    //'name' => 'OfertasLaborales[idArea]',
+    //'value' => $model->idArea,
+    //'id' => "grupo2_",
     'data' => $model->listaArea,
     'options' => ['placeholder' => 'Seleccione el area de la oferta']
   ]);
@@ -46,10 +48,11 @@ use yii\helpers\Url;
 
   <br>
 
-  <?= Select2::widget([
-    'name' => 'OfertasLaborales[idCiudad]',
-    'value' => $model->idCiudad,
-    'id' => "grupo_",
+  <?=
+  $form->field($model, 'idCiudad')->widget(Select2::classname(), [
+    //'name' => 'OfertasLaborales[idCiudad]',
+    //'value' => $model->idCiudad,
+    //'id' => "grupo_",
     'data' => $model->listaCiudad,
     'options' => ['placeholder' => 'Seleccione la ciudad de la oferta']
   ]);

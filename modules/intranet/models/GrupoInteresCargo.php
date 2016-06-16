@@ -32,8 +32,8 @@ class GrupoInteresCargo extends \yii\db\ActiveRecord
   public function attributeLabels()
   {
     return [
-      'idCargo' => 'Id Cargo',
-      'idGrupoInteres' => 'Id Grupo Interes',
+      'idCargo' => 'Cargo',
+      'idGrupoInteres' => 'Grupo Interes',
     ];
   }
 

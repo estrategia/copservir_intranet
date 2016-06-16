@@ -47,7 +47,7 @@ use yii\widgets\ActiveForm;
     <?= Html::a('Agregar', ['#'],
     [
       'class' => 'btn btn-primary ',
-      'data-role' => 'agregar-destino-campana'
+      'data-role' => 'agregar-destino-contenido-emergente'
     ])
     ?>
   </div>
@@ -57,10 +57,10 @@ use yii\widgets\ActiveForm;
   <br><br>
   <!-- lista de destinos de esa campaña -->
   <div class="col-md-12">
-    <div id="listaOfertas">
+    <div id="listaContenidosEmergentes">
 
       <?=  GridView::widget([
-        'dataProvider' => $destinoCampanas,
+        'dataProvider' => $destinoContenidoEmergente,
         'columns' => [
           ['class' => 'yii\grid\SerialColumn'],
           [
@@ -80,15 +80,15 @@ use yii\widgets\ActiveForm;
             'headerOptions'=> ['style'=>'width: 70px;'],
             'template' => '{eliminar-destino}',
             'buttons' => [
-              'eliminar-destino' => function ($url, $destinoOfertasLaborales) {
+              'eliminar-destino' => function ($url, $destinoContenidoEmergente) {
                 return  Html::a('<span class="glyphicon glyphicon-trash"></span>',
                 ['#'],
                 [
                   'class' => 'btn btn-danger',
-                  'data-grupo' => $destinoOfertasLaborales->idGrupoInteres,
-                  'data-ciudad' => $destinoOfertasLaborales->codigoCiudad,
-                  'data-campana' => $destinoOfertasLaborales->idImagenCampana,
-                  'data-role' => 'eliminarDestinoCampana'
+                  'data-grupo' => $destinoContenidoEmergente->idGrupoInteres,
+                  'data-ciudad' => $destinoContenidoEmergente->codigoCiudad,
+                  'data-contenido-emergente' => $destinoContenidoEmergente->idContenidoEmergente,
+                  'data-role' => 'eliminarDestinoContenidoEmergente'
                 ]
               );
             }
