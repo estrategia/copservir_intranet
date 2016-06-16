@@ -1492,6 +1492,14 @@ $(document).on('click', "#enviaFormularioMenuPortales", function() {
   $('#formMenuportales').submit();
 });
 
+//mostrar y ocultar formulario para publicar una noticia
+$(document).on('click', "#mostrarFormularioContenido", function() {
+  //console.log('dio click envia formulario');
+  $('#publicarContenido').toggle('slow');
+  $("#mostrarFormularioContenido").text('ocultar formulario')
+  return false;
+});
+
 /**
 * Acciones que se ejecutan cuando el navegador cargue los scripts
 * @param none

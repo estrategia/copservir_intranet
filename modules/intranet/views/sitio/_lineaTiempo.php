@@ -19,7 +19,13 @@ use \app\modules\intranet\models\LineaTiempo;
 </div>
 
 <?php if ($linea->tipo != LineaTiempo::TIPO_ANIVERSARIO): ?>
-    <div id="publicarContenido">
+    <div class="">
+      <a href="#" id="mostrarFormularioContenido" class="btn btn-primary btn-small">
+        crea una publicacion
+      </a>
+    </div>
+    <br>
+    <div id="publicarContenido" style="display:none">
         <?php
         echo $this->render('/contenido/formContenido', ['objLineaTiempo' => $linea, 'objContenido' => $contenidoModel]);
         ?>

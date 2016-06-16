@@ -142,6 +142,8 @@ $(document).on('click', "a[data-role='guardar-contenido']", function () {
             if (data.result == "ok") {
                 $(".lineastiempo").html("");
                 $(href).html(data.response);
+                $('#publicarContenido').toggle('slow');
+                $("#mostrarFormularioContenido").text('ocultar formulario')
             }
 
             if (data.result == 'error') {
