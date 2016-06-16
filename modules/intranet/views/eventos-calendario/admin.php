@@ -23,7 +23,7 @@ $this->title = 'Eventos Calendario';
             'fechaInicioEvento',
             'fechaFinEvento',
             'fechaInicioVisible',
-            'fechaFinVisible',
+            //'fechaFinVisible',
             [
               'attribute' => 'estado',
               'value' => function($model) {
