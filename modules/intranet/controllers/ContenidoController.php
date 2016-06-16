@@ -625,6 +625,7 @@ class ContenidoController extends Controller {
      */
     public function actionEliminarComentarioDenunciado($id) {
         $modelDenuncioComentario = DenunciosContenidosComentarios::findOne(['idDenuncioComentario' => $id]);
+        $modelComentario = ContenidosComentarios::getComentarioDenunciadoDetalle($modelDenuncioComentario->idContenidoComentario);
 
         $transaction = DenunciosContenidosComentarios::getDb()->beginTransaction();
         try {
@@ -632,11 +633,9 @@ class ContenidoController extends Controller {
             $modelDenuncioComentario->fechaActualizacion = Date("Y-m-d H:i:s");
 
             if ($modelDenuncioComentario->save()) {
-                $modelComentario = ContenidosComentarios::getComentarioDenunciadoDetalle($modelDenuncioComentario->idContenidoComentario);
+              
                 $modelComentario->saveEstadoEliminado();
-
                 $transaction->commit();
-
                 return $this->redirect(['listar-comentarios-denunciados']);
             }
         } catch (\Exception $e) {

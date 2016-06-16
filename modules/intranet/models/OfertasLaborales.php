@@ -94,28 +94,6 @@ class OfertasLaborales extends \yii\db\ActiveRecord
   }
 
   // CONSULTAS
-  
-  /**
-  * Consulta todos los modelos ofertasLaborales
-  * @param userCiudad = ciudad del usuario, userGrupos = grupos de interes donde esta el usuario
-  * @return dataProvider
-  */
-  public function getVertodos($params)
-  {
-    $query = self::find()->orderby('idCiudad')->with(['objCargo', 'objArea', 'objCiudad', 'objInformacionContactoOferta']);
-
-    $dataProvider = new ActiveDataProvider([
-      'query' => $query,
-      'pagination' => [
-        'pageSize' => 10,
-      ],
-    ]);
-
-    $this->load($params);
-
-    return $dataProvider;
-  }
-
 
   /**
   * busca las ofertas laborales segun los atributos ciudad, grupo de interes, fecha publicacion y fecha fin publicacion

@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\modules\intranet\models\OfertasLaborales */
 
-$this->title = $model->idOfertaLaboral;
+$this->title = 'detalle oferta';
 //$this->params['breadcrumbs'][] = ['label' => 'Ofertas Laborales', 'url' => ['index']];
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -28,19 +28,31 @@ $this->title = $model->idOfertaLaboral;
     <?= DetailView::widget([
       'model' => $model,
       'attributes' => [
-        'idOfertaLaboral',
-        'idCiudad',
+        'tituloOferta',
+        'descripcionContactoOferta:ntext',
+        [
+          'attribute' => 'idCiudad',
+          'value' => $model->objCiudad->nombreCiudad,
+        ],
+        [
+          'attribute' => 'idCargo',
+          'value' => $model->objCargo->nombreCargo,
+        ],
+        [
+          'attribute' => 'idArea',
+          'value' => $model->objArea->nombreArea,
+        ],
+        'urlElEmpleo:url',
         'fechaPublicacion',
         'fechaCierre',
-        'numeroDocumento',
         'fechaInicioPublicacion',
         'fechaFinPublicacion',
-        'tituloOferta',
-        'urlElEmpleo:url',
-        'idCargo',
-        'idArea',
-        'descripcionContactoOferta:ntext',
-        'idInformacionContacto',
+        [
+          'attribute' => 'idInformacionContacto',
+          'format'=>'raw',
+          'value' =>  $model->objInformacionContactoOferta->plantillaContactoHtml,
+        ],
+
       ],
       ]) ?>
 

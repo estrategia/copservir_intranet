@@ -4,6 +4,7 @@ namespace app\modules\intranet\controllers;
 
 use Yii;
 use app\modules\intranet\models\OfertasLaborales;
+use app\modules\intranet\models\OfertasLaboralesSearch;
 use app\modules\intranet\models\OfertasLaboralesDestino;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -40,20 +41,27 @@ class OfertasLaboralesController extends Controller {
      * @return mixed
      */
     public function actionAdmin() {
-        
+      $searchModel = new OfertasLaboralesSearch();
+      $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+      return $this->render('admin', [
+                  'searchModel' => $searchModel,
+                  'dataProvider' => $dataProvider,
+      ]);
     }
 
     /**
      * Lists all OfertasLaborales models.
      * @return mixed
      */
-    public function actionIndex() {
-        $userCiudad = Yii::$app->user->identity->getCiudadCodigo();
-        $ofertas = new OfertasLaborales;
-        $data = $ofertas->getVertodos(Yii::$app->request->queryParams);
+    public function actionListarOfertas() {
+
+        $searchModel = new OfertasLaboralesSearch();
+        $dataProvider = $searchModel->searchVertodos(Yii::$app->request->queryParams);
 
         return $this->render('listarOfertas', [
-                    'dataProvider' => $data,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -180,7 +188,7 @@ class OfertasLaboralesController extends Controller {
         $modelDestinoOferta = new OfertasLaboralesDestino();
         $model = '';
         $destinoOfertasLaborales = '';
-        
+
         if ($modelDestinoOferta->load(Yii::$app->request->post())) {
 
             $model = $this->findModel($modelDestinoOferta->idOfertaLaboral);
