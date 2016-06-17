@@ -27,7 +27,7 @@ class CategoriaDocumentoDetalle extends \yii\db\ActiveRecord
       [['idCategoriaDocumento', 'contenido', 'idDocumento'], 'required'],
       [['idCategoriaDocumento', 'idDocumento'], 'integer'],
       [['contenido'], 'string'],
-      [['idCategoriaDocumento'], 'exist', 'skipOnError' => true, 'targetClass' => Categoriadocumento::className(), 'targetAttribute' => ['idCategoriaDocumento' => 'idCategoriaDocumento']],
+      [['idCategoriaDocumento'], 'exist', 'skipOnError' => true, 'targetClass' => CategoriaDocumento::className(), 'targetAttribute' => ['idCategoriaDocumento' => 'idCategoriaDocumento']],
       [['idDocumento'], 'exist', 'skipOnError' => true, 'targetClass' => Documento::className(), 'targetAttribute' => ['idDocumento' => 'idDocumento']],
     ];
   }
