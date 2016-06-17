@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\modules\intranet\models\OfertasLaborales;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\intranet\models\OfertasLaborales */
@@ -16,7 +17,7 @@ $this->title = 'detalle oferta';
 
   <p>
     <?= Html::a('Actualizar', ['actualizar', 'id' => $model->idOfertaLaboral], ['class' => 'btn btn-primary']) ?>
-    <?= Html::a('Eliminar', ['eliminar', 'id' => $model->idOfertaLaboral], [
+    <?= Html::a('Inactivar', ['eliminar', 'id' => $model->idOfertaLaboral], [
       'class' => 'btn btn-danger',
       'data' => [
         'confirm' => 'Estas seguro de eliminar esta oferta laboral?',
@@ -30,6 +31,10 @@ $this->title = 'detalle oferta';
       'attributes' => [
         'tituloOferta',
         'descripcionContactoOferta:ntext',
+        [
+          'attribute' => 'estado',
+          'value' =>  $model->estado == OfertasLaborales::ESTADO_ACTIVO ? 'Activo' : 'Inactivo',
+        ],
         [
           'attribute' => 'idCiudad',
           'value' => $model->objCiudad->nombreCiudad,

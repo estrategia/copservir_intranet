@@ -142,9 +142,13 @@ class OfertasLaboralesController extends Controller {
      * @return mixed
      */
     public function actionEliminar($id) {
-        $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+      $model = $this->findModel($id);
+      $model->estado = OfertasLaborales::ESTADO_INACTIVO;
+
+      if ($model->save()) {
+          return $this->redirect(['admin']);
+      }
     }
 
     /**
@@ -219,7 +223,7 @@ class OfertasLaboralesController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id) {
-        if (($model = OfertasLaborales::findOne($id)) !== null) {
+        if (($model = OfertasLaborales::findOne(['idOfertaLaboral' => $id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

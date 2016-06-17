@@ -125,8 +125,12 @@ class GrupoInteresController extends Controller {
      * @return mixed
      */
     public function actionEliminar($id) {
-        $this->findModel($id)->delete();
-        return $this->redirect(['admin']);
+
+        $model = $this->findModel($id);
+        $model->estado = GrupoInteres::ESTADO_INACTIVO;
+        if ($model->save()) {
+            return $this->redirect(['admin']);
+        }
     }
 
     /**
@@ -253,7 +257,7 @@ class GrupoInteresController extends Controller {
      * @throws NotFoundHttpException si el modelo no es enconrado
      */
     protected function findModel($id) {
-        if (($model = GrupoInteres::findOne($id)) !== null) {
+        if (($model = GrupoInteres::findOne(['idGrupoInteres' => $id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

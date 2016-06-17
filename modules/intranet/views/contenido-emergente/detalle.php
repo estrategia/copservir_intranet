@@ -17,7 +17,7 @@ $this->title = 'Detalle del Contenido Emergente';
 
   <p>
     <?= Html::a('Actualizar', ['actualizar', 'id' => $model->idContenidoEmergente], ['class' => 'btn btn-primary']) ?>
-    <?= Html::a('Eliminar', ['eliminar', 'id' => $model->idContenidoEmergente], [
+    <?= Html::a('Inactivar', ['eliminar', 'id' => $model->idContenidoEmergente], [
       'class' => 'btn btn-danger',
       'data' => [
         'confirm' => 'Estas seguro de eliminar este contenido emergente?',

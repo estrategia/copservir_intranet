@@ -117,8 +117,11 @@ class ContenidoEmergenteController extends Controller {
      * @return mixed
      */
     public function actionEliminar($id) {
-        $this->findModel($id)->delete();
-        return $this->redirect(['admin']);
+        $model = $this->findModel($id);
+        $model->estado = ContenidoEmergente::ESTADO_INACTIVO;
+        if ($model->save()) {
+            return $this->redirect(['admin']);
+        }
     }
 
     /**
@@ -129,7 +132,7 @@ class ContenidoEmergenteController extends Controller {
      * @throws NotFoundHttpException si el modelo no es encontrado
      */
     protected function findModel($id) {
-        if (($model = ContenidoEmergente::findOne($id)) !== null) {
+        if (($model = ContenidoEmergente::findOne(['idContenidoEmergente' => $id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -191,8 +194,6 @@ class ContenidoEmergenteController extends Controller {
         return $respond;
     }
 
-
-    //------------------------------------------------------
     /**
      * @return mixed
      */
@@ -275,6 +276,5 @@ class ContenidoEmergenteController extends Controller {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-    //------------------------------------------------------
 
 }

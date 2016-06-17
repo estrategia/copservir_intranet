@@ -27,6 +27,7 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
   const POSICION_DERECHA = 2;
 
   const ESTADO_ACTIVO = 1;
+  const ESTADO_INACTIVO = 0;
 
   const SCENARIO_CREAR = 'crear';
 

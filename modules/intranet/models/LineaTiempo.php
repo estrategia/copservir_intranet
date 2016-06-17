@@ -23,6 +23,7 @@ class LineaTiempo extends \yii\db\ActiveRecord {
     const AUTORIZACION_AUTOMATICA = 1;
     const MIS_PUBLICACIONES = 2;
     const ESTADO_ACTIVO = 1;
+    const ESTADO_INACTIVO = 0;
     const TIENE_GRUPO_OBJETIVO = 1;
 
     public static function tableName() {
@@ -72,7 +73,8 @@ class LineaTiempo extends \yii\db\ActiveRecord {
     }
 
     public static function encontrarModelo($id) {
-        $model = self::find()->where(['idLineaTiempo' => $id])->one();
+
+        $model = self::find()->where(['idLineaTiempo' => $id, 'estado' => self::ESTADO_ACTIVO])->one();
 
         if ($model !== null) {
             return $model;

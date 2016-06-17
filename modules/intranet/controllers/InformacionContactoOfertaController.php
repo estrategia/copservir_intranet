@@ -45,7 +45,7 @@ class InformacionContactoOfertaController extends Controller {
             ],
         ];
     }
-    
+
     public function actions() {
         return [
             'error' => [
@@ -132,8 +132,12 @@ class InformacionContactoOfertaController extends Controller {
      * @return mixed
      */
     public function actionEliminar($id) {
-        $this->findModel($id)->delete();
-        return $this->redirect(['admin']);
+
+        $model = $this->findModel($id);
+        $model->estado = InformacionContactoOferta::PLANTILLA_INACTIVA;
+        if ($model->save()) {
+            return $this->redirect(['admin']);
+        }
     }
 
     /**
@@ -169,7 +173,7 @@ class InformacionContactoOfertaController extends Controller {
      * @throws NotFoundHttpException si el modelo no fue encontrado s
      */
     protected function findModel($id) {
-        if (($model = InformacionContactoOferta::findOne($id)) !== null) {
+        if (($model = InformacionContactoOferta::findOne(['idInformacionContacto' => $id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('no existe.');

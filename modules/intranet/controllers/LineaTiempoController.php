@@ -101,10 +101,8 @@ class LineaTiempoController extends Controller {
     public function actionActualizar($id) {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) ) {//&& $model->save()
-            var_dump($model->fechaFin);
-            var_dump($model->fechaInicio);
-            //return $this->redirect(['detalle', 'id' => $model->idLineaTiempo]);
+        if ($model->load(Yii::$app->request->post()) && $model->save() ) {
+            return $this->redirect(['detalle', 'id' => $model->idLineaTiempo]);
         } else {
 
             return $this->render('actualizar', [
@@ -119,9 +117,13 @@ class LineaTiempoController extends Controller {
      * @return mixed
      */
     public function actionEliminar($id) {
-        $this->findModel($id)->delete();
 
-        return $this->redirect(['admin']);
+      $model = $this->findModel($id);
+      $model->estado = LineaTiempo::ESTADO_INACTIVO;
+
+      if ($model->save()) {
+          return $this->redirect(['admin']);
+      }
     }
 
     /**
@@ -131,7 +133,7 @@ class LineaTiempoController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id) {
-        if (($model = LineaTiempo::findOne($id)) !== null) {
+        if (($model = LineaTiempo::findOne(['idLineaTiempo' => $id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

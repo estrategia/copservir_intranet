@@ -98,14 +98,14 @@ class MenuPortales extends \yii\db\ActiveRecord {
     public static function traerMenuPortal($nombrePortal, $idMenu) {
         $objMenu = self::find()
                 ->joinWith(['objPortal'])
-                ->where("m_Portal.nombrePortal=:portal AND t_MenuPortales.idMenuPortales=:menu", 
-                        [':portal'=>  $nombrePortal,':menu'=>$idMenu])
+                ->where("m_Portal.nombrePortal=:portal AND t_MenuPortales.idMenuPortales=:menu AND t_MenuPortales.estado=:estado", 
+                        [':portal'=>  $nombrePortal,':menu'=>$idMenu, ':estado' => self::APROBADO])
                 ->one();
 
         return $objMenu;
         var_dump($objMenu->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);exit();
     }
-    
+
     public function getUrl($nombrePortal){
         return [ "/$nombrePortal/sitio/contenido?menu=".$this->idMenuPortales];
     }

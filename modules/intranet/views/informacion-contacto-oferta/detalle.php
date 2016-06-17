@@ -16,7 +16,7 @@ $this->title = $model->nombrePlantilla;
 
   <p>
     <?= Html::a('Actualizar', ['actualizar', 'id' => $model->idInformacionContacto], ['class' => 'btn btn-primary']) ?>
-    <?= Html::a('Eliminar', ['eliminar', 'id' => $model->idInformacionContacto], [
+    <?= Html::a('Inactivar', ['eliminar', 'id' => $model->idInformacionContacto], [
       'class' => 'btn btn-danger',
       'data' => [
         'confirm' => 'estas seguro de eliminar esta plantilla?',
