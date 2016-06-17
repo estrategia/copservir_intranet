@@ -164,7 +164,54 @@ $(document).on('click', "a[data-role='guardar-contenido']", function () {
 
     return false;
 });
+//---------------------------------------------------------------------------
+/*
+ * peticion ajax para guardar un contenido de una publicacion en el template
+ * publicar portales.
+ */
+$(document).on('click', "a[data-role='guardar-contenido-publicar-portales']", function () {
 
+    var formElement = document.getElementById("form-contenido-publicar-portales");
+    var formData = new FormData(formElement);
+    var href = $(this).attr('data-href');
+    var files = $('#contenido-imagenes').fileinput('getFileStack');
+
+    if (files.length > 0) {
+        $.each(files, function (key, data) {
+            formData.append('imagenes[]', data, files[key].name);
+        });
+    }
+
+    $.ajax({
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        url: requestUrl + '/intranet/sitio/publicar-portales-crear',
+        data: formData,
+        dataType: 'json',
+        beforeSend: function () {
+            $('html').showLoading();
+            //$("#btnAgregarContenido").attr('disabled', true);
+        },
+        complete: function (data) {
+            $('html').hideLoading();
+        },
+        success: function (data) {
+            if (data.result == "ok") {
+              $('.publicar-portales').remove();
+              $('.formulario').append(data.response);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('html').hideLoading();
+            $("#btnAgregarContenido").attr('disabled', false);
+        }
+    });
+
+    return false;
+});
+
+//---------------------------------------------------------------------------
 //::::::::::::::::::::::
 // MENU
 //::::::::::::::::::::::

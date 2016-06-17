@@ -1,141 +1,66 @@
 <?php
-use kartik\select2\Select2;
-use vova07\imperavi\Widget;
-use yii\widgets\ActiveForm;
-use yii\helpers\Url;
+
 use yii\helpers\Html;
-use app\modules\intranet\models\ContenidoDestino;
+use yii\grid\GridView;
+use app\modules\intranet\models\Contenido;
 
+/* @var $this yii\web\View */
+/* @var $searchModel app\modules\intranet\models\LineaTiempoSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
-
-
-$this->title = 'Publicar en portales';
+$this->title = 'Contenidos en los portales';
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
+<div class="linea-tiempo-index">
 
-<div class="col-md-12">
-  <h3>Publica una noticia en un portal</h3>
-  <br>
-  <?php
-    $form = ActiveForm::begin([
-      'options'=>['encytype'=>'multipart/form-data']
-    ]);
-  ?>
+    <h1><?= Html::encode($this->title) ?></h1>
 
+    <p>
+        <?= Html::a('Crea un contenido', ['publicar-portales-crear'], ['class' => 'btn btn-success']) ?>
+    </p>
 
-  <?php
-    echo $form->field($contenidoModel, 'titulo')->input(['value' => 1]);
-  ?>
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            'titulo',
+            'fechaPublicacion',
+            /*[
+              'attribute' => 'portal',
+              'value' =>  function($model) {
+                var_dump($model);
+                return $model->estado;
+              }
+            ],*/
+            [
+              'attribute' => 'estado',
+              'value' => function($model) {
+                if ($model->estado == Contenido::APROBADO ) {
+                  return 'Aprobado';
+                }
+                if ($model->estado == Contenido::ELIMINADO ) {
+                  return 'Inactivo';
+                }
+                if ($model->estado == Contenido::ELIMINADO_DENUNCIO ) {
+                  return 'Aniversario';
+                }
+                if ($model->estado == Contenido::PENDIENTE_APROBACION ) {
+                  return 'Pendiente de aprobacion';
+                }
+              }
+            ],
 
-  <?php
-    echo $form->field($contenidoModel, 'contenido')->widget(Widget::className(), [
-
-      'settings' => [
-        'lang' => 'es',
-        'minHeight' => 100,
-        //'buttons' => ['format', 'bold', 'italic'],
-        'imageUpload' => Url::toRoute('contenido/cargar-imagen'),
-        'fileUpload' => Url::toRoute('contenido/cargar-archivo'),
-        'plugins' => [
-          'imagemanager',
+            [
+              'class' => 'yii\grid\ActionColumn',
+              'headerOptions'=> ['style'=>'width: 70px;'],
+              'template' => '{publicar-portales-actualizar}',
+              'buttons' => [
+                'publicar-portales-actualizar' => function ($url, $model) {
+                  return  Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url);
+                },
+              ],
+            ],
         ],
-        'fileManagerJson' => Url::to(['sitio/files-get']),
-      ]
-      ])->label(false);
-  ?>
-
-  <?php
-    echo $form->field($contenidoModel, 'portales')->widget(Select2::classname(), [
-      'data' => $contenidoModel->getListaPortales($esAdmin),
-      'options' => ['placeholder' => 'Seleccione los portales', 'class'=>'js-example-disabled-multi'],
-      'pluginEvents' => [
-                          "select2:selecting" => "function(e) { setInputTimeLine(e.params.args.data.text); }",
-                          "select2:unselecting" => "function(e) { setInputTimeLimeHide(e.params.args.data.text); }",
-                        ],
-      'pluginOptions' => [
-          'allowClear' => true,
-          'multiple' => true
-      ],
-    ]);
-  ?>
-  <br>
-  <br>
-  <div id="divTimeLime">
-
-  </div>
-  <br>
-  <br>
-  <!-- DESTINOS -->
-
-  <div id="divDestinos" hidden>
-    <?=
-    Html::a('<i class = "fa fa-plus-square" ></i>', '#', [
-      'data-role' => 'agregar-destino-contenido',
-      'title' => 'Agregar nuevo'
-    ]);
-    ?>
-    <?= Html::label('Añadir otro') ?>
-
-    <div id="contenido-destino">
-      <?php echo $this->render('_formDestinoContenido', ['objContenidoDestino' => new ContenidoDestino, 'consultaTodos' => $esAdmin]) ?>
-    </div>
-
-  </div>
-
-
-  <br>
-  <br>
-  <div class="form-group">
-    <?=
-      Html::submitButton('Publicar', ['class' => 'btn btn-primary'])
-    ?>
-  </div>
-
-  <?php
-
-    $inputTimeLine = $form->field($contenidoModel, 'idLineaTiempo')->dropDownList(
-      $contenidoModel->getListaLineasTiempo(),
-      ['prompt'=>'Select...'])
-      ->label('Linea de tiempo para el portal intranet');
-
-    $inputTimeLine = str_replace("\n", "", $inputTimeLine);
-
-
-    $bandera = 'true';
-    if ($esAdmin) {
-        $bandera = 'false';
-    }
-
-    $this->registerJs("
-
-      $( document ).ready(function() {
-
-        if ($bandera) {
-           $('.js-example-disabled-multi').prop('disabled', true);
-           $('.select2-search__field').remove()
-           $('.js-example-disabled-multi').val(1);
-           $('.js-example-disabled-multi').change();
-           setInputTimeLine($('.js-example-disabled-multi option:selected').text());
-        }
-      });
-
-      function setInputTimeLine(selectedOption) {
-
-        if(selectedOption === 'intranet'){
-
-          $('.field-contenido-idlineatiempo').remove();
-          $('#divTimeLime').append('$inputTimeLine');
-          $('#divDestinos').show();
-        }
-      }
-
-      function setInputTimeLimeHide(selectedOption) {
-        if(selectedOption === 'intranet'){
-          $('.field-contenido-idlineatiempo').remove();
-          $('#divDestinos').hide();
-        }
-      }
-    ");
-  ?>
-
-  <?php ActiveForm::end(); ?>
+    ]); ?>
 </div>

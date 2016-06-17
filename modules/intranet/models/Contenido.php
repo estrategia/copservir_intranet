@@ -183,9 +183,11 @@ class Contenido extends \yii\db\ActiveRecord {
         $portalModel = Portal::encontrarModeloPorNombre($nombrePortal);
 
         $query = self::find()->joinWith(['objContenidoPortal'])
-                        ->where('t_Contenido.idContenido=:idContenido AND fechaInicioPublicacion<=:fecha AND estado=:estado and t_ContenidoPortal.idPortal=:idPortal')
-                        ->orderBy('fechaInicioPublicacion Desc')
-                        ->addParams([':estado' => self::APROBADO, ':fecha' => Date("Y-m-d H:i:s"), ':idPortal' => $portalModel->idPortal, ':idContenido' => $idContenido])->one();
+          ->with(['objContenidoAdjuntoImagenes'])
+          ->where('t_Contenido.idContenido=:idContenido AND fechaInicioPublicacion<=:fecha AND
+              estado=:estado and t_ContenidoPortal.idPortal=:idPortal')
+          ->orderBy('fechaInicioPublicacion Desc')
+          ->addParams([':estado' => self::APROBADO, ':fecha' => Date("Y-m-d H:i:s"), ':idPortal' => $portalModel->idPortal, ':idContenido' => $idContenido])->one();
 
         return $query;
     }
@@ -584,6 +586,7 @@ class Contenido extends \yii\db\ActiveRecord {
                     $contenidoAdjunto->rutaArchivo = $this->imagenes['name'][$key];
 
                     if (!is_file($rutaGuardarArchivo)) {
+
                         move_uploaded_file($value, $rutaGuardarArchivo);
                     }
 

@@ -26,6 +26,9 @@ class ProveedoresAsset extends AssetBundle {
         'libs/multiportal/owl-carousel/owl.carousel.css',
         'libs/multiportal/owl-carousel/owl.theme.css',
 
+        // visor imagenes
+        'libs/bootstrap-media-lightbox-master/bootstrap-media-lightbox.css',
+
         //genericas plantilla intranet
         'css/portales-style.css',
         'css/portales-main.css',
@@ -34,14 +37,17 @@ class ProveedoresAsset extends AssetBundle {
     public $js = [
         // boostrap
         'libs/boostrapv3/js/bootstrap.min.js',
-        
+
         'libs/modernizr/modernizr.js',
         'libs/timeago/jquery.timeago.js',
         'libs/timeago/jquery.timeago.es.js',
 
         // carousel
         'libs/multiportal/owl-carousel/owl.carousel.min.js',
-        
+
+        // visor imagenes
+        'libs/bootstrap-media-lightbox-master/bootstrap-media-lightbox.min.js',
+
         //genericas plantilla intranet
         'js/multiportal/timeline.js',
         'js/multiportal/vendor/holder.min.js',

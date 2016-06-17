@@ -48,8 +48,13 @@ class ContenidoPortal extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIdContenido0()
+    public function getObjContenido()
     {
-        return $this->hasOne(TContenido::className(), ['idContenido' => 'idContenido']);
+        return $this->hasOne(Contenido::className(), ['idContenido' => 'idContenido']);
+    }
+
+    public function getObjPortal()
+    {
+        return $this->hasOne(Portal::className(), ['idPortal' => 'idPortal']);
     }
 }

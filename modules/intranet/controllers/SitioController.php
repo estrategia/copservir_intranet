@@ -5,6 +5,7 @@ namespace app\modules\intranet\controllers;
 use Yii;
 use yii\web\Controller;
 use app\modules\intranet\models\Contenido;
+use app\modules\intranet\models\ContenidoSearch;
 use app\modules\intranet\models\LineaTiempo;
 use app\modules\intranet\models\UsuariosOpcionesFavoritos;
 use app\modules\intranet\models\MeGustaContenidos;
@@ -30,6 +31,9 @@ use app\modules\intranet\models\AuthAssignment;
 use yii\helpers\Html;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
+
+
+use yii\web\UploadedFile;
 
 class SitioController extends \app\controllers\CController {
 
@@ -265,7 +269,18 @@ class SitioController extends \app\controllers\CController {
         return $respond;
     }
 
-    public function actionPublicarPortales() {
+    public function actionPublicarPortales()
+    {
+      $searchModel = new ContenidoSearch();
+      $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+      return $this->render('/contenido/publicar-portales', [
+          'searchModel' => $searchModel,
+          'dataProvider' => $dataProvider
+      ]);
+    }
+
+    public function actionPublicarPortalesCrear() {
 
       if (!Yii::$app->user->identity->tienePermiso('intranet_sitio_publicar-portales')) {
         throw new \yii\web\ForbiddenHttpException('Acceso no permitdo.',403);
@@ -280,8 +295,11 @@ class SitioController extends \app\controllers\CController {
       $contenidoModel->scenario = Contenido::SCENARIO_PUBLICAR_PORTALES;
       $contenidodestino = Yii::$app->request->post('ContenidoDestino');
 
-      if ($contenidoModel->load(Yii::$app->request->post())) {
-          //var_dump($contenidoModel->portales);
+      if ($contenidoModel->load(Yii::$app->request->post()) && Yii::$app->request->isAjax) {
+
+          if (!empty($_FILES['imagenes'])) {
+              $contenido->imagenes = $_FILES['imagenes'];
+          }
 
           if (!is_null($contenidoModel->idLineaTiempo)) {
               $contenidoModel->scenario = Contenido::SCENARIO_PUBLICAR_PORTALES_CON_LINEA_TIEMPO;
@@ -296,21 +314,61 @@ class SitioController extends \app\controllers\CController {
               $contenidoModel->numeroDocumentoAprobacion = Yii::$app->user->identity->numeroDocumento;
 
               if ($contenidoModel->save()) {
+                  $contenidoModel->guardarImagenes();
                   $this->guardarContenidoPortal($contenidoModel);
 
                   if (!empty($contenidodestino['codigoCiudad']) && !empty($contenidodestino['idGrupoInteres']) && in_array("1", $contenidoModel->portales)) {
                     $contenidoModel->guardarContenidoDestino($contenidodestino);
                   }
                   $transaction->commit();
+                  $respond = [
+                      'result' => 'ok',
+                      'response' => $this->renderAjax('/contenido/_formPublicarPortales', [
+                        'contenidoModel' => $contenidoModel,
+                        'esAdmin' => $esAdmin,
+                  ])];
+                  \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                  return $respond;
+              }else{
+                $respond = [
+                    'result' => 'ok',
+                    'response' => $this->renderAjax('/contenido/_formPublicarPortales', [
+                      'contenidoModel' => $contenidoModel,
+                      'esAdmin' => $esAdmin,
+                ])];
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                return $respond;
               }
           } catch (\Exception $e) {
 
               $transaction->rollBack();
               throw $e;
           }
+      }else{
+        return $this->render('/contenido/publicar-portales-crear', [
+                    'contenidoModel' => $contenidoModel,
+                    'esAdmin' => $esAdmin,
+        ]);
       }
 
-      return $this->render('/contenido/publicar-portales', [
+
+    }
+
+    public function actionPublicarPortalesActualizar($id)
+    {
+
+      if (!Yii::$app->user->identity->tienePermiso('intranet_sitio_publicar-portales')) {
+        throw new \yii\web\ForbiddenHttpException('Acceso no permitdo.',403);
+      }
+
+      $esAdmin = false;
+      if (Yii::$app->user->identity->tienePermiso('intranet_admin')) {
+        $esAdmin = true;
+      }
+
+      $contenidoModel = $this->encontrarModeloContenido($id);
+
+      return $this->render('/contenido/publicar-portales-actualizar', [
                   'contenidoModel' => $contenidoModel,
                   'esAdmin' => $esAdmin,
       ]);
@@ -326,6 +384,23 @@ class SitioController extends \app\controllers\CController {
             if (!$modelContenidoPortal->save()) {
                 throw new Exception("Error al guardar el contenidoPortal:" . yii\helpers\Json::enconde($$modelContenidoPortal->getErrors()), 101);
             }
+        }
+    }
+
+    /**
+     * encuentra un contenidoModel por su llave primaria
+     * si el modelo no existe manda un 404
+     * @param string $id
+     * @return Contenido the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function encontrarModeloContenido($id) {
+      $model = Contenido::findOne($id);
+
+        if ($model !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 
