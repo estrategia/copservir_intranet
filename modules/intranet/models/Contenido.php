@@ -52,7 +52,7 @@ class Contenido extends \yii\db\ActiveRecord {
             [['contenido'], 'string'],
             [['numeroDocumentoPublicacion', 'estado', 'numeroDocumentoAprobacion', 'idLineaTiempo'], 'integer'],
             [['fechaPublicacion', 'fechaActualizacion', 'fechaAprobacion', 'fechaInicioPublicacion'], 'safe'],
-            [['titulo'], 'string', 'max' => 45],
+            [['titulo'], 'string', 'max' => 100],
             [['imagenes'], 'safe'],
             [['portales'], 'required', 'on' => self::SCENARIO_PUBLICAR_PORTALES],
             [['idLineaTiempo'], 'required', 'on' => self::SCENARIO_PUBLICAR_PORTALES_CON_LINEA_TIEMPO],
