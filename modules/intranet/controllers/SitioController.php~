@@ -197,7 +197,6 @@ class SitioController extends \app\controllers\CController {
     /*
       accion para guardar un contenido en alguna linea de tiempos
      */
-
     public function actionGuardarContenido() {
         $contenido = new Contenido();
         $respond = [];
@@ -498,6 +497,7 @@ class SitioController extends \app\controllers\CController {
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
+            // pasar a una funcion en el modelo
             $model->setIdRaiz();
 
             if ($model->save()) {
@@ -508,19 +508,13 @@ class SitioController extends \app\controllers\CController {
             } else {
                 $respond = [
                     'result' => 'error',
-                    'response' => $this->renderAjax('_modalOpcionMenu', [
-                        'model' => $model,
-                        'idPadre' => $model->idPadre
-                    ])
+                    'response' => $this->renderAjax('menuAdmin', [])
                 ];
             }
         } else {
             $respond = [
                 'result' => 'error',
-                'response' => $this->renderAjax('_modalOpcionMenu', [
-                    'model' => $model,
-                    'idPadre' => $model->idPadre
-                ])
+                'response' => $this->renderAjax('menuAdmin', [])
             ];
         }
 
@@ -545,10 +539,7 @@ class SitioController extends \app\controllers\CController {
         } else {
             $respond = [
                 'result' => 'error',
-                'response' => $this->renderAjax('_modalOpcionMenu', [
-                    'model' => $model,
-                    'idPadre' => ''
-                ])
+                'response' => $this->renderAjax('menuAdmin', [])
             ];
         }
 
@@ -624,10 +615,7 @@ class SitioController extends \app\controllers\CController {
         } else {
             $respond = [
                 'result' => 'error',
-                'response' => $this->renderAjax('_modalAgregarEnlaceMenu', [
-                    'model' => $model,
-                    'idMenu' => $model->idMenu
-                ])
+                'response' => $this->renderAjax('menuAdmin', [])
             ];
         }
 

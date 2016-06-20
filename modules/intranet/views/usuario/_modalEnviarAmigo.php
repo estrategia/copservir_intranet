@@ -10,7 +10,6 @@ use yii\helpers\Html;
 <div class="modal fade" id="widget-enviarAmigo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Envia a un amigo</h4>
@@ -22,24 +21,27 @@ use yii\helpers\Html;
         </p>
         <!-- div con formulario para realizar la busqueda de los amigos y pega a la lista los amigos seleccionados -->
         <?= Html::beginForm(['contenido/enviar-amigo'], 'post', ['id'=> 'formEnviarAmigo']); ?>
+        <div id="inputUsuarios" class="form-group">
         <?php
-        echo Select2::widget([
-          'name' => 'enviaAmigo',
-          'data' => \yii\helpers\ArrayHelper::map($listaUsuarios, 'numeroDocumento', 'alias'),
-          'size' => Select2::MEDIUM,
-          'showToggleAll' => false,
-          'changeOnReset' => false,
-          'options' => ['class'=>'select2-container select2-container-multi', 'id' => 'enviaAmigo','placeholder' => 'buscar...', 'multiple' => true],
-          'pluginOptions' => [
-            'allowClear' => true,
-            'escapeMarkup' => new JsExpression("function(m) { return m; }")
-          ],
+          echo Select2::widget([
+            'name' => 'enviaAmigo',
+            'data' => \yii\helpers\ArrayHelper::map($listaUsuarios, 'numeroDocumento', 'alias'),
+            'size' => Select2::MEDIUM,
+            'showToggleAll' => false,
+            'changeOnReset' => false,
+            'options' => ['class'=>'select2-container select2-container-multi', 'id' => 'enviaAmigo','placeholder' => 'buscar...', 'multiple' => true],
+            'pluginOptions' => [
+              'allowClear' => true,
+              'escapeMarkup' => new JsExpression("function(m) { return m; }")
+            ],
 
-        ])
-        ?>
-
+          ])
+          ?>
+        </div>
         <?=  Html::hiddenInput('clasificado',$modelClasificado->idContenido, []);  ?>
         <?= Html::endForm()     ?>
+
+        <div class="error"></div>
 
 
       </div>

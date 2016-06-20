@@ -105,20 +105,17 @@ class ContenidoController extends Controller {
 
     public function actionDenunciarContenido() {
         $request = \Yii::$app->request;
-        $render = $request->post('render', false);
 
-        if ($render) {
-            $idContenido = $request->post('idContenido');
-            $idLinea = $request->post('idLineaTiempo');
+        $idContenido = $request->post('idContenido');
+        $idLinea = $request->post('idLineaTiempo');
 
-            $modelDenuncio = new DenunciosContenidos();
-            $modelDenuncio->idContenido = $idContenido;
-            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            return [
-                'result' => 'ok',
-                'response' => $this->renderPartial('_modalDenuncio', ['modelDenuncio' => $modelDenuncio, 'idLineaTiempo' => $idLinea])
-            ];
-        }
+        $modelDenuncio = new DenunciosContenidos();
+        $modelDenuncio->idContenido = $idContenido;
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return [
+            'result' => 'ok',
+            'response' => $this->renderPartial('_modalDenuncio', ['modelDenuncio' => $modelDenuncio, 'idLineaTiempo' => $idLinea])
+        ];
     }
 
     public function actionGuardarDenuncioContenido() {
@@ -232,12 +229,14 @@ class ContenidoController extends Controller {
             if (empty($contenido)) {
                 $respond = [
                     'result' => 'error',
-                    'response' => 'El contenido ya no existe'
+                    'response' => $this->renderPartial('_modalDenuncioComentario', ['modelDenuncio' => $modelDenuncio]),
+                    'error' => 'El contenido ya no existe'
                 ];
             } else {
                 $respond = [
                     'result' => 'error',
-                    'response' => 'Error al guardar el denuncio'
+                    'response' => $this->renderPartial('_modalDenuncioComentario', ['modelDenuncio' => $modelDenuncio]),
+                    'error' => 'Error al guardar el denuncio'
                 ];
             }
 
@@ -446,7 +445,7 @@ class ContenidoController extends Controller {
         $clasificado = Yii::$app->request->post('clasificado', '');
         $respond = [];
 
-        if ($listaAmigos != [] and $clasificado != '') {
+        if (count($listaAmigos) > 0 and $clasificado != '') {
 
             $transaction = ContenidoRecomendacion::getDb()->beginTransaction();
             try {
@@ -473,10 +472,16 @@ class ContenidoController extends Controller {
                 ];
                 throw $e;
             }
-
-            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            return $respond;
+        }else{
+          $respond = [
+              'result' => 'error',
+              'error' => 'campoVacio',
+              'text' => 'El campo no puede estar vacio seleccione un usuario'
+          ];
         }
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $respond;
     }
 
     /**
@@ -633,7 +638,7 @@ class ContenidoController extends Controller {
             $modelDenuncioComentario->fechaActualizacion = Date("Y-m-d H:i:s");
 
             if ($modelDenuncioComentario->save()) {
-              
+
                 $modelComentario->saveEstadoEliminado();
                 $transaction->commit();
                 return $this->redirect(['listar-comentarios-denunciados']);

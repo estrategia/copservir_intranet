@@ -412,7 +412,7 @@ $(document).on('click', 'a[data-role="denunciar-contenido"]', function () {
         },
         success: function (data) {
             if (data.result == 'ok') {
-                $('body').append(data.response);
+                $('.div-modal-denuncio-contenido').append(data.response);
                 $("#modal-contenido-denuncio").modal("show");
 
             } else {
@@ -454,13 +454,11 @@ $(document).on('click', 'button[data-role="guardar-denuncio-contenido"]', functi
                 $("#modal-contenido-denuncio").modal("hide");
 
             } else {
-
-                $("#modal-contenido-denuncio").remove();//modal("hide");
-                //$(".div-modal-denuncio-contenido").empty();
-                $("body").append(data.response);
-                //$('body').append(data.response);
-                $("#modal-contenido-denuncio").modal("show");
-                $(".error").tsext(data.error);
+                $("#modal-contenido-denuncio").modal("hide");
+                $('#modal-contenido-denuncio').on('hidden.bs.modal', function (e) {
+                  $(".div-modal-denuncio-contenido").html(data.response);
+                  $("#modal-contenido-denuncio").modal("show");
+                })
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -509,6 +507,7 @@ $(document).on('click', 'a[data-role="eliminar-comentario"]', function () {
     return false;
 });
 
+// renderiza el modal para eliminar un comentario
 $(document).on('click', 'a[data-role="denunciar-comentario"]', function () {
 
     var idComentario = $(this).attr("data-comentario");
@@ -545,6 +544,7 @@ $(document).on('click', 'a[data-role="denunciar-comentario"]', function () {
     return false;
 });
 
+// guarda el denuncio de un comentario
 $(document).on('click', 'button[data-role="guardar-denuncio-comentario"]', function () {
 
     var form = $("#form-comentario-denuncio")
@@ -566,7 +566,13 @@ $(document).on('click', 'button[data-role="guardar-denuncio-comentario"]', funct
             if (data.result == 'ok') {
                 $("#modal-comentario-denuncio").modal('hide');
             } else {
-                alert(data.response);
+
+                $("#modal-comentario-denuncio").modal("hide");
+                $('#modal-comentario-denuncio').on('hidden.bs.modal', function (e) {
+                  $('#modal-comentario-denuncio').remove();
+                  $("body").append(data.response);
+                  $("#modal-comentario-denuncio").modal("show");
+                })
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
