@@ -8,16 +8,19 @@ $config = [
     'basePath' => dirname(__DIR__),
     'language' => 'es',
     'bootstrap' => ['log'],
+    'on beforeAction' => function ($event) {
+        date_default_timezone_set('America/Bogota');
+    },
     'components' => [
-      'authManager' => [
+        'authManager' => [
             'class' => 'yii\rbac\DbManager',
-            //'defaultRoles' => ['usuario'],
+        //'defaultRoles' => ['usuario'],
         ],
         'assetManager' => [
             'bundles' => [
-                /*'yii\web\JqueryAsset' => [
-                    'js' => []
-                ],*/
+                /* 'yii\web\JqueryAsset' => [
+                  'js' => []
+                  ], */
                 'yii\bootstrap\BootstrapPluginAsset' => [
                     'js' => []
                 ],
@@ -34,7 +37,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'loginUrl' => ['/intranet/usuario/autenticar'],  
+            'loginUrl' => ['/intranet/usuario/autenticar'],
             'identityClass' => 'app\modules\intranet\models\Usuario',
             'enableAutoLogin' => true,
         ],
@@ -60,7 +63,6 @@ $config = [
                 'encryption' => 'tls',
             ]
         ],
-        
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
@@ -99,20 +101,20 @@ $config = [
                     'levels' => ['profile'],
                     'categories' => ['yii\db\Command::query'],
                     'prefix' => function($message) {
-                        return '';
-                    }
+                return '';
+            }
                 ]
             ],
         ],
-        /*'log' => [
-            'traceLevel' => YII_DEBUG ? 3 : 0,
-            'targets' => [
-                [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
-                ],
-            ],
-        ],*/
+        /* 'log' => [
+          'traceLevel' => YII_DEBUG ? 3 : 0,
+          'targets' => [
+          [
+          'class' => 'yii\log\FileTarget',
+          'levels' => ['error', 'warning'],
+          ],
+          ],
+          ], */
         'db' => require(__DIR__ . '/db.php'),
         'urlManager' => [
 

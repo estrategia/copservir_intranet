@@ -33,6 +33,15 @@ class TestController extends Controller {
         ];
     }
     
+    public function actionZone(){
+        //$user = Yii::$app->user->identity;
+        //if ($user && $user->timezone) {
+            VarDumper::dump(Yii::$app->getTimeZone(),10,true);
+            echo "<br><br>";
+            echo date("Y-m-d H:i:s");
+        //}
+    }
+    
     public function actionUrlTest(){
         echo Yii::$app->controller->module->id . "/" . Yii::$app->controller->id . "/" . Yii::$app->controller->action->id;
         //echo Yii::getAlias('@webroot');
