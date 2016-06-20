@@ -330,6 +330,11 @@ $(document).on('click', "button[data-role='enviar-amigos']", function() {
     success: function(data) {
       if (data.result == "ok") {
         $("#widget-enviarAmigo").modal('hide');
+      }else{
+        if (data.error == 'campoVacio') {
+          $('#inputUsuarios').addClass('form-group has-error');
+          $('.error').text(data.text);
+        }
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
