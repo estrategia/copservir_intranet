@@ -222,6 +222,11 @@ h2 {
 .footer-top ul {
   padding-left: 15px;
 }
+
+.footer-top a {
+  color: #fff;
+}
+
 .redes {
   list-style: none;
   margin: auto;
@@ -373,6 +378,7 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
 .nav > li > a:focus, .nav > li > a:hover {
   background-color: #146f02;
 }
+
 .acerca-home {
   text-align: center;
 }
@@ -556,4 +562,43 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
     padding: 0;
     position: relative;
     padding: 100px 26px 80px 26px;
+}
+
+.tarjeta {
+    border-radius: 2%;
+    border: 1px solid #f0f0f0;
+}
+
+.nav li ul {
+    display:none;
+    position:absolute;
+    min-width:250px;
+    list-style:none;
+}
+.nav li:hover > ul {
+    display:block;
+}
+
+.submenu {padding:0;border-top:1px solid #fff;}
+.submenu li {padding:20px;cursor:pointer;}
+.submenu li a {color:#fff;}
+.submenu li a:hover {text-decoration:none;}
+
+.submenu.sub-tarjetamas li{
+   background-color: #C00000; 
+   border-left:5px solid #fff;
+}
+.submenu.sub-tarjetamas li:hover{
+   background-color: #a50606; 
+}
+.tarjeta-mas .nav li a:hover {
+   background-color: #a50606;
+}
+
+.tarjeta-mas .nav li a:active {
+   background-color: #a50606;
+}
+
+.tarjeta-mas .nav li a:focus {
+   background-color: #a50606;
 }
