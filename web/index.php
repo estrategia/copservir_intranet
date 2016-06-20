@@ -1,5 +1,5 @@
 <?php
-date_default_timezone_set('America/Bogota');
+//date_default_timezone_set('America/Bogota');
 //date_default_timezone_set('America/Los_Angeles');
 // comment out the following two lines when deployed to production
 defined('YII_DEBUG') or define('YII_DEBUG', true);
