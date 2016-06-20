@@ -17,7 +17,7 @@ $this->title = "Detalle menu portal";
 
     <p>
         <?= Html::a('Actualizar', ['actualizar', 'id' => $model->idMenuPortales], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['eliminar', 'id' => $model->idMenuPortales], [
+        <?= Html::a('Inactivar', ['eliminar', 'id' => $model->idMenuPortales], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Estas seguro de eliminar este menu del portal?',

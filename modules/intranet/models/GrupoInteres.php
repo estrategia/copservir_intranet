@@ -14,6 +14,9 @@ use yii\web\UploadedFile;
 */
 class GrupoInteres extends \yii\db\ActiveRecord
 {
+  const ESTADO_ACTIVO = 1;
+  const ESTADO_INACTIVO = 0;
+  
   public static function tableName()
   {
     return 'm_GrupoInteres';
@@ -22,7 +25,7 @@ class GrupoInteres extends \yii\db\ActiveRecord
   public function rules()
   {
     return [
-      [['nombreGrupo'], 'required'],
+      [['nombreGrupo', 'estado'], 'required'],
       [['nombreGrupo','imagenGrupo'], 'string', 'max' => 45]
     ];
   }
@@ -32,7 +35,8 @@ class GrupoInteres extends \yii\db\ActiveRecord
     return [
       'idGrupoInteres' => 'Id Grupo Interes',
       'nombreGrupo' => 'Nombre Grupo',
-      'imagenGrupo' => 'Imagen Grupo'
+      'imagenGrupo' => 'Imagen Grupo',
+      'estado' => 'Estado'
     ];
   }
 

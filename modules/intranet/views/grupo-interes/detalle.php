@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\modules\intranet\models\GrupoInteres;
 
 /* @var $this yii\web\View */
 /* @var $grupo app\modules\intranet\grupos\GrupoInteres */
@@ -15,7 +16,7 @@ $this->title = $grupo->nombreGrupo;
 
       <p>
           <?= Html::a('Actualizar', ['actualizar', 'id' => $grupo->idGrupoInteres], ['class' => 'btn btn-primary']) ?>
-          <?= Html::a('Eliminar', ['eliminar', 'id' => $grupo->idGrupoInteres], [
+          <?= Html::a('Inactivar', ['eliminar', 'id' => $grupo->idGrupoInteres], [
               'class' => 'btn btn-danger',
               'data' => [
                   'confirm' => 'estas seguro de eliminar este grupo de interes?',
@@ -28,6 +29,10 @@ $this->title = $grupo->nombreGrupo;
           'model' => $grupo,
           'attributes' => [
               'nombreGrupo',
+              [
+                'attribute' => 'estado',
+                'value' =>  $model->estado == GrupoInteres::ESTADO_ACTIVO ? 'Activo' : 'Inactivo',
+              ],
               [
                 'label' => 'Imagen',
                 'format'=>'raw',

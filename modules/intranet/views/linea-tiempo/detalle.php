@@ -17,7 +17,7 @@ $this->title = 'detalle linea de tiempo';
 
     <p>
         <?= Html::a('Actualizar', ['actualizar', 'id' => $model->idLineaTiempo], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['eliminar', 'id' => $model->idLineaTiempo], [
+        <?= Html::a('Inactivar', ['eliminar', 'id' => $model->idLineaTiempo], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Estas seguro de eliminar esta linea de tiempo?',

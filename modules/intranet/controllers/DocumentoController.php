@@ -35,7 +35,7 @@ class DocumentoController extends Controller {
             ],
         ];
     }
-    
+
     public function actions() {
         return [
             'error' => [
@@ -123,8 +123,8 @@ class DocumentoController extends Controller {
 
         if ($model->load(Yii::$app->request->post())) {
             $model->setRutaDocumento();
-            
-            $transaction = \Yii::$app->db->beginTransaction(); 
+
+            $transaction = \Yii::$app->db->beginTransaction();
             try {
                 if ($model->save()) {
                     $transaction->commit();
@@ -151,8 +151,11 @@ class DocumentoController extends Controller {
      * @return mixed
      */
     public function actionEliminar($id) {
-        $this->findModel($id)->delete();
-        return $this->redirect(['admin']);
+      $model = $this->findModel($id);
+      $model->estado = Documento::ESTADO_INACTIVO;
+      if ($model->save()) {
+          return $this->redirect(['admin']);
+      }
     }
 
     /**
@@ -163,7 +166,7 @@ class DocumentoController extends Controller {
      * @throws NotFoundHttpException si no encuentra el modelo
      */
     protected function findModel($id) {
-        if (($model = Documento::findOne($id)) !== null) {
+        if (($model = Documento::findOne(['idDocumento' => $id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

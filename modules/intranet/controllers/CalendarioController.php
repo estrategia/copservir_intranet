@@ -143,9 +143,11 @@ class CalendarioController extends ControllerCalendar {
    */
   public function actionEliminar($id)
   {
-      $this->findModel($id)->delete();
-
-      return $this->redirect(['admin']);
+      $model = $this->findModel($id);
+      $model->estado = EventosCalendario::INACTIVO;
+      if ($model->save()) {
+          return $this->redirect(['admin']);
+      }
   }
 
   /**
@@ -281,8 +283,7 @@ public function actionAsignarContenidoEvento($id, $idEvento)
    */
   protected function findModel($id)
   {
-      //EventosCalendario::find()->where(['idEventoCalendario' => $id])->with(['objUsuario'])->one()
-      if (($model = EventosCalendario::findOne($id)) !== null) {
+      if (($model = EventosCalendario::findOne(['idEventoCalendario' => $id])) !== null) {
           return $model;
       } else {
           throw new NotFoundHttpException('The requested page does not exist.');

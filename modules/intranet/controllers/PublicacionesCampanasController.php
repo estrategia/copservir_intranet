@@ -149,9 +149,13 @@ class PublicacionesCampanasController extends Controller {
      * @return mixed
      */
     public function actionEliminar($id) {
-        $this->findModel($id)->delete();
 
-        return $this->redirect(['admin']);
+        $model = $this->findModel($id);
+        $model->estado = PublicacionesCampanas::ESTADO_INACTIVO;
+
+        if ($model->save()) {
+            return $this->redirect(['admin']);
+        }
     }
 
     /**
@@ -225,7 +229,7 @@ class PublicacionesCampanasController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id) {
-        if (($model = PublicacionesCampanas::findOne($id)) !== null) {
+        if (($model = PublicacionesCampanas::findOne(['idImagenCampana' => $id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

@@ -143,6 +143,9 @@ $config = [
         'coopservir' => [
             'class' => 'app\modules\coopservir\CoopservirModule',
         ],
+        'tarjetamas' => [
+            'class' => 'app\modules\tarjetamas\TarjetaMasModule',
+        ],
         'treemanager' => [
             'class' => '\kartik\tree\Module',
         // other module settings, refer detailed documentation

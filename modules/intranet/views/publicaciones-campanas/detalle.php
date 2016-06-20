@@ -17,7 +17,7 @@ $this->title = 'Detalle campaña';
 
     <p>
         <?= Html::a('Actualizar', ['actualizar', 'id' => $model->idImagenCampana], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['eliminar', 'id' => $model->idImagenCampana], [
+        <?= Html::a('Inactivar', ['eliminar', 'id' => $model->idImagenCampana], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Estas seguro de eliminar esta Campaña?',

@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 
 class MenuPortalesController extends Controller {
     public $defaultAction = 'admin';
-    
+
     public function behaviors() {
         return [
             [
@@ -29,7 +29,7 @@ class MenuPortalesController extends Controller {
             ],
         ];
     }
-    
+
     public function actions() {
         return [
             'error' => [
@@ -112,9 +112,13 @@ class MenuPortalesController extends Controller {
      * @return mixed
      */
     public function actionEliminar($id) {
-        $this->findModel($id)->delete();
 
-        return $this->redirect(['admin']);
+      $model = $this->findModel($id);
+      $model->estado = MenuPortales::INACTIVO;
+
+      if ($model->save()) {
+          return $this->redirect(['admin']);
+      }
     }
 
     /**
@@ -124,7 +128,7 @@ class MenuPortalesController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id) {
-        if (($model = MenuPortales::findOne($id)) !== null) {
+        if (($model = MenuPortales::findOne(['idMenuPortales' => $id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

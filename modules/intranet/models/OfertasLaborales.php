@@ -31,6 +31,9 @@ use yii\helpers\ArrayHelper;
 */
 class OfertasLaborales extends \yii\db\ActiveRecord
 {
+  const ESTADO_ACTIVO = 1;
+  const ESTADO_INACTIVO = 0;
+
   public static function tableName()
   {
     return 't_OfertasLaborales';
@@ -39,7 +42,7 @@ class OfertasLaborales extends \yii\db\ActiveRecord
   public function rules()
   {
     return [
-      [[ 'idCiudad', 'fechaPublicacion', 'fechaCierre', 'numeroDocumento', 'fechaInicioPublicacion', 'fechaFinPublicacion', 'tituloOferta', 'urlElEmpleo', 'idCargo', 'idArea', 'descripcionContactoOferta', 'idInformacionContacto'], 'required'],
+      [[ 'idCiudad', 'fechaPublicacion', 'fechaCierre', 'estado', 'numeroDocumento', 'fechaInicioPublicacion', 'fechaFinPublicacion', 'tituloOferta', 'urlElEmpleo', 'idCargo', 'idArea', 'descripcionContactoOferta', 'idInformacionContacto'], 'required'],
       [[ 'idCiudad', 'numeroDocumento', 'idCargo', 'idArea', 'idInformacionContacto'], 'integer'],
       [['fechaPublicacion', 'fechaCierre', 'fechaInicioPublicacion', 'fechaFinPublicacion'], 'date',  'format'=>'php:Y-m-d H:i:s'],//'date',  'format'=>'php:Y-m-d H:i:s'
       [['descripcionContactoOferta'], 'string'],
@@ -63,6 +66,7 @@ class OfertasLaborales extends \yii\db\ActiveRecord
       'idArea' => 'Area',
       'descripcionContactoOferta' => 'Descripcion Contacto Oferta',
       'idInformacionContacto' => 'Plantilla',
+      'estado' => 'Estado'
     ];
   }
 
@@ -109,8 +113,8 @@ class OfertasLaborales extends \yii\db\ActiveRecord
     $todosGrupo = \Yii::$app->params['grupo']['*'];
 
     $query = self::find()->joinWith(['ofertasDestino'])
-    ->where("( fechaInicioPublicacion<=:fechaInicioPublicacion AND fechaFinPublicacion>=:fechaFinPublicacion AND ( (codigoCiudad =:codigoCiudad AND idGrupoInteres IN ($userGrupos)) OR (codigoCiudad =:codigoCiudad AND idGrupoInteres=:todosGrupo) OR (codigoCiudad =:todosCiudad AND idGrupoInteres IN ($userGrupos)) OR (codigoCiudad =:todosCiudad AND idGrupoInteres =:todosGrupo) )   )")
-    ->addParams([':fechaInicioPublicacion' => $fecha,':fechaFinPublicacion'=>$fecha, ':codigoCiudad'=> $userCiudad, ':todosCiudad'=>$todosCiudad, ':todosGrupo'=> $todosGrupo]);
+    ->where("( t_OfertasLaborales.estado=:estado AND fechaInicioPublicacion<=:fechaInicioPublicacion AND fechaFinPublicacion>=:fechaFinPublicacion AND ( (codigoCiudad =:codigoCiudad AND idGrupoInteres IN ($userGrupos)) OR (codigoCiudad =:codigoCiudad AND idGrupoInteres=:todosGrupo) OR (codigoCiudad =:todosCiudad AND idGrupoInteres IN ($userGrupos)) OR (codigoCiudad =:todosCiudad AND idGrupoInteres =:todosGrupo) )   )")
+    ->addParams([':estado' => InformacionContactoOferta::PLANTILLA_ACTIVA, ':fechaInicioPublicacion' => $fecha,':fechaFinPublicacion'=>$fecha, ':codigoCiudad'=> $userCiudad, ':todosCiudad'=>$todosCiudad, ':todosGrupo'=> $todosGrupo]);
 
     //var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
 
@@ -164,7 +168,7 @@ class OfertasLaborales extends \yii\db\ActiveRecord
   */
   public static function getListaPlantillas()
   {
-    $opciones = InformacionContactoOferta::find()->asArray()->all();
+    $opciones = InformacionContactoOferta::find()->where(['estado' => InformacionContactoOferta::PLANTILLA_ACTIVA])->asArray()->all();
     return ArrayHelper::map($opciones, 'idInformacionContacto', 'nombrePlantilla');
   }
 

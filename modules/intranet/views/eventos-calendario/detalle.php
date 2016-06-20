@@ -13,7 +13,7 @@ $this->title = "Detalle evento";
 
     <p>
         <?= Html::a('Actualizar', ['actualizar', 'id' => $model->idEventoCalendario], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['eliminar', 'id' => $model->idEventoCalendario], [
+        <?= Html::a('Inactivar', ['eliminar', 'id' => $model->idEventoCalendario], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Estas seguro de eliminar este evento?',

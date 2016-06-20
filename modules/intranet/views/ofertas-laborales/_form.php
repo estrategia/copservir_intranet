@@ -22,6 +22,9 @@ use yii\helpers\Url;
 
   <?= $form->field($model, 'descripcionContactoOferta')->textarea(['rows' => 6]) ?>
 
+  <?php $model->estado = $model->isNewRecord ? 1 : $model->estado;  ?>
+  <?= $form->field($model, 'estado')->dropDownList(['0' => 'Inactivo', '1' => 'Activo']); ?>
+
   <?= $form->field($model, 'urlElEmpleo')->textInput(['maxlength' => true]) ?>
 
   <?=
