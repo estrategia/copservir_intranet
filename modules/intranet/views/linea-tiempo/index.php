@@ -25,10 +25,12 @@ $this->title = 'Lineas de Tiempo';
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            //'idLineaTiempo',
             'nombreLineaTiempo',
             [
               'attribute' => 'estado',
+              'filter' =>
+                Html::activeDropDownList($searchModel, 'estado', ['0' => 'Inactivo', '1' => 'Activo'],
+                  ['class'=>'form-control','prompt' => 'Seleccione']),
               'value' => function($model) {
                 if ($model->estado == LineaTiempo::ESTADO_ACTIVO ) {
                   return 'Activo';
@@ -39,6 +41,9 @@ $this->title = 'Lineas de Tiempo';
             ],
             [
               'attribute' => 'autorizacionAutomatica',
+              'filter' =>
+                Html::activeDropDownList($searchModel, 'autorizacionAutomatica', ['0' => 'No', '1' => 'Si'],
+                  ['class'=>'form-control','prompt' => 'Seleccione']),
               'value' => function($model) {
                 if ($model->autorizacionAutomatica == LineaTiempo::AUTORIZACION_AUTOMATICA ) {
                   return 'Si';
@@ -49,6 +54,9 @@ $this->title = 'Lineas de Tiempo';
             ],
             [
               'attribute' => 'tipo',
+              'filter' =>
+                Html::activeDropDownList($searchModel, 'tipo', ['0' => 'Publicacion', '1' => 'Clasificado', '2' => 'Aniversario'],
+                  ['class'=>'form-control','prompt' => 'Seleccione']),
               'value' => function($model) {
                 if ($model->tipo == LineaTiempo::TIPO_PUBLICACION ) {
                   return 'Publicación';

@@ -30,6 +30,9 @@ $this->title = 'Contenido Emergente';
       'fechaFin',
       [
         'attribute' => 'estado',
+        'filter' =>
+          Html::activeDropDownList($searchModel, 'estado', ['0' => 'Inactivo', '1' => 'Activo'],
+            ['class'=>'form-control','prompt' => 'Selecciones']),
         'value' => function($model) {
           if ($model->estado == ContenidoEmergente::ESTADO_ACTIVO ) {
             return 'Activo';

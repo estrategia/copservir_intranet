@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\modules\intranet\models\InformacionContactoOferta;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\intranet\models\InformacionContactoOferta */
@@ -31,6 +32,10 @@ $this->title = $model->nombrePlantilla;
 
         'nombrePlantilla',
         'plantillaContactoHtml:ntext',
+        [
+          'attribute' => 'estado',
+          'value' =>  $model->estado == InformacionContactoOferta::PLANTILLA_ACTIVA ? 'Activo' : 'Inactivo',
+        ],
         'fechaRegistro',
       ],
       ]) ?>

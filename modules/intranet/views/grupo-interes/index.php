@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\modules\intranet\models\GrupoInteres;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\intranet\models\TareasSearch */
@@ -25,7 +26,19 @@ $this->title = 'Grupos de interes';
       ['class' => 'yii\grid\SerialColumn'],
 
       'nombreGrupo',
-
+      [
+        'attribute' => 'estado',
+        'filter' =>
+          Html::activeDropDownList($searchModel, 'estado', ['0' => 'Inactivo', '1' => 'Activo'],
+            ['class'=>'form-control','prompt' => 'Seleccione']),
+        'value' => function($model) {
+          if ($model->estado == GrupoInteres::ESTADO_ACTIVO ) {
+            return 'Activo';
+          }else{
+            return 'Inactivo';
+          }
+        }
+      ],
       [
         'class' => 'yii\grid\ActionColumn',
         'headerOptions'=> ['style'=>'width: 70px;'],
