@@ -19,7 +19,7 @@ class OfertasLaboralesSearch extends OfertasLaborales
     {
         return [
             [['idOfertaLaboral', 'numeroDocumento', 'idInformacionContacto'], 'integer'],
-            [['fechaPublicacion','idCiudad','idCargo', 'idArea', 'fechaCierre', 'fechaInicioPublicacion', 'fechaFinPublicacion', 'tituloOferta', 'urlElEmpleo', 'descripcionContactoOferta'], 'safe'],
+            [['fechaPublicacion', 'estado','idCiudad','idCargo', 'idArea', 'fechaCierre', 'fechaInicioPublicacion', 'fechaFinPublicacion', 'tituloOferta', 'urlElEmpleo', 'descripcionContactoOferta'], 'safe'],
         ];
     }
 
@@ -65,7 +65,7 @@ class OfertasLaboralesSearch extends OfertasLaborales
             'numeroDocumento' => $this->numeroDocumento,
             'fechaInicioPublicacion' => $this->fechaInicioPublicacion,
             'fechaFinPublicacion' => $this->fechaFinPublicacion,
-
+            'estado' => $this->estado,
             'idInformacionContacto' => $this->idInformacionContacto,
         ]);
 

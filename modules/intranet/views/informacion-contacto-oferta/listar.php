@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\modules\intranet\models\InformacionContactoOferta;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\intranet\models\InformacionContactoOfertaSearch */
@@ -26,6 +27,19 @@ $this->title = 'Plantillas';
 
       'nombrePlantilla',
       'plantillaContactoHtml:ntext',
+      [
+        'attribute' => 'estado',
+        'filter' =>
+          Html::activeDropDownList($searchModel, 'estado', ['0' => 'Inactivo', '1' => 'Activo'],
+            ['class'=>'form-control','prompt' => 'Seleccione']),
+        'value' => function($model) {
+          if ($model->estado == InformacionContactoOferta::PLANTILLA_ACTIVA ) {
+            return 'Activo';
+          }else{
+            return 'Inactivo';
+          }
+        }
+      ],
       'fechaRegistro',
       [
         'class' => 'yii\grid\ActionColumn',

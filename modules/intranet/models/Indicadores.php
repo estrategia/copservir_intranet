@@ -15,6 +15,9 @@ use Yii;
 */
 class Indicadores extends \yii\db\ActiveRecord
 {
+  const ESTADO_ACTIVO = 1;
+  const ESTADO_INACTIVO = 0;
+  
   public static function tableName()
   {
     return 't_Indicadores';

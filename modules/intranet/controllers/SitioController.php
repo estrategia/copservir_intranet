@@ -498,7 +498,6 @@ class SitioController extends \app\controllers\CController {
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-            // pasar a una funcion en el modelo
             $model->setIdRaiz();
 
             if ($model->save()) {
@@ -509,13 +508,19 @@ class SitioController extends \app\controllers\CController {
             } else {
                 $respond = [
                     'result' => 'error',
-                    'response' => $this->renderAjax('menuAdmin', [])
+                    'response' => $this->renderAjax('_modalOpcionMenu', [
+                        'model' => $model,
+                        'idPadre' => $model->idPadre
+                    ])
                 ];
             }
         } else {
             $respond = [
                 'result' => 'error',
-                'response' => $this->renderAjax('menuAdmin', [])
+                'response' => $this->renderAjax('_modalOpcionMenu', [
+                    'model' => $model,
+                    'idPadre' => $model->idPadre
+                ])
             ];
         }
 
@@ -540,7 +545,10 @@ class SitioController extends \app\controllers\CController {
         } else {
             $respond = [
                 'result' => 'error',
-                'response' => $this->renderAjax('menuAdmin', [])
+                'response' => $this->renderAjax('_modalOpcionMenu', [
+                    'model' => $model,
+                    'idPadre' => ''
+                ])
             ];
         }
 
@@ -616,7 +624,10 @@ class SitioController extends \app\controllers\CController {
         } else {
             $respond = [
                 'result' => 'error',
-                'response' => $this->renderAjax('menuAdmin', [])
+                'response' => $this->renderAjax('_modalAgregarEnlaceMenu', [
+                    'model' => $model,
+                    'idMenu' => $model->idMenu
+                ])
             ];
         }
 

@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\modules\intranet\models\OfertasLaborales;
 
 $this->title = 'Ofertas Laborales';
 ?>
@@ -31,6 +32,19 @@ $this->title = 'Ofertas Laborales';
             [
               'attribute' => 'idArea',
               'value' => 'objArea.nombreArea',
+            ],
+            [
+              'attribute' => 'estado',
+              'filter' =>
+                Html::activeDropDownList($searchModel, 'estado', ['0' => 'Inactivo', '1' => 'Activo'],
+                  ['class'=>'form-control','prompt' => 'Seleccione']),
+              'value' => function($model) {
+                if ($model->estado == OfertasLaborales::ESTADO_ACTIVO ) {
+                  return 'Activo';
+                }else{
+                  return 'Inactivo';
+                }
+              }
             ],
             [
               'class' => 'yii\grid\ActionColumn',

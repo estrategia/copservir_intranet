@@ -13,13 +13,13 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 
 class CategoriaDocumentoController extends \yii\web\Controller {
-    
+
     public function behaviors() {
         return [
             [
                 'class' => \app\components\AccessFilter::className(),
                 'only' => [
-                    'index', 'admin', 'crear-categoria', 'actualizar-categoria', 
+                    'index', 'admin', 'crear-categoria', 'actualizar-categoria',
                     'eliminar-relacion-documento', 'guardar-relacion-documento'
                 ],
             ],
@@ -31,7 +31,7 @@ class CategoriaDocumentoController extends \yii\web\Controller {
             ],*/
         ];
     }
-    
+
     public function actions() {
         return [
             'error' => [
@@ -246,13 +246,11 @@ class CategoriaDocumentoController extends \yii\web\Controller {
                 ])
             ];
         } else {
-
-            $padres = CategoriaDocumento::getPadres();
-            $html = $this->crearMenuDocumentos($padres, ' ');
             $categorias = [
                 'result' => 'error',
-                'response' => $this->renderAjax('administrar-categorias-documento', [
-                    'menu' => $html
+                'response' => $this->renderAjax('_modalCategoria', [
+                    'model' => $model,
+                    'categoriaPadre' => $model->idCategoriaPadre
                 ])
             ];
         }
@@ -282,12 +280,11 @@ class CategoriaDocumentoController extends \yii\web\Controller {
             ];
         } else {
 
-            $padres = CategoriaDocumento::getPadres();
-            $html = $this->crearMenuDocumentos($padres, ' ', true);
             $categorias = [
                 'result' => 'error',
-                'response' => $this->renderAjax('administrar-categorias-documento', [
-                    'menu' => $html
+                'response' => $this->renderAjax('_modalCategoria', [
+                    'model' => $model,
+                    'categoriaPadre' => ''
                 ])
             ];
         }
@@ -382,13 +379,13 @@ class CategoriaDocumentoController extends \yii\web\Controller {
                     ])
                 ];
             } else {
-
-                $padres = CategoriaDocumento::getPadres();
-                $html = $this->crearMenuDocumentos($padres, ' ', true);
+                $listaDocumentos = ArrayHelper::map(Documento::getTodosDocumento(), 'idDocumento', 'titulo');
                 $categorias = [
                     'result' => 'error',
-                    'response' => $this->renderAjax('administrar-categorias-documento', [
-                        'menu' => $html
+                    'response' => $this->renderAjax('_modalRelacionDocumento', [
+                        'model' => $model,
+                        'listaDocumentos' => $listaDocumentos,
+                        'idCategoriaDocumento' =>  $model->idCategoriaDocumento
                     ])
                 ];
             }

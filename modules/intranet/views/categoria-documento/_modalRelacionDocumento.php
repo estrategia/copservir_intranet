@@ -19,9 +19,10 @@ use kartik\select2\Select2;
 
         <?php $form = ActiveForm::begin(['id'=>'formRelacionaCategoria']); ?>
 
-        <?= Select2::widget([
-          'model'=> $model,
-          'name' => 'CategoriaDocumentoDetalle[idDocumento]',
+        <?=
+        $form->field($model, 'idDocumento')->widget(Select2::classname(), [
+          //'model'=> $model,
+          //'name' => 'CategoriaDocumentoDetalle[idDocumento]',
           'id'=> 'relacion',
           'data' => $listaDocumentos,
           'options' => ['placeholder' => 'Seleccione', 'onchange' => ' $( "#plantilla-documento" ).remove(); getPlantillaDocumento($(this).val())'],
