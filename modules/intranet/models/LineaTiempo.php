@@ -32,7 +32,7 @@ class LineaTiempo extends \yii\db\ActiveRecord {
 
     public function rules() {
         return [
-            [['nombreLineaTiempo', 'estado', 'fechaInicio', 'fechaFin', 'autorizacionAutomatica', 'solicitarGrupoObjetivo', 'orden', 'color', 'icono', 'descripcion'], 'required'],
+            [['nombreLineaTiempo', 'estado', 'fechaInicio', 'fechaFin', 'autorizacionAutomatica', 'solicitarGrupoObjetivo', 'orden', 'color', 'descripcion'], 'required'],
             [['estado', 'autorizacionAutomatica', 'solicitarGrupoObjetivo', 'tipo', 'orden'], 'integer'],
             [['nombreLineaTiempo', 'icono'], 'string', 'max' => 45],
             [['color'], 'string', 'max' => 7],
