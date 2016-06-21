@@ -1,5 +1,6 @@
 <?php
-/* @var $this yii\web\View */
+
+use yii\helpers\Html;
 
 $this->title = 'Intranet - Copservir';
 ?>
@@ -13,9 +14,73 @@ $this->title = 'Intranet - Copservir';
   </div>
 <?php endif;?>
 <!-- END UP BANNER -->
+<!-- BEGIN CUMPLEAÑOS -->
+<?php if(!in_array(\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_CUMPLEANOS ,Yii::$app->user->identity->getOcultosDashboard())): ?>
+<div class="col-md-12">
+  <div class="grid simple">
+
+    <div class="grid-title no-border">
+
+      <div class="tools">
+        <a href="javascript:;" data-role="quitar-elemento"
+        data-elemento="<?=\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_CUMPLEANOS ?> "  class="remove"></a>
+      </div>
+
+       <ul class="nav nav-tabs" role="tablist">
+         <li role="presentation" class="active"><a href="#cumpleanos" aria-controls="home" role="tab" data-toggle="tab">Cumpleaños</a></li>
+         <li role="presentation"><a href="#aniversarios" aria-controls="profile" role="tab" data-toggle="tab">Aniversarios</a></li>
+       </ul>
+
+    </div>
+    <div class="spacing-bottom"></div>
+    <div class="grid-body no-border">
+
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="cumpleanos">
+            <!-- CUMPLEAÑOS -->
+            <div class="col-md-12">
+              <?php if(!empty($cumpleanos)): ?>
+                <?= $this->render('/cumpleanos/_carouselCumpleanos', ['flag'=>'Cumpleaños', 'models'=>$cumpleanos]) ?>
+              <?php endif;?>
+            </div>
+
+            <div class="col-md-12">
+              <?=
+                Html::a('Ver todos',  ['todos-cumpleanos'], [
+                  'class' => 'btn btn-primary btn-lg btn-block',
+                ]);
+              ?>
+            </div>
+
+          </div>
+          <div role="tabpanel" class="tab-pane" id="aniversarios">
+            <!-- ANIVERSARIOS -->
+            <div class="col-md-12">
+              <?php if(!empty($aniversarios)): ?>
+                <?=  $this->render('/cumpleanos/_carouselCumpleanos', ['flag'=>'Aniversarios', 'models'=>$aniversarios]) ?>
+              <?php endif;?>
+            </div>
+
+            <div class="col-md-12">
+              <?=
+                Html::a('Ver todos',  ['todos-aniversarios'], [
+                  'class' => 'btn btn-primary btn-lg btn-block',
+                ]);
+              ?>
+            </div>
+
+          </div>
+        </div>
+
+    </div>
+  </div>
+</div>
+<?php endif;?>
+<!-- END CUMPLEAÑOS -->
 
 <!-- begin PUBLICACIONES -->
 <div class="col-md-9">
+
   <!-- nav lineas de tiempo -->
   <ul class="nav nav-tabs">
     <?php $i = 0; ?>
@@ -105,22 +170,6 @@ $this->title = 'Intranet - Copservir';
 <?php endif; ?>
 
 <!-- END OFERTAS LABORALES Y TAREAS -->
-
-<!-- BEGIN CUMPLEAÑOS -->
-<?php if(!empty($cumpleanos)): ?>
-  <div class="col-md-12">
-    <?= $this->render('/cumpleanos/_carouselCumpleanos', ['flag'=>'Cumpleaños', 'models'=>$cumpleanos]) ?>
-  </div>
-<?php endif;?>
-<!-- END CUMPLEAÑOS -->
-
-<!-- BEGIN ANIVERSARIOS -->
-<?php if(!empty($aniversarios)): ?>
-  <div class="col-md-12">
-    <?= $this->render('/cumpleanos/_carouselCumpleanos', ['flag'=>'Aniversarios', 'models'=>$aniversarios]) ?>
-  </div>
-<?php endif;?>
-<!-- END ANIVERSARIOS -->
 
 <!-- BEGIN DOWN BANNER -->
 <?php if(!in_array(\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_BANNER_INF,Yii::$app->user->identity->getOcultosDashboard())): ?>

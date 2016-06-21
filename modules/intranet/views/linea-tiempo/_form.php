@@ -51,10 +51,11 @@ use kartik\datetime\DateTimePicker;
     <?php $model->solicitarGrupoObjetivo = $model->isNewRecord ? 0 : $model->solicitarGrupoObjetivo;  ?>
     <?= $form->field($model, 'solicitarGrupoObjetivo')->dropDownList(['0' => 'No', '1' => 'Si']); ?>
 
+    <?php $model->color = $model->isNewRecord ? "#0090D9" : $model->color;  ?>
     <?= $form->field($model, 'color',
       [
         'template' => "{label}{input}"
-      ])->input('color',['class'=>"input_class"]) ?>
+      ])->input('color',['class'=>"input_class", 'value' => $model->color]) ?>
 
     <?= $form->field($model, 'icono')->textInput(['maxlength' => true]) ?>
 
