@@ -9,7 +9,8 @@ $src = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
     <div class="">
       <div class="space-2"></div>
       <div class="space-2"></div>
-      <h1>Atención al cliente</h1>   
+      <h1>Atención al cliente</h1> 
+      <div class="space-2"></div>
       <div class="row">
           <div class="col-md-6">
               <div class="space-1"></div> 

@@ -32,7 +32,11 @@ class TarjetaMasAsset extends AssetBundle {
         //genericas plantilla intranet
         'css/portales-style.css',
         'css/portales-main.css',
-        'css/common.css'
+        'css/common.css',
+        
+        //Libreria de iconos font Awesome
+        'font-awesome/css/font-awesome.min.css'
+        
     ];
     public $js = [
         // boostrap

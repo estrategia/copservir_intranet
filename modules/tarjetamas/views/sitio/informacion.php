@@ -9,7 +9,11 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
     <div class="">
       <div class="space-2"></div>
       <div class="space-2"></div>
-      <h1>Tarjeta Más</h1>      
+      <h1>Tarjeta Más</h1>  
+      <div class="row">
+          <img class="img-responsive" src=<?= "" . $srcProveedor . "/detalle-tarjeta-mas.jpg"?> alt="">
+      </div>
+      <div class="space-1"></div>
       <p class="text-justify">
           La Tarjeta más, es una membresía que te otorga descuentos por las compras que realices en cualquier punto de venta LA  REBAJA DROGUERIAS Y MINIMARKETS
           para que disfrutes de estos beneficios:  

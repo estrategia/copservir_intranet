@@ -4,6 +4,7 @@
 
 body {
   color: #5a5a5a;
+  font-size:16px;
 }
 h2 {
   font-size: 24px;
@@ -601,4 +602,20 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
 
 .tarjeta-mas .nav li a:focus {
    background-color: #a50606;
+}
+
+.default-icon .fa {
+    color:#fff;
+    padding: 24px 0px;
+    font-size: 30px;
+}
+
+.default-icon .fa:hover {
+    cursor: pointer;
+    -webkit-transform: rotate(5deg);
+    -moz-transform: rotate(15deg);
+    -o-transform: rotate(15deg);
+    -ms-transform: rotate(15deg);
+    transform: rotate(15deg);
+    transition: all .4s;
 }
