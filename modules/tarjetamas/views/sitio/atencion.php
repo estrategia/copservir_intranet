@@ -10,9 +10,16 @@ $src = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
       <div class="space-2"></div>
       <div class="space-2"></div>
       <h1>Atención al cliente</h1>   
-      <img class="img-responsive" src="http://placehold.it/1140x600" alt="">
-      <div class="space-1"></div>
-      <h2 class="text-center">Si tienes alguna petición, queja, reclamo o sugerencia regístrala <?= Html::a('Aquí', ['#']) ?>.</h2>
+      <div class="row">
+          <div class="col-md-6">
+              <div class="space-1"></div> 
+              <h2 class="text-center">Si tienes alguna petición, queja, reclamo o sugerencia regístrala <?= Html::a('Aquí', ['#']) ?>.</h2>
+          </div>
+          <div class="col-md-6">
+              <img width="400" class="img-responsive" src=<?= "" . $src . "/atencion-cliente.jpg" ?> alt="">
+          </div>
+      </div>      
+      
 
   </section>    
 </div>
