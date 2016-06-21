@@ -13,7 +13,7 @@ class GrupointeresSearch extends GrupoInteres
   {
     return [
       [['idGrupoInteres'], 'integer'],
-      [['nombreGrupo'], 'safe'],
+      [['nombreGrupo', 'estado'], 'safe'],
     ];
   }
 
@@ -43,6 +43,7 @@ class GrupointeresSearch extends GrupoInteres
 
     $query->andFilterWhere([
       'idGrupoInteres' => $this->idGrupoInteres,
+      'estado' => $this->estado,
     ]);
 
     $query->andFilterWhere(['like', 'nombreGrupo', $this->nombreGrupo]);

@@ -22,6 +22,9 @@ $this->title = 'Menu Portales';
             'nombre',
             [
               'attribute' => 'estado',
+              'filter' =>
+                Html::activeDropDownList($searchModel, 'estado', ['0' => 'Inactivo', '1' => 'Activo'],
+                  ['class'=>'form-control','prompt' => 'Seleccione']),
               'value' => function($model) {
                 if ($model->estado == MenuPortales::APROBADO ) {
                   return 'Activo';
@@ -32,6 +35,9 @@ $this->title = 'Menu Portales';
             ],
             [
               'attribute' => 'tipo',
+              'filter' =>
+                Html::activeDropDownList($searchModel, 'tipo', ['1' => 'Enlace interno', '2' => 'Enlace externo'],
+                  ['class'=>'form-control','prompt' => 'Seleccione']),
               'value' => function($model) {
                 if ($model->tipo == MenuPortales::ENLACE_INTERNO) {
                   return 'Enlace interno';

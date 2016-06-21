@@ -36,6 +36,9 @@ $this->title = 'Campañas publicitarias';
             ],
             [
               'attribute' => 'estado',
+              'filter' =>
+                Html::activeDropDownList($searchModel, 'estado', ['0' => 'Inactivo', '1' => 'Activo'],
+                  ['class'=>'form-control','prompt' => 'Seleccione']),
               'value' => function($model) {
                 if ($model->estado == PublicacionesCampanas::ESTADO_ACTIVO ) {
                   return 'Activo';

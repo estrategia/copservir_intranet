@@ -25,6 +25,9 @@ $this->title = 'Eventos Calendario';
             'fechaInicioVisible',
             [
               'attribute' => 'estado',
+              'filter' =>
+                Html::activeDropDownList($searchModel, 'estado', ['0' => 'Inactivo', '1' => 'Activo'],
+                  ['class'=>'form-control','prompt' => 'Selecciones']),
               'value' => function($model) {
                 if ($model->estado == EventosCalendario::ACTIVO ) {
                   return 'Activo';
