@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\Url;
-use vova07\imperavi\Widget;
+//use vova07\imperavi\Widget;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\intranet\models\InformacionContactoOferta */
@@ -24,6 +24,7 @@ use vova07\imperavi\Widget;
     echo \vova07\imperavi\Widget::widget([
         'selector' => '#informacioncontactooferta-plantillacontactohtml',
         'settings' => [
+            'replaceDivs' => false,
             'lang' => 'es',
             'minHeight' => 80,
             'imageManagerJson' => Url::to(['/default/images-get']),
