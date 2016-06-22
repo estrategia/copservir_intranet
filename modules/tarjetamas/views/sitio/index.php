@@ -35,23 +35,22 @@ $srctarjetamas = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
           </a>
       </div>
 
-<div class="container internal text-left">
+<div class="container internal">
   <section>  <!-- acerca de home -->
     <div class="acerca-home">
-      <h1>Tarjeta Más</h1>
-      <div class="space-2"></div>
-      <p class="text-center">
+      <div class="space-1"></div>
+      <h1 class="text-center">
           Ahora con la Tarjeta más tendrás la oportunidad de realizar tus compras con descuento en el momento en que lo necesites en la Rebaja Droguerías y Minimarkets.<br>
           Adquiere tu tarjeta más en cualquier punto de venta y empieza a disfrutar  de descuentos preferenciales exclusivos para ti.  
-      </p>
-      <p class="text-center" ><?= Html::a('Descubre cómo', ['/tarjetamas/sitio/informacion']) ?></p>      
+      </h1>
+      <h1 class="text-center" style="font-weight: bold;"><?= Html::a('Descubre cómo', ['/tarjetamas/sitio/informacion']) ?></h1>      
       <div class="space-2"></div>
     </div>
 
     <div class="row">
       <div class="col-sm-4">
         <div class="white-item">
-            <div class="default-icon left-icon big-icon company-bgcolor-1">
+            <div class="default-icon big-icon company-bgcolor-1">
                 <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
             </div>          
           <h3>Activa tu tarjeta</h3>
@@ -59,7 +58,7 @@ $srctarjetamas = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
       </div>
       <div class="col-sm-4">
         <div class="white-item">
-            <div class="default-icon left-icon big-icon company-bgcolor-1">
+            <div class="default-icon big-icon company-bgcolor-1">
                 <i class="fa fa-question" aria-hidden="true"></i>
             </div>
           <h3>Preguntas frecuentes</h3>
@@ -67,7 +66,7 @@ $srctarjetamas = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
       </div>
       <div class="col-sm-4">
         <div class="white-item">
-            <div class="default-icon left-icon big-icon company-bgcolor-1">
+            <div class="default-icon big-icon company-bgcolor-1">
                 <i class="fa fa-users" aria-hidden="true"></i>
             </div>
           <h3>Atención al cliente (PQRS)</h3>
