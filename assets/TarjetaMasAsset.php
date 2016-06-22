@@ -35,7 +35,7 @@ class TarjetaMasAsset extends AssetBundle {
         'css/common.css',
         
         //Libreria de iconos font Awesome
-        'font-awesome/css/font-awesome.min.css'
+        'libs/font-awesome/css/font-awesome.css',
         
     ];
     public $js = [

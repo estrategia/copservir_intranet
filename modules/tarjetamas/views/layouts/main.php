@@ -36,7 +36,7 @@ $menuPortales = MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->modu
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#"><img src=<?= "" . $srcLogo ?> alt=""></a>
+            <?= Html::a("<img src='$srcLogo'>", ['/tarjetamas/sitio/index'],['class'=>'navbar-brand']) ?>
           </div>
           <div id="navbar" class="navbar-collapse collapse tarjeta-mas">
             <ul class="nav navbar-nav">
