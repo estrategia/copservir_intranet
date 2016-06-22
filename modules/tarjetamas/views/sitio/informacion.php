@@ -28,7 +28,7 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
       <div class="space-1"></div>
       <div class="row">
           <div class="col-md-6">              
-              <img class="img-responsive tarjeta" src=<?= "" . $srcProveedor . "/tarjeta-mas-5.png"?> alt="">
+              <img class="img-responsive tarjeta center-block" width="400" src=<?= "" . $srcProveedor . "/tarjeta-mas-5.png"?> alt="">
               <div class="space-1"></div>
               <p class="text-justify" >La <strong>Tarjeta más 5%</strong>, le otorga al portador de la tarjeta 48 descuentos del 5% durante un año, para las compras que realice en cualquier punto de venta 
               LA  REBAJA DROGUERIAS Y MINIMARKETS, con una vigencia de un año a partir del momento de la activación o el uso total del número de descuentos asignados,
@@ -36,7 +36,7 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
               </p>
           </div>
           <div class="col-md-6">              
-              <img class="img-responsive tarjeta" src=<?= "" . $srcProveedor . "/tarjeta-mas-10.png"?> alt="">
+              <img class="img-responsive tarjeta center-block" width="400" src=<?= "" . $srcProveedor . "/tarjeta-mas-10.png"?> alt="">
               <div class="space-1"></div>
               <p class="text-justify" ><strong>La Tarjeta más 10%</strong>, le otorga al portador de la tarjeta 36 descuentos del 10% durante un año, para las compras que realice en cualquier punto de venta LA  REBAJA DROGUERIAS Y MINIMARKETS,
                   con una vigencia de un año a partir del momento de la activación o el uso total del número de descuentos asignados, lo primero que suceda.  
