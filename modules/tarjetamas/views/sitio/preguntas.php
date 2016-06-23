@@ -4,11 +4,19 @@ $this->title = 'Preguntas frecuentes';
 $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
 ?>
 
+<!-- colocar migas de pan -->
+<div class="page-header">
+   <div class="container">
+      <div class="page-title">
+        <h1>Preguntas frecuentes</h1>
+        <div class="breadcrumbs"><?= Html::a('Inicio', ['/tarjetamas/sitio/index']) ?> / preguntas frecuentes</div>
+      </div>
+   </div>
+</div>
+ 
+
 <div class="container ">
     <section>        
-      <div class="space-2"></div>
-      <div class="space-2"></div>
-      <h1>Preguntas frecuentes</h1>
       <div class="space-1"></div>
       
       <div class="col-md-7">
@@ -173,7 +181,7 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
                         </div>
                       </div>
                   </div>
-</div>
+         </div>
       </div>
       <div class="col-md-5">
           <img width="400" class="img-responsive" src=<?= "" . $srcProveedor . "/preguntas-frecuentes.jpg" ?> alt="">
@@ -181,7 +189,5 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
 
   </section>
 
-
-<div class="space-1"></div>
-<div class="space-1"></div>
+</div>
 <div class="space-2"></div>

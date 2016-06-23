@@ -36,14 +36,14 @@ $menuPortales = MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->modu
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <?= Html::a("<img src='$srcLogo'>", ['/tarjetamas/sitio/index'],['class'=>'navbar-brand']) ?>
+            <?= Html::a("<img src='$srcLogo' width='200'>", ['/tarjetamas/sitio/index'],['class'=>'navbar-brand']) ?>
           </div>
           <div id="navbar" class="navbar-collapse collapse tarjeta-mas">
             <ul class="nav navbar-nav">
               <li class="active"> <?= Html::a('Inicio', ['/tarjetamas/sitio/index']) ?></li>
-              <li class="active"> <?= Html::a('Tarjeta m&aacute;s', ['/tarjetamas/sitio/informacion']) ?>
+              <li class="active"> <?= Html::a('Tarjeta M&aacute;s', ['/tarjetamas/sitio/informacion']) ?>
                   <ul class="submenu sub-tarjetamas">
-                      <li class="active"><?= Html::a('Terminos y condiciones', ['/tarjetamas/sitio/terminos']) ?></li>
+                      <li class="active"><?= Html::a('Términos y condiciones', ['/tarjetamas/sitio/terminos']) ?></li>
                       <li class="active"><?= Html::a('Política de privacidad', ['/tarjetamas/sitio/politicas']) ?></li>
                   </ul>
               </li>           
@@ -88,7 +88,9 @@ $menuPortales = MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->modu
               <h3>Menú</h3>
               <ul>
                 <li><?= Html::a('Inicio', ['/tarjetamas/sitio/index']) ?></li>
-                <li><?= Html::a('Tarjeta m&aacute;s', ['/tarjetamas/sitio/informacion']) ?></li>                
+                <li><?= Html::a('Tarjeta m&aacute;s', ['/tarjetamas/sitio/informacion']) ?></li>
+                <li><?= Html::a('Terminos y condiciones', ['/tarjetamas/sitio/terminos']) ?></li> 
+                <li><?= Html::a('Políticas de privacidad', ['/tarjetamas/sitio/politicas']) ?></li> 
                 <li><?= Html::a('Mi cuenta', "#") ?></li>
                 <li><?= Html::a('Preguntas frecuentes', ['/tarjetamas/sitio/preguntas']) ?></li>
                 <li><?= Html::a('Atenci&oacute;n al cliente', "#") ?></li>
@@ -101,7 +103,7 @@ $menuPortales = MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->modu
                 <div class="form-group">
                   <div class="row not-marg">
                     <div class="col-sm-7 not-pad">
-                      <input placeholder="Correo electrónico" id="correo" type="text">
+                      <input placeholder="Correo" id="correo" type="text">
                     </div>
                     <div class="col-sm-5 not-pad">
                       <button type="submit">Suscríbete</button>

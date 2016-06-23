@@ -1,14 +1,46 @@
 /* GLOBAL STYLES
 -------------------------------------------------- */
 /* Padding below the footer and lighter body text */
+@font-face{ 
+	font-family: 'FontAwesome';
+	src: url('../../web/libs/fonts/FontAwesome/fonts/FontAwesome.eot');
+	src: url('../../web/libs/fonts/FontAwesome/fonts/FontAwesome.woff') format('woff'),
+	     url('../../web/libs/fonts/FontAwesome/fonts/FontAwesome.ttf') format('truetype');
+}
+
+@font-face{ 
+	font-family: 'Questa sans';
+	src: url('../../web/libs/fonts/questa_Sans/Questa_Sans_Regular-webfont.eot');
+	src: url('../../web/libs/fonts/questa_Sans/Questa_Sans_Regular-webfont.woff') format('woff'),
+	     url('../../web/libs/fonts/questa_Sans/Questa_Sans_Regular-webfont.ttf') format('truetype');
+}
+
+@font-face{ 
+	font-family: 'Century gothic';
+	src: url('../../web/libs/fonts/gothic/gothic.eot');
+	src: url('../../web/libs/fonts/gothic/gothic.woff') format('woff'),
+	     url('../../web/libs/fonts/gothic/gothic.ttf') format('truetype');
+}
 
 body {
   color: #5a5a5a;
-  font-size:16px;
+  font-size:16px;  
 }
 h2 {
   font-size: 24px;
 }
+
+h1, h2, h3 {
+    font-family: "Questa sans" !important;
+}
+
+body, h4, h5, h6, p, span, strong, a {
+    font-family: "Century gothic" !important;
+}
+
+ul.list{ list-style-image: url("../../web/img/multiportal/tarjetamas/check.png"); }
+
+.list li {margin-bottom: 10px;}
 
 
 /* CUSTOMIZE THE NAVBAR
