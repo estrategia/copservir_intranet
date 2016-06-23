@@ -31,6 +31,7 @@ $maxFileSize = Parametros::obtenerValorParametro('contenido_maxFileSize');
   echo $form->field($contenidoModel, 'contenido')->widget(Widget::className(), [
 
     'settings' => [
+      'replaceDivs' => false,
       'lang' => 'es',
       'minHeight' => 100,
       //'buttons' => ['format', 'bold', 'italic'],
