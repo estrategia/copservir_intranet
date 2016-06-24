@@ -1546,10 +1546,18 @@ $(document).on('click', "#enviaFormularioMenuPortales", function() {
 });
 
 //mostrar y ocultar formulario para publicar una noticia
+var count = 1;
 $(document).on('click', "#mostrarFormularioContenido", function() {
   //console.log('dio click envia formulario');
   $('#publicarContenido').toggle('slow');
-  $("#mostrarFormularioContenido").text('ocultar formulario')
+
+  count ++;
+  if (count % 2 === 0 ) {
+      $("#mostrarFormularioContenido").text('ocultar formulario')
+  }else{
+      $("#mostrarFormularioContenido").text('crea una publicación')
+  }
+
   return false;
 });
 
