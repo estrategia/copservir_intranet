@@ -45,6 +45,6 @@ return [
         '3' => 'Grupos Módulos'
     ],
     'webServices' => [
-        'persona' => 'http://localhost/copservir/ws/persona',
+        'persona' => 'http://localhost/copservir/wsMultiportal/persona',
     ]
 ];

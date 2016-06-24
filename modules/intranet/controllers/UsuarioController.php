@@ -347,15 +347,18 @@ class UsuarioController extends \yii\web\Controller {
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() ) {
 
-            $response = self::callWSActualizarPersona($model->attributes);
 
+            $response = self::callWSActualizarPersona($model->attributes);
             if ($response){
-              $user = new Usuario;
-              $user->generarDatos();
-              return $this->redirect(['perfil']);
+              //$user = new Usuario;
+              //$user->generarDatos(true);
+              //return $this->redirect(['perfil']);
             }else{
               Yii::$app->session->setFlash('error', 'Error al actualizar la información');
             }
+
+        }else{
+          var_dump($model->getErrors());
         }
 
         return $this->render('actualizarDatos', [

@@ -80,7 +80,7 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
         }
     }
 
-    public function generarDatos() {
+    public function generarDatos($forzar) {
         if (!$this->data['sesionRestaurada']) {
             try {
                 $infoPersona = self::callWSInfoPersona($this->numeroDocumento);
