@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
           $form->field($model, 'FechaNacimiento')->widget(DatePicker::classname(), [
           'pluginOptions' => [
             'autoclose' => true,
-            'format' => 'y-m-d'
+            'format' => 'yyyy-mm-dd'
           ]
         ]);
       ?>

@@ -80,8 +80,10 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
         }
     }
 
-    public function generarDatos($forzar) {
-        if (!$this->data['sesionRestaurada']) {
+    public function generarDatos($forzar = false) {
+        Yii::info('ENTRO GENERAR DATOS');
+        if (!$this->data['sesionRestaurada'] || $forzar) {
+          Yii::info('ENTRO IF');
             try {
                 $infoPersona = self::callWSInfoPersona($this->numeroDocumento);
 
@@ -137,6 +139,8 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
               return false;
             }
 
+        }else{
+          Yii::info('ENTRO ELSE');
         }
     }
 
