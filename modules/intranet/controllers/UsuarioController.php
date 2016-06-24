@@ -7,7 +7,7 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use app\modules\intranet\models\LoginForm;
-use app\modules\intranet\models\DatosForm;
+use app\modules\intranet\models\PersonaForm;
 use app\modules\intranet\models\Usuario;
 use app\modules\intranet\models\ConexionesUsuarios;
 use app\modules\intranet\models\RecuperacionClave;
@@ -71,18 +71,19 @@ class UsuarioController extends \yii\web\Controller {
             return $this->redirect(['sitio/index']);
         }
 
-
         $model = new LoginForm();
+        $model->scenario = 'login';
+
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
 
-            // se guarda el registro de la conexion
-            $objConexionesUsuario = new ConexionesUsuarios();
-            $objConexionesUsuario->numeroDocumento = $model->username;
-            $objConexionesUsuario->fechaConexion = date('YmdHis');
-            $objConexionesUsuario->ip = $objConexionesUsuario->getRealIp(); //Yii::$app->getRequest()->getUserIP() ;
-            $objConexionesUsuario->save();
+          // se guarda el registro de la conexion
+          $objConexionesUsuario = new ConexionesUsuarios();
+          $objConexionesUsuario->numeroDocumento = $model->username;
+          $objConexionesUsuario->fechaConexion = date('YmdHis');
+          $objConexionesUsuario->ip = $objConexionesUsuario->getRealIp(); //Yii::$app->getRequest()->getUserIP() ;
+          $objConexionesUsuario->save();
 
-            return $this->redirect(['sitio/index']);
+          return $this->redirect(['sitio/index']);
         }
         return $this->render('autenticar', [
                     'model' => $model,
@@ -92,7 +93,6 @@ class UsuarioController extends \yii\web\Controller {
     /*
       Accion para salir de la app
      */
-
     public function actionSalir() {
 
         if (Yii::$app->user->isGuest) {
@@ -111,17 +111,50 @@ class UsuarioController extends \yii\web\Controller {
     public function actionCambiarClave() {
 
         $model = new LoginForm();
+        $model->username = \Yii::$app->user->identity->numeroDocumento;
         $model->scenario = 'cambiarClave';
-        if ($model->load(Yii::$app->request->post())) {
-            // actualizar la clave, llamando al webservice de siicop
 
-            $model = new LoginForm();
-            $model->scenario = 'cambiarClave';
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
+            $response = self::callWSCambiarClave($model->username, sha1($model->password));
+
+            if ($response){
+              return $this->redirect(['perfil']);
+            }else{
+              Yii::$app->session->setFlash('error', 'Error al cambiar la contraseña');
+            }
         }
+
         return $this->render('cambiarClave', [
-                    'model' => $model,
+          'model' => $model,
         ]);
     }
+
+    /**
+    * Funcion para consumir el web services para cambiar la contraseña de acceso
+    * @param string $username, string password
+    * @return boolean,
+    */
+      public static function callWSCambiarClave($username, $password)
+      {
+        $client = new \SoapClient(\Yii::$app->params['webServices']['persona'], array(
+            "trace" => 1,
+            "exceptions" => 0,
+            'connection_timeout' => 5,
+            'cache_wsdl' => WSDL_CACHE_NONE
+        ));
+
+        try {
+
+            $result = $client->cambiarClave($username, $password);
+            return $result;
+
+        } catch (SoapFault $ex) {
+          Yii::error($ex->getMessage());
+        } catch (Exception $ex) {
+          Yii::error($ex->getMessage());
+        }
+      }
 
     /*
       Accion para enviar un email con un enlace donde puede reestablecer su clave
@@ -144,28 +177,30 @@ class UsuarioController extends \yii\web\Controller {
 
                 $model->addError('username', 'Usuario no existe');
             } else {
-                // Guardar y enviar correo de recuperación
                 // se genera el codigo de recuperacion
                 $fecha = new \DateTime();
                 $fecha->modify('+ 1 day');
-                //$fecha
                 $codigoRecuperacion = md5($usuario->numeroDocumento . '~' . $fecha->format('YmdHis'));
 
                 //se guarda el codigo y la fecha de recuperacion
                 $objRecuperacionClave = new RecuperacionClave();
-
                 $objRecuperacionClave->numeroDocumento = $usuario->numeroDocumento;
                 $objRecuperacionClave->recuperacionCodigo = $codigoRecuperacion;
                 $objRecuperacionClave->recuperacionFecha = $fecha->format('Y-m-d H:i:s');
                 $objRecuperacionClave->save();
 
-                //enlace para reestablecer la contraseña
-                $enlace = yii::$app->urlManager->createAbsoluteUrl(['usurario/reestablecer-clave', 'codigo' => $codigoRecuperacion]);
-                //contenido del email
+                //se crea el enlace para restablecer la contraseña y el contenido del email
+                $enlace = yii::$app->urlManager->createAbsoluteUrl(['intranet/usuario/reestablecer-clave', 'codigo' => $codigoRecuperacion]);
                 $contenido_mail = "Ingresa a la siguiente direccion para reestalecer tu contraseña.\n" . $enlace;
-                // sacar el correo del usuario del web service para enviar el email
+
+                $correoUsuario = \Yii::$app->user->identity->getEmail();
+
+
                 // envia correo
-                $value = yii::$app->mailer->compose()->setFrom('donberna-93@hotmail.com')->setTo('miguel.bernal@eiso.com.co')->setSubject('prueba')->setHtmlBody($contenido_mail)->send();
+                $value = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
+                  ->setTo($correoUsuario)->setSubject('Recuperacion Contraseña Intranet Copservir')
+                  ->setHtmlBody($contenido_mail)->send();
+
                 return $this->render('mensajeRecuperacion');
                 exit();
             }
@@ -185,23 +220,33 @@ class UsuarioController extends \yii\web\Controller {
         $model = new LoginForm();
         $model->scenario = 'cambiarClave';
         if ($model->load(Yii::$app->request->post())) {
-            // actualizar la clave, llamando al webservice de siicop
-            $fecha = new \DateTime();
-            $fecha = $fecha->format('YmdHis');
 
+            $objRecuperacionClave = RecuperacionClave::find()->where(['recuperacionCodigo' => $codigo])
+            ->orderBy('recuperacionFecha DESC')->one();
 
-            $objRecuperacionClave = RecuperacionClave::find()->where(['recuperacionCodigo' => $codigo])->orderBy('recuperacionFecha DESC')->one();
-            $usuario = Usuario::find()->where(['numeroDocumento' => $objRecuperacionClave->numeroDocumento, 'estado' => 1])->one();
+            $usuario = Usuario::find()->where(['numeroDocumento' => $objRecuperacionClave->numeroDocumento, 'estado' => 1])
+            ->one();
 
             if ($usuario === null) {
-                throw new \yii\web\HttpException(404, 'usuario sin codigo');
-            }
-            //echo $usuario->numeroDocumento;
-            $model->username = $usuario->numeroDocumento;
-            if ($model->login()) {
-                return $this->goBack();
+                throw new \yii\web\HttpException(404, 'usuario sin codigo recuperacion');
+            }else{
+
+              $model->username = $usuario->numeroDocumento;
+
+              $response = self::callWSCambiarClave($model->username, sha1($model->password));
+
+              if ($response  &&  $model->login() ){
+
+                return $this->redirect(['sitio/index']);
+
+              }else{
+
+                $model->addError($model->password, 'Error al reestablecer la clave');
+              }
+
             }
         }
+
         return $this->render('reestablecerClave', [
                     'model' => $model,
         ]);
@@ -210,7 +255,6 @@ class UsuarioController extends \yii\web\Controller {
     /*
       Accion para ver la informacion del usuario
      */
-
     public function actionPerfil() {
         $meGustan = MeGustaContenidos::find()->where(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento])->count();
         $contenidos = Contenido::find()->where(['numeroDocumentoPublicacion' => Yii::$app->user->identity->numeroDocumento])->count();
@@ -298,15 +342,53 @@ class UsuarioController extends \yii\web\Controller {
      */
 
     public function actionActualizarDatos() {
-        $model = new DatosForm();
-        if ($model->load(Yii::$app->request->post())) {
-            // llamar al webservice y mandar los datos
+        $model = new PersonaForm();
+        $model->setValuesUserGuest();
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate() ) {
+
+            $response = self::callWSActualizarPersona($model->attributes);
+
+            if ($response){
+              $user = new Usuario;
+              $user->generarDatos();
+              return $this->redirect(['perfil']);
+            }else{
+              Yii::$app->session->setFlash('error', 'Error al actualizar la información');
+            }
         }
+
         return $this->render('actualizarDatos', [
                     'model' => $model,
         ]);
     }
-    
+
+    /**
+    * Funcion para actualizar la informacion de un usuario a traves de un web services
+    * @param string $request
+    * @return array['result'],
+    */
+      public static function callWSActualizarPersona($data)
+      {
+        $client = new \SoapClient(\Yii::$app->params['webServices']['persona'], array(
+            "trace" => 1,
+            "exceptions" => 0,
+            'connection_timeout' => 5,
+            'cache_wsdl' => WSDL_CACHE_NONE
+        ));
+
+        try {
+
+            $result = $client->actualizarPersona($data);
+            return $result;
+
+        } catch (SoapFault $ex) {
+          Yii::error($ex->getMessage());
+        } catch (Exception $ex) {
+          Yii::error($ex->getMessage());
+        }
+      }
+
     public function actionPantallaInicio() {
         // obtener opciones desactivadas
         $opcionesDesactivadas = UsuarioWidgetInactivo::find()->where(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento])->all();

@@ -242,6 +242,9 @@ class Contenido extends \yii\db\ActiveRecord {
                 ])->andWhere(
                         ['estado' => self::APROBADO]
                 )->orderBy('fechaInicioPublicacion DESC');
+
+        var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [

@@ -69,7 +69,8 @@ use yii\helpers\Html;
                 <h5>Otra Informaci&oacute;n</h5>
                 <p><b>Extensi&oacute;n: </b> <?= \Yii::$app->user->identity->getExtension() ?></p>
                 <p><b>E-mail: </b> <?= \Yii::$app->user->identity->getEmail() ?></p>
-                <p><b>Celular: </b> <?= \Yii::$app->user->identity->getCelular() ?></p>
+                <p><b>E-mail Personal: </b> <?= \Yii::$app->user->identity->getEmailPersonal() ?></p>
+                <p><b>Números Telefonicos: </b> <?= \Yii::$app->user->identity->getCelular() ?></p>
                 <p><b>Residencia: </b> <?= \Yii::$app->user->identity->getResidencia() ?></p>
                 <p><b>Ciudad: </b> <?= \Yii::$app->user->identity->getCiudadNombre() ?></p>
                 <p><b>Cumplea&ntilde;os: </b> <?= \Yii::$app->user->identity->getCumpleanhos() ?></p>

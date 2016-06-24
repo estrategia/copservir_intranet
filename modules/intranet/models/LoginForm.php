@@ -24,18 +24,24 @@ class LoginForm extends Model {
   */
   public function rules() {
     return [
-      ['captcha', 'captcha','captchaAction'=>'intranet/usuario/captcha',  'on' => ['recuperar','cambiarClave']],
+      ['captcha', 'captcha','captchaAction'=>'intranet/usuario/captcha',  'on' => ['recuperar']],
+      ['captcha', 'captcha','captchaAction'=>'intranet/usuario/captcha',  'on' => ['cambiarClave']],
       // username and password are both required
       [['username', 'password'], 'required'],
       //   [["captcha",],"required", "when" => $this->form == 'recuperar'],
       [['password','password2'], 'string', 'min' =>6],
-      ['password2', 'required', 'on' => ['cambiarClave']],
+      ['password2', 'required', 'on' =>  ['recuperar']],
+      ['password2', 'required', 'on' =>  ['cambiarClave']],
       //['captcha', 'captcha', 'on' => ['recuperar','cambiarClave']],
       ['password2', 'compare', 'compareAttribute'=>'password', 'message'=>'Las contraseñas deben ser iguales'],
       // rememberMe must be a boolean value
       ['rememberMe', 'boolean'],
       // password is validated by validatePassword()
-      ['password', 'validatePassword'],
+      ['password', 'validatePassword', 'on' => ['login']],
+      //['password', 'validatePassword', 'on' => ['cambiarClave']],
+      // valida que el usuario exista
+      ['password', 'validateUser', 'on' => ['login']],
+      //['password', 'validateUser', 'on' => ['cambiarClave']],
     ];
   }
 
@@ -50,13 +56,24 @@ class LoginForm extends Model {
   }
 
   /**
-  * Validates the password.
-  * This method serves as the inline validation for password.
-  *
-  * @param string $attribute the attribute currently being validated
-  * @param array $params the additional name-value pairs given in the rule
+  * Valida el username y el password llamando a un web service
+  * @param string $attribute el atributo actual a validar
+  * @param array $params parametros adicionales en pares nombre-valor dados en las reglas de validacion
   */
   public function validatePassword($attribute, $params) {
+    $resultWebServicesLogin = self::callWSLogin($this->username, $this->password);
+
+    if ($resultWebServicesLogin['result'] == 3) {
+      //$user = $this->getUser();
+    }else if ($resultWebServicesLogin['result'] == 0) {
+        $this->addError($attribute, 'Usuario no existe');
+    }else if ($resultWebServicesLogin['result'] == 1) {
+        $this->addError($attribute, 'El usuario se encuentra inactivo');
+    }else if ($resultWebServicesLogin['result'] == 2) {
+        $this->addError($attribute, 'Contraseña incorrecta por favor verifica de nuevo');
+    }
+
+    /*
     if (!$this->hasErrors()) {
       $user = $this->getUser();
 
@@ -66,8 +83,72 @@ class LoginForm extends Model {
         $this->addError($attribute, 'Contraseña incorrecta por favor verifica de nuevo');
       }/* else if($user->estado != 1){
         $this->addError($attribute, 'El usuario se encuentra inactivo');
-      } */
+      } /
+    }*/
+  }
+
+/**
+* Funcion para consumir el web services de login
+* @param string $username, string password
+* @return array['result'],
+*/
+  public static function callWSLogin($username, $password)
+  {
+    $client = new \SoapClient(\Yii::$app->params['webServices']['persona'], array(
+        "trace" => 1,
+        "exceptions" => 0,
+        'connection_timeout' => 5,
+        'cache_wsdl' => WSDL_CACHE_NONE
+    ));
+
+    try {
+
+        $result = $client->getLogin($username, sha1($password));
+        return $result;
+
+    } catch (SoapFault $exc) {
+      $this->addError('password', 'ha ocurrido un error');
+    } catch (Exception $exc) {
+      $this->addError('password', 'ha ocurrido un error');
     }
+  }
+
+  public function validateUser($attribute, $params)
+  {
+    $user = $this->getUser();
+    if (!$user) {
+      $this->_user = new Usuario;
+      $this->_user->numeroDocumento = $this->username;
+      $this->_user->alias = $this->username;
+      $this->_user->estado = 1;
+    }
+
+    $generoDatos = $this->_user->generarDatos();
+    if (!$generoDatos) {
+      $this->addError($attribute, 'El usuario no existe');
+    }else{
+      if ($this->_user->isNewRecord) {
+        $nombres = $this->_user->getNombres();
+        $primerApellido =  $this->_user->getPrimerApellido();
+        $segundoApellido2 =  $this->_user->getSegundoApellido();
+
+        $alias = '';
+        $nombres = explode(" ", $nombres);
+
+        foreach($nombres as $n){
+          $alias .= $n[0];
+        }
+
+        $alias .= $primerApellido;
+        if(!empty($segundoApellido)){
+         $alias .= $segundoApellido[0];
+        }
+        $this->_user->alias = $alias;
+          $this->_user->save();
+      }
+
+    }
+
   }
 
   /**
@@ -75,6 +156,7 @@ class LoginForm extends Model {
   * @return boolean whether the user is logged in successfully
   */
   public function login() {
+
     if ($this->validate()) {
       return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
     } else {
