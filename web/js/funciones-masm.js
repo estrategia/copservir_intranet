@@ -74,3 +74,14 @@ $('#notification-div').on('hide.bs.dropdown', function () {
 $(document).on('pjax:success', '#pjax-notificaciones', function (event) {
   jQuery("#pjax-notificaciones time.timeago").timeago();
 });
+
+$(document).on('mouseover','[data-toggle="poptooltip"]',function() {
+  $(this).popover('show');
+});
+
+$(document).on('mouseout','[data-toggle="poptooltip"]',function() {
+  $(this).popover('hide');
+});
+
+
+$('.nav-tabs.timeline').scrollingTabs();

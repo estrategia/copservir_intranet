@@ -8,7 +8,6 @@ TarjetaMasAsset::register($this);
 // Rutas imagenes
 $srcLogo = Yii::$app->homeUrl . 'img/multiportal/tarjetamas/logo-tarjeta-mas.png';
 
-$menuPortales = MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -50,13 +49,9 @@ $menuPortales = MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->modu
               <li class="active"> <?= Html::a('Mi cuenta', "#") ?></li>
               <li class="active"> <?= Html::a('Preguntas frecuentes', ['/tarjetamas/sitio/preguntas']) ?></li>
               <li class="active"> <?= Html::a('Atenci&oacute;n al cliente', ['/tarjetamas/sitio/atencion']) ?></li>
-              <?php foreach ($menuPortales as $itemMenu): ?>
+              <?php foreach (MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id) as $itemMenu): ?>
                 <li>
-                  <?php if ($itemMenu->esExterno()): ?>
-                    <?= "<a href='$itemMenu->urlMenu' target='_blank'> <i class='$itemMenu->icono'></i> <span class='title'>$itemMenu->nombre</span> <span class='selected'></span> </a>" ?>
-                  <?php else: ?>
-                      <?= Html::a('<i class="'.$itemMenu->icono.'"></i> <span class="title">'.$itemMenu->nombre.'</span> <span class="selected"></span>', [ 'contenido?menu='.$itemMenu->urlMenu], []) ?>
-                  <?php endif; ?>
+                  <?= $itemMenu->getHtmlLink(Yii::$app->controller->module->id) ?>
                 </li>
               <?php endforeach; ?>
             </ul>

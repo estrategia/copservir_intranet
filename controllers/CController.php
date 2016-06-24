@@ -71,18 +71,21 @@ abstract class CController extends Controller {
         }
         
         $listModulos = \app\modules\intranet\models\ModuloContenido::getModulosGrupo($objMenu->urlMenu);
+        $objModulo = \app\modules\intranet\models\ModuloContenido::getModulo($objMenu->urlMenu);
         
-        if (empty($listModulos)) {
+        if (empty($listModulos) || $objModulo===null) {
             throw new \yii\web\HttpException(404, 'Contenido no disponible');
         }
         
         return $this->render('//common/contenido/modulos', array(
-            'listModulos' => $listModulos
+            'listModulos' => $listModulos,
+            'tituloGrupo' => $objModulo->titulo
         ));
     }
     
     private function verModulo($idModulo){
         $objModulo = \app\modules\intranet\models\ModuloContenido::getModulo($idModulo);
+        $tituloGrupo = null;
         
         if ($objModulo==null) {
             throw new \yii\web\HttpException(404, 'Contenido no disponible');
@@ -92,12 +95,14 @@ abstract class CController extends Controller {
         
         if($objModulo->tipo == \app\modules\intranet\models\ModuloContenido::TIPO_GROUP_MODULES){
             $listModulos = \app\modules\intranet\models\ModuloContenido::getModulosGrupo($idModulo);
+            $tituloGrupo = $objModulo->titulo;
         }else{
             $listModulos[] = $objModulo;
         }
         
         return $this->render('//common/contenido/modulos', array(
-            'listModulos' => $listModulos
+            'listModulos' => $listModulos,
+            'tituloGrupo' => $tituloGrupo
         ));
     }
 

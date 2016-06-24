@@ -601,7 +601,7 @@ body.boxed-layout .footer-widget {
   display: block;
   margin: 0px 0px 0px 0px;
   padding: 5px 0px;
-  padding-left: 53px !important;
+  padding-left: 20px !important;
   color: #e1eaf1;
   text-decoration: none;
   text-shadow: 0 1px 1px #000;
@@ -6799,6 +6799,15 @@ code:hover {
   background-color: #0090D9;
   padding: 0;
 }
+
+.nav-tabs.timeline{
+    background-color: #fff;
+}
+
+.nav-tabs.timeline{
+    border-bottom: none;
+}
+
 .nav-tabs > li {
   margin-bottom: -3px;
   padding-left: 0;
@@ -6809,6 +6818,9 @@ code:hover {
   padding: 15px 20px;
   color: #fff;
   min-width: 70px;
+}
+.nav-tabs.timeline > li > a {
+  padding: 10px;
 }
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
@@ -9541,7 +9553,7 @@ body.rtl .footer-widget {
     padding-left: 180px;
   }
   .no-margin-grid .row-fluid [class*="span"] {
-    width: 100% !impotant;
+    width: 100% !important;
     margin: 0px;
     margin-bottom: 10px;
   }

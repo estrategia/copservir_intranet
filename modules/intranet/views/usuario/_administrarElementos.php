@@ -15,7 +15,7 @@ use app\modules\intranet\models\Indicadores;
         <div class="buton-check">
             <p><i class="fa fa-birthday-cake fa-2x"></i></p>
             <input id="cumpleanos" type='checkbox' data-role="toggle-elemento" data-elemento="<?= \app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_CUMPLEANOS ?>" <?= !in_array(\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_CUMPLEANOS, $opciones) ? 'checked' : '' ?> />
-            <label for="cumpleanos"><span><span></span></span> Cumpleaños </label>
+            <label for="cumpleanos"><span><span></span></span> Cumplea&ntilde;os/Aniversarios </label>
         </div>
     </div>
 

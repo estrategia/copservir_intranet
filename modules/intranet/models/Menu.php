@@ -72,7 +72,8 @@ class Menu extends \yii\db\ActiveRecord {
         </li>';
       } else { // tiene hipervinculo
         if (strpos($menuItem->objOpcion->url, 'https://') !== false || strpos($menuItem->objOpcion->url, 'http://') !== false ) {
-            echo "<li > <a target='_blank' href='" . $menuItem->objOpcion->url . "'> $menuItem->descripcion </a> </li>";
+            $urlMenu = Funciones::reemplazarPatronDocumentoUsuario($menuItem->objOpcion->url);
+            echo "<li > <a target='_blank' href='$urlMenu'> $menuItem->descripcion </a> </li>";
         }else{
             echo "<li>";
             echo \yii\bootstrap\Html::a($menuItem->descripcion, [$menuItem->objOpcion->url]);
@@ -155,10 +156,8 @@ class Menu extends \yii\db\ActiveRecord {
       if (!empty($opcion->objOpcion)) {
 
         $dataOpcion  = $opcion->objOpcion->idOpcion;
-        $htmlRelacion = "<button class='btn btn-mini btn-success' data-role='quitar-enlace-menu'
-        data-opcion='$dataOpcion' >
-        Eliminar enlace
-        </button>";
+        $htmlRelacion = "<button class='btn btn-mini btn-success' data-role='quitar-enlace-menu'data-opcion='$dataOpcion' >Eliminar enlace</button>"
+                . "<button class='btn btn-mini btn-success' data-toggle='poptooltip' data-content='".$opcion->objOpcion->url."'>Ver enlace</button>";
       }
 
       return [
