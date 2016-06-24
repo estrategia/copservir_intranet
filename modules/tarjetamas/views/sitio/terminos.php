@@ -4,12 +4,20 @@ $this->title = 'Terminos y condiciones';
 $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
 ?>
 
+ <!-- colocar migas de pan -->
+<div class="page-header">
+   <div class="container">
+      <div class="page-title">
+        <h1>Términos y condiciones</h1>
+        <div class="breadcrumbs"><?= Html::a('Inicio', ['/tarjetamas/sitio/index']) ?> / <?= Html::a('Tarjeta Más', ['/tarjetamas/sitio/informacion']) ?> / Términos y condiciones</div>
+      </div>
+   </div>
+</div>
+ 
 <div class="container">
   <section>
     <div class="">
-      <div class="space-2"></div>
-      <div class="space-2"></div>
-      <h1>Terminos y condiciones</h1>   
+      <div class="space-1"></div>
       
              <ul class="text-justify">
                  <li>La tarjeta más es de venta exclusiva a partir del 1 de julio de 2016 en los puntos de venta LA REBAJA DROGUERIAS Y MINIMARKET. Su venta no está disponible para los canales telefónico y virtual. Disponibles 30.000 unidades.</li>

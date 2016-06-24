@@ -14,6 +14,7 @@ use app\modules\intranet\models\ModuloContenido;
     echo $form->field($model, 'contenido')->widget(Widget::className(), [
         'id' => "ModuloContenido_contenido",
         'settings' => [
+            'replaceDivs' => false,
             'lang' => 'es',
             'minHeight' => 100,
             //  'buttons' => ['format', 'bold', 'italic'],

@@ -55,13 +55,16 @@ $config = [
                 'host' => 'smtp.gmail.com',
                 'username' => 'servidor.correo.msanchez@gmail.com',
                 'password' => 'c0rr30*-*',
-                //'host' => 'mailserver.copservir.com',
-                //'username' => 'administradorPQRS@copservir.com',
-                //'password' => 'K7521ch$',
                 'port' => '587',
-                //'port' => '25',
                 'encryption' => 'tls',
-            ]
+            ],
+            /*'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'mailserver.copservir.com',
+                'port' => '25',
+                 //'username' => 'administradorPQRS@copservir.com',
+                //'password' => 'K7521ch$',
+            ]*/
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
