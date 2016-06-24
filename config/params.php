@@ -43,5 +43,8 @@ return [
         '1' => 'Html',
         '2' => 'DataTable',
         '3' => 'Grupos Módulos'
+    ],
+    'webServices' => [
+        'persona' => 'http://localhost/copservir/wsMultiportal/persona',
     ]
 ];

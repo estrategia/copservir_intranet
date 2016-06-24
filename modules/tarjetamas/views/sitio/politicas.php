@@ -3,12 +3,21 @@ use yii\helpers\Html;
 $this->title = 'Políticas de privacidad';
 ?>
 
+ <!-- colocar migas de pan -->
+<div class="page-header">
+   <div class="container">
+      <div class="page-title">
+        <h1>Políticas de privacidad y tratamiento de datos</h1>
+        <div class="breadcrumbs"><?= Html::a('Inicio', ['/tarjetamas/sitio/index']) ?> / <?= Html::a('Tarjeta Más', ['/tarjetamas/sitio/informacion']) ?> / Política de privacidad</div>
+      </div>
+   </div>
+</div>
+ 
+
 <div class="container">
   <section>
     <div class="">
-      <div class="space-2"></div>
-      <div class="space-2"></div>
-      <h1>Políticas de privacidad y tratamiento de datos</h1>             
+      <div class="space-1"></div>
         <p class="text-justify">
            Para dar cumplimiento a lo previsto en el artículo 10 del Decreto 1377 de 2013, reglamentario de la Ley 1581 de 2012, Copservir Ltda., propietaria de los establecimientos La Rebaja Droguerías y Minimarkets, encargados del tratamiento de los datos personales obtenidos a través de los diferentes canales de comercialización y de la obtención de la tarjeta más, solicitamos a los titulares (clientes) autorización para iniciar o continuar con el tratamiento
            de sus datos personales, de acuerdo a lo establecido en las Políticas de Privacidad y Protección de los datos publicada en <a href="http://tarjetamaslarebaja.com" target="_BLANK">www.tarjetamaslarebaja.com</a>.

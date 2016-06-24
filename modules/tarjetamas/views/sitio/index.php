@@ -25,14 +25,14 @@ $srctarjetamas = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
 
               </div>
           </div>
-          <a class="left carousel-control" href="#slide-tarjetamas" role="button" data-slide="prev">
+         <!-- <a class="left carousel-control" href="#slide-tarjetamas" role="button" data-slide="prev">
               <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
               <span class="sr-only">Previous</span>
           </a>
           <a class="right carousel-control" href="#slide-tarjetamas" role="button" data-slide="next">
-              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+             <i class="fa fa-chevron-right" aria-hidden="true"></i>
               <span class="sr-only">Next</span>
-          </a>
+          </a>-->
       </div>
 
 <div class="container internal">
@@ -40,10 +40,9 @@ $srctarjetamas = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
     <div class="acerca-home">
       <div class="space-1"></div>
       <h1 class="text-center">
-          Ahora con la Tarjeta más tendrás la oportunidad de realizar tus compras con descuento en el momento en que lo necesites en la Rebaja Droguerías y Minimarkets.<br>
-          Adquiere tu tarjeta más en cualquier punto de venta y empieza a disfrutar  de descuentos preferenciales exclusivos para ti.  
+          Ahora con la Tarjeta más tendrás la oportunidad de realizar tus compras con descuento en el momento en que lo necesites en la Rebaja Droguerías y Minimarkets.
       </h1>
-      <h1 class="text-center" style="font-weight: bold;"><?= Html::a('Descubre cómo', ['/tarjetamas/sitio/informacion']) ?></h1>      
+      <h2 class="text-center" style="font-weight: bold;"><?= Html::a('Descubre cómo', ['/tarjetamas/sitio/informacion']) ?></h2>      
       <div class="space-2"></div>
     </div>
 
@@ -51,9 +50,9 @@ $srctarjetamas = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
       <div class="col-sm-4">
         <div class="white-item">
             <div class="default-icon big-icon company-bgcolor-1">
-                <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+                <i class="fa fa-credit-card" aria-hidden="true"></i>
             </div>          
-          <h3>Activa tu tarjeta</h3>
+            <h3 style="font-weight: bold;">Activa tu tarjeta</h3>
         </div>
       </div>
       <div class="col-sm-4">
@@ -61,7 +60,7 @@ $srctarjetamas = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
             <div class="default-icon big-icon company-bgcolor-1">
                 <i class="fa fa-question" aria-hidden="true"></i>
             </div>
-          <h3>Preguntas frecuentes</h3>
+          <h3 style="font-weight: bold;" >Preguntas frecuentes</h3>
         </div>
       </div>
       <div class="col-sm-4">
@@ -69,7 +68,7 @@ $srctarjetamas = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
             <div class="default-icon big-icon company-bgcolor-1">
                 <i class="fa fa-users" aria-hidden="true"></i>
             </div>
-          <h3>Atención al cliente (PQRS)</h3>
+          <h3 style="font-weight: bold;">Atención al cliente (PQRS)</h3>
         </div>
       </div>
     </div>
