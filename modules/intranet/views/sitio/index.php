@@ -82,7 +82,7 @@ $this->title = 'Intranet - Copservir';
 <div class="col-md-9">
 
   <!-- nav lineas de tiempo -->
-  <ul class="nav nav-tabs">
+  <ul class="nav nav-tabs timeline">
     <?php $i = 0; ?>
     <?php foreach ($lineasTiempo as $linea): ?>
       <li <?= $i == 0 ? 'class="active"' : '' ?> style="background-color:<?= $linea->color ?>;">

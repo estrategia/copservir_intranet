@@ -21,6 +21,7 @@ class IntranetAsset extends AssetBundle {
     public $css = [
         'libs/boostrapv3/css/bootstrap.min.css',
         'libs/boostrapv3/css/bootstrap-theme.min.css',
+        'libs/jquery-bootstrap-scrolling-tabs/jquery.scrolling-tabs.min.css',
         // calendario intranet
         //'libs/fullcalendar/fullcalendar.css',
         //slider tareas intranet
@@ -42,6 +43,7 @@ class IntranetAsset extends AssetBundle {
     public $js = [
         // boostrap
         'libs/boostrapv3/js/bootstrap.min.js',
+        'libs/jquery-bootstrap-scrolling-tabs/jquery.scrolling-tabs.min.js',
         
         //genericas plantilla intranet
         'libs/pace/pace.min.js',

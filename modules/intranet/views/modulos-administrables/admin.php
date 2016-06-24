@@ -41,7 +41,6 @@ Breadcrumbs::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            'titulo',
             [
                 'attribute' => 'tipo',
                 'format' => 'text',
@@ -51,7 +50,17 @@ Breadcrumbs::widget([
                 },
                 'filter' => Html::dropDownList("ModuloContenido[tipo]", null, Yii::$app->params['modulosContenido'], ['class' => 'form-control', 'prompt' => 'Seleccione'])
             ],
+            'titulo',
             'descripcion',
+            //'fechaRegistro',
+            [
+                'label' => 'URL',
+                'format' => 'text',
+                'filter' => false,
+                'content' => function($data){
+                    return Yii::$app->params['rutaGruposModulos'].$data->idModulo;
+                }
+            ],
             [
                 'attribute' => 'contenido',
                 'label' => 'Contenido',

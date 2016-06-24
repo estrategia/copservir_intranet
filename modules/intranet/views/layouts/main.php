@@ -177,11 +177,7 @@ if (!Yii::$app->user->isGuest) {
                         <!-- MENU PORTALES -->
                         <?php foreach (MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id) as $itemMenu): ?>
                             <li>
-                                <?php if ($itemMenu->esExterno()): ?>
-                                    <?= "<a href='$itemMenu->urlMenu' target='_blank'> <i class='$itemMenu->icono'></i> <span class='title'>$itemMenu->nombre</span> <span class='selected'></span> </a>" ?>
-                                <?php else: ?>
-                                    <?= Html::a('<i class="' . $itemMenu->icono . '"></i> <span class="title">' . $itemMenu->nombre . '</span> <span class="selected"></span>', $itemMenu->getUrl(Yii::$app->controller->module->id), []) ?>
-                                <?php endif; ?>
+                                <?= $itemMenu->getHtmlLink(Yii::$app->controller->module->id) ?>
                             </li>
                         <?php endforeach; ?>
 

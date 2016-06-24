@@ -24,7 +24,7 @@ return [
             'formatosValidos' => 'jpg,jpeg,png'
         ],
         'archivo' => [
-            'tamanho' => 1,
+            'tamanho' => 5,
             'formatosValidos' => 'jpg,jpeg,png,pdf'
         ]
     ],

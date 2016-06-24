@@ -22,7 +22,7 @@
                     <div id="table-group-<?= $idModulo ?>_<?= $idHoja ?>" class="tab-pane <?= $idHoja == 0 ? "active" : "" ?>">
                         <div class="row">
                             <div class="col-md-12">
-                                <table class="table data-table" data-modulo="<?= $idModulo ?>">
+                                <table class="table table-striped data-table" data-modulo="<?= $idModulo ?>">
                                     <?= $this->render('datatable_table', ['objWorksheet' => $objPHPExcel->getSheet($idHoja)->toArray(null, true, true, true)]) ?>
                                 </table>
                             </div>
@@ -34,7 +34,7 @@
     <?php else: ?>
         <div class="space-1"></div>
         <div class="col-md-12">
-            <table class="table data-table" data-modulo="<?= $idModulo ?>">
+            <table class="table table-striped data-table" data-modulo="<?= $idModulo ?>">
                 <?= $this->render('datatable_table', ['objWorksheet' => $objPHPExcel->getSheet(0)->toArray(null, true, true, true)]) ?>
             </table>
         </div>
