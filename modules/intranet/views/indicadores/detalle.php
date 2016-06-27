@@ -4,16 +4,17 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\modules\intranet\models\Indicadores;
 
-$this->title = 'Detalle indicador';
-
+$this->title = 'Ver indicador';
+$this->params['breadcrumbs'][] = ['label' => 'Administrar indicadores', 'url' => ['/intranet/indicadores/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Ver indicador'];
 ?>
 <div class="indicadores-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Actualizar', ['update', 'id' => $model->idIndicador], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Inactivar', ['delete', 'id' => $model->idIndicador], [
+        <?= Html::a('Actualizar', ['actualizar', 'id' => $model->idIndicador], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Inactivar', ['eliminar', 'id' => $model->idIndicador], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Estas seguro de desactivar este indicador ?',

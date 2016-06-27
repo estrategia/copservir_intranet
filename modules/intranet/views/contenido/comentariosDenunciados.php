@@ -6,6 +6,7 @@ use \yii\widgets\LinkPager;
 use yii\widgets\Pjax;
 
 $this->title = 'Comentarios denunciados';
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Comentarios denunciados')];
 ?>
 <div class="col-md-12">
 

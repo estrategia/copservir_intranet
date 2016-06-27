@@ -9,7 +9,7 @@ use app\modules\intranet\models\ContenidoEmergente;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Contenido Emergente';
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contenidos emergentes')];
 ?>
 <div class="contenido-emergente-index">
 

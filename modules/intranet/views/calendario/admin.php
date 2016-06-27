@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use app\modules\intranet\models\EventosCalendario;
 
 $this->title = 'Eventos Calendario';
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Eventos calendario')];
 ?>
 <div class="eventos-calendario-index">
 

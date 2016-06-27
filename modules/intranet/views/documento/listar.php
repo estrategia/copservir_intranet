@@ -9,7 +9,7 @@ use app\modules\intranet\models\Documento;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Documentos';
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => 'Documentos organizacionales'];
 ?>
 <div class="documento-index">
 

@@ -8,8 +8,8 @@ use app\modules\intranet\models\OfertasLaborales;
 /* @var $model app\modules\intranet\models\OfertasLaborales */
 
 $this->title = 'detalle oferta';
-//$this->params['breadcrumbs'][] = ['label' => 'Ofertas Laborales', 'url' => ['index']];
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => 'Ofertas laborales', 'url' => ['admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Ver oferta laboral'];
 ?>
 <div class="ofertas-laborales-view">
 

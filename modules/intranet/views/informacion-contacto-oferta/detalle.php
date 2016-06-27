@@ -8,8 +8,8 @@ use app\modules\intranet\models\InformacionContactoOferta;
 /* @var $model app\modules\intranet\models\InformacionContactoOferta */
 
 $this->title = $model->nombrePlantilla;
-//$this->params['breadcrumbs'][] = ['label' => 'Informacion Contacto Ofertas', 'url' => ['index']];
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => 'Plantilla ofertas laborales', 'url' => ['/intranet/informacion-contacto-oferta/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Ver plantilla'];
 ?>
 <div class="informacion-contacto-oferta-view">
 

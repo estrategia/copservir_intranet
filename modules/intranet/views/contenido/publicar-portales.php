@@ -8,8 +8,8 @@ use app\modules\intranet\models\Contenido;
 /* @var $searchModel app\modules\intranet\models\LineaTiempoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Contenidos en los portales';
-//$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Noticias de portales';
+$this->params['breadcrumbs'][] = ['label' => 'Noticias de portales'];
 ?>
 <div class="linea-tiempo-index">
 

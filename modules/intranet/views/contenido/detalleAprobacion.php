@@ -8,6 +8,8 @@ use \app\modules\intranet\models\Contenido;
 /* @var $this yii\web\View */
 
 $this->title = 'Aprobar contenido';
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contenidos por aprobar'), 'url'=>['/intranet/contenido/listar-contenidos-pendientes']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contenido #' . $model->idContenido)];
 ?>
 
 <div class="col-md-12">

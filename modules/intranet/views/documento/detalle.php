@@ -8,8 +8,8 @@ use app\modules\intranet\models\Documento;
 /* @var $model app\modules\intranet\models\Documento */
 
 $this->title = $model->titulo;
-//$this->params['breadcrumbs'][] = ['label' => 'Documentos', 'url' => ['index']];
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => 'Documentos organizacionales', 'url' => ['/intranet/documento/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Ver documento'];
 ?>
 <div class="documento-view col-md-12">
 

@@ -8,6 +8,7 @@ use yii\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Parametros';
+$this->params['breadcrumbs'][] = ['label' => 'Parametros de aplicación'];
 ?>
 
 <div class="parametros-index">

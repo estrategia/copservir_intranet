@@ -209,6 +209,19 @@ if (!Yii::$app->user->isGuest) {
                 <div class="content ">
                     <div class="page-title"></div>
                     <div id="container" class="">
+                        <?php if(isset($this->params['breadcrumbs']) && !empty($this->params['breadcrumbs'])): ?>
+                            <?= 
+                            Breadcrumbs::widget([
+                                'itemTemplate' => "<li>{link}</li>\n",
+                                'homeLink' => [
+                                    'label' => 'Inicio',
+                                    'url' => ['/intranet/'],
+                                ],
+                                'links' => $this->params['breadcrumbs'],
+                            ]);
+                            ?>
+                            <div class="space-1"></div>
+                        <?php endif;?>
                     <?= $content ?>
                     </div><!-- END PAGE -->
                 </div>

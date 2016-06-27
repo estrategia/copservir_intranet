@@ -5,10 +5,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\intranet\models\ContenidoEmergente */
 
-$this->title = 'Actualiza el Contenido Emergente: ';
-//$this->params['breadcrumbs'][] = ['label' => 'Contenido Emergentes', 'url' => ['index']];
-//$this->params['breadcrumbs'][] = ['label' => $model->idContenidoEmergente, 'url' => ['view', 'id' => $model->idContenidoEmergente]];
-//$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Actualiza contenido emergente';
+$this->params['breadcrumbs'][] = ['label' => 'Contenidos emergentes', 'url'=>['/intranet/contenido-emergente/admin']];
+$this->params['breadcrumbs'][] = ['label' => "Actualizar #$model->idContenidoEmergente"];
 ?>
 <div class="contenido-emergente-update">
 

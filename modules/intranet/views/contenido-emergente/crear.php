@@ -6,9 +6,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\intranet\models\ContenidoEmergente */
 
-$this->title = 'Crea un Contenido Emergente';
-//$this->params['breadcrumbs'][] = ['label' => 'Contenido Emergentes', 'url' => ['index']];
-//$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Crea un contenido emergente';
+$this->params['breadcrumbs'][] = ['label' => 'Contenidos emergentes', 'url'=>['/intranet/contenido-emergente/admin']];
+$this->params['breadcrumbs'][] = ['label' => "Crear"];
 ?>
 <div class="contenido-emergente-create">
 

@@ -9,7 +9,7 @@ use app\modules\intranet\models\PublicacionesCampanas;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Campañas publicitarias';
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => 'Publicidad'];
 ?>
 <div class="publicaciones-campanas-index">
 
@@ -17,7 +17,7 @@ $this->title = 'Campañas publicitarias';
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Crear una campanas', ['crear'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear publicidad', ['crear'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
