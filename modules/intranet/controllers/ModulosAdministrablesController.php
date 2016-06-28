@@ -28,10 +28,12 @@ class ModulosAdministrablesController extends Controller {
 
             $modelo->andWhere("titulo like '%" . $searchModel->titulo . "%'");
             $modelo->andWhere("descripcion like '%" . $searchModel->descripcion . "%'");
-
+            
             if (!empty($searchModel->tipo)) {
                 $modelo->andWhere("tipo = '" . $searchModel->tipo . "'");
             }
+        }else{
+            $modelo->orderBy(['fechaRegistro' => SORT_DESC]);
         }
         $dataProvider = new ActiveDataProvider([
             'query' => $modelo,

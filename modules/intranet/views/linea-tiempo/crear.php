@@ -7,8 +7,8 @@ use yii\helpers\Html;
 /* @var $model app\modules\intranet\models\LineaTiempo */
 
 $this->title = 'Crea una linea de tiempo';
-//$this->params['breadcrumbs'][] = ['label' => 'Linea Tiempos', 'url' => ['index']];
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => 'Líneas de tiempo', 'url' => ['/intranet/linea-tiempo/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Crear línea de tiempo'];
 ?>
 <div class="linea-tiempo-create">
 

@@ -145,6 +145,25 @@ class DocumentoController extends Controller {
     }
 
     /**
+     * Actualiza un modelo existente Documento.
+     * Si la actualizacion es exitosa el navegagor redirige al detalle.
+     * @param string $id
+     * @return mixed
+     */
+    public function actionActualizarDocumento($id) {
+
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['detalle', 'id' => $model->idDocumento]);
+        } else {
+            return $this->render('actualiza-informacion', [
+                        'model' => $model,
+            ]);
+        }
+    }
+
+    /**
      * Elimina un modelo Documento existente.
      * Si la eliminacion es exitosa redirige a la vista listar.
      * @param string $id

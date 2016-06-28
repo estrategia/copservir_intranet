@@ -34,7 +34,7 @@ class CalendarioController extends ControllerCalendar {
       $searchModel = new EventosCalendarioSearch();
       $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-      return $this->render('/eventos-calendario/admin', [
+      return $this->render('admin', [
           'searchModel' => $searchModel,
           'dataProvider' => $dataProvider,
       ]);
@@ -51,7 +51,7 @@ class CalendarioController extends ControllerCalendar {
       $searchModel = new ContenidoSearch();
       $dataProviderContenido = $searchModel->searchNoticiasPortal(Yii::$app->request->queryParams, $model->objPortal->nombrePortal);
 
-      return $this->render('/eventos-calendario/detalle', [
+      return $this->render('detalle', [
           'model' => $model,
           'searchModel' => $searchModel,
           'dataProviderContenido' => $dataProviderContenido
@@ -84,7 +84,7 @@ class CalendarioController extends ControllerCalendar {
             throw $e;
           }
       } else {
-          return $this->render('/eventos-calendario/crear', [
+          return $this->render('crear', [
               'model' => $model,
           ]);
       }
@@ -128,7 +128,7 @@ class CalendarioController extends ControllerCalendar {
       if ($model->load(Yii::$app->request->post()) && $model->save()) {
           return $this->redirect(['detalle', 'id' => $model->idEventoCalendario]);
       } else {
-          return $this->render('/eventos-calendario/actualizar', [
+          return $this->render('actualizar', [
               'model' => $model,
               'destinoEventosCalendario' => $destinoEventosCalendario,
               'modelDestinoEventos' => $modelDestinoEventos
@@ -173,7 +173,7 @@ class CalendarioController extends ControllerCalendar {
 
       $respond = [
         'result' => 'ok',
-        'response' => $this->renderAjax('/eventos-calendario/_destinoEventos', [
+        'response' => $this->renderAjax('_destinoEventos', [
           'model' => $model,
           'destinoEventosCalendario' => $destinoEventosCalendario,
           'modelDestinoEventos' => $modelDestinoEventos
@@ -225,7 +225,7 @@ public function actionAgregaDestinoEvento()
 
     $respond = [
       'result' => 'ok',
-      'response' => $this->renderAjax('/eventos-calendario/_destinoEventos', [
+      'response' => $this->renderAjax('_destinoEventos', [
         'model' => $model,
         'destinoEventosCalendario' => $destinoEventosCalendario,
         'modelDestinoEventos' => $modelDestinoEvento
@@ -259,7 +259,7 @@ public function actionAsignarContenidoEvento($id, $idEvento)
 
       return [
         'result' => 'ok',
-        'response' => $this->renderAjax('/eventos-calendario/_listaContenidos', [
+        'response' => $this->renderAjax('_listaContenidos', [
         'modelo'=> $model,
         'searchModel' => $searchModel,
         'dataProviderContenido' => $dataProviderContenido

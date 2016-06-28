@@ -6,6 +6,10 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
+use yii\helpers\ArrayHelper;
+use app\modules\intranet\models\Ciudad;
+use kartik\select2\Select2;
+use kartik\date\DatePicker;
 
 $this->title = 'Actualizar Datos';
 $this->params['breadcrumbs'][] = $this->title;
@@ -15,6 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h4>  Actualiza tu información personal</h4>
   </div>
 
+  <?= $this->render('/common/errores', []) ?>
+
   <div class="grid simple">
     <div class="grid-title no-border">
 
@@ -22,24 +28,37 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="grid-body no-border">
 
       <?php
-      $form = ActiveForm::begin([
-        'id' => 'login-form',
-        'options' => ['class' => 'form-horizontal'],
-        'fieldConfig' => [
-          'template' => "{label}\n<div class=\"col-md-6 controls\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
-          'labelOptions' => ['class' => 'col-lg-1 control-label'],
-        ],
-      ]);
+      $form = ActiveForm::begin([]);
       ?>
 
-      <?= $form->field($model, 'email') ?>
-      <?= $form->field($model, 'celular') ?>
-      <?= $form->field($model, 'residencia') ?>
+      <?= $form->field($model, 'Nombres')->textInput(['maxlength' => true]) ?>
+      <?= $form->field($model, 'PrimerApellido')->textInput(['maxlength' => true]) ?>
+      <?= $form->field($model, 'SegundoApellido')->textInput(['maxlength' => true]) ?>
+
+      <?=
+          $form->field($model, 'FechaNacimiento')->widget(DatePicker::classname(), [
+          'pluginOptions' => [
+            'autoclose' => true,
+            'format' => 'yyyy-mm-dd'
+          ]
+        ]);
+      ?>
+
+      <?= $form->field($model, 'Direccion')->textInput(['maxlength' => true]) ?>
+
+      <?=
+        $form->field($model, 'IdCiudad')->widget(Select2::classname(), [
+          'data' => ArrayHelper::map(Ciudad::find()->orderBy('nombreCiudad')->all(), 'codigoCiudad', 'nombreCiudad'),
+          'options' => ['placeholder' => 'Seleccione el cargo de la oferta']
+        ]);
+      ?>
+
+      <?= $form->field($model, 'Email')->input('email') ?>
+
+      <?= $form->field($model, 'EmailPersonal')->input('email') ?>
 
       <div class="form-group">
-        <div class="col-lg-offset-1 col-lg-11">
           <?= Html::submitButton('Actualizar', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-        </div>
       </div>
       <?php ActiveForm::end(); ?>
 

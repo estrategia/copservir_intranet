@@ -9,6 +9,8 @@ use \app\modules\intranet\models\DenunciosContenidos;
 /* @var $this yii\web\View */
 
 $this->title = 'Contenido denunciado';
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contenidos denunciados'), 'url' =>['/intranet/contenido/listar-contenidos-denunciados']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', "Contenido #" . $model->objDenunciosContenidos->idContenido)];
 ?>
 
 <div class="col-md-12">

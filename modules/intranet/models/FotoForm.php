@@ -4,7 +4,7 @@ namespace app\modules\intranet\models;
 
 use Yii;
 use yii\base\Model;
-
+use app\models\Usuario;
 /**
 * LoginForm is the model behind the login form.
 */

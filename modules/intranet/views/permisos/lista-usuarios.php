@@ -2,6 +2,8 @@
 
 use yii\grid\GridView;
 use yii\helpers\Html;
+
+$this->params['breadcrumbs'][] = ['label' => 'Permisos de usuarios'];
 ?>
 <div id="listaOfertas">
 

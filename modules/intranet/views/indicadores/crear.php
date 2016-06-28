@@ -3,7 +3,8 @@
 use yii\helpers\Html;
 
 $this->title = 'Crea indicadores';
-
+$this->params['breadcrumbs'][] = ['label' => 'Administrar indicadores', 'url' => ['/intranet/indicadores/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Crear  indicador'];
 ?>
 <div class="indicadores-create">
 

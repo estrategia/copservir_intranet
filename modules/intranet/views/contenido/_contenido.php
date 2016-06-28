@@ -27,47 +27,49 @@ use app\modules\intranet\models\LineaTiempo;
         <div class="cbp_tmlabel">
             <div class="p-t-10 p-l-30 p-r-20 p-b-20 xs-p-r-10 xs-p-l-10 xs-p-t-5">
 
-                <?= Html::a('<h4 class="inline m-b-5"><span class="text-success semi-bold"> ' . $noticia->titulo . ' </span> </h4>', ['contenido/detalle-contenido', 'idNoticia' => $noticia->idContenido], ['class' => '', 'name' => '']) ?>
+                <?= Html::a('<h4 class="inline m-b-5"><span class="text-success semi-bold"> ' . $noticia->titulo . ' </span> <small style="font-size: 12px;">( leer noticia )</small></h4> ', ['contenido/detalle-contenido', 'idNoticia' => $noticia->idContenido], ['class' => '', 'name' => '']) ?>
                 <h5 class="inline muted semi-bold m-b-5"></h5> <!-- para el usuario que publico la noticia -->
                 <!--<div class="muted">Publicación Compartida - 12:45pm</div> si la publicacion fue compartida-->
                 <p class="m-t-5 dark-text">
+                <div style="max-height: 150px; text-overflow:ellipsis; white-space:pre-line; overflow:hidden;margin-bottom: 25px;">
                     <?= $noticia->contenido ?>
+                </div>
 
-                    <!-- IMAGENES -->
+                <!-- IMAGENES -->
+                <?php if (!empty($noticia->objContenidoAdjuntoImagenes)): ?>
+                    <?php $contador = 0; ?>
 
-                    <?php if (!empty($noticia->objContenidoAdjuntoImagenes)): ?>
-                        <?php $contador = 0; ?>
-                        <?php foreach ($noticia->objContenidoAdjuntoImagenes as $imagenes): ?>
-                            <?php
-                            $contador++;
-                            $style = '';
-                            $mensaje = '';
-                            if ($contador > \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) { //cambiar por una constante
-                                $style = 'display:none';
+                    <?php foreach ($noticia->objContenidoAdjuntoImagenes as $imagenes): ?>
+                        <?php
+                        $contador++;
+                        $style = '';
+                        $mensaje = '';
+                        if ($contador > \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) { //cambiar por una constante
+                            $style = 'display:none';
+                        }
+
+                        if ($contador == \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) { //cambiar por una constante
+                            if (($contador) != count($noticia->objContenidoAdjuntoImagenes)) {
+                                $mensaje = (count($noticia->objContenidoAdjuntoImagenes) - \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) . '+'; // cambiar por una constante
                             }
+                        }
+                        ?>
+                        <div class="col-md-6  col-sm-6">
+                        <a class="lightbox gallery<?= $noticia->idContenido ?>" href="<?= Yii::getAlias('@web') . "/img/imagenesContenidos/" . $imagenes->rutaArchivo ?>" style="<?= $style ?>">
 
-                            if ($contador == \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) { //cambiar por una constante
-                                if (($contador) != count($noticia->objContenidoAdjuntoImagenes)) {
-                                    $mensaje = (count($noticia->objContenidoAdjuntoImagenes) - \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) . '+'; // cambiar por una constante
-                                }
-                            }
-                            ?>
-
-                            <a class="lightbox gallery<?= $noticia->idContenido ?>" href="<?= Yii::getAlias('@web') . "/img/imagenesContenidos/" . $imagenes->rutaArchivo ?>" style="<?= $style ?>">
-                                <div class="col-md-6  col-sm-6" data-aspect-ratio="true">
-                                    <div class="slide-front ha tiles green  slide">
-                                        <div class="overlayer bottom-left fullwidth">
-                                            <div class="overlayer-wrapper">
-                                                <div class="tiles gradient-black p-l-20 p-r-20 p-b-20 p-t-20" style="text-align:center;">
-                                                    <h1 style="color:#fff !important;"><span class="semi-bold"><?= $mensaje ?></span></h1>
-                                                </div>
+                                <div class="slide-front ha tiles green  slide">
+                                    <div class="overlayer bottom-left fullwidth">
+                                        <div class="overlayer-wrapper">
+                                            <div class="tiles gradient-black p-l-20 p-r-20 p-b-20 p-t-20" style="text-align:center;">
+                                                <h1 style="color:#fff !important;"><span class="semi-bold"><?= $mensaje ?></span></h1>
                                             </div>
                                         </div>
-                                        <img src="<?= Yii::getAlias('@web') . "/img/imagenesContenidos/" . $imagenes->rutaArchivo ?>" class="img-thumbnail" />
                                     </div>
+                                    <img src="<?= Yii::getAlias('@web') . "/img/imagenesContenidos/" . $imagenes->rutaArchivo ?>" class="img-thumbnail"/>
                                 </div>
-                            </a>
 
+                        </a>
+                        </div>
                         <?php endforeach; ?>
                         <?php $this->registerJs("jQuery('.gallery$noticia->idContenido').lightbox();");?>
                         <script type="text/javascript">

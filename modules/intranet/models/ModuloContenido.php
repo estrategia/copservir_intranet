@@ -60,9 +60,9 @@ class ModuloContenido extends \yii\db\ActiveRecord {
                 ->joinWith(['listGruposModulos'])
                 ->where("t_GruposModulos.idGruposModulos=:grupo")
                 ->orderBy('t_GruposModulos.orden ASC')
-                ->addParams([':grupo' => $idGrupo])
-                ->all();
-        return $query;
+                ->addParams([':grupo' => $idGrupo]);
+        //var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);exit;
+        return $query->all();
     }
     
     public static function getModulo($idModulo) {
@@ -71,6 +71,11 @@ class ModuloContenido extends \yii\db\ActiveRecord {
                 ->addParams([':modulo' => $idModulo])
                 ->one();
         return $query;
+    }
+    
+    public function getContenido(){
+        $contenido = Funciones::reemplazarPatronDocumentoUsuario($this->contenido);
+        return $contenido;
     }
   
 }

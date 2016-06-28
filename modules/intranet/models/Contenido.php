@@ -12,6 +12,7 @@ use app\modules\intranet\models\ContenidoDestino;
 use app\modules\intranet\models\ContenidoAdjunto;
 use app\modules\intranet\models\Portal;
 use app\modules\intranet\models\LineaTiempo;
+use app\models\Usuario;
 
 /**
  * This is the model class for table "t_Contenido".
@@ -242,6 +243,9 @@ class Contenido extends \yii\db\ActiveRecord {
                 ])->andWhere(
                         ['estado' => self::APROBADO]
                 )->orderBy('fechaInicioPublicacion DESC');
+
+        var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [

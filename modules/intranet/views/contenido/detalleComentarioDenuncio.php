@@ -8,6 +8,8 @@ use \app\modules\intranet\models\DenunciosContenidosComentarios;
 /* @var $this yii\web\View */
 
 $this->title = 'Comentario denunciado';
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Comentarios denunciados'), 'url' =>['/intranet/contenido/listar-comentarios-denunciados']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', "Comentario #" . $model->objDenuncioComentario->idContenidoComentario)];
 ?>
 
 <div class="col-md-12">

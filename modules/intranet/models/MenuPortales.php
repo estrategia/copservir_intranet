@@ -106,8 +106,17 @@ class MenuPortales extends \yii\db\ActiveRecord {
         var_dump($objMenu->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);exit();
     }
 
-    public function getUrl($nombrePortal){
+    public function getUrlInterna($nombrePortal){
         return [ "/$nombrePortal/sitio/contenido?menu=".$this->idMenuPortales];
+    }
+    
+    public function getHtmlLink($portal){
+        if($this->esExterno()){
+            $urlMenu = Funciones::reemplazarPatronDocumentoUsuario($this->urlMenu);
+            return "<a href='$urlMenu' target='_blank'> <i class='$this->icono'></i> <span class='title'>$this->nombre</span> <span class='selected'></span> </a>";
+        }else{
+            return \yii\helpers\Html::a('<i class="' . $this->icono . '"></i> <span class="title">' . $this->nombre . '</span> <span class="selected"></span>', $this->getUrlInterna($portal), []);
+        }
     }
 
 }

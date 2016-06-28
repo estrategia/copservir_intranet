@@ -38,7 +38,7 @@ $config = [
         ],
         'user' => [
             'loginUrl' => ['/intranet/usuario/autenticar'],
-            'identityClass' => 'app\modules\intranet\models\Usuario',
+            'identityClass' => 'app\models\Usuario',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [

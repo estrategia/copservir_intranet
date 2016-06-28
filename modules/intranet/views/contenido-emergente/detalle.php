@@ -7,9 +7,9 @@ use app\modules\intranet\models\ContenidoEmergente;
 /* @var $this yii\web\View */
 /* @var $model app\modules\intranet\models\ContenidoEmergente */
 
-$this->title = 'Detalle del Contenido Emergente';
-//$this->params['breadcrumbs'][] = ['label' => 'Contenido Emergentes', 'url' => ['index']];
-//$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Ver contenido emergente';
+$this->params['breadcrumbs'][] = ['label' => 'Contenidos emergentes', 'url'=>['/intranet/contenido-emergente/admin']];
+$this->params['breadcrumbs'][] = ['label' => "Ver #$model->idContenidoEmergente"];
 ?>
 <div class="contenido-emergente-view">
 

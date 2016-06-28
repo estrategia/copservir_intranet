@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\intranet\models;
+namespace app\models;
 
 use Yii;
 use yii\web\IdentityInterface;
@@ -8,7 +8,8 @@ use yii\base\NotSupportedException;
 use yii\base\Event;
 use yii\web\ForbiddenHttpException;
 use yii\data\ActiveDataProvider;
-
+use app\modules\intranet\models\GrupoInteresCargo;
+use app\modules\intranet\models\UsuarioWidgetInactivo;
 /**
  * This is the model class for table "m_usuario".
  *
@@ -20,9 +21,15 @@ use yii\data\ActiveDataProvider;
  */
 class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
 
+    const ESTADO_ACTIVO = 1;
+
     private $data = [
         'sesionRestaurada' => false,
         'personal' => [
+            'nombres' => null,
+            'primerApellido' => null,
+            'segundoApellido' => null,
+            'correoPersonal' => null,
             'celular' => null,
             'residencia' => null,
             'ciudad' => [
@@ -59,11 +66,13 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
         return 'm_Usuario';
     }
 
+    /*
     public function init() {
         Event::on(\yii\web\User::className(), \yii\web\User::EVENT_AFTER_LOGIN, function ($event) {
             $this->generarDatos();
         });
     }
+    */
 
     private function restaurarSesion() {
         $userdata = \Yii::$app->session->get('user.data');
@@ -74,48 +83,95 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
         }
     }
 
-    private function generarDatos() {
-        if (!$this->data['sesionRestaurada']) {
+    public function generarDatos($forzar = false) {
+        Yii::info('ENTRO GENERAR DATOS');
+        if (!$this->data['sesionRestaurada'] || $forzar) {
+          Yii::info('ENTRO IF');
             try {
-                $this->data['personal']['celular'] = "314 598 2002";
-                $this->data['personal']['residencia'] = "Calle 16 25 - 23";
-                $this->data['personal']['ciudad']['nombre'] = "Cali";
-                $this->data['personal']['ciudad']['codigo'] = "76001";
-                $this->data['personal']['fechaCumpleanhos'] = "2015-01-20";
+                $infoPersona = self::callWSInfoPersona($this->numeroDocumento);
 
-                $this->data['academica']['profesion'] = "Ingeniero de sistemas y ciencias de la computación";
-                $this->data['academica']['estudiosSuperiores'] = "Universidad del valle sede Melendez";
+                if (empty($infoPersona)) {
+                  return false;
+                }else{
+                  $this->data['personal']['nombres'] = $infoPersona['Nombres'];
+                  $this->data['personal']['primerApellido'] = $infoPersona['PrimerApellido'];
+                  $this->data['personal']['segundoApellido'] = $infoPersona['SegundoApellido'];
+                  $this->data['personal']['correoPersonal'] = $infoPersona['CorreoPersonal'];
 
-                $this->data['laboral']['cargo']['codigo'] = "81";
-                $this->data['laboral']['cargo']['nombre'] = "COORDINADOR DE TECNOLOGIA";
-                $this->data['laboral']['area']['nombre'] = "TECNOLOGIA";
-                $this->data['laboral']['fechaVinculacion'] = "2014-01-17";
-                $this->data['laboral']['jefeInmediato']['numeroIdentificacion'] = "123456";
-                $this->data['laboral']['jefeInmediato']['nombre'] = "Andres Tabares";
-                $this->data['laboral']['extension'] = "35689";
-                $this->data['laboral']['correoElectronico'] = "miguel.sanchez@eiso.com.co";
+                  foreach ($infoPersona['NumeroTelefono'] as $key => $value) {
+                    $this->data['personal']['celular'] .= $value.", ";
+                  }
+                  $this->data['personal']['residencia'] = $infoPersona['Direccion'];
+                  $this->data['personal']['ciudad']['nombre'] = $infoPersona['Ciudad'];
+                  $this->data['personal']['ciudad']['codigo'] = $infoPersona['Codigo'];
+                  $this->data['personal']['fechaCumpleanhos'] = $infoPersona['FechaNacimiento'];
 
-                $this->data['sesionRestaurada'] = true;
+                  $this->data['academica']['profesion'] = "Ingeniero de sistemas y ciencias de la computación";
+                  $this->data['academica']['estudiosSuperiores'] = "Universidad del valle sede Melendez";
 
-                $listGrupoInteresCargo = GrupoInteresCargo::find()->where("idCargo=:cargo", [':cargo' => $this->data['laboral']['cargo']['codigo']])->all();
-                $this->data['gruposInteres'] = [];
+                  $this->data['laboral']['cargo']['codigo'] = $infoPersona['CodigoCargo'];
+                  $this->data['laboral']['cargo']['nombre'] = $infoPersona['Cargo'];
+                  $this->data['laboral']['area']['nombre'] = "TECNOLOGIA";
+                  $this->data['laboral']['fechaVinculacion']  = $infoPersona['FechaVinculacion'];
+                  $this->data['laboral']['jefeInmediato']['numeroIdentificacion'] = "123456";
+                  $this->data['laboral']['jefeInmediato']['nombre'] = "Andres Tabares";
+                  $this->data['laboral']['extension'] = "35689";
+                  $this->data['laboral']['correoElectronico'] = $infoPersona['Email'];
 
-                foreach ($listGrupoInteresCargo as $objGrupoInteresCargo) {
-                    $this->data['gruposInteres'][] = $objGrupoInteresCargo->idGrupoInteres;
+                  $this->data['sesionRestaurada'] = true;
+
+                  $listGrupoInteresCargo = GrupoInteresCargo::find()->where("idCargo=:cargo", [':cargo' => $this->data['laboral']['cargo']['codigo']])->all();
+                  $this->data['gruposInteres'] = [];
+
+                  foreach ($listGrupoInteresCargo as $objGrupoInteresCargo) {
+                      $this->data['gruposInteres'][] = $objGrupoInteresCargo->idGrupoInteres;
+                  }
+
+                  \Yii::$app->session->set('user.data', $this->data);
+                  return true;
                 }
 
-                \Yii::$app->session->set('user.data', $this->data);
-            } catch (Exception $ex) {
-                
+
+            }catch (SoapFault $exc) {
+
+              Yii::error($ex->getMessage());
+              return false;
+           } catch (Exception $ex) {
+
+              Yii::error($ex->getMessage());
+              return false;
             }
+
+        }else{
+          Yii::info('ENTRO ELSE');
         }
+    }
+
+    /**
+    * Funcion para consumir un web services para traer la informacion de un usuario s
+    * @param string $numeroDocumento
+    * @return array
+    */
+    public static function callWSInfoPersona($numeroDocumento)
+    {
+      $client = new \SoapClient(\Yii::$app->params['webServices']['persona'], array(
+          "trace" => 1,
+          "exceptions" => 0,
+          'connection_timeout' => 5,
+          'cache_wsdl' => WSDL_CACHE_NONE
+      ));
+
+      $result = $client->getPersonaWithModel($numeroDocumento, true, null);
+      return $result;
+
     }
 
     public function rules() {
         return [
-            [['numeroDocumento', 'estado'], 'required'],
-            [['numeroDocumento', 'estado'], 'integer'],
+            [['numeroDocumento', 'estado', 'codigoPerfil'], 'required'],
+            [['numeroDocumento', 'estado', 'codigoPerfil'], 'integer'],
             [['alias'], 'string', 'max' => 60],
+            [['contrasena'], 'string', 'max' => 32],
             [['numeroDocumento'], 'unique'],
             [['llaveAutenticacion'], 'safe'],
         ];
@@ -265,6 +321,11 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
         return strftime("%B %d", strtotime($this->data['personal']['fechaCumpleanhos']));
     }
 
+    public function getFechaNacimiento() {
+        $this->restaurarSesion();
+        return $this->data['personal']['fechaCumpleanhos'];
+    }
+
     //datos academicos
 
     public function getProfesion() {
@@ -295,7 +356,7 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
 
     public function getVinculacion() {
         $this->restaurarSesion();
-        return strtotime($this->data['laboral']['fechaVinculacion']);
+        return $this->data['laboral']['fechaVinculacion'];
     }
 
     public function getJefeInmediatoNombre() {
@@ -311,6 +372,26 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
     public function getEmail() {
         $this->restaurarSesion();
         return $this->data['laboral']['correoElectronico'];
+    }
+
+    public function getEmailPersonal() {
+        $this->restaurarSesion();
+        return $this->data['personal']['correoPersonal'];
+    }
+
+    public function getNombres() {
+        $this->restaurarSesion();
+        return $this->data['personal']['nombres'];
+    }
+
+    public function getPrimerApellido() {
+        $this->restaurarSesion();
+        return $this->data['personal']['primerApellido'];
+    }
+
+    public function getSegundoApellido() {
+        $this->restaurarSesion();
+        return $this->data['personal']['segundoApellido'];
     }
 
     public function getAntiguedad() {
@@ -358,10 +439,17 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
     }
 
     public function tienePermiso($nombrePermiso) {
-        \Yii::$app->authManager->defaultRoles = ['intranet_usuario'];
+
+        if ($this->codigoPerfil == \Yii::$app->params['PerfilesUsuario']['intranet']['codigo']) {
+            \Yii::$app->authManager->defaultRoles = [\Yii::$app->params['PerfilesUsuario']['intranet']['permiso']];
+        }elseif ($this->codigoPerfil == \Yii::$app->params['PerfilesUsuario']['tarjetaMas']['codigo']) {
+          \Yii::$app->authManager->defaultRoles = [\Yii::$app->params['PerfilesUsuario']['tarjetaMas']['permiso']];
+        }
+
+
         return Yii::$app->authManager->checkAccess($this->numeroDocumento, $nombrePermiso);
     }
-    
+
     public function getRoles(){
         return Yii::$app->authManager->getRolesByUser($this->numeroDocumento);
     }

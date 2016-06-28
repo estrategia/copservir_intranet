@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use app\modules\intranet\models\OfertasLaborales;
 
 $this->title = 'Ofertas Laborales';
+$this->params['breadcrumbs'][] = ['label' => 'Ofertas laborales'];
 ?>
 <div class="ofertas-laborales-index">
 

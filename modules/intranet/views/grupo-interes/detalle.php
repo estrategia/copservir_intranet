@@ -7,9 +7,9 @@ use app\modules\intranet\models\GrupoInteres;
 /* @var $this yii\web\View */
 /* @var $grupo app\modules\intranet\grupos\GrupoInteres */
 
-$this->title = $grupo->nombreGrupo;
-//$this->params['breadcrumbs'][] = ['label' => 'Grupo Interes', 'url' => ['index']];
-//$this->params['breadcrumbs'][] = $this->title;
+$this->title = "Ver grupos";
+$this->params['breadcrumbs'][] = ['label' => 'Grupos de interés', 'url' => ['/intranet/grupo-interes/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Ver grupo'];
 ?>
 <div class="col-md-12">
   <div class="grupo-interes-view">
@@ -31,7 +31,7 @@ $this->title = $grupo->nombreGrupo;
               'nombreGrupo',
               [
                 'attribute' => 'estado',
-                'value' =>  $model->estado == GrupoInteres::ESTADO_ACTIVO ? 'Activo' : 'Inactivo',
+                'value' =>  $grupo->estado == GrupoInteres::ESTADO_ACTIVO ? 'Activo' : 'Inactivo',
               ],
               [
                 'label' => 'Imagen',

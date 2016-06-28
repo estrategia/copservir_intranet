@@ -3,7 +3,7 @@
 namespace app\modules\intranet\models;
 
 use Yii;
-
+use app\models\Usuario;
 /**
  * This is the model class for table "t_cumpleanoslaboral".
  *
@@ -96,7 +96,7 @@ class CumpleanosLaboral extends \yii\db\ActiveRecord {
             throw new \Exception('el modelo no existe.');
         }
     }
-    
+
     public function obtenerDestinos($contenidoDestino = false) {
         $listGrupoInteres = GrupoInteresCargo::find()
                 ->where("idCargo=:cargo", [':cargo' => $this->idCargo])

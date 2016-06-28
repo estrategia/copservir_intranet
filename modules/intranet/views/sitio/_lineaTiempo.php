@@ -4,34 +4,24 @@ use yii\helpers\Html;
 use \app\modules\intranet\models\Contenido;
 use \app\modules\intranet\models\LineaTiempo;
 ?>
-
-<div class="alert alert-block alert-info fade in">
-
-    <h4 class="alert-heading"><i class="icon-warning-sign"></i> <?= $linea->nombreLineaTiempo ?></h4>
-    <p> <?= $linea->descripcion ?> </p>
-
-</div>
+<?php if (!empty($linea->descripcion)): ?>
+    <div class="time-line-description">
+        <?= $linea->descripcion ?>
+    </div>
+<?php endif; ?>
 <!-- las noticias -->
-
-<!-- Boton donde se despliega el modal  -->
-<div class="col-md-12">
-    <hr>
-</div>
 
 <?php if ($linea->tipo != LineaTiempo::TIPO_ANIVERSARIO): ?>
     <div class="">
-      <a href="#" id="mostrarFormularioContenido" class="btn btn-primary btn-small">
-        crea una publicacion
-      </a>
+        <a href="#" id="mostrarFormularioContenido" class="btn btn-primary btn-small">
+            crea una publicacion
+        </a>
     </div>
     <br>
     <div id="publicarContenido" style="display:none">
         <?php
         echo $this->render('/contenido/formContenido', ['objLineaTiempo' => $linea, 'objContenido' => $contenidoModel]);
         ?>
-    </div>
-    <div class="col-md-12">
-        <hr>
     </div>
 <?php endif; ?>
 

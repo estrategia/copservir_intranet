@@ -1,14 +1,7 @@
+<?php $tituloGrupo = isset($tituloGrupo)?$tituloGrupo:null; ?>
 <div class="container-fluid">
-    <section>
-        <?php if (!empty($objModulo->descripcion)): ?>
-            <div class="row-fluid">
-                <div class="col-md-12 title">
-                    <span><i class="glyphicon glyphicon-chevron-right"></i></span>
-                    <strong class=""><?php echo $objModulo->descripcion ?></strong>
-                </div>
-            </div>
-        <?php endif; ?>
-    </section>
-    <br>
-    <?php echo $objModulo->contenido ?>
+    <?php if (!empty($objModulo->titulo) && empty($tituloGrupo)): ?>
+        <h1><?php echo $objModulo->titulo ?></h1>
+    <?php endif; ?>
+    <?php echo $objModulo->getContenido() ?>
 </div>

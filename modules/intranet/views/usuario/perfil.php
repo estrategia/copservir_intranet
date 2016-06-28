@@ -56,6 +56,7 @@ use yii\helpers\Html;
             <div class="info-wrapper">
               <div class="post col-md-5">
                 <h5>Informaci&oacute;n General</h5>
+                <p><b>nombre: </b> <?= \Yii::$app->user->identity->getNombres().' '.\Yii::$app->user->identity->getPrimerApellido().' '.\Yii::$app->user->identity->getSegundoApellido() ?></p>
                 <p><b>Profesi&oacute;n: </b> <?= \Yii::$app->user->identity->getProfesion() ?></p>
                 <p><b>Cargo: </b> <?= \Yii::$app->user->identity->getCargoNombre() ?></p>
                 <p><b>&Aacute;rea:</b> <?= \Yii::$app->user->identity->getAreaNombre() ?></p>
@@ -69,7 +70,8 @@ use yii\helpers\Html;
                 <h5>Otra Informaci&oacute;n</h5>
                 <p><b>Extensi&oacute;n: </b> <?= \Yii::$app->user->identity->getExtension() ?></p>
                 <p><b>E-mail: </b> <?= \Yii::$app->user->identity->getEmail() ?></p>
-                <p><b>Celular: </b> <?= \Yii::$app->user->identity->getCelular() ?></p>
+                <p><b>E-mail Personal: </b> <?= \Yii::$app->user->identity->getEmailPersonal() ?></p>
+                <p><b>Números Telefonicos: </b> <?= \Yii::$app->user->identity->getCelular() ?></p>
                 <p><b>Residencia: </b> <?= \Yii::$app->user->identity->getResidencia() ?></p>
                 <p><b>Ciudad: </b> <?= \Yii::$app->user->identity->getCiudadNombre() ?></p>
                 <p><b>Cumplea&ntilde;os: </b> <?= \Yii::$app->user->identity->getCumpleanhos() ?></p>

@@ -5,6 +5,8 @@ use yii\helpers\Html;
 use kartik\select2\Select2;
 
 $this->title = 'Roles y permisos de un usuario';
+$this->params['breadcrumbs'][] = ['label' => 'Permisos de usuarios', 'url'=>['/intranet/permisos/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Administrar permisos'];
 ?>
 <div class="row">
 <div class="col-md-4">

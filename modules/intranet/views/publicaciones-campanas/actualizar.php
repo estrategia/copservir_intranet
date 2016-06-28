@@ -5,10 +5,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\intranet\models\PublicacionesCampanas */
 
-$this->title = 'Actualiza una Campaña Publicitaria';
-//$this->params['breadcrumbs'][] = ['label' => 'Publicaciones Campanas', 'url' => ['index']];
-//$this->params['breadcrumbs'][] = ['label' => $model->idImagenCampana, 'url' => ['view', 'id' => $model->idImagenCampana]];
-//$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Actualizar publicidad';
+$this->params['breadcrumbs'][] = ['label' => 'Publicidad', 'url'=>['/intranet/publicaciones-campanas/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Actualizar publicidad'];
 ?>
 <div class="publicaciones-campanas-update">
 

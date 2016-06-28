@@ -10,38 +10,17 @@ use yii\grid\GridView;
 use yii\widgets\Breadcrumbs;
 
 $this->title = Yii::t('app', 'Modulos Contenidos');
-// $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Intranet'), 'url' => [Yii::$app->session['layoutConfiguracion'].'/index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Módulos Administrativos')];
 ?>
-
-<?=
-Breadcrumbs::widget([
-    'itemTemplate' => "<li>{link}</li>\n",
-    'homeLink' => [
-        'label' => 'Inicio',
-        'url' => ['/intranet/'],
-    ],
-    'links' => [
-        [
-            'label' => 'Modulos Administrativos'
-        ]
-    ],
-]);
-?>
-<div class="space-1"></div>
 
 <div class="">
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Crear Modulo'), ['crear'], ['class' => 'btn btn-primary']) ?>
-    </p>
-
+    <?= Html::a(Yii::t('app', 'Crear Modulo'), ['crear'], ['class' => 'btn btn-primary']) ?>
+    <div class="space-1"></div>
     <?=
     GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            'titulo',
             [
                 'attribute' => 'tipo',
                 'format' => 'text',
@@ -51,7 +30,17 @@ Breadcrumbs::widget([
                 },
                 'filter' => Html::dropDownList("ModuloContenido[tipo]", null, Yii::$app->params['modulosContenido'], ['class' => 'form-control', 'prompt' => 'Seleccione'])
             ],
+            'titulo',
             'descripcion',
+            //'fechaRegistro',
+            [
+                'label' => 'URL',
+                'format' => 'text',
+                'filter' => false,
+                'content' => function($data){
+                    return Yii::$app->params['rutaGruposModulos'].$data->idModulo;
+                }
+            ],
             [
                 'attribute' => 'contenido',
                 'label' => 'Contenido',

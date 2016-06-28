@@ -30,11 +30,13 @@ class CategoriaDocumento extends \yii\db\ActiveRecord
   public function rules()
   {
     return [
-      [['idCategoriaPadre', 'estado'], 'integer'],
-      [['nombre', 'fechaCreacion'], 'required'],
+      [['idCategoriaPadre', 'estado', 'orden'], 'integer'],
+      [['nombre', 'fechaCreacion', 'orden'], 'required'],
       [['fechaCreacion'], 'safe'],
+
       [['nombre'], 'string', 'max' => 100],
-      [['idCategoriaPadre'], 'exist', 'skipOnError' => true, 'targetClass' => CategoriaDocumento::className(), 'targetAttribute' => ['idCategoriaPadre' => 'idCategoriaDocumento']],
+      [['idCategoriaPadre'], 'exist', 'skipOnError' => true, 'targetClass' => CategoriaDocumento::className(),
+        'targetAttribute' => ['idCategoriaPadre' => 'idCategoriaDocumento']],
     ];
   }
 
@@ -46,6 +48,7 @@ class CategoriaDocumento extends \yii\db\ActiveRecord
       'nombre' => 'Nombre',
       'estado' => 'Estado',
       'fechaCreacion' => 'Fecha Creacion',
+      'orden' => 'Orden'
     ];
   }
 
@@ -76,7 +79,8 @@ class CategoriaDocumento extends \yii\db\ActiveRecord
   */
   public static function getPadres()
   {
-    return self::find()->where('idCategoriaPadre is null')->andWhere(['=', 'estado', 1])->with(['categoriaDocumentosDetalle'])->all();
+    return self::find()->where('idCategoriaPadre is null')->andWhere(['=', 'estado', self::ESTADO_ACTIVO])
+      ->with(['categoriaDocumentosDetalle'])->orderBy('orden')->all();
   }
 
   /**
@@ -87,7 +91,8 @@ class CategoriaDocumento extends \yii\db\ActiveRecord
   {
     $query = self::find()
     ->where("( idCategoriaPadre =:idCategoria and estado=:estado )")
-    ->addParams([':idCategoria'=> $idCategoriaDocumento, ':estado'=> self::ESTADO_ACTIVO])->with(['categoriaDocumentosDetalle'])->all();
+    ->addParams([':idCategoria'=> $idCategoriaDocumento, ':estado'=> self::ESTADO_ACTIVO])->with(['categoriaDocumentosDetalle'])
+    ->orderBy('orden')->all();
 
     return $query;
   }

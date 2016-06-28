@@ -3,7 +3,9 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 
-$this->title = 'Actualiza una publicacion de un portal';
+$this->title = 'Actualizar noticia de portal';
+$this->params['breadcrumbs'][] = ['label' => 'Noticias de portales', 'url' => ['/intranet/sitio/publicar-portales']];
+$this->params['breadcrumbs'][] = ['label' => 'Actualizar noticia'];
 ?>
 
 <div class="col-md-12">

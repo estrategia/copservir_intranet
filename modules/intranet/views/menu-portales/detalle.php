@@ -8,8 +8,8 @@ use app\modules\intranet\models\MenuPortales;
 /* @var $model app\modules\intranet\models\MenuPortales */
 
 $this->title = "Detalle menu portal";
-//$this->params['breadcrumbs'][] = ['label' => 'Menu Portales', 'url' => ['index']];
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => 'Menú portales', 'url' => ['/intranet/menu-portales/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Ver menú'];
 ?>
 <div class="menu-portales-view">
 

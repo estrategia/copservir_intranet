@@ -7,6 +7,7 @@ use yii\db\Expression;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use app\modules\intranet\models\Portal;
+use app\models\Usuario;
 
 /**
  * This is the model class for table "t_EventosCalendario".

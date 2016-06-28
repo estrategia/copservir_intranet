@@ -6,7 +6,8 @@ use yii\helpers\Html;
 /* @var $model app\modules\intranet\models\OfertasLaborales */
 
 $this->title = 'Actualizar Ofertas Laborales: ';
-$this->params['breadcrumbs'][] = ['label' => 'Ofertas Laborales', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Ofertas laborales', 'url' => ['admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Actualizar oferta laboral'];
 ?>
 <div class="ofertas-laborales-update">
 

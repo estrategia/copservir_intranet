@@ -177,11 +177,7 @@ if (!Yii::$app->user->isGuest) {
                         <!-- MENU PORTALES -->
                         <?php foreach (MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id) as $itemMenu): ?>
                             <li>
-                                <?php if ($itemMenu->esExterno()): ?>
-                                    <?= "<a href='$itemMenu->urlMenu' target='_blank'> <i class='$itemMenu->icono'></i> <span class='title'>$itemMenu->nombre</span> <span class='selected'></span> </a>" ?>
-                                <?php else: ?>
-                                    <?= Html::a('<i class="' . $itemMenu->icono . '"></i> <span class="title">' . $itemMenu->nombre . '</span> <span class="selected"></span>', $itemMenu->getUrl(Yii::$app->controller->module->id), []) ?>
-                                <?php endif; ?>
+                                <?= $itemMenu->getHtmlLink(Yii::$app->controller->module->id) ?>
                             </li>
                         <?php endforeach; ?>
 
@@ -213,6 +209,19 @@ if (!Yii::$app->user->isGuest) {
                 <div class="content ">
                     <div class="page-title"></div>
                     <div id="container" class="">
+                        <?php if(isset($this->params['breadcrumbs']) && !empty($this->params['breadcrumbs'])): ?>
+                            <?= 
+                            Breadcrumbs::widget([
+                                'itemTemplate' => "<li>{link}</li>\n",
+                                'homeLink' => [
+                                    'label' => 'Inicio',
+                                    'url' => ['/intranet/'],
+                                ],
+                                'links' => $this->params['breadcrumbs'],
+                            ]);
+                            ?>
+                            <div class="space-1"></div>
+                        <?php endif;?>
                     <?= $content ?>
                     </div><!-- END PAGE -->
                 </div>

@@ -6,7 +6,8 @@ use yii\helpers\Html;
 /* @var $model app\modules\intranet\models\MenuPortales */
 
 $this->title = 'Actualiza un menu de un portal: ';
-
+$this->params['breadcrumbs'][] = ['label' => 'Menú portales', 'url' => ['/intranet/menu-portales/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Actualizar menú'];
 ?>
 <div class="menu-portales-update">
 

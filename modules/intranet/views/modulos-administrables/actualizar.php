@@ -6,25 +6,11 @@ use app\modules\intranet\models\ModuloContenido;
 /* @var $this yii\web\View */
 /* @var $model app\models\TipoPQRS */
 
-$this->title = Yii::t('app', 'Actualizar  ', [
-        ]);
+$this->title = Yii::t('app', 'Actualizar  ', []);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Módulos Administrativos'),'url' => ['admin']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Editar')];
 ?>
-<?=
-Breadcrumbs::widget([
-    'itemTemplate' => "<li>{link}</li>\n",
-    'homeLink' => [
-        'label' => 'Inicio',
-        'url' => ['/intranet/'],
-    ],
-    'links' => [
-        [
-            'label' => 'Modulos Administrativos',
-            'url' => ['admin'],
-        ],
-        'Editar',
-    ],
-]);?>
-<br/>
+
 <?= $this->render('/common/errores', []) ?>
 
 <div class="box-content row" id='botones-modulos'>

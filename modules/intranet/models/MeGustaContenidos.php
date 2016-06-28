@@ -3,7 +3,7 @@
 namespace app\modules\intranet\models;
 
 use Yii;
-
+use app\models\Usuario;
 /**
 * This is the model class for table "t_MeGustaContenidos".
 *

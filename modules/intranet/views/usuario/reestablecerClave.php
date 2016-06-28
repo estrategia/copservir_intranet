@@ -30,21 +30,17 @@ $this->title = 'Restablecer contraseña';
 
       <?= $form->field($model, 'password', [
         'inputOptions' => [
-          'placeholder' => $model->getAttributeLabel('password'),
+          'placeholder' => 'Nueva Contraseña',
         ],
         ])->label(false)->input('password'); ?>
 
         <?= $form->field($model, 'password2', [
           'inputOptions' => [
-            'placeholder' => $model->getAttributeLabel('Confirmar contraseña'),
+            'placeholder' => $model->getAttributeLabel('Confirmar Contraseña'),
           ],
           ])->label(false)->input('password'); ?>
 
-          <?= $form->field($model, 'captcha', [
-            'inputOptions' => [
-              'placeholder' => $model->getAttributeLabel('Ingresa el codigo'),
-            ],
-            ])->label('ingresa el codigo')->widget(Captcha::className()); ?>
+          <?= $form->field($model, 'captcha')->widget(Captcha::className(), ['captchaAction'=>'usuario/captcha'])->label("Ingresa el codigo") ?>
 
 
 

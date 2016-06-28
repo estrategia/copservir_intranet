@@ -7,7 +7,8 @@ use yii\helpers\Html;
 /* @var $model app\modules\intranet\models\MenuPortales */
 
 $this->title = 'Crea un menu en un portal';
-
+$this->params['breadcrumbs'][] = ['label' => 'Menú portales', 'url' => ['/intranet/menu-portales/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Crear menú'];
 ?>
 <div class="menu-portales-create">
 
