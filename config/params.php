@@ -52,5 +52,6 @@ return [
         'codigoSeguridad' => 'CopservirLaMejorEmpresaParaTrabajar2016',
         'tarjetaMas' => 'http://siidesarrollo.copservir.com/tarjetamas/WsTarjetaMas/ws',
         'persona' => 'http://localhost/copservir/wsMultiportal/persona',
+        //persona' => 'http://sii.copservir.com/gestionhumana/wsMultiportal/persona',
     ]
 ];

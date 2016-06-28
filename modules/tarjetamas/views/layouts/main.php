@@ -39,7 +39,6 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/tarjetamas/logo-tarjeta-mas.png
           </div>
           <div id="navbar" class="navbar-collapse collapse tarjeta-mas">
             <ul class="nav navbar-nav">
-              <li class="active"> <?= Html::a('Inicio', ['/tarjetamas/sitio/index']) ?></li>
               <li class="active"> <?= Html::a('Tarjeta M&aacute;s', ['/tarjetamas/sitio/informacion']) ?>
                   <ul class="submenu sub-tarjetamas">
                       <li class="active"><?= Html::a('Términos y condiciones', ['/tarjetamas/sitio/terminos']) ?></li>

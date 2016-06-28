@@ -39,7 +39,6 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.pn
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"> <?= Html::a('Inicio', ['/proveedores/index']) ?></li>
               <li class="active"> <?= Html::a('Calendario', ['/proveedores/calendario']) ?></li>
               <?php foreach (MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id) as $itemMenu): ?>
                 <li>
