@@ -46,5 +46,6 @@ return [
     ],
     'webServices' => [
         'persona' => 'http://localhost/copservir/wsMultiportal/persona',
+        //persona' => 'http://sii.copservir.com/gestionhumana/wsMultiportal/persona',
     ]
 ];

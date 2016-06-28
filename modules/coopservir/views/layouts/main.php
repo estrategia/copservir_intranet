@@ -43,7 +43,6 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-                <li class="active"> <?= Html::a('Inicio', ['index']) ?></li>
                 <li><?= Html::a('Acerca de', ['acerca-de']) ?></li>
                 <li><?= Html::a('Contacto', ['contacto']) ?></li>
                 

@@ -39,8 +39,6 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/convenios/logo-convenios-empres
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-                <li class="active"> <?= Html::a('Inicio', ['convenios-empresariales']) ?></li>
-
                 <?php foreach (MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id) as $itemMenu): ?>
                   <li>
                     <?= $itemMenu->getHtmlLink(Yii::$app->controller->module->id) ?>
