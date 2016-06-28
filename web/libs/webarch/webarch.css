@@ -10131,6 +10131,11 @@ input[type=radio   ]:not(old){
   opacity   : 0;
 }
 
+#redactor-modal  #redactor-modal-body input[type="checkbox"]:not(old), input[type="radio"]:not(old) {
+    opacity: 1;
+    width: 1em;
+}
+
 input[type=checkbox]:not(old) + label,
 input[type=radio   ]:not(old) + label{
   display      : inline-block;

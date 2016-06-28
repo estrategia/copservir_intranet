@@ -10,32 +10,12 @@ use yii\grid\GridView;
 use yii\widgets\Breadcrumbs;
 
 $this->title = Yii::t('app', 'Modulos Contenidos');
-// $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Intranet'), 'url' => [Yii::$app->session['layoutConfiguracion'].'/index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Módulos Administrativos')];
 ?>
-
-<?=
-Breadcrumbs::widget([
-    'itemTemplate' => "<li>{link}</li>\n",
-    'homeLink' => [
-        'label' => 'Inicio',
-        'url' => ['/intranet/'],
-    ],
-    'links' => [
-        [
-            'label' => 'Modulos Administrativos'
-        ]
-    ],
-]);
-?>
-<div class="space-1"></div>
 
 <div class="">
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Crear Modulo'), ['crear'], ['class' => 'btn btn-primary']) ?>
-    </p>
-
+    <?= Html::a(Yii::t('app', 'Crear Modulo'), ['crear'], ['class' => 'btn btn-primary']) ?>
+    <div class="space-1"></div>
     <?=
     GridView::widget([
         'dataProvider' => $dataProvider,

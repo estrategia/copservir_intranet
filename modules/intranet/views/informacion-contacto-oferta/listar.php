@@ -9,7 +9,7 @@ use app\modules\intranet\models\InformacionContactoOferta;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Plantillas';
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => 'Plantilla ofertas laborales'];
 ?>
 <div class="informacion-contacto-oferta-index">
 

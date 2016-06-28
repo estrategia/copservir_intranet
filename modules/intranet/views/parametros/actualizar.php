@@ -6,7 +6,8 @@ use yii\helpers\Html;
 /* @var $model app\modules\intranet\models\Parametros */
 
 $this->title = 'Actualiza el parametro: ' . $model->idParametro;
-
+$this->params['breadcrumbs'][] = ['label' => 'Parametros de aplicación', 'url'=>['/intranet/parametros/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Actualizar parámetro'];
 ?>
 <div class="parametros-update">
 

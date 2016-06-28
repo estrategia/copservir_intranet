@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use app\modules\intranet\models\MenuPortales;
 
 $this->title = 'Menu Portales';
+$this->params['breadcrumbs'][] = ['label' => 'Menú portales'];
 ?>
 <div class="menu-portales-index">
 

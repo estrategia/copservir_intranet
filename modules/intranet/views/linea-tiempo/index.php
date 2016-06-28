@@ -9,7 +9,7 @@ use app\modules\intranet\models\LineaTiempo;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Lineas de Tiempo';
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => 'Líneas de tiempo'];
 ?>
 <div class="linea-tiempo-index">
 

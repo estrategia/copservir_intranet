@@ -5,7 +5,8 @@ use yii\grid\GridView;
 use \yii\widgets\LinkPager;
 use yii\widgets\Pjax;
 
-$this->title = 'Contenidos pendientes de aprobar';
+$this->title = 'Contenidos por aprobar';
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contenidos por aprobar')];
 ?>
 <div class="col-md-12">
 

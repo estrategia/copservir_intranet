@@ -7,8 +7,8 @@ use yii\helpers\Html;
 /* @var $model app\modules\intranet\models\InformacionContactoOferta */
 
 $this->title = 'Crear una plantilla';
-//$this->params['breadcrumbs'][] = ['label' => 'Informacion Contacto Ofertas', 'url' => ['index']];
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => 'Plantilla ofertas laborales', 'url' => ['/intranet/informacion-contacto-oferta/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Crear plantilla'];
 ?>
 <div class="informacion-contacto-oferta-create">
 

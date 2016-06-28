@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use app\modules\intranet\models\Indicadores;
 
 $this->title = 'Indicadores';
+$this->params['breadcrumbs'][] = ['label' => 'Administrar indicadores'];
 ?>
 <div class="indicadores-index">
 

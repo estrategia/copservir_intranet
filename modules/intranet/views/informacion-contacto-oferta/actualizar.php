@@ -6,9 +6,8 @@ use yii\helpers\Html;
 /* @var $model app\modules\intranet\models\InformacionContactoOferta */
 
 $this->title = 'Actualiza la plantilla ';
-//$this->params['breadcrumbs'][] = ['label' => 'Informacion Contacto Ofertas', 'url' => ['index']];
-//$this->params['breadcrumbs'][] = ['label' => $model->idInformacionContacto, 'url' => ['view', 'id' => $model->idInformacionContacto]];
-//$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = ['label' => 'Plantilla ofertas laborales', 'url' => ['/intranet/informacion-contacto-oferta/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Actualizar plantilla'];
 ?>
 <div class="informacion-contacto-oferta-update">
 

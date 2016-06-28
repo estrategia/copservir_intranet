@@ -9,7 +9,7 @@ use app\modules\intranet\models\GrupoInteres;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Grupos de interes';
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => 'Grupos de interés'];
 ?>
 <div class="grupo-interes-index">
 

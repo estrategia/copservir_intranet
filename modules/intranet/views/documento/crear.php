@@ -7,8 +7,8 @@ use yii\helpers\Html;
 /* @var $model app\modules\intranet\models\Documento */
 
 $this->title = 'Crea un Documento';
-//$this->params['breadcrumbs'][] = ['label' => 'Documentos', 'url' => ['index']];
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => 'Documentos organizacionales', 'url' => ['/intranet/documento/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Crear documento'];
 ?>
 <div class="documento-create">
 

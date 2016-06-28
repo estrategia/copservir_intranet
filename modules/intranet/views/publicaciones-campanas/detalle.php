@@ -7,9 +7,9 @@ use app\modules\intranet\models\PublicacionesCampanas;
 /* @var $this yii\web\View */
 /* @var $model app\modules\intranet\models\PublicacionesCampanas */
 
-$this->title = 'Detalle campaña';
-//$this->params['breadcrumbs'][] = ['label' => 'Publicaciones Campanas', 'url' => ['index']];
-//$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Ver publicidad';
+$this->params['breadcrumbs'][] = ['label' => 'Publicidad', 'url'=>['/intranet/publicaciones-campanas/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Ver publicidad'];
 ?>
 <div class="publicaciones-campanas-view">
 
@@ -20,7 +20,7 @@ $this->title = 'Detalle campaña';
         <?= Html::a('Inactivar', ['eliminar', 'id' => $model->idImagenCampana], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Estas seguro de eliminar esta Campaña?',
+                'confirm' => 'Estas seguro de eliminar esta publicidad?',
                 'method' => 'post',
             ],
         ]) ?>

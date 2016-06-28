@@ -7,8 +7,8 @@ use yii\helpers\Html;
 /* @var $model app\modules\intranet\models\GrupoInteres */
 
 $this->title = 'Crea un grupo de interes';
-//$this->params['breadcrumbs'][] = ['label' => 'Grupo Interes', 'url' => ['index']];
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => 'Grupos de interés', 'url' => ['/intranet/grupo-interes/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Crear grupo'];
 ?>
 <div class="col-md-12">
   <div class="grupo-interes-create">
