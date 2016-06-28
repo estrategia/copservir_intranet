@@ -32,7 +32,7 @@ $this->title = 'Intranet - Copservir';
        </ul>
 
     </div>
-    <div class="spacing-bottom"></div>
+    <!--<div class="spacing-bottom"></div>-->
     <div class="grid-body no-border">
 
         <div class="tab-content">

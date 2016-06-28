@@ -26,6 +26,8 @@ use yii\helpers\Url;
         <?php $model->idCategoriaPadre = $model->isNewRecord ? $categoriaPadre : $model->idCategoriaPadre;  ?>
         <?= $form->field($model, 'idCategoriaPadre')->hiddenInput(['value'=> $model->idCategoriaPadre])->label(false); ?>
 
+        <?= $form->field($model, 'orden')->textInput(['type' => 'number']) ?>
+
         <?php $model->estado = $model->isNewRecord ? 1 : $model->estado;  ?>
         <?= $form->field($model, 'estado')->dropDownList(['0' => 'Inactivo', '1' => 'Activo']); ?>
 
