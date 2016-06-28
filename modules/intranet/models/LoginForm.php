@@ -5,7 +5,7 @@ namespace app\modules\intranet\models;
 use Yii;
 use yii\base\Model;
 //use models\User;
-
+use app\models\Usuario;
 /**
 * LoginForm is the model behind the login form.
 */
@@ -113,55 +113,35 @@ class LoginForm extends Model {
     }
   }
 
+  /**
+  * Valida si un usuario existe o no tanto en la BD como a traves del WS
+  * @param $attribute,  $params
+  */
   public function validateUser($attribute, $params)
   {
     $user = $this->getUser();
+
     if (!$user) {
-      $this->_user = new Usuario;
-      $this->_user->numeroDocumento = $this->username;
-      $this->_user->alias = $this->username;
-      $this->_user->estado = 1;
+      $this->asignarDatosNuevoUsuario();
     }
 
     $generoDatos = $this->_user->generarDatos();
+
     if (!$generoDatos) {
       $this->addError($attribute, 'El usuario no existe');
     }else{
+
       if ($this->_user->isNewRecord) {
-        $nombres = $this->_user->getNombres();
-        $primerApellido =  $this->_user->getPrimerApellido();
-        $segundoApellido2 =  $this->_user->getSegundoApellido();
-
-        $alias = '';
-        $nombres = explode(" ", $nombres);
-
-        foreach($nombres as $n){
-          $alias .= $n[0];
-        }
-
-        $alias .= $primerApellido;
-        if(!empty($segundoApellido)){
-         $alias .= $segundoApellido[0];
-        }
-        $this->_user->alias = $alias;
+          $this->asignarAliasUsuario();
           $this->_user->save();
+      }else{
+        if ($user->codigoPerfil != \Yii::$app->params['PerfilesUsuario']['intranet']['codigo']) {
+          $this->addError($attribute, 'El usuario no tiene permiso para iniciar sesion');
+        }
       }
 
     }
 
-  }
-
-  /**
-  * Logs in a user using the provided username and password.
-  * @return boolean whether the user is logged in successfully
-  */
-  public function login() {
-
-    if ($this->validate()) {
-      return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
-    } else {
-      return false;
-    }
   }
 
   /**
@@ -177,4 +157,52 @@ class LoginForm extends Model {
     return $this->_user;
   }
 
+  /**
+  * Crea un nuevo ususario si no hay uno en la BD
+  */
+  private function asignarDatosNuevoUsuario()
+  {
+    $this->_user = new Usuario;
+    $this->_user->numeroDocumento = $this->username;
+    $this->_user->alias = $this->username;
+    $this->_user->estado = Usuario::ESTADO_ACTIVO;
+    $this->_user->codigoPerfil = self::CODIGO_PERFIL_INTRANET;
+  }
+
+  /*
+  * Asigna un alias al usuario si el usuario no se encuentra en BD pero genero datos
+  * a traves del WS
+  */
+  private function asignarAliasUsuario()
+  {
+    $nombres = $this->_user->getNombres();
+    $primerApellido =  $this->_user->getPrimerApellido();
+    $segundoApellido2 =  $this->_user->getSegundoApellido();
+
+    $alias = '';
+    $nombres = explode(" ", $nombres);
+
+    foreach($nombres as $n){
+      $alias .= $n[0];
+    }
+
+    $alias .= $primerApellido;
+    if(!empty($segundoApellido)){
+     $alias .= $segundoApellido[0];
+    }
+    $this->_user->alias = $alias;
+  }
+
+  /**
+  * Logs in a user using the provided username and password.
+  * @return boolean whether the user is logged in successfully
+  */
+  public function login() {
+
+    if ($this->validate()) {
+      return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+    } else {
+      return false;
+    }
+  }
 }

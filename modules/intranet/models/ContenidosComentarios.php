@@ -4,6 +4,7 @@ namespace app\modules\intranet\models;
 
 use Yii;
 use yii\data\ActiveDataProvider;
+use app\models\Usuario;
 
 /**
 * This is the model class for table "t_contenidoscomentarios".

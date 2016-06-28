@@ -8,7 +8,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use app\modules\intranet\models\LoginForm;
 use app\modules\intranet\models\PersonaForm;
-use app\modules\intranet\models\Usuario;
+use app\models\Usuario;//use app\modules\intranet\models\Usuario;
 use app\modules\intranet\models\ConexionesUsuarios;
 use app\modules\intranet\models\RecuperacionClave;
 use app\modules\intranet\models\FotoForm;

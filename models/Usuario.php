@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\intranet\models;
+namespace app\models;
 
 use Yii;
 use yii\web\IdentityInterface;
@@ -8,7 +8,8 @@ use yii\base\NotSupportedException;
 use yii\base\Event;
 use yii\web\ForbiddenHttpException;
 use yii\data\ActiveDataProvider;
-
+use app\modules\intranet\models\GrupoInteresCargo;
+use app\modules\intranet\models\UsuarioWidgetInactivo;
 /**
  * This is the model class for table "m_usuario".
  *
@@ -19,6 +20,8 @@ use yii\data\ActiveDataProvider;
  * @property string $llaveAutenticacion
  */
 class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
+
+    const ESTADO_ACTIVO = 1;
 
     private $data = [
         'sesionRestaurada' => false,
@@ -165,9 +168,10 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
 
     public function rules() {
         return [
-            [['numeroDocumento', 'estado'], 'required'],
-            [['numeroDocumento', 'estado'], 'integer'],
+            [['numeroDocumento', 'estado', 'codigoPerfil'], 'required'],
+            [['numeroDocumento', 'estado', 'codigoPerfil'], 'integer'],
             [['alias'], 'string', 'max' => 60],
+            [['contrasena'], 'string', 'max' => 32],
             [['numeroDocumento'], 'unique'],
             [['llaveAutenticacion'], 'safe'],
         ];
@@ -435,7 +439,14 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
     }
 
     public function tienePermiso($nombrePermiso) {
-        \Yii::$app->authManager->defaultRoles = ['intranet_usuario'];
+
+        if ($this->codigoPerfil == \Yii::$app->params['PerfilesUsuario']['intranet']['codigo']) {
+            \Yii::$app->authManager->defaultRoles = [\Yii::$app->params['PerfilesUsuario']['intranet']['permiso']];
+        }elseif ($this->codigoPerfil == \Yii::$app->params['PerfilesUsuario']['tarjetaMas']['codigo']) {
+          \Yii::$app->authManager->defaultRoles = [\Yii::$app->params['PerfilesUsuario']['tarjetaMas']['permiso']];
+        }
+
+
         return Yii::$app->authManager->checkAccess($this->numeroDocumento, $nombrePermiso);
     }
 

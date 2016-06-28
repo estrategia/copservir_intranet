@@ -3,7 +3,7 @@
 namespace app\modules\intranet\models;
 
 use Yii;
-
+use app\models\Usuario;
 /**
  * This is the model class for table "t_cumpleanospersona".
  *
@@ -69,7 +69,7 @@ class CumpleanosPersona extends \yii\db\ActiveRecord {
                         ->addParams([':fecha' => $fecha->format('Y-m-d H:i:s'), ':codigoCiudad' => $userCiudad, ':todosCiudad' => $todosCiudad, ':todosGrupo' => $todosGrupo])
                         ->orderBy('t_CumpleanosPersona.fecha asc')
                         ->all();
-                        
+
         return $query;
 
     }
