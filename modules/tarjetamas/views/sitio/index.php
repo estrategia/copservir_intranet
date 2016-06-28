@@ -25,30 +25,24 @@ $srctarjetamas = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
 
               </div>
           </div>
-         <!-- <a class="left carousel-control" href="#slide-tarjetamas" role="button" data-slide="prev">
-              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-          </a>
-          <a class="right carousel-control" href="#slide-tarjetamas" role="button" data-slide="next">
-             <i class="fa fa-chevron-right" aria-hidden="true"></i>
-              <span class="sr-only">Next</span>
-          </a>-->
       </div>
 
 <div class="container internal">
   <section>  <!-- acerca de home -->
     <div class="acerca-home">
       <div class="space-1"></div>
-      <h1 class="text-center">
-          Ahora con la Tarjeta más tendrás la oportunidad de realizar tus compras con descuento en el momento en que lo necesites en la Rebaja Droguerías y Minimarkets.
-      </h1>
-      <h2 class="text-center" style="font-weight: bold;"><?= Html::a('Descubre cómo', ['/tarjetamas/sitio/informacion']) ?></h2>      
+      <div class="postIn">
+        <h1 class="text-center">
+            Ahora con la Tarjeta más tendrás la oportunidad de realizar tus compras con descuento en el momento en que lo necesites en la Rebaja Droguerías y Minimarkets.
+        </h1>
+        <h2 class="text-center" style="font-weight: bold;"><?= Html::a('Descubre cómo', ['/tarjetamas/sitio/informacion']) ?></h2> 
+      </div>
       <div class="space-2"></div>
     </div>
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="white-item">
+        <div class="postLeft white-item">
             <div class="default-icon big-icon company-bgcolor-1">
                 <i class="fa fa-credit-card" aria-hidden="true"></i>
             </div>          
@@ -56,7 +50,7 @@ $srctarjetamas = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
         </div>
       </div>
       <div class="col-sm-4">
-        <div class="white-item">
+        <div class="postIn white-item">
             <div class="default-icon big-icon company-bgcolor-1">
                 <i class="fa fa-question" aria-hidden="true"></i>
             </div>
@@ -64,7 +58,7 @@ $srctarjetamas = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
         </div>
       </div>
       <div class="col-sm-4">
-        <div class="white-item">
+        <div class="postRight white-item">
             <div class="default-icon big-icon company-bgcolor-1">
                 <i class="fa fa-users" aria-hidden="true"></i>
             </div>
@@ -77,3 +71,9 @@ $srctarjetamas = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
 </div>
 
 <div class="space-2"></div>
+<?php
+ $this->registerJs("jQuery('.postIn').viewportChecker({classToAdd: 'visible animated bounceIn', offset: 100});", \yii\web\View::POS_END);
+ $this->registerJs("jQuery('.postLeft').viewportChecker({classToAdd: 'visible animated bounceInLeft', offset: 100});", \yii\web\View::POS_END);
+  $this->registerJs("jQuery('.postRight').viewportChecker({classToAdd: 'visible animated bounceInRight', offset: 100});", \yii\web\View::POS_END);
+?>    
+

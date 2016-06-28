@@ -262,21 +262,22 @@ ul.list{ list-style-image: url("../../web/img/multiportal/tarjetamas/check.png")
 
 .redes {
   list-style: none;
-  margin: auto;
-  margin-top: 60px;
-  text-align: center;
+  margin-top: 20px;
+ padding: 0px !important;
 }
 .redes li {
   list-style: none;
-  margin: auto;
   display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 1px solid;
+    border-radius: 50%;
+    font-size: 23px;
+    margin-right:8px;
 }
-.redes li:first-child {
-  margin: 0 10px;
-}
-.redes li:last-child {
-  margin: 0 10px;
-}
+.redes .facebook .fa {padding:13px 17px;}
+.redes .twitter .fa {padding: 13px 14px;}
+.redes .youtube .fa {padding: 13px 13px;}
 /* END CUSTOM HOME */
 
 /* CUSTOM INTERNAL */
@@ -650,4 +651,11 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
     -ms-transform: rotate(15deg);
     transform: rotate(15deg);
     transition: all .4s;
+}
+
+.hidden{
+     opacity:0;
+}
+.visible{
+     opacity:1;
 }

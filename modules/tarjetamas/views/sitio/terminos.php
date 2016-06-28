@@ -19,7 +19,7 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
     <div class="">
       <div class="space-1"></div>
       
-             <ul class="text-justify">
+             <ul class="postIn text-justify">
                  <li>La tarjeta más es de venta exclusiva a partir del 1 de julio de 2016 en los puntos de venta LA REBAJA DROGUERIAS Y MINIMARKET. Su venta no está disponible para los canales telefónico y virtual. Disponibles 30.000 unidades.</li>
                  <li>Podrán acceder a la compra de esta tarjeta personas naturales mayores de edad que realicen compras para su consumo propio o el de sus familiares, no podrán acceder a la compra empresas de ningún sector, ni tampoco trabajadores de Copservir Ltda.</li>
                  <li>El comprador de la tarjeta más, deberá entregar sus datos personales validos aceptando la política de privacidad y protección de datos en el momento que efectúa la compra de su tarjeta más. Ver <?= Html::a('Política de Privacidad y Protección de Datos.', ['/tarjetamas/sitio/politicas']) ?> </li>  
@@ -42,4 +42,6 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
 
 <div class="space-2"></div>
 
-  
+  <?php
+ $this->registerJs("jQuery('.postIn').viewportChecker({classToAdd: 'visible animated fadeInLeft', offset: 100});", \yii\web\View::POS_END);
+?>   

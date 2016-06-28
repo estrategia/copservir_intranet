@@ -75,47 +75,40 @@ $menuPortales = MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->modu
       <div class="footer-top company-bgcolor-1">
         <div class="container marketing">
           <div class="row">
+            <div class="col-sm-4">
+              <div><img src=<?= "" . $srcLogo ?> alt=""></div>              
+              <p>Tarjeta más un producto exclusivo de Copservir, que comercializa la bajo la marca comercial La Rebaja Droguerías y Minimarkets. </p>
+            </div>
+            <div class="col-sm-5">
+              <h3>Menú</h3>
+              <div class="col-md-6">
+                <ul>
+                  <li><?= Html::a('Inicio', ['/tarjetamas/sitio/index']) ?></li>
+                  <li><?= Html::a('Tarjeta m&aacute;s', ['/tarjetamas/sitio/informacion']) ?></li>
+                  <li><?= Html::a('Terminos y condiciones', ['/tarjetamas/sitio/terminos']) ?></li> 
+                  <li><?= Html::a('Políticas de privacidad', ['/tarjetamas/sitio/politicas']) ?></li>                   
+                </ul>   
+              </div>
+              <div class="col-md-6">
+                <ul>
+                  <li><?= Html::a('Mi cuenta', "#") ?></li>
+                  <li><?= Html::a('Preguntas frecuentes', ['/tarjetamas/sitio/preguntas']) ?></li>
+                  <li><?= Html::a('Atenci&oacute;n al cliente', "#") ?></li>
+                </ul>  
+              </div>
+            </div>
             <div class="col-sm-3">
-              <div class="space-1"></div>
-              <p>Ahora con la Tarjeta más tendrás la oportunidad de realizar tus compras con descuento en el momento en que lo necesites en la Rebaja Droguerías y Minimarkets. </p>
+              <h3>Contácto</h3>
               <ul>
                 <li>contacto@copservir.co</li>
                 <li>(57) 1234567123</li>
                 <li>Dirección</li>
               </ul>
-            </div>
-            <div class="col-sm-3">
-              <h3>Menú</h3>
-              <ul>
-                <li><?= Html::a('Inicio', ['/tarjetamas/sitio/index']) ?></li>
-                <li><?= Html::a('Tarjeta m&aacute;s', ['/tarjetamas/sitio/informacion']) ?></li>
-                <li><?= Html::a('Terminos y condiciones', ['/tarjetamas/sitio/terminos']) ?></li> 
-                <li><?= Html::a('Políticas de privacidad', ['/tarjetamas/sitio/politicas']) ?></li> 
-                <li><?= Html::a('Mi cuenta', "#") ?></li>
-                <li><?= Html::a('Preguntas frecuentes', ['/tarjetamas/sitio/preguntas']) ?></li>
-                <li><?= Html::a('Atenci&oacute;n al cliente', "#") ?></li>
+              <ul class="redes">
+                <a href="https://www.facebook.com/copservir.ltda" target="_BLANK"><li class="facebook"><i class="fa fa-facebook"></i></li></a>
+                <a href="https://twitter.com/copservir" target="_BLANK"><li class="twitter"><i class="fa fa-twitter"></i></li></a>
+                <a href="https://www.youtube.com/CopservirLtda" target="_BLANK"><li class="youtube"><i class="fa fa-youtube"></i></li></a>
               </ul>
-            </div>
-            <div class="col-sm-3">
-              <h3>Suscríbete</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare commodo sagittis. Lorem ipsum dolor sit amet, consectetur.</p>
-              <form action="#" class="subscribe">
-                <div class="form-group">
-                  <div class="row not-marg">
-                    <div class="col-sm-7 not-pad">
-                      <input placeholder="Correo" id="correo" type="text">
-                    </div>
-                    <div class="col-sm-5 not-pad">
-                      <button type="submit">Suscríbete</button>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-            <div class="col-sm-3">
-              <div class="logo-bottom">
-                <img src=<?= "" . $srcLogo ?> alt="">
-              </div>
             </div>
           </div>
         </div>
@@ -133,3 +126,6 @@ $menuPortales = MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->modu
   </body>
 </html>
 <?php $this->endPage() ?>
+
+
+
