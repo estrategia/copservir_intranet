@@ -744,8 +744,6 @@ class SitioController extends \app\controllers\CController {
                     }
                 }
 
-                // notificarle al resto de personas que comentaron.
-
                 $otrosUsuarios = ContenidosComentarios::find()->select('numeroDocumento')->where(['and', ['!=', 'numeroDocumento', Yii::$app->user->identity->numeroDocumento], ['!=', 'numeroDocumento', $contenido->numeroDocumentoPublicacion]])
                                 ->andWhere(['idContenido' => $comentario->idContenido])->distinct()->all();
 
@@ -796,14 +794,6 @@ class SitioController extends \app\controllers\CController {
             return $respond;
         }
     }
-
-    /*
-      accion para renderizar la vista calendario
-     */
-
-    /*
-      accion para renderizar la vista organigrama
-     */
 
     public function actionOrganigrama() {
         return $this->render('organigrama', []);
@@ -996,6 +986,10 @@ class SitioController extends \app\controllers\CController {
         if (!$notificacion->save()) {
             throw new Exception("Error no se genero la notificacion:" . yii\helpers\Json::enconde($notificacion->getErrors()), 100);
         }
+    }
+
+    public function actionIconos() {
+        return $this->render('iconos', []);
     }
 
 }

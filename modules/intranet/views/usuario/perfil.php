@@ -56,6 +56,7 @@ use yii\helpers\Html;
             <div class="info-wrapper">
               <div class="post col-md-5">
                 <h5>Informaci&oacute;n General</h5>
+                <p><b>nombre: </b> <?= \Yii::$app->user->identity->getNombres().' '.\Yii::$app->user->identity->getPrimerApellido().' '.\Yii::$app->user->identity->getSegundoApellido() ?></p>
                 <p><b>Profesi&oacute;n: </b> <?= \Yii::$app->user->identity->getProfesion() ?></p>
                 <p><b>Cargo: </b> <?= \Yii::$app->user->identity->getCargoNombre() ?></p>
                 <p><b>&Aacute;rea:</b> <?= \Yii::$app->user->identity->getAreaNombre() ?></p>
