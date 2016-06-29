@@ -11,34 +11,12 @@ $srctarjetamas = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
 <div class="space-1"></div>
 <div class="space-1"></div>
 <div class="space-1"></div>
-<div class="container-fuild">
+<div class="container-fluid">
     <div class="row">
           <img class="img-responsive" src="<?= "" . $srctarjetamas . "/banner-intranet-tarjeta-mas.jpg"?>" alt="Tarjeta más">  
     </div>
 
 </div>
-
-      <!--<div id="slide-tarjetamas" class="carousel slide" data-ride="carousel">
-        
-          <ol class="carousel-indicators">
-              <li data-target="#slide-tarjetamas" data-slide-to="0" class=""></li>
-              <li class="" data-target="#slide-tarjetamas" data-slide-to="1"></li>
-              <li class="active" data-target="#slide-tarjetamas" data-slide-to="2"></li>
-          </ol>
-          <div class="carousel-inner" role="listbox">
-              <div class="item">
-                  <img class="first-slide" src="<?//= "" . $srctarjetamas . "/banner1.jpg"?>" alt="First slide">
-              </div>
-              <div class="item">
-                  <img class="second-slide" src="<?//= "" . $srctarjetamas . "/banner2.jpg"?>" alt="Second slide">
-              </div>
-              <div class="item active">
-                  <img class="third-slide" src="<?//= "" . $srctarjetamas . "/banner3.jpg"?>" alt="Third slide">
-
-              </div>
-          </div>
-      </div>-->
-
 <div class="container internal">
   <section>  <!-- acerca de home -->
     <div class="acerca-home">
@@ -47,34 +25,25 @@ $srctarjetamas = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
         <h1 class="text-center">
             Ahora con la Tarjeta más tendrás la oportunidad de realizar tus compras con descuento en el momento en que lo necesites en la Rebaja Droguerías y Minimarkets.
         </h1>
-        <h2 class="text-center" style="font-weight: bold;"><?= Html::a('Descubre cómo', ['/tarjetamas/sitio/informacion']) ?></h2> 
+        <h2 class="text-center" style="font-weight: bold;"><?= Html::a('Descubre cómo', ['/tarjetamas/sitio/informacion']) ?></h2>
       </div>
       <div class="space-2"></div>
     </div>
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="postLeft white-item">
-            <div class="default-icon big-icon company-bgcolor-1">
-                <i class="fa fa-credit-card" aria-hidden="true"></i>
-            </div>          
-            <h3 style="font-weight: bold;">Activa tu tarjeta</h3>
+        <div class="postLeft white-item">  
+            <?= Html::a('<img class="img-responsive hover-img" src="'.$srctarjetamas.'/activa-tu-tarjeta.png"  alt="Activa tu tarjeta">', ['/tarjetamas/sitio/informacion']) ?>
         </div>
       </div>
       <div class="col-sm-4">
         <div class="postIn white-item">
-            <div class="default-icon big-icon company-bgcolor-1">
-                <i class="fa fa-question" aria-hidden="true"></i>
-            </div>
-          <h3 style="font-weight: bold;" >Preguntas frecuentes</h3>
+            <?= Html::a('<img class="img-responsive hover-img" src="'.$srctarjetamas.'/preguntas-frecuentes.png"  alt="preguntas frecuentes">', ['/tarjetamas/sitio/preguntas']) ?>
         </div>
       </div>
       <div class="col-sm-4">
         <div class="postRight white-item">
-            <div class="default-icon big-icon company-bgcolor-1">
-                <i class="fa fa-users" aria-hidden="true"></i>
-            </div>
-          <h3 style="font-weight: bold;">Atención al cliente (PQRS)</h3>
+            <?= Html::a('<img class="img-responsive hover-img" src="'.$srctarjetamas.'/atencion-al-cliente.png"  alt="atencion-al-cliente">', ['/tarjetamas/sitio/atencion']) ?>
         </div>
       </div>
     </div>

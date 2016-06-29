@@ -13,7 +13,7 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
       </div>
    </div>
 </div>
-<div class="container-fuild">
+<div class="container-fluid">
     <div class="row">
           <img class="img-responsive" src="<?= "" . $srcProveedor . "/banner-intranet-tarjeta-mas.jpg"?>" alt="Tarjeta más">  
     </div>
@@ -26,32 +26,36 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
       <div class="row">
           <div class="col-md-12">
               <blockquote class="postLeft text-justify" style="background-color: rgba(239, 239, 239, 0.28);">
-                <i class="fa fa-caret-right" aria-hidden="true"></i>
-                &nbsp;La Tarjeta más, te otorga descuentos durante un año por las compras que realices en cualquier punto de venta LA  REBAJA DROGUERIAS Y MINIMARKETS para que disfrutes de estos beneficios:  
+                La Tarjeta más, te otorga descuentos durante un año por las compras que realices en cualquier punto de venta LA  REBAJA DROGUERIAS Y MINIMARKETS para que disfrutes de estos beneficios:  
             </blockquote>              
           </div> 
       </div>
       <div class="row">
           <div class="col-md-12">
-              <div class="postIn col-md-3">
-                <ul class="list">
-                  <li><strong>Facilidad</strong> de obtener un descuento cualquier día de la semana </li>
-                </ul> 
+              <div class="postIn col-md-3 col-sm-3 col-xs-6">
+                  <div class="section-red">
+                      <img class="img-responsive" src="<?= "" . $srcProveedor . "/facilidad.png"?>" alt="Facilidad">                 
+                      <p style="text-align: center;">de obtener un descuento cualquier día de la semana </p>
+                  </div>                
               </div>
-              <div class="postIn col-md-3">
-                <ul class="list">
-                  <li><strong>Ahorro</strong> en tus compras cuando más lo necesites, sin esperar una fecha especial para obtener tu descuento.  </li>
-                </ul> 
+              <div class="postIn col-md-3 col-sm-3 col-xs-6">
+                  <div class="section-red">
+                    <img class="img-responsive" src="<?= "" . $srcProveedor . "/ahorro.png"?>" alt="Ahorro"> 
+                    <p style="text-align: center;">en tus compras cuando más lo necesites, sin esperar una fecha especial para obtener tu descuento.</p>  
+                  </div>
               </div>
-              <div class="postIn col-md-3">
-                <ul class="list">
-                  <li><strong>Disponibilidad</strong> para utilizar los descuentos adquiridos en cualquiera de los 800 puntos de venta en el país y las 24 horas del día en los puntos de venta con servicio 24 H.</li>
-                </ul> 
+              <div class="postIn col-md-3 col-sm-3 col-xs-6">
+              <div class="section-red">
+                  <img class="img-responsive" src="<?= "" . $srcProveedor . "/disponibilidad.png"?>" alt="Disponibilidad"> 
+                  <p style="text-align: center;">para utilizar los descuentos adquiridos en cualquiera de los 800 puntos de venta en el país y las 24 horas del día en los puntos de venta con servicio 24 H.</p>
               </div>
-              <div class="postIn col-md-3">
-                <ul class="list">
-                    <li><strong>Comodidad</strong> para realizar sus compras con descuento desde su hogar u oficina a través del servicio a domicilio.</li>
-                </ul> 
+              </div>
+              <div class="postIn col-md-3 col-sm-3 col-xs-6">
+                <div class="section-red">
+                   <img class="img-responsive" src="<?= "" . $srcProveedor . "/comodidad.png"?>" alt="Comodidad">  
+                   <p style="text-align: center;">para realizar sus compras con descuento desde su hogar u oficina a través del servicio a domicilio.</p>  
+                </div>
+                
               </div>
           </div> 
       </div>
@@ -67,13 +71,11 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
       <div class="row">
           <div class="fadeLeft col-md-6">              
               <img class="img-responsive center-block" width="400" src=<?= "" . $srcProveedor . "/tarjeta-mas-5.png"?> alt="">
-              <div class="space-1"></div>
-              <blockquote style="color:#D1282C;">En 48 compras durante un año </blockquote>
+              <p style="color:#D1282C;text-align:center;">En 48 compras durante un año </p>
           </div>
           <div class="fadeRight col-md-6">  
               <img class="img-responsive center-block" width="400" src=<?= "" . $srcProveedor . "/tarjeta-mas-10.png"?> alt="">
-              <div class="space-1"></div>             
-              <blockquote style="color:#D1282C;">En 36 compras durante un año </blockquote>
+              <p style="color:#D1282C;text-align:center;">En 36 compras durante un año </p>
           </div>
       </div>
       <div class="space-1"></div>

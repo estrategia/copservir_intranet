@@ -660,3 +660,7 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
 .visible{
      opacity:1;
 }
+
+.hover-img:hover{opacity: 0.8;}
+.section-red{background-color: #CD242A;border-radius: 10px;padding:15px;height: 280px;}
+.section-red p {color:#fff;font-size: 14px;}
