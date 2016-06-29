@@ -184,7 +184,7 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
          </div>
       </div>
       <div class="postRight col-md-5">
-          <img width="400" class="img-responsive" src=<?= "" . $srcProveedor . "/preguntas-frecuentes.jpg" ?> alt="">
+          <img width="400" class="img-responsive" src=<?= "" . $srcProveedor . "/tarjeta-mas-10.png" ?> alt="">
       </div>
 
   </section>

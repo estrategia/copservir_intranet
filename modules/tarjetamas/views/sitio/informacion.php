@@ -13,15 +13,15 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
       </div>
    </div>
 </div>
-    
+<div class="container-fuild">
+    <div class="row">
+          <img class="img-responsive" src="<?= "" . $srcProveedor . "/banner-intranet-tarjeta-mas.jpg"?>" alt="Tarjeta más">  
+    </div>
+
+</div>
+
 <div class="container">
   <section>
-    <div class="space-1"></div>  
-      <div class="row">
-          <div class="col-md-12">
-              <img class="postIn img-responsive" src=<?= "" . $srcProveedor . "/detalle-tarjeta-mas.jpg"?> alt="">  
-          </div>          
-      </div>
       <div class="space-2"></div>
       <div class="row">
           <div class="col-md-12">

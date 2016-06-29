@@ -6,8 +6,20 @@ $this->title = 'Tarjeta Mas';
 // Rutas imagenes
 $srctarjetamas = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
 ?>
-      <div id="slide-tarjetamas" class="carousel slide" data-ride="carousel">
-          <!-- Indicators -->
+
+<div class="space-1"></div>
+<div class="space-1"></div>
+<div class="space-1"></div>
+<div class="space-1"></div>
+<div class="container-fuild">
+    <div class="row">
+          <img class="img-responsive" src="<?= "" . $srctarjetamas . "/banner-intranet-tarjeta-mas.jpg"?>" alt="Tarjeta más">  
+    </div>
+
+</div>
+
+      <!--<div id="slide-tarjetamas" class="carousel slide" data-ride="carousel">
+        
           <ol class="carousel-indicators">
               <li data-target="#slide-tarjetamas" data-slide-to="0" class=""></li>
               <li class="" data-target="#slide-tarjetamas" data-slide-to="1"></li>
@@ -15,17 +27,17 @@ $srctarjetamas = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
           </ol>
           <div class="carousel-inner" role="listbox">
               <div class="item">
-                  <img class="first-slide" src="<?= "" . $srctarjetamas . "/banner1.jpg"?>" alt="First slide">
+                  <img class="first-slide" src="<?//= "" . $srctarjetamas . "/banner1.jpg"?>" alt="First slide">
               </div>
               <div class="item">
-                  <img class="second-slide" src="<?= "" . $srctarjetamas . "/banner2.jpg"?>" alt="Second slide">
+                  <img class="second-slide" src="<?//= "" . $srctarjetamas . "/banner2.jpg"?>" alt="Second slide">
               </div>
               <div class="item active">
-                  <img class="third-slide" src="<?= "" . $srctarjetamas . "/banner3.jpg"?>" alt="Third slide">
+                  <img class="third-slide" src="<?//= "" . $srctarjetamas . "/banner3.jpg"?>" alt="Third slide">
 
               </div>
           </div>
-      </div>
+      </div>-->
 
 <div class="container internal">
   <section>  <!-- acerca de home -->

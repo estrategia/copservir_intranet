@@ -1,6 +1,6 @@
 <?php
 use yii\helpers\Html;
-$this->title = 'Terminos y condiciones';
+$this->title = 'Atención al cliente';
 $src = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
 ?>
 
