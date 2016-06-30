@@ -14,6 +14,14 @@ use app\modules\intranet\models\AuthItemChild;
 use app\modules\intranet\models\AuthAssignment;
 
 class TestController extends Controller {
+    
+    public function actionReplace(){
+        $letters = array('@_numeroDocumento_', '@_numeroDocumentoEncriptado_');
+        $fruit   = array('apple', 'pear');
+        $text    = 'url @_numeroDocumento_ y encriptado @_numeroDocumentoEncriptado_';
+        $output  = str_replace($letters, $fruit, $text);
+        echo $output;
+    }
 
     public function behaviors() {
         return [
@@ -40,6 +48,10 @@ class TestController extends Controller {
             echo "<br><br>";
             echo date("Y-m-d H:i:s");
         //}
+    }
+    
+    public function actionTabs(){
+        return $this->render('tabs');
     }
     
     public function actionUrlTest(){
