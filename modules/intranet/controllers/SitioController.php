@@ -367,7 +367,12 @@ class SitioController extends \app\controllers\CController {
       }
 
       $contenidoModel = $this->encontrarModeloContenido($id);
+      $contenidoModel->portales = array();
+      $contenidoPortal = ContenidoPortal::find()->where(['idContenido' => $contenidoModel->idContenido])->all();
 
+      foreach ($contenidoPortal as $portal ) {
+        array_push($contenidoModel->portales,$portal->idPortal);
+      }
       return $this->render('/contenido/publicar-portales-actualizar', [
                   'contenidoModel' => $contenidoModel,
                   'esAdmin' => $esAdmin,

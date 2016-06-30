@@ -260,7 +260,7 @@ class ContenidoController extends Controller {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return [
             'result' => 'ok',
-            'response' => $this->renderAjax('_formDestinoContenido', ['objContenidoDestino' => new ContenidoDestino])
+            'response' => $this->renderAjax('_formDestinoContenido', ['objContenidoDestino' => new ContenidoDestino, 'consultaTodos' => true])
         ];
     }
 
@@ -575,14 +575,18 @@ class ContenidoController extends Controller {
      * @return mixed
      */
     public function actionEliminarContenidoDenunciado($id) {
+
         $modelDenunciosContenidos = DenunciosContenidos::findOne(['idDenuncioContenido' => $id]);
+        $modelContenido = Contenido::getContenidoDetalleDenuncio($modelDenunciosContenidos->idContenido);
+
         $transaction = DenunciosContenidos::getDb()->beginTransaction();
+
         try {
             $modelDenunciosContenidos->estado = DenunciosContenidos::ELIMINADO;
             $modelDenunciosContenidos->fechaActualizacion = Date("Y-m-d H:i:s");
 
             if ($modelDenunciosContenidos->save()) {
-                $modelContenido = Contenido::getContenidoDetalleDenuncio($modelDenunciosContenidos->idContenido);
+
                 $modelContenido->saveEstadoEliminado();
 
                 $transaction->commit();

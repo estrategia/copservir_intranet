@@ -58,7 +58,7 @@ class Tareas extends \yii\db\ActiveRecord
       'numeroDocumento' => 'Numero de Documento',
       'fechaRegistro' => 'Fecha de Creacion',
       'estadoTarea' => 'Estado Tarea',
-      'fechaEstimada' => 'Fecha Estimada',
+      'fechaEstimada' => 'Fecha Fin Tarea',
       'idPrioridad' => 'Prioridad',
       'progreso' => 'Progreso',
     ];
@@ -78,7 +78,8 @@ class Tareas extends \yii\db\ActiveRecord
   */
   public static function getTareasListar($numeroDocumento)
   {
-    return  self::find()->with(['objPrioridadTareas'])->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', self::ESTADO_TAREA_INACTIVA])->all();
+    return  self::find()->with(['objPrioridadTareas'])->where(['numeroDocumento' => $numeroDocumento])
+      ->andWhere(['!=', 'estadoTarea', self::ESTADO_TAREA_INACTIVA])->orderBy('fechaRegistro DESC')->all();
   }
 
   /**
@@ -88,7 +89,8 @@ class Tareas extends \yii\db\ActiveRecord
   */
   public static function getTareasIndex($numeroDocumento)
   {
-    return self::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', self::ESTADO_TAREA_INACTIVA])->andWhere(['!=', 'estadoTarea', self::ESTADO_TAREA_NO_INDEX ])->all();
+    return self::find()->where(['numeroDocumento' => $numeroDocumento])->andWhere(['!=', 'estadoTarea', self::ESTADO_TAREA_INACTIVA])
+    ->andWhere(['!=', 'estadoTarea', self::ESTADO_TAREA_NO_INDEX ])->orderBy('fechaRegistro DESC')->all();
   }
 
   /**

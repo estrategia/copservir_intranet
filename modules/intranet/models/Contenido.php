@@ -439,14 +439,14 @@ class Contenido extends \yii\db\ActiveRecord {
      * @return modelo Contenido
      */
     public static function getContenidoDetalleDenuncio($id) { // aca
-        $query = self::find()->joinWith(['objDenunciosContenidos'])
+        return self::find()->joinWith(['objDenunciosContenidos'])
                         ->where("(   t_DenunciosContenidos.estado =:estado and t_Contenido.idContenido =:id )")
                         ->addParams([':estado' => DenunciosContenidos::PENDIENTE_APROBACION, ':id' => $id])->with([
                     'objDenunciosContenidos' => function($q) {
                         $q->with('objUsuario');
                     }, 'objUsuarioPublicacion', 'objLineaTiempo'])->one();
 
-        return $query;
+        //return $query;
     }
 
     // FUNCIONES

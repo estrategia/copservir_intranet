@@ -16,7 +16,7 @@ class GrupoInteres extends \yii\db\ActiveRecord
 {
   const ESTADO_ACTIVO = 1;
   const ESTADO_INACTIVO = 0;
-  
+
   public static function tableName()
   {
     return 'm_GrupoInteres';
@@ -58,11 +58,14 @@ class GrupoInteres extends \yii\db\ActiveRecord
   {
     $this->imagenGrupo = UploadedFile::getInstances($this, 'imagenGrupo');
 
-    if ($this->imagenGrupo) {
-      foreach ($this->imagenGrupo as $file) {
-        $file->saveAs('img/gruposInteres/' . $file->baseName . '.' . $file->extension);
+    if ($this->imagenGrupo !== null) {
+
+      if ($this->imagenGrupo) {
+        foreach ($this->imagenGrupo as $file) {
+          $file->saveAs('img/gruposInteres/' . $file->baseName . '.' . $file->extension);
+        }
+        $this->imagenGrupo = $file->baseName . '.' . $file->extension;
       }
-      $this->imagenGrupo = $file->baseName . '.' . $file->extension;
     }
   }
 

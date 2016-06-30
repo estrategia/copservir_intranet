@@ -6,6 +6,13 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use app\modules\intranet\models\LineaTiempo;
 ?>
+
+<style media="screen">
+  .title-notice:hover{
+    text-decoration:underline;
+    color: #0aaec2;
+  }
+</style>
 <ul class="cbp_tmtimeline">
     <li>
         <div class="cbp_tmtime">
@@ -27,7 +34,8 @@ use app\modules\intranet\models\LineaTiempo;
         <div class="cbp_tmlabel">
             <div class="p-t-10 p-l-30 p-r-20 p-b-20 xs-p-r-10 xs-p-l-10 xs-p-t-5">
 
-                <?= Html::a('<h4 class="inline m-b-5"><span class="text-success semi-bold"> ' . $noticia->titulo . ' </span> <small style="font-size: 12px;">( leer noticia )</small></h4> ', ['contenido/detalle-contenido', 'idNoticia' => $noticia->idContenido], ['class' => '', 'name' => '']) ?>
+                <?= Html::a('<h4 class=" title-notice inline m-b-5"><span class="text-success semi-bold"> ' . $noticia->titulo.'</h4> ',
+                  ['contenido/detalle-contenido', 'idNoticia' => $noticia->idContenido], ['class' => '']) ?>
                 <h5 class="inline muted semi-bold m-b-5"></h5> <!-- para el usuario que publico la noticia -->
                 <!--<div class="muted">Publicación Compartida - 12:45pm</div> si la publicacion fue compartida-->
                 <p class="m-t-5 dark-text">
@@ -87,10 +95,10 @@ use app\modules\intranet\models\LineaTiempo;
                     <li style="width:100%;">
                         <?php $noExisteMeGusta = (empty($noticia->listMeGustaUsuario) || count($noticia->listMeGustaUsuario) < 1) ?>
 
-                        <a id='megusta_<?= $noticia->idContenido ?>' class="" data-role='me-gusta-contenido' data-contenido='<?= $noticia->idContenido ?>' data-value='1' style='font-weight: bold; display: <?= $noExisteMeGusta ? '' : 'none' ?>'>
+                        <a id='megusta_<?= $noticia->idContenido ?>' class="" data-role='me-gusta-contenido' data-contenido='<?= $noticia->idContenido ?>' data-value='1' style='font-weight: bold;cursor:pointer; cursor: hand ;display: <?= $noExisteMeGusta ? '' : 'none' ?>'>
                             <span class="glyphicon glyphicon-thumbs-up"></span> Me gusta</a>
 
-                        <a id='no_megusta_<?= $noticia->idContenido ?>' class="" data-role='me-gusta-contenido' data-contenido='<?= $noticia->idContenido ?>' data-value='0' style='font-weight: bold; display: <?= $noExisteMeGusta ? 'none' : '' ?>'>
+                        <a id='no_megusta_<?= $noticia->idContenido ?>' class="" data-role='me-gusta-contenido' data-contenido='<?= $noticia->idContenido ?>' data-value='0' style='font-weight: bold;cursor:pointer; cursor: hand ;display: <?= $noExisteMeGusta ? 'none' : '' ?>'>
                             <span class="glyphicon glyphicon-thumbs-down"></span> Ya no me gusta</a>
 
                         <?php if (empty($noticia->objDenuncioComentarioUsuario)): ?>

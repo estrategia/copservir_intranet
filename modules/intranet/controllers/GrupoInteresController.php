@@ -108,6 +108,8 @@ class GrupoInteresController extends Controller {
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
             $model->asignarImagenGrupo();
+            //var_dump($model->imagenGrupo);
+            //exit();
             $model->save();
             return $this->redirect(['detalle', 'id' => $model->idGrupoInteres]);
 

@@ -273,6 +273,7 @@ $(document).on('click', "a[data-role='me-gusta-contenido']", function () {
         },
         success: function (data) {
             if (data.result == "ok") {
+              console.log(data.response);
                 $('#numero-megusta_' + idContenido).html(data.response);
 
                 if (val == 1) {
