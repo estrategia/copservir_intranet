@@ -4,7 +4,7 @@ namespace app\modules\intranet\controllers;
 
 use Yii;
 use yii\web\Controller;
-use app\modules\intranet\models\Usuario;
+use app\models\Usuario;//use app\modules\intranet\models\Usuario;
 use app\modules\intranet\models\AuthAssignment;
 
 class PermisosController extends Controller {

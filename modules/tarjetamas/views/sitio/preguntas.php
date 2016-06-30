@@ -19,7 +19,7 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
     <section>        
       <div class="space-1"></div>
       
-      <div class="col-md-7">
+      <div class="postLeft col-md-7">
           <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                 <div class="panel panel-default">
                   <div class="panel-heading" role="tab" id="headingOne">
@@ -183,11 +183,16 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
                   </div>
          </div>
       </div>
-      <div class="col-md-5">
-          <img width="400" class="img-responsive" src=<?= "" . $srcProveedor . "/preguntas-frecuentes.jpg" ?> alt="">
+      <div class="postRight col-md-5">
+          <img width="400" class="img-responsive" src=<?= "" . $srcProveedor . "/tarjeta-mas-10.png" ?> alt="">
       </div>
 
   </section>
 
 </div>
 <div class="space-2"></div>
+
+<?php
+ $this->registerJs("jQuery('.postLeft').viewportChecker({classToAdd: 'visible animated fadeInLeft', offset: 100});", \yii\web\View::POS_END);
+ $this->registerJs("jQuery('.postRight').viewportChecker({classToAdd: 'visible animated fadeInRight', offset: 100});", \yii\web\View::POS_END);
+?>   

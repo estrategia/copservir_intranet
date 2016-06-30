@@ -12,6 +12,7 @@ use app\modules\intranet\models\ContenidoDestino;
 use app\modules\intranet\models\ContenidoAdjunto;
 use app\modules\intranet\models\Portal;
 use app\modules\intranet\models\LineaTiempo;
+use app\models\Usuario;
 
 /**
  * This is the model class for table "t_Contenido".

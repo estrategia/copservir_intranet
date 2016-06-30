@@ -1,6 +1,6 @@
 <?php
 use yii\helpers\Html;
-$this->title = 'Terminos y condiciones';
+$this->title = 'Atención al cliente';
 $src = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
 ?>
 
@@ -18,13 +18,16 @@ $src = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
   <section>
       <div class="space-2"></div>
       <div class="row">
-          <div class="col-md-6">
+         <!-- <div class="col-md-6">
               <div class="space-1"></div> 
               <h2 class="text-center">Si tienes alguna petición, queja, reclamo o sugerencia regístrala <?= Html::a('Aquí', ['#']) ?>.</h2>
           </div>
           <div class="col-md-6">
               <img width="400" class="img-responsive" src=<?= "" . $src . "/atencion-cliente.jpg" ?> alt="">
-          </div>
+          </div>-->
+         <div class="col-md-12">
+             <iframe src="http://www.servicoop.co/pqrs/web/pqrs/index?sitio=3" align="middle" frameborder="0" height="400px" width="100%"></iframe>
+         </div>
       </div> 
   </section>    
 </div>

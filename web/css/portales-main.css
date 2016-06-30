@@ -262,21 +262,22 @@ ul.list{ list-style-image: url("../../web/img/multiportal/tarjetamas/check.png")
 
 .redes {
   list-style: none;
-  margin: auto;
-  margin-top: 60px;
-  text-align: center;
+  margin-top: 20px;
+ padding: 0px !important;
 }
 .redes li {
   list-style: none;
-  margin: auto;
   display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 1px solid;
+    border-radius: 50%;
+    font-size: 23px;
+    margin-right:8px;
 }
-.redes li:first-child {
-  margin: 0 10px;
-}
-.redes li:last-child {
-  margin: 0 10px;
-}
+.redes .facebook .fa {padding:13px 17px;}
+.redes .twitter .fa {padding: 13px 14px;}
+.redes .youtube .fa {padding: 13px 13px;}
 /* END CUSTOM HOME */
 
 /* CUSTOM INTERNAL */
@@ -360,12 +361,12 @@ ul.list{ list-style-image: url("../../web/img/multiportal/tarjetamas/check.png")
 
 /* END CUSTOM INTERNAL */
 
-/* COMPANY COLOR 1 */
+/* COMPANY COLOR 1 (tarjeta más) */
 .company-bgcolor-1 {
-  background-color: #c00000;
+  background-color: #CD242A;
 }
 button.company-bgcolor-1:hover, a.company-bgcolor-1:hover {
-  background-color: #AA0000 !important;
+  background-color: #EF4637 !important;
 }
 .company-color-1 {
   color: #c00000 !important;
@@ -622,20 +623,21 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
    border-left:5px solid #fff;
 }
 .submenu.sub-tarjetamas li:hover{
-   background-color: #a50606; 
+   background-color: #EF4637; 
 }
 .tarjeta-mas .nav li a:hover {
-   background-color: #a50606;
+   background-color: #EF4637;
 }
 
 .tarjeta-mas .nav li a:active {
-   background-color: #a50606;
+   background-color: #EF4637;
 }
 
 .tarjeta-mas .nav li a:focus {
-   background-color: #a50606;
+   background-color: #EF4637;
 }
 
+.default-icon.company-bgcolor-1:hover{background-color: #EF4637;}
 .default-icon .fa {
     color:#fff;
     padding: 24px 0px;
@@ -651,3 +653,14 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
     transform: rotate(15deg);
     transition: all .4s;
 }
+
+.hidden{
+     opacity:0;
+}
+.visible{
+     opacity:1;
+}
+
+.hover-img:hover{opacity: 0.8;}
+.section-red{background-color: #CD242A;border-radius: 10px;padding:15px;height: 280px;}
+.section-red p {color:#fff;font-size: 14px;}

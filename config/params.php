@@ -44,7 +44,13 @@ return [
         '2' => 'DataTable',
         '3' => 'Grupos Módulos'
     ],
+    'PerfilesUsuario' => [
+        'intranet' => ['codigo' => 1, 'permiso' => 'intranet_usuario'],
+        'tarjetaMas' => ['codigo' => 2, 'permiso' => 'tarjeta_mas_usuario'],
+    ],
     'webServices' => [
+        'codigoSeguridad' => 'CopservirLaMejorEmpresaParaTrabajar2016',
+        'tarjetaMas' => 'http://siidesarrollo.copservir.com/tarjetamas/WsTarjetaMas/ws',
         'persona' => 'http://localhost/copservir/wsMultiportal/persona',
         //persona' => 'http://sii.copservir.com/gestionhumana/wsMultiportal/persona',
     ]

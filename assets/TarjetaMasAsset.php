@@ -34,6 +34,9 @@ class TarjetaMasAsset extends AssetBundle {
         'css/portales-main.css',
         'css/common.css',
         
+        //Animaciones
+        'css/animate.css',
+        
         //Libreria de iconos font Awesome
         'libs/font-awesome/css/font-awesome.css',
         
@@ -56,6 +59,9 @@ class TarjetaMasAsset extends AssetBundle {
         'js/multiportal/timeline.js',
         'js/multiportal/vendor/holder.min.js',
         'js/multiportal/main.js',
+        
+        //animaciones con scroll
+        'js/multiportal/viewportchecker.js',
 
         //propios
     ];

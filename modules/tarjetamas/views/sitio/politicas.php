@@ -15,7 +15,7 @@ $this->title = 'Políticas de privacidad';
  
 
 <div class="container">
-  <section>
+    <section class="postIn">
     <div class="">
       <div class="space-1"></div>
         <p class="text-justify">
@@ -72,10 +72,9 @@ $this->title = 'Políticas de privacidad';
 </div>
 
 
-
-
-    
-
 <div class="space-2"></div>
 
   
+<?php
+ $this->registerJs("jQuery('.postIn').viewportChecker({classToAdd: 'visible animated fadeInLeft', offset: 100});", \yii\web\View::POS_END);
+?>   

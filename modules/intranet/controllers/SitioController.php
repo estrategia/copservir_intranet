@@ -26,7 +26,7 @@ use app\modules\intranet\models\Menu;
 use app\modules\intranet\models\OpcionesUsuario;
 use app\modules\intranet\models\Opcion;
 use app\modules\intranet\models\ContenidoPortal;
-use app\modules\intranet\models\Usuario;
+use app\models\Usuario;//use app\modules\intranet\models\Usuario;
 use app\modules\intranet\models\AuthAssignment;
 use yii\helpers\Html;
 use yii\web\Response;
