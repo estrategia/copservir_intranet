@@ -197,6 +197,8 @@ class PublicacionesCampanasController extends Controller {
      */
     public function actionAgregaDestinoCampana() {
         $modelDestinoCampana = new CampanasDestino;
+        $model = '';
+        $destinoCampana = '';
 
         if ($modelDestinoCampana->load(Yii::$app->request->post())) {
 

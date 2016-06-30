@@ -21,7 +21,7 @@ class ModuloContenido extends \yii\db\ActiveRecord {
     const TIPO_HTML = 1;
     const TIPO_DATATABLE = 2;
     const TIPO_GROUP_MODULES = 3;
-    
+
     public static function tableName() {
         return 'm_ModuloContenido';
     }
@@ -54,7 +54,7 @@ class ModuloContenido extends \yii\db\ActiveRecord {
     public function getListGruposModulos() {
         return $this->hasMany(GruposModulos::className(), ['idModulo' => 'idModulo']);
     }
-    
+
     public static function getModulosGrupo($idGrupo) {
         $query = self::find()
                 ->joinWith(['listGruposModulos'])
@@ -64,7 +64,7 @@ class ModuloContenido extends \yii\db\ActiveRecord {
         //var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);exit;
         return $query->all();
     }
-    
+
     public static function getModulo($idModulo) {
         $query = self::find()
                 ->where("idModulo=:modulo")
@@ -72,10 +72,10 @@ class ModuloContenido extends \yii\db\ActiveRecord {
                 ->one();
         return $query;
     }
-    
+
     public function getContenido(){
         $contenido = Funciones::reemplazarPatronDocumentoUsuario($this->contenido);
         return $contenido;
     }
-  
+
 }

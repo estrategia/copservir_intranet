@@ -10,6 +10,7 @@ use yii\web\ForbiddenHttpException;
 use yii\data\ActiveDataProvider;
 use app\modules\intranet\models\GrupoInteresCargo;
 use app\modules\intranet\models\UsuarioWidgetInactivo;
+use app\modules\tarjetamas\models\UsuarioTarjetaMas;
 /**
  * This is the model class for table "m_usuario".
  *
@@ -218,6 +219,11 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
                         ->addParams([':estado' => 1, ':idUsuario' => $idUsuario, ':fechaRegistro' => $fecha, ':idContenido' => $idContenido])->all();
 
         return $query;
+    }
+
+
+    public function getObjUsuarioTarjetaMas(){
+      return $this->hasOne(UsuarioTarjetaMas::className(), ['numeroDocumento' => 'numeroDocumento']);
     }
 
     public static function findIdentity($id) {
@@ -452,6 +458,15 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
 
     public function getRoles(){
         return Yii::$app->authManager->getRolesByUser($this->numeroDocumento);
+    }
+
+    public function generarCodigoRecuperacion()
+    {
+      $fecha = new \DateTime();
+      $fecha->modify('+ 1 day');
+      $codigoRecuperacion = md5($this->numeroDocumento . '~' . $fecha->format('YmdHis'));
+
+      return $codigoRecuperacion;
     }
 
 }

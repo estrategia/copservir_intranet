@@ -177,10 +177,8 @@ class UsuarioController extends \yii\web\Controller {
 
                 $model->addError('username', 'Usuario no existe');
             } else {
-                // se genera el codigo de recuperacion
-                $fecha = new \DateTime();
-                $fecha->modify('+ 1 day');
-                $codigoRecuperacion = md5($usuario->numeroDocumento . '~' . $fecha->format('YmdHis'));
+
+                $codigoRecuperacion = $usuario->generarCodigoRecuperacion();
 
                 //se guarda el codigo y la fecha de recuperacion
                 $objRecuperacionClave = new RecuperacionClave();

@@ -44,7 +44,7 @@ class OfertasLaborales extends \yii\db\ActiveRecord
     return [
       [[ 'idCiudad', 'fechaPublicacion', 'fechaCierre', 'estado', 'numeroDocumento', 'fechaInicioPublicacion', 'fechaFinPublicacion', 'tituloOferta', 'urlElEmpleo', 'idCargo', 'idArea', 'descripcionContactoOferta', 'idInformacionContacto'], 'required'],
       [[ 'idCiudad', 'numeroDocumento', 'idCargo', 'idArea', 'idInformacionContacto'], 'integer'],
-      [['fechaPublicacion', 'fechaCierre', 'fechaInicioPublicacion', 'fechaFinPublicacion'], 'date',  'format'=>'php:Y-m-d H:i:s'],//'date',  'format'=>'php:Y-m-d H:i:s'
+      [['fechaPublicacion', 'fechaCierre', 'fechaInicioPublicacion', 'fechaFinPublicacion'], 'safe'],//'date',  'format'=>'php:Y-m-d H:i:s'
       [['descripcionContactoOferta'], 'string'],
       [['tituloOferta', 'urlElEmpleo'], 'string', 'max' => 45]
     ];

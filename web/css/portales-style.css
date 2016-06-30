@@ -1,4 +1,4 @@
-/* -------------------------------- 
+/* --------------------------------
 
 Modules - reusable parts of our design
 
@@ -16,9 +16,9 @@ Modules - reusable parts of our design
   clear: both;
 }
 
-/* -------------------------------- 
+/* --------------------------------
 
-Main components 
+Main components
 
 -------------------------------- */
 #cd-timeline {
@@ -419,4 +419,18 @@ Main components
     -o-transform: translateX(0);
     transform: translateX(0);
   }
+}
+
+/* --------------------------------
+
+TARJETA MAS
+
+-------------------------------- */
+
+.autenticacion{
+  padding: 20px;
+  font-size: 14px;
+  background-color: #fff;
+  border: 1px solid #d8dee2;
+  border-radius: 5px;
 }

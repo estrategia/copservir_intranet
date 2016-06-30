@@ -39,15 +39,28 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/tarjetamas/logo-tarjeta-mas.png
           </div>
           <div id="navbar" class="navbar-collapse collapse tarjeta-mas">
             <ul class="nav navbar-nav">
-              <li class="active"> <?= Html::a('Tarjeta M&aacute;s', ['/tarjetamas/sitio/informacion']) ?>
+              <li class="active">
+                  <?= Html::a('Tarjeta M&aacute;s', ['/tarjetamas/sitio/informacion']) ?>
                   <ul class="submenu sub-tarjetamas">
                       <li class="active"><?= Html::a('Términos y condiciones', ['/tarjetamas/sitio/terminos']) ?></li>
                       <li class="active"><?= Html::a('Política de privacidad', ['/tarjetamas/sitio/politicas']) ?></li>
                   </ul>
-              </li>           
-              <li class="active"> <?= Html::a('Mi cuenta', "#") ?></li>
+              </li>
               <li class="active"> <?= Html::a('Preguntas frecuentes', ['/tarjetamas/sitio/preguntas']) ?></li>
               <li class="active"> <?= Html::a('Atenci&oacute;n al cliente', ['/tarjetamas/sitio/atencion']) ?></li>
+              <li class="active">
+
+                <?php if (\Yii::$app->user->isGuest): ?>
+                  <?= Html::a('Mi cuenta', "#") ?>
+                  <ul class="submenu sub-tarjetamas">
+                      <li class="active"><?= Html::a('Iniciar Sesión', ['/tarjetamas/usuario/autenticar']) ?></li>
+                      <li class="active"><?= Html::a('Registrarse', ['/tarjetamas/usuario/registro']) ?></li>
+                  </ul>
+                <?php else: ?>
+                  <?= Html::a('Nombre Usuario', "#") ?>
+                <?php endif; ?>
+
+              </li>
               <?php foreach (MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id) as $itemMenu): ?>
                 <li>
                   <?= $itemMenu->getHtmlLink(Yii::$app->controller->module->id) ?>
@@ -61,7 +74,9 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/tarjetamas/logo-tarjeta-mas.png
 
     <!-- CONTAINER -->
     <div id="container">
+
       <?= $content ?>
+
     </div>
 
     <!-- FOOTER -->
@@ -83,8 +98,8 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/tarjetamas/logo-tarjeta-mas.png
               <ul>
                 <li><?= Html::a('Inicio', ['/tarjetamas/sitio/index']) ?></li>
                 <li><?= Html::a('Tarjeta m&aacute;s', ['/tarjetamas/sitio/informacion']) ?></li>
-                <li><?= Html::a('Terminos y condiciones', ['/tarjetamas/sitio/terminos']) ?></li> 
-                <li><?= Html::a('Políticas de privacidad', ['/tarjetamas/sitio/politicas']) ?></li> 
+                <li><?= Html::a('Terminos y condiciones', ['/tarjetamas/sitio/terminos']) ?></li>
+                <li><?= Html::a('Políticas de privacidad', ['/tarjetamas/sitio/politicas']) ?></li>
                 <li><?= Html::a('Mi cuenta', "#") ?></li>
                 <li><?= Html::a('Preguntas frecuentes', ['/tarjetamas/sitio/preguntas']) ?></li>
                 <li><?= Html::a('Atenci&oacute;n al cliente', "#") ?></li>

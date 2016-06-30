@@ -44,7 +44,7 @@ $this->title = 'Recuperación contraseña';
 
         <div class="form-group">
           <div class=" col-lg-11">
-            <?= Html::submitButton('Enviar recuperación', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+            <?= Html::submitButton('Enviar Correo', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
           </div>
         </div>
         <?php ActiveForm::end(); ?>
