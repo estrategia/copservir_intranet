@@ -298,7 +298,7 @@ class SitioController extends \app\controllers\CController {
       if ($contenidoModel->load(Yii::$app->request->post()) && Yii::$app->request->isAjax) {
 
           if (!empty($_FILES['imagenes'])) {
-              $contenido->imagenes = $_FILES['imagenes'];
+              $contenidoModel->imagenes = $_FILES['imagenes'];
           }
 
           if (!is_null($contenidoModel->idLineaTiempo)) {
