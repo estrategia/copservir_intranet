@@ -142,7 +142,7 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
                     </div>
                     <div id="collapseocho" class="panel-collapse collapse" role="tabpanel" aria-labelledby="ocho">
                       <div class="panel-body">
-                      ...
+                      Si es acumulable con otros descuentos otorgados por campañas.
                       </div>
                     </div>
                   </div>
@@ -184,7 +184,25 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
          </div>
       </div>
       <div class="postRight col-md-5">
-          <img width="400" class="img-responsive" src=<?= "" . $srcProveedor . "/tarjeta-mas-10.png" ?> alt="">
+          
+            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+              <!-- Indicators -->
+              <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+              </ol>
+
+              <!-- Wrapper for slides -->
+              <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                  <img width="400" class="img-responsive" src=<?= "" . $srcProveedor . "/tarjeta-mas-5.png" ?> alt="">
+                </div>
+
+                <div class="item">
+                  <img width="400" class="img-responsive" src=<?= "" . $srcProveedor . "/tarjeta-mas-10.png" ?> alt="">
+                </div>
+              </div>
+            </div>          
       </div>
 
   </section>

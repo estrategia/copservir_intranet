@@ -47,7 +47,7 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/tarjetamas/logo-tarjeta-mas.png
                   </ul>
               </li>
               <li class="active"> <?= Html::a('Preguntas frecuentes', ['/tarjetamas/sitio/preguntas']) ?></li>
-              <li class="active"> <?= Html::a('Atenci&oacute;n al cliente', ['/tarjetamas/sitio/atencion']) ?></li>
+              <li class="active"> <?= Html::a('PQRS', ['/tarjetamas/sitio/atencion']) ?></li>
               <li class="active">
 
                 <?php if (\Yii::$app->user->isGuest): ?>
@@ -83,43 +83,25 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/tarjetamas/logo-tarjeta-mas.png
 
     <!-- FOOTER -->
     <footer>
-      <div class="footer-top company-bgcolor-1">
+      <div class="footer-top footer-tarjeta-mas">
         <div class="container marketing">
           <div class="row">
             <div class="col-sm-4">
-              <div><img src=<?= "" . $srcLogo ?> alt=""></div>
-              <p>Tarjeta más un producto exclusivo de Copservir, que comercializa la bajo la marca comercial La Rebaja Droguerías y Minimarkets. </p>
+              <p>Tarjeta más un producto exclusivo de Copservir, que comercializa bajo la marca comercial La Rebaja Droguerías y Minimarkets.</p>
             </div>
-            <div class="col-sm-5">
-              <h3>Menú</h3>
-              <div class="col-md-6">
-                <ul>
-                  <li><?= Html::a('Inicio', ['/tarjetamas/sitio/index']) ?></li>
-                  <li><?= Html::a('Tarjeta m&aacute;s', ['/tarjetamas/sitio/informacion']) ?></li>
-                  <li><?= Html::a('Terminos y condiciones', ['/tarjetamas/sitio/terminos']) ?></li>
-                  <li><?= Html::a('Políticas de privacidad', ['/tarjetamas/sitio/politicas']) ?></li>
-                </ul>
-              </div>
-              <div class="col-md-6">
-                <ul>
-                  <li><?= Html::a('Mi cuenta', "#") ?></li>
-                  <li><?= Html::a('Preguntas frecuentes', ['/tarjetamas/sitio/preguntas']) ?></li>
-                  <li><?= Html::a('Atenci&oacute;n al cliente', "#") ?></li>
-                </ul>
-              </div>
+            <div class="col-sm-4">
+                <p><i class="fa fa-caret-right"></i><?= Html::a('Terminos y condiciones', ['/tarjetamas/sitio/terminos']) ?></p>
+                <p><i class="fa fa-caret-right"></i><?= Html::a('Políticas de privacidad', ['/tarjetamas/sitio/politicas']) ?></p>
+                
             </div>
-            <div class="col-sm-3">
-              <h3>Contácto</h3>
-              <ul>
-                <li>contacto@copservir.co</li>
-                <li>(57) 1234567123</li>
-                <li>Dirección</li>
-              </ul>
-              <ul class="redes">
+            <div class="col-sm-4">
+              <p style="font-weight: bolder;">Contáctanos</p>
+              <p>Call Center 018000 93 99 00 <br> PQRS ( Preguntas, Quejas, Reclamos y Sugerencias) </p>
+              <!--<ul class="redes">
                 <a href="https://www.facebook.com/copservir.ltda" target="_BLANK"><li class="facebook"><i class="fa fa-facebook"></i></li></a>
                 <a href="https://twitter.com/copservir" target="_BLANK"><li class="twitter"><i class="fa fa-twitter"></i></li></a>
                 <a href="https://www.youtube.com/CopservirLtda" target="_BLANK"><li class="youtube"><i class="fa fa-youtube"></i></li></a>
-              </ul>
+              </ul>-->
             </div>
           </div>
         </div>
