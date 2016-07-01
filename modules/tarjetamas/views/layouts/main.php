@@ -87,15 +87,19 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/tarjetamas/logo-tarjeta-mas.png
         <div class="container marketing">
           <div class="row">
             <div class="col-sm-4">
+              <img class="img-responsive" src="<?= "" . $srcLogo ?>" alt="Tarjeta más">
               <p>Tarjeta más un producto exclusivo de Copservir, que comercializa bajo la marca comercial La Rebaja Droguerías y Minimarkets.</p>
             </div>
             <div class="col-sm-4">
-                <p><i class="fa fa-caret-right"></i><?= Html::a('Terminos y condiciones', ['/tarjetamas/sitio/terminos']) ?></p>
-                <p><i class="fa fa-caret-right"></i><?= Html::a('Políticas de privacidad', ['/tarjetamas/sitio/politicas']) ?></p>
+                <h3 style="color:#5A5A5A ;">Menú</h3>
+                <div class="space-1"></div>
+                <p><i class="fa fa-caret-right"></i> <?= Html::a('Terminos y condiciones', ['/tarjetamas/sitio/terminos']) ?></p>
+                <p><i class="fa fa-caret-right"></i> <?= Html::a('Políticas de privacidad', ['/tarjetamas/sitio/politicas']) ?></p>
                 
             </div>
             <div class="col-sm-4">
-              <p style="font-weight: bolder;">Contáctanos</p>
+                <h3 style="color:#5A5A5A ;">Contáctanos</h3>
+                <div class="space-1"></div>
               <p>Call Center 018000 93 99 00 <br> PQRS ( Preguntas, Quejas, Reclamos y Sugerencias) </p>
               <!--<ul class="redes">
                 <a href="https://www.facebook.com/copservir.ltda" target="_BLANK"><li class="facebook"><i class="fa fa-facebook"></i></li></a>
