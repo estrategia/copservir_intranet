@@ -11,6 +11,7 @@ use app\modules\intranet\models\RecuperacionClave;
 use app\models\Usuario;
 use yii\filters\VerbFilter;
 use yii\data\ArrayDataProvider;
+use app\modules\tarjetamas\models\formularios\ActivarForm;
 
 class UsuarioController extends Controller {
 
@@ -21,7 +22,7 @@ class UsuarioController extends Controller {
             [
                 'class' => \app\components\AccessFilter::className(),
                 'only' => [
-                    'index', 'cambiar-clave', 'actualizar-datos', 'mis-tarjetas'
+                    'index', 'cambiar-clave', 'actualizar-datos', 'mis-tarjetas', 'suspender', 'ver', 'hacer-primaria'
                 ],
                 'redirectUri' => ['/tarjetamas/sitio/index']
             ],
@@ -57,9 +58,9 @@ class UsuarioController extends Controller {
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
-            $response = self::callWSConsultarTarjetasAbonado($model->username);
+            $response = UsuarioTarjetaMas::callWSConsultarTarjetasAbonado($model->username);
 
-            if ($response['CODIGO'] == self::USUARIO_TIENE_TARJETAS) {
+            if ($response[0]['CODIGO'] == self::USUARIO_TIENE_TARJETAS) {
                 return $this->redirect(['datos-registro']);
             } else {
                 $model->addError('username', 'El Usuario no tiene ninguna tarjera');
@@ -136,26 +137,30 @@ class UsuarioController extends Controller {
             $respuesta = UsuarioTarjetaMas::callWSSuspenderTarjetaWeb($cedula, $numeroTarjeta);
             if ($respuesta[0]['CODIGO'] == 1) {
                 return $this->redirect('mis-tarjetas');
-            }else{
+            } else {
                 return $this->redirect('mis-tarjetas');
             }
         }
     }
-    
-    
-    public function actionActivar() {
-        if ($_POST != null) {
+
+    public function actionActivarTarjeta() {
+
+        $model = new ActivarForm();
+
+        if ($model->load(Yii::$app->request->post())) {
             $cedula = \Yii::$app->user->identity->numeroDocumento;
             $cedula = 94429997;
-            $numeroTarjeta = $_POST['numeroTarjeta'];
+            $numeroTarjeta = $model->numeroTarjeta;
             $respuesta = UsuarioTarjetaMas::callWSActivarTarjetaWeb($cedula, $numeroTarjeta);
-           
+
             if ($respuesta[0]['CODIGO'] == 1) {
                 return $this->redirect('mis-tarjetas');
-            }else{
+            } else {
                 return $this->redirect('mis-tarjetas');
             }
         }
+
+        return $this->render('activar-tarjeta', ['model' => $model]);
     }
 
     /**
@@ -164,30 +169,27 @@ class UsuarioController extends Controller {
      * @return <tag> html,
      */
     public function actionHacerPrimaria() {
-         if ($_POST != null) {
+        if ($_POST != null) {
             $cedula = \Yii::$app->user->identity->numeroDocumento;
             $cedula = 94429997;
             $numeroTarjeta = $_POST['numeroTarjeta'];
             $tarjetasUsuario = UsuarioTarjetaMas::callWSConsultarTarjetasAbonado($cedula);
-           
-            $principal= "";
-            foreach($tarjetasUsuario as $tarjeta){
-                if($tarjeta['PRINCIPAL'] == "SI"){
-                    $principal= $tarjeta["NUMEROTARJETA"];
+
+            $principal = "";
+            foreach ($tarjetasUsuario as $tarjeta) {
+                if ($tarjeta['PRINCIPAL'] == "SI") {
+                    $principal = $tarjeta["NUMEROTARJETA"];
                 }
             }
-            $respuesta = UsuarioTarjetaMas::callWSCambiarTarjetaPrimaria($principal, $cedula, $numeroTarjeta );
-            
+            $respuesta = UsuarioTarjetaMas::callWSCambiarTarjetaPrimaria($principal, $cedula, $numeroTarjeta);
+
             if ($respuesta[0]['CODIGO'] == 1) {
                 return $this->redirect('mis-tarjetas');
-            }else{
+            } else {
                 return $this->redirect('mis-tarjetas');
             }
         }
-        $cedula = \Yii::$app->user->identity->numeroDocumento;
-        $cedula = 94429997;
 
-        
 
         $this->redirect('mis-tarjetas');
     }
@@ -418,6 +420,11 @@ class UsuarioController extends Controller {
         } else {
             throw new NotFoundHttpException('The requested does not exist.');
         }
+    }
+
+    public function actionSalir() {
+        Yii::$app->user->logout();
+        $this->redirect(['/tarjetamas']);
     }
 
 }
