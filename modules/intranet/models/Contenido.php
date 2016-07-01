@@ -554,7 +554,9 @@ class Contenido extends \yii\db\ActiveRecord {
         $contenidodestino->idContenido = $this->idContenido;
 
         if (!$contenidodestino->save()) {
+
             throw new \Exception("Error al guardar el destino:" . json_encode($contenidodestino->getErrors()), 102);
+
         }
     }
 
