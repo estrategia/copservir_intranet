@@ -19,17 +19,7 @@ $srctarjetamas = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
 </div>
 <div class="container internal">
   <section>  <!-- acerca de home -->
-    <div class="acerca-home">
-      <div class="space-1"></div>
-      <div class="postIn">
-        <h1 class="text-center">
-            Ahora con la Tarjeta más tendrás la oportunidad de realizar tus compras con descuento en el momento en que lo necesites en la Rebaja Droguerías y Minimarkets.
-        </h1>
-        <h2 class="text-center" style="font-weight: bold;"><?= Html::a('Descubre cómo', ['/tarjetamas/sitio/informacion']) ?></h2>
-      </div>
-      <div class="space-2"></div>
-    </div>
-
+    <div class="space-2"></div>
     <div class="row">
       <div class="col-sm-4">
         <div class="postLeft white-item">  
@@ -47,6 +37,17 @@ $srctarjetamas = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
         </div>
       </div>
     </div>
+    <div class="acerca-home">
+      <div class="space-1"></div>
+      <div class="postIn">
+        <h1 class="text-center">
+            Con Tarjeta más en la Rebaja Droguerías y Minimarkets recibe tu descuento el día que lo necesites.
+        </h1>
+        <h2 class="text-center" style="font-weight: bold;"><?= Html::a('Descubre cómo', ['/tarjetamas/sitio/informacion']) ?></h2>
+      </div> 
+    </div>
+
+
 
   </section> <!-- / acerca de home -->
 </div>

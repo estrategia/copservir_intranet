@@ -20,7 +20,7 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
       <div class="space-1"></div>
       
              <ul class="postIn text-justify">
-                 <li>La tarjeta más es de venta exclusiva a partir del 1 de julio de 2016 en los puntos de venta LA REBAJA DROGUERIAS Y MINIMARKET. Su venta no está disponible para los canales telefónico y virtual. Disponibles 30.000 unidades.</li>
+                 <li>La tarjeta más es de venta exclusiva en los puntos de venta LA REBAJA DROGUERIAS Y MINIMARKET. Su venta no está disponible para los canales telefónico y virtual. </li>
                  <li>Podrán acceder a la compra de esta tarjeta personas naturales mayores de edad que realicen compras para su consumo propio o el de sus familiares, no podrán acceder a la compra empresas de ningún sector, ni tampoco trabajadores de Copservir Ltda.</li>
                  <li>El comprador de la tarjeta más, deberá entregar sus datos personales validos aceptando la política de privacidad y protección de datos en el momento que efectúa la compra de su tarjeta más. Ver <?= Html::a('Política de Privacidad y Protección de Datos.', ['/tarjetamas/sitio/politicas']) ?> </li>  
                  <li>Este programa a través de su tarjeta más 5%, le otorga al portador de la tarjeta 48 descuentos del 5% durante un año, para las compras que realice en cualquier punto de venta LA  REBAJA DROGUERIAS Y MINIMARKETS, con una vigencia de un año a partir del momento de la activación o el uso total del número de descuentos adquiridos, lo primero que suceda. La activación de la tarjeta más 5%, se realiza en el mismo momento de la compra.</li>
