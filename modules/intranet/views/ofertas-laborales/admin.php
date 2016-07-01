@@ -26,14 +26,8 @@ $this->params['breadcrumbs'][] = ['label' => 'Ofertas laborales'];
               'attribute' => 'idCiudad',
               'value' => 'objCiudad.nombreCiudad',
             ],
-            [
-              'attribute' => 'idCargo',
-              'value' => 'objCargo.nombreCargo',
-            ],
-            [
-              'attribute' => 'idArea',
-              'value' => 'objArea.nombreArea',
-            ],
+            'nombreCargo',
+            'idArea',
             [
               'attribute' => 'estado',
               'filter' =>

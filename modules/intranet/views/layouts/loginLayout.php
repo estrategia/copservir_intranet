@@ -22,7 +22,7 @@ $srcLogo = Yii::$app->homeUrl . 'img/logo_copservir.png';
   <?php $this->head() ?>
   <script> requestUrl = "<?= Yii::$app->getUrlManager()->getBaseUrl() ?>";</script>
 </head>
-  <body data-original=""  style="background-color: #1aab9c">
+  <body data-original=""  style="background-color: #C4E1C4;">
     <?php $this->beginBody() ?>
     <div class="container">
       <?=

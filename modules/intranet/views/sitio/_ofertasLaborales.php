@@ -29,12 +29,7 @@ use yii\widgets\Pjax;
               'tableOptions' => ['class' => 'table table-hover no-more-tables'],
               'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
-                [
-                  'attribute' => 'idCargo',
-                  'value' => function($model) {
-                    return $model->objCargo->nombreCargo;
-                  }
-                ],
+                'nombreCargo',
                 [
                   'attribute' => 'idCiudad',
                   'value' => function($model) {
@@ -42,12 +37,7 @@ use yii\widgets\Pjax;
                   }
                 ],
                 'fechaPublicacion',
-                [
-                  'attribute' => 'idArea',
-                  'value' => function($model) {
-                    return $model->objArea->nombreArea;
-                  }
-                ],
+                'idArea',
                 [
                   'class' => 'yii\grid\ActionColumn',
                   'template' => '{link}',

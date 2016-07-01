@@ -27,7 +27,7 @@ $this->title = 'Login';
         'id' => 'login-form',
         'options' => ['class' => 'animated fadeIn validate'],
         'fieldConfig' => [
-          'template' => "<div class=\"col-md-4 col-sm-4\">{input}</div>\n{error}",
+          'template' => "<div style='padding:0px;' class=\"col-md-12 col-sm-12\">{input}</div>\n{error}",
           'labelOptions' => ['class' => 'col-lg-1 control-label'],
         ],
       ]); ?>
@@ -44,13 +44,13 @@ $this->title = 'Login';
           ],
           ])->label(false)->passwordInput(); ?>
 
-          <?= Html::submitButton('Iniciar sesión', ['class' => 'btn btn-primary pull-right', 'name' => 'login-button']) ?>
+          <?= Html::submitButton('Iniciar sesión', ['class' => 'btn btn-primary btn-block btn-login', 'name' => 'login-button']) ?>
 
 
         </div>
 
         <div class="row p-t-10 m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
-          <div class="control-group col-md-10">
+          <div class="control-group col-md-12">
             <div class="checkbox checkbox check-success">
               <div class="form-group ">
                 <?= Html::a('Olvide mi contraseña', 'recordar-clave', [ ]); ?>
