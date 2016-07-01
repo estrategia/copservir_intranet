@@ -13,20 +13,25 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
       </div>
    </div>
 </div>
-<div class="container-fluid">
-    <div class="row">
-          <img class="img-responsive" src="<?= "" . $srcProveedor . "/banner-intranet-tarjeta-mas.jpg"?>" alt="Tarjeta más">  
-    </div>
-
-</div>
-
+ <div class="container">
+      <div class="row">
+          <div class="fadeLeft col-md-6">              
+              <img class="img-responsive center-block" width="400" src=<?= "" . $srcProveedor . "/tarjeta-mas-5.png"?> alt="">
+              <p style="color:#D1282C;text-align:center;">En 48 compras durante un año </p>
+          </div>
+          <div class="fadeRight col-md-6">  
+              <img class="img-responsive center-block" width="400" src=<?= "" . $srcProveedor . "/tarjeta-mas-10.png"?> alt="">
+              <p style="color:#D1282C;text-align:center;">En 36 compras durante un año </p>
+          </div>
+      </div>
+ </div>
 <div class="container">
   <section>
       <div class="space-2"></div>
       <div class="row">
           <div class="col-md-12">
               <blockquote class="postLeft text-justify" style="background-color: rgba(239, 239, 239, 0.28);">
-                La Tarjeta más, te otorga descuentos durante un año por las compras que realices en cualquier punto de venta LA  REBAJA DROGUERIAS Y MINIMARKETS para que disfrutes de estos beneficios:  
+                BENEFICIOS   
             </blockquote>              
           </div> 
       </div>
@@ -62,22 +67,13 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
       <div class="space-2"></div>  
       <div class="row">    
           <div class="postPulse col-md-12">
-             <h3 class="text-center" style="font-weight:bolder;" >Ven y vive la experiencia, visita cualquiera de nuestros puntos de venta en el país y adquiere tu <br> TARJETA MÁS en sus 2 versiones:</h3>
+             <h3 class="text-center" style="font-weight:bolder;" > Visita cualquier punto de venta La Rebaja Droguerías y Minimarket y adquiere tu tarjeta más.</h3>
           </div>                  
       </div>
        <div class="space-2"></div>  
 
 
-      <div class="row">
-          <div class="fadeLeft col-md-6">              
-              <img class="img-responsive center-block" width="400" src=<?= "" . $srcProveedor . "/tarjeta-mas-5.png"?> alt="">
-              <p style="color:#D1282C;text-align:center;">En 48 compras durante un año </p>
-          </div>
-          <div class="fadeRight col-md-6">  
-              <img class="img-responsive center-block" width="400" src=<?= "" . $srcProveedor . "/tarjeta-mas-10.png"?> alt="">
-              <p style="color:#D1282C;text-align:center;">En 36 compras durante un año </p>
-          </div>
-      </div>
+
       <div class="space-1"></div>
      
   </section>    

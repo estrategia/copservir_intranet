@@ -146,10 +146,10 @@ ul.cbp_tmtimeline > li > div.cbp_tmlabel img {
     background-color: #bcbcbc;
 }
 
-table.table.dataTable > thead{
+/*table.table.dataTable > thead{
     background-color: #585858;
-    color: #ffffff
-}
+    color: #ffffff;
+}*/
 
 table.table.table-striped.table-bordered > thead > tr > th{
     color: #0d638f !important;
@@ -164,4 +164,37 @@ table.table.table-striped.table-bordered > thead > tr > th{
     padding: 10px 15px;
     text-align: center;
     border-radius: 15px 100px;
+}
+
+.popover {
+    background-color: #424242;
+    opacity: 0.5;
+}
+
+.iconos_right .popover > .arrow::after {
+    opacity: 0.5;
+}
+
+.popover.bottom > .arrow::after {
+    border-bottom-color: #424242;
+}
+
+.popover.top > .arrow::after {
+    border-top-color: #424242;
+}
+
+.popover.left > .arrow::after {
+    border-left-color: #424242;
+}
+
+.popover.right > .arrow::after {
+    border-right-color: #424242;
+}
+
+.popover-content {
+    font-size: 12px;
+    color: #fff;
+    font-weight: bold;
+    padding: 5px 10px;
+    text-align: center;
 }

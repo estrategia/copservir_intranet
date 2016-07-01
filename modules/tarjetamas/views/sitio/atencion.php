@@ -8,8 +8,8 @@ $src = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
 <div class="page-header">
    <div class="container">
       <div class="page-title">
-        <h1>Atención al cliente</h1>
-        <div class="breadcrumbs"><?= Html::a('Inicio', ['/tarjetamas/sitio/index']) ?> / atención al cliente</div>
+        <h1>PQRS</h1>
+        <div class="breadcrumbs"><?= Html::a('Inicio', ['/tarjetamas/sitio/index']) ?> / PQRS</div>
       </div>
    </div>
 </div>

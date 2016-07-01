@@ -44,7 +44,6 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
                 <li><?= Html::a('Acerca de', ['acerca-de']) ?></li>
-                <li><?= Html::a('Contacto', ['contacto']) ?></li>
                 
                 <?php foreach (MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id) as $itemMenu): ?>
                   <li>
