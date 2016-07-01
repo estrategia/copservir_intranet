@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 use app\assets\TarjetaMasAsset;
 use app\modules\intranet\models\MenuPortales;
-
+use app\modules\tarjetamas\models\UsuarioTarjetaMas;
 TarjetaMasAsset::register($this);
 
 // Rutas imagenes
@@ -56,8 +56,10 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/tarjetamas/logo-tarjeta-mas.png
                       <li class="active"><?= Html::a('Iniciar Sesión', ['/tarjetamas/usuario/autenticar']) ?></li>
                       <li class="active"><?= Html::a('Registrarse', ['/tarjetamas/usuario/registro']) ?></li>
                   </ul>
-                <?php else: ?>
-                  <?= Html::a('Nombre Usuario', "#") ?>
+                <?php else: ?> 
+                  <?php $model = UsuarioTarjetaMas::findOne(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento])?>
+                  <?php $nombre = explode(" ", $model->nombres);?>
+                  <?= Html::a($nombre[0], ['/tarjetamas/usuario']) ?>
                 <?php endif; ?>
 
               </li>

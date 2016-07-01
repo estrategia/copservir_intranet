@@ -79,7 +79,6 @@ class UsuarioController extends Controller {
      */
     public function actionMisTarjetas() {
         $cedula = \Yii::$app->user->identity->numeroDocumento;
-        $cedula = 94429997;
         $tarjetasUsuario = UsuarioTarjetaMas::callWSConsultarTarjetasAbonado($cedula);
 
         $provider = new ArrayDataProvider([
@@ -132,12 +131,13 @@ class UsuarioController extends Controller {
     public function actionSuspender() {
         if ($_POST != null) {
             $cedula = \Yii::$app->user->identity->numeroDocumento;
-            $cedula = 94429997;
             $numeroTarjeta = $_POST['numeroTarjeta'];
             $respuesta = UsuarioTarjetaMas::callWSSuspenderTarjetaWeb($cedula, $numeroTarjeta);
             if ($respuesta[0]['CODIGO'] == 1) {
+                Yii::$app->session->setFlash('success', 'La tarjeta ha sido suspendida con éxito');
                 return $this->redirect('mis-tarjetas');
             } else {
+                Yii::$app->session->setFlash('ERROR', $respuesta[0]['MENSAJE']);
                 return $this->redirect('mis-tarjetas');
             }
         }
@@ -149,14 +149,14 @@ class UsuarioController extends Controller {
 
         if ($model->load(Yii::$app->request->post())) {
             $cedula = \Yii::$app->user->identity->numeroDocumento;
-            $cedula = 94429997;
             $numeroTarjeta = $model->numeroTarjeta;
             $respuesta = UsuarioTarjetaMas::callWSActivarTarjetaWeb($cedula, $numeroTarjeta);
 
             if ($respuesta[0]['CODIGO'] == 1) {
+                Yii::$app->session->setFlash('success', 'La tarjeta ha sido activada con éxito');
                 return $this->redirect('mis-tarjetas');
             } else {
-                return $this->redirect('mis-tarjetas');
+                $model->addError('numeroTarjeta', $respuesta[0]['MENSAJE']);
             }
         }
 
@@ -171,7 +171,6 @@ class UsuarioController extends Controller {
     public function actionHacerPrimaria() {
         if ($_POST != null) {
             $cedula = \Yii::$app->user->identity->numeroDocumento;
-            $cedula = 94429997;
             $numeroTarjeta = $_POST['numeroTarjeta'];
             $tarjetasUsuario = UsuarioTarjetaMas::callWSConsultarTarjetasAbonado($cedula);
 
@@ -182,10 +181,12 @@ class UsuarioController extends Controller {
                 }
             }
             $respuesta = UsuarioTarjetaMas::callWSCambiarTarjetaPrimaria($principal, $cedula, $numeroTarjeta);
-
+            
             if ($respuesta[0]['CODIGO'] == 1) {
+                Yii::$app->session->setFlash('success', "La tarjeta $numeroTarjeta ha sido marca como principal");
                 return $this->redirect('mis-tarjetas');
             } else {
+                Yii::$app->session->setFlash('error', $respuesta[0]['MENSAJE']);
                 return $this->redirect('mis-tarjetas');
             }
         }
@@ -194,36 +195,7 @@ class UsuarioController extends Controller {
         $this->redirect('mis-tarjetas');
     }
 
-    /**
-     * Funcion para consumir el web services para
-     * @param string $username, string password
-     * @return boolean,
-     */
-    public static function callWSConsultarTarjetasAbonado($numeroDocumento) {
-        /*
-          $client = new \SoapClient(\Yii::$app->params['webServices']['tarjetaMas'], array(
-          "trace" => 1,
-          "exceptions" => 0,
-          'connection_timeout' => 5,
-          'cache_wsdl' => WSDL_CACHE_NONE
-          ));
-
-          try {
-          $codigoSeguridad = sha1(\Yii::$app->params['webServices']['codigoSeguridad']);
-          $result = $client->consultarTarjetasAbonado($codigoSeguridad, $numeroDocumento);
-          return $result;
-
-          } catch (SoapFault $ex) {
-          Yii::error($ex->getMessage());
-          } catch (Exception $ex) {
-          Yii::error($ex->getMessage());
-          }
-         */
-        return [['CODIGO' => 1, 'MENSAJE' => 'OK', 'CEDULA' => 123456789, 'NOMBRE' => 'MIGUEL',
-        'NUMEROTARJETA' => 123456, 'FECHA' => Date("Y-m-d"), 'TRANSACCION' => 'TRANSACCION', 'VALOR' => 10,
-        'CODPDV' => 123456, 'NOMBREPDV' => 'NOMBREPDV', 'FACTURA' => 'FACTURA', 'CAJA' => 'CAJA']];
-    }
-
+    
     public function actionDatosRegistro() {
         $model = new UsuarioTarjetaMas();
         $model->scenario = 'registroDatos';
