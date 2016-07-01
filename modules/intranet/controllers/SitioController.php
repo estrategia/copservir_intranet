@@ -202,6 +202,16 @@ class SitioController extends \app\controllers\CController {
         $contenido = new Contenido();
         $respond = [];
 
+        if (empty($contenidodestino['codigoCiudad']) && empty($contenidodestino['idGrupoInteres'])) {
+          $respond = [
+              'result' => 'error',
+              'error' => 'Ciudad y grupos de interes no pueden estar vacios'
+          ];
+          \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+          return $respond;
+          exit();
+        }
+
         if ($contenido->load(Yii::$app->request->post())) {
             $lineaTiempo = LineaTiempo::findOne($contenido->idLineaTiempo);
 
@@ -221,10 +231,12 @@ class SitioController extends \app\controllers\CController {
                     $solicitarGrupo = Yii::$app->request->post('SolicitarGrupoObjetivo');
 
                     if ($solicitarGrupo == 1) {
+
                         $contenidodestino = Yii::$app->request->post('ContenidoDestino');
                         $contenido->guardarContenidoDestino($contenidodestino);
+
                     } else {
-                        $contenido->guardarContenidoDestinoTodos();
+                      $contenido->guardarContenidoDestinoTodos();
                     }
 
                     $transaction->commit();
@@ -236,7 +248,7 @@ class SitioController extends \app\controllers\CController {
                             'linea' => $lineaTiempo,
                             'noticias' => Contenido::traerNoticias($contenido->idLineaTiempo)
                     ])];
-                } else {
+                }else {
 
                     $respond = [
                         'result' => 'ok',
@@ -247,21 +259,18 @@ class SitioController extends \app\controllers\CController {
                     ])];
                 }
             } catch (\Exception $e) {
-
                 $transaction->rollBack();
-                throw $e;
                 $respond = [
-                    'result' => 'ok',
-                    'response' => $this->renderAjax('_lineaTiempo', [
-                        'contenidoModel' => $contenido,
-                        'linea' => $lineaTiempo,
-                        'noticias' => Contenido::traerNoticias($contenido->idLineaTiempo)
-                ])];
+                    'result' => 'error',
+                    'error' =>  $e->getMessage(),
+                    ];
+
+                throw $e;
             }
         } else {
             $respond = [
-                'result' => 'error2',
-                'response' => 'Error al cargar el contenido'
+                'result' => 'error',
+                'error' => 'Error al cargar el contenido'
             ];
         }
 
@@ -320,6 +329,7 @@ class SitioController extends \app\controllers\CController {
                   if (!empty($contenidodestino['codigoCiudad']) && !empty($contenidodestino['idGrupoInteres']) && in_array("1", $contenidoModel->portales)) {
                     $contenidoModel->guardarContenidoDestino($contenidodestino);
                   }
+
                   $transaction->commit();
                   $respond = [
                       'result' => 'ok',
@@ -366,12 +376,39 @@ class SitioController extends \app\controllers\CController {
         $esAdmin = true;
       }
 
+
+
       $contenidoModel = $this->encontrarModeloContenido($id);
+      $contenidoModel->scenario = Contenido::SCENARIO_PUBLICAR_PORTALES;
+
+      $contenidodestino = Yii::$app->request->post('ContenidoDestino');
+
       $contenidoModel->portales = array();
       $contenidoPortal = ContenidoPortal::find()->where(['idContenido' => $contenidoModel->idContenido])->all();
 
       foreach ($contenidoPortal as $portal ) {
         array_push($contenidoModel->portales,$portal->idPortal);
+      }
+
+      if ($contenidoModel->load(Yii::$app->request->post()) ) { // && Yii::$app->request->isAjax
+
+        if (!empty($_FILES['imagenes'])) {
+            $contenidoModel->imagenes = $_FILES['imagenes'];
+        }
+
+        if (!is_null($contenidoModel->idLineaTiempo)) {
+            $contenidoModel->scenario = Contenido::SCENARIO_PUBLICAR_PORTALES_CON_LINEA_TIEMPO;
+        }
+
+        if ($contenidoModel->save()) {
+          /*
+          $this->guardarContenidoPortal($contenidoModel);
+
+          if (!empty($contenidodestino['codigoCiudad']) && !empty($contenidodestino['idGrupoInteres']) && in_array("1", $contenidoModel->portales)) {
+            $contenidoModel->guardarContenidoDestino($contenidodestino);
+          }
+          */
+        }
       }
       return $this->render('/contenido/publicar-portales-actualizar', [
                   'contenidoModel' => $contenidoModel,
