@@ -601,7 +601,7 @@ body.boxed-layout .footer-widget {
   display: block;
   margin: 0px 0px 0px 0px;
   padding: 5px 0px;
-  padding-left: 20px !important;
+  padding-left: 15px !important;
   color: #e1eaf1;
   text-decoration: none;
   text-shadow: 0 1px 1px #000;
@@ -638,11 +638,15 @@ body.boxed-layout .footer-widget {
   padding: 0px;
 }
 .page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu > li > ul.sub-menu > li > a {
-  margin-left: 70px;
+  margin-left: 20px;
 }
 .page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu > li > a {
-  padding-left: 80px;
+  padding-left: 25px;
 }
+.page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu > li > a {
+  padding-left: 30px;
+}
+
 .page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu li > a > .arrow:before {
   float: right;
   margin-top: 1px;

@@ -68,6 +68,7 @@ if (!Yii::$app->user->isGuest) {
                         </ul>
                         <ul class="nav quick-section">
                             <li class="quicklinks"> <span class="h-seperate"></span></li>
+                            <!--
                             <li class="m-r-10 input-prepend inside search-form no-boarder">
                                 <?= Html::beginForm(['contenido/buscador-noticias'], 'post', ['id' => 'formBuscadorNoticias']); ?>
                                 <span class="add-on">
@@ -76,6 +77,7 @@ if (!Yii::$app->user->isGuest) {
                                 <input id="busqueda" name="busqueda" type="text"  class="no-boarder " placeholder="Buscar..." style="width:250px;">
                                 <?= Html::endForm() ?>
                             </li>
+                            -->
                         </ul>
                     </div><!-- END TOP NAVIGATION MENU -->
 

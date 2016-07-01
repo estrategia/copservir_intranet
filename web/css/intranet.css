@@ -166,12 +166,13 @@ table.table.table-striped.table-bordered > thead > tr > th{
     border-radius: 15px 100px;
 }
 
+/*
 .popover {
     background-color: #424242;
     opacity: 0.5;
 }
 
-.iconos_right .popover > .arrow::after {
+.popover > .arrow::after {
     opacity: 0.5;
 }
 
@@ -198,3 +199,4 @@ table.table.table-striped.table-bordered > thead > tr > th{
     padding: 5px 10px;
     text-align: center;
 }
+*/
