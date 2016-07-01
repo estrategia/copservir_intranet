@@ -1,4 +1,5 @@
 <?php
+use yii\helpers\Html;
 $this->title = 'Tarjeta Mas';
 ?>
 
@@ -8,32 +9,24 @@ $this->title = 'Tarjeta Mas';
   <div class="row">
     <div class="col-md-12">
       
-      <!--
+      
         <div class="col-md-3" style="">
           <ul class="nav nav nav-pills nav-stacked" role="tablist">
             <li role="presentation" class="active">
-              <a href="#actualizar-datos" aria-controls="actualizar-datos" role="tab" data-toggle="tab">
-                Actualizar Datos
-              </a>
+              <?=   Html::a('Actualizar datos', ['actualizar-datos'],['aria-controls' => "ver-tarjetas", ]);?>
             </li>
             <li role="presentation">
-              <a href="#ver-tarjetas" aria-controls="ver-tarjetas" role="tab" data-toggle="tab">
-                Ver Tarjetas
-              </a>
+              <?=   Html::a('Ver tarjetas', ['mis-tarjetas'],['aria-controls' => "ver-tarjetas", ]);?>
             </li>
             <li role="presentation">
-              <a href="#activar-tarjeta" aria-controls="activar-tarjeta" role="tab" data-toggle="tab">
-                Activar Tarjeta
-              </a>
+                <?=   Html::a('Activar tarjeta', ['activar-tarjeta'],['aria-controls' => "ver-tarjetas", ]);?> 
             </li>
             <li role="presentation">
-              <a href="#" aria-controls="" role="tab" data-toggle="tab">
-                Cerrar sesion
-              </a>
+              <?=   Html::a('Cerrar sesión', ['salir'],['aria-controls' => "ver-tarjetas", ]);?>
             </li>
   </ul>
         </div>
-      -->
+      
 
     </div>
   </div>

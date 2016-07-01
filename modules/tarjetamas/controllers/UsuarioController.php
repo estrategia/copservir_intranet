@@ -10,10 +10,11 @@ use app\modules\tarjetamas\models\UsuarioTarjetaMas;
 use app\modules\intranet\models\RecuperacionClave;
 use app\models\Usuario;
 use yii\filters\VerbFilter;
+use yii\data\ArrayDataProvider;
+use app\modules\tarjetamas\models\formularios\ActivarForm;
 
+class UsuarioController extends Controller {
 
-class UsuarioController extends Controller
-{
     const USUARIO_TIENE_TARJETAS = 1;
 
     public function behaviors() {
@@ -21,24 +22,24 @@ class UsuarioController extends Controller
             [
                 'class' => \app\components\AccessFilter::className(),
                 'only' => [
-                    'index', 'cambiar-clave', 'actualizar-datos'
+                    'index', 'cambiar-clave', 'actualizar-datos', 'mis-tarjetas', 'suspender', 'ver', 'hacer-primaria'
                 ],
                 'redirectUri' => ['/tarjetamas/sitio/index']
             ],
             /*
-            [
-                'class' => \app\components\AuthItemFilter::className(),
-                'only' => [
-                    'admin', 'detalle', 'crear', 'actualizar', 'eliminar'
-                ],
-                'authsActions' => [
-                    'detalle' => 'intranet_linea-tiempo_admin',
-                    'crear' => 'intranet_linea-tiempo_admin',
-                    'actualizar' => 'intranet_linea-tiempo_admin',
-                    'eliminar' => 'intranet_linea-tiempo_admin',
-                ]
-            ],
-            */
+              [
+              'class' => \app\components\AuthItemFilter::className(),
+              'only' => [
+              'admin', 'detalle', 'crear', 'actualizar', 'eliminar'
+              ],
+              'authsActions' => [
+              'detalle' => 'intranet_linea-tiempo_admin',
+              'crear' => 'intranet_linea-tiempo_admin',
+              'actualizar' => 'intranet_linea-tiempo_admin',
+              'eliminar' => 'intranet_linea-tiempo_admin',
+              ]
+              ],
+             */
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -48,23 +49,22 @@ class UsuarioController extends Controller
         ];
     }
 
-    public function actionIndex()
-    {
-      return $this->render('index');
+    public function actionIndex() {
+        return $this->render('index');
     }
 
-    public function actionRegistro(){
+    public function actionRegistro() {
         $model = new RegistroForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
-          $response = self::callWSConsultarTarjetasAbonado($model->username);
+            $response = UsuarioTarjetaMas::callWSConsultarTarjetasAbonado($model->username);
 
-          if ($response['CODIGO'] == self::USUARIO_TIENE_TARJETAS){
-            return $this->redirect(['datos-registro']);
-          }else{
-            $model->addError('username', 'El Usuario no tiene ninguna tarjera');
-          }
+            if ($response[0]['CODIGO'] == self::USUARIO_TIENE_TARJETAS) {
+                return $this->redirect(['datos-registro']);
+            } else {
+                $model->addError('username', 'El Usuario no tiene ninguna tarjera');
+            }
         }
 
         return $this->render('verifica-registro', [
@@ -73,206 +73,291 @@ class UsuarioController extends Controller
     }
 
     /**
-    * Funcion para consumir el web services para
-    * @param string $username, string password
-    * @return boolean,
-    */
-    public static function callWSConsultarTarjetasAbonado($numeroDocumento)
-    {
-      /*
-      $client = new \SoapClient(\Yii::$app->params['webServices']['tarjetaMas'], array(
-          "trace" => 1,
-          "exceptions" => 0,
-          'connection_timeout' => 5,
-          'cache_wsdl' => WSDL_CACHE_NONE
-      ));
+     * Funcion para ver las tarjetas de el usuario loguado
+     * @param none
+     * @return <tag> html,
+     */
+    public function actionMisTarjetas() {
+        $cedula = \Yii::$app->user->identity->numeroDocumento;
+        $tarjetasUsuario = UsuarioTarjetaMas::callWSConsultarTarjetasAbonado($cedula);
 
-      try {
-          $codigoSeguridad = sha1(\Yii::$app->params['webServices']['codigoSeguridad']);
-          $result = $client->consultarTarjetasAbonado($codigoSeguridad, $numeroDocumento);
-          return $result;
-
-      } catch (SoapFault $ex) {
-        Yii::error($ex->getMessage());
-      } catch (Exception $ex) {
-        Yii::error($ex->getMessage());
-      }
-      */
-      return [['CODIGO' => 1, 'MENSAJE' => 'OK', 'CEDULA' => 123456789, 'NOMBRE' => 'MIGUEL',
-       'NUMEROTARJETA' => 123456, 'FECHA' => Date("Y-m-d"), 'TRANSACCION' => 'TRANSACCION', 'VALOR' => 10,
-        'CODPDV' => 123456, 'NOMBREPDV' => 'NOMBREPDV', 'FACTURA' => 'FACTURA', 'CAJA' => 'CAJA']];
+        $provider = new ArrayDataProvider([
+            'allModels' => $tarjetasUsuario,
+            'sort' => [
+                'attributes' => ['NUMEROTARJETA', 'ESTADOTARJETA', 'PORCENTAJE', 'FECHAACTIVACION', 'FECHAVENCIMIENTO', 'DESCUENTOSDISPONIBLES', 'PRINCIPAL'],
+            ],
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        return $this->render('tarjetas', [
+                    'dataProvider' => $provider
+        ]);
     }
 
-    public function actionDatosRegistro()
-    {
-      $model = new UsuarioTarjetaMas();
-      $model->scenario = 'registroDatos';
+    /**
+     * Funcion para ver las tarjetas de el usuario loguado
+     * @param none
+     * @return <tag> html,
+     */
+    public function actionVer() {
 
-      if ($model->load(Yii::$app->request->post())) {
-        $modelUsuario = new Usuario;
-        $modelUsuario->numeroDocumento = $model->numeroDocumento;
-        $modelUsuario->estado = Usuario::ESTADO_ACTIVO;
-        $modelUsuario->codigoPerfil = \Yii::$app->params['PerfilesUsuario']['tarjetaMas']['codigo'];
-        $modelUsuario->contrasena = md5($model->password);
 
-        if ($modelUsuario->save() && $model->save()) {
+        if ($_POST != null) {
 
-          $modelLogin = new LoginForm();
-          $modelLogin->username = $model->numeroDocumento;
-          $modelLogin->password = $model->password;
+            $numeroTarjeta = $_POST['numeroTarjeta'];
+            $tarjetasUsuario = UsuarioTarjetaMas::callWSConsultarMovimientos($numeroTarjeta);
 
-          if ($modelLogin->login()) {
-            return $this->redirect(['index']);
-          }else{
-            return $this->redirect(['sitio/index']);
-          }
-        }else{
-          Yii::$app->session->setFlash('error', 'Error al realizar el registro');
+            $provider = new ArrayDataProvider([
+                'allModels' => $tarjetasUsuario,
+                'sort' => [
+                    'attributes' => ['FECHA', 'TRANSACCION', 'VALORVENTA', 'VALORDESCUENTO', 'PDV', 'CAJA', 'FACTURA'],
+                ],
+                'pagination' => [
+                    'pageSize' => 10,
+                ],
+            ]);
+            return $this->render('movimientos', [
+                        'dataProvider' => $provider
+            ]);
         }
-      }
-      return $this->render('datos-registro', [
-                  'model' => $model,
-      ]);
     }
 
-    public function actionAutenticar(){
-
-      if (!\Yii::$app->user->isGuest) {
-          return $this->redirect(['index']);
-      }
-
-      $model = new LoginForm();
-      $model->scenario = 'login';
-
-      if ($model->load(Yii::$app->request->post()) && $model->login()) {
-
-        return $this->redirect(['index']);
-
-      }
-
-      return $this->render('autenticar', [
-                  'model' => $model,
-      ]);
+    /**
+     * Funcion para ver las tarjetas de el usuario loguado
+     * @param none
+     * @return <tag> html,
+     */
+    public function actionSuspender() {
+        if ($_POST != null) {
+            $cedula = \Yii::$app->user->identity->numeroDocumento;
+            $numeroTarjeta = $_POST['numeroTarjeta'];
+            $respuesta = UsuarioTarjetaMas::callWSSuspenderTarjetaWeb($cedula, $numeroTarjeta);
+            if ($respuesta[0]['CODIGO'] == 1) {
+                Yii::$app->session->setFlash('success', 'La tarjeta ha sido suspendida con éxito');
+                return $this->redirect('mis-tarjetas');
+            } else {
+                Yii::$app->session->setFlash('ERROR', $respuesta[0]['MENSAJE']);
+                return $this->redirect('mis-tarjetas');
+            }
+        }
     }
 
-    public function actionCambiarClave(){
+    public function actionActivarTarjeta() {
+
+        $model = new ActivarForm();
+
+        if ($model->load(Yii::$app->request->post())) {
+            $cedula = \Yii::$app->user->identity->numeroDocumento;
+            $numeroTarjeta = $model->numeroTarjeta;
+            $respuesta = UsuarioTarjetaMas::callWSActivarTarjetaWeb($cedula, $numeroTarjeta);
+
+            if ($respuesta[0]['CODIGO'] == 1) {
+                Yii::$app->session->setFlash('success', 'La tarjeta ha sido activada con éxito');
+                return $this->redirect('mis-tarjetas');
+            } else {
+                $model->addError('numeroTarjeta', $respuesta[0]['MENSAJE']);
+            }
+        }
+
+        return $this->render('activar-tarjeta', ['model' => $model]);
+    }
+
+    /**
+     * Funcion para ver las tarjetas de el usuario loguado
+     * @param none
+     * @return <tag> html,
+     */
+    public function actionHacerPrimaria() {
+        if ($_POST != null) {
+            $cedula = \Yii::$app->user->identity->numeroDocumento;
+            $numeroTarjeta = $_POST['numeroTarjeta'];
+            $tarjetasUsuario = UsuarioTarjetaMas::callWSConsultarTarjetasAbonado($cedula);
+
+            $principal = "";
+            foreach ($tarjetasUsuario as $tarjeta) {
+                if ($tarjeta['PRINCIPAL'] == "SI") {
+                    $principal = $tarjeta["NUMEROTARJETA"];
+                }
+            }
+            $respuesta = UsuarioTarjetaMas::callWSCambiarTarjetaPrimaria($principal, $cedula, $numeroTarjeta);
+            
+            if ($respuesta[0]['CODIGO'] == 1) {
+                Yii::$app->session->setFlash('success', "La tarjeta $numeroTarjeta ha sido marca como principal");
+                return $this->redirect('mis-tarjetas');
+            } else {
+                Yii::$app->session->setFlash('error', $respuesta[0]['MENSAJE']);
+                return $this->redirect('mis-tarjetas');
+            }
+        }
+
+
+        $this->redirect('mis-tarjetas');
+    }
+
+    
+    public function actionDatosRegistro() {
+        $model = new UsuarioTarjetaMas();
+        $model->scenario = 'registroDatos';
+
+        if ($model->load(Yii::$app->request->post())) {
+            $modelUsuario = new Usuario;
+            $modelUsuario->numeroDocumento = $model->numeroDocumento;
+            $modelUsuario->estado = Usuario::ESTADO_ACTIVO;
+            $modelUsuario->codigoPerfil = \Yii::$app->params['PerfilesUsuario']['tarjetaMas']['codigo'];
+            $modelUsuario->contrasena = md5($model->password);
+
+            if ($modelUsuario->save() && $model->save()) {
+
+                $modelLogin = new LoginForm();
+                $modelLogin->username = $model->numeroDocumento;
+                $modelLogin->password = $model->password;
+
+                if ($modelLogin->login()) {
+                    return $this->redirect(['index']);
+                } else {
+                    return $this->redirect(['sitio/index']);
+                }
+            } else {
+                Yii::$app->session->setFlash('error', 'Error al realizar el registro');
+            }
+        }
+        return $this->render('datos-registro', [
+                    'model' => $model,
+        ]);
+    }
+
+    public function actionAutenticar() {
+
+        if (!\Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
+        }
+
+        $model = new LoginForm();
+        $model->scenario = 'login';
+
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+
+            return $this->redirect(['index']);
+        }
+
+        return $this->render('autenticar', [
+                    'model' => $model,
+        ]);
+    }
+
+    public function actionCambiarClave() {
         $model = new LoginForm();
         $model->username = \Yii::$app->user->identity->numeroDocumento;
         $model->scenario = 'cambiarClave';
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-          $usuario = $this->findModelUsuario($model->username);
-          $usuario->contrasena = md5($model->password);
-          if ($usuario->save()) {
-            return $this->redirect(['index']);
-          }
+            $usuario = $this->findModelUsuario($model->username);
+            $usuario->contrasena = md5($model->password);
+            if ($usuario->save()) {
+                return $this->redirect(['index']);
+            }
         }
 
         return $this->render('cambiar-clave', [
                     'model' => $model,
         ]);
-
     }
 
-    public function actionRecordarClave()
-    {
-      if (!\Yii::$app->user->isGuest) {
-          return $this->redirect(['index']);
-      }
+    public function actionRecordarClave() {
+        if (!\Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
+        }
 
-      $model = new LoginForm();
+        $model = new LoginForm();
 
-      if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
-        $usuario = Usuario::findOne(['numeroDocumento' => $model->username, 'estado' => 1]);
+            $usuario = Usuario::findOne(['numeroDocumento' => $model->username, 'estado' => 1]);
 
-        if (!$usuario) {
-            $model->addError('username', 'Usuario no existe');
-        } else {
+            if (!$usuario) {
+                $model->addError('username', 'Usuario no existe');
+            } else {
 
-            $codigoRecuperacion = $usuario->generarCodigoRecuperacion();
-            $fecha = new \DateTime();
+                $codigoRecuperacion = $usuario->generarCodigoRecuperacion();
+                $fecha = new \DateTime();
 
-            //se guarda el codigo y la fecha de recuperacion
-            $objRecuperacionClave = new RecuperacionClave();
-            $objRecuperacionClave->numeroDocumento = $usuario->numeroDocumento;
-            $objRecuperacionClave->recuperacionCodigo = $codigoRecuperacion;
-            $objRecuperacionClave->recuperacionFecha = $fecha->format('Y-m-d H:i:s');
+                //se guarda el codigo y la fecha de recuperacion
+                $objRecuperacionClave = new RecuperacionClave();
+                $objRecuperacionClave->numeroDocumento = $usuario->numeroDocumento;
+                $objRecuperacionClave->recuperacionCodigo = $codigoRecuperacion;
+                $objRecuperacionClave->recuperacionFecha = $fecha->format('Y-m-d H:i:s');
 
-            if ($objRecuperacionClave->save()) {
+                if ($objRecuperacionClave->save()) {
 
-              $value = $this->enviarCorreo($codigoRecuperacion, $usuario->objUsuarioTarjetaMas->correo);
+                    $value = $this->enviarCorreo($codigoRecuperacion, $usuario->objUsuarioTarjetaMas->correo);
 
-              if ($value) {
-                Yii::$app->session->setFlash('success', 'Revisa Tu correo');
-              }else{
-                Yii::$app->session->setFlash('error', 'Error al enviar el correo');
-              }
-
-            }else{
-              Yii::$app->session->setFlash('error', 'Error al enviar el correo');
+                    if ($value) {
+                        Yii::$app->session->setFlash('success', 'Revisa Tu correo');
+                    } else {
+                        Yii::$app->session->setFlash('error', 'Error al enviar el correo');
+                    }
+                } else {
+                    Yii::$app->session->setFlash('error', 'Error al enviar el correo');
+                }
             }
         }
-      }
 
-      return $this->render('recordar-clave', [
-                  'model' => $model,
-      ]);
+        return $this->render('recordar-clave', [
+                    'model' => $model,
+        ]);
     }
 
-    private function enviarCorreo($codigoRecuperacion, $correoUsuario)
-    {
+    private function enviarCorreo($codigoRecuperacion, $correoUsuario) {
 
-      //se crea el enlace para restablecer la contraseña y el contenido del email
-      $enlace = yii::$app->urlManager->createAbsoluteUrl(['tarjetamas/usuario/reestablecer-clave', 'codigo' => $codigoRecuperacion]);
-      $contenido_mail = "Ingresa a la siguiente direccion para reestalecer tu contraseña.\n" . $enlace;
+        //se crea el enlace para restablecer la contraseña y el contenido del email
+        $enlace = yii::$app->urlManager->createAbsoluteUrl(['tarjetamas/usuario/reestablecer-clave', 'codigo' => $codigoRecuperacion]);
+        $contenido_mail = "Ingresa a la siguiente direccion para reestalecer tu contraseña.\n" . $enlace;
 
-      // envia correo
-      $value = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
-        ->setTo($correoUsuario)->setSubject('Recuperacion Contraseña TarjetaMas')
-        ->setHtmlBody($contenido_mail)->send();
+        // envia correo
+        $value = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
+                        ->setTo($correoUsuario)->setSubject('Recuperacion Contraseña TarjetaMas')
+                        ->setHtmlBody($contenido_mail)->send();
 
-      return $value;
+        return $value;
     }
 
-    public function actionReestablecerClave($codigo){
+    public function actionReestablecerClave($codigo) {
 
-      $model = new LoginForm();
-      $model->scenario = 'cambiarClave';
+        $model = new LoginForm();
+        $model->scenario = 'cambiarClave';
 
-      if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post())) {
 
-          $objRecuperacionClave = $this->findModelRecuperacionClave($codigo);
-          $usuario = $this->findModelUsuario($objRecuperacionClave->numeroDocumento);
-          $usuario->contrasena = md5($model->password);
-          $model->username = $usuario->numeroDocumento;
+            $objRecuperacionClave = $this->findModelRecuperacionClave($codigo);
+            $usuario = $this->findModelUsuario($objRecuperacionClave->numeroDocumento);
+            $usuario->contrasena = md5($model->password);
+            $model->username = $usuario->numeroDocumento;
 
-            if ($usuario->save()  &&  $model->login() ){
+            if ($usuario->save() && $model->login()) {
 
-              return $this->redirect(['index']);
+                return $this->redirect(['index']);
+            } else {
 
-            }else{
-
-              $model->addError($model->password, 'Error al reestablecer la clave');
+                $model->addError($model->password, 'Error al reestablecer la clave');
             }
-      }
+        }
 
-      return $this->render('reestablecer-clave', [
-                  'model' => $model,
-      ]);
-
+        return $this->render('reestablecer-clave', [
+                    'model' => $model,
+        ]);
     }
 
-    public function actionActualizarDatos(){
+    public function actionActualizarDatos() {
 
         $model = $this->findModelUsuarioTarjetaMas(Yii::$app->user->identity->numeroDocumento);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {
-          return $this->render('actualizar-datos', [
-                      'model' => $model,
-          ]);
+            return $this->render('actualizar-datos', [
+                        'model' => $model,
+            ]);
         }
     }
 
@@ -308,6 +393,12 @@ class UsuarioController extends Controller
             throw new NotFoundHttpException('The requested does not exist.');
         }
     }
+
+    public function actionSalir() {
+        Yii::$app->user->logout();
+        $this->redirect(['/tarjetamas']);
+    }
+
 }
 
 ?>

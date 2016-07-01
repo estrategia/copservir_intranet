@@ -80,4 +80,129 @@ class UsuarioTarjetaMas extends \yii\db\ActiveRecord
       $opciones = Ciudad::find()->asArray()->all();
       return ArrayHelper::map($opciones, 'idCiudad', 'nombreCiudad');
     }
+    
+    public static function callWSConsultarTarjetasAbonado($numeroDocumento)
+    {
+      
+      $client = new \SoapClient(\Yii::$app->params['webServices']['tarjetaMas'], array(
+          "trace" => 1,
+          "exceptions" => 0,
+          'connection_timeout' => 5,
+          'cache_wsdl' => WSDL_CACHE_NONE
+      ));
+
+      try {
+          $codigoSeguridad = sha1(\Yii::$app->params['webServices']['codigoSeguridad']);
+          $result = $client->consultarTarjetasAbonado($codigoSeguridad, $numeroDocumento);
+          return $result;
+
+      } catch (SoapFault $ex) {
+        Yii::error($ex->getMessage());
+      } catch (Exception $ex) {
+        Yii::error($ex->getMessage());
+      }
+      
+//      return [['CODIGO' => 1, 'MENSAJE' => 'OK', 'CEDULA' => 123456789, 'NOMBRE' => 'MIGUEL',
+//       'NUMEROTARJETA' => 123456, 'FECHA' => Date("Y-m-d"), 'TRANSACCION' => 'TRANSACCION', 'VALOR' => 10,
+//        'CODPDV' => 123456, 'NOMBREPDV' => 'NOMBREPDV', 'FACTURA' => 'FACTURA', 'CAJA' => 'CAJA']];
+    }
+    
+    public static function callWSConsultarMovimientos($numeroTarjeta)
+    {
+      
+      $client = new \SoapClient(\Yii::$app->params['webServices']['tarjetaMas'], array(
+          "trace" => 1,
+          "exceptions" => 0,
+          'connection_timeout' => 5,
+          'cache_wsdl' => WSDL_CACHE_NONE
+      ));
+
+      try {
+          $codigoSeguridad = sha1(\Yii::$app->params['webServices']['codigoSeguridad']);
+          $result = $client->ConsultarMovimientosTarjeta($codigoSeguridad, $numeroTarjeta);
+          return $result;
+
+      } catch (SoapFault $ex) {
+        Yii::error($ex->getMessage());
+      } catch (Exception $ex) {
+        Yii::error($ex->getMessage());
+      }
+      
+//      return [['CODIGO' => 1, 'MENSAJE' => 'OK', 'CEDULA' => 123456789, 'NOMBRE' => 'MIGUEL',
+//       'NUMEROTARJETA' => 123456, 'FECHA' => Date("Y-m-d"), 'TRANSACCION' => 'TRANSACCION', 'VALOR' => 10,
+//        'CODPDV' => 123456, 'NOMBREPDV' => 'NOMBREPDV', 'FACTURA' => 'FACTURA', 'CAJA' => 'CAJA']];
+    }
+    
+    public static function callWSSuspenderTarjetaWeb($cedula,$numeroTarjeta)
+    {
+      
+      $client = new \SoapClient(\Yii::$app->params['webServices']['tarjetaMas'], array(
+          "trace" => 1,
+          "exceptions" => 0,
+          'connection_timeout' => 5,
+          'cache_wsdl' => WSDL_CACHE_NONE
+      ));
+
+      try {
+          $codigoSeguridad = sha1(\Yii::$app->params['webServices']['codigoSeguridad']);
+          $result = $client->suspenderTarjetaWeb($codigoSeguridad, $numeroTarjeta,$cedula);
+          return $result;
+
+      } catch (SoapFault $ex) {
+        Yii::error($ex->getMessage());
+      } catch (Exception $ex) {
+        Yii::error($ex->getMessage());
+      }
+      
+    }
+    
+    public static function callWSActivarTarjetaWeb($cedula,$numeroTarjeta)
+    {
+      
+      $client = new \SoapClient(\Yii::$app->params['webServices']['tarjetaMas'], array(
+          "trace" => 1,
+          "exceptions" => 0,
+          'connection_timeout' => 5,
+          'cache_wsdl' => WSDL_CACHE_NONE
+      ));
+
+      try {
+          $codigoSeguridad = sha1(\Yii::$app->params['webServices']['codigoSeguridad']);
+          $result = $client->ActivarTarjetaWeb($codigoSeguridad, $numeroTarjeta,$cedula);
+          return $result;
+
+      } catch (SoapFault $ex) {
+        Yii::error($ex->getMessage());
+      } catch (Exception $ex) {
+        Yii::error($ex->getMessage());
+      }
+      
+    }
+    
+    
+    public static function callWSCambiarTarjetaPrimaria($NumeroTarjetaPrimaria, $NumeroIdentificacion, $NumeroTarjetaNueva){
+        $client = new \SoapClient(\Yii::$app->params['webServices']['tarjetaMas'], array(
+          "trace" => 1,
+          "exceptions" => 0,
+          'connection_timeout' => 5,
+          'cache_wsdl' => WSDL_CACHE_NONE
+      ));
+
+      try {
+          $codigoSeguridad = sha1(\Yii::$app->params['webServices']['codigoSeguridad']);
+          $result = $client->CambiarTarjetaPrimaria($codigoSeguridad, $NumeroTarjetaPrimaria, $NumeroIdentificacion, $NumeroTarjetaNueva);
+          return $result;
+
+      } catch (SoapFault $ex) {
+        Yii::error($ex->getMessage());
+      } catch (Exception $ex) {
+        Yii::error($ex->getMessage());
+      }
+      
+    }
+    
+    
+    
+    
+    
 }
