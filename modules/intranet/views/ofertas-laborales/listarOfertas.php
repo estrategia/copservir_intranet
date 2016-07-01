@@ -25,13 +25,10 @@ $this->title = 'Ofertas Laborales';
               'value' => 'objCiudad.nombreCiudad',
             ],
             [
-              'attribute' => 'idCargo',
+              'attribute' => 'nombreCargo',
               'value' => 'objCargo.nombreCargo',
             ],
-            [
-              'attribute' => 'idArea',
-              'value' => 'objArea.nombreArea',
-            ],
+            'idArea'
         ],
     ]); ?>
     <?php Pjax::end(); ?>

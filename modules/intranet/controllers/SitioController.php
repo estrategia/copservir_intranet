@@ -202,6 +202,16 @@ class SitioController extends \app\controllers\CController {
         $contenido = new Contenido();
         $respond = [];
 
+        if (empty($contenidodestino['codigoCiudad']) && empty($contenidodestino['idGrupoInteres'])) {
+          $respond = [
+              'result' => 'error',
+              'error' => 'Ciudad y grupos de interes no pueden estar vacios'
+          ];
+          \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+          return $respond;
+          exit();
+        }
+
         if ($contenido->load(Yii::$app->request->post())) {
             $lineaTiempo = LineaTiempo::findOne($contenido->idLineaTiempo);
 

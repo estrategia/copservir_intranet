@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
       <?=
         $form->field($model, 'IdCiudad')->widget(Select2::classname(), [
           'data' => ArrayHelper::map(Ciudad::find()->orderBy('nombreCiudad')->all(), 'codigoCiudad', 'nombreCiudad'),
-          'options' => ['placeholder' => 'Seleccione el cargo de la oferta']
+          'options' => ['placeholder' => 'Seleccione el ciudad de la oferta']
         ]);
       ?>
 

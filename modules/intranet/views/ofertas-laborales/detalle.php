@@ -40,13 +40,10 @@ $this->params['breadcrumbs'][] = ['label' => 'Ver oferta laboral'];
           'value' => $model->objCiudad->nombreCiudad,
         ],
         [
-          'attribute' => 'idCargo',
-          'value' => $model->objCargo->nombreCargo,
+          'attribute' => 'nombreCargo',
+          'value' => $model->nombreCargo,
         ],
-        [
-          'attribute' => 'idArea',
-          'value' => $model->objArea->nombreArea,
-        ],
+        'idArea',
         'urlElEmpleo:url',
         'fechaPublicacion',
         'fechaCierre',
