@@ -39,7 +39,7 @@ use app\modules\intranet\models\LineaTiempo;
                 <h5 class="inline muted semi-bold m-b-5"></h5> <!-- para el usuario que publico la noticia -->
                 <!--<div class="muted">Publicación Compartida - 12:45pm</div> si la publicacion fue compartida-->
                 <p class="m-t-5 dark-text">
-                <div style="max-height: 150px; text-overflow:ellipsis; white-space:pre-line; overflow:hidden;margin-bottom: 25px;">
+                <div style="max-height: 150px; text-overflow:ellipsis; overflow:hidden;margin-bottom: 25px;">
                     <?= $noticia->contenido ?>
                 </div>
 
