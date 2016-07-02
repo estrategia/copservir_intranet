@@ -19,7 +19,7 @@ $srcMision = Yii::$app->homeUrl . 'img/multiportal/copservir/sector-coperativo.j
     </div>
 
     <div class="container internal">           
-        <img style="border-radius: 10px;" src=<?= "" . $srcMision ?> alt="">
+        <img class="img-responsive" style="border-radius: 10px;" src=<?= "" . $srcMision ?> alt="">
          <div class="space-2"></div>
          <div class="row">
              <div class="col-md-6">

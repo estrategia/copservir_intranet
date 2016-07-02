@@ -19,7 +19,7 @@ $srcMision = Yii::$app->homeUrl . 'img/multiportal/copservir/gestion-ambiental.j
     </div>
 
     <div class="container internal">        
-        <img style="border-radius: 10px;" src=<?= "" . $srcMision ?> alt="">
+        <img class="img-responsive" style="border-radius: 10px;" src=<?= "" . $srcMision ?> alt="">
          <div class="space-2"></div>
       <p>
           La prevención de la contaminación, la conservación del medio ambiente, el ahorro energético y la preservación de los recursos naturales, es un compromiso que en Copservir promovemos a través de nuestros diferentes grupos de interés.<br>

@@ -31,7 +31,7 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
 
         <nav class="navbar navbar-coop navbar-static-top">
           <div class="white-piece"></div>
-          <div class="container">
+          <div class="container-fluid">
             <div class="navbar-header">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
@@ -71,28 +71,24 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
     <footer>
         <div class="footer-top" style="height:438px;">
         <div class="container marketing">
-            <div class="col-md-3">
-            </div>
             <div class="col-md-6">
+            </div>
+            <div class="col-md-3">
                 <div class="row">
                     <div class="space-2"></div>
-                    <div class="space-2"></div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                       <strong style="color:#fff;">Sede Copservir Barranquilla</strong>
                       <p>Calle 110 Av. Circunvalar No. 6R - 400 Teléfono (5) 328 8156</p>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                       <strong style="color:#fff;">Sede Copservir Bogotá</strong>
                       <p>Calle 13 No. 42 - 10 Teléfono (1) 3351700</p> 
                     </div>
-                </div>
-                <div class="row">
-                    <div class="space-2"></div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                       <strong style="color:#fff;">Sede Copservir Bucaramanga</strong>
                       <p>Carrera 16 No. 47 - 82 Teléfono (7) 6309450 Fax: 6309490</p>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                       <strong style="color:#fff;">Sede Copservir Cali</strong>
                       <p>Calle 18 No. 121 - 130 Pance Teléfono (2) 3218000</p> 
                     </div>
@@ -100,7 +96,6 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
               </div>
             
             <div class="col-md-3">
-               <div class="space-2"></div>
                <div class="space-2"></div>                
                <div class="contenedor-redes">
                     <strong style="color:#fff;">Nuestras</strong>
