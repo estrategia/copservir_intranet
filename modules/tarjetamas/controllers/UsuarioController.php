@@ -81,15 +81,20 @@ class UsuarioController extends Controller {
         $cedula = \Yii::$app->user->identity->numeroDocumento;
         $tarjetasUsuario = UsuarioTarjetaMas::callWSConsultarTarjetasAbonado($cedula);
 
-        $provider = new ArrayDataProvider([
-            'allModels' => $tarjetasUsuario,
-            'sort' => [
-                'attributes' => ['NUMEROTARJETA', 'ESTADOTARJETA', 'PORCENTAJE', 'FECHAACTIVACION', 'FECHAVENCIMIENTO', 'DESCUENTOSDISPONIBLES', 'PRINCIPAL'],
-            ],
-            'pagination' => [
-                'pageSize' => 10,
-            ],
-        ]);
+        if ($respuesta[0]['CODIGO'] == 1) {
+            $provider = new ArrayDataProvider([
+                'allModels' => $tarjetasUsuario,
+                'sort' => [
+                    'attributes' => ['NUMEROTARJETA', 'ESTADOTARJETA', 'PORCENTAJE', 'FECHAACTIVACION', 'FECHAVENCIMIENTO', 'DESCUENTOSDISPONIBLES', 'PRINCIPAL'],
+                ],
+                'pagination' => [
+                    'pageSize' => 10,
+                ],
+            ]);
+        } else {
+            $provider = null;
+            Yii::$app->session->setFlash('ERROR', $respuesta[0]['MENSAJE']);
+        }
         return $this->render('tarjetas', [
                     'dataProvider' => $provider
         ]);
@@ -154,7 +159,33 @@ class UsuarioController extends Controller {
 
             if ($respuesta[0]['CODIGO'] == 1) {
                 Yii::$app->session->setFlash('success', $respuesta[0]['MENSAJE']);
-                return $this->redirect('mis-tarjetas');
+                $cedula = \Yii::$app->user->identity->numeroDocumento;
+                $tarjetasUsuario = UsuarioTarjetaMas::callWSConsultarTarjetasAbonado($cedula);
+                $tarjetaArray = array();
+                foreach ($tarjetasUsuario as $tarjeta) {
+                    if ($tarjeta['NUMEROTARJETA'] == $numeroTarjeta) {
+                        $tarjetaArray[] = $tarjeta;
+                        break;
+                    }
+                }
+
+                if ($tarjetaArray) {
+                    $provider = new ArrayDataProvider([
+                        'allModels' => $tarjetaArray,
+                        'sort' => [
+                            'attributes' => ['NUMEROTARJETA', 'ESTADOTARJETA', 'PORCENTAJE', 'FECHAACTIVACION', 'FECHAVENCIMIENTO', 'DESCUENTOSDISPONIBLES', 'PRINCIPAL'],
+                        ],
+                        'pagination' => [
+                            'pageSize' => 10,
+                        ],
+                    ]);
+                } else {
+                    $provider = null;
+                    Yii::$app->session->setFlash('danger', $respuesta[0]['MENSAJE']);
+                }
+                return $this->render('tarjetas', [
+                            'dataProvider' => $provider
+                ]);
             } else {
                 $model->addError('numeroTarjeta', $respuesta[0]['MENSAJE']);
             }
@@ -181,7 +212,7 @@ class UsuarioController extends Controller {
                 }
             }
             $respuesta = UsuarioTarjetaMas::callWSCambiarTarjetaPrimaria($principal, $cedula, $numeroTarjeta);
-            
+
             if ($respuesta[0]['CODIGO'] == 1) {
                 Yii::$app->session->setFlash('success', "La tarjeta $numeroTarjeta ha sido marca como principal");
                 return $this->redirect('mis-tarjetas');
@@ -195,7 +226,6 @@ class UsuarioController extends Controller {
         $this->redirect('mis-tarjetas');
     }
 
-    
     public function actionDatosRegistro() {
         $model = new UsuarioTarjetaMas();
         $model->scenario = 'registroDatos';

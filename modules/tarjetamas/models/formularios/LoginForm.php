@@ -23,6 +23,7 @@ class LoginForm extends Model {
     return [
 
       [['username', 'password'], 'required'],
+      [['username'], 'integer'],
       [['password','password2'], 'string', 'min' => 6],
       ['password2', 'required', 'on' =>  ['recuperar']],
       ['password2', 'required', 'on' =>  ['cambiarClave']],
@@ -36,7 +37,7 @@ class LoginForm extends Model {
 
   public function attributeLabels() {
     return [
-      'username' => 'Usuario',
+      'username' => 'Cédula',
       'password' => 'Contraseña',
       'password2' => 'Confirmar contraseña',
       'rememberMe' => 'Recordar',
