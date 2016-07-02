@@ -19,7 +19,7 @@ $srcMision = Yii::$app->homeUrl . 'img/multiportal/copservir/nuestro-compromiso.
     </div>
 
     <div class="container internal">        
-        <img style="border-radius: 10px;" src=<?= "" . $srcMision ?> alt="">
+        <img class="img-responsive" style="border-radius: 10px;" src=<?= "" . $srcMision ?> alt="">
          <div class="space-2"></div>
       <p>
         En Copservir nos mueve una fuerte convicción de servicio que nos impulsa a realizar diferentes acciones para cambios sociales que contribuyan a mejorar la vida de las personas, cuidamos el medio ambiente y trabajamos por el mejoramiento de la calidad de vida de las comunidades menos favorecidas.

@@ -19,29 +19,29 @@ $srcSlide = Yii::$app->homeUrl . 'img/multiportal/copservir/';
       </ol>
       <div class="carousel-inner" role="listbox">
         <div class="item active">
-          <img class="first-slide" src=<?= "" . $srcSlide . "banner-home1.jpg" ?> alt="First slide">
-            <div class="carousel-caption">
+          <img class="img-responsive" src=<?= "" . $srcSlide . "banner-home1.jpg" ?> alt="First slide">
+            <!--<div class="carousel-caption">
                 <img width="100" src="<?= "" . $srcSlide . "great-logo.png" ?>" alt="Great place to work">
                 <h3>Somos una de las mejores empresas para trabajar en Colombia</h3>                
-            </div>
+            </div>-->
         </div>
         <div class="item">
-          <img class="second-slide" src=<?= "" . $srcSlide . "banner-home2.jpg" ?> alt="Second slide">
-            <div class="carousel-caption">
+          <img class="img-responsive" src=<?= "" . $srcSlide . "banner-home2.jpg" ?> alt="Second slide">
+            <!--<div class="carousel-caption">
                 <h3>Generamos más de 6.000 empleos en Colombia</h3>                
-            </div>               
+            </div>    -->           
         </div>
         <div class="item">
-          <img class="third-slide" src=<?= "" . $srcSlide . "banner-home3.jpg" ?> alt="Third slide">
-            <div class="carousel-caption">
+          <img class="img-responsive" src=<?= "" . $srcSlide . "banner-home3.jpg" ?> alt="Third slide">
+            <!--<div class="carousel-caption">
                 <h3>Hacemos presencia en más de 170 Municipios del país</h3>                
-            </div>                
+            </div>    -->            
         </div>
          <div class="item">
-          <img class="third-slide" src=<?= "" . $srcSlide . "banner-home4.jpg" ?> alt="Third slide">
-             <div class="carousel-caption">
+          <img class="img-responsive" src=<?= "" . $srcSlide . "banner-home4.jpg" ?> alt="Third slide">
+             <!--<div class="carousel-caption">
                 <h3>Somos una de las 100 empresas más grandes del país</h3>                
-            </div>          
+            </div>   -->       
         </div> 
       </div>
     </div>

@@ -20,7 +20,7 @@ $srcIconLocation = Yii::$app->homeUrl . 'img/multiportal/copservir/cd-icon-locat
 
     <div class="container internal">
       <div class="space-1"></div>
-      <img style="border-radius: 10px;" src=<?= "" . $srcHistoria ?> alt="">
+      <img class="img-responsive" style="border-radius: 10px;" src=<?= "" . $srcHistoria ?> alt="">
       <div class="space-1"></div>
       <p>
           Hace más de 20 años nuestros trabajadores, se asociaron con el sueño de ser una de las cadenas más grandes de farmacias en Colombia y desde ese entonces juntos hemos establecido más de 470 puntos de venta, este logro no hubiera sido posible sin los aportes mensuales realizados por nuestros asociados, el trabajo en equipo y el emprendimiento que cada uno desde sus lugares de trabajo aporta a nuestra cooperativa, Copservir, convirtiéndola en un modelo de atención único en el país, haciendo del cooperativismo y servicio pilares de nuestra filosofía empresarial. En todos estos años el esfuerzo y dedicación nos ha permitido consolidarnos como uno de los gigantes en la distribución de medicamentos en Colombia, con un modelo de negocio fortalecido y tendiente a expandirse. 
