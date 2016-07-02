@@ -355,7 +355,7 @@ class UsuarioController extends \yii\web\Controller {
             }
 
         }else{
-          var_dump($model->getErrors());
+          //var_dump($model->getErrors());
         }
 
         return $this->render('actualizarDatos', [
