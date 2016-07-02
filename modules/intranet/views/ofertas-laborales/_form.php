@@ -28,34 +28,16 @@ use yii\helpers\Url;
   <?= $form->field($model, 'urlElEmpleo')->textInput(['maxlength' => true]) ?>
 
   <?=
-  $form->field($model, 'idCargo')->widget(Select2::classname(), [
-    //'name' => 'OfertasLaborales[idCargo]',
-    //'value' => $model->idCargo,
-    //'id' => "grupo1_",
+  $form->field($model, 'nombreCargo')->widget(Select2::classname(), [
     'data' => $model->listaCargo,
     'options' => ['placeholder' => 'Seleccione el cargo de la oferta']
   ]);
   ?>
 
-  <br>
-
-  <?=
-   $form->field($model, 'idArea')->widget(Select2::classname(), [
-    //'name' => 'OfertasLaborales[idArea]',
-    //'value' => $model->idArea,
-    //'id' => "grupo2_",
-    'data' => $model->listaArea,
-    'options' => ['placeholder' => 'Seleccione el area de la oferta']
-  ]);
-  ?>
-
-  <br>
+  <?= $form->field($model, 'idArea')->textInput(['maxlength' => true]) ?>
 
   <?=
   $form->field($model, 'idCiudad')->widget(Select2::classname(), [
-    //'name' => 'OfertasLaborales[idCiudad]',
-    //'value' => $model->idCiudad,
-    //'id' => "grupo_",
     'data' => $model->listaCiudad,
     'options' => ['placeholder' => 'Seleccione la ciudad de la oferta']
   ]);

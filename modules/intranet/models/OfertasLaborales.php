@@ -42,10 +42,10 @@ class OfertasLaborales extends \yii\db\ActiveRecord
   public function rules()
   {
     return [
-      [[ 'idCiudad', 'fechaPublicacion', 'fechaCierre', 'estado', 'numeroDocumento', 'fechaInicioPublicacion', 'fechaFinPublicacion', 'tituloOferta', 'urlElEmpleo', 'idCargo', 'idArea', 'descripcionContactoOferta', 'idInformacionContacto'], 'required'],
-      [[ 'idCiudad', 'numeroDocumento', 'idCargo', 'idArea', 'idInformacionContacto'], 'integer'],
-      [['fechaPublicacion', 'fechaCierre', 'fechaInicioPublicacion', 'fechaFinPublicacion'], 'safe'],//'date',  'format'=>'php:Y-m-d H:i:s'
-      [['descripcionContactoOferta'], 'string'],
+      [[ 'idCiudad', 'fechaPublicacion', 'fechaCierre', 'estado', 'numeroDocumento', 'fechaInicioPublicacion', 'fechaFinPublicacion', 'tituloOferta', 'urlElEmpleo', 'nombreCargo', 'idArea', 'descripcionContactoOferta', 'idInformacionContacto'], 'required'],
+      [[ 'idCiudad', 'numeroDocumento', 'idInformacionContacto'], 'integer'],
+      [['fechaPublicacion', 'fechaCierre', 'fechaInicioPublicacion', 'fechaFinPublicacion'], 'safe'],
+      [['descripcionContactoOferta',  'idArea','nombreCargo'], 'string'],
       [['tituloOferta', 'urlElEmpleo'], 'string', 'max' => 45]
     ];
   }
@@ -62,7 +62,7 @@ class OfertasLaborales extends \yii\db\ActiveRecord
       'fechaFinPublicacion' => 'Fecha Publicacion Home Hasta',
       'tituloOferta' => 'Titulo Oferta',
       'urlElEmpleo' => 'Url El Empleo',
-      'idCargo' => 'Cargo',
+      'nombreCargo' => 'Cargo',
       'idArea' => 'Area',
       'descripcionContactoOferta' => 'Descripcion Contacto Oferta',
       'idInformacionContacto' => 'Plantilla',
@@ -72,24 +72,12 @@ class OfertasLaborales extends \yii\db\ActiveRecord
 
   // RELACIONES
 
-  public function getObjCargo(){
-    return $this->hasOne(Cargo::className(), ['idCargo' => 'idCargo']);
-  }
-
-  public function getObjArea(){
-    return $this->hasOne(Area::className(), ['idArea' => 'idArea']);
-  }
-
   public function getObjCiudad(){
     return $this->hasOne(Ciudad::className(), ['idCiudad' => 'idCiudad']);
   }
 
   public function getObjInformacionContactoOferta(){
     return $this->hasOne(InformacionContactoOferta::className(), ['idInformacionContacto' => 'idInformacionContacto']);
-  }
-
-  public function getObjUsuarioPublicacion(){
-    return $this->hasOne(Area::className(), ['idArea' => 'idArea']);
   }
 
   public function getOfertasDestino()
@@ -128,26 +116,43 @@ class OfertasLaborales extends \yii\db\ActiveRecord
     return $dataProvider;
   }
 
-  /**
-  * consulta todos los objetos del modelo Area
-  * @param
-  * @return retorna todos los modelos Area mapeados por idArea y nombreArea
-  */
-  public static function getListaArea()
-  {
-    $opciones = Area::find()->asArray()->all();
-    return ArrayHelper::map($opciones, 'idArea', 'nombreArea');
-  }
 
   /**
   * consulta todos los objetos del modelo Cargo
   * @param
-  * @return retorna todos los modelos Cargo mapeados por idCargo y nombreCargo
+  * @return retorna todos los modelos Cargo mapeados por nombreCargo y nombreCargo
   */
   public static function getListaCargo()
   {
-    $opciones = Cargo::find()->asArray()->all();
-    return ArrayHelper::map($opciones, 'idCargo', 'nombreCargo');
+    $WSResult = self::getTodosCargos();
+    $opciones = array();
+
+    foreach ($WSResult as $key => $value) {
+      array_push($opciones, $value);
+    }
+
+    return ArrayHelper::map($opciones, 'NombreCargo', 'NombreCargo');
+  }
+
+  private static function getTodosCargos()
+  {
+    $client = new \SoapClient(\Yii::$app->params['webServices']['persona'], array(
+        "trace" => 1,
+        "exceptions" => 0,
+        'connection_timeout' => 5,
+        'cache_wsdl' => WSDL_CACHE_NONE
+    ));
+
+    try {
+
+        $result = $client->getCargos();
+        return $result;
+
+    } catch (SoapFault $exc) {
+
+    } catch (Exception $exc) {
+
+    }
   }
 
   /**

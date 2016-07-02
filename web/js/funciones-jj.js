@@ -133,7 +133,6 @@ $(document).on('click', "a[data-role='guardar-contenido']", function () {
         dataType: 'json',
         beforeSend: function () {
             $('html').showLoading();
-            $("#btnAgregarContenido").attr('disabled', true);
         },
         complete: function (data) {
             $('html').hideLoading();
@@ -148,17 +147,14 @@ $(document).on('click', "a[data-role='guardar-contenido']", function () {
 
             if (data.result == 'error') {
 
-                $(".lineastiempo").html("");
-                $(href).html(data.response);
-
-                $("#btnAgregarContenido").attr('disabled', false);
-
+              alert('Error:'+ data.error);
+              $('html').hideLoading();
             }
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('html').hideLoading();
-            $("#btnAgregarContenido").attr('disabled', false);
+            alert(jqXHR.responseText);
         }
     });
 
@@ -273,7 +269,6 @@ $(document).on('click', "a[data-role='me-gusta-contenido']", function () {
         },
         success: function (data) {
             if (data.result == "ok") {
-              console.log(data.response);
                 $('#numero-megusta_' + idContenido).html(data.response);
 
                 if (val == 1) {

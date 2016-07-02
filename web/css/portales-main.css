@@ -91,7 +91,7 @@ ul.list{ list-style-image: url("../../web/img/multiportal/tarjetamas/check.png")
 }
 .navbar-nav > li > a {
   color: #fff;
-  padding: 30px;
+  padding: 30px 20px;
 }
 .centered {
   text-align: center;
@@ -103,7 +103,7 @@ ul.list{ list-style-image: url("../../web/img/multiportal/tarjetamas/check.png")
 /* CUSTOM HOME */
 
 .bg-parallax {
-  background-image: url("../../img/multiportal/copservir//bg.jpg");
+  background-image: url("/copservir_intranet/web/img/multiportal/copservir/parallax-home.jpg");
   height: 459px;
   width: 100%;
   background-repeat: no-repeat;
@@ -234,6 +234,7 @@ ul.list{ list-style-image: url("../../web/img/multiportal/tarjetamas/check.png")
 }
 .footer-top {
   background-color: #3DB04B;
+  background-image:url("/copservir_intranet/web/img/multiportal/copservir/footer.jpg");
   padding: 20px 0;
 }
 .footer-top h3 {
@@ -671,3 +672,10 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
 .footer-tarjeta-mas {background-color: #D7D7D7;}
 .footer-tarjeta-mas p  {color: #5a5a5a;}
 .footer-tarjeta-mas a {color: #5a5a5a;}
+
+.contenedor-redes{
+    background-color: rgba(15, 107, 39, 0.67);
+border-radius: 15px;
+padding: 50px;
+text-align: center;
+}

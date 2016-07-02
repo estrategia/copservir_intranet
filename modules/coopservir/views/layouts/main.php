@@ -43,8 +43,13 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-                <li><?= Html::a('Acerca de', ['acerca-de']) ?></li>
-                
+                <li><?= Html::a('Proposito', ['acerca-de']) ?></li>
+                <li><?= Html::a('Visión', ['vision']) ?></li>                
+                <li><?= Html::a('Historia', ['historia']) ?></li>
+                <li><?= Html::a('Identidad', ['identidad']) ?></li>
+                <li><?= Html::a('Compromiso social', ['compromiso']) ?></li>
+                <li><?= Html::a('Gestión', ['gestion-ambiental']) ?></li>
+                <li><?= Html::a('Sector cooperativo', ['sector-coperativo']) ?></li>
                 <?php foreach (MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id) as $itemMenu): ?>
                   <li>
                     <?= $itemMenu->getHtmlLink(Yii::$app->controller->module->id) ?>
@@ -64,58 +69,47 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
 
     <!-- FOOTER -->
     <footer>
-      <div class="footer-top">
+        <div class="footer-top" style="height:438px;">
         <div class="container marketing">
-          <div class="row">
-            <div class="col-sm-3">
-              <img src=<?= "" . $srcLogoFooter ?> class="img-responsive" alt="Copservir">
-              <div class="space-1"></div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare commodo sagittis. Lorem ipsum dolor sit amet, consectetur.</p>
-              <ul>
-                <li>contacto@copservir.co</li>
-                <li>(57) 1234567123</li>
-                <li>Dirección</li>
-              </ul>
+            <div class="col-md-3">
             </div>
-            <div class="col-sm-3">
-              <h3>Menú</h3>
-              <ul>
-                <li>Quienes somos</li>
-                <li>Proveedores</li>
-                <li>Convenios empresariales</li>
-                <li>Puntos de venta</li>
-                <li>Contacto</li>
-              </ul>
-            </div>
-            <div class="col-sm-3">
-              <h3>Suscríbete</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare commodo sagittis. Lorem ipsum dolor sit amet, consectetur.</p>
-              <form action="#" class="subscribe">
-                <div class="form-group">
-                  <div class="row not-marg">
-                    <div class="col-sm-7 not-pad">
-                      <input placeholder="Correo electrónico" id="correo" type="text">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="space-2"></div>
+                    <div class="space-2"></div>
+                    <div class="col-md-6">
+                      <strong style="color:#fff;">Sede Copservir Barranquilla</strong>
+                      <p>Calle 110 Av. Circunvalar No. 6R - 400 Teléfono (5) 328 8156</p>
                     </div>
-                    <div class="col-sm-5 not-pad">
-                      <button type="submit">Suscríbete</button>
+                    <div class="col-md-6">
+                      <strong style="color:#fff;">Sede Copservir Bogotá</strong>
+                      <p>Calle 13 No. 42 - 10 Teléfono (1) 3351700</p> 
                     </div>
-                  </div>
                 </div>
+                <div class="row">
+                    <div class="space-2"></div>
+                    <div class="col-md-6">
+                      <strong style="color:#fff;">Sede Copservir Bucaramanga</strong>
+                      <p>Carrera 16 No. 47 - 82 Teléfono (7) 6309450 Fax: 6309490</p>
+                    </div>
+                    <div class="col-md-6">
+                      <strong style="color:#fff;">Sede Copservir Cali</strong>
+                      <p>Calle 18 No. 121 - 130 Pance Teléfono (2) 3218000</p> 
+                    </div>
+                </div>             
+              </div>
+            
+            <div class="col-md-3">
+               <div class="space-2"></div>
+               <div class="space-2"></div>                
+               <div class="contenedor-redes">
+                    <strong style="color:#fff;">Nuestras</strong>
+                    <p>Redes sociales</p> 
+                    <p><i class="fa fa-facebook-official"></i> copservir</p>
+                    <p><i class="fa fa-twitter"></i> @copservir</p>
+                    <p><i class="fa fa-youtube-play"></i> copservirltda</p>
+               </div>
 
-              </form>
-            </div>
-            <div class="col-sm-3">
-              <ul class="redes">
-                <li>
-                  <img src=<?= "" . $srcFb ?>>
-                </li>
-                <li>
-                  <img src=<?= "" . $srcTw ?>>
-                </li>
-                <li>
-                  <img src=<?= "" . $srcYt ?>>
-                </li>
-              </ul>
             </div>
           </div>
         </div>

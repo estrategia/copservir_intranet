@@ -6,7 +6,6 @@ use Yii;
 use app\modules\intranet\models\GrupoInteres;
 use app\modules\intranet\models\GrupoInteresSearch;
 use app\modules\intranet\models\GrupoInteresCargo;
-use app\modules\intranet\models\Cargo;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -209,46 +208,6 @@ class GrupoInteresController extends Controller {
 
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $respond;
-    }
-
-    /**
-     * consulta la lista de cargos a agregar en un grupo de interes
-     * @param none
-     * @return out = []
-     *         out.id = indica el identificador del cargo
-     *         out.text = nombre del cargo
-     */
-    public function actionListaCargos($search = null, $id = null) {
-        $out = ['results' => [ 'id' => '', 'text' => '']];
-
-        if (!is_null($search)) {
-            // consulta cuando empieza a escribir
-            $query = new Query;
-            $query->select('idCargo as id, nombreCargo AS text')
-                    ->from('m_Cargo')
-                    ->where('nombreCargo LIKE "%' . $search . '%" and idCargo not in (select idCargo from m_GrupoInteresCargo)')
-                    ->limit(20);
-            $command = $query->createCommand();
-            $data = $command->queryAll();
-            $out['results'] = array_values($data);
-        } elseif ($id > 0) {
-
-            // consulta cuando selecciona una opcion del a lista
-            $out['results'] = ['id' => $id, 'text' => Cargo::findOne($id)->nombreCargo];
-        } else {
-
-            //consulta cuando da click en el campo
-            $query = new Query;
-            $query->select('idCargo as id, nombreCargo AS text')
-                    ->from('m_Cargo')
-                    ->where('nombreCargo LIKE "%' . $search . '%" and idCargo not in (select idCargo from m_GrupoInteresCargo)')
-                    ->limit(20);
-            $command = $query->createCommand();
-            $data = $command->queryAll();
-            $out['results'] = array_values($data);
-        }
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return $out;
     }
 
     /**

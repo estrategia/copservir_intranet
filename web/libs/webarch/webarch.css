@@ -601,7 +601,7 @@ body.boxed-layout .footer-widget {
   display: block;
   margin: 0px 0px 0px 0px;
   padding: 5px 0px;
-  padding-left: 20px !important;
+  padding-left: 15px !important;
   color: #e1eaf1;
   text-decoration: none;
   text-shadow: 0 1px 1px #000;
@@ -638,11 +638,15 @@ body.boxed-layout .footer-widget {
   padding: 0px;
 }
 .page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu > li > ul.sub-menu > li > a {
-  margin-left: 70px;
+  margin-left: 20px;
 }
 .page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu > li > a {
-  padding-left: 80px;
+  padding-left: 25px;
 }
+.page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu > li > a {
+  padding-left: 30px;
+}
+
 .page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu li > a > .arrow:before {
   float: right;
   margin-top: 1px;
@@ -5692,7 +5696,7 @@ form legend,
   top: -5px;
 }
 .tiles.white {
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.61);
   color: #8b91a0;
 }
 .tiles.white .controller a.remove:hover {
@@ -5860,8 +5864,9 @@ form legend,
   background-color: #f96773;
 }
 .tiles.grey {
-  background-color: #e9ecee;
+  background-color: rgba(255, 255, 255, 0);
 }
+.btn.btn-primary.btn-block.btn-login {background-color:#2BB34B;}
 .tiles.gradient-grey {
   background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(131, 131, 131, 0.65) 100%);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 0, 0, 0)), color-stop(100%, rgba(131, 131, 131, 0.65)));
