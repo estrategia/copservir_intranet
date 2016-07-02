@@ -59,7 +59,7 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/tarjetamas/logo-tarjeta-mas.png
                 <?php else: ?> 
                   <?php $model = UsuarioTarjetaMas::findOne(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento])?>
                   <?php $nombre = explode(" ", $model->nombres);?>
-                  <?= Html::a($nombre[0], ['/tarjetamas/usuario']) ?>
+                  <?= Html::a("Hola ".$nombre[0], ['/tarjetamas/usuario']) ?>
                 <?php endif; ?>
 
               </li>

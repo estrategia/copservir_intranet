@@ -63,7 +63,7 @@ class UsuarioController extends Controller {
             if ($response[0]['CODIGO'] == self::USUARIO_TIENE_TARJETAS) {
                 return $this->redirect(['datos-registro']);
             } else {
-                $model->addError('username', 'El Usuario no tiene ninguna tarjera');
+                $model->addError('username', $response[0]['MENSAJE']);
             }
         }
 
@@ -153,7 +153,7 @@ class UsuarioController extends Controller {
             $respuesta = UsuarioTarjetaMas::callWSActivarTarjetaWeb($cedula, $numeroTarjeta);
 
             if ($respuesta[0]['CODIGO'] == 1) {
-                Yii::$app->session->setFlash('success', 'La tarjeta ha sido activada con éxito');
+                Yii::$app->session->setFlash('success', $respuesta[0]['MENSAJE']);
                 return $this->redirect('mis-tarjetas');
             } else {
                 $model->addError('numeroTarjeta', $respuesta[0]['MENSAJE']);

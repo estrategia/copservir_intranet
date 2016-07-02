@@ -27,13 +27,13 @@ use yii\helpers\Html;
                     ['class' => 'yii\grid\SerialColumn'],
                     ['attribute' => 'NUMEROTARJETA',
                         'label' => "Número de tarjeta"],
-                    ['attribute' => 'MENSAJE', 'label' => "Mensaje"],
+                    ['attribute' => 'MENSAJE', 'label' => "Mensaje"], // ojo cuando tiene tarjetas
                     ['attribute' => 'ESTADOTARJETA', 'label' => "Estado tarjeta"],
                     ['attribute' => 'PORCENTAJE', 'label' => "Porcentaje"],
                     ['attribute' => 'FECHAACTIVACION', 'label' => "Fecha de activación"],
                     ['attribute' => 'FECHAVENCIMIENTO', 'label' => "Fecha de vencimiento"],
                     ['attribute' => 'DESCUENTOSDISPONIBLES', 'label' => "Descuentos Disponibles"],
-                    ['attribute' => 'PRINCIPAL', 'label' => "Principal"],
+                    ['attribute' => 'PRIMARIA', 'label' => "Principal"],
                     ['content' => function ($model) {
                             $html = Html::beginForm(['ver'], 'post', ['id' => 'form-ver']);
                             $html.= Html::input('hidden', 'numeroTarjeta', $model['NUMEROTARJETA']);
