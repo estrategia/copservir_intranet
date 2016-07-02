@@ -37,6 +37,7 @@ class LineaTiempo extends \yii\db\ActiveRecord {
             [['nombreLineaTiempo', 'icono'], 'string', 'max' => 45],
             [['color'], 'string', 'max' => 7],
             [['descripcion'], 'string', 'max' => 200],
+            ['descripcion', 'default', 'value' => null],
             [['fechaInicio', 'fechaFin'], 'safe'],
         ];
     }

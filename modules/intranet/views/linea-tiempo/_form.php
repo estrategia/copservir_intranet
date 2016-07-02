@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\datetime\DateTimePicker;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\intranet\models\LineaTiempo */
@@ -12,17 +13,29 @@ use kartik\datetime\DateTimePicker;
 <div class="linea-tiempo-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
     <?= $form->field($model, 'nombreLineaTiempo')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'descripcion')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'descripcion')->textarea(['rows' => 6]) ?>
+    <?php
+    echo \vova07\imperavi\Widget::widget([
+        'selector' => '#lineatiempo-descripcion',
+        'settings' => [
+            'replaceDivs' => false,
+            'lang' => 'es',
+            'minHeight' => 80,
+            'imageUpload' => Url::toRoute('contenido/cargar-imagen'),
+            'fileUpload' => Url::toRoute('contenido/cargar-archivo'),
+            'plugins' => [
+                'imagemanager',
+            ],
+            'fileManagerJson' => Url::to(['sitio/files-get']),
+        ]
+    ]);
+    ?>
 
     <?php $model->estado = $model->isNewRecord ? 1 : $model->estado;  ?>
     <?= $form->field($model, 'estado')->dropDownList(['0' => 'Inactivo', '1' => 'Activo']); ?>
-
     <?php $model->tipo = $model->isNewRecord ? 0 : $model->tipo;  ?>
     <?= $form->field($model, 'tipo')->dropDownList(['0' => 'Publicación', '1' => 'Clasificado', '2'=>'Aniversario']); ?>
-
     <?= $form->field($model, 'orden')->textInput(['type' => 'number']) ?>
 
     <?=

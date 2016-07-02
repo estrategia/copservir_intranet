@@ -31,7 +31,7 @@ $srcLogo = Yii::$app->homeUrl . 'img/logo_copservir.png';
       ])
       ?>
       <div class="row login-container animated fadeInUp">
-        <div class="col-md-7 col-md-offset-2 tiles white no-padding">
+        <div class="col-md-8 col-md-offset-2 tiles white no-padding">
           <p style="text-align:center;">
             <img class="" src=<?= "" . $srcLogo ?> alt="" data-src=<?= "" . $srcLogo ?> data-src-retina=<?= "" . $srcLogo ?> style="width: 317px;margin-top:21px;"/>
           </p>

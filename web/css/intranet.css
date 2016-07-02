@@ -155,6 +155,7 @@ table.table.table-striped.table-bordered > thead > tr > th{
     color: #0d638f !important;
 }
 
+/*
 .time-line-description{
     background-color: #ecf0f2;
     display: block;
@@ -164,7 +165,7 @@ table.table.table-striped.table-bordered > thead > tr > th{
     padding: 10px 15px;
     text-align: center;
     border-radius: 15px 100px;
-}
+}*/
 
 /*
 .popover {
