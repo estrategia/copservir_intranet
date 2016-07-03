@@ -22,7 +22,6 @@ use yii\helpers\Html;
                     ['attribute' => 'CAJA','label' => "Caja"],
                     ['attribute' => 'FACTURA','label' => "Factura"],
                     ['attribute' => 'FECHA','label' => "Fecha"],
-                    ['attribute' => 'TRANSACCION','label' => "Número de transacción"],
                     ['attribute' => 'VALORVENTA','label' => "Valor venta"],
                     ['attribute' => 'VALORDESCUENTO','label' => "Valor Descuentos"],
                     

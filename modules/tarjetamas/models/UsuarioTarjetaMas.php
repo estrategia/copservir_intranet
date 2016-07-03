@@ -37,6 +37,8 @@ class UsuarioTarjetaMas extends \yii\db\ActiveRecord
             [['numeroDocumento', 'nombres', 'primerApellido', 'correo', 'codigoCiudad'], 'required'],
             [['numeroDocumento', 'celular', 'telefonoFijo', 'codigoCiudad'], 'integer'],
             [['nombres', 'primerApellido', 'segundoApellido'], 'string', 'max' => 45],
+            [['nombres', 'primerApellido', 'segundoApellido'], 'match', 'pattern' => "/^[a-zA-ZáéíóúÁÉÍÓÚÑñ]+$/i", 'message' => 'Sólo se aceptan letras'],
+            [['correo',],'email'],
             [['correo'], 'string', 'max' => 100],
             [['codigoCiudad'], 'exist', 'skipOnError' => true, 'targetClass' => Ciudad::className(), 'targetAttribute' => ['codigoCiudad' => 'codigoCiudad']],
             [['numeroDocumento'], 'exist', 'skipOnError' => true, 'targetClass' => Usuario::className(), 'targetAttribute' => ['numeroDocumento' => 'numeroDocumento']],
