@@ -231,14 +231,52 @@ class UsuarioController extends Controller {
         $model->scenario = 'registroDatos';
 
         if ($model->load(Yii::$app->request->post())) {
+
+            $transaction = UsuarioTarjetaMas::getDb()->beginTransaction();
+            try {
+
+                $modelUsuario = new Usuario;
+                $modelUsuario->numeroDocumento = $model->numeroDocumento;
+                $modelUsuario->estado = Usuario::ESTADO_ACTIVO;
+                $modelUsuario->codigoPerfil = \Yii::$app->params['PerfilesUsuario']['tarjetaMas']['codigo'];
+                $modelUsuario->contrasena = md5($model->password);
+
+                $model->codigoActivacion = $modelUsuario->generarCodigoRecuperacion();
+
+                $value = $this->enviarCorreoActivacion($model->codigoActivacion, $model->correo);
+
+                if ($modelUsuario->save() && $model->save() && $value) 
+                {
+                    $transaction->commit();
+                    Yii::$app->session->setFlash('success', 'Revisa tu correo y sigue las instrucciones para activar tu cuenta');
+                    $model = new UsuarioTarjetaMas();
+                }
+                else
+                {
+                    throw new Exception("Error realizar el registro:".yii\helpers\Json::enconde($logTarea->getErrors()), 101);   
+                }
+
+                
+            } catch (Exception $e) {
+                
+                $transaction->rollBack();
+                Yii::$app->session->setFlash('error', $e->getMessage());
+                throw $e;
+            }
+            /*
             $modelUsuario = new Usuario;
             $modelUsuario->numeroDocumento = $model->numeroDocumento;
             $modelUsuario->estado = Usuario::ESTADO_ACTIVO;
             $modelUsuario->codigoPerfil = \Yii::$app->params['PerfilesUsuario']['tarjetaMas']['codigo'];
             $modelUsuario->contrasena = md5($model->password);
 
+            $model->codigoActivacion = $modelUsuario->generarCodigoRecuperacion();
+
+
             if ($modelUsuario->save() && $model->save()) {
 
+                Yii::$app->session->setFlash('error', 'Error al realizar el registro');
+                /*
                 $modelLogin = new LoginForm();
                 $modelLogin->username = $model->numeroDocumento;
                 $modelLogin->password = $model->password;
@@ -250,11 +288,40 @@ class UsuarioController extends Controller {
                 }
             } else {
                 Yii::$app->session->setFlash('error', 'Error al realizar el registro');
-            }
+            }*/
         }
+
         return $this->render('datos-registro', [
                     'model' => $model,
         ]);
+    }
+
+    private function enviarCorreoActivacion($codigoRecuperacion, $correoUsuario) {
+
+        //se crea el enlace para restablecer la contraseña y el contenido del email
+        $enlace = yii::$app->urlManager->createAbsoluteUrl(['tarjetamas/usuario/activar-cuenta', 'codigo' => $codigoRecuperacion]);
+        $contenido_mail = "Ingresa a la siguiente direccion activar tu cuenta en el portal Tarjeta Mas.\n" . $enlace;
+
+        // envia correo
+        $value = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
+                        ->setTo($correoUsuario)->setSubject('Activacion Cuenta TarjetaMas')
+                        ->setHtmlBody($contenido_mail)->send();
+
+        return $value;
+    }
+
+    public function actionActivarCuenta($codigo)
+    {
+        $model = UsuarioTarjetaMas::find()->where(['codigoActivacion' => $codigo]);
+
+        if ($model !== null)
+        {
+            Yii::$app->session->setFlash('success', 'Cuenta activada con exito, Ya puedes iniciar sesion');
+        }else{
+            Yii::$app->session->setFlash('error', 'Error al activar la cuenta, este usuario no se ha registrado');
+        }
+
+        return $this->render('activar-cuenta', []);      
     }
 
     public function actionAutenticar() {
