@@ -234,8 +234,10 @@ ul.list{ list-style-image: url("../../web/img/multiportal/tarjetamas/check.png")
 }
 .footer-top {
   background-color: #3DB04B;
-  background-image:url("/copservir_intranet/web/img/multiportal/copservir/footer.jpg");
   padding: 20px 0;
+}
+.footer-top.footer-copservir {
+  background-image:url("/copservir_intranet/web/img/multiportal/copservir/footer.jpg");
 }
 .footer-top h3 {
   color: #fff;

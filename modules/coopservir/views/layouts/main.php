@@ -69,7 +69,7 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
 
     <!-- FOOTER -->
     <footer>
-        <div class="footer-top" style="height:438px;">
+        <div class="footer-top footer-copservir" style="height:438px;">
         <div class="container marketing">
             <div class="col-md-6">
             </div>
