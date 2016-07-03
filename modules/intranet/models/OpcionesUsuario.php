@@ -34,7 +34,7 @@ class OpcionesUsuario{
 
   private function buscarPadre($objItem){
 
-    if(!in_array($objItem->idMenu, $this->opcionesUsuario)){
+    if($objItem!==null && !in_array($objItem->idMenu, $this->opcionesUsuario)){
       $this->opcionesUsuario[] = $objItem->idMenu;
 
       if($objItem->idPadre!= null){

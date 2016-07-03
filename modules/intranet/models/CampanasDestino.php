@@ -51,7 +51,7 @@ class CampanasDestino extends \yii\db\ActiveRecord
 
     public function getObjGrupoInteres()
     {
-        return $this->hasOne(Grupointeres::className(), ['idGrupoInteres' => 'idGrupoInteres']);
+        return $this->hasOne(GrupoInteres::className(), ['idGrupoInteres' => 'idGrupoInteres']);
     }
 
     public function getObjImagenCampana()

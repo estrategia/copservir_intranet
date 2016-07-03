@@ -71,22 +71,23 @@ class Menu extends \yii\db\ActiveRecord {
             if (empty($menuItem->objOpcion)) { // no tiene hipervinculo
                 //style=" font-size: 14px; font-weight: normal; color:#ffffff;
                 echo '<li class="list-menu-corporativo">
-        <a href="javascript:;"> <i class="icon-custom-ui"></i> <span class="title">' . $menuItem->descripcion . '</span> <span class=" arrow" ></span> </a>
-        <ul class="sub-menu">';
+                <a href="javascript:;"> <i class="icon-custom-ui"></i> <span class="title">' . $menuItem->descripcion . '</span> <span class=" arrow" ></span> </a>
+                    <ul class="sub-menu">';
 
-                foreach ($menuItem->activeListSubMenu as $subItem) {
-                    self::menuHtml($subItem, $opciones);
-                }
+                    foreach ($menuItem->activeListSubMenu as $subItem) {
+                        self::menuHtml($subItem, $opciones);
+                    }
 
-                echo '</ul>
-        </li>';
+                    echo '</ul>
+                </li>';
             } else { // tiene hipervinculo
+                
                 if (strpos($menuItem->objOpcion->url, 'https://') !== false || strpos($menuItem->objOpcion->url, 'http://') !== false) {
                     $urlMenu = Funciones::reemplazarPatronDocumentoUsuario($menuItem->objOpcion->url);
-                    echo "<li > <a target='_blank' href='$urlMenu'> $menuItem->descripcion </a> </li>";
+                    echo "<li > <a target='_blank' href='$urlMenu'> <i class='icon-custom-ui'></i><span class='title'>$menuItem->descripcion</span> </a> </li>";
                 } else {
                     echo "<li>";
-                    echo \yii\bootstrap\Html::a($menuItem->descripcion, [$menuItem->objOpcion->url]);
+                    echo \yii\bootstrap\Html::a("<i class='icon-custom-ui'></i><span class='title'>$menuItem->descripcion</span>", [$menuItem->objOpcion->url]);
                     echo "</li>";
                 }
             }

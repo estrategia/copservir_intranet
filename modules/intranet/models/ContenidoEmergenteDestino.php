@@ -28,8 +28,8 @@ class ContenidoEmergenteDestino extends \yii\db\ActiveRecord
             [['idContenidoEmergente', 'idGrupoInteres', 'codigoCiudad'], 'required'],
             [['idContenidoEmergente', 'idGrupoInteres', 'codigoCiudad'], 'integer'],
             [['codigoCiudad'], 'exist', 'skipOnError' => true, 'targetClass' => Ciudad::className(), 'targetAttribute' => ['codigoCiudad' => 'codigoCiudad']],
-            [['idContenidoEmergente'], 'exist', 'skipOnError' => true, 'targetClass' => Contenidoemergente::className(), 'targetAttribute' => ['idContenidoEmergente' => 'idContenidoEmergente']],
-            [['idGrupoInteres'], 'exist', 'skipOnError' => true, 'targetClass' => Grupointeres::className(), 'targetAttribute' => ['idGrupoInteres' => 'idGrupoInteres']],
+            [['idContenidoEmergente'], 'exist', 'skipOnError' => true, 'targetClass' => ContenidoEmergente::className(), 'targetAttribute' => ['idContenidoEmergente' => 'idContenidoEmergente']],
+            [['idGrupoInteres'], 'exist', 'skipOnError' => true, 'targetClass' => GrupoInteres::className(), 'targetAttribute' => ['idGrupoInteres' => 'idGrupoInteres']],
         ];
     }
 
@@ -51,12 +51,12 @@ class ContenidoEmergenteDestino extends \yii\db\ActiveRecord
 
     public function getObjContenidoEmergente()
     {
-        return $this->hasOne(Contenidoemergente::className(), ['idContenidoEmergente' => 'idContenidoEmergente']);
+        return $this->hasOne(ContenidoEmergente::className(), ['idContenidoEmergente' => 'idContenidoEmergente']);
     }
 
     public function getObjGrupoInteres()
     {
-        return $this->hasOne(Grupointeres::className(), ['idGrupoInteres' => 'idGrupoInteres']);
+        return $this->hasOne(GrupoInteres::className(), ['idGrupoInteres' => 'idGrupoInteres']);
     }
 
     // CONSULTAS
