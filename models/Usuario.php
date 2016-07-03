@@ -23,6 +23,7 @@ use app\modules\tarjetamas\models\UsuarioTarjetaMas;
 class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
 
     const ESTADO_ACTIVO = 1;
+    const ESTADO_INACTIVO = 2;
 
     private $data = [
         'sesionRestaurada' => false,

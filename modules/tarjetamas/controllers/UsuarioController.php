@@ -237,7 +237,7 @@ class UsuarioController extends Controller {
 
                 $modelUsuario = new Usuario;
                 $modelUsuario->numeroDocumento = $model->numeroDocumento;
-                $modelUsuario->estado = Usuario::ESTADO_ACTIVO;
+                $modelUsuario->estado = Usuario::ESTADO_INACTIVO;
                 $modelUsuario->codigoPerfil = \Yii::$app->params['PerfilesUsuario']['tarjetaMas']['codigo'];
                 $modelUsuario->contrasena = md5($model->password);
 
@@ -315,8 +315,15 @@ class UsuarioController extends Controller {
         $model = UsuarioTarjetaMas::find()->where(['codigoActivacion' => $codigo]);
 
         if ($model !== null)
-        {
-            Yii::$app->session->setFlash('success', 'Cuenta activada con exito, Ya puedes iniciar sesion');
+        {   
+            $modelUsuario = findOne(['numeroDocumento' => $model->numeroDocumento])
+            $modelUsuario->estado = Usuario::ESTADO_ACTIVO;
+            if ($modelUsuario->save()) {
+                Yii::$app->session->setFlash('success', 'Cuenta activada con exito, Ya puedes iniciar sesion');        
+            }else{
+                Yii::$app->session->setFlash('error', 'Error al activar la cuenta, este usuario no se ha registrado');    
+            }
+            
         }else{
             Yii::$app->session->setFlash('error', 'Error al activar la cuenta, este usuario no se ha registrado');
         }
