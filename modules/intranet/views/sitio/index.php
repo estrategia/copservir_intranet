@@ -159,7 +159,7 @@ $this->title = 'Intranet - Copservir';
 
 <!-- begin OFERTAS LABORALES Y TAREAS -->
 <?php if (!in_array(\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_OFERTAS, Yii::$app->user->identity->getOcultosDashboard())): ?>
-  <?php echo $this->render('_ofertasLaborales', ['ofertasLaborales' => $ofertasLaborales]) ?>
+  <?php //echo $this->render('_ofertasLaborales', ['ofertasLaborales' => $ofertasLaborales]) ?>
 <?php endif; ?>
 
 

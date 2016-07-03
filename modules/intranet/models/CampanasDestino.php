@@ -28,7 +28,7 @@ class CampanasDestino extends \yii\db\ActiveRecord
             [['idImagenCampana', 'codigoCiudad', 'idGrupoInteres'], 'required'],
             [['idImagenCampana', 'codigoCiudad', 'idGrupoInteres'], 'integer'],
             [['codigoCiudad'], 'exist', 'skipOnError' => true, 'targetClass' => Ciudad::className(), 'targetAttribute' => ['codigoCiudad' => 'codigoCiudad']],
-            [['idGrupoInteres'], 'exist', 'skipOnError' => true, 'targetClass' => Grupointeres::className(), 'targetAttribute' => ['idGrupoInteres' => 'idGrupoInteres']],
+            [['idGrupoInteres'], 'exist', 'skipOnError' => true, 'targetClass' => GrupoInteres::className(), 'targetAttribute' => ['idGrupoInteres' => 'idGrupoInteres']],
             [['idImagenCampana'], 'exist', 'skipOnError' => true, 'targetClass' => PublicacionesCampanas::className(), 'targetAttribute' => ['idImagenCampana' => 'idImagenCampana']],
         ];
     }
