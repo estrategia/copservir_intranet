@@ -7,6 +7,18 @@ use app\modules\intranet\models\Indicadores;
 $this->title = 'Indicadores';
 $this->params['breadcrumbs'][] = ['label' => 'Administrar indicadores'];
 ?>
+
+<div class="row">
+  <div class="col-lg-12">
+    <?php foreach (Yii::$app->session->getAllFlashes() as $tipo => $mensaje): ?>
+      <div role="alert" class="alert alert-<?= $tipo ?> alert-dismissible fade in">
+        <button aria-label="Close" data-dismiss="alert" class="close" type="button"></button>
+        <p><?= $mensaje ?></p>
+      </div>
+    <?php endforeach; ?>
+  </div>
+</div>
+
 <div class="indicadores-index">
 
     <h1><?= Html::encode($this->title) ?></h1>

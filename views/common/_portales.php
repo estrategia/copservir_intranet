@@ -22,7 +22,7 @@ use yii\helpers\Html;
       ', ['/proveedores/sitio/index'])
       ?>
 
-      <?= Html::a('Coopsevir
+      <?= Html::a('Copsevir
       <div class="item forestGreen">
       <img src="http://placehold.it/200x150" alt="">
       </div>

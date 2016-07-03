@@ -15,6 +15,7 @@ $this->title = 'Intranet - Copservir';
 <?php endif;?>
 <!-- END UP BANNER -->
 <!-- BEGIN CUMPLEAÑOS -->
+<!--
 <?php if(!in_array(\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_CUMPLEANOS ,Yii::$app->user->identity->getOcultosDashboard())): ?>
 <div class="col-md-12">
   <div class="grid simple">
@@ -32,12 +33,10 @@ $this->title = 'Intranet - Copservir';
        </ul>
 
     </div>
-    <!--<div class="spacing-bottom"></div>-->
     <div class="grid-body no-border">
 
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane active" id="cumpleanos">
-            <!-- CUMPLEAÑOS -->
             <div class="col-md-12">
               <?php if(!empty($cumpleanos)): ?>
                 <?= $this->render('/cumpleanos/_carouselCumpleanos', ['flag'=>'Cumpleaños', 'models'=>$cumpleanos]) ?>
@@ -54,7 +53,6 @@ $this->title = 'Intranet - Copservir';
 
           </div>
           <div role="tabpanel" class="tab-pane" id="aniversarios">
-            <!-- ANIVERSARIOS -->
             <div class="col-md-12">
               <?php if(!empty($aniversarios)): ?>
                 <?=  $this->render('/cumpleanos/_carouselCumpleanos', ['flag'=>'Aniversarios', 'models'=>$aniversarios]) ?>
@@ -76,6 +74,7 @@ $this->title = 'Intranet - Copservir';
   </div>
 </div>
 <?php endif;?>
+-->
 <!-- END CUMPLEAÑOS -->
 
 <!-- begin PUBLICACIONES -->
@@ -163,9 +162,10 @@ $this->title = 'Intranet - Copservir';
   <?php echo $this->render('_ofertasLaborales', ['ofertasLaborales' => $ofertasLaborales]) ?>
 <?php endif; ?>
 
+
 <?php if (!in_array(\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_TAREAS, Yii::$app->user->identity->getOcultosDashboard())): ?>
   <div class="col-md-4" id="widget-tareas">
-    <?php echo $this->render('/tareas/_tareasHome', ['tareasUsuario' => $tareasUsuario]) ?>
+    <?php //echo $this->render('/tareas/_tareasHome', ['tareasUsuario' => $tareasUsuario]) ?>
   </div>
 <?php endif; ?>
 

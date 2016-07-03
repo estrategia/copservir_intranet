@@ -1,6 +1,6 @@
 <?php if(!in_array(\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_INDICADORES."_".$indicador->idIndicador,Yii::$app->user->identity->getOcultosDashboard())): ?>
 
-  <div id='<?= $indicador->idIndicador ?>'>
+  <div id='indicador_<?= $indicador->idIndicador ?>'>
     <div class="tiles <?= $indicador->colorFondo ?>    m-b-10">
       <div class="tiles-body">
         <div class="controller">

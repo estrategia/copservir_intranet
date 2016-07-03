@@ -20,8 +20,6 @@ IntranetAsset::register($this);
 $srcPictureUser = "''";
 $srcLogo = Yii::$app->homeUrl . 'img/logo_copservir.png';
 
-$menu = Menu::find()->with('listSubMenu')->where('idPadre is NULL')->all();
-$opciones = new OpcionesUsuario(Yii::$app->user->identity->numeroDocumento);
 $userName = "";
 
 if (!Yii::$app->user->isGuest) {
@@ -174,7 +172,7 @@ if (!Yii::$app->user->isGuest) {
 
                         <!--OPCIONES SELECCIONADAS POR EL USUARIO DEL MENU CORPORATIVO -->
                         <li id='list-menu-corporativo'></li>
-                        <?= $this->render('_menuCorporativoUsuario', ['menu' => $menu, 'opciones' => $opciones]); ?>
+                        <?= $this->render('_menuCorporativoUsuario', ['menu' => Menu::getMenuPadre(), 'opciones' => new OpcionesUsuario(Yii::$app->user->identity->numeroDocumento)]); ?>
 
                         <!-- MENU PORTALES -->
                         <?php foreach (MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id) as $itemMenu): ?>

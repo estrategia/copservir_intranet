@@ -638,13 +638,13 @@ body.boxed-layout .footer-widget {
   padding: 0px;
 }
 .page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu > li > ul.sub-menu > li > a {
-  margin-left: 20px;
+  margin-left: 15px;
 }
 .page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu > li > a {
-  padding-left: 25px;
+  padding-left: 15px;
 }
 .page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu > li > a {
-  padding-left: 30px;
+  padding-left: 15px;
 }
 
 .page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu li > a > .arrow:before {

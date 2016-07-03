@@ -70,7 +70,7 @@ class SitioController extends \app\controllers\CController {
         $fecha = date("Y-m-d H:i:s");
         $contenidoModel = new Contenido();
         $lineasTiempo = LineaTiempo::find()->where(['estado' => 1])->andWhere("fechaInicio <= '$fecha' AND '$fecha' <= fechaFin")->orderBy('orden')->all();
-        $indicadores = Indicadores::find()->all();
+        $indicadores = Indicadores::find()->where(['estado'=>1])->all();
 
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
         $userCiudad = Yii::$app->user->identity->getCiudadCodigo();

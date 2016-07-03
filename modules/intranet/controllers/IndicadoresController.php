@@ -96,9 +96,11 @@ class IndicadoresController extends Controller
       $model = $this->findModel($id);
       $model->estado = Indicadores::ESTADO_INACTIVO;
 
-      if ($model->save()) {
-          return $this->redirect(['admin']);
+      if (!$model->save()) {
+          Yii::$app->session->setFlash('error', \app\modules\intranet\models\Funciones::getErrors($model));
       }
+      
+      return $this->redirect(['admin']);
     }
 
     /**

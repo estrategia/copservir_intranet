@@ -36,5 +36,17 @@ class Funciones {
         $reemplazo   = array($numeroDocumento, $numeroDocumentoEncriptado);
         return str_replace($patrones, $reemplazo, $contenido);
     }
+    
+    public static function getErrors($model){
+        $response = "";
+
+        foreach ($model->getErrors() as $key => $arr) {
+            foreach ($arr as $key => $value) {
+                $response .= $value . ", ";
+            }
+        }
+
+        return substr($response, 0, -2);
+    }
 
 }

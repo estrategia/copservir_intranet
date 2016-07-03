@@ -26,11 +26,12 @@ class Indicadores extends \yii\db\ActiveRecord
   public function rules()
   {
     return [
-      [['colorFondo', 'descripcion', 'valor', 'textoComplementario'], 'required'],
+      [['estado', 'colorFondo', 'descripcion', 'valor', 'textoComplementario'], 'required'],
       [['colorFondo'], 'string', 'max' => 8],
       [['descripcion'], 'string', 'max' => 60],
       [['valor'], 'string', 'max' => 100],
-      [['textoComplementario'], 'string', 'max' => 45]
+      [['estado'], 'integer'],
+      [['textoComplementario'], 'string', 'max' => 255]
     ];
   }
 
