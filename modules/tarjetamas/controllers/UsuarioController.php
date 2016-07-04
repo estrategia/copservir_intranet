@@ -312,11 +312,11 @@ class UsuarioController extends Controller {
 
     public function actionActivarCuenta($codigo)
     {
-        $model = UsuarioTarjetaMas::find()->where(['codigoActivacion' => $codigo]);
+        $model = UsuarioTarjetaMas::find()->where(['codigoActivacion' => $codigo])->one();
 
         if ($model !== null)
         {   
-            $modelUsuario = findOne(['numeroDocumento' => $model->numeroDocumento]);
+            $modelUsuario = Usuario::findOne(['numeroDocumento' => $model->numeroDocumento]);
             $modelUsuario->estado = Usuario::ESTADO_ACTIVO;
             if ($modelUsuario->save()) {
                 Yii::$app->session->setFlash('success', 'Cuenta activada con exito, Ya puedes iniciar sesion');        
