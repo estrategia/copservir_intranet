@@ -316,7 +316,7 @@ class UsuarioController extends Controller {
 
         if ($model !== null)
         {   
-            $modelUsuario = findOne(['numeroDocumento' => $model->numeroDocumento])
+            $modelUsuario = findOne(['numeroDocumento' => $model->numeroDocumento]);
             $modelUsuario->estado = Usuario::ESTADO_ACTIVO;
             if ($modelUsuario->save()) {
                 Yii::$app->session->setFlash('success', 'Cuenta activada con exito, Ya puedes iniciar sesion');        
