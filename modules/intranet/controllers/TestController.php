@@ -15,6 +15,28 @@ use app\modules\intranet\models\AuthAssignment;
 
 class TestController extends Controller {
     
+    public function actionAut(){
+        
+        //$resultWebServicesLogin = \app\modules\intranet\models\LoginForm::callWSLogin("91250721", "91250721");
+        //VarDumper::dump($resultWebServicesLogin,10,true);
+        
+        $usuario = new \app\models\Usuario;
+        $usuario->numeroDocumento = 91250721;
+        
+        $client = new \SoapClient(\Yii::$app->params['webServices']['persona'], array(
+          "trace" => 1,
+          "exceptions" => 0,
+          'connection_timeout' => 5,
+          'cache_wsdl' => WSDL_CACHE_NONE
+      ));
+
+      $result = $client->getPersonaWithModel($usuario->numeroDocumento = 91250721, true, null);
+      
+      VarDumper::dump($result,10,true);
+      
+        
+    }
+    
     public function actionReplace(){
         $letters = array('@_numeroDocumento_', '@_numeroDocumentoEncriptado_');
         $fruit   = array('apple', 'pear');

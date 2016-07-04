@@ -115,9 +115,11 @@ class UsuarioController extends \yii\web\Controller {
         $model->scenario = 'cambiarClave';
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            
+            //\yii\helpers\VarDumper::dump($model,10,true);echo "<br><br>";
 
             $response = self::callWSCambiarClave($model->username, sha1($model->password));
-
+            //\yii\helpers\VarDumper::dump($response,10,true);echo "<br><br>";exit;
             if ($response){
               return $this->redirect(['perfil']);
             }else{
