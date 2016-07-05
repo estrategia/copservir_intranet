@@ -24,9 +24,16 @@ class UsuarioController extends Controller {
             [
                 'class' => \app\components\AccessFilter::className(),
                 'only' => [
-                    'index', 'cambiar-clave', 'actualizar-datos', 'mis-tarjetas', 'suspender', 'ver', 'hacer-primaria'
+                    'index', 'cambiar-clave', 'actualizar-datos',  'suspender', 'ver', 'hacer-primaria'
                 ],
                 'redirectUri' => ['/tarjetamas/sitio/index']
+            ],
+            [
+                'class' => \app\components\AccessFilter::className(),
+                'only' => [
+                     'mis-tarjetas', 
+                ],
+                'redirectUri' => ['/tarjetamas/usuario/autenticar']
             ],
             /*
               [
