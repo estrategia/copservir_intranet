@@ -1,5 +1,5 @@
 <span id='contenido_<?= $noticia->idContenido ?>'>
   <?php
-  echo $this->render('_contenido', ['noticia' => $noticia]);
+  echo $this->render('_contenido', ['noticia' => $noticia, 'completo'=>true]);
   ?>
 </span>

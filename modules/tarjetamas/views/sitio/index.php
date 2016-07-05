@@ -23,7 +23,7 @@ $srctarjetamas = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
     <div class="row">
       <div class="col-sm-4">
         <div class="postLeft white-item">  
-            <?= Html::a('<img class="img-responsive hover-img" src="'.$srctarjetamas.'/activa-tu-tarjeta.png"  alt="Activa tu tarjeta">', ['/tarjetamas/sitio/informacion']) ?>
+            <?= Html::a('<img class="img-responsive hover-img" src="'.$srctarjetamas.'/activa-tu-tarjeta.png"  alt="Activa tu tarjeta">', ['/tarjetamas/usuario/registro']) ?>
         </div>
       </div>
       <div class="col-sm-4">

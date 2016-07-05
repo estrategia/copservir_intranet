@@ -616,10 +616,12 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
     display:block;
 }
 
-.submenu {padding:0;border-top:1px solid #fff;}
+.submenu {padding:0;border-top:1px solid #fff;z-index:100;}
 .submenu li {padding:20px;cursor:pointer;}
 .submenu li a {color:#fff;}
 .submenu li a:hover {text-decoration:none;}
+
+.navbar-collapse.tarjeta-mas.collapse.in .nav > li{ background-color: #CD242A !important;}
 
 .submenu.sub-tarjetamas li{
    background-color: #C00000; 

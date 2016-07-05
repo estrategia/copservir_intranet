@@ -33,8 +33,9 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
                  <li>El descuento es acumulable con otros descuentos vigentes por campañas, actividades o productos y aplica únicamente en facturas iguales o inferiores a $500.000.</li>
                  <li>No se aceptan devoluciones de la tarjeta más después de su activación y cuando haya sido utilizado alguno de los descuentos.</li>
                  <li>El descuento no aplica en leches, cereales infantiles, leches formuladas o maternizadas, cigarrillos, celulares, recargas, pines, tarjetas prepago, planes de telefonía celular voz y datos. No aplica tampoco al valor de los servicios Domicilio, Entrega Nacional, Baloto, Servicio de Bascula, Glucometria, inyectologia y toma de Presión.</li>
-                 <li>El cliente portador de la tarjeta más podrá consultar la vigencia de la tarjeta y los descuentos disponibles y utilizados AQUÍ. </li>
-                 <li>En caso de pérdida, hurto o daño de la tarjeta más podrá realizar el bloqueo de su tarjeta AQUÍ y solicitar su reposición</li>
+                 <li>El cliente portador de la tarjeta más podrá consultar la vigencia de la tarjeta y los descuentos disponibles y utilizados <a href='<?= yii\helpers\Url::toRoute('usuario/mis-tarjetas') ?>' >AQUÍ</a>. </li>
+                 <li>En caso de pérdida, hurto o daño de la tarjeta más podrá realizar el bloqueo de su tarjeta <a href='<?= yii\helpers\Url::toRoute('usuario/mis-tarjetas') ?>' >AQUÍ</a> y solicitar su reposición</li>
+                 <li> La primera tarjeta activa tendrá el estado de tarjeta primaria. En los casos donde se utilice el  servicio a domicilio con tarjeta más, el descuento será debitado de la tarjeta primaria. En caso de poseer más de una Tarjeta, se podrá cambiar el estado a primaria ingresando  a  <a target="_BLANK" href="http://tarjetamaslarebaja.com">www.tarjetamaslarebaja.com</a>, dar clic en la opción “ver tarjetas”, escoger la tarjeta que se quiere hacer primaria.</li> 
              </ul> 
 
   </section>    
