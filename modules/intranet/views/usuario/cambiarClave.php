@@ -7,6 +7,8 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
 
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Perfil de usuario'), 'url'=>['/intranet/usuario/perfil']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Cambiar clave')];
 ?>
 
 <div class="col-md-12">

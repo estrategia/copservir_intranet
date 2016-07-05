@@ -1,6 +1,8 @@
 <?php
 
 use yii\helpers\Html;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Perfil de usuario')];
+
 ?>
 
 <!-- PLANTILLA -->
@@ -81,7 +83,7 @@ use yii\helpers\Html;
                 <div style="height: 5px"></div>
                 <?php echo Html::a('Cambiar contraseña', ['usuario/cambiar-clave'], ['class' => 'btn btn-primary btn-small', 'name' => 'password-button']) ?>
                 <div style="height: 5px"></div>
-                <?php //echo Html::a('Cambiar fotos', ['usuario/cambiar-foto-perfil'], ['class' => 'btn btn-primary btn-small', 'name' => 'picture-button']) ?>
+                <?php echo Html::a('Cambiar fotos', ['usuario/cambiar-foto-perfil'], ['class' => 'btn btn-primary btn-small', 'name' => 'picture-button']) ?>
               </div>
 
 

@@ -115,15 +115,13 @@ class UsuarioController extends \yii\web\Controller {
         $model->scenario = 'cambiarClave';
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            
-            //\yii\helpers\VarDumper::dump($model,10,true);echo "<br><br>";
-
             $response = self::callWSCambiarClave($model->username, sha1($model->password));
-            //\yii\helpers\VarDumper::dump($response,10,true);echo "<br><br>";exit;
+            
             if ($response){
+                Yii::$app->session->setFlash('success', 'La contrase&ntilde;a se cambi&oacute; con &eacute;xito');
               return $this->redirect(['perfil']);
             }else{
-              Yii::$app->session->setFlash('error', 'Error al cambiar la contraseña');
+              Yii::$app->session->setFlash('error', 'Error al cambiar la contrase&ntilde;a');
             }
         }
 
@@ -276,9 +274,11 @@ class UsuarioController extends \yii\web\Controller {
                     if ($modelFoto->imagenPerfil) {
                         foreach ($modelFoto->imagenPerfil as $file) {
                             if (isset(Json::decode($modelFoto->crop_info)[0])) {
-                                $file->saveAs('img/fotosperfil/' . $file->baseName . '.' . $file->extension);
-                                $rutaImagen = $file->baseName . '.' . $file->extension;
-                                $image = Image::getImagine()->open('img/fotosperfil/' . $file->baseName . '.' . $file->extension);
+                                $nombreImagen = Yii::$app->user->identity->numeroDocumento;
+                                $rutaImagen = "$nombreImagen.$file->extension";
+                                $rutaImagenAnterior = $usuario->imagenPerfil;
+                                $file->saveAs(Yii::getAlias('@webroot') . '/img/fotosperfil/' . $rutaImagen);
+                                $image = Image::getImagine()->open(Yii::getAlias('@webroot') .'/img/fotosperfil/' . $rutaImagen);
 
                                 // rendering information about crop of ONE option
                                 $cropInfo = Json::decode($modelFoto->crop_info)[0];
@@ -292,8 +292,7 @@ class UsuarioController extends \yii\web\Controller {
                                 $newSizeThumb = new Box($cropInfo['dWidth'], $cropInfo['dHeight']);
                                 $cropSizeThumb = new Box($cropInfo['width'], $cropInfo['height']); //frame size of crop
                                 $cropPointThumb = new Point($cropInfo['x'], $cropInfo['y']);
-                                $pathThumbImage = 'img/fotosperfil/' .
-                                        $rutaImagen;
+                                $pathThumbImage = 'img/fotosperfil/' . $rutaImagen;
 
                                 $image->resize($newSizeThumb)
                                         ->crop($cropPointThumb, $cropSizeThumb)
@@ -301,30 +300,39 @@ class UsuarioController extends \yii\web\Controller {
 
                                 $usuario->imagenPerfil = $rutaImagen;
                                 $usuario->save();
-                                Yii::$app->user->identity->imagenPerfil = $file->baseName . '.' . $file->extension;
-                                $msg = "<p><strong class='label label-info'>Enhorabuena, subida realizada con éxito</strong></p>";
+                                Yii::$app->user->identity->imagenPerfil = $rutaImagen;
+                                Yii::$app->session->setFlash('success', "Imagen perfil se carg&oacute; con &eacute;xito");
+                                
+                                if ($rutaImagen != $rutaImagenAnterior) {
+                                    unlink(Yii::getAlias('@webroot') ."/img/fotosperfil/" . $rutaImagenAnterior);
+                                }
+            
                             } else {
                                 $errorFotoPerfil = true;
                             }
                         }
                     }
                 } catch (\Exception $e) {
-                    echo "<pre>";
-                    print_r($e->getMessage());
-                    echo "</pre>";
+                    Yii::$app->session->setFlash('error', $e->getMessage());
                 }
                 $modelFoto->imagenFondo = UploadedFile::getInstances($modelFoto, 'imagenFondo');
 
                 if ($modelFoto->imagenFondo) {
-                    foreach ($modelFoto->imagenFondo as $file) {
-                        $file->saveAs('img/imagenesFondo/' . $file->baseName . '.' . $file->extension);
-                        $msg = "<p><strong class='label label-info'>Enhorabuena, subida realizada con éxito</strong></p>";
-                    }
-
-                    $usuario->imagenFondo = $file->baseName . '.' . $file->extension;
-
-                    $usuario->save();
-                    Yii::$app->user->identity->imagenFondo = $file->baseName . '.' . $file->extension;
+                    //foreach ($modelFoto->imagenFondo as $file) {
+                        $nombreImagen = Yii::$app->user->identity->numeroDocumento;
+                        $rutaImagen = "$nombreImagen.$file->extension";
+                        $rutaImagenAnterior = $usuario->imagenFondo;
+                        $file->saveAs(Yii::getAlias('@webroot') . '/img/imagenesFondo/' . $rutaImagen);
+                        
+                        $usuario->imagenFondo = $rutaImagen;
+                        $usuario->save();
+                        Yii::$app->user->identity->imagenFondo = $rutaImagen;
+                        Yii::$app->session->setFlash('success', "Fondo perfil se carg&oacute; con &eacute;xito");
+                        
+                        if ($rutaImagen != $rutaImagenAnterior) {
+                            unlink(Yii::getAlias('@webroot') ."/img/imagenesFondo/" . $rutaImagenAnterior);
+                        }
+                    //}
                 }
             }
             $modelFoto = new FotoForm();

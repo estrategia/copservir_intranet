@@ -16,6 +16,7 @@ use app\modules\intranet\models\AuthAssignment;
 class TestController extends Controller {
     
     public function actionAut(){
+        echo Yii::getAlias('@webroot');;exit();
         
         //$resultWebServicesLogin = \app\modules\intranet\models\LoginForm::callWSLogin("91250721", "91250721");
         //VarDumper::dump($resultWebServicesLogin,10,true);
