@@ -25,7 +25,7 @@ use yii\helpers\ArrayHelper;
 class UsuarioTarjetaMas extends \yii\db\ActiveRecord
 {
     public $password;
-
+    public $aceptaTerminos;
     public static function tableName()
     {
         return 'm_UsuarioTarjetaMas';
@@ -34,7 +34,7 @@ class UsuarioTarjetaMas extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['numeroDocumento', 'nombres', 'primerApellido', 'correo', 'codigoCiudad'], 'required'],
+            [['numeroDocumento', 'nombres', 'primerApellido', 'correo', 'codigoCiudad',], 'required'],
             [['numeroDocumento', 'celular', 'telefonoFijo', 'codigoCiudad'], 'integer'],
             [['nombres', 'primerApellido', 'segundoApellido'], 'string', 'max' => 45],
             [['nombres', 'primerApellido', 'segundoApellido'], 'match', 'pattern' => "/^[a-zA-ZáéíóúÁÉÍÓÚÑñ]+$/i", 'message' => 'Sólo se aceptan letras'],
@@ -43,7 +43,8 @@ class UsuarioTarjetaMas extends \yii\db\ActiveRecord
             [['codigoCiudad'], 'exist', 'skipOnError' => true, 'targetClass' => Ciudad::className(), 'targetAttribute' => ['codigoCiudad' => 'codigoCiudad']],
             [['numeroDocumento'], 'exist', 'skipOnError' => true, 'targetClass' => Usuario::className(), 'targetAttribute' => ['numeroDocumento' => 'numeroDocumento']],
             [['password'], 'string', 'min' => 6],
-            [['password'], 'required', 'on' =>  ['registroDatos']],
+            [['password',], 'required', 'on' =>  ['registroDatos']],
+            ['aceptaTerminos', 'required', 'on' => ['registroDatos'], 'requiredValue' => 1, 'message' => 'Debe aceptar términos y condiciones antes de registrarse']
         ];
     }
 
@@ -59,6 +60,7 @@ class UsuarioTarjetaMas extends \yii\db\ActiveRecord
             'telefonoFijo' => 'Telefono Fijo',
             'codigoCiudad' => 'Ciudad',
             'password' => 'Contraseña',
+            'aceptaTerminos' => 'Acepta términos y condiciones'
         ];
     }
 

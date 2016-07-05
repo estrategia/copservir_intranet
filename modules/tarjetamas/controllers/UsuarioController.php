@@ -12,6 +12,8 @@ use app\models\Usuario;
 use yii\filters\VerbFilter;
 use yii\data\ArrayDataProvider;
 use app\modules\tarjetamas\models\formularios\ActivarForm;
+use yii\helpers\Url;
+use yii\helpers\Json;
 
 class UsuarioController extends Controller {
 
@@ -81,7 +83,7 @@ class UsuarioController extends Controller {
         $cedula = \Yii::$app->user->identity->numeroDocumento;
         $tarjetasUsuario = UsuarioTarjetaMas::callWSConsultarTarjetasAbonado($cedula);
 
-        if ($respuesta[0]['CODIGO'] == 1) {
+        if ($tarjetasUsuario[0]['CODIGO'] == 1) {
             $provider = new ArrayDataProvider([
                 'allModels' => $tarjetasUsuario,
                 'sort' => [
@@ -98,6 +100,12 @@ class UsuarioController extends Controller {
         return $this->render('tarjetas', [
                     'dataProvider' => $provider
         ]);
+    }
+
+    public function actionConfirmarBloqueo() {
+        if ($_POST) {
+            return $this->renderPartial('_modalBloqueo', ['dataTarjeta' => $_POST['dataTarjeta']]);
+        }
     }
 
     /**
@@ -138,12 +146,20 @@ class UsuarioController extends Controller {
             $cedula = \Yii::$app->user->identity->numeroDocumento;
             $numeroTarjeta = $_POST['numeroTarjeta'];
             $respuesta = UsuarioTarjetaMas::callWSSuspenderTarjetaWeb($cedula, $numeroTarjeta);
+           // $respuesta[0]['CODIGO'] = 1;
             if ($respuesta[0]['CODIGO'] == 1) {
                 Yii::$app->session->setFlash('success', 'La tarjeta ha sido suspendida con éxito');
-                return $this->redirect('mis-tarjetas');
+                // return $this->redirect('mis-tarjetas');
+                echo JSON::encode([
+                    'result' => 'ok',
+                    'response' => Url::toRoute('mis-tarjetas')
+                ]);
             } else {
                 Yii::$app->session->setFlash('ERROR', $respuesta[0]['MENSAJE']);
-                return $this->redirect('mis-tarjetas');
+                echo JSON::encode([
+                    'result' => 'ok',
+                    'response' => Url::toRoute('mis-tarjetas')
+                ]);
             }
         }
     }
@@ -245,50 +261,45 @@ class UsuarioController extends Controller {
 
                 $value = $this->enviarCorreoActivacion($model->codigoActivacion, $model->correo);
 
-                if ($modelUsuario->save() && $model->save() && $value) 
-                {
+                if ($modelUsuario->save() && $model->save() && $value) {
                     $transaction->commit();
                     Yii::$app->session->setFlash('success', 'Revisa tu correo y sigue las instrucciones para activar tu cuenta');
                     $model = new UsuarioTarjetaMas();
+                } else {
+                    throw new Exception("Error realizar el registro:" . yii\helpers\Json::enconde($logTarea->getErrors()), 101);
                 }
-                else
-                {
-                    throw new Exception("Error realizar el registro:".yii\helpers\Json::enconde($logTarea->getErrors()), 101);   
-                }
-
-                
             } catch (Exception $e) {
-                
+
                 $transaction->rollBack();
                 Yii::$app->session->setFlash('error', $e->getMessage());
                 throw $e;
             }
             /*
-            $modelUsuario = new Usuario;
-            $modelUsuario->numeroDocumento = $model->numeroDocumento;
-            $modelUsuario->estado = Usuario::ESTADO_ACTIVO;
-            $modelUsuario->codigoPerfil = \Yii::$app->params['PerfilesUsuario']['tarjetaMas']['codigo'];
-            $modelUsuario->contrasena = md5($model->password);
+              $modelUsuario = new Usuario;
+              $modelUsuario->numeroDocumento = $model->numeroDocumento;
+              $modelUsuario->estado = Usuario::ESTADO_ACTIVO;
+              $modelUsuario->codigoPerfil = \Yii::$app->params['PerfilesUsuario']['tarjetaMas']['codigo'];
+              $modelUsuario->contrasena = md5($model->password);
 
-            $model->codigoActivacion = $modelUsuario->generarCodigoRecuperacion();
+              $model->codigoActivacion = $modelUsuario->generarCodigoRecuperacion();
 
 
-            if ($modelUsuario->save() && $model->save()) {
+              if ($modelUsuario->save() && $model->save()) {
 
-                Yii::$app->session->setFlash('error', 'Error al realizar el registro');
-                /*
-                $modelLogin = new LoginForm();
-                $modelLogin->username = $model->numeroDocumento;
-                $modelLogin->password = $model->password;
+              Yii::$app->session->setFlash('error', 'Error al realizar el registro');
+              /*
+              $modelLogin = new LoginForm();
+              $modelLogin->username = $model->numeroDocumento;
+              $modelLogin->password = $model->password;
 
-                if ($modelLogin->login()) {
-                    return $this->redirect(['index']);
-                } else {
-                    return $this->redirect(['sitio/index']);
-                }
-            } else {
-                Yii::$app->session->setFlash('error', 'Error al realizar el registro');
-            }*/
+              if ($modelLogin->login()) {
+              return $this->redirect(['index']);
+              } else {
+              return $this->redirect(['sitio/index']);
+              }
+              } else {
+              Yii::$app->session->setFlash('error', 'Error al realizar el registro');
+              } */
         }
 
         return $this->render('datos-registro', [
@@ -310,25 +321,22 @@ class UsuarioController extends Controller {
         return $value;
     }
 
-    public function actionActivarCuenta($codigo)
-    {
+    public function actionActivarCuenta($codigo) {
         $model = UsuarioTarjetaMas::find()->where(['codigoActivacion' => $codigo])->one();
 
-        if ($model !== null)
-        {   
+        if ($model !== null) {
             $modelUsuario = Usuario::findOne(['numeroDocumento' => $model->numeroDocumento]);
             $modelUsuario->estado = Usuario::ESTADO_ACTIVO;
             if ($modelUsuario->save()) {
-                Yii::$app->session->setFlash('success', 'Cuenta activada con exito, Ya puedes iniciar sesion');        
-            }else{
-                Yii::$app->session->setFlash('error', 'Error al activar la cuenta, este usuario no se ha registrado');    
+                Yii::$app->session->setFlash('success', 'Cuenta activada con exito, Ya puedes iniciar sesion');
+            } else {
+                Yii::$app->session->setFlash('error', 'Error al activar la cuenta, este usuario no se ha registrado');
             }
-            
-        }else{
+        } else {
             Yii::$app->session->setFlash('error', 'Error al activar la cuenta, este usuario no se ha registrado');
         }
 
-        return $this->render('activar-cuenta', []);      
+        return $this->render('activar-cuenta', []);
     }
 
     public function actionAutenticar() {
