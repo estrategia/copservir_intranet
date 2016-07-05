@@ -86,9 +86,7 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
     }
 
     public function generarDatos($forzar = false) {
-        Yii::info('ENTRO GENERAR DATOS');
         if (!$this->data['sesionRestaurada'] || $forzar) {
-          Yii::info('ENTRO IF');
             try {
                 $infoPersona = self::callWSInfoPersona($this->numeroDocumento);
 
@@ -108,16 +106,18 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
                   $this->data['personal']['ciudad']['codigo'] = $infoPersona['Codigo'];
                   $this->data['personal']['fechaCumpleanhos'] = $infoPersona['FechaNacimiento'];
 
-                  $this->data['academica']['profesion'] = "Ingeniero de sistemas y ciencias de la computación";
-                  $this->data['academica']['estudiosSuperiores'] = "Universidad del valle sede Melendez";
+                  //$this->data['academica']['profesion'] = "Ingeniero de sistemas y ciencias de la computación";
+                  //$this->data['academica']['estudiosSuperiores'] = "Universidad del valle sede Melendez";
+                  $this->data['academica']['profesion'] = "";
+                  $this->data['academica']['estudiosSuperiores'] = "";
 
                   $this->data['laboral']['cargo']['codigo'] = $infoPersona['CodigoCargo'];
                   $this->data['laboral']['cargo']['nombre'] = $infoPersona['Cargo'];
-                  $this->data['laboral']['area']['nombre'] = "TECNOLOGIA";
+                  $this->data['laboral']['area']['nombre'] = "";
                   $this->data['laboral']['fechaVinculacion']  = $infoPersona['FechaVinculacion'];
-                  $this->data['laboral']['jefeInmediato']['numeroIdentificacion'] = "123456";
-                  $this->data['laboral']['jefeInmediato']['nombre'] = "Andres Tabares";
-                  $this->data['laboral']['extension'] = "35689";
+                  $this->data['laboral']['jefeInmediato']['numeroIdentificacion'] = "";
+                  $this->data['laboral']['jefeInmediato']['nombre'] = "";
+                  $this->data['laboral']['extension'] = "";
                   $this->data['laboral']['correoElectronico'] = $infoPersona['Email'];
 
                   $this->data['sesionRestaurada'] = true;
@@ -136,7 +136,7 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
 
             }catch (SoapFault $exc) {
 
-              Yii::error($ex->getMessage());
+              Yii::error($exc->getMessage());
               return false;
            } catch (Exception $ex) {
 
@@ -144,8 +144,6 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
               return false;
             }
 
-        }else{
-          Yii::info('ENTRO ELSE');
         }
     }
 

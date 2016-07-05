@@ -156,7 +156,7 @@ class ContenidoEmergenteController extends Controller {
         if ($query) {
             $respond = [
                 'result' => 'ok',
-                'response' => $this->renderAjax('_contenidoemergenteHtml', ['query' => $query]),
+                'response' => $this->renderAjax('_contenidoEmergenteHtml', ['query' => $query]),
             ];
         } else {
             $respond = [

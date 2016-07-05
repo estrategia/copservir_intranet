@@ -30,7 +30,7 @@ use yii\helpers\Html;
           </div>
           <div class="col-md-5 user-description-box  col-sm-5">
             <h4 class="semi-bold no-margin"><?= Yii::$app->user->identity->alias ?></h4>
-            <h6 class="no-margin"><?= \Yii::$app->user->identity->getProfesion() ?></h6>
+            <!--<h6 class="no-margin"><?= \Yii::$app->user->identity->getProfesion() ?></h6>-->
             <br>
             <p><i class="fa fa-briefcase"></i> <?= \Yii::$app->user->identity->getCargoNombre() ?></p>
           </div>
@@ -57,18 +57,18 @@ use yii\helpers\Html;
               <div class="post col-md-5">
                 <h5>Informaci&oacute;n General</h5>
                 <p><b>nombre: </b> <?= \Yii::$app->user->identity->getNombres().' '.\Yii::$app->user->identity->getPrimerApellido().' '.\Yii::$app->user->identity->getSegundoApellido() ?></p>
-                <p><b>Profesi&oacute;n: </b> <?= \Yii::$app->user->identity->getProfesion() ?></p>
+                <!--<p><b>Profesi&oacute;n: </b> <?= \Yii::$app->user->identity->getProfesion() ?></p>-->
                 <p><b>Cargo: </b> <?= \Yii::$app->user->identity->getCargoNombre() ?></p>
-                <p><b>&Aacute;rea:</b> <?= \Yii::$app->user->identity->getAreaNombre() ?></p>
+                <!--<p><b>&Aacute;rea:</b> <?= \Yii::$app->user->identity->getAreaNombre() ?></p>-->
                 <p><b>Vinculaci&oacute;n: </b> <?= \Yii::$app->user->identity->getVinculacion() ?></p>
                 <p><b>Antiguedad: </b> <?= \Yii::$app->user->identity->getAntiguedad() ?></p>
-                <p><b>Jefe inmediato: </b> <?= \Yii::$app->user->identity->getJefeInmediatoNombre() ?></p>
+                <!--<p><b>Jefe inmediato: </b> <?= \Yii::$app->user->identity->getJefeInmediatoNombre() ?></p>-->
               </div>
               <div class="col-md-5">
-                <h5>Educación</h5>
-                <p><b>Superiores: </b> <?= \Yii::$app->user->identity->getEstudiosSuperiores() ?></p>
+                <!--<h5>Educación</h5>
+                <p><b>Superiores: </b> <?= \Yii::$app->user->identity->getEstudiosSuperiores() ?></p>-->
                 <h5>Otra Informaci&oacute;n</h5>
-                <p><b>Extensi&oacute;n: </b> <?= \Yii::$app->user->identity->getExtension() ?></p>
+                <!--<p><b>Extensi&oacute;n: </b> <?= \Yii::$app->user->identity->getExtension() ?></p>-->
                 <p><b>E-mail: </b> <?= \Yii::$app->user->identity->getEmail() ?></p>
                 <p><b>E-mail Personal: </b> <?= \Yii::$app->user->identity->getEmailPersonal() ?></p>
                 <p><b>Números Telefonicos: </b> <?= \Yii::$app->user->identity->getCelular() ?></p>
@@ -79,9 +79,9 @@ use yii\helpers\Html;
               <div class="col-md-2">
                 <?php //echo Html::a('Actualizar datos', ['usuario/actualizar-datos'], ['class' => 'btn btn-primary btn-small', 'name' => 'update-button']) ?>
                 <div style="height: 5px"></div>
-                <?= Html::a('Cambiar contraseña', ['usuario/cambiar-clave'], ['class' => 'btn btn-primary btn-small', 'name' => 'password-button']) ?>
+                <?php echo Html::a('Cambiar contraseña', ['usuario/cambiar-clave'], ['class' => 'btn btn-primary btn-small', 'name' => 'password-button']) ?>
                 <div style="height: 5px"></div>
-                <?= Html::a('Cambiar fotos', ['usuario/cambiar-foto-perfil'], ['class' => 'btn btn-primary btn-small', 'name' => 'picture-button']) ?>
+                <?php //echo Html::a('Cambiar fotos', ['usuario/cambiar-foto-perfil'], ['class' => 'btn btn-primary btn-small', 'name' => 'picture-button']) ?>
               </div>
 
 
