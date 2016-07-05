@@ -45,17 +45,18 @@ use yii\helpers\Html;
                                     $html.= Html::submitButton('<i class="fa fa-key"></i>', ['class' => 'btn btn-link', 'title' => 'Hacer primaria']);
                                     $html.= Html::endForm();
 
-                                    $html.= Html::beginForm(['suspender'], 'post', ['id' => 'form-suspender']);
-                                    $html.= Html::input('hidden', 'numeroTarjeta', $model['NUMEROTARJETA']);
-                                    $html.= Html::submitButton('<i class="fa fa-power-off"></i>', ['class' => 'btn btn-link', 'title' => 'Bloquear']);
-                                    $html.= Html::endForm();
+                                 //   $html.= Html::beginForm(['suspender'], 'post', ['id' => 'form-suspender']);
+                                 //   $html.= Html::input('hidden', 'numeroTarjeta', $model['NUMEROTARJETA']);
+//                                    $html.= Html::submitButton('<i class="fa fa-power-off"></i>', ['class' => 'btn btn-link', 'title' => 'Bloquear']);
+//                                    $html.= Html::endForm();
+                                    $html.=Html::a('<i class="fa fa-power-off"></i>','#',['class' => 'btn btn-link', 'title' => 'Bloquear', 'data-role' => 'bloquear-tarjeta', 'data-tarjeta' => $model['NUMEROTARJETA']]);
 
 
                                     $html.= Html::endForm();
                                 endif;
 
                                 return $html;
-                            }]
+                            },'label' =>  'Opciones']
                             ]
                         ]);
                         ?>

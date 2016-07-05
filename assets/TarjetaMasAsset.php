@@ -62,6 +62,7 @@ class TarjetaMasAsset extends AssetBundle {
         
         //animaciones con scroll
         'js/multiportal/viewportchecker.js',
+        'js/multiportal/tarjetamas.js',
 
         //propios
     ];
