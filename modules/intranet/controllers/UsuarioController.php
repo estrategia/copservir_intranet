@@ -303,7 +303,7 @@ class UsuarioController extends \yii\web\Controller {
                                 Yii::$app->user->identity->imagenPerfil = $rutaImagen;
                                 Yii::$app->session->setFlash('success', "Imagen perfil se carg&oacute; con &eacute;xito");
                                 
-                                if ($rutaImagen != $rutaImagenAnterior) {
+                                if (!empty($rutaImagenAnterior) && $rutaImagen != $rutaImagenAnterior) {
                                     unlink(Yii::getAlias('@webroot') ."/img/fotosperfil/" . $rutaImagenAnterior);
                                 }
             
@@ -329,7 +329,7 @@ class UsuarioController extends \yii\web\Controller {
                         Yii::$app->user->identity->imagenFondo = $rutaImagen;
                         Yii::$app->session->setFlash('success', "Fondo perfil se carg&oacute; con &eacute;xito");
                         
-                        if ($rutaImagen != $rutaImagenAnterior) {
+                        if (!empty($rutaImagenAnterior) && $rutaImagen != $rutaImagenAnterior) {
                             unlink(Yii::getAlias('@webroot') ."/img/imagenesFondo/" . $rutaImagenAnterior);
                         }
                     //}

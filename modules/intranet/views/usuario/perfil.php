@@ -5,6 +5,8 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Perfil de usuario')]
 
 ?>
 
+<?= $this->render('/common/errores', []) ?>
+
 <!-- PLANTILLA -->
 <div class="row">
   <div class="col-md-12">
