@@ -17,16 +17,20 @@ class SiiController extends Controller
      */
     public function actionSincronizarCumpleanos()
     {
-        echo 'hello world';
-        $response = self::callWSGetCumpleanos();
+        echo 'sincronizar cumpleanos';
+        $cumpleanos = CumpleanosPersona::getCumpleanosMes();
+
+        $cedulas = $this->generarCedulas($cumpleanos);
+
+        $response = self::callWSGetCumpleanos($cedulas);
 
         if (!empty($response)) {
 
             foreach ($response as $key => $value) {
 
-              $existeCumpleanos  = CumpleanosPersona::find()->where(['numeroDocumento' => $value['NumeroDocumento']])->one();
+              //$existeCumpleanos  = CumpleanosPersona::find()->where(['numeroDocumento' => $value['NumeroDocumento']])->one();
 
-              if (empty($existeCumpleanos)) {
+              //if (empty($existeCumpleanos)) {
 
                 $transaction = CumpleanosPersona::getDb()->beginTransaction();
 
@@ -49,14 +53,15 @@ class SiiController extends Controller
                   $transaction->rollBack();
                   throw $e;
                 }
-              }else{
-                echo 'el cumpleanos ya esta guardado';
-              }
+              //}else{
+                //echo 'el cumpleanos ya esta guardado';
+              //}
             }
         }
+        echo 'termina sincronizar cumpleanos';
     }
 
-    private function callWSGetCumpleanos()
+    private function callWSGetCumpleanos($cedulas)
     {
       $client = new \SoapClient(\Yii::$app->params['webServices']['persona'], array(
           "trace" => 1,
@@ -67,7 +72,7 @@ class SiiController extends Controller
 
       try {
 
-          $result = $client->getCumpleanos(date("m"), date("d"));
+          $result = $client->getCumpleanos(date("m"), $cedulas);
           return $result;
 
       } catch (SoapFault $ex) {
@@ -83,16 +88,20 @@ class SiiController extends Controller
      */
     public function actionSincronizarAniversarios()
     {
-        echo 'hello world';
-        $response = self::callWSGetAniversarios();
+        echo 'sincronizar Aniverzarios';
+        $aniversarios = CumpleanosLaborales::getAniversariosMes();
+
+        $cedulas = $this->generarCedulas($aniversarios);
+
+        $response = self::callWSGetAniversarios($cedulas);
 
         if (!empty($response)) {
 
             foreach ($response as $key => $value) {
 
-              $existeCumpleanos  = CumpleanosLaboral::find()->where(['numeroDocumento' => $value['NumeroDocumento']])->one();
+              //$existeCumpleanos  = CumpleanosLaboral::find()->where(['numeroDocumento' => $value['NumeroDocumento']])->one();
 
-              if (empty($existeCumpleanos)) {
+              //if (empty($existeCumpleanos)) {
 
                 $transaction = CumpleanosLaboral::getDb()->beginTransaction();
 
@@ -115,15 +124,17 @@ class SiiController extends Controller
                   $transaction->rollBack();
                   throw $e;
                 }
-              }else{
-                echo 'el cumpleanos ya esta guardado';
-              }
+              //}else{
+                //echo 'el cumpleanos ya esta guardado';
+              //}
             }
         }
 
+        echo 'Termina sincronizar Aniverzarios';
+
     }
 
-    private function callWSGetAniversarios()
+    private function callWSGetAniversarios($cedulas)
     {
       $client = new \SoapClient(\Yii::$app->params['webServices']['persona'], array(
           "trace" => 1,
@@ -134,7 +145,7 @@ class SiiController extends Controller
 
       try {
 
-          $result = $client->getAniversarios(date("m"), date("d"));
+          $result = $client->getAniversarios(date("m"), $cedulas);
           return $result;
 
       } catch (SoapFault $ex) {
@@ -142,6 +153,17 @@ class SiiController extends Controller
       } catch (Exception $ex) {
         Yii::error($ex->getMessage());
       }
+    }
+
+    private function generarCedulas($modelos)
+    {
+      $cedulas = '';
+
+      foreach ($modelos as $model) {
+        $cedulas .= $model->numeroDocumento.',';
+      }
+
+      return $cedulas;
     }
 }
 ?>

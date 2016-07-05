@@ -31,7 +31,7 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
                   </div>
                   <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                     <div class="panel-body">
-                      La tarjeta más es de venta exclusiva a partir del 1 de julio de 2016 en los puntos de venta LA REBAJA DROGUERIAS Y MINIMARKET. Su venta no está disponible para los canales telefónico y virtual. Disponibles 30.000 unidades. 
+                      La tarjeta más es de venta exclusiva en los puntos de venta LA REBAJA DROGUERIAS Y MINIMARKET. Su venta no está disponible para los canales telefónico y virtual. 
                     </div>
                   </div>
                 </div>
@@ -52,7 +52,6 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
                         <li>Un Asesor del Call center realizará la gestión de solicitud de reposición de tarjeta.</li>
                         <li>La tarjeta más la recibirá en un período de 20 días hábiles.</li>
                         <li>El período de esta pérdida no incrementará la vigencia de los descuentos. </li>
-                        <li>La reposición de la tarjeta no tiene ningún costo. </li>
                       </ul>
                     </div>
                   </div>
@@ -181,6 +180,50 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
                         </div>
                       </div>
                   </div>
+                  <div class="panel panel-default">
+                      <div class="panel-heading" role="tab" id="once">
+                        <h4 class="panel-title">
+                          <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseonce" aria-expanded="false" aria-controls="collapseonce">
+                           ¿Qué es una tarjeta más primaria?
+                          </a>
+                        </h4>
+                      </div>
+                      <div id="collapseonce" class="panel-collapse collapse" role="tabpanel" aria-labelledby="once">
+                        <div class="panel-body">
+                         Hace referencia a la primera tarjeta activa  de la cual se debitan los usos de descuento que realice a través del servicio a domicilio.  En caso de poseer más de una tarjeta  más
+                         podrá seleccionar como tarjeta primaria la que desee, esta opción se realiza ingresando  a <a href="http://tarjetamaslarebaja.com" target="_BLANK">www.tarjetamaslarebaja.com</a>, dar clic en la opción “ver tarjetas”, escoger la tarjeta que desea hacer primaria. 
+                        </div>
+                      </div>
+                  </div>
+                   <div class="panel panel-default">
+                      <div class="panel-heading" role="tab" id="doce">
+                        <h4 class="panel-title">
+                          <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapsedoce" aria-expanded="false" aria-controls="collapsedoce">
+                           ¿Hay un valor máximo de compra para obtener el descuento? 
+                          </a>
+                        </h4>
+                      </div>
+                      <div id="collapsedoce" class="panel-collapse collapse" role="tabpanel" aria-labelledby="doce">
+                        <div class="panel-body">
+                         La compra máxima por factura con el descuento de Tarjeta más, es hasta $500.000.
+                        </div>
+                      </div>
+                  </div>
+              
+                    <div class="panel panel-default">
+                      <div class="panel-heading" role="tab" id="trece">
+                        <h4 class="panel-title">
+                          <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapsetrece" aria-expanded="false" aria-controls="collapsetrece">
+                           ¿Qué debo hacer si mi compra supera los $500.000?
+                          </a>
+                        </h4>
+                      </div>
+                      <div id="collapsetrece" class="panel-collapse collapse" role="tabpanel" aria-labelledby="trece">
+                        <div class="panel-body">
+                         Se deberá dividir la compra en varias facturas, donde cada una de éstas no superen los $500.000.
+                        </div>
+                      </div>
+                  </div>             
          </div>
       </div>
       <div class="postRight col-md-5">
