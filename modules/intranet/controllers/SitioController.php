@@ -467,7 +467,7 @@ class SitioController extends \app\controllers\CController {
             }
         }
 
-        $menu = Menu::find()->with('listSubMenu')->where('idPadre is NULL')->all();
+        $menu = Menu::getMenuPadre();
         $opciones = new OpcionesUsuario(Yii::$app->user->identity->numeroDocumento);
 
         $respond = [

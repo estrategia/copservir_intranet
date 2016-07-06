@@ -3,7 +3,7 @@
 use app\modules\intranet\models\Menu;
 
 
-$opciones = Menu::construirArrayMenu(false);
+$opciones = Menu::construirArrayMenu(false,Yii::$app->user->identity->numeroDocumento);
 
 echo yii2mod\tree\Tree::widget([
   'items' => $opciones,

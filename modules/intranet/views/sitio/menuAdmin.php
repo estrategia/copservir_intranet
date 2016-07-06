@@ -5,7 +5,7 @@ use yii\helpers\Html;
 
 $this->title = 'Administra menú corporativo';
 $this->params['breadcrumbs'][] = ['label' => 'Menú corporativo'];
-$opciones = Menu::construirArrayMenu(true);
+$opciones = Menu::construirArrayMenu(true,Yii::$app->user->identity->numeroDocumento);
 
 ?>
 <div class="col-md-12" id="menu">
