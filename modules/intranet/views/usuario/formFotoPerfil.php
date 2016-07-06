@@ -4,6 +4,15 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
 use bupy7\cropbox\Cropbox;
 
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Perfil de usuario'), 'url'=>['/intranet/usuario/perfil']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Fotos de perfil')];
+
+?>
+
+<?= $this->render('/common/errores', []) ?>
+
+<?php
+
 $form = ActiveForm::begin([
   "method" => "post",
   "enableClientValidation" => true,

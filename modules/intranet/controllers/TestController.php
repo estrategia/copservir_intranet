@@ -12,10 +12,47 @@ use yii\helpers\VarDumper;
 use app\modules\intranet\models\AuthItem;
 use app\modules\intranet\models\AuthItemChild;
 use app\modules\intranet\models\AuthAssignment;
+use app\modules\intranet\models\Menu;
+use app\modules\intranet\models\UsuariosOpcionesFavoritos;
 
 class TestController extends Controller {
     
+    public function actionOpcionesusuario() {
+       $opcionesUsuario = UsuariosOpcionesFavoritos::find()->where(['=', 'numeroDocumento', 1113618983])->all();
+       
+       VarDumper::dump($opcionesUsuario,10,true);
+    }
+    
+    public function actionMenu(){
+        $listMenu = Menu::find()->with('activeListSubMenu')->where('estado=1 AND idPadre is NULL')->orderBy('orden')->all();
+        //var_dump($listMenu->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
+        
+        foreach($listMenu as $objMenu){
+            echo "$objMenu->idMenu: $objMenu->descripcion<br>";
+            foreach($objMenu->activeListSubMenu as $objSubmenu1){
+                echo "--- $objSubmenu1->idMenu: $objSubmenu1->descripcion<br>";
+                foreach($objSubmenu1->activeListSubMenu as $objSubmenu2){
+                    echo "------ $objSubmenu2->idMenu: $objSubmenu2->descripcion<br>";
+                    foreach($objSubmenu2->activeListSubMenu as $objSubmenu3){
+                        echo "--------- $objSubmenu3->idMenu: $objSubmenu3->descripcion<br>";
+                    }
+                }
+            }
+            echo "<br>";
+        }
+        
+        
+        //VarDumper::dump($listMenu->all(),10,true);
+    }
+    
+    public function actionMenuconstruir(){
+        $listMenu = Menu::construirArrayMenu(false,Yii::$app->user->identity->numeroDocumento);
+        
+        VarDumper::dump($listMenu,10,true);
+    }
+    
     public function actionAut(){
+        echo Yii::getAlias('@webroot');exit();
         
         //$resultWebServicesLogin = \app\modules\intranet\models\LoginForm::callWSLogin("91250721", "91250721");
         //VarDumper::dump($resultWebServicesLogin,10,true);
@@ -44,24 +81,6 @@ class TestController extends Controller {
         $output  = str_replace($letters, $fruit, $text);
         echo $output;
     }
-
-    public function behaviors() {
-        return [
-            [
-                'class' => \app\components\AccessFilter::className(),
-                'only' => ['index'],
-            ],
-            [
-                'class' => \app\components\AuthItemFilter::className(),
-                'only' => [
-                    'url-test','menu'
-                ],
-                'authsActions' => [
-                    'url-test' => 'intranet_test_url',
-                ]
-            ],
-        ];
-    }
     
     public function actionZone(){
         //$user = Yii::$app->user->identity;
@@ -82,7 +101,7 @@ class TestController extends Controller {
         //echo \yii\helpers\Url::to("['/intranet/calendario']");
     }
 
-    public function actionMenu() {
+    public function actionMenuportal() {
         $menuPortales = MenuPortales::traerMenuPortalesIndex('intranet');
         foreach ($menuPortales as $itemMenu) {
             VarDumper::dump($itemMenu->attributes, 10, true);

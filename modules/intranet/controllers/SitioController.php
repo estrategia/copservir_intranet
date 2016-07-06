@@ -203,18 +203,18 @@ class SitioController extends \app\controllers\CController {
         $contenido = new Contenido();
         $respond = [];
 
-        if (empty($contenidodestino['codigoCiudad']) && empty($contenidodestino['idGrupoInteres'])) {
-          $respond = [
-              'result' => 'error',
-              'error' => 'Ciudad y grupos de interes no pueden estar vacios'
-          ];
-          \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-          return $respond;
-          exit();
-        }
-
         if ($contenido->load(Yii::$app->request->post())) {
             $lineaTiempo = LineaTiempo::findOne($contenido->idLineaTiempo);
+            
+            if ($lineaTiempo->solicitarGrupoObjetivo==1 && empty($contenidodestino['codigoCiudad']) && empty($contenidodestino['idGrupoInteres'])) {
+                $respond = [
+                    'result' => 'error',
+                    'error' => 'Ciudad y grupos de interes no pueden estar vacios'
+                ];
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                return $respond;
+                exit();
+              }
 
             $transaction = Contenido::getDb()->beginTransaction();
 
@@ -487,7 +487,7 @@ class SitioController extends \app\controllers\CController {
             }
         }
 
-        $menu = Menu::find()->with('listSubMenu')->where('idPadre is NULL')->all();
+        $menu = Menu::getMenuPadre();
         $opciones = new OpcionesUsuario(Yii::$app->user->identity->numeroDocumento);
 
         $respond = [

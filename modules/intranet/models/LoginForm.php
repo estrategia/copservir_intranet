@@ -29,7 +29,7 @@ class LoginForm extends Model {
       // username and password are both required
       [['username', 'password'], 'required'],
       //   [["captcha",],"required", "when" => $this->form == 'recuperar'],
-      [['password','password2'], 'string', 'min' =>6],
+      [['password','password2'], 'string', 'min' =>3],
       ['password2', 'required', 'on' =>  ['recuperar']],
       ['password2', 'required', 'on' =>  ['cambiarClave']],
       //['captcha', 'captcha', 'on' => ['recuperar','cambiarClave']],
