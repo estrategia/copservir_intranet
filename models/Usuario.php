@@ -243,6 +243,7 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
         return static::find()->where(['AND', ['=', 'numeroDocumento', $username], ['=', 'estado', 1], ['!=', 'numeroDocumento', 0]])->one();
     }
 
+    /*
     public static function dataProviderFindAllUsers() {
 
         $query = static::find()->where(['AND', ['=', 'estado', 1]]);
@@ -256,6 +257,7 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
 
         return $dataProvider;
     }
+    */
 
     public function getId() {
         return $this->getPrimaryKey();
