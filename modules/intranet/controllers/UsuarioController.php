@@ -115,7 +115,7 @@ class UsuarioController extends \yii\web\Controller {
         $model->scenario = 'cambiarClave';
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            
+
             //\yii\helpers\VarDumper::dump($model,10,true);echo "<br><br>";
 
             $response = self::callWSCambiarClave($model->username, sha1($model->password));
@@ -172,39 +172,55 @@ class UsuarioController extends \yii\web\Controller {
 
         $model = new LoginForm();
         $model->scenario = 'recuperar';
+        $fechaRecuperacion = new \DateTime();
+
         if ($model->load(Yii::$app->request->post())) {
-            $usuario = Usuario::findOne(['numeroDocumento' => $model->username, 'estado' => 1]);
 
-            if (!$usuario) {
+            $infoUsuario =  Usuario::callWSInfoPersona($model->username);
 
-                $model->addError('username', 'Usuario no existe');
+            if (empty($infoUsuario)) {
+                $model->addError('username', 'El usuario no existe');
             } else {
 
-                $codigoRecuperacion = $usuario->generarCodigoRecuperacion();
+                // se genera el codigo de recuperacion
+                $fecha = new \DateTime();
+                $fecha->modify('+ 1 day');
+                $codigoRecuperacion = md5($model->username . '~' . $fecha->format('YmdHis'));
 
                 //se guarda el codigo y la fecha de recuperacion
                 $objRecuperacionClave = new RecuperacionClave();
-                $objRecuperacionClave->numeroDocumento = $usuario->numeroDocumento;
+                $objRecuperacionClave->numeroDocumento = $model->username;
                 $objRecuperacionClave->recuperacionCodigo = $codigoRecuperacion;
-                $objRecuperacionClave->recuperacionFecha = $fecha->format('Y-m-d H:i:s');
-                $objRecuperacionClave->save();
+                $objRecuperacionClave->recuperacionFecha = $fechaRecuperacion->format('Y-m-d H:i:s');
 
-                //se crea el enlace para restablecer la contraseña y el contenido del email
-                $enlace = yii::$app->urlManager->createAbsoluteUrl(['intranet/usuario/reestablecer-clave', 'codigo' => $codigoRecuperacion]);
-                $contenido_mail = "Ingresa a la siguiente direccion para reestalecer tu contraseña.\n" . $enlace;
+                if ($objRecuperacionClave->save()) {
+                  //se crea el enlace para restablecer la contraseña y el contenido del email
+                  $enlace = yii::$app->urlManager->createAbsoluteUrl(['intranet/usuario/reestablecer-clave', 'codigo' => $codigoRecuperacion]);
+                  $contenido_mail = "Ingresa a la siguiente direccion para reestalecer tu contraseña.\n" . $enlace;
 
-                $correoUsuario = \Yii::$app->user->identity->getEmail();
+                  if (empty($infoUsuario['Email'])) {
+                    $model->addError('username', 'El usuario no tiene un correo registrado');
 
+                  }else{
+                    $correoUsuario = $infoUsuario['Email'];
 
-                // envia correo
-                $value = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
-                  ->setTo($correoUsuario)->setSubject('Recuperacion Contraseña Intranet Copservir')
-                  ->setHtmlBody($contenido_mail)->send();
+                    // envia correo
+                    $value = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
+                      ->setTo($correoUsuario)->setSubject('Recuperacion Contraseña Intranet Copservir')
+                      ->setHtmlBody($contenido_mail)->send();
 
-                return $this->render('mensajeRecuperacion');
-                exit();
+                    if ($value) {
+                      return $this->render('mensajeRecuperacion');
+                    }else{
+                      $model->addError('username', 'Error al enviar el correo');
+                    }
+                  }
+                }else{
+                  $model->addError('username', 'Ocurrio un error por favor vuelve a intentarlo');
+                }
             }
         }
+
         return $this->render('recordarClave', [
                     'model' => $model,
         ]);
@@ -216,34 +232,35 @@ class UsuarioController extends \yii\web\Controller {
      */
 
     public function actionReestablecerClave($codigo) {
+
         $this->layout = 'loginLayout';
         $model = new LoginForm();
         $model->scenario = 'cambiarClave';
+
         if ($model->load(Yii::$app->request->post())) {
 
+            $fecha = new \DateTime;
+            $fecha->modify('+'.\Yii::$app->params['usuario']['tiempoRecuperarClave'].' days');
+
             $objRecuperacionClave = RecuperacionClave::find()->where(['recuperacionCodigo' => $codigo])
+            ->andWhere(['<=', 'recuperacionFecha', $fecha->format('Y-m-d H:i:s' )])
             ->orderBy('recuperacionFecha DESC')->one();
 
-            $usuario = Usuario::find()->where(['numeroDocumento' => $objRecuperacionClave->numeroDocumento, 'estado' => 1])
-            ->one();
-
-            if ($usuario === null) {
-                throw new \yii\web\HttpException(404, 'usuario sin codigo recuperacion');
+            if ($objRecuperacionClave === null) {
+                $model->addError('password2', 'Usuario sin codigo de recuperacion');
             }else{
 
-              $model->username = $usuario->numeroDocumento;
+              $infoUsuario =  Usuario::callWSInfoPersona($objRecuperacionClave->numeroDocumento);
 
-              $response = self::callWSCambiarClave($model->username, sha1($model->password));
+              $response = self::callWSCambiarClave($objRecuperacionClave->numeroDocumento, sha1($model->password));
+              if ($response){
 
-              if ($response  &&  $model->login() ){
-
-                return $this->redirect(['sitio/index']);
+                Yii::$app->session->setFlash('success', 'contraseña reestablecida con exito');
+                $model = new LoginForm();
 
               }else{
-
-                $model->addError($model->password, 'Error al reestablecer la clave');
+                Yii::$app->session->setFlash('error', 'Ocurrio un error, No se pudo reestablecer la contraseña');
               }
-
             }
         }
 

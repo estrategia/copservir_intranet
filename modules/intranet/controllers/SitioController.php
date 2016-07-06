@@ -5,6 +5,7 @@ namespace app\modules\intranet\controllers;
 use Yii;
 use yii\web\Controller;
 use app\modules\intranet\models\Contenido;
+use app\modules\intranet\models\ContenidoAdjunto;
 use app\modules\intranet\models\ContenidoSearch;
 use app\modules\intranet\models\LineaTiempo;
 use app\modules\intranet\models\UsuariosOpcionesFavoritos;
@@ -331,14 +332,15 @@ class SitioController extends \app\controllers\CController {
                   }
 
                   $transaction->commit();
-                  $respond = [
+                  return $this->redirect(['publicar-portales']);
+                  /*$respond = [
                       'result' => 'ok',
                       'response' => $this->renderAjax('/contenido/_formPublicarPortales', [
                         'contenidoModel' => $contenidoModel,
                         'esAdmin' => $esAdmin,
                   ])];
                   \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-                  return $respond;
+                  return $respond;*/
               }else{
                 $respond = [
                     'result' => 'ok',
@@ -376,13 +378,13 @@ class SitioController extends \app\controllers\CController {
         $esAdmin = true;
       }
 
-
-
       $contenidoModel = $this->encontrarModeloContenido($id);
       $contenidoModel->scenario = Contenido::SCENARIO_PUBLICAR_PORTALES;
 
       $contenidodestino = Yii::$app->request->post('ContenidoDestino');
 
+
+      // se bucan los portales a los cuales esta asociado el contenido
       $contenidoModel->portales = array();
       $contenidoPortal = ContenidoPortal::find()->where(['idContenido' => $contenidoModel->idContenido])->all();
 
@@ -390,7 +392,7 @@ class SitioController extends \app\controllers\CController {
         array_push($contenidoModel->portales,$portal->idPortal);
       }
 
-      if ($contenidoModel->load(Yii::$app->request->post()) ) { // && Yii::$app->request->isAjax
+      if ($contenidoModel->load(Yii::$app->request->post()) && Yii::$app->request->isAjax) { //
 
         if (!empty($_FILES['imagenes'])) {
             $contenidoModel->imagenes = $_FILES['imagenes'];
@@ -401,7 +403,10 @@ class SitioController extends \app\controllers\CController {
         }
 
         if ($contenidoModel->save()) {
+          $contenidoModel->guardarImagenes();
+          return $this->redirect(['publicar-portales']);
           /*
+
           $this->guardarContenidoPortal($contenidoModel);
 
           if (!empty($contenidodestino['codigoCiudad']) && !empty($contenidodestino['idGrupoInteres']) && in_array("1", $contenidoModel->portales)) {
@@ -427,6 +432,21 @@ class SitioController extends \app\controllers\CController {
                 throw new Exception("Error al guardar el contenidoPortal:" . yii\helpers\Json::enconde($$modelContenidoPortal->getErrors()), 101);
             }
         }
+    }
+
+
+    public function actionBorrarImagen()
+    {
+      $idContenidoAdjunto = Yii::$app->request->post('key');
+      $modelImagenAdjunto = ContenidoAdjunto::findOne(['idContenidoAdjunto' => $idContenidoAdjunto ]);
+      if ($modelImagenAdjunto->delete()) {
+          echo json_encode(['success' => 'imagen eliminada con exito']);
+      }else{
+        echo json_encode(['error' => 'la imagen no se ha podido eliminar', 'errorkeys' => [$idContenidoAdjunto]]);
+      }
+
+
+
     }
 
     /**
