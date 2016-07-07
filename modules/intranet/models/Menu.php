@@ -100,9 +100,6 @@ class Menu extends \yii\db\ActiveRecord {
      */
     public static function construirArrayMenu($flagAdmin, $numeroDocumento) {
         $listMenu = self::getMenuPadre($flagAdmin);
-        
-        $opcionesUsuario = UsuariosOpcionesFavoritos::find()->where(['=', 'numeroDocumento', $numeroDocumento])->all();
-        $opcionesUsuarioArray = [];
         $opcionArray = [];
 
         if ($flagAdmin) {
@@ -110,6 +107,8 @@ class Menu extends \yii\db\ActiveRecord {
                 $opcionArray[] = self::obtenerHijosArrayAdmin($objMenu);
             }
         } else {
+            $opcionesUsuario = UsuariosMenuInactivo::find()->where(['=', 'numeroDocumento', $numeroDocumento])->all();
+            $opcionesUsuarioArray = [];
 
             foreach ($opcionesUsuario as $objMenu) {
                 $opcionesUsuarioArray[] = $objMenu->idMenu;
@@ -133,7 +132,7 @@ class Menu extends \yii\db\ActiveRecord {
         if (!empty($objMenu->objOpcion)) {
             $checked = "";
 
-            if (in_array($objMenu->idMenu, $opcionesUsuario)) {
+            if (!in_array($objMenu->idMenu, $opcionesUsuario)) {
                 $checked = " checked";
             }
             return ['title' => "<div class='panel-default'><div class=' panel-heading'><input type='checkbox' id='$objMenu->idMenu' data-role='agregar-opcion' data-id='$objMenu->idMenu' $checked> <label class='panel-title' style='display: inline; font-size: 13px;color: #505458;' for='$objMenu->idMenu'><span><span></span></span> $objMenu->descripcion </label></div></div> "];

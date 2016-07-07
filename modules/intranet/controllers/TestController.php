@@ -13,14 +13,25 @@ use app\modules\intranet\models\AuthItem;
 use app\modules\intranet\models\AuthItemChild;
 use app\modules\intranet\models\AuthAssignment;
 use app\modules\intranet\models\Menu;
-use app\modules\intranet\models\UsuariosOpcionesFavoritos;
+//use app\modules\intranet\models\UsuariosOpcionesFavoritos;
+use app\modules\intranet\models\OpcionesUsuario;
 
 class TestController extends Controller {
     
     public function actionOpcionesusuario() {
-       $opcionesUsuario = UsuariosOpcionesFavoritos::find()->where(['=', 'numeroDocumento', 1113618983])->all();
+       /*$opcionesUsuario = UsuariosOpcionesFavoritos::find()->where(['=', 'numeroDocumento', 1113618983])->all();
        
-       VarDumper::dump($opcionesUsuario,10,true);
+       VarDumper::dump($opcionesUsuario,10,true);*/
+        //$opciones = new OpcionesUsuario(1113618983);
+        
+        //VarDumper::dump($opciones->getOpcionesUsuario(),10,true);
+        
+    //$opcionesUsuario = Menu::find()->alias('m')->innerJoinWith('objOpcion as o')->where("m.estado=:estado AND m.idMenu NOT IN(SELECT idMenu FROM t_UsuariosOpcionesFavoritos WHERE numeroDocumento=:usuario)", [':estado'=>1, ':usuario'=> 1113618983]);
+        
+        
+        
+    //var_dump($opcionesUsuario->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
+        
     }
     
     public function actionMenu(){
