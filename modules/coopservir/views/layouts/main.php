@@ -29,9 +29,9 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
     <!-- NAVBAR -->
     <div class="navbar-wrapper">
 
-        <nav class="navbar navbar-coop navbar-static-top">
-          <div class="white-piece"></div>
-          <div class="container-fluid">
+        <nav class="navbar navbar-coop navbar-static-top nav-green">  
+          <div class="white-piece coop"></div>
+          <div class="container-fluid coop">
             <div class="navbar-header">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
@@ -43,7 +43,7 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-                <li><?= Html::a('Proposito', ['acerca-de']) ?></li>
+                <li><?= Html::a('Propósito', ['acerca-de']) ?></li>
                 <li><?= Html::a('Visión', ['vision']) ?></li>                
                 <li><?= Html::a('Historia', ['historia']) ?></li>
                 <li><?= Html::a('Identidad', ['identidad']) ?></li>

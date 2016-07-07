@@ -26,7 +26,7 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/tarjetamas/logo-tarjeta-mas.png
     <!-- NAVBAR -->
     <div class="navbar-wrapper">
       <nav class="navbar navbar-coop navbar-static-top company-bgcolor-1">
-        <div class="white-piece"></div>
+        <div class="white-piece tarjetamas"></div>
         <div class="container">
           <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
