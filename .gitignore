@@ -21,4 +21,7 @@ phpunit.phar
 /phpunit.xml
 /vendor/
 /composer.lock
-/web/img/campanas/
+/web/img/campanas/*
+/config/db.php
+/web/img/fotosperfil/*
+/web/img/imagenesFondo/*
