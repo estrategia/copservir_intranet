@@ -58,14 +58,11 @@ class GrupoInteres extends \yii\db\ActiveRecord
   {
     $this->imagenGrupo = UploadedFile::getInstances($this, 'imagenGrupo');
 
-    if ($this->imagenGrupo !== null) {
-
-      if ($this->imagenGrupo) {
+    if (!empty($this->imagenGrupo)) {
         foreach ($this->imagenGrupo as $file) {
           $file->saveAs('img/gruposInteres/' . $file->baseName . '.' . $file->extension);
+          $this->imagenGrupo = $file->baseName . '.' . $file->extension;
         }
-        $this->imagenGrupo = $file->baseName . '.' . $file->extension;
-      }
     }
   }
 
