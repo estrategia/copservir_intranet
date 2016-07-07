@@ -1,4 +1,6 @@
 <?php
+use app\modules\intranet\models\Funciones;
+
 $idItem = '';
 if ($location == 0) {
   $idItem = 'bannerArriba';
@@ -15,10 +17,8 @@ if ($location == 0) {
     <?php $contador = 0 ?>
     <?php foreach ($banners as $banner): ?>
       <div id="<?= $idItem.$contador  ?>" class="item">
-        <a href="#">
-          <img src="<?= Yii::$app->homeUrl . 'img/campanas/'.$banner['rutaImagen'] ?>" alt="...">
-        </a>
-        <div class="carousel-caption">
+          <?= Funciones::getHtmlLink($banner['urlEnlaceNoticia'],"<img src='".Yii::$app->homeUrl . "img/campanas/".$banner['rutaImagen']."' alt=''>"); ?>
+         <div class="carousel-caption">
 
         </div>
       </div>
