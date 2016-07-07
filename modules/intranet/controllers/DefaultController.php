@@ -72,14 +72,16 @@ class DefaultController extends Controller {
         ));
 
         try {
-            $result_forma3 = $client->getPersonaWithModel(8724911, true, null);
+            $result_forma3 = $client->getPersonaWithModel(123456, true, null);
             \yii\helpers\VarDumper::dump($result_forma3);
+            /*
             echo "<br>";echo "<br>";echo "<br>";
             \yii\helpers\VarDumper::dump(\Yii::$app->user->identity->getCargoCodigo());
             echo "<br>";echo "<br>";echo "<br>";
             \yii\helpers\VarDumper::dump(\Yii::$app->user->identity->getGruposCodigos() );
             echo "<br>";echo "<br>";echo "<br>";
             \yii\helpers\VarDumper::dump(\Yii::$app->user->identity->getCiudadCodigo() );
+            */
 
         } catch (SoapFault $exc) {
 

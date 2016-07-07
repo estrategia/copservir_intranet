@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use app\models\Usuario;//use app\modules\intranet\models\Usuario;
 use app\modules\intranet\models\AuthAssignment;
+use app\modules\intranet\models\UsuarioSearch;
 
 class PermisosController extends Controller {
     public $defaultAction = 'admin';
@@ -32,10 +33,13 @@ class PermisosController extends Controller {
     // GESTION DE PERMISOS
 
     public function actionAdmin() {
-        $dataProviderUsuarios = Usuario::dataProviderFindAllUsers();
+
+        $searchModel = new UsuarioSearch();
+        $dataProviderUsuarios = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('lista-usuarios', [
                     'dataProviderUsuarios' => $dataProviderUsuarios,
+                    'searchModel' => $searchModel
         ]);
     }
 
