@@ -195,9 +195,8 @@ class UsuarioController extends \yii\web\Controller {
                 if ($objRecuperacionClave->save()) {
                   //se crea el enlace para restablecer la contraseña y el contenido del email
                   $enlace = yii::$app->urlManager->createAbsoluteUrl(['intranet/usuario/reestablecer-clave', 'codigo' => $codigoRecuperacion]);
-                  $contenido_mail = "Ingresa a la siguiente direccion para reestalecer tu contraseña.\n" . $enlace;
-
-                  $contenido_enviar = $this->render('/common/correo', ['contenido' => $contenido_mail]) ;
+                  $contenido_mail = $this->renderPartial('_correoRecordar', ['enlace' => $enlace, 'infoUsuario' => $infoUsuario]) ;
+                  $contenido_enviar = $this->renderPartial('/common/correo', ['contenido' => $contenido_mail]) ;
 
                   if (empty($infoUsuario['Email'])) {
                     $model->addError('username', 'El usuario no tiene un correo registrado');
