@@ -82,17 +82,19 @@ class GrupoInteresController extends Controller {
     public function actionCrear() {
         $model = new GrupoInteres();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) ) { //&& $model->save()
             $model->asignarImagenGrupo();
-            $model->save();
 
-            return $this->redirect(['detalle', 'id' => $model->idGrupoInteres]);
+            if ($model->save()) {
+              return $this->redirect(['detalle', 'id' => $model->idGrupoInteres]);
+            }
 
-        } else {
-            return $this->render('crear', [
-                        'model' => $model,
-            ]);
         }
+
+        return $this->render('crear', [
+                    'model' => $model,
+        ]);
+
     }
 
     /**
@@ -104,19 +106,19 @@ class GrupoInteresController extends Controller {
     public function actionActualizar($id) {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) ) { //&& $model->save()
 
-            $model->asignarImagenGrupo();
-            //var_dump($model->imagenGrupo);
-            //exit();
-            $model->save();
+          $model->asignarImagenGrupo();
+
+          if ($model->save()) {
             return $this->redirect(['detalle', 'id' => $model->idGrupoInteres]);
-
-        } else {
-            return $this->render('actualizar', [
-                        'model' => $model,
-            ]);
+          }
         }
+
+        return $this->render('actualizar', [
+                    'model' => $model,
+        ]);
+
     }
 
     /**
