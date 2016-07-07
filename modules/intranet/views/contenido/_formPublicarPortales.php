@@ -12,6 +12,21 @@ use kartik\file\FileInput;
 $maxFileCount = Parametros::obtenerValorParametro('contenido_maxFileCount');
 $maxFileSize = Parametros::obtenerValorParametro('contenido_maxFileSize');
 
+// para el preview de las imagenes
+if (!$contenidoModel->isNewRecord) {
+  $initialConfig = array();
+  $imagenesPreview = array();
+
+  foreach ($contenidoModel->objContenidoAdjuntoImagenes as $modeloImagenes) {
+      array_push($initialConfig, ['url' => Url::toRoute('sitio/borrar-imagen'),
+            'key' =>  $modeloImagenes->idContenidoAdjunto]);
+
+      array_push($imagenesPreview,
+      '<img src="'.Yii::getAlias('@web').'/img/imagenesContenidos/'. $modeloImagenes->rutaArchivo.'" class="img-responsive"
+        style="height: 300px; width: 500px"/>');
+  }
+}
+
 ?>
 <div class="publicar-portales">
 
@@ -45,6 +60,11 @@ $maxFileSize = Parametros::obtenerValorParametro('contenido_maxFileSize');
     ])->label(false);
 ?>
 
+<?php if (!$contenidoModel->isNewRecord): ?>
+  <?= $form->field($contenidoModel, 'estado')->dropDownList(['2' => 'Aprobado', '3' => 'Eliminado']); ?>
+<?php endif; ?>
+
+<?php if ($contenidoModel->isNewRecord): ?>
 <?=
   FileInput::widget([
     'name'=> 'imagen[]',
@@ -75,6 +95,40 @@ $maxFileSize = Parametros::obtenerValorParametro('contenido_maxFileSize');
     'pluginLoading' => false,
   ]);
 ?>
+<?php else: ?>
+  <?=
+    FileInput::widget([
+      'name'=> 'imagen[]',
+      'id' => 'contenido-imagenes',
+      'options' => ['multiple' => true, 'accept' => 'image/*'],
+      'pluginOptions' => [
+        'initialPreview'=> $imagenesPreview,
+        'initialPreviewConfig' => $initialConfig,
+        'uploadAsync'=>false,
+        'maxFileCount' => $maxFileCount,
+        'validateInitialCount'=> true,
+        'maxFileSize' => $maxFileSize,
+        'previewFileType' => 'image',
+        'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
+        'browseLabel' =>  '',
+        'showPreview' => true,
+        'showCaption' => true,
+        'showRemove' => true,
+        'showUpload' => false,
+        'uploadUrl' => Url::to(['/intranet/contenido/prueba']),
+        'layoutTemplates' => [
+          'actions' => '<div class="file-actions">' .
+                      '    <div class="file-footer-buttons">' .
+                        '        {delete}' .
+                        '  </div>' .
+                        '  <div class="clearfix"></div>' .
+                        '</div>',
+        ],
+      ],
+      'pluginLoading' => false,
+    ]);
+  ?>
+<?php endif; ?>
 
 <?php
   echo $form->field($contenidoModel, 'portales')->widget(Select2::classname(), [
@@ -168,7 +222,16 @@ $maxFileSize = Parametros::obtenerValorParametro('contenido_maxFileSize');
 <div class="form-group">
   <?=
     Html::a($contenidoModel->isNewRecord ? 'Crear' : 'Actualizar', '#',  ['class' => 'btn btn-primary',
-     'data-role' => $contenidoModel->isNewRecord ? 'guardar-contenido-publicar-portales' : 'actualizar-contenido-publicar-portales'])
+     'data-role' => $contenidoModel->isNewRecord ? 'guardar-contenido-publicar-portales' : 'actualizar-contenido-publicar-portales',
+        'data-noticia' => $contenidoModel->isNewRecord ? '' : $contenidoModel->idContenido])
   ?>
 </div>
 </div>
+
+<!--
+para saber las opciones seleccionadas
+$( "#contenido-portales option:selected" ).each(function() {
+      console.log($( this ).text()) ;
+    });
+
+-->

@@ -55,14 +55,13 @@ class Menu extends \yii\db\ActiveRecord {
     public function getObjOpcion() {
         return $this->hasOne(Opcion::className(), ['idMenu' => 'idMenu']);
     }
-
-    // FUNCIONES
-
+    
     public static function getMenuPadre($activo = true) {
-        if ($activo)
+        if ($activo){
             return self::find()->with('activeListSubMenu')->where('estado=1 AND idPadre is NULL')->orderBy('orden')->all();
-        else
-            return self::find()->with('activeListSubMenu')->orderBy('orden')->all();
+        }else{
+            return self::find()->with('listSubMenu')->where('idPadre is NULL')->orderBy('orden')->all();
+        }
     }
 
     public static function menuHtml($menuItem, $opciones = []) {
@@ -84,9 +83,9 @@ class Menu extends \yii\db\ActiveRecord {
                 
                 if (strpos($menuItem->objOpcion->url, 'https://') !== false || strpos($menuItem->objOpcion->url, 'http://') !== false) {
                     $urlMenu = Funciones::reemplazarPatronDocumentoUsuario($menuItem->objOpcion->url);
-                    echo "<li > <a target='_blank' href='$urlMenu'> <i class='icon-custom-ui'></i><span class='title'>$menuItem->descripcion</span> </a> </li>";
+                    echo "<li class='list-menu-corporativo'> <a target='_blank' href='$urlMenu'> <i class='icon-custom-ui'></i><span class='title'>$menuItem->descripcion</span> </a> </li>";
                 } else {
-                    echo "<li>";
+                    echo "<li class='list-menu-corporativo'>";
                     echo \yii\bootstrap\Html::a("<i class='icon-custom-ui'></i><span class='title'>$menuItem->descripcion</span>", [$menuItem->objOpcion->url]);
                     echo "</li>";
                 }
@@ -99,25 +98,24 @@ class Menu extends \yii\db\ActiveRecord {
      * @param $flagAdmin = indica si renderiza el menu al usuario normal o al administrador
      * @return $opcionesArray = arreglo con la estructura del menu
      */
-    public static function construirArrayMenu($flagAdmin) {
-
-        $opciones = Menu::find()->where('idPadre is null')->orderBy('orden')->all();
-        $opcionesUsuario = UsuariosOpcionesFavoritos::find()->where(['=', 'numeroDocumento', Yii::$app->user->identity->numeroDocumento])->all();
-        $opcionesUsuarioArray = [];
+    public static function construirArrayMenu($flagAdmin, $numeroDocumento) {
+        $listMenu = self::getMenuPadre($flagAdmin);
         $opcionArray = [];
 
         if ($flagAdmin) {
-            foreach ($opciones as $opcion) {
-                $opcionArray[] = self::obtenerHijosArrayAdmin($opcion);
+            foreach ($listMenu as $objMenu) {
+                $opcionArray[] = self::obtenerHijosArrayAdmin($objMenu);
             }
         } else {
+            $opcionesUsuario = UsuariosMenuInactivo::find()->where(['=', 'numeroDocumento', $numeroDocumento])->all();
+            $opcionesUsuarioArray = [];
 
-            foreach ($opcionesUsuario as $opcion) {
-                $opcionesUsuarioArray[] = $opcion->idMenu;
+            foreach ($opcionesUsuario as $objMenu) {
+                $opcionesUsuarioArray[] = $objMenu->idMenu;
             }
 
-            foreach ($opciones as $opcion) {
-                $opcionArray[] = self::obtenerHijosArray($opcion, $opcionesUsuarioArray);
+            foreach ($listMenu as $objMenu) {
+                $opcionArray[] = self::obtenerHijosArray($objMenu, $opcionesUsuarioArray);
             }
         }
 
@@ -129,87 +127,81 @@ class Menu extends \yii\db\ActiveRecord {
      * @param $opcion = modelo Menu, $opcionesUsuario = las opciones que el usuario ha escogido
      * @return array con title = titulo ha renderizar en el menu, children = hijos de esa categoria del menu, folder = ?
      */
-    public static function obtenerHijosArray($opcion, $opcionesUsuario) {
-        if (!empty($opcion->objOpcion)) {
+    public static function obtenerHijosArray($objMenu, $opcionesUsuario) {
+        //si tiene enlace relacionado (es hoja)
+        if (!empty($objMenu->objOpcion)) {
             $checked = "";
 
-            if (in_array($opcion->idMenu, $opcionesUsuario)) {
+            if (!in_array($objMenu->idMenu, $opcionesUsuario)) {
                 $checked = " checked";
             }
-            return ['title' => "<div class='panel-default'><div class=' panel-heading'>
-      <input type='checkbox' id='$opcion->idMenu' data-role='agregar-opcion' data-id='$opcion->idMenu' $checked> <label class='panel-title' style='display: inline; font-size: 13px;color: #505458;' for='$opcion->idMenu'><span><span></span></span> $opcion->descripcion </label></div></div> "];
+            return ['title' => "<div class='panel-default'><div class=' panel-heading'><input type='checkbox' id='$objMenu->idMenu' data-role='agregar-opcion' data-id='$objMenu->idMenu' $checked> <label class='panel-title' style='display: inline; font-size: 13px;color: #505458;' for='$objMenu->idMenu'><span><span></span></span> $objMenu->descripcion </label></div></div> "];
         } else {
             $children = [];
 
-            foreach ($opcion->listSubMenu as $opcion2) {
-                $children[] = self::obtenerHijosArray($opcion2, $opcionesUsuario);
+            foreach ($objMenu->activeListSubMenu as $objSubmenu) {
+                $children[] = self::obtenerHijosArray($objSubmenu, $opcionesUsuario);
             }
-            return ['title' => "<div class='panel-default'><div class=' panel-heading'> <h6 class='panel-title' style='font-size: 13px;'>$opcion->descripcion </h6></div></div>", 'children' => $children, 'folder' => true];
+            return ['title' => "<div class='panel-default'><div class=' panel-heading'> <h6 class='panel-title' style='font-size: 13px;'>$objMenu->descripcion </h6></div></div>", 'children' => $children, 'folder' => true];
         }
     }
 
     /**
      * Funcion auxiliar recursiva y estatica donde se crea el menu para el usuario administrador
-     * @param $opcion = modelo Menu
+     * @param $objMenu modelo Menu
      * @return array con title = titulo ha renderizar en el menu, children = hijos de esa categoria del menu, folder = ?
      */
-    public static function obtenerHijosArrayAdmin($opcion) {
-        $htmlEditar = "<button class='btn btn-mini btn-success' data-role='opcion-menu-render-actualizar' data-opcion='$opcion->idMenu'>
-    Editar
-    </button>";
+    public static function obtenerHijosArrayAdmin($objMenu) {
+        $htmlEditar = "<button class='btn btn-mini btn-success' data-role='opcion-menu-render-actualizar' data-opcion='$objMenu->idMenu'>Editar</button>";
 
-        if (!empty($opcion->objOpcion)) { // es hoja
+        if (!empty($objMenu->objOpcion)) { // es hoja
             $htmlRelacion = '';
 
-            if (!empty($opcion->objOpcion)) {
+            if (!empty($objMenu->objOpcion)) {
 
-                $dataOpcion = $opcion->objOpcion->idOpcion;
+                $dataOpcion = $objMenu->objOpcion->idOpcion;
                 $htmlRelacion = "<button class='btn btn-mini btn-success' data-role='quitar-enlace-menu'data-opcion='$dataOpcion' >Eliminar enlace</button>"
-                        . "<button class='btn btn-mini btn-success' data-toggle='poptooltip' data-content='" . $opcion->objOpcion->url . "'>Ver enlace</button>";
+                        . "<button class='btn btn-mini btn-success' data-toggle='poptooltip' data-content='" . $objMenu->objOpcion->url . "'>Ver enlace</button>";
             }
 
             return [
                 'title' => "
-        <div class='panel-default'>
-        <div class=' panel-heading'>
-        <h6 class='panel-title' style='font-size: 13px;'>
-        $opcion->descripcion
-        </h6>
-        $htmlEditar
-        $htmlRelacion
-        </div>
-        </div>",
+                    <div class='panel-default'>
+                    <div class=' panel-heading'>
+                    <h6 class='panel-title' style='font-size: 13px;'>
+                    $objMenu->descripcion
+                    </h6>
+                    $htmlEditar
+                    $htmlRelacion
+                    </div>
+                    </div>",
             ];
         } else { // tiene hijos
             $children = [];
             $htmlRelacion = '';
 
-            if (!empty($opcion->listSubMenu)) {
-
-                foreach ($opcion->listSubMenu as $opcionHijo) {
-                    $children[] = self::obtenerHijosArrayAdmin($opcionHijo);
+            if (!empty($objMenu->listSubMenu)) {
+                foreach ($objMenu->listSubMenu as $objSubMenu) {
+                    $children[] = self::obtenerHijosArrayAdmin($objSubMenu);
                 }
             } else {
-
-                $htmlRelacion = "<button class='btn btn-mini btn-success' data-role='agregar-enlace-menu' data-opcion='$opcion->idMenu' >
-        Agregar enlaces
-        </button>";
+                $htmlRelacion = "<button class='btn btn-mini btn-success' data-role='agregar-enlace-menu' data-opcion='$objMenu->idMenu'> Agregar enlaces</button>";
             }
 
             return [
                 'title' => "
-        <div class='panel-default'>
-        <div class=' panel-heading'>
-        <h6 class='panel-title' style='font-size: 13px;'>
-        $opcion->descripcion
-        </h6>
-        $htmlEditar
-        <button class='btn btn-mini btn-success' data-role='opcion-menu-render-crear' data-padre='$opcion->idMenu'>
-        Agregar
-        </button>
-        $htmlRelacion
-        </div>
-        </div>",
+                    <div class='panel-default'>
+                    <div class=' panel-heading'>
+                    <h6 class='panel-title' style='font-size: 13px;'>
+                    $objMenu->descripcion
+                    </h6>
+                    $htmlEditar
+                    <button class='btn btn-mini btn-success' data-role='opcion-menu-render-crear' data-padre='$objMenu->idMenu'>
+                    Agregar
+                    </button>
+                    $htmlRelacion
+                    </div>
+                    </div>",
                 'children' => $children,
                 'folder' => true
             ];

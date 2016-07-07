@@ -10,13 +10,21 @@ $this->params['breadcrumbs'][] = ['label' => 'Permisos de usuarios'];
     <?=
     GridView::widget([
         'dataProvider' => $dataProviderUsuarios,
+        'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            'numeroDocumento',
+
             [
                 'attribute' => 'imagenPerfil',
                 'format' => 'raw',
                 'value' => function($model) {
-                    return '<img src="' . Yii::getAlias('@web') . '/img/fotosperfil/' . $model->imagenPerfil . '" class="img-circle img-responsive" style="width: 10%;"/>';
+                  if (empty($model->imagenPerfil)) {
+                    return 'no tiene imagen';
+                  }else{
+                    return '<img src="' . Yii::getAlias('@web') . '/img/fotosperfil/' . $model->imagenPerfil .
+                      '" class="img-circle img-responsive" style="width: 10%;"/>';
+                  }
+
                 }
             ],
             'alias',

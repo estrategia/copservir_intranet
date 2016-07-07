@@ -53,20 +53,36 @@ class CumpleanosPersona extends \yii\db\ActiveRecord {
     // CONSULTAS
 
     /**
+     * Consulta los cumpleaños segun el mes actual
+     * @return array modelo CumpleanosLaboral
+     */
+    public static function getCumpleanosMes()
+    {
+        $query = self::find()->where('(  month(t_CumpleanosPersona.fecha) =:mes )')
+        ->addParams([':mes' => date("m")])
+        ->all()
+        ;
+    }
+
+    /**
      * @param $userCiudad = ciudad donde se encuentra el usuario, $userGrupos = grupos de interes del usuario
      * @return array modelo CumpleanosLaboral
      */
     public static function getCumpleanosIndex($userCiudad, $userGrupos) {
         $fecha = new \DateTime;
         $fecha->modify('-5 days');
+
+        $fecha2 = new \DateTime;
+        $fecha2->modify('+5 days');
+
         $userGrupos = implode(',', $userGrupos);
 
         $todosCiudad = \Yii::$app->params['ciudad']['*'];
         $todosGrupo = \Yii::$app->params['grupo']['*'];
 
         $query =  self::find()->joinWith(['objGrupoInteresCargo', 'objUsuario'])->with(['objUsuario'])
-                        ->where("( m_Usuario.imagenPerfil is not null AND t_CumpleanosPersona.fecha>=:fecha AND ( (t_CumpleanosPersona.codigoCiudad =:codigoCiudad AND m_GrupoInteresCargo.idGrupoInteres IN ($userGrupos)) OR (t_CumpleanosPersona.codigoCiudad =:codigoCiudad AND m_GrupoInteresCargo.idCargo=:todosGrupo) OR (t_CumpleanosPersona.codigoCiudad =:todosCiudad AND m_GrupoInteresCargo.idGrupoInteres IN ($userGrupos)) OR (t_CumpleanosPersona.codigoCiudad =:todosCiudad AND m_GrupoInteresCargo.idCargo =:todosGrupo) )   )")
-                        ->addParams([':fecha' => $fecha->format('Y-m-d H:i:s'), ':codigoCiudad' => $userCiudad, ':todosCiudad' => $todosCiudad, ':todosGrupo' => $todosGrupo])
+                        ->where("( m_Usuario.imagenPerfil is not null AND t_CumpleanosPersona.fecha>=:fecha AND t_CumpleanosPersona.fecha<=:fechaFin AND ( (t_CumpleanosPersona.codigoCiudad =:codigoCiudad AND m_GrupoInteresCargo.idGrupoInteres IN ($userGrupos)) OR (t_CumpleanosPersona.codigoCiudad =:codigoCiudad AND m_GrupoInteresCargo.idCargo=:todosGrupo) OR (t_CumpleanosPersona.codigoCiudad =:todosCiudad AND m_GrupoInteresCargo.idGrupoInteres IN ($userGrupos)) OR (t_CumpleanosPersona.codigoCiudad =:todosCiudad AND m_GrupoInteresCargo.idCargo =:todosGrupo) )   )")
+                        ->addParams([':fecha' => $fecha->format('Y-m-d H:i:s'), ':fechaFin' => $fecha2->format('Y-m-d H:i:s' ), ':codigoCiudad' => $userCiudad, ':todosCiudad' => $todosCiudad, ':todosGrupo' => $todosGrupo])
                         ->orderBy('t_CumpleanosPersona.fecha asc')
                         ->all();
 
@@ -82,9 +98,13 @@ class CumpleanosPersona extends \yii\db\ActiveRecord {
 
         $fecha = new \DateTime;
         $fecha->modify('-5 days');
+
+        $fecha2 = new \DateTime;
+        $fecha2->modify('+5 days');
+
         return self::find()->joinWith(['objGrupoInteresCargo'])->with(['objUsuario'])
-                        ->where("( t_CumpleanosPersona.fecha>=:fecha  )")
-                        ->addParams([':fecha' => $fecha->format('Y-m-d H:i:s')])
+                        ->where("( t_CumpleanosPersona.fecha>=:fecha and t_CumpleanosPersona.fecha<=:fechaFin  )")
+                        ->addParams([':fecha' => $fecha->format('Y-m-d H:i:s'), ':fechaFin' => $fecha2->format('Y-m-d H:i:s' )])
                         ->orderBy('t_CumpleanosPersona.fecha asc')
                         ->all();
     }

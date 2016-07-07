@@ -7,6 +7,8 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
 
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Perfil de usuario'), 'url'=>['/intranet/usuario/perfil']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Cambiar clave')];
 ?>
 
 <div class="col-md-12">
@@ -24,8 +26,8 @@ use yii\captcha\Captcha;
   ]);
   ?>
 
-  <?= $form->field($model, 'password')->passwordInput()->label('Nueva contraseña') ?>
-  <?= $form->field($model, 'password2')->passwordInput()->label('Confirmar contraseña') ?>
+  <?= $form->field($model, 'password')->passwordInput(['autocomplete'=>'off'])->label('Nueva contraseña') ?>
+  <?= $form->field($model, 'password2')->passwordInput(['autocomplete'=>'off'])->label('Confirmar contraseña') ?>
   <?= $form->field($model, 'captcha')->widget(Captcha::className(), ['captchaAction'=>'usuario/captcha'])->label("Ingresa el codigo") ?>
 
   <div class="form-group">

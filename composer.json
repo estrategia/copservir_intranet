@@ -32,7 +32,7 @@
         "kartik-v/yii2-widget-datepicker": "@dev",
 
         "sadovojav/yii2-image-cutter": "dev-master",
-        "bupy7/yii2-widget-cropbox": "*",
+        "bupy7/yii2-widget-cropbox": "1.0",
         "kartik-v/yii2-widget-fileinput": "@dev",
         "phpoffice/phpexcel": "dev-develop"
     },

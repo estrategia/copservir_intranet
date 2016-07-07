@@ -14,6 +14,8 @@ $this->title = 'Restablecer contraseña';
   </p>
 </div>
 
+<?= $this->render('/common/errores', []) ?>
+
 <div class="tiles grey p-t-20 p-b-20 no-margin text-black tab-content">
   <div role="tabpanel" class="tab-pane active" id="tab_login">
     <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
