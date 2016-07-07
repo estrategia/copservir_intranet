@@ -72,21 +72,16 @@ class DefaultController extends Controller {
         ));
 
         try {
-            //$result_forma1 = $client->getPersona(8724911, true, null);
-            $result_forma3 = $client->getPersonaWithModel(8724911, true, null);
-            //$result_forma2 = $client->__soapCall("getCredito", <parametros>); 14888822
-
-            //$funcs = $client->__getFunctions();
-            //\yii\helpers\VarDumper::dump($funcs, 10, true);
+            $result_forma3 = $client->getPersonaWithModel(123456, true, null);
             \yii\helpers\VarDumper::dump($result_forma3);
+            /*
             echo "<br>";echo "<br>";echo "<br>";
             \yii\helpers\VarDumper::dump(\Yii::$app->user->identity->getCargoCodigo());
             echo "<br>";echo "<br>";echo "<br>";
             \yii\helpers\VarDumper::dump(\Yii::$app->user->identity->getGruposCodigos() );
             echo "<br>";echo "<br>";echo "<br>";
             \yii\helpers\VarDumper::dump(\Yii::$app->user->identity->getCiudadCodigo() );
-
-            //$reqHello = $client->__getLastRequest();
+            */
 
         } catch (SoapFault $exc) {
 
@@ -108,14 +103,8 @@ class DefaultController extends Controller {
         ));
 
         try {
-            //$result_forma1 = $client->getPersona(8724911, true, null);
-            $result = $client->getAniversarios(date("m"), date("d"));
-            //$result_forma2 = $client->__soapCall("getCredito", <parametros>); 14888822
-
-            //$funcs = $client->__getFunctions();
-            //\yii\helpers\VarDumper::dump($funcs, 10, true);
+            $result = $client->getAniversarios(date("m"), '91177297, 4168589'); //, date("d")
             \yii\helpers\VarDumper::dump($result);
-            //$reqHello = $client->__getLastRequest();
 
         } catch (SoapFault $exc) {
 
@@ -137,14 +126,9 @@ class DefaultController extends Controller {
         ));
 
         try {
-            //$result_forma1 = $client->getPersona(8724911, true, null);
-            $result = $client->getCumpleanos(date("m"), date("d"));
-            //$result_forma2 = $client->__soapCall("getCredito", <parametros>); 14888822
 
-            //$funcs = $client->__getFunctions();
-            //\yii\helpers\VarDumper::dump($funcs, 10, true);
+            $result = $client->getCumpleanos(date("m"), '84081989, 91267972'); // date("d")
             \yii\helpers\VarDumper::dump($result);
-            //$reqHello = $client->__getLastRequest();
 
         } catch (SoapFault $exc) {
 
@@ -166,14 +150,8 @@ class DefaultController extends Controller {
         ));
 
         try {
-            //$result_forma1 = $client->getPersona(8724911, true, null);
             $result = $client->getCargos();
-            //$result_forma2 = $client->__soapCall("getCredito", <parametros>); 14888822
-
-            //$funcs = $client->__getFunctions();
-            //\yii\helpers\VarDumper::dump($funcs, 10, true);
             \yii\helpers\VarDumper::dump($result);
-            //$reqHello = $client->__getLastRequest();
 
         } catch (SoapFault $exc) {
 

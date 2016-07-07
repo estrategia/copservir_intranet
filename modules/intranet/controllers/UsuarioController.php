@@ -115,15 +115,14 @@ class UsuarioController extends \yii\web\Controller {
         $model->scenario = 'cambiarClave';
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            
-            //\yii\helpers\VarDumper::dump($model,10,true);echo "<br><br>";
 
             $response = self::callWSCambiarClave($model->username, sha1($model->password));
-            //\yii\helpers\VarDumper::dump($response,10,true);echo "<br><br>";exit;
+
             if ($response){
+                Yii::$app->session->setFlash('success', 'La contrase&ntilde;a se cambi&oacute; con &eacute;xito');
               return $this->redirect(['perfil']);
             }else{
-              Yii::$app->session->setFlash('error', 'Error al cambiar la contraseña');
+              Yii::$app->session->setFlash('error', 'Error al cambiar la contrase&ntilde;a');
             }
         }
 
@@ -172,39 +171,57 @@ class UsuarioController extends \yii\web\Controller {
 
         $model = new LoginForm();
         $model->scenario = 'recuperar';
+        $fechaRecuperacion = new \DateTime();
+
         if ($model->load(Yii::$app->request->post())) {
-            $usuario = Usuario::findOne(['numeroDocumento' => $model->username, 'estado' => 1]);
 
-            if (!$usuario) {
+            $infoUsuario =  Usuario::callWSInfoPersona($model->username);
 
-                $model->addError('username', 'Usuario no existe');
+            if (empty($infoUsuario)) {
+                $model->addError('username', 'El usuario no existe');
             } else {
 
-                $codigoRecuperacion = $usuario->generarCodigoRecuperacion();
+                // se genera el codigo de recuperacion
+                $fecha = new \DateTime();
+                $fecha->modify('+ 1 day');
+                $codigoRecuperacion = md5($model->username . '~' . $fecha->format('YmdHis'));
 
                 //se guarda el codigo y la fecha de recuperacion
                 $objRecuperacionClave = new RecuperacionClave();
-                $objRecuperacionClave->numeroDocumento = $usuario->numeroDocumento;
+                $objRecuperacionClave->numeroDocumento = $model->username;
                 $objRecuperacionClave->recuperacionCodigo = $codigoRecuperacion;
-                $objRecuperacionClave->recuperacionFecha = $fecha->format('Y-m-d H:i:s');
-                $objRecuperacionClave->save();
+                $objRecuperacionClave->recuperacionFecha = $fechaRecuperacion->format('Y-m-d H:i:s');
 
-                //se crea el enlace para restablecer la contraseña y el contenido del email
-                $enlace = yii::$app->urlManager->createAbsoluteUrl(['intranet/usuario/reestablecer-clave', 'codigo' => $codigoRecuperacion]);
-                $contenido_mail = "Ingresa a la siguiente direccion para reestalecer tu contraseña.\n" . $enlace;
+                if ($objRecuperacionClave->save()) {
+                  //se crea el enlace para restablecer la contraseña y el contenido del email
+                  $enlace = yii::$app->urlManager->createAbsoluteUrl(['intranet/usuario/reestablecer-clave', 'codigo' => $codigoRecuperacion]);
+                  $contenido_mail = "Ingresa a la siguiente direccion para reestalecer tu contraseña.\n" . $enlace;
 
-                $correoUsuario = \Yii::$app->user->identity->getEmail();
+                  $contenido_enviar = $this->render('/common/correo', ['contenido' => $contenido_mail]) ;
 
+                  if (empty($infoUsuario['Email'])) {
+                    $model->addError('username', 'El usuario no tiene un correo registrado');
 
-                // envia correo
-                $value = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
-                  ->setTo($correoUsuario)->setSubject('Recuperacion Contraseña Intranet Copservir')
-                  ->setHtmlBody($contenido_mail)->send();
+                  }else{
+                    $correoUsuario = $infoUsuario['Email'];
 
-                return $this->render('mensajeRecuperacion');
-                exit();
+                    // envia correo
+                    $value = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
+                      ->setTo($correoUsuario)->setSubject('Recuperacion Contraseña Intranet Copservir')
+                      ->setHtmlBody($contenido_enviar)->send();
+
+                    if ($value) {
+                      return $this->render('mensajeRecuperacion');
+                    }else{
+                      $model->addError('username', 'Error al enviar el correo');
+                    }
+                  }
+                }else{
+                  $model->addError('username', 'Ocurrio un error por favor vuelve a intentarlo');
+                }
             }
         }
+
         return $this->render('recordarClave', [
                     'model' => $model,
         ]);
@@ -216,34 +233,35 @@ class UsuarioController extends \yii\web\Controller {
      */
 
     public function actionReestablecerClave($codigo) {
+
         $this->layout = 'loginLayout';
         $model = new LoginForm();
         $model->scenario = 'cambiarClave';
+
         if ($model->load(Yii::$app->request->post())) {
 
+            $fecha = new \DateTime;
+            $fecha->modify('+'.\Yii::$app->params['usuario']['tiempoRecuperarClave'].' days');
+
             $objRecuperacionClave = RecuperacionClave::find()->where(['recuperacionCodigo' => $codigo])
+            ->andWhere(['<=', 'recuperacionFecha', $fecha->format('Y-m-d H:i:s' )])
             ->orderBy('recuperacionFecha DESC')->one();
 
-            $usuario = Usuario::find()->where(['numeroDocumento' => $objRecuperacionClave->numeroDocumento, 'estado' => 1])
-            ->one();
-
-            if ($usuario === null) {
-                throw new \yii\web\HttpException(404, 'usuario sin codigo recuperacion');
+            if ($objRecuperacionClave === null) {
+                $model->addError('password2', 'Usuario sin codigo de recuperacion');
             }else{
 
-              $model->username = $usuario->numeroDocumento;
+              $infoUsuario =  Usuario::callWSInfoPersona($objRecuperacionClave->numeroDocumento);
 
-              $response = self::callWSCambiarClave($model->username, sha1($model->password));
+              $response = self::callWSCambiarClave($objRecuperacionClave->numeroDocumento, sha1($model->password));
+              if ($response){
 
-              if ($response  &&  $model->login() ){
-
-                return $this->redirect(['sitio/index']);
+                Yii::$app->session->setFlash('success', 'contraseña reestablecida con exito');
+                $model = new LoginForm();
 
               }else{
-
-                $model->addError($model->password, 'Error al reestablecer la clave');
+                Yii::$app->session->setFlash('error', 'Ocurrio un error, No se pudo reestablecer la contraseña');
               }
-
             }
         }
 
@@ -276,9 +294,11 @@ class UsuarioController extends \yii\web\Controller {
                     if ($modelFoto->imagenPerfil) {
                         foreach ($modelFoto->imagenPerfil as $file) {
                             if (isset(Json::decode($modelFoto->crop_info)[0])) {
-                                $file->saveAs('img/fotosperfil/' . $file->baseName . '.' . $file->extension);
-                                $rutaImagen = $file->baseName . '.' . $file->extension;
-                                $image = Image::getImagine()->open('img/fotosperfil/' . $file->baseName . '.' . $file->extension);
+                                $nombreImagen = Yii::$app->user->identity->numeroDocumento;
+                                $rutaImagen = "$nombreImagen.$file->extension";
+                                $rutaImagenAnterior = $usuario->imagenPerfil;
+                                $file->saveAs(Yii::getAlias('@webroot') . '/img/fotosperfil/' . $rutaImagen);
+                                $image = Image::getImagine()->open(Yii::getAlias('@webroot') .'/img/fotosperfil/' . $rutaImagen);
 
                                 // rendering information about crop of ONE option
                                 $cropInfo = Json::decode($modelFoto->crop_info)[0];
@@ -292,8 +312,7 @@ class UsuarioController extends \yii\web\Controller {
                                 $newSizeThumb = new Box($cropInfo['dWidth'], $cropInfo['dHeight']);
                                 $cropSizeThumb = new Box($cropInfo['width'], $cropInfo['height']); //frame size of crop
                                 $cropPointThumb = new Point($cropInfo['x'], $cropInfo['y']);
-                                $pathThumbImage = 'img/fotosperfil/' .
-                                        $rutaImagen;
+                                $pathThumbImage = 'img/fotosperfil/' . $rutaImagen;
 
                                 $image->resize($newSizeThumb)
                                         ->crop($cropPointThumb, $cropSizeThumb)
@@ -301,30 +320,39 @@ class UsuarioController extends \yii\web\Controller {
 
                                 $usuario->imagenPerfil = $rutaImagen;
                                 $usuario->save();
-                                Yii::$app->user->identity->imagenPerfil = $file->baseName . '.' . $file->extension;
-                                $msg = "<p><strong class='label label-info'>Enhorabuena, subida realizada con éxito</strong></p>";
+                                Yii::$app->user->identity->imagenPerfil = $rutaImagen;
+                                Yii::$app->session->setFlash('success', "Imagen perfil se carg&oacute; con &eacute;xito");
+
+                                if (!empty($rutaImagenAnterior) && $rutaImagen != $rutaImagenAnterior) {
+                                    unlink(Yii::getAlias('@webroot') ."/img/fotosperfil/" . $rutaImagenAnterior);
+                                }
+
                             } else {
                                 $errorFotoPerfil = true;
                             }
                         }
                     }
                 } catch (\Exception $e) {
-                    echo "<pre>";
-                    print_r($e->getMessage());
-                    echo "</pre>";
+                    Yii::$app->session->setFlash('error', $e->getMessage());
                 }
                 $modelFoto->imagenFondo = UploadedFile::getInstances($modelFoto, 'imagenFondo');
 
                 if ($modelFoto->imagenFondo) {
-                    foreach ($modelFoto->imagenFondo as $file) {
-                        $file->saveAs('img/imagenesFondo/' . $file->baseName . '.' . $file->extension);
-                        $msg = "<p><strong class='label label-info'>Enhorabuena, subida realizada con éxito</strong></p>";
-                    }
+                    //foreach ($modelFoto->imagenFondo as $file) {
+                        $nombreImagen = Yii::$app->user->identity->numeroDocumento;
+                        $rutaImagen = "$nombreImagen.$file->extension";
+                        $rutaImagenAnterior = $usuario->imagenFondo;
+                        $file->saveAs(Yii::getAlias('@webroot') . '/img/imagenesFondo/' . $rutaImagen);
 
-                    $usuario->imagenFondo = $file->baseName . '.' . $file->extension;
+                        $usuario->imagenFondo = $rutaImagen;
+                        $usuario->save();
+                        Yii::$app->user->identity->imagenFondo = $rutaImagen;
+                        Yii::$app->session->setFlash('success', "Fondo perfil se carg&oacute; con &eacute;xito");
 
-                    $usuario->save();
-                    Yii::$app->user->identity->imagenFondo = $file->baseName . '.' . $file->extension;
+                        if (!empty($rutaImagenAnterior) && $rutaImagen != $rutaImagenAnterior) {
+                            unlink(Yii::getAlias('@webroot') ."/img/imagenesFondo/" . $rutaImagenAnterior);
+                        }
+                    //}
                 }
             }
             $modelFoto = new FotoForm();

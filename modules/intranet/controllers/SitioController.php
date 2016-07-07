@@ -5,9 +5,10 @@ namespace app\modules\intranet\controllers;
 use Yii;
 use yii\web\Controller;
 use app\modules\intranet\models\Contenido;
+use app\modules\intranet\models\ContenidoAdjunto;
 use app\modules\intranet\models\ContenidoSearch;
 use app\modules\intranet\models\LineaTiempo;
-use app\modules\intranet\models\UsuariosOpcionesFavoritos;
+use app\modules\intranet\models\UsuariosMenuInactivo;
 use app\modules\intranet\models\MeGustaContenidos;
 use app\modules\intranet\models\ContenidosComentarios;
 use app\modules\intranet\models\Indicadores;
@@ -202,18 +203,18 @@ class SitioController extends \app\controllers\CController {
         $contenido = new Contenido();
         $respond = [];
 
-        if (empty($contenidodestino['codigoCiudad']) && empty($contenidodestino['idGrupoInteres'])) {
-          $respond = [
-              'result' => 'error',
-              'error' => 'Ciudad y grupos de interes no pueden estar vacios'
-          ];
-          \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-          return $respond;
-          exit();
-        }
-
         if ($contenido->load(Yii::$app->request->post())) {
             $lineaTiempo = LineaTiempo::findOne($contenido->idLineaTiempo);
+            
+            if ($lineaTiempo->solicitarGrupoObjetivo==1 && empty($contenidodestino['codigoCiudad']) && empty($contenidodestino['idGrupoInteres'])) {
+                $respond = [
+                    'result' => 'error',
+                    'error' => 'Ciudad y grupos de interes no pueden estar vacios'
+                ];
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                return $respond;
+                exit();
+              }
 
             $transaction = Contenido::getDb()->beginTransaction();
 
@@ -331,14 +332,15 @@ class SitioController extends \app\controllers\CController {
                   }
 
                   $transaction->commit();
-                  $respond = [
+                  return $this->redirect(['publicar-portales']);
+                  /*$respond = [
                       'result' => 'ok',
                       'response' => $this->renderAjax('/contenido/_formPublicarPortales', [
                         'contenidoModel' => $contenidoModel,
                         'esAdmin' => $esAdmin,
                   ])];
                   \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-                  return $respond;
+                  return $respond;*/
               }else{
                 $respond = [
                     'result' => 'ok',
@@ -376,13 +378,13 @@ class SitioController extends \app\controllers\CController {
         $esAdmin = true;
       }
 
-
-
       $contenidoModel = $this->encontrarModeloContenido($id);
       $contenidoModel->scenario = Contenido::SCENARIO_PUBLICAR_PORTALES;
 
       $contenidodestino = Yii::$app->request->post('ContenidoDestino');
 
+
+      // se bucan los portales a los cuales esta asociado el contenido
       $contenidoModel->portales = array();
       $contenidoPortal = ContenidoPortal::find()->where(['idContenido' => $contenidoModel->idContenido])->all();
 
@@ -390,7 +392,7 @@ class SitioController extends \app\controllers\CController {
         array_push($contenidoModel->portales,$portal->idPortal);
       }
 
-      if ($contenidoModel->load(Yii::$app->request->post()) ) { // && Yii::$app->request->isAjax
+      if ($contenidoModel->load(Yii::$app->request->post()) && Yii::$app->request->isAjax) { //
 
         if (!empty($_FILES['imagenes'])) {
             $contenidoModel->imagenes = $_FILES['imagenes'];
@@ -401,7 +403,10 @@ class SitioController extends \app\controllers\CController {
         }
 
         if ($contenidoModel->save()) {
+          $contenidoModel->guardarImagenes();
+          return $this->redirect(['publicar-portales']);
           /*
+
           $this->guardarContenidoPortal($contenidoModel);
 
           if (!empty($contenidodestino['codigoCiudad']) && !empty($contenidodestino['idGrupoInteres']) && in_array("1", $contenidoModel->portales)) {
@@ -427,6 +432,21 @@ class SitioController extends \app\controllers\CController {
                 throw new Exception("Error al guardar el contenidoPortal:" . yii\helpers\Json::enconde($$modelContenidoPortal->getErrors()), 101);
             }
         }
+    }
+
+
+    public function actionBorrarImagen()
+    {
+      $idContenidoAdjunto = Yii::$app->request->post('key');
+      $modelImagenAdjunto = ContenidoAdjunto::findOne(['idContenidoAdjunto' => $idContenidoAdjunto ]);
+      if ($modelImagenAdjunto->delete()) {
+          echo json_encode(['success' => 'imagen eliminada con exito']);
+      }else{
+        echo json_encode(['error' => 'la imagen no se ha podido eliminar', 'errorkeys' => [$idContenidoAdjunto]]);
+      }
+
+
+
     }
 
     /**
@@ -457,17 +477,17 @@ class SitioController extends \app\controllers\CController {
     public function actionAgregarOpcionMenu() {
         if (Yii::$app->request->post()) {
             $post = Yii::$app->request->post();
-            if ($post['value'] == 1) {// crear la opcion
-                $nuevodato = new UsuariosOpcionesFavoritos();
+            if ($post['value'] == 0) {// crear la opcion
+                $nuevodato = new UsuariosMenuInactivo();
                 $nuevodato->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
                 $nuevodato->idMenu = $post['idMenu'];
                 $nuevodato->save();
             } else {// eliminar la opcion
-                UsuariosOpcionesFavoritos::deleteAll('idMenu = :idMenu AND numeroDocumento = :idUsuario', [':idMenu' => $post['idMenu'], ':idUsuario' => Yii::$app->user->identity->numeroDocumento]);
+                UsuariosMenuInactivo::deleteAll('idMenu = :idMenu AND numeroDocumento = :idUsuario', [':idMenu' => $post['idMenu'], ':idUsuario' => Yii::$app->user->identity->numeroDocumento]);
             }
         }
 
-        $menu = Menu::find()->with('listSubMenu')->where('idPadre is NULL')->all();
+        $menu = Menu::getMenuPadre();
         $opciones = new OpcionesUsuario(Yii::$app->user->identity->numeroDocumento);
 
         $respond = [
