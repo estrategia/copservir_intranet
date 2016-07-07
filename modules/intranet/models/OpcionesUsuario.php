@@ -21,13 +21,17 @@ class OpcionesUsuario{
   }
 
   private function opcionesUsuario(){
-      $this->opcionesUsuario = array();
-    $opcionesUsuario = UsuariosOpcionesFavoritos::find()->where(['=', 'numeroDocumento', $this->usuario])->all();
+    $this->opcionesUsuario = array();
+    $listMenuFavorito = Menu::find()
+            ->alias('m')
+            ->innerJoinWith('objOpcion as o')
+            ->where("m.estado=:estado AND m.idMenu NOT IN(SELECT idMenu FROM t_UsuariosMenuInactivo WHERE numeroDocumento=:usuario)", [':estado'=>1, ':usuario'=> $this->usuario])
+            ->all();
 
-    foreach($opcionesUsuario as $opcion){
-      $this->opcionesUsuario[] = $opcion->idMenu;
+    foreach($listMenuFavorito as $objMenu){
+      $this->opcionesUsuario[] = $objMenu->idMenu;
 
-      $this->buscarPadre($opcion->objMenu->objPadre);
+      $this->buscarPadre($objMenu->objPadre);
     }
 
   }

@@ -7,7 +7,7 @@ use yii\web\Controller;
 use app\modules\intranet\models\Contenido;
 use app\modules\intranet\models\ContenidoSearch;
 use app\modules\intranet\models\LineaTiempo;
-use app\modules\intranet\models\UsuariosOpcionesFavoritos;
+use app\modules\intranet\models\UsuariosMenuInactivo;
 use app\modules\intranet\models\MeGustaContenidos;
 use app\modules\intranet\models\ContenidosComentarios;
 use app\modules\intranet\models\Indicadores;
@@ -457,13 +457,13 @@ class SitioController extends \app\controllers\CController {
     public function actionAgregarOpcionMenu() {
         if (Yii::$app->request->post()) {
             $post = Yii::$app->request->post();
-            if ($post['value'] == 1) {// crear la opcion
-                $nuevodato = new UsuariosOpcionesFavoritos();
+            if ($post['value'] == 0) {// crear la opcion
+                $nuevodato = new UsuariosMenuInactivo();
                 $nuevodato->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
                 $nuevodato->idMenu = $post['idMenu'];
                 $nuevodato->save();
             } else {// eliminar la opcion
-                UsuariosOpcionesFavoritos::deleteAll('idMenu = :idMenu AND numeroDocumento = :idUsuario', [':idMenu' => $post['idMenu'], ':idUsuario' => Yii::$app->user->identity->numeroDocumento]);
+                UsuariosMenuInactivo::deleteAll('idMenu = :idMenu AND numeroDocumento = :idUsuario', [':idMenu' => $post['idMenu'], ':idUsuario' => Yii::$app->user->identity->numeroDocumento]);
             }
         }
 
