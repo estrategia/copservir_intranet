@@ -175,55 +175,51 @@ class UsuarioController extends \yii\web\Controller {
         $fechaRecuperacion = new \DateTime();
 
         if ($model->load(Yii::$app->request->post())) {
-
             $infoUsuario =  Usuario::callWSInfoPersona($model->username);
 
             if (empty($infoUsuario)) {
                 $model->addError('username', 'El usuario no existe');
             } else {
-
-              if (empty($infoUsuario['Email'])) {
-                if (empty($infoUsuario['CorreoPersonal'])) {
-                  $model->addError('username', 'El usuario no tiene un correo registrado');
-                }else{
-                  $correoUsuario = $infoUsuario['CorreoPersonal'];
+                if (!empty($infoUsuario['Email'])) {
+                    $correoUsuario = trim($infoUsuario['Email']);
+                }else if(!empty($infoUsuario['CorreoPersonal'])){
+                    $correoUsuario = trim($infoUsuario['CorreoPersonal']);
                 }
-              }else{
-                $correoUsuario = $infoUsuario['Email'];
-              }
-
-              if (!empty($correoUsuario)) {
-                // se genera el codigo de recuperacion
-                $fecha = new \DateTime();
-                $fecha->modify('+ 1 day');
-                $codigoRecuperacion = md5($model->username . '~' . $fecha->format('YmdHis'));
-
-                //se guarda el codigo y la fecha de recuperacion
-                $objRecuperacionClave = new RecuperacionClave();
-                $objRecuperacionClave->numeroDocumento = $model->username;
-                $objRecuperacionClave->recuperacionCodigo = $codigoRecuperacion;
-                $objRecuperacionClave->recuperacionFecha = $fechaRecuperacion->format('Y-m-d H:i:s');
-
-                if ($objRecuperacionClave->save()) {
-                  //se crea el enlace para restablecer la contraseña y el contenido del email
-                  $enlace = yii::$app->urlManager->createAbsoluteUrl(['intranet/usuario/reestablecer-clave', 'codigo' => $codigoRecuperacion]);
-                  $contenido_mail = $this->renderPartial('_correoRecordar', ['enlace' => $enlace, 'infoUsuario' => $infoUsuario]) ;
-                  $contenido_enviar = $this->renderPartial('/common/correo', ['contenido' => $contenido_mail]) ;
-
-                  // envia correo
-                  $value = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
-                    ->setTo($correoUsuario)->setSubject('Recuperacion Contraseña Intranet Copservir')
-                    ->setHtmlBody($contenido_enviar)->send();
-
-                  if ($value) {
-                    return $this->render('mensajeRecuperacion');
-                  }else{
-                    $model->addError('username', 'Error al enviar el correo');
-                  }
+              
+                if(empty($correoUsuario)){
+                    $model->addError('username', 'El usuario no tiene un correo registrado');
                 }else{
-                  $model->addError('username', 'Ocurrio un error por favor vuelve a intentarlo');
+                    // se genera el codigo de recuperacion
+                    $fecha = new \DateTime();
+                    $fecha->modify('+ 1 day');
+                    $codigoRecuperacion = md5($model->username . '~' . $fecha->format('YmdHis'));
+
+                    //se guarda el codigo y la fecha de recuperacion
+                    $objRecuperacionClave = new RecuperacionClave();
+                    $objRecuperacionClave->numeroDocumento = $model->username;
+                    $objRecuperacionClave->recuperacionCodigo = $codigoRecuperacion;
+                    $objRecuperacionClave->recuperacionFecha = $fechaRecuperacion->format('Y-m-d H:i:s');
+
+                    if ($objRecuperacionClave->save()) {
+                      //se crea el enlace para restablecer la contraseña y el contenido del email
+                      $enlace = yii::$app->urlManager->createAbsoluteUrl(['intranet/usuario/reestablecer-clave', 'codigo' => $codigoRecuperacion]);
+                      $contenido_mail = $this->renderPartial('_correoRecordar', ['enlace' => $enlace, 'infoUsuario' => $infoUsuario]) ;
+                      $contenido_enviar = $this->renderPartial('/common/correo', ['contenido' => $contenido_mail]) ;
+
+                      // envia correo
+                      $value = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
+                        ->setTo($correoUsuario)->setSubject('Recuperacion Contraseña Intranet Copservir')
+                        ->setHtmlBody($contenido_enviar)->send();
+
+                      if ($value) {
+                        return $this->render('mensajeRecuperacion',['correo'=>$correoUsuario]);
+                      }else{
+                        $model->addError('username', 'Error al enviar el correo');
+                      }
+                    }else{
+                      $model->addError('username', 'Ocurrio un error por favor vuelve a intentarlo');
+                    }
                 }
-              }
             }
         }
 

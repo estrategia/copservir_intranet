@@ -6,9 +6,6 @@ use yii\helpers\Html;
     Contraseña reestablecida con éxito
   </h2>
   <p>
-    Ahora puedes ingresar con tu nueva contraseña al portal de la intranet.
-    <?= Html::a('ir a la Intranet', yii::$app->urlManager->createAbsoluteUrl('intranet/usuario/autenticar'),
-       array('style' => "font-size:13px;", 'class'=>'btn btn-primary'));
-    ?>.
+    Ahora puedes ingresar con tu nueva contraseña a la <?= Html::a('Intranet', yii::$app->urlManager->createAbsoluteUrl('intranet/usuario/autenticar'), ['style' => "font-size:13px;"]);?>. Para ingresar dar clic <?= Html::a('aqu&iacute;', yii::$app->urlManager->createAbsoluteUrl('intranet/usuario/autenticar'), ['style' => "font-size:13px;"]);?>
   </p>
 </div>
