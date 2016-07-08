@@ -73,11 +73,10 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
     <footer>
         <div class="footer-top footer-copservir" style="height:438px;">
         <div class="container marketing">
-            <div class="col-md-6">
-            </div>
-            <div class="col-md-3">
-                <div class="row">
-                    <div class="space-2"></div>
+            <div class="col-md-1 col-md-offset-2">      </div>
+            <div class="col-sm-6 col-md-3 col-lg-5">
+                <div class="row direcciones-coop">
+                    <div class="space-2 footer"></div>
                     <div class="col-md-12">
                       <strong style="color:#fff;">Sede Copservir Barranquilla</strong>
                       <p>Calle 110 Av. Circunvalar No. 6R - 400 Teléfono (5) 328 8156</p>
@@ -97,8 +96,8 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
                 </div>             
               </div>
             
-            <div class="col-md-3">
-               <div class="space-2"></div>                
+            <div class="col-sm-6 col-md-3 col-lg-4">
+               <div class="space-2 footer"></div>                
                <div class="contenedor-redes">
                     <strong style="color:#fff;">Nuestras</strong>
                     <p>Redes sociales</p> 
