@@ -10,17 +10,23 @@
             <tbody style="text-align:justify;font-size:10.5pt;font-family:Helvetica,sans-serif;color:rgb(51,51,51)">
                 <tr>
                     <td>
-                        <img style="display: block; width: 100%;height: 30%;" src="<?= Yii::getAlias('@web') . "/img/mailing_header.png" ?>">
+                        <img style="display: block; width: 100%;height: 30%;" src="http://www.copservir.com/img/mailing_header.png">
                     </td>
                 </tr>
                 <tr>
                     <td style="padding-left: 5%; padding-right: 5%">
                         <?= $contenido ?>
+                        <div style="height: 20px;"></div>
+                        <p style="font-size:13.5pt;color:rgb(102,102,102)">
+                            <strong>Cordialmente</strong>
+                            <br/>
+                            <span style="color: #888888;"><strong>Copservir LTDA</strong></span>
+                        </p>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <img style="display: block; width: 100%;height: 30%;" src="<?= Yii::getAlias('@web') . "/img/mailing_footer.png" ?>">
+                        <img style="display: block; width: 100%;height: 30%;" src="http://www.copservir.com/img/mailing_footer.png">
                     </td>
                 </tr>
             </tbody>
