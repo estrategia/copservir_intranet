@@ -74,13 +74,7 @@ ul.list{ list-style-image: url("../img/multiportal/tarjetamas/check.png"); }
 }
 
 .navbar.navbar-coop.navbar-static-top.nav-green{
-   background: -moz-linear-gradient(280deg, #26BF4F 0%, #158132 100%); 
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #26BF4F), color-stop(100%, #158132)); 
-    background: -webkit-linear-gradient(280deg, #26BF4F 0%, #158132 100%); 
-    background: -o-linear-gradient(280deg, #26BF4F 0%, #158132 100%); 
-    background: -ms-linear-gradient(280deg, #26BF4F 0%, #158132 100%); 
-    background: linear-gradient(170deg, #26BF4F 0%, #158132 100%); 
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#26BF4F', endColorstr='#158132',GradientType=0 );
+         background-color:#00A134; 
 }
 .nav-green .navbar-collapse.collapse.in .nav > li {
        background: -moz-linear-gradient(280deg, #26BF4F 0%, #158132 100%); 
@@ -482,6 +476,7 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
 -------------------------------------------------- */
 
 @media (max-width: 3000px) { 
+  .logo-coop-movil{display: none;}
   .white-piece.coop{
       width: 32%;
   }
@@ -489,13 +484,15 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
       width: 31%;
   }
   .navbar.navbar-coop.navbar-static-top.nav-green .container-fluid.coop {
-    width: 1170px !important;
+    width: 1241px !important;
   }
 }
 @media (max-width: 1790px) {
+  .logo-coop-movil{display: none;}
   .white-piece.coop {
       width: 31%;
   }
+  .logo-coop{width:269px;}
   .white-piece.tarjetamas{
       width: 30%;
   }
@@ -504,6 +501,7 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
   }
 }
 @media (max-width: 1700px) {
+ .logo-coop-movil{display: none;}
   .white-piece.coop {
       width: 30%;
   }
@@ -515,6 +513,7 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
   }
 }
 @media (max-width: 1600px) {
+    .logo-coop-movil{display: none;}
   .white-piece.coop {
       width: 29%;
   }
@@ -526,6 +525,7 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
   }
 }
 @media (max-width: 1500px) {
+  .logo-coop-movil{display: none;}
   .white-piece.coop {
       width: 28%;
   }
@@ -537,6 +537,7 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
   }
 }
 @media (max-width: 1400px) {
+    .logo-coop-movil{display: none;}
   .white-piece.coop {
       width: 26%;
   }
@@ -548,8 +549,9 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
   }
 }
 @media (max-width: 1300px) {
+  .logo-coop-movil{display: none;}
   .white-piece.coop {
-      width: 24%;
+      width: 23%;
   }
   .white-piece.tarjetamas{
       width: 23%;
@@ -559,6 +561,7 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
   }
 }
 @media (max-width: 1200px) {
+  .logo-coop-movil{display: none;}
   .white-piece {
       width: 21%;
   }
@@ -569,6 +572,8 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
 }
 
 @media (max-width: 1100px) {
+  .logo-coop{display: none;}  
+  .logo-coop-movil{display:block;margin-top: -29px;}
   .white-piece.coop {
       width: 100%;
       border-radius: 0;
@@ -577,13 +582,7 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
       width: 27%;
   }
   .navbar.navbar-coop.navbar-static-top.nav-green .navbar-nav > li {
-      background: -moz-linear-gradient(280deg, #26BF4F 0%, #158132 100%);
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #26BF4F), color-stop(100%, #158132));
-      background: -webkit-linear-gradient(280deg, #26BF4F 0%, #158132 100%);
-      background: -o-linear-gradient(280deg, #26BF4F 0%, #158132 100%);
-      background: -ms-linear-gradient(280deg, #26BF4F 0%, #158132 100%);
-      background: linear-gradient(170deg, #26BF4F 0%, #158132 100%);
-      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#26BF4F', endColorstr='#158132',GradientType=0 );   
+      background-color:#00A134; 
   }
   .navbar.navbar-coop.navbar-static-top.nav-green .navbar-nav {margin-left: 7%;}
   .navbar-header {margin-bottom: 25px;}
@@ -598,13 +597,7 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
       width: 25%;
   }
   .navbar.navbar-coop.navbar-static-top.nav-green .navbar-nav > li {
-      background: -moz-linear-gradient(280deg, #26BF4F 0%, #158132 100%);
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #26BF4F), color-stop(100%, #158132));
-      background: -webkit-linear-gradient(280deg, #26BF4F 0%, #158132 100%);
-      background: -o-linear-gradient(280deg, #26BF4F 0%, #158132 100%);
-      background: -ms-linear-gradient(280deg, #26BF4F 0%, #158132 100%);
-      background: linear-gradient(170deg, #26BF4F 0%, #158132 100%);
-      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#26BF4F', endColorstr='#158132',GradientType=0 );   
+      background-color:#00A134;  
   }
   .navbar.navbar-coop.navbar-static-top.nav-green .navbar-nav {margin-left: 4%;}
   .navbar-header {margin-bottom: 25px;}
@@ -621,6 +614,8 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
   .navbar.navbar-coop.navbar-static-top.nav-green .navbar-brand {margin-left: 63% !important;}
 
   .navbar.navbar-coop.navbar-static-top .navbar-brand {margin-left: 59% !important;}
+
+
   .navbar.navbar-coop.navbar-static-top .navbar-nav > li {background-color: #CD242A;}
   .white-piece.tarjetamas{ width: 100%;  border-radius: 0px; }
   .navbar.navbar-coop.navbar-static-top .navbar-nav {margin-left: 15%;}
@@ -628,6 +623,7 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
 
 }
 @media (max-width: 767px) {
+    .navbar.navbar-coop.navbar-static-top .navbar-brand.tarjetamas {margin-left: 0% !important;}
   .white-piece {
       width: 100%;
       border-radius: 0;
@@ -665,6 +661,12 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
   }
   .navbar.navbar-coop.navbar-static-top.nav-green .navbar-brand {margin-left: 0% !important;}
   .carousel.banner-copservir {margin-top: 0px;}
+  .navbar-toggle {float: left;}
+.navbar.navbar-coop.navbar-static-top.nav-green .container-fluid.coop {width: 100% !important;}
+  .navbar.navbar-coop.navbar-static-top.nav-green .navbar-nav {margin-left: 0px !important;}
+
+  .espacios{display: none;}
+  .bannerTarjeta {margin-top: 0px;}
 }
 
 @media (min-width: 768px) {

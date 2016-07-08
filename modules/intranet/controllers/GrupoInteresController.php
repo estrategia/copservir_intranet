@@ -191,30 +191,37 @@ class GrupoInteresController extends Controller {
         $estado = false;
 
         if ($model->load(Yii::$app->request->post())) { // && $model->validate()
-          var_dump($model->validate());
+          /*var_dump($model->validate());
+          var_dump($model->getErrors());
+          exit();*/
           $grupoInteresCargo = GrupoInteresCargo::listaCargos($idGrupo);
           $grupo = $this->findModel($idGrupo);
 
-          foreach ($model->idCargo as $key => $cargo) {
+          if (empty($model->idCargo) || empty($model->nombreCargo)) {
+            $model->addError('idCargo', 'el campo no piede estar vacio');
+          }else{
+            foreach ($model->idCargo as $key => $cargo) {
 
-            $existeModelo = GrupoInteresCargo::find()->where(['idCargo'=>$cargo]);
-            if ($existeModelo === null) {
-              $model->addError('idCargo', 'un cargo seleccionado ya fue agregado');
-              break;
-            }else{
-              $newModel = new GrupoInteresCargo;
-              $newModel->idCargo = $cargo;
-              $newModel->idGrupoInteres = $model->idGrupoInteres;
-              $newModel->nombreCargo = $model->nombreCargo[$key];
-
-              if ($newModel->save()) {
-                $estado = true;
+              $existeModelo = GrupoInteresCargo::find()->where(['idCargo'=>$cargo]);
+              if ($existeModelo === null) {
+                $model->addError('idCargo', 'un cargo seleccionado ya fue agregado');
+                break;
               }else{
-                $estado = false;
-                $model->addError('idCargo', 'un modelo no se pudo guardar');
+                $newModel = new GrupoInteresCargo;
+                $newModel->idCargo = $cargo;
+                $newModel->idGrupoInteres = $model->idGrupoInteres;
+                $newModel->nombreCargo = $model->nombreCargo[$key];
+
+                if ($newModel->save()) {
+                  $estado = true;
+                }else{
+                  $estado = false;
+                  $model->addError('idCargo', 'un modelo no se pudo guardar');
+                }
               }
             }
           }
+
 
           if ($estado) {
             $model = new GrupoInteresCargo;
