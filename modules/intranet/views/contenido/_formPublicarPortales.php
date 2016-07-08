@@ -29,6 +29,8 @@ if (!$contenidoModel->isNewRecord) {
 
 ?>
 <div class="publicar-portales">
+  
+  <?= $this->render('/common/errores', []) ?>
 
 <?php
   $form = ActiveForm::begin([

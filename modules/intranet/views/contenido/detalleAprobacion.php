@@ -63,4 +63,8 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contenido #' . $mode
 
       ],
       ]) ?>
+
+      <div class="col-md-12">
+        <?= var_dump($model->ObjContenidoAdjuntoImagenes) ?>
+      </div>
     </div>
