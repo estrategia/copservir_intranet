@@ -17,17 +17,32 @@ use yii\web\JsExpression;
         <?php
         echo $form->field($modelGrupoInteresCargo, 'idCargo')->widget(Select2::classname(), [
             'data' => $modelGrupoInteresCargo->listaCargo,
-            'options' => ['placeholder' => 'buscar cargos...', 'id' => 'agregaCargos'
+            'options' => ['placeholder' => 'buscar cargos...', 'id' => 'agregaCargos', 'multiple' => true
             ],
-            'pluginEvents' => [
-                "select2:selecting" => "function(e) { $('#grupointerescargo-nombrecargo').val(e.params.args.data.text); }",
+            'pluginEvents' => [  ///*$('#grupointerescargo-nombrecargo').val(e.params.args.data.text);*/ $('.selDiv option[value="SEL1"]')
+              "select2:selecting" => "function(e) {
+                var valor = e.params.args.data.text;
+                $(\"#grupointerescargo-nombrecargo option[ value = '\"+valor+\"']\").attr('selected', 'selected');
+                $('#grupointerescargo-nombrecargo').trigger('change.select2');
+              }",
+              "select2:unselecting" => "function(e) {
+                var valor = e.params.args.data.text;
+                $(\"#grupointerescargo-nombrecargo\").find('option[value=\"' + valor + '\"]').attr('selected', false);
+                $('#grupointerescargo-nombrecargo').trigger('change.select2');
+              }"
             ],
         ])
         ?>
 
         <?= $form->field($modelGrupoInteresCargo, 'idGrupoInteres')->hiddenInput(['value' => $grupo->idGrupoInteres])->label(false); ?>
 
-        <?= $form->field($modelGrupoInteresCargo, 'nombreCargo')->hiddenInput(['value' => ''])->label(false); ?>
+        <?php
+        echo $form->field($modelGrupoInteresCargo, 'nombreCargo')->widget(Select2::classname(), [
+            'data' => $modelGrupoInteresCargo->listaCargoNombre,
+            'options' => ['multiple' => true
+            ],
+        ])->label(false)
+        ?>
 
         <?php ActiveForm::end(); ?>
     </div>
@@ -72,3 +87,8 @@ GridView::widget([
         ?>
     </div>
 </div>
+<style media="screen">
+  .field-grupointerescargo-nombrecargo{
+      display: none;
+  }
+</style>

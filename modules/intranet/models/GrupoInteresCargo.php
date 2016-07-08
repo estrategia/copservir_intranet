@@ -26,6 +26,8 @@ class GrupoInteresCargo extends \yii\db\ActiveRecord
     return [
       [['idCargo', 'idGrupoInteres', 'nombreCargo'], 'required'],
       [['idGrupoInteres'], 'integer'],
+      [['idGrupoInteres'], 'safe', 'on' => ['agregarCargo']],
+      [['nombreCargo'], 'safe', 'on' => ['agregarCargo']],
       [['idCargo', 'nombreCargo'], 'string', 'max' => 255]
     ];
   }
@@ -60,6 +62,18 @@ class GrupoInteresCargo extends \yii\db\ActiveRecord
     }
 
     return ArrayHelper::map($opciones, 'CodigoCargo', 'NombreCargo');
+  }
+
+  public static function getListaCargoNombre()
+  {
+    $WSResult = self::getTodosCargos();
+    $opciones = array();
+
+    foreach ($WSResult as $key => $value) {
+      array_push($opciones, $value);
+    }
+
+    return ArrayHelper::map($opciones, 'NombreCargo', 'NombreCargo');
   }
 
   private static function getTodosCargos()

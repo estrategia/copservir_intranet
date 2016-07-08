@@ -142,7 +142,7 @@ $this->title = 'Intranet - Copservir';
         <?php $contador = 0 ?>
         <?php foreach ($bannerDerecha as $banner): ?>
           <div  id="bannerDerecha<?= $contador ?>" class="item">
-            <img src="<?= Yii::$app->homeUrl . 'img/campanas/' . $banner['rutaImagen'] ?>" alt="...">
+            <?= \app\modules\intranet\models\Funciones::getHtmlLink($banner['urlEnlaceNoticia'],"<img src='".Yii::$app->homeUrl . "img/campanas/".$banner['rutaImagen']."' alt=''>"); ?>
           </div>
           <?php $contador++; ?>
         <?php endforeach; ?>
