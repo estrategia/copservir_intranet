@@ -6,7 +6,8 @@ use app\modules\intranet\models\MenuPortales;
 MultiportalAsset::register($this);
 
 // Rutas imagenes
-$srcLogo = Yii::$app->homeUrl . 'img/multiportal/copservir/logo.png';
+$srcLogo = Yii::$app->homeUrl . 'img/multiportal/copservir/logo-curva.jpg';
+$srcLogoMovil = Yii::$app->homeUrl . 'img/multiportal/copservir/logo.png';
 $srcLogoFooter = Yii::$app->homeUrl . 'img/multiportal/copservir/logo-footer.jpg';
 $srcFb =  Yii::$app->homeUrl . 'img/multiportal/copservir/fb.png';
 $srcTw =  Yii::$app->homeUrl . 'img/multiportal/copservir/tw.png';
@@ -30,16 +31,17 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
     <div class="navbar-wrapper">
 
         <nav class="navbar navbar-coop navbar-static-top nav-green">  
-          <div class="white-piece coop"></div>
+          <div class="white-piece coop" style="border-radius: 0px;border: none;"></div>
           <div class="container-fluid coop">
-            <div class="navbar-header">
+            <div class="navbar-header" style="margin:0px !important;">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-                <?= Html::a("<img src='$srcLogo'>", ['/coopservir/sitio/index'],['class'=>'navbar-brand']) ?>
+                <?= Html::a("<img src='$srcLogo' class='logo-coop' style='height:80px;'>", ['/coopservir/sitio/index'],['class'=>'navbar-brand']) ?>
+                <?= Html::a("<img src='$srcLogoMovil' class='logo-coop-movil'>", ['/coopservir/sitio/index'],['class'=>'navbar-brand']) ?>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">

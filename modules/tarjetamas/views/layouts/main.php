@@ -35,7 +35,7 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/tarjetamas/logo-tarjeta-mas.png
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <?= Html::a("<img src='$srcLogo' width='200'>", ['/tarjetamas/sitio/index'],['class'=>'navbar-brand']) ?>
+            <?= Html::a("<img src='$srcLogo' width='200'>", ['/tarjetamas/sitio/index'],['class'=>'navbar-brand tarjetamas']) ?>
           </div>
           <div id="navbar" class="navbar-collapse collapse tarjeta-mas">
             <ul class="nav navbar-nav">
