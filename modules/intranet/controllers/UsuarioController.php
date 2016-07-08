@@ -337,7 +337,7 @@ class UsuarioController extends \yii\web\Controller {
                 $modelFoto->imagenFondo = UploadedFile::getInstances($modelFoto, 'imagenFondo');
 
                 if ($modelFoto->imagenFondo) {
-                    //foreach ($modelFoto->imagenFondo as $file) {
+                    foreach ($modelFoto->imagenFondo as $file) {
                         $nombreImagen = Yii::$app->user->identity->numeroDocumento;
                         $rutaImagen = "$nombreImagen.$file->extension";
                         $rutaImagenAnterior = $usuario->imagenFondo;
@@ -351,7 +351,7 @@ class UsuarioController extends \yii\web\Controller {
                         if (!empty($rutaImagenAnterior) && $rutaImagen != $rutaImagenAnterior) {
                             unlink(Yii::getAlias('@webroot') ."/img/imagenesFondo/" . $rutaImagenAnterior);
                         }
-                    //}
+                    }
                 }
             }
             $modelFoto = new FotoForm();
