@@ -604,10 +604,9 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
   .carousel.banner-copservir {margin-top: 167px;}
   .navbar.navbar-coop.navbar-static-top.nav-green .navbar-brand {margin-left: 63% !important;}
 }
+
 @media (max-width: 991px) {
-  .white-piece {
-      width: 38%;
-  }
+  .white-piece { width: 38%; }
   .navbar.navbar-coop.navbar-static-top.nav-green .navbar-nav {margin-left: 3% !important;}
   .navbar-header {margin-bottom: 25px;}
   .carousel.banner-copservir {margin-top: 167px;}
@@ -620,8 +619,14 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
   .white-piece.tarjetamas{ width: 100%;  border-radius: 0px; }
   .navbar.navbar-coop.navbar-static-top .navbar-nav {margin-left: 15%;}
   .bannerTarjeta {margin-top: 87px;}
+  .footer-top.footer-copservir { background-image: none;}
+  .space-2.footer{display: none;}
+  .footer-copservir {height: initial !important;}
+  .footer-copservir .contenedor-redes {padding: 10px 0px;margin-top: 5px;}
+  .direcciones-coop{text-align: center;}
 
 }
+
 @media (max-width: 767px) {
     .navbar.navbar-coop.navbar-static-top .navbar-brand.tarjetamas {margin-left: 0% !important;}
   .white-piece {
