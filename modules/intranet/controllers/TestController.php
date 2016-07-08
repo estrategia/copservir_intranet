@@ -18,6 +18,12 @@ use app\modules\intranet\models\OpcionesUsuario;
 
 class TestController extends Controller {
     
+    public function actionUsuario(){
+        $infoUsuario = \app\models\Usuario::callWSInfoPersona(1033746784);
+        VarDumper::dump($infoUsuario,10,true);
+        
+    }
+    
     public function actionOpcionesusuario() {
        /*$opcionesUsuario = UsuariosOpcionesFavoritos::find()->where(['=', 'numeroDocumento', 1113618983])->all();
        
