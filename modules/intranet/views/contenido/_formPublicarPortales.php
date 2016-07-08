@@ -130,20 +130,39 @@ if (!$contenidoModel->isNewRecord) {
   ?>
 <?php endif; ?>
 
-<?php
-  echo $form->field($contenidoModel, 'portales')->widget(Select2::classname(), [
-    'data' => $contenidoModel->getListaPortales($esAdmin),
-    'options' => ['placeholder' => 'Seleccione los portales', 'class'=>'js-example-disabled-multi'],
-    'pluginEvents' => [
-                        "select2:selecting" => "function(e) { setInputTimeLine(e.params.args.data.text); }",
-                        "select2:unselecting" => "function(e) { setInputTimeLimeHide(e.params.args.data.text); }",
-                      ],
-    'pluginOptions' => [
-        'allowClear' => true,
-        'multiple' => true
-    ],
-  ]);
-?>
+<?php if ($contenidoModel->isNewRecord): ?>
+  <?php
+    echo $form->field($contenidoModel, 'portales')->widget(Select2::classname(), [
+      'data' => $contenidoModel->getListaPortales($esAdmin),
+      'options' => ['placeholder' => 'Seleccione los portales', 'class'=>'js-example-disabled-multi'],
+      'pluginEvents' => [
+                          "select2:selecting" => "function(e) { setInputTimeLine(e.params.args.data.text); }",
+                          "select2:unselecting" => "function(e) { setInputTimeLimeHide(e.params.args.data.text); }",
+                        ],
+      'pluginOptions' => [
+          'allowClear' => true,
+          'multiple' => true
+      ],
+    ]);
+  ?>
+<?php else: ?>
+  <?php
+    echo $form->field($contenidoModel, 'portales')->widget(Select2::classname(), [
+      'data' => $contenidoModel->getListaPortales($esAdmin),
+      'disabled' => true,
+      'options' => ['placeholder' => 'Seleccione los portales', 'class'=>'js-example-disabled-multi'],
+//      'pluginEvents' => [
+//                          "select2:selecting" => "function(e) { setInputTimeLine(e.params.args.data.text); }",
+//                          "select2:unselecting" => "function(e) { setInputTimeLimeHide(e.params.args.data.text); }",
+//                        ],
+      'pluginOptions' => [
+          'allowClear' => true,
+          'multiple' => true
+      ],
+    ]);
+  ?>
+<?php endif; ?>
+
 <br>
 <br>
 <div id="divTimeLime">
