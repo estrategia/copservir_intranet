@@ -178,7 +178,7 @@ class UsuarioController extends \yii\web\Controller {
             $infoUsuario =  Usuario::callWSInfoPersona($model->username);
 
             if (empty($infoUsuario)) {
-                $model->addError('username', 'El usuario no existe');
+                $model->addError('username', 'Usuario inactivo/no existe');
             } else {
                 if (!empty($infoUsuario['Email'])) {
                     $correoUsuario = trim($infoUsuario['Email']);
@@ -187,7 +187,7 @@ class UsuarioController extends \yii\web\Controller {
                 }
               
                 if(empty($correoUsuario)){
-                    $model->addError('username', 'El usuario no tiene un correo registrado');
+                    $model->addError('username', 'Usuario no tiene correo registrado');
                 }else{
                     // se genera el codigo de recuperacion
                     $fecha = new \DateTime();
