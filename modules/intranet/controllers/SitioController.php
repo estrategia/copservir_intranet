@@ -42,15 +42,21 @@ class SitioController extends \app\controllers\CController {
         return [
             [
                 'class' => \app\components\AccessFilter::className(),
-                'only' => [
-                    'index', 'image-upload', 'cambiar-linea-tiempo',
-                    'guardar-contenido', 'publicar-portales', 'menu', 'agregar-opcion-menu',
-                    'administrar-menu','crear-opcion-menu', 'actualizar-opcion-menu',
-                    'me-gusta-contenido', 'guardar-comentario',
-                    'calendario', 'organigrama', 'quitar-elemento',
-                    'TodosCumpleanos', 'TodosAniversarios','FelicitarAniversario','FelicitarCumpleanos'
-                ],
             ],
+            [
+                 'class' => \app\components\AuthItemFilter::className(),
+                 'only' => [
+                     'publicar-portales', 'publicar-portales-crear', 'publicar-portales-actualizar',
+                     'administrar-menu',
+                 ],
+                 'authsActions' => [
+                     'publicar-portales' => 'intranet_sitio_publicar-portales',
+                     'publicar-portales-crear' => 'intranet_sitio_publicar-portales',
+                     'publicar-portales-actualizar' => 'intanet_sitio_publicar-portales',
+                     'administrar-menu' => 'intranet_sitio_administrar-menu'
+
+                 ]
+             ],
         ];
     }
 
@@ -447,9 +453,6 @@ class SitioController extends \app\controllers\CController {
       }else{
         echo json_encode(['error' => 'la imagen no se ha podido eliminar', 'errorkeys' => [$idContenidoAdjunto]]);
       }
-
-
-
     }
 
     /**

@@ -41,9 +41,9 @@ class ModuloContenidoSearch extends ModuloContenido
      */
     public function search($params)
     {
-        $query = $query = ModuloContenido::find()
-        ->where("( tipo =:tipo )")
-        ->addParams([':tipo' => ModuloContenido::TIPO_GROUP_MODULES]);
+        $query = $query = ModuloContenido::find();
+        //->where("( tipo =:tipo )")
+        //->addParams([':tipo' => ModuloContenido::TIPO_GROUP_MODULES]);
 
         // add conditions that should always apply here
 

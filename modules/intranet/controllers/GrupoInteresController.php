@@ -26,6 +26,19 @@ class GrupoInteresController extends Controller {
                     'eliminar-cargo', 'agrega-cargo', 'lista-cargos'
                 ],
             ],
+            [
+                 'class' => \app\components\AuthItemFilter::className(),
+                 'only' => [
+                     'admin', 'detalle', 'crear', 'actualizar', 'eliminar'
+                 ],
+                 'authsActions' => [
+                   'admin' => 'intranet_grupo-interes_admin',
+                   'detalle' => 'intranet_grupo-interes_admin',
+                   'crear' => 'intranet_grupo-interes_admin',
+                   'actualizar' => 'intranet_grupo-interes_admin',
+                   'eliminar' => 'intranet_grupo-interes_admin',
+                 ]
+             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

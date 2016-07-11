@@ -19,6 +19,17 @@ class PermisosController extends Controller {
           'admin', 'usuario', 'render-lista', 'eliminar-rol',
         ],
       ],
+      [
+           'class' => \app\components\AuthItemFilter::className(),
+           'only' => [
+               'admin', 'usuario', 'elimina-rol'
+           ],
+           'authsActions' => [
+             'admin' => 'intranet_permisos_admin',
+             'usuario' => 'intranet_permisos_admin',
+             'eliminar-rol' => 'intranet_permisos_admin',
+           ]
+       ],
     ];
   }
 

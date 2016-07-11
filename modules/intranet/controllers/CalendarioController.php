@@ -16,6 +16,22 @@ class CalendarioController extends ControllerCalendar {
   public function behaviors()
   {
       return [
+          [
+              'class' => \app\components\AccessFilter::className(),
+          ],
+          [
+               'class' => \app\components\AuthItemFilter::className(),
+               'only' => [
+                  'admin', 'detalle', 'crear', 'actualizar', 'eliminar'
+               ],
+               'authsActions' => [
+                   'admin' => 'intranet_calendario_admin',
+                   'detalle' => 'intranet_calendario_admin',
+                   'crear' => 'intranet_calendario_admin',
+                   'actualizar' => 'intranet_calendario_admin',
+                   'eliminar' => 'intranet_calendario_admin',
+               ]
+           ],
           'verbs' => [
               'class' => VerbFilter::className(),
               'actions' => [

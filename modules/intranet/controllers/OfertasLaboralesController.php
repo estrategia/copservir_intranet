@@ -21,11 +21,20 @@ class OfertasLaboralesController extends Controller {
         return [
             [
                 'class' => \app\components\AccessFilter::className(),
-                'only' => [
-                    'admin', 'detalle', 'crear', 'actualizar',
-                    'eliminar', 'eliminar-oferta-destino', 'agrega-destino-oferta'
-                ],
             ],
+            [
+                 'class' => \app\components\AuthItemFilter::className(),
+                 'only' => [
+                     'admin', 'detalle', 'crear', 'actualizar', 'eliminar'
+                 ],
+                 'authsActions' => [
+                   'admin' => 'intranet_ofertas-laborales_admin',
+                   'detalle' => 'intranet_ofertas-laborales_admin',
+                   'crear' => 'intranet_ofertas-laborales_admin',
+                   'actualizar' => 'intranet_ofertas-laborales_admin',
+                   'eliminar' => 'intranet_ofertas-laborales_admin',
+                 ]
+             ],
         ];
     }
 

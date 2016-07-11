@@ -30,10 +30,18 @@ use yii\widgets\Pjax;
               'headerOptions'=> ['style'=>'width: 70px;'],
               'template' => '{selecciona}',
               'buttons' => [
-                'selecciona' => function ($url, $model) {
-                  return  Html::a('seleccionar', '#', ['class' => 'btn btn-danger btn-select btn-'.$model->idModulo.'',
-                  'data-role'=>'asignar-contenido',
-                  'data-modulo-contenido'=>$model->idModulo]);
+                'selecciona' => function ($url, $model) use ($modelo){
+                  if ($model->idModulo == $modelo->urlMenu) {
+                    return  Html::a('asignado', '#', ['class' => 'btn btn-danger btn-select btn-'.$model->idModulo.'',
+                    //'data-role'=>'asignar-contenido',
+                    //'data-modulo-contenido'=>$model->idModulo
+                  ]);
+                  }else{
+                    return  Html::a('seleccionar', '#', ['class' => 'btn btn-danger btn-select btn-'.$model->idModulo.'',
+                    'data-role'=>'asignar-contenido',
+                    'data-modulo-contenido'=>$model->idModulo]);
+                  }
+
                 }
               ],
             ]

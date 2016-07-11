@@ -22,6 +22,17 @@ class RbacController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            /*
+            [
+                 'class' => \app\components\AuthItemFilter::className(),
+                 'only' => [
+                     //'admin', 'detalle', 'crear', 'actualizar', 'eliminar'
+                 ],
+                 'authsActions' => [
+                     //colocar los permisos
+                 ]
+             ],
+             */
         ];
     }
 

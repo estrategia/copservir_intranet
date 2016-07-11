@@ -18,17 +18,17 @@ class CategoriaDocumentoController extends \yii\web\Controller {
         return [
             [
                 'class' => \app\components\AccessFilter::className(),
-                'only' => [
-                    'index', 'admin', 'crear-categoria', 'actualizar-categoria',
-                    'eliminar-relacion-documento', 'guardar-relacion-documento'
-                ],
             ],
-            /*'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],*/
+            [
+                 'class' => \app\components\AuthItemFilter::className(),
+                 'only' => [
+                   'admin'
+                 ],
+                 'authsActions' => [
+                     //colocar los permisos
+                      'admin' => 'intranet_categoria-documento_admin',
+                 ]
+             ],
         ];
     }
 

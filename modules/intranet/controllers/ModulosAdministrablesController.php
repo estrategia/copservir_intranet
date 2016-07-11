@@ -20,6 +20,37 @@ class ModulosAdministrablesController extends Controller {
 
     public $defaultAction = "admin";
 
+    public function behaviors() {
+        return [
+            [
+                'class' => \app\components\AccessFilter::className(),
+            ],
+            [
+                 'class' => \app\components\AuthItemFilter::className(),
+                 'only' => [
+                     'admin', 'detalle', 'crear', 'actualizar', 'eliminar' , 'agregar-modulo', 'eliminar-modulo', 'editar-modulo'
+                 ],
+                 'authsActions' => [
+                   'admin' => 'intranet_modulos-administrables',
+                   'detalle' => 'intranet_modulos-administrables',
+                   'crear' => 'intranet_modulos-administrables',
+                   'actualizar' => 'intranet_modulos-administrables',
+                   'eliminar' => 'intranet_modulos-administrables',
+                   'agregar-modulo' => 'intranet_modulos-administrables',
+                   'editar-modulo' => 'intranet_modulos-administrables',
+                   'eliminar-modulo' => 'intranet_modulos-administrables',
+                   'ver-contenido' => 'intranet_modulos-administrables'
+                 ]
+             ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
+    }
+
     function actionAdmin() {
         $modelo = ModuloContenido::find();
         $searchModel = new ModuloContenido();
@@ -28,7 +59,7 @@ class ModulosAdministrablesController extends Controller {
 
             $modelo->andWhere("titulo like '%" . $searchModel->titulo . "%'");
             $modelo->andWhere("descripcion like '%" . $searchModel->descripcion . "%'");
-            
+
             if (!empty($searchModel->tipo)) {
                 $modelo->andWhere("tipo = '" . $searchModel->tipo . "'");
             }
@@ -96,7 +127,7 @@ class ModulosAdministrablesController extends Controller {
             if ($model->tipo == ModuloContenido::TIPO_HTML) {
                 $params['vista'] = '_contenido';
                 $params['opcion'] = 'contenido';
-                
+
                 if ($model->load(Yii::$app->request->post())) {
                     if ($model->save()) {
                         Yii::$app->session->setFlash('success', "HTML guardado con &eacute;xito");
