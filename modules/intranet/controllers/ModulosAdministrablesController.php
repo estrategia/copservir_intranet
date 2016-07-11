@@ -15,6 +15,7 @@ use \yii\data\ActiveDataProvider;
 use app\modules\intranet\models\GruposModulos;
 use app\modules\intranet\models\DataTableForm;
 use yii\web\UploadedFile;
+use yii\filters\VerbFilter;
 
 class ModulosAdministrablesController extends Controller {
 
