@@ -40,7 +40,7 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-                <?= Html::a("<img src='$srcLogo' class='logo-coop' style='height:80px;'>", ['/coopservir/sitio/index'],['class'=>'navbar-brand']) ?>
+                <?= Html::a("<img src='$srcLogo' class='logo-coop'>", ['/coopservir/sitio/index'],['class'=>'navbar-brand']) ?>
                 <?= Html::a("<img src='$srcLogoMovil' class='logo-coop-movil'>", ['/coopservir/sitio/index'],['class'=>'navbar-brand']) ?>
             </div>
             <div id="navbar" class="navbar-collapse collapse">

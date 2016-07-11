@@ -74,7 +74,7 @@ ul.list{ list-style-image: url("../img/multiportal/tarjetamas/check.png"); }
 }
 
 .navbar.navbar-coop.navbar-static-top.nav-green{
-         background-color:#00A134; 
+         background-color:#00A400; 
 }
 .nav-green .navbar-collapse.collapse.in .nav > li {
        background: -moz-linear-gradient(280deg, #26BF4F 0%, #158132 100%); 
@@ -499,6 +499,8 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
   .navbar.navbar-coop.navbar-static-top.nav-green .container-fluid.coop {
     width: 1170px !important;
   }
+  .navbar-nav > li > a {padding: 22.3px 20px;}
+  .carousel {  margin-top: 65px;}
 }
 @media (max-width: 1700px) {
  .logo-coop-movil{display: none;}
