@@ -33,7 +33,28 @@ class ContenidoController extends Controller {
                     'listar-comentarios-denunciados', 'detalle-comentario-denuncio', 'eliminar-comentario-denunciado',
                 ],
             ],
+            [
+                 'class' => \app\components\AuthItemFilter::className(),
+                 'only' => [
+                     'listar-contenidos-pendientes', 'detalle-aprobacion', 'eliminar-contenido',
+                     'listar-contenidos-denunciados', 'detalle-denuncio', 'eliminar-contenido-denunciado',
+                     'listar-comentarios-denunciados', 'detalle-comentario-denuncio', 'eliminar-comentario-denunciado'
+                 ],
+                 'authsActions' => [
+                     'listar-contenidos-pendientes' => 'intranet_contenido_listar-contenidos-pendientes',
+                     'detalle-aprobacion' => 'intranet_contenido_listar-contenidos-pendientes',
+                     'eliminar-contenido' => 'intranet_contenido_listar-contenidos-pendientes',
+                     'listar-contenidos-denunciados' => 'intranet_contenido_listar-contenidos-denunciados',
+                     'detalle-denuncio' => 'intranet_contenido_listar-contenidos-denunciados',
+                     'eliminar-contenido-denunciado' => 'intranet_contenido_listar-contenidos-denunciados',
+                     'listar-comentarios-denunciados' => 'intranet_contenido_listar-comentarios-denunciados',
+                     'detalle-comentario-denuncio' => 'intranet_contenido_listar-comentarios-denunciados',
+                     'eliminar-comentario-denunciado' => 'intranet_contenido_listar-comentarios-denunciados'
+
+                 ]
+             ],
         ];
+
     }
 
     public function actions() {

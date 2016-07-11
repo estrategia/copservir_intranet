@@ -27,6 +27,20 @@ class DocumentoController extends Controller {
                     'admin', 'detalle', 'crear', 'actualizar', 'eliminar',
                 ],
             ],
+            [
+                 'class' => \app\components\AuthItemFilter::className(),
+                 'only' => [
+                     'admin', 'detalle', 'crear', 'actualizar', 'actualizar-documento', 'eliminar'
+                 ],
+                 'authsActions' => [
+                   'admin' => 'intranet_documento_admin',
+                   'detalle' => 'intranet_documento_admin',
+                   'crear' => 'intranet_documento_admin',
+                   'actualizar' => 'intranet_documento_admin',
+                   'actualizar-documento' => 'intranet_documento_admin',
+                   'eliminar' => 'intranet_documento_admin',
+                 ]
+             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

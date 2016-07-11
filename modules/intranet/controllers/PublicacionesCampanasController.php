@@ -20,11 +20,20 @@ class PublicacionesCampanasController extends Controller {
         return [
             [
                 'class' => \app\components\AccessFilter::className(),
-                'only' => [
-                    'admin', 'detalle', 'crear', 'actualizar', 'eliminar',
-                    'eliminar-campana-destino', 'agrega-destino-campana'
-                ],
             ],
+            [
+                 'class' => \app\components\AuthItemFilter::className(),
+                 'only' => [
+                     'admin', 'detalle', 'crear', 'actualizar', 'eliminar'
+                 ],
+                 'authsActions' => [
+                     'admin' => 'intranet_publicaciones-campanas_admin',
+                     'detalle' => 'intranet_publicaciones-campanas_admin',
+                     'crear' => 'intranet_publicaciones-campanas_admin',
+                     'actualizar' => 'intranet_publicaciones-campanas_admin',
+                     'eliminar' => 'intranet_publicaciones-campanas_admin',
+                 ]
+             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

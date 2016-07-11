@@ -55,7 +55,7 @@ class Menu extends \yii\db\ActiveRecord {
     public function getObjOpcion() {
         return $this->hasOne(Opcion::className(), ['idMenu' => 'idMenu']);
     }
-    
+
     public static function getMenuPadre($activo = true) {
         if ($activo){
             return self::find()->with('activeListSubMenu')->where('estado=1 AND idPadre is NULL')->orderBy('orden')->all();
@@ -80,7 +80,7 @@ class Menu extends \yii\db\ActiveRecord {
                     echo '</ul>
                 </li>';
             } else { // tiene hipervinculo
-                
+
                 if (strpos($menuItem->objOpcion->url, 'https://') !== false || strpos($menuItem->objOpcion->url, 'http://') !== false) {
                     $urlMenu = Funciones::reemplazarPatronDocumentoUsuario($menuItem->objOpcion->url);
                     echo "<li class='list-menu-corporativo'> <a target='_blank' href='$urlMenu'> <i class='icon-custom-ui'></i><span class='title'>$menuItem->descripcion</span> </a> </li>";
@@ -166,6 +166,8 @@ class Menu extends \yii\db\ActiveRecord {
 
             return [
                 'title' => "
+                    <ol>
+                    <li>
                     <div class='panel-default'>
                     <div class=' panel-heading'>
                     <h6 class='panel-title' style='font-size: 13px;'>
@@ -174,7 +176,9 @@ class Menu extends \yii\db\ActiveRecord {
                     $htmlEditar
                     $htmlRelacion
                     </div>
-                    </div>",
+                    </div>
+                    </li>
+                    <ol>",
             ];
         } else { // tiene hijos
             $children = [];
@@ -190,6 +194,7 @@ class Menu extends \yii\db\ActiveRecord {
 
             return [
                 'title' => "
+                    <li>
                     <div class='panel-default'>
                     <div class=' panel-heading'>
                     <h6 class='panel-title' style='font-size: 13px;'>
@@ -201,7 +206,9 @@ class Menu extends \yii\db\ActiveRecord {
                     </button>
                     $htmlRelacion
                     </div>
-                    </div>",
+                    </div>
+                    </li>
+                    ",
                 'children' => $children,
                 'folder' => true
             ];

@@ -20,7 +20,7 @@ class NotificacionesController extends Controller {
             ],
         ];
     }
-    
+
     public function actions() {
         return [
             'error' => [

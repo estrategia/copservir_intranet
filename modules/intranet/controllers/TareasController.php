@@ -20,7 +20,6 @@ class TareasController extends Controller {
         return [
             [
                 'class' => \app\components\AccessFilter::className(),
-                'only' => ['listar-tareas', 'crear', 'actualizar', 'eliminar', 'actualizar-progreso', 'uncheck-home'],
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
