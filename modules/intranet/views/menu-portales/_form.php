@@ -90,7 +90,7 @@ use app\modules\intranet\models\MenuPortales;
       $this->registerJs("
           $( document ).ready(function() {
             valor = $('#menuportales-tipo').val();//parseInt($('#menuportales-tipo').val());
-
+            console.log('valor: '+ valor);
             if(".$bandera."){
               setInputUrl( valor );
             }
@@ -103,6 +103,7 @@ use app\modules\intranet\models\MenuPortales;
         });
 
         function asignarContenido(option, element) {
+          $('.field-menuportales-urlmenu').remove();
           $('#divUrlMenu').append('$inputUrlHidden');
           $('#menuportales-urlmenu').attr('value', option);
           $('.btn-select').text('seleccionar');
@@ -110,21 +111,19 @@ use app\modules\intranet\models\MenuPortales;
         }
 
         function setInputUrl(selectedOption) {
+          console.log('entro setInputUrl');
 
           if(parseInt(selectedOption) === ".MenuPortales::ENLACE_EXTERNO."){
+            console.log('entro extreno');
             $('#gridView-moduloContenido').hide();
             $('.field-menuportales-urlmenu').remove();
             $('#divUrlMenu').append('$inputUrl');
           }
 
           if(parseInt(selectedOption) === ".MenuPortales::ENLACE_INTERNO."){
-
+            console.log('entro interno');
             $('.field-menuportales-urlmenu').remove();
             $('#gridView-moduloContenido').show();
-
-            if(".$bandera." && !isNaN('".$model->urlMenu."')){
-              asignarContenido('$model->urlMenu', $('btn-".$model->urlMenu."'));
-            }
           }
         }
       ");

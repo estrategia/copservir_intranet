@@ -15,12 +15,29 @@ class ParametrosController extends Controller
     public function behaviors()
     {
         return [
+            [
+                'class' => \app\components\AccessFilter::className(),
+            ],
+            /*
+            [
+                 'class' => \app\components\AuthItemFilter::className(),
+                 'only' => [
+                     'admin', 'actualizar'
+                 ],
+                 'authsActions' => [
+                   'admin' => '',
+                   'actualizar' => '',
+
+                 ]
+             ],
+             */
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
             ],
+
         ];
     }
 

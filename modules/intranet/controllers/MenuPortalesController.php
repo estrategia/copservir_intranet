@@ -17,10 +17,20 @@ class MenuPortalesController extends Controller {
         return [
             [
                 'class' => \app\components\AccessFilter::className(),
-                'only' => [
-                    'admin', 'detalle', 'crear', 'actualizar', 'eliminar'
-                ],
             ],
+            [
+                 'class' => \app\components\AuthItemFilter::className(),
+                 'only' => [
+                     'admin', 'detalle', 'crear', 'actualizar', 'eliminar'
+                 ],
+                 'authsActions' => [
+                   'admin' => 'intranet_menu-portales',
+                   'detalle' => 'intranet_menu-portales',
+                   'crear' => 'intranet_menu-portales',
+                   'actualizar' => 'intranet_menu-portales',
+                   'eliminar' => 'intranet_menu-portales',
+                 ]
+             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

@@ -6,7 +6,8 @@ use app\modules\intranet\models\MenuPortales;
 MultiportalAsset::register($this);
 
 // Rutas imagenes
-$srcLogo = Yii::$app->homeUrl . 'img/multiportal/copservir/logo.png';
+$srcLogo = Yii::$app->homeUrl . 'img/multiportal/copservir/logo-curva.jpg';
+$srcLogoMovil = Yii::$app->homeUrl . 'img/multiportal/copservir/logo.png';
 $srcLogoFooter = Yii::$app->homeUrl . 'img/multiportal/copservir/logo-footer.jpg';
 $srcFb =  Yii::$app->homeUrl . 'img/multiportal/copservir/fb.png';
 $srcTw =  Yii::$app->homeUrl . 'img/multiportal/copservir/tw.png';
@@ -29,21 +30,22 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
     <!-- NAVBAR -->
     <div class="navbar-wrapper">
 
-        <nav class="navbar navbar-coop navbar-static-top">
-          <div class="white-piece"></div>
-          <div class="container-fluid">
-            <div class="navbar-header">
+        <nav class="navbar navbar-coop navbar-static-top nav-green">  
+          <div class="white-piece coop" style="border-radius: 0px;border: none;"></div>
+          <div class="container-fluid coop">
+            <div class="navbar-header" style="margin:0px !important;">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-                <?= Html::a("<img src='$srcLogo'>", ['/coopservir/sitio/index'],['class'=>'navbar-brand']) ?>
+                <?= Html::a("<img src='$srcLogo' class='logo-coop'>", ['/coopservir/sitio/index'],['class'=>'navbar-brand']) ?>
+                <?= Html::a("<img src='$srcLogoMovil' class='logo-coop-movil'>", ['/coopservir/sitio/index'],['class'=>'navbar-brand']) ?>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-                <li><?= Html::a('Proposito', ['acerca-de']) ?></li>
+                <li><?= Html::a('Propósito', ['acerca-de']) ?></li>
                 <li><?= Html::a('Visión', ['vision']) ?></li>                
                 <li><?= Html::a('Historia', ['historia']) ?></li>
                 <li><?= Html::a('Identidad', ['identidad']) ?></li>
@@ -71,11 +73,10 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
     <footer>
         <div class="footer-top footer-copservir" style="height:438px;">
         <div class="container marketing">
-            <div class="col-md-6">
-            </div>
-            <div class="col-md-3">
-                <div class="row">
-                    <div class="space-2"></div>
+            <div class="col-md-1 col-md-offset-2">      </div>
+            <div class="col-sm-6 col-md-3 col-lg-5">
+                <div class="row direcciones-coop">
+                    <div class="space-2 footer"></div>
                     <div class="col-md-12">
                       <strong style="color:#fff;">Sede Copservir Barranquilla</strong>
                       <p>Calle 110 Av. Circunvalar No. 6R - 400 Teléfono (5) 328 8156</p>
@@ -95,8 +96,8 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
                 </div>             
               </div>
             
-            <div class="col-md-3">
-               <div class="space-2"></div>                
+            <div class="col-sm-6 col-md-3 col-lg-4">
+               <div class="space-2 footer"></div>                
                <div class="contenedor-redes">
                     <strong style="color:#fff;">Nuestras</strong>
                     <p>Redes sociales</p> 

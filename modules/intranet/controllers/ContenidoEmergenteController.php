@@ -27,6 +27,19 @@ class ContenidoEmergenteController extends Controller {
                     'admin', 'detalle', 'crear', 'actualizar', 'eliminar',
                 ],
             ],
+            [
+                 'class' => \app\components\AuthItemFilter::className(),
+                 'only' => [
+                     'admin', 'detalle', 'crear', 'actualizar', 'eliminar'
+                 ],
+                 'authsActions' => [
+                   'admin' => 'intranet_contenido-emergente_admin',
+                   'detalle' => 'intranet_contenido-emergente_admin',
+                   'crear' => 'intranet_contenido-emergente_admin',
+                   'actualizar' => 'intranet_contenido-emergente_admin',
+                   'eliminar' => 'intranet_contenido-emergente_admin',
+                 ]
+             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

@@ -42,15 +42,21 @@ class SitioController extends \app\controllers\CController {
         return [
             [
                 'class' => \app\components\AccessFilter::className(),
-                'only' => [
-                    'index', 'image-upload', 'cambiar-linea-tiempo',
-                    'guardar-contenido', 'publicar-portales', 'menu', 'agregar-opcion-menu',
-                    'administrar-menu','crear-opcion-menu', 'actualizar-opcion-menu',
-                    'me-gusta-contenido', 'guardar-comentario',
-                    'calendario', 'organigrama', 'quitar-elemento',
-                    'TodosCumpleanos', 'TodosAniversarios','FelicitarAniversario','FelicitarCumpleanos'
-                ],
             ],
+            [
+                 'class' => \app\components\AuthItemFilter::className(),
+                 'only' => [
+                     'publicar-portales', 'publicar-portales-crear', 'publicar-portales-actualizar',
+                     'administrar-menu',
+                 ],
+                 'authsActions' => [
+                     'publicar-portales' => 'intranet_sitio_publicar-portales',
+                     'publicar-portales-crear' => 'intranet_sitio_publicar-portales',
+                     'publicar-portales-actualizar' => 'intanet_sitio_publicar-portales',
+                     'administrar-menu' => 'intranet_sitio_administrar-menu'
+
+                 ]
+             ],
         ];
     }
 
@@ -205,7 +211,7 @@ class SitioController extends \app\controllers\CController {
 
         if ($contenido->load(Yii::$app->request->post())) {
             $lineaTiempo = LineaTiempo::findOne($contenido->idLineaTiempo);
-            
+
             if ($lineaTiempo->solicitarGrupoObjetivo==1 && empty($contenidodestino['codigoCiudad']) && empty($contenidodestino['idGrupoInteres'])) {
                 $respond = [
                     'result' => 'error',
@@ -379,7 +385,7 @@ class SitioController extends \app\controllers\CController {
       }
 
       $contenidoModel = $this->encontrarModeloContenido($id);
-      $contenidoModel->scenario = Contenido::SCENARIO_PUBLICAR_PORTALES;
+      //$contenidoModel->scenario = Contenido::SCENARIO_PUBLICAR_PORTALES;
 
       $contenidodestino = Yii::$app->request->post('ContenidoDestino');
 
@@ -398,13 +404,11 @@ class SitioController extends \app\controllers\CController {
             $contenidoModel->imagenes = $_FILES['imagenes'];
         }
 
-        if (!is_null($contenidoModel->idLineaTiempo)) {
-            $contenidoModel->scenario = Contenido::SCENARIO_PUBLICAR_PORTALES_CON_LINEA_TIEMPO;
-        }
-
         if ($contenidoModel->save()) {
+
           $contenidoModel->guardarImagenes();
-          return $this->redirect(['publicar-portales']);
+          Yii::$app->session->setFlash('success', 'Noticia actualizada con exito');
+          //return $this->redirect(['publicar-portales']);
           /*
 
           $this->guardarContenidoPortal($contenidoModel);
@@ -413,12 +417,17 @@ class SitioController extends \app\controllers\CController {
             $contenidoModel->guardarContenidoDestino($contenidodestino);
           }
           */
+        }else{
+          Yii::$app->session->setFlash('error', 'no se pudo actualizar la noticia');
         }
+      }else{
+        return $this->render('/contenido/publicar-portales-actualizar', [
+                    'contenidoModel' => $contenidoModel,
+                    'esAdmin' => $esAdmin,
+        ]);
       }
-      return $this->render('/contenido/publicar-portales-actualizar', [
-                  'contenidoModel' => $contenidoModel,
-                  'esAdmin' => $esAdmin,
-      ]);
+
+
     }
 
     public function guardarContenidoPortal($contenidoModel) {
@@ -444,9 +453,6 @@ class SitioController extends \app\controllers\CController {
       }else{
         echo json_encode(['error' => 'la imagen no se ha podido eliminar', 'errorkeys' => [$idContenidoAdjunto]]);
       }
-
-
-
     }
 
     /**

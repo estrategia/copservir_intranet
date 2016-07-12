@@ -7,11 +7,13 @@ $this->title = 'Tarjeta Mas';
 $srctarjetamas = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
 ?>
 
-<div class="space-1"></div>
-<div class="space-1"></div>
-<div class="space-1"></div>
-<div class="space-1"></div>
-<div class="container-fluid">
+<div class="espacios">
+  <div class="space-1"></div>
+  <div class="space-1"></div>
+  <div class="space-1"></div>
+  <div class="space-1"></div>
+</div>
+<div class="container-fluid bannerTarjeta">
     <div class="row">
           <img class="img-responsive" src="<?= "" . $srctarjetamas . "/banner-intranet-tarjeta-mas.jpg"?>" alt="Tarjeta más">  
     </div>

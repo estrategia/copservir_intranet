@@ -54,11 +54,11 @@ $completo = isset($completo) ? $completo : false;
                         $contador++;
                         $style = '';
                         $mensaje = '';
-                        if ($contador > \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) { //cambiar por una constante
+                        if ($contador > \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) {
                             $style = 'display:none';
                         }
 
-                        if ($contador == \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) { //cambiar por una constante
+                        if ($contador == \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) {
                             if (($contador) != count($noticia->objContenidoAdjuntoImagenes)) {
                                 $mensaje = (count($noticia->objContenidoAdjuntoImagenes) - \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) . '+'; // cambiar por una constante
                             }

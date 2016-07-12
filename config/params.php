@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'adminEmail' => 'admin@example.com',
+    'adminEmail' => 'webmaster@copservir.com',
     'rutaGruposModulos' => '/intranet/sitio/contenido?modulo=',
     'ciudad' => ['*' => 999999],
     'grupo' => ['*' => 999999],

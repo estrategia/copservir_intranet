@@ -164,6 +164,7 @@ class UsuarioController extends \yii\web\Controller {
     public function actionRecordarClave() {
 
         $this->layout = 'loginLayout';
+        $correoUsuario = '';
 
         if (!\Yii::$app->user->isGuest) {
             return $this->redirect(['sitio/index']);
@@ -174,50 +175,50 @@ class UsuarioController extends \yii\web\Controller {
         $fechaRecuperacion = new \DateTime();
 
         if ($model->load(Yii::$app->request->post())) {
-
             $infoUsuario =  Usuario::callWSInfoPersona($model->username);
 
             if (empty($infoUsuario)) {
-                $model->addError('username', 'El usuario no existe');
+                $model->addError('username', 'Usuario inactivo/no existe');
             } else {
-
-                // se genera el codigo de recuperacion
-                $fecha = new \DateTime();
-                $fecha->modify('+ 1 day');
-                $codigoRecuperacion = md5($model->username . '~' . $fecha->format('YmdHis'));
-
-                //se guarda el codigo y la fecha de recuperacion
-                $objRecuperacionClave = new RecuperacionClave();
-                $objRecuperacionClave->numeroDocumento = $model->username;
-                $objRecuperacionClave->recuperacionCodigo = $codigoRecuperacion;
-                $objRecuperacionClave->recuperacionFecha = $fechaRecuperacion->format('Y-m-d H:i:s');
-
-                if ($objRecuperacionClave->save()) {
-                  //se crea el enlace para restablecer la contraseña y el contenido del email
-                  $enlace = yii::$app->urlManager->createAbsoluteUrl(['intranet/usuario/reestablecer-clave', 'codigo' => $codigoRecuperacion]);
-                  $contenido_mail = "Ingresa a la siguiente direccion para reestalecer tu contraseña.\n" . $enlace;
-
-                  $contenido_enviar = $this->render('/common/correo', ['contenido' => $contenido_mail]) ;
-
-                  if (empty($infoUsuario['Email'])) {
-                    $model->addError('username', 'El usuario no tiene un correo registrado');
-
-                  }else{
-                    $correoUsuario = $infoUsuario['Email'];
-
-                    // envia correo
-                    $value = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
-                      ->setTo($correoUsuario)->setSubject('Recuperacion Contraseña Intranet Copservir')
-                      ->setHtmlBody($contenido_enviar)->send();
-
-                    if ($value) {
-                      return $this->render('mensajeRecuperacion');
-                    }else{
-                      $model->addError('username', 'Error al enviar el correo');
-                    }
-                  }
+                if (!empty($infoUsuario['Email'])) {
+                    $correoUsuario = trim($infoUsuario['Email']);
+                }else if(!empty($infoUsuario['CorreoPersonal'])){
+                    $correoUsuario = trim($infoUsuario['CorreoPersonal']);
+                }
+              
+                if(empty($correoUsuario)){
+                    $model->addError('username', 'Usuario no tiene correo registrado');
                 }else{
-                  $model->addError('username', 'Ocurrio un error por favor vuelve a intentarlo');
+                    // se genera el codigo de recuperacion
+                    $fecha = new \DateTime();
+                    $fecha->modify('+ 1 day');
+                    $codigoRecuperacion = md5($model->username . '~' . $fecha->format('YmdHis'));
+
+                    //se guarda el codigo y la fecha de recuperacion
+                    $objRecuperacionClave = new RecuperacionClave();
+                    $objRecuperacionClave->numeroDocumento = $model->username;
+                    $objRecuperacionClave->recuperacionCodigo = $codigoRecuperacion;
+                    $objRecuperacionClave->recuperacionFecha = $fechaRecuperacion->format('Y-m-d H:i:s');
+
+                    if ($objRecuperacionClave->save()) {
+                      //se crea el enlace para restablecer la contraseña y el contenido del email
+                      $enlace = yii::$app->urlManager->createAbsoluteUrl(['intranet/usuario/reestablecer-clave', 'codigo' => $codigoRecuperacion]);
+                      $contenido_mail = $this->renderPartial('_correoRecordar', ['enlace' => $enlace, 'infoUsuario' => $infoUsuario]) ;
+                      $contenido_enviar = $this->renderPartial('/common/correo', ['contenido' => $contenido_mail]) ;
+
+                      // envia correo
+                      $value = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
+                        ->setTo($correoUsuario)->setSubject('Recuperacion Contraseña Intranet Copservir')
+                        ->setHtmlBody($contenido_enviar)->send();
+
+                      if ($value) {
+                        return $this->render('mensajeRecuperacion',['correo'=>$correoUsuario]);
+                      }else{
+                        $model->addError('username', 'Error al enviar el correo');
+                      }
+                    }else{
+                      $model->addError('username', 'Ocurrio un error por favor vuelve a intentarlo');
+                    }
                 }
             }
         }
@@ -255,10 +256,11 @@ class UsuarioController extends \yii\web\Controller {
 
               $response = self::callWSCambiarClave($objRecuperacionClave->numeroDocumento, sha1($model->password));
               if ($response){
-
+                return $this->render('mensajeReestablecer');
+                /*
                 Yii::$app->session->setFlash('success', 'contraseña reestablecida con exito');
                 $model = new LoginForm();
-
+                */
               }else{
                 Yii::$app->session->setFlash('error', 'Ocurrio un error, No se pudo reestablecer la contraseña');
               }
@@ -338,7 +340,7 @@ class UsuarioController extends \yii\web\Controller {
                 $modelFoto->imagenFondo = UploadedFile::getInstances($modelFoto, 'imagenFondo');
 
                 if ($modelFoto->imagenFondo) {
-                    //foreach ($modelFoto->imagenFondo as $file) {
+                    foreach ($modelFoto->imagenFondo as $file) {
                         $nombreImagen = Yii::$app->user->identity->numeroDocumento;
                         $rutaImagen = "$nombreImagen.$file->extension";
                         $rutaImagenAnterior = $usuario->imagenFondo;
@@ -352,7 +354,7 @@ class UsuarioController extends \yii\web\Controller {
                         if (!empty($rutaImagenAnterior) && $rutaImagen != $rutaImagenAnterior) {
                             unlink(Yii::getAlias('@webroot') ."/img/imagenesFondo/" . $rutaImagenAnterior);
                         }
-                    //}
+                    }
                 }
             }
             $modelFoto = new FotoForm();

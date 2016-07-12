@@ -15,6 +15,24 @@ class IndicadoresController extends Controller
     public function behaviors()
     {
         return [
+          [
+              'class' => \app\components\AccessFilter::className(),
+          ],
+          /*
+          [
+               'class' => \app\components\AuthItemFilter::className(),
+               'only' => [
+                   'admin', 'detalle', 'crear', 'actualizar', 'eliminar'
+               ],
+               'authsActions' => [
+               'admin' => '',
+               'detalle' => '',
+               'crear' => '',
+               'actualizar' => '',
+               'eliminar' => '',
+               ]
+           ],
+           */
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -99,7 +117,7 @@ class IndicadoresController extends Controller
       if (!$model->save()) {
           Yii::$app->session->setFlash('error', \app\modules\intranet\models\Funciones::getErrors($model));
       }
-      
+
       return $this->redirect(['admin']);
     }
 

@@ -234,19 +234,16 @@ $(document).on('click', "a[data-role='actualizar-contenido-publicar-portales']",
         },
         complete: function (data) {
             $('html').hideLoading();
+            location.reload();
         },
         success: function (data) {
-            if (data.result == "ok") {
-              $('.publicar-portales').remove();
-              $('.formulario').append(data.response);
-            }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('html').hideLoading();
             $("#btnAgregarContenido").attr('disabled', false);
         }
     });
-    
+
     return false;
 });
 
