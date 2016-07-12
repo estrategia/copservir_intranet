@@ -65,5 +65,7 @@ use yii\helpers\Html;
                 </div>
             <?php endif; ?>
     <div class="space-2"></div>
+    <?= Html::a('Regresar', ['usuario/index'], ['class' => 'btn btn-danger']) ?>
+    <div class="space-2"></div>
     <div class="space-2"></div>
 </div>

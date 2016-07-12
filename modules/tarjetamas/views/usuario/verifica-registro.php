@@ -33,6 +33,7 @@ $this->title = 'Verificar Usuario';
         ?>
 
         <?= Html::submitButton('Verificar Usuario', ['class' => 'btn btn-primary btn-sm btn-block', 'name' => 'login-button']) ?>
+        <?= Html::a('Cancelar', ['usuario/autenticar'], ['class' => 'btn btn-danger btn-sm btn-block']) ?>
 
         <?php ActiveForm::end(); ?>
       </div>

@@ -33,6 +33,7 @@ $this->title = 'Cambiar Clave';
 
         <div class="form-group">
           <?= Html::submitButton('Actualizar', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+         
         </div>
 
         <?php ActiveForm::end(); ?>
