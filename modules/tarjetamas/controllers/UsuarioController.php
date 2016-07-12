@@ -102,7 +102,7 @@ class UsuarioController extends Controller {
             ]);
         } else {
             $provider = null;
-            Yii::$app->session->setFlash('ERROR', $respuesta[0]['MENSAJE']);
+            Yii::$app->session->setFlash('ERROR', $tarjetasUsuario[0]['MENSAJE']);
         }
         return $this->render('tarjetas', [
                     'dataProvider' => $provider
