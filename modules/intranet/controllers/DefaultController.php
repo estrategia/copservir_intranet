@@ -62,8 +62,6 @@ class DefaultController extends Controller {
 
   public function actionPrueba()
   {
-
-
         $client = new \SoapClient(\Yii::$app->params['webServices']['persona'], array(
             "trace" => 1,
             "exceptions" => 0,
@@ -75,31 +73,6 @@ class DefaultController extends Controller {
             $result_forma3 = $client->getPersonaWithModel(1143135372, true, null);
             \yii\helpers\VarDumper::dump($result_forma3);
 
-            $nombres = $result_forma3['Nombres'];
-            $primerApellido =  $result_forma3['PrimerApellido'];
-            $segundoApellido2 =  $result_forma3['SegundoApellido'];
-
-            $alias = '';
-            $nombres = explode(" ", $nombres);
-            echo "<br>";
-            echo "<br>";
-            echo "<br>";
-            var_dump($nombres);
-            //exit();
-            foreach($nombres as $n){
-              $alias .=  substr($n, 0, 1);
-            }
-
-            $alias .= $primerApellido;
-            if(!empty($segundoApellido)){
-             $alias .= $segundoApellido[0];
-            }
-            //$this->_user->alias = $alias;
-            echo "<br>";
-            echo "<br>";
-            echo "<br>";
-            echo "<br>";
-            var_dump($alias);
             /*
             echo "<br>";echo "<br>";echo "<br>";
             \yii\helpers\VarDumper::dump(\Yii::$app->user->identity->getCargoCodigo());
