@@ -9,7 +9,7 @@ $src = Yii::$app->homeUrl . 'img/multiportal/copservir/';
     <div class="space-1"></div>
     <!-- <div id="owl-portales" class="owl-carousel"> -->
 
-    <div class="col-md-3">
+    <div class="col-md-4">
       <?= Html::a('
       <img class="img-responsive" src="'.$src.'intranet.PNG" alt="">
       
@@ -17,22 +17,17 @@ $src = Yii::$app->homeUrl . 'img/multiportal/copservir/';
       ?>      
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-4">
       <?= Html::a('
       <img class="img-responsive" src="'.$src.'trabajo-social.PNG" alt="">
-      ', ['/proveedores/sitio/index'])
+      ', 'http://intranet2.copservir.com/fundacion/')
       ?>
     </div>
-    <div class="col-md-3">
-      <?= Html::a('
-      <img class="img-responsive" src="'.$src.'asociado.PNG" alt="">
-      ', ['/coopservir/sitio/index'])
-      ?>
-    </div>
-    <div class="col-md-3">
+    
+    <div class="col-md-4">
       <?= Html::a('
       <img class="img-responsive" src="'.$src.'proveedor.PNG" alt="">
-      ', ['/convenios/sitio/index'])
+      ', 'http://intranet2.copservir.com/proveedores/')
       ?>
     </div>
 
