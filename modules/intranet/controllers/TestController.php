@@ -15,8 +15,38 @@ use app\modules\intranet\models\AuthAssignment;
 use app\modules\intranet\models\Menu;
 //use app\modules\intranet\models\UsuariosOpcionesFavoritos;
 use app\modules\intranet\models\OpcionesUsuario;
+use app\modules\intranet\models\PublicacionesCampanas;
+use app\modules\intranet\models\GrupoInteresCargo;
 
 class TestController extends Controller {
+    
+    public function actionBanner(){
+        $userCiudad = Yii::$app->user->identity->getCiudadCodigo();
+        $userGrupos = Yii::$app->user->identity->getGruposCodigos();
+        $cargoNombre = Yii::$app->user->identity->getCargoNombre();
+        $cargoCodigo = Yii::$app->user->identity->getCargoCodigo();
+        
+        echo "Cargo [$cargoCodigo: $cargoNombre]<br>";
+        echo "Ciudad: $userCiudad<br>";
+        echo "<br>";
+        echo "Grupos<br>";
+        VarDumper::dump($userGrupos,10,true);
+        echo "<br><br>";
+        
+        
+        $listGrupoInteresCargo = GrupoInteresCargo::find()->all();
+        
+        echo "Grupos Cargos:<br>";
+        foreach ($listGrupoInteresCargo as $objGrupoCargo){
+            VarDumper::dump($objGrupoCargo->attributes);echo "<br>";
+        }
+         echo "<br><br>";
+        
+        //tareas
+        $bannerArriba = PublicacionesCampanas::getCampana($userCiudad, $userGrupos, PublicacionesCampanas::POSICION_ARRIBA);
+        VarDumper::dump($bannerArriba,10,true);
+        
+    }
     
     public function actionUsuario(){
         $infoUsuario = \app\models\Usuario::callWSInfoPersona(1033746784);

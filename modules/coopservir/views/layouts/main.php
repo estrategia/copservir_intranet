@@ -46,6 +46,11 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
                 <li><?= Html::a('Inicio', ['/']) ?></li>
+                <?php foreach (MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id) as $itemMenu): ?>
+                  <li>
+                    <?php echo $itemMenu->getHtmlLink(Yii::$app->controller->module->id) ?>
+                  </li>
+                <?php endforeach; ?>
               </ul>
               <!--<ul class="nav navbar-nav">
                 <li><?= Html::a('Propósito', ['acerca-de']) ?></li>
@@ -55,11 +60,6 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
                 <li><?= Html::a('Compromiso social', ['compromiso']) ?></li>
                 <li><?= Html::a('Gestión', ['gestion-ambiental']) ?></li>
                 <li><?= Html::a('Sector cooperativo', ['sector-coperativo']) ?></li>
-                <?php foreach (MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id) as $itemMenu): ?>
-                  <li>
-                    <?php $itemMenu->getHtmlLink(Yii::$app->controller->module->id) ?>
-                  </li>
-                <?php endforeach; ?>
               </ul>-->
             </div>
           </div>
