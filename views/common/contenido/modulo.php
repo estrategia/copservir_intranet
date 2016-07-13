@@ -1,4 +1,4 @@
-<?php 
+<?php
 use app\modules\intranet\models\ModuloContenido;
 ?>
 
@@ -6,7 +6,7 @@ use app\modules\intranet\models\ModuloContenido;
 
 <?php if ($objModulo->tipo == ModuloContenido::TIPO_HTML): ?>
     <?= $this->render('//common/contenido/_html', array('objModulo' => $objModulo,'tituloGrupo'=>$tituloGrupo)) ?>
-<?php elseif ($objModulo->tipo == ModuloContenido::TIPO_DATATABLE): ?>
+<?php elseif ($objModulo->tipo == ModuloContenido::TIPO_DATATABLE || $objModulo->tipo == ModuloContenido::TIPO_DATATABLE_CEDULA): ?>
     <?php $this->registerJsFile("@web/js/datatable.js", ['depends' => [app\assets\DataTableAsset::className()]]); ?>
     <?= $this->render('//common/contenido/_html', array('objModulo' => $objModulo,'tituloGrupo'=>$tituloGrupo)) ?>
     <div class="space-1"></div>

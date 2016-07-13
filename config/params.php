@@ -42,7 +42,8 @@ return [
     'modulosContenido' => [
         '1' => 'Html',
         '2' => 'DataTable',
-        '3' => 'Grupos Módulos'
+        '3' => 'Grupos Módulos',
+        '4' => 'DataTable Cedula'
     ],
     'PerfilesUsuario' => [
         'intranet' => ['codigo' => 1, 'permiso' => 'intranet_usuario'],
@@ -51,10 +52,10 @@ return [
     'webServices' => [
         'codigoSeguridad' => 'CopservirLaMejorEmpresaParaTrabajar2016',
         'tarjetaMas' => 'http://siidesarrollo.copservir.com/tarjetamas/WsTarjetaMas/ws',
-        'persona' => 'http://localhost/copservir/wsMultiportal/persona',
-        //'persona' => 'http://sii.copservir.com/gestionhumana/wsMultiportal/persona',
+        //'persona' => 'http://localhost/copservir/wsMultiportal/persona',
+        'persona' => 'http://sii.copservir.com/gestionhumana/wsMultiportal/persona',
     ],
     'usuario' => [
-      'tiempoRecuperarClave' => 1 // dias 
+      'tiempoRecuperarClave' => 1 // dias
     ]
 ];

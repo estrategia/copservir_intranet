@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3278cf2920fec1bd8feab51b7c10c440",
-    "content-hash": "4e34a81bfed24f96b39d14852364ff07",
+    "hash": "ce513eca64f3dce245c1451c89fc17c7",
+    "content-hash": "4abd55da43b2f7ca2bc51468befa2096",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -359,22 +359,20 @@
         },
         {
             "name": "bupy7/yii2-widget-cropbox",
-            "version": "3.0.1",
+            "version": "v1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bupy7/yii2-widget-cropbox.git",
-                "reference": "a22bef25705f4ad8361edb74a661e2d16672844e"
+                "reference": "5bdcd25bc9f385324910613e0710bd57bb9d1551"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bupy7/yii2-widget-cropbox/zipball/a22bef25705f4ad8361edb74a661e2d16672844e",
-                "reference": "a22bef25705f4ad8361edb74a661e2d16672844e",
+                "url": "https://api.github.com/repos/bupy7/yii2-widget-cropbox/zipball/5bdcd25bc9f385324910613e0710bd57bb9d1551",
+                "reference": "5bdcd25bc9f385324910613e0710bd57bb9d1551",
                 "shasum": ""
             },
             "require": {
-                "kartik-v/yii2-icons": "*",
-                "kartik-v/yii2-slider": "*",
-                "yiisoft/yii2-bootstrap": "@dev"
+                "php": ">=5.4.0"
             },
             "type": "yii2-extension",
             "autoload": {
@@ -393,7 +391,7 @@
                     "homepage": "http://mihaly4.ru"
                 }
             ],
-            "description": "This is widget wrapper of Cropbox https://github.com/hongkhanh/cropbox and it modification. This widget allows crop image before upload to server and send informations about crop in JSON format.",
+            "description": "This is widget wrapper and fork of Cropbox https://github.com/hongkhanh/cropbox . This widget allows crop image before upload to server and send informations about crop in JSON format.",
             "homepage": "https://github.com/bupy7/yii2-widget-cropbox",
             "keywords": [
                 "crop image",
@@ -402,7 +400,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-05-07 20:53:29"
+            "time": "2015-01-20 22:24:19"
         },
         {
             "name": "cebe/markdown",
@@ -508,44 +506,6 @@
                 "yii2 font awesome"
             ],
             "time": "2015-08-24 10:38:35"
-        },
-        {
-            "name": "components/flag-icon-css",
-            "version": "2.3.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lipis/flag-icon-css.git",
-                "reference": "836eca11ecf437ae3d0f0c93dd245ab00d94cee1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lipis/flag-icon-css/zipball/836eca11ecf437ae3d0f0c93dd245ab00d94cee1",
-                "reference": "836eca11ecf437ae3d0f0c93dd245ab00d94cee1",
-                "shasum": ""
-            },
-            "type": "component",
-            "extra": {
-                "component": {
-                    "name": "flag-icon-css",
-                    "files": [
-                        "less/**",
-                        "css/**",
-                        "flags/**"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Panayiotis Lipiridis (Lipis)",
-                    "email": "lipiridis@gmail.com"
-                }
-            ],
-            "description": "CSS for vector based country flags",
-            "time": "2016-05-18 13:50:30"
         },
         {
             "name": "creocoder/yii2-nested-sets",
@@ -719,54 +679,6 @@
             "time": "2015-08-05 01:03:42"
         },
         {
-            "name": "fortawesome/font-awesome",
-            "version": "v4.6.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/FortAwesome/Font-Awesome.git",
-                "reference": "8e241f209faa1dd2182c9fdc9c352d8806504a4e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/8e241f209faa1dd2182c9fdc9c352d8806504a4e",
-                "reference": "8e241f209faa1dd2182c9fdc9c352d8806504a4e",
-                "shasum": ""
-            },
-            "require-dev": {
-                "jekyll": "1.0.2",
-                "lessc": "1.4.2"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.6.x-dev"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "OFL-1.1",
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Dave Gandy",
-                    "email": "dave@fontawesome.io",
-                    "homepage": "http://twitter.com/davegandy",
-                    "role": "Developer"
-                }
-            ],
-            "description": "The iconic font and CSS framework",
-            "homepage": "http://fontawesome.io/",
-            "keywords": [
-                "FontAwesome",
-                "awesome",
-                "bootstrap",
-                "font",
-                "icon"
-            ],
-            "time": "2016-05-13 15:42:25"
-        },
-        {
             "name": "imagine/imagine",
             "version": "v0.5.0",
             "source": {
@@ -872,54 +784,6 @@
             "time": "2016-02-28 02:23:49"
         },
         {
-            "name": "kartik-v/yii2-icons",
-            "version": "v1.4.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kartik-v/yii2-icons.git",
-                "reference": "58100d3278799e7a13771de6e6ca2865fb60454d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-icons/zipball/58100d3278799e7a13771de6e6ca2865fb60454d",
-                "reference": "58100d3278799e7a13771de6e6ca2865fb60454d",
-                "shasum": ""
-            },
-            "require": {
-                "components/flag-icon-css": "*",
-                "fortawesome/font-awesome": "*",
-                "kartik-v/yii2-krajee-base": "*",
-                "yiisoft/yii2-jui": "*"
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "kartik\\icons\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD 3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Kartik Visweswaran",
-                    "email": "kartikv2@gmail.com",
-                    "homepage": "http://demos.krajee.com/"
-                }
-            ],
-            "description": "Set of icon frameworks for use in Yii Framework 2.0",
-            "homepage": "https://github.com/kartik-v/yii2-icons",
-            "keywords": [
-                "extension",
-                "font",
-                "icon",
-                "yii",
-                "yii2"
-            ],
-            "time": "2015-12-13 16:27:46"
-        },
-        {
             "name": "kartik-v/yii2-krajee-base",
             "version": "1.8.5",
             "source": {
@@ -971,53 +835,6 @@
             "time": "2016-05-07 19:45:52"
         },
         {
-            "name": "kartik-v/yii2-slider",
-            "version": "v1.3.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kartik-v/yii2-slider.git",
-                "reference": "81a2463294fa88a58d0ed8214254c8a6b63b7e89"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-slider/zipball/81a2463294fa88a58d0ed8214254c8a6b63b7e89",
-                "reference": "81a2463294fa88a58d0ed8214254c8a6b63b7e89",
-                "shasum": ""
-            },
-            "require": {
-                "kartik-v/yii2-krajee-base": "*"
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "kartik\\slider\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD 3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Kartik Visweswaran",
-                    "email": "kartikv2@gmail.com",
-                    "homepage": "http://www.krajee.com/"
-                }
-            ],
-            "description": "An advanced slider input for Yii Framework 2 for both touch enabled and desktop devices based on bootstrap-slider.",
-            "homepage": "https://github.com/kartik-v/yii2-slider",
-            "keywords": [
-                "bootstrap",
-                "bootstrap 3",
-                "extension",
-                "range",
-                "slider",
-                "widget",
-                "yii2"
-            ],
-            "time": "2016-01-10 17:24:24"
-        },
-        {
             "name": "kartik-v/yii2-tree-manager",
             "version": "dev-master",
             "source": {
@@ -1027,7 +844,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-tree-manager/zipball/3944915919d159879cb35db90f1d66f65904f4c6",
+                "url": "https://api.github.com/repos/kartik-v/yii2-tree-manager/zipball/f911e3eecc95e84b7ca3851d35d976dcabf8f4de",
                 "reference": "3944915919d159879cb35db90f1d66f65904f4c6",
                 "shasum": ""
             },
@@ -1130,7 +947,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/52606c8764a174aa0d5e6483ed811f617c74ee4e",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/4ccb7262716f405f51720956a453a61a1b48dd53",
                 "reference": "52606c8764a174aa0d5e6483ed811f617c74ee4e",
                 "shasum": ""
             },
@@ -1233,7 +1050,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-fileinput/zipball/14cda11159a217db3056160e0ec8303979a9febd",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-fileinput/zipball/b0fb41e4290fc4aa35a49a977bf4484cb30f8ff9",
                 "reference": "14cda11159a217db3056160e0ec8303979a9febd",
                 "shasum": ""
             },
@@ -1288,7 +1105,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/00c29bf2ea42df7be2ae6aa2b2be049807a8134b",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/5ca33a716188422e85560cdce0cb2110a998a618",
                 "reference": "f44fcca6778157ec6034cde0b78ec60a5230e36d",
                 "shasum": ""
             },
@@ -2115,6 +1932,92 @@
             }
         },
         {
+            "name": "components/flag-icon-css",
+            "version": "2.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lipis/flag-icon-css.git",
+                "reference": "836eca11ecf437ae3d0f0c93dd245ab00d94cee1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lipis/flag-icon-css/zipball/836eca11ecf437ae3d0f0c93dd245ab00d94cee1",
+                "reference": "836eca11ecf437ae3d0f0c93dd245ab00d94cee1",
+                "shasum": ""
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "name": "flag-icon-css",
+                    "files": [
+                        "less/**",
+                        "css/**",
+                        "flags/**"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Panayiotis Lipiridis (Lipis)",
+                    "email": "lipiridis@gmail.com"
+                }
+            ],
+            "description": "CSS for vector based country flags",
+            "time": "2016-05-18 13:50:30"
+        },
+        {
+            "name": "fortawesome/font-awesome",
+            "version": "v4.6.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FortAwesome/Font-Awesome.git",
+                "reference": "8e241f209faa1dd2182c9fdc9c352d8806504a4e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/8e241f209faa1dd2182c9fdc9c352d8806504a4e",
+                "reference": "8e241f209faa1dd2182c9fdc9c352d8806504a4e",
+                "shasum": ""
+            },
+            "require-dev": {
+                "jekyll": "1.0.2",
+                "lessc": "1.4.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.6.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "OFL-1.1",
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dave Gandy",
+                    "email": "dave@fontawesome.io",
+                    "homepage": "http://twitter.com/davegandy",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The iconic font and CSS framework",
+            "homepage": "http://fontawesome.io/",
+            "keywords": [
+                "FontAwesome",
+                "awesome",
+                "bootstrap",
+                "font",
+                "icon"
+            ],
+            "time": "2016-05-13 15:42:25"
+        },
+        {
             "name": "fzaninotto/faker",
             "version": "v1.6.0",
             "source": {
@@ -2161,6 +2064,101 @@
                 "fixtures"
             ],
             "time": "2016-04-29 12:21:54"
+        },
+        {
+            "name": "kartik-v/yii2-icons",
+            "version": "v1.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-icons.git",
+                "reference": "58100d3278799e7a13771de6e6ca2865fb60454d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-icons/zipball/58100d3278799e7a13771de6e6ca2865fb60454d",
+                "reference": "58100d3278799e7a13771de6e6ca2865fb60454d",
+                "shasum": ""
+            },
+            "require": {
+                "components/flag-icon-css": "*",
+                "fortawesome/font-awesome": "*",
+                "kartik-v/yii2-krajee-base": "*",
+                "yiisoft/yii2-jui": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "kartik\\icons\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD 3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://demos.krajee.com/"
+                }
+            ],
+            "description": "Set of icon frameworks for use in Yii Framework 2.0",
+            "homepage": "https://github.com/kartik-v/yii2-icons",
+            "keywords": [
+                "extension",
+                "font",
+                "icon",
+                "yii",
+                "yii2"
+            ],
+            "time": "2015-12-13 16:27:46"
+        },
+        {
+            "name": "kartik-v/yii2-slider",
+            "version": "v1.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-slider.git",
+                "reference": "81a2463294fa88a58d0ed8214254c8a6b63b7e89"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-slider/zipball/81a2463294fa88a58d0ed8214254c8a6b63b7e89",
+                "reference": "81a2463294fa88a58d0ed8214254c8a6b63b7e89",
+                "shasum": ""
+            },
+            "require": {
+                "kartik-v/yii2-krajee-base": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "kartik\\slider\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD 3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "An advanced slider input for Yii Framework 2 for both touch enabled and desktop devices based on bootstrap-slider.",
+            "homepage": "https://github.com/kartik-v/yii2-slider",
+            "keywords": [
+                "bootstrap",
+                "bootstrap 3",
+                "extension",
+                "range",
+                "slider",
+                "widget",
+                "yii2"
+            ],
+            "time": "2016-01-10 17:24:24"
         },
         {
             "name": "phpspec/php-diff",

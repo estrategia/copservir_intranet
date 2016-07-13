@@ -66,6 +66,9 @@ if (!Yii::$app->user->isGuest) {
                         </ul>
                         <ul class="nav quick-section">
                             <li class="quicklinks"> <span class="h-seperate"></span></li>
+                            <li>
+                              <?= $this->render('emisora', []); ?>
+                            </li>
                             <!--
                             <li class="m-r-10 input-prepend inside search-form no-boarder">
                                 <?= Html::beginForm(['contenido/buscador-noticias'], 'post', ['id' => 'formBuscadorNoticias']); ?>
@@ -119,7 +122,7 @@ if (!Yii::$app->user->isGuest) {
             </div><!-- END TOP NAVIGATION BAR -->
         </div>
         <!-- END HEADER -->
-        
+
         <!-- BEGIN CONTAINER -->
         <div class="page-container row-fluid">
             <!-- BEGIN SIDEBAR -->
@@ -134,17 +137,17 @@ if (!Yii::$app->user->isGuest) {
                         </div>
                     </div>
                     <!-- END MINI-PROFILE -->
-                    
+
                     <!-- BEGIN SIDEBAR MENU -->
                     <div class="clearfix"></div>
                     <ul>
                         <li><?= Html::a('<i class="icon-custom-home"></i> <span class="title">Inicio</span> <span class="selected"></span>', ['/intranet/sitio/index']) ?></li>
 			<li class=""> <a href="javascript:;"> <i class="fa fa-user-plus"></i> <span class="title">Menú Usuario</span> <span class="arrow "></span> </a>
                             <ul class="sub-menu">
-                                <li> 
+                                <li>
                                     <?= Html::a('<i class="fa fa-list-alt"></i> <span class="title">Mis Publicaciones</span> <span class="selected"></span>', ['/intranet/contenido/mis-publicaciones']) ?>
                                 </li>
-							
+
                                 <!-- li>
                                     <?= Html::a('<i class="fa fa-list-ul"></i> <span class="title">Mis Tareas</span> <span class="selected"></span>', ['/intranet/tareas/listar-tareas']) ?>
                                 </li -->
@@ -158,15 +161,15 @@ if (!Yii::$app->user->isGuest) {
                                 <li>
                                     <a href="http://intranet2.copservir.com/copservirportal/aplespecial/aplinternos/usrlogin_nueva_intranet.php?cedula=<?=Yii::$app->user->identity->numeroDocumento?>&seguir=168" target="_blank"><i class="fa fa-hourglass-start"></i> <span class="title">Mis Permisos</span> <span class="selected"></span></a>
                                 </li>
-                                <li> 
+                                <li>
                                     <?= Html::a('<i class="fa fa-file-pdf-o"></i> <span class="title">Mis Certificados</span> <span class="selected"></span>', ['/intranet/sitio/contenido?modulo=83']) ?>
                                 </li>
                                 <li>
                                     <a href="https://bancolombia.olb.todo1.com/olb/Init" target="_blank"><i class="fa fa-money"></i> <span class="title">Bancolombia</span> <span class="selected"></span></a>
-                                </li>								
-                                <li> 
+                                </li>
+                                <li>
                                     <?= Html::a('<i class="fa fa-cogs"></i> <span class="title">Aplicativos Internos</span> <span class="selected"></span>', ['/intranet/sitio/contenido?modulo=86']) ?>
-                                </li>									
+                                </li>
                             </ul>
                         </li>
 
@@ -213,16 +216,16 @@ if (!Yii::$app->user->isGuest) {
                     <!-- END SIDEBAR MENU -->
                 </div>
             </div>
-        
+
             <a href="#" class="scrollup">Scroll</a> <!-- END SIDEBAR -->
-            
+
             <!-- BEGIN PAGE CONTAINER-->
             <div class="page-content"><!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
                 <div class="content ">
                     <div class="page-title"></div>
                     <div id="container" class="">
                         <?php if(isset($this->params['breadcrumbs']) && !empty($this->params['breadcrumbs'])): ?>
-                            <?= 
+                            <?=
                             Breadcrumbs::widget([
                                 'itemTemplate' => "<li>{link}</li>\n",
                                 'homeLink' => [

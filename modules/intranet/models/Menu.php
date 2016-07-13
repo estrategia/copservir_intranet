@@ -166,8 +166,6 @@ class Menu extends \yii\db\ActiveRecord {
 
             return [
                 'title' => "
-                    <ol>
-                    <li>
                     <div class='panel-default'>
                     <div class=' panel-heading'>
                     <h6 class='panel-title' style='font-size: 13px;'>
@@ -176,9 +174,7 @@ class Menu extends \yii\db\ActiveRecord {
                     $htmlEditar
                     $htmlRelacion
                     </div>
-                    </div>
-                    </li>
-                    <ol>",
+                    </div>",
             ];
         } else { // tiene hijos
             $children = [];
@@ -194,7 +190,6 @@ class Menu extends \yii\db\ActiveRecord {
 
             return [
                 'title' => "
-                    <li>
                     <div class='panel-default'>
                     <div class=' panel-heading'>
                     <h6 class='panel-title' style='font-size: 13px;'>
@@ -207,7 +202,6 @@ class Menu extends \yii\db\ActiveRecord {
                     $htmlRelacion
                     </div>
                     </div>
-                    </li>
                     ",
                 'children' => $children,
                 'folder' => true

@@ -35,7 +35,7 @@ class MenuPortales extends \yii\db\ActiveRecord {
 
     public function rules() {
         return [
-            [['idPortal', 'nombre', 'urlMenu', 'tipo', 'icono', 'fechaInicio', 'fechaFin', 'estado', 'fechaRegistro'], 'required'],
+            [['idPortal', 'nombre', 'urlMenu', 'tipo', 'estado'], 'required'],
             [['idPortal', 'tipo', 'estado'], 'integer'],
             [['fechaInicio', 'fechaFin', 'fechaRegistro', 'fechaActualizacion'], 'safe'],
             [['nombre'], 'string', 'max' => 50],
@@ -98,7 +98,7 @@ class MenuPortales extends \yii\db\ActiveRecord {
     public static function traerMenuPortal($nombrePortal, $idMenu) {
         $objMenu = self::find()
                 ->joinWith(['objPortal'])
-                ->where("m_Portal.nombrePortal=:portal AND t_MenuPortales.idMenuPortales=:menu AND t_MenuPortales.estado=:estado", 
+                ->where("m_Portal.nombrePortal=:portal AND t_MenuPortales.idMenuPortales=:menu AND t_MenuPortales.estado=:estado",
                         [':portal'=>  $nombrePortal,':menu'=>$idMenu, ':estado' => self::APROBADO])
                 ->one();
 
@@ -109,7 +109,7 @@ class MenuPortales extends \yii\db\ActiveRecord {
     public function getUrlInterna($nombrePortal){
         return [ "/$nombrePortal/sitio/contenido?menu=".$this->idMenuPortales];
     }
-    
+
     public function getHtmlLink($portal){
         if($this->esExterno()){
             $urlMenu = Funciones::reemplazarPatronDocumentoUsuario($this->urlMenu);

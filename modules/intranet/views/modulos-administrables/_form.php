@@ -12,7 +12,9 @@ use yii\widgets\ActiveForm;
 <div class="">
     <?php $form = ActiveForm::begin(); ?>
     <input type='hidden' value='<?= $model->idModulo ?>' id='idGrupo' name='idGrupo'/>
+
     <?= $form->field($model, 'titulo')->textInput(['maxlength' => true]) ?>
+
     <?php if ($model->isNewRecord): ?>
         <?= $form->field($model, 'tipo')->dropDownList(Yii::$app->params['modulosContenido'], ['prompt' => 'Seleccione...',]) ?>
     <?php else: ?>
