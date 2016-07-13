@@ -11,7 +11,7 @@ $src = Yii::$app->homeUrl . 'img/multiportal/copservir/';
 
     <div class="col-md-4">
       <?= Html::a('
-      <img class="img-responsive" src="'.$src.'intranet.PNG" alt="">
+      <img class="img-responsive" style="margin:0 auto;" src="'.$src.'intranet.PNG" alt="">
       
       ', ['/intranet/sitio/index'])
       ?>      
@@ -19,14 +19,14 @@ $src = Yii::$app->homeUrl . 'img/multiportal/copservir/';
 
     <div class="col-md-4">
       <?= Html::a('
-      <img class="img-responsive" src="'.$src.'trabajo-social.PNG" alt="">
+      <img class="img-responsive" style="margin:0 auto;" src="'.$src.'trabajo-social.PNG" alt="">
       ', 'http://intranet2.copservir.com/fundacion/')
       ?>
     </div>
     
     <div class="col-md-4">
       <?= Html::a('
-      <img class="img-responsive" src="'.$src.'proveedor.PNG" alt="">
+      <img class="img-responsive" style="margin:0 auto;" src="'.$src.'proveedor.PNG" alt="">
       ', 'http://intranet2.copservir.com/proveedores/')
       ?>
     </div>
@@ -61,4 +61,5 @@ $src = Yii::$app->homeUrl . 'img/multiportal/copservir/';
 
     <!-- </div> -->
   </div>
+      <div class="space-2"></div>
 </section>
