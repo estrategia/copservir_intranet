@@ -41,7 +41,7 @@ $this->title = 'Recordar Clave';
         ?>
 
         <?= Html::submitButton('Enviar', ['class' => 'btn btn-primary btn-sm btn-block', 'name' => 'login-button']) ?>
-
+        <?= Html::a('Cancelar', ['usuario/autenticar'], ['class' => 'btn btn-danger btn-sm btn-block']) ?>
         </div>
 
         <?php ActiveForm::end(); ?>

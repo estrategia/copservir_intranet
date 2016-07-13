@@ -5,6 +5,12 @@
  */
 
 
+$(document).ready(function() {
+   window.location.hash="no-back-button";
+   window.location.hash="Again-No-back-button" //chrome
+   window.onhashchange=function(){window.location.hash="no-back-button";}
+});
+
 $(document).on('click', 'a[data-role="bloquear-tarjeta"]', function () {
 
     var dataTarjeta = $(this).attr('data-tarjeta');

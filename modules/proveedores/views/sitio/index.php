@@ -63,6 +63,6 @@ $srcProveedor = Yii::$app->homeUrl . 'img/multiportal/proveedores/proveedores.pn
 ?>
 <div class="space-2"></div>
 <!-- ALIADOS -->
-<?= $this->render('//common/_portales', []) ?>
+<?php //echo $this->render('//common/_portales', []) ?>
 <div class="space-1"></div>
 <!-- /ALIADOS -->

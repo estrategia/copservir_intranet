@@ -32,5 +32,7 @@ use yii\helpers\Html;
         </div>
     </div>
     <div class="space-2"></div>
+    <?= Html::a('Regresar a mis tarjetas', ['usuario/mis-tarjetas'], ['class' => 'btn btn-danger']) ?>
+    <div class="space-2"></div>
     <div class="space-2"></div>
 </div>

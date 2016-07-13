@@ -24,11 +24,11 @@ class MenuPortalesController extends Controller {
                      'admin', 'detalle', 'crear', 'actualizar', 'eliminar'
                  ],
                  'authsActions' => [
-                   'admin' => 'intranet_menu-portales',
-                   'detalle' => 'intranet_menu-portales',
-                   'crear' => 'intranet_menu-portales',
-                   'actualizar' => 'intranet_menu-portales',
-                   'eliminar' => 'intranet_menu-portales',
+                   'admin' => 'intranet_menu-portales_admin',
+                   'detalle' => 'intranet_menu-portales_admin',
+                   'crear' => 'intranet_menu-portales_admin',
+                   'actualizar' => 'intranet_menu-portales_admin',
+                   'eliminar' => 'intranet_menu-portales_admin',
                  ]
              ],
             'verbs' => [

@@ -45,6 +45,8 @@ $this->title = 'Actualiza tu información personal';
 
         <div class="form-group">
             <?= Html::submitButton('Actualizar', ['class' => 'btn btn-primary']) ?>
+            
+            <?= Html::a('Cancelar', ['usuario/index'], ['class' => 'btn btn-danger']) ?>
         </div>
 
         <?php ActiveForm::end(); ?>

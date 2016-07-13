@@ -24,12 +24,12 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
     <script> requestUrl = "<?= Yii::$app->getUrlManager()->getBaseUrl() ?>";</script>
+    <link rel="stylesheet" href="<?= Yii::$app->homeUrl. 'libs/font-awesome/css/font-awesome.min.css';?>">
   </head>
   <body>
     <?php $this->beginBody() ?>
     <!-- NAVBAR -->
     <div class="navbar-wrapper">
-
         <nav class="navbar navbar-coop navbar-static-top nav-green">  
           <div class="white-piece coop" style="border-radius: 0px;border: none;"></div>
           <div class="container-fluid coop">
@@ -40,11 +40,19 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-                <?= Html::a("<img src='$srcLogo' class='logo-coop' style='height:80px;'>", ['/coopservir/sitio/index'],['class'=>'navbar-brand']) ?>
+                <?= Html::a("<img src='$srcLogo' class='logo-coop'>", ['/coopservir/sitio/index'],['class'=>'navbar-brand']) ?>
                 <?= Html::a("<img src='$srcLogoMovil' class='logo-coop-movil'>", ['/coopservir/sitio/index'],['class'=>'navbar-brand']) ?>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
+                <li><?= Html::a('Inicio', ['/']) ?></li>
+                <?php foreach (MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id) as $itemMenu): ?>
+                  <li>
+                    <?php echo $itemMenu->getHtmlLink(Yii::$app->controller->module->id) ?>
+                  </li>
+                <?php endforeach; ?>
+              </ul>
+              <!--<ul class="nav navbar-nav">
                 <li><?= Html::a('Propósito', ['acerca-de']) ?></li>
                 <li><?= Html::a('Visión', ['vision']) ?></li>                
                 <li><?= Html::a('Historia', ['historia']) ?></li>
@@ -52,12 +60,7 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
                 <li><?= Html::a('Compromiso social', ['compromiso']) ?></li>
                 <li><?= Html::a('Gestión', ['gestion-ambiental']) ?></li>
                 <li><?= Html::a('Sector cooperativo', ['sector-coperativo']) ?></li>
-                <?php foreach (MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id) as $itemMenu): ?>
-                  <li>
-                    <?= $itemMenu->getHtmlLink(Yii::$app->controller->module->id) ?>
-                  </li>
-                <?php endforeach; ?>
-              </ul>
+              </ul>-->
             </div>
           </div>
         </nav>
@@ -72,7 +75,7 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
     <!-- FOOTER -->
     <footer>
         <div class="footer-top footer-copservir" style="height:438px;">
-        <div class="container marketing">
+        <div class="container">
             <div class="col-md-1 col-md-offset-2">      </div>
             <div class="col-sm-6 col-md-3 col-lg-5">
                 <div class="row direcciones-coop">

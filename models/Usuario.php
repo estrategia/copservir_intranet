@@ -11,6 +11,7 @@ use yii\data\ActiveDataProvider;
 use app\modules\intranet\models\GrupoInteresCargo;
 use app\modules\intranet\models\UsuarioWidgetInactivo;
 use app\modules\tarjetamas\models\UsuarioTarjetaMas;
+
 /**
  * This is the model class for table "m_usuario".
  *
@@ -69,12 +70,12 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
     }
 
     /*
-    public function init() {
-        Event::on(\yii\web\User::className(), \yii\web\User::EVENT_AFTER_LOGIN, function ($event) {
-            $this->generarDatos();
-        });
-    }
-    */
+      public function init() {
+      Event::on(\yii\web\User::className(), \yii\web\User::EVENT_AFTER_LOGIN, function ($event) {
+      $this->generarDatos();
+      });
+      }
+     */
 
     private function restaurarSesion() {
         $userdata = \Yii::$app->session->get('user.data');
@@ -91,79 +92,74 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
                 $infoPersona = self::callWSInfoPersona($this->numeroDocumento);
 
                 if (empty($infoPersona)) {
-                  return false;
-                }else{
-                  $this->data['personal']['nombres'] = $infoPersona['Nombres'];
-                  $this->data['personal']['primerApellido'] = $infoPersona['PrimerApellido'];
-                  $this->data['personal']['segundoApellido'] = $infoPersona['SegundoApellido'];
-                  $this->data['personal']['correoPersonal'] = $infoPersona['CorreoPersonal'];
+                    return false;
+                } else {
+                    $this->data['personal']['nombres'] = $infoPersona['Nombres'];
+                    $this->data['personal']['primerApellido'] = $infoPersona['PrimerApellido'];
+                    $this->data['personal']['segundoApellido'] = $infoPersona['SegundoApellido'];
+                    $this->data['personal']['correoPersonal'] = $infoPersona['CorreoPersonal'];
 
-                  foreach ($infoPersona['NumeroTelefono'] as $key => $value) {
-                    $this->data['personal']['celular'] .= $value.", ";
-                  }
-                  $this->data['personal']['residencia'] = $infoPersona['Direccion'];
-                  $this->data['personal']['ciudad']['nombre'] = $infoPersona['Ciudad'];
-                  $this->data['personal']['ciudad']['codigo'] = $infoPersona['Codigo'];
-                  $this->data['personal']['fechaCumpleanhos'] = $infoPersona['FechaNacimiento'];
+                    foreach ($infoPersona['NumeroTelefono'] as $key => $value) {
+                        $this->data['personal']['celular'] .= $value . ", ";
+                    }
+                    $this->data['personal']['residencia'] = $infoPersona['Direccion'];
+                    $this->data['personal']['ciudad']['nombre'] = $infoPersona['Ciudad'];
+                    $this->data['personal']['ciudad']['codigo'] = $infoPersona['Codigo'];
+                    $this->data['personal']['fechaCumpleanhos'] = $infoPersona['FechaNacimiento'];
 
-                  //$this->data['academica']['profesion'] = "Ingeniero de sistemas y ciencias de la computación";
-                  //$this->data['academica']['estudiosSuperiores'] = "Universidad del valle sede Melendez";
-                  $this->data['academica']['profesion'] = "";
-                  $this->data['academica']['estudiosSuperiores'] = "";
+                    //$this->data['academica']['profesion'] = "Ingeniero de sistemas y ciencias de la computación";
+                    //$this->data['academica']['estudiosSuperiores'] = "Universidad del valle sede Melendez";
+                    $this->data['academica']['profesion'] = "";
+                    $this->data['academica']['estudiosSuperiores'] = "";
 
-                  $this->data['laboral']['cargo']['codigo'] = $infoPersona['CodigoCargo'];
-                  $this->data['laboral']['cargo']['nombre'] = $infoPersona['Cargo'];
-                  $this->data['laboral']['area']['nombre'] = "";
-                  $this->data['laboral']['fechaVinculacion']  = $infoPersona['FechaVinculacion'];
-                  $this->data['laboral']['jefeInmediato']['numeroIdentificacion'] = "";
-                  $this->data['laboral']['jefeInmediato']['nombre'] = "";
-                  $this->data['laboral']['extension'] = "";
-                  $this->data['laboral']['correoElectronico'] = $infoPersona['Email'];
+                    $this->data['laboral']['cargo']['codigo'] = $infoPersona['CodigoCargo'];
+                    $this->data['laboral']['cargo']['nombre'] = $infoPersona['Cargo'];
+                    $this->data['laboral']['area']['nombre'] = "";
+                    $this->data['laboral']['fechaVinculacion'] = $infoPersona['FechaVinculacion'];
+                    $this->data['laboral']['jefeInmediato']['numeroIdentificacion'] = "";
+                    $this->data['laboral']['jefeInmediato']['nombre'] = "";
+                    $this->data['laboral']['extension'] = "";
+                    $this->data['laboral']['correoElectronico'] = $infoPersona['Email'];
 
-                  $this->data['sesionRestaurada'] = true;
+                    $this->data['sesionRestaurada'] = true;
 
-                  $listGrupoInteresCargo = GrupoInteresCargo::find()->where("idCargo=:cargo", [':cargo' => $this->data['laboral']['cargo']['codigo']])->all();
-                  $this->data['gruposInteres'] = [];
+                    $listGrupoInteresCargo = GrupoInteresCargo::find()->where("idCargo=:cargo", [':cargo' => $this->data['laboral']['cargo']['codigo']])->all();
+                    $this->data['gruposInteres'] = [];
 
-                  foreach ($listGrupoInteresCargo as $objGrupoInteresCargo) {
-                      $this->data['gruposInteres'][] = $objGrupoInteresCargo->idGrupoInteres;
-                  }
+                    foreach ($listGrupoInteresCargo as $objGrupoInteresCargo) {
+                        $this->data['gruposInteres'][] = $objGrupoInteresCargo->idGrupoInteres;
+                    }
 
-                  \Yii::$app->session->set('user.data', $this->data);
-                  return true;
+                    \Yii::$app->session->set('user.data', $this->data);
+                    return true;
                 }
+            } catch (SoapFault $exc) {
 
+                Yii::error($exc->getMessage());
+                return false;
+            } catch (Exception $ex) {
 
-            }catch (SoapFault $exc) {
-
-              Yii::error($exc->getMessage());
-              return false;
-           } catch (Exception $ex) {
-
-              Yii::error($ex->getMessage());
-              return false;
+                Yii::error($ex->getMessage());
+                return false;
             }
-
         }
     }
 
     /**
-    * Funcion para consumir un web services para traer la informacion de un usuario s
-    * @param string $numeroDocumento
-    * @return array
-    */
-    public static function callWSInfoPersona($numeroDocumento)
-    {
-      $client = new \SoapClient(\Yii::$app->params['webServices']['persona'], array(
-          "trace" => 1,
-          "exceptions" => 0,
-          'connection_timeout' => 5,
-          'cache_wsdl' => WSDL_CACHE_NONE
-      ));
+     * Funcion para consumir un web services para traer la informacion de un usuario s
+     * @param string $numeroDocumento
+     * @return array
+     */
+    public static function callWSInfoPersona($numeroDocumento) {
+        $client = new \SoapClient(\Yii::$app->params['webServices']['persona'], array(
+            "trace" => 1,
+            "exceptions" => 0,
+            'connection_timeout' => 5,
+            'cache_wsdl' => WSDL_CACHE_NONE
+        ));
 
-      $result = $client->getPersonaWithModel($numeroDocumento, true, null);
-      return $result;
-
+        $result = $client->getPersonaWithModel($numeroDocumento, true, null);
+        return $result;
     }
 
     public function rules() {
@@ -209,20 +205,16 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
         $idUsuario = Yii::$app->user->identity->numeroDocumento;
         $fecha = Date("Y-m-d H:i:s");
 
-        $query = self::find()
-                        ->where("(
-    estado=:estado
-    and numeroDocumento not in (select numeroDocumentoDirigido from `t_ContenidoRecomendacion`
-    where (`fechaRegistro` <=:fechaRegistro) and (`idContenido`=:idContenido))
-    and numeroDocumento !=:idUsuario )")
-                        ->addParams([':estado' => 1, ':idUsuario' => $idUsuario, ':fechaRegistro' => $fecha, ':idContenido' => $idContenido])->all();
+        $query = self::find()->where("(estado=:estado
+        and numeroDocumento not in (select numeroDocumentoDirigido from `t_ContenidoRecomendacion`
+        where (`fechaRegistro` <=:fechaRegistro) and (`idContenido`=:idContenido))
+        and numeroDocumento !=:idUsuario )")->addParams([':estado' => 1, ':idUsuario' => $idUsuario, ':fechaRegistro' => $fecha, ':idContenido' => $idContenido])->all();
 
         return $query;
     }
 
-
-    public function getObjUsuarioTarjetaMas(){
-      return $this->hasOne(UsuarioTarjetaMas::className(), ['numeroDocumento' => 'numeroDocumento']);
+    public function getObjUsuarioTarjetaMas() {
+        return $this->hasOne(UsuarioTarjetaMas::className(), ['numeroDocumento' => 'numeroDocumento']);
     }
 
     public static function findIdentity($id) {
@@ -244,20 +236,20 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
     }
 
     /*
-    public static function dataProviderFindAllUsers() {
+      public static function dataProviderFindAllUsers() {
 
-        $query = static::find()->where(['AND', ['=', 'estado', 1]]);
+      $query = static::find()->where(['AND', ['=', 'estado', 1]]);
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => 10,
-            ],
-        ]);
+      $dataProvider = new ActiveDataProvider([
+      'query' => $query,
+      'pagination' => [
+      'pageSize' => 10,
+      ],
+      ]);
 
-        return $dataProvider;
-    }
-    */
+      return $dataProvider;
+      }
+     */
 
     public function getId() {
         return $this->getPrimaryKey();
@@ -449,25 +441,24 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
 
         if ($this->codigoPerfil == \Yii::$app->params['PerfilesUsuario']['intranet']['codigo']) {
             \Yii::$app->authManager->defaultRoles = [\Yii::$app->params['PerfilesUsuario']['intranet']['permiso']];
-        }elseif ($this->codigoPerfil == \Yii::$app->params['PerfilesUsuario']['tarjetaMas']['codigo']) {
-          \Yii::$app->authManager->defaultRoles = [\Yii::$app->params['PerfilesUsuario']['tarjetaMas']['permiso']];
+        } elseif ($this->codigoPerfil == \Yii::$app->params['PerfilesUsuario']['tarjetaMas']['codigo']) {
+            \Yii::$app->authManager->defaultRoles = [\Yii::$app->params['PerfilesUsuario']['tarjetaMas']['permiso']];
         }
 
 
         return Yii::$app->authManager->checkAccess($this->numeroDocumento, $nombrePermiso);
     }
 
-    public function getRoles(){
+    public function getRoles() {
         return Yii::$app->authManager->getRolesByUser($this->numeroDocumento);
     }
 
-    public function generarCodigoRecuperacion()
-    {
-      $fecha = new \DateTime();
-      $fecha->modify('+ 1 day');
-      $codigoRecuperacion = md5($this->numeroDocumento . '~' . $fecha->format('YmdHis'));
+    public function generarCodigoRecuperacion() {
+        $fecha = new \DateTime();
+        $fecha->modify('+ 1 day');
+        $codigoRecuperacion = md5($this->numeroDocumento . '~' . $fecha->format('YmdHis'));
 
-      return $codigoRecuperacion;
+        return $codigoRecuperacion;
     }
 
 }

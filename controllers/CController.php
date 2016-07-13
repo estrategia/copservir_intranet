@@ -67,10 +67,12 @@ abstract class CController extends Controller {
         $objMenu = \app\modules\intranet\models\MenuPortales::traerMenuPortal($this->module->id,$idMenu);
         
         if($objMenu===null){
-            throw new \yii\web\HttpException(404, 'Contenido no disponible en ' . $this->module->id);
+            throw new \yii\web\HttpException(404, 'Men&uacute; no disponible en ' . $this->module->id);
         }
         
-        $listModulos = \app\modules\intranet\models\ModuloContenido::getModulosGrupo($objMenu->urlMenu);
+        return $this->verModulo($objMenu->urlMenu);
+        
+        /*$listModulos = \app\modules\intranet\models\ModuloContenido::getModulosGrupo($objMenu->urlMenu);
         $objModulo = \app\modules\intranet\models\ModuloContenido::getModulo($objMenu->urlMenu);
         
         if (empty($listModulos) || $objModulo===null) {
@@ -80,7 +82,7 @@ abstract class CController extends Controller {
         return $this->render('//common/contenido/modulos', array(
             'listModulos' => $listModulos,
             'tituloGrupo' => $objModulo->titulo
-        ));
+        ));*/
     }
     
     private function verModulo($idModulo){
