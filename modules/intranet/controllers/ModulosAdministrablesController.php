@@ -136,7 +136,7 @@ class ModulosAdministrablesController extends Controller {
                         Yii::$app->session->setFlash('error', "Error al guardar HTML." . \yii\helpers\Json::encode($model->getErrors()));
                     }
                 }
-            } else if ($model->tipo == ModuloContenido::TIPO_DATATABLE) {
+            } else if ($model->tipo == ModuloContenido::TIPO_DATATABLE || $model->tipo == ModuloContenido::TIPO_DATATABLE_CEDULA) {
                 $params['opcion'] = 'contenido';
                 $params['vista'] = '_dataTable';
 

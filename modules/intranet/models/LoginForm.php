@@ -183,7 +183,7 @@ class LoginForm extends Model {
     $nombres = explode(" ", $nombres);
 
     foreach($nombres as $n){
-      $alias .= $n[0];
+      $alias .=  substr($n, 0, 1);
     }
 
     $alias .= $primerApellido;

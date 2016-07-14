@@ -21,6 +21,7 @@ class ModuloContenido extends \yii\db\ActiveRecord {
     const TIPO_HTML = 1;
     const TIPO_DATATABLE = 2;
     const TIPO_GROUP_MODULES = 3;
+    const TIPO_DATATABLE_CEDULA = 4;
 
     public static function tableName() {
         return 'm_ModuloContenido';
