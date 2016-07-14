@@ -18,19 +18,16 @@ class ParametrosController extends Controller
             [
                 'class' => \app\components\AccessFilter::className(),
             ],
-            /*
             [
                  'class' => \app\components\AuthItemFilter::className(),
                  'only' => [
                      'admin', 'actualizar'
                  ],
                  'authsActions' => [
-                   'admin' => '',
-                   'actualizar' => '',
-
+                   'admin' => 'intranet_parametros_admin',
+                   'actualizar' => 'intranet_parametros_admin',
                  ]
              ],
-             */
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

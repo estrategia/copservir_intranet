@@ -53,8 +53,8 @@ class SitioController extends \app\controllers\CController {
                      'publicar-portales' => 'intranet_sitio_publicar-portales',
                      'publicar-portales-crear' => 'intranet_sitio_publicar-portales',
                      'publicar-portales-actualizar' => 'intanet_sitio_publicar-portales',
-                     'administrar-menu' => 'intranet_sitio_administrar-menu'
-
+                     'administrar-menu' => 'intranet_sitio_administrar-menu',
+                     'iconos' => 'intranet_sitio_iconos',
                  ]
              ],
         ];

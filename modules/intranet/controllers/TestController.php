@@ -33,6 +33,24 @@ class TestController extends Controller {
         VarDumper::dump($userGrupos,10,true);
         echo "<br><br>";
         
+        $db = Yii::$app->db;
+        $banners = $db->createCommand('select distinct pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia
+        from t_CampanasDestino as pcc, t_PublicacionesCampanas as pc
+        where (pcc.idImagenCampana = pc.idImagenCampana and pc.fechaInicio<=:fecha and pc.fechaFin >=:fecha and pc.estado=:estado and pc.posicion =:posicion
+        and (( pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:userCiudad) or ( pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:userCiudad)  )  )
+        order by rand()')
+        ->bindValue(':userCiudad', $userCiudad)
+        ->bindValue(':userGrupos', implode(',', $userGrupos))
+        ->bindValue(':estado', PublicacionesCampanas::ESTADO_ACTIVO)
+        ->bindValue(':posicion', PublicacionesCampanas::POSICION_ARRIBA)
+        ->bindValue(':fecha', date('Y-m-d H:i:s'))
+        ->bindValue('todosCiudad', \Yii::$app->params['ciudad']['*'])
+        ->bindValue('todosGrupos', \Yii::$app->params['grupo']['*']);
+
+        var_dump($banners->rawSql);
+        
+        echo "<br><br>";
+        
         
         $listGrupoInteresCargo = GrupoInteresCargo::find()->all();
         
@@ -48,8 +66,8 @@ class TestController extends Controller {
         
     }
     
-    public function actionUsuario(){
-        $infoUsuario = \app\models\Usuario::callWSInfoPersona(1033746784);
+    public function actionUsuario($cedula){
+        $infoUsuario = \app\models\Usuario::callWSInfoPersona($cedula);
         VarDumper::dump($infoUsuario,10,true);
         
     }
