@@ -31,8 +31,8 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
     <!-- NAVBAR -->
     <div class="navbar-wrapper">
         <nav class="navbar navbar-coop navbar-static-top nav-green">  
-          <div class="white-piece coop" style="border-radius: 0px;border: none;"></div>
-          <div class="container-fluid coop">
+          <div class="coop" style="border-radius: 0px;border: none;"></div>
+          <div class="container coop">
             <div class="navbar-header" style="margin:0px !important;">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
@@ -40,12 +40,13 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-                <?= Html::a("<img src='$srcLogo' class='logo-coop'>", ['/coopservir/sitio/index'],['class'=>'navbar-brand']) ?>
-                <?= Html::a("<img src='$srcLogoMovil' class='logo-coop-movil'>", ['/coopservir/sitio/index'],['class'=>'navbar-brand']) ?>
+                <?= Html::a("<img src='$srcLogoMovil' class='logo-coop'>", ['/coopservir/sitio/index'],['class'=>'navbar-brand']) ?>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-                <li><?= Html::a('Inicio', ['/']) ?></li>
+                <li><?= Html::a('Intranet', ['/']) ?></li>
+                <li><?= Html::a('Asociado', ['/']) ?></li>
+                <li><?= Html::a('Proveedor', ['/']) ?></li>
                 <?php foreach (MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id) as $itemMenu): ?>
                   <li>
                     <?php echo $itemMenu->getHtmlLink(Yii::$app->controller->module->id) ?>
