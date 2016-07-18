@@ -16,6 +16,7 @@ return [
         'claseColor' => ['info', 'succes', 'danger']
     ],
     'contenido' => [
+        'diasNoticias' => 7,
         'aniosBusqueda' => 5,
         'imagen' => [
             'ancho' => 1024,//pixeles

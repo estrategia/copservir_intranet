@@ -131,9 +131,15 @@ class Contenido extends \yii\db\ActiveRecord {
     //CONSULTAS
 
     public static function traerNoticias($idLineaTiempo) {
+
+      $fecha = new \DateTime;
+      $fecha->modify('-'.\Yii::$app->params['contenido']['diasNoticias'].' days');
+
+
+
         return $noticias = self::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listMeGusta', 'listComentarios', 'listMeGustaUsuario', 'objDenuncioComentarioUsuario', 'objContenidoAdjuntoImagenes'])
                 ->joinWith(['listContenidosDestinos'])->where(
-                        " fechaInicioPublicacion<=now() AND idLineaTiempo =:idLineaTiempo AND estado=:estado AND
+                        " fechaInicioPublicacion<=now() AND fechaInicioPublicacion >=:fecha AND idLineaTiempo =:idLineaTiempo AND estado=:estado AND
     (
     (t_ContenidoDestino.codigoCiudad =:ciudad AND t_ContenidoDestino.idGrupoInteres IN (" . implode(", ", Yii::$app->user->identity->getGruposCodigos()) . ")) OR
     (t_ContenidoDestino.codigoCiudad =:ciudad AND t_ContenidoDestino.idGrupoInteres=:gruposA ) OR
@@ -142,6 +148,7 @@ class Contenido extends \yii\db\ActiveRecord {
     )"
                 )
                 ->addParams([':estado' => self::APROBADO,
+                    ':fecha' => $fecha->format('Y-m-d H:i:s'),
                     ':ciudad' => Yii::$app->user->identity->getCiudadCodigo(),
                     ':idLineaTiempo' => $idLineaTiempo,
                     ':ciudadA' => Yii::$app->params['ciudad']['*'],

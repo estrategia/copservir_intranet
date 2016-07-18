@@ -210,7 +210,9 @@ class SitioController extends \app\controllers\CController {
         $respond = [];
 
         if ($contenido->load(Yii::$app->request->post())) {
+
             $lineaTiempo = LineaTiempo::findOne($contenido->idLineaTiempo);
+            $contenidodestino = Yii::$app->request->post('ContenidoDestino');
 
             if ($lineaTiempo->solicitarGrupoObjetivo==1 && empty($contenidodestino['codigoCiudad']) && empty($contenidodestino['idGrupoInteres'])) {
                 $respond = [
@@ -239,7 +241,7 @@ class SitioController extends \app\controllers\CController {
 
                     if ($solicitarGrupo == 1) {
 
-                        $contenidodestino = Yii::$app->request->post('ContenidoDestino');
+                        //$contenidodestino = Yii::$app->request->post('ContenidoDestino');
                         $contenido->guardarContenidoDestino($contenidodestino);
 
                     } else {
