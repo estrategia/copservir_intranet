@@ -56,7 +56,7 @@ class ContenidoEmergente extends \yii\db\ActiveRecord
     return $this->hasMany(ContenidoEmergenteDestino::className(), ['idContenidoEmergente' => 'idContenidoEmergente']);
   }
 
-  public function getTContenidoemergentevistos()
+  public function getObjContenidoemergentevistos()
   {
     return $this->hasMany(ContenidoEmergenteVisto::className(), ['idContenidoEmergente' => 'idContenidoEmergente']);
   }
@@ -70,6 +70,7 @@ class ContenidoEmergente extends \yii\db\ActiveRecord
   */
   public static function getContenidoEmergente($userCiudad, $userGrupos, $userNumeroDocumento)
   {
+
     $db = Yii::$app->db;
     $query = $db->createCommand('select distinct c.idContenidoEmergente, c.contenido
     from  m_ContenidoEmergente as c
@@ -86,5 +87,6 @@ class ContenidoEmergente extends \yii\db\ActiveRecord
     ->queryOne();
 
     return $query;
+
   }
 }

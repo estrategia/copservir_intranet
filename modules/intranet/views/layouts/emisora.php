@@ -29,12 +29,14 @@
   //si existe la cedula en el csv no muestra nada
   //$html .='No Mostrar';
   //}
+
+
   if($ipNegado == 192) {
   $html .='<div align="right" style="width:87%; margin: 0 auto;">
         <table>
           <tr>
             <td>
-              <img src="http://www.copservir.com/intranet/docs/img/boton_en_vivo_copservir.png" alt="Radio Copservir">
+              <img src="'.Yii::getAlias('@web').'/img/boton_emisora_copservir.png'.'" alt="Radio Copservir">
             </td>
             <td bgcolor="#585556">
               <audio id="audio-player" controls="controls" autoplay="true" style="width: 180px; height: 28px;">
