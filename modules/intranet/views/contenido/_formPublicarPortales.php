@@ -9,8 +9,8 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use kartik\file\FileInput;
 
-$maxFileCount = Parametros::obtenerValorParametro('contenido_maxFileCount');
-$maxFileSize = Parametros::obtenerValorParametro('contenido_maxFileSize');
+//$maxFileCount = Parametros::obtenerValorParametro('contenido_maxFileCount');
+//$maxFileSize = Parametros::obtenerValorParametro('contenido_maxFileSize');
 
 // para el preview de las imagenes
 if (!$contenidoModel->isNewRecord) {
@@ -74,9 +74,9 @@ if (!$contenidoModel->isNewRecord) {
     'options' => ['multiple' => true, 'accept' => 'image/*'],
     'pluginOptions' => [
       'uploadAsync'=>false,
-      'maxFileCount' => $maxFileCount,
+      //'maxFileCount' => $maxFileCount,
       'validateInitialCount'=> true,
-      'maxFileSize' => $maxFileSize,
+      //'maxFileSize' => $maxFileSize,
       'previewFileType' => 'image',
       'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
       'browseLabel' =>  '',
@@ -107,9 +107,9 @@ if (!$contenidoModel->isNewRecord) {
         'initialPreview'=> $imagenesPreview,
         'initialPreviewConfig' => $initialConfig,
         'uploadAsync'=>false,
-        'maxFileCount' => $maxFileCount,
+        //'maxFileCount' => $maxFileCount,
         'validateInitialCount'=> true,
-        'maxFileSize' => $maxFileSize,
+        //'maxFileSize' => $maxFileSize,
         'previewFileType' => 'image',
         'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
         'browseLabel' =>  '',
