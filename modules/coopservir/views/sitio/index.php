@@ -61,7 +61,11 @@ $srcSlide = Yii::$app->homeUrl . 'img/multiportal/copservir/';
              </div>
               <div class="col-md-6">
                    <div>
-                    <h2 style="color:#23B149;font-size: 38px;font-weight: bold;">Somos ejemplo de permanencia, fortaleza y consolidación.</h2>
+                   <ul class="list-cop">
+                     <li>
+                        <h2 style="color:#23B149;font-size: 38px;font-weight: bold;margin:0px;">Somos ejemplo de permanencia, fortaleza y consolidación.</h2>
+                     </li>
+                   </ul>
                     <div class="space-1"></div>
                     <p>Somos Copservir Ltda, una de las más importantes cooperativas del país. Desde hace más de 20 años comercializamos productos y servicios bajo la marca comercial La Rebaja Droguerías y Minimarkets.</p>
                     <p>Nuestra consolidación empresarial y cooperativa, se puede evidenciar en nuestra expansión por el territorio Colombiano, llegando a más de 170 municipios del País generando así más de 6.000 empleos 

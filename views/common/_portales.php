@@ -10,30 +10,19 @@ $src = Yii::$app->homeUrl . 'img/multiportal/copservir/';
     <!-- <div id="owl-portales" class="owl-carousel"> -->
 
     <div class="col-md-4">
-      <?= Html::a('
-      <img class="img-responsive" style="margin:0 auto;" src="'.$src.'intranet.PNG" alt="">
-      
-      ', ['/intranet/sitio/index'])
-      ?>      
+      <?= Html::a('<img class="img-responsive" style="margin:0 auto;" src="'.$src.'intranet.PNG" alt="">', ['/intranet/sitio/index'])?>
+      <p style="font-weight:bolder;">Intranet</p>      
     </div>
 
     <div class="col-md-4">
-      <?= Html::a('
-      <img class="img-responsive" style="margin:0 auto;" src="'.$src.'trabajo-social.PNG" alt="">
-      ', 'http://intranet2.copservir.com/fundacion/')
-      ?>
+      <?= Html::a('<img class="img-responsive" style="margin:0 auto;" src="'.$src.'trabajo-social.PNG" alt="">', 'http://intranet2.copservir.com/fundacion/')?>
+      <p style="font-weight:bolder;">Responsabilidad Social</p> 
     </div>
     
     <div class="col-md-4">
-      <?= Html::a('
-      <img class="img-responsive" style="margin:0 auto;" src="'.$src.'proveedor.PNG" alt="">
-      ', 'http://intranet2.copservir.com/proveedores/')
-      ?>
+      <?= Html::a('<img class="img-responsive" style="margin:0 auto;" src="'.$src.'proveedor.PNG" alt="">', 'http://intranet2.copservir.com/proveedores/')?>
+      <p style="font-weight:bolder;">Proveedores</p> 
     </div>
-
-
-
-
 
      <!--  <div class="item dodgerBlue">
           <a href="#" ><img src="http://placehold.it/200x150" alt=""></a>
