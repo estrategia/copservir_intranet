@@ -32,15 +32,15 @@ class ModulosAdministrablesController extends Controller {
                      'admin', 'detalle', 'crear', 'actualizar', 'eliminar' , 'agregar-modulo', 'eliminar-modulo', 'editar-modulo'
                  ],
                  'authsActions' => [
-                   'admin' => 'intranet_modulos-administrables',
-                   'detalle' => 'intranet_modulos-administrables',
-                   'crear' => 'intranet_modulos-administrables',
-                   'actualizar' => 'intranet_modulos-administrables',
-                   'eliminar' => 'intranet_modulos-administrables',
-                   'agregar-modulo' => 'intranet_modulos-administrables',
-                   'editar-modulo' => 'intranet_modulos-administrables',
-                   'eliminar-modulo' => 'intranet_modulos-administrables',
-                   'ver-contenido' => 'intranet_modulos-administrables'
+                   'admin' => 'intranet_modulos-administrables_admin',
+                   'detalle' => 'intranet_modulos-administrables_admin',
+                   'crear' => 'intranet_modulos-administrables_admin',
+                   'actualizar' => 'intranet_modulos-administrables_admin',
+                   'eliminar' => 'intranet_modulos-administrables_admin',
+                   'agregar-modulo' => 'intranet_modulos-administrables_admin',
+                   'editar-modulo' => 'intranet_modulos-administrables_admin',
+                   'eliminar-modulo' => 'intranet_modulos-administrables_admin',
+                   'ver-contenido' => 'intranet_modulos-administrables_admin'
                  ]
              ],
             'verbs' => [

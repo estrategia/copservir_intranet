@@ -18,21 +18,19 @@ class IndicadoresController extends Controller
           [
               'class' => \app\components\AccessFilter::className(),
           ],
-          /*
           [
                'class' => \app\components\AuthItemFilter::className(),
                'only' => [
                    'admin', 'detalle', 'crear', 'actualizar', 'eliminar'
                ],
                'authsActions' => [
-               'admin' => '',
-               'detalle' => '',
-               'crear' => '',
-               'actualizar' => '',
-               'eliminar' => '',
+                'admin' => 'intranet_indicadores_admin',
+                'detalle' => 'intranet_indicadores_admin',
+                'crear' => 'intranet_indicadores_admin',
+                'actualizar' => 'intranet_indicadores_admin',
+                'eliminar' => 'intranet_indicadores_admin',
                ]
            ],
-           */
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

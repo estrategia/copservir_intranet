@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ce513eca64f3dce245c1451c89fc17c7",
+    "hash": "4ec85609a82fd3d351f5792c544d34b0",
     "content-hash": "4abd55da43b2f7ca2bc51468befa2096",
     "packages": [
         {
@@ -1050,7 +1050,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-fileinput/zipball/b0fb41e4290fc4aa35a49a977bf4484cb30f8ff9",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-fileinput/zipball/3b8f6819f2cd01becff5251b8b952ac3e57b903a",
                 "reference": "14cda11159a217db3056160e0ec8303979a9febd",
                 "shasum": ""
             },

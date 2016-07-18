@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Cambiar clave')];
 
 <div class="col-md-12">
   <div class="page-title">
-    <h4> Actualiza tu clave de acceso</h4>
+    <h4> Actualiza tu contraseña</h4>
   </div>
 
   <?= $this->render('/common/errores', []) ?>
