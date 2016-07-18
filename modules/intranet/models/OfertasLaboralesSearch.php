@@ -19,7 +19,7 @@ class OfertasLaboralesSearch extends OfertasLaborales
     {
         return [
             [['idOfertaLaboral', 'numeroDocumento', 'idInformacionContacto'], 'integer'],
-            [['fechaPublicacion', 'estado','idCiudad','nombreCargo', 'idArea', 'fechaCierre', 'fechaInicioPublicacion', 'fechaFinPublicacion', 'tituloOferta', 'urlElEmpleo', 'descripcionContactoOferta'], 'safe'],
+            [['fechaPublicacion', 'estado','idCiudad','nombreCargo', 'fechaCierre', 'fechaInicioPublicacion', 'fechaFinPublicacion', 'tituloOferta', 'urlElEmpleo', 'descripcionContactoOferta'], 'safe'],
         ];
     }
 
@@ -74,7 +74,7 @@ class OfertasLaboralesSearch extends OfertasLaborales
 
         $query->andFilterWhere(['like', 'nombreCiudad', $this->idCiudad]);
         $query->andFilterWhere(['like', 'nombreCargo', $this->nombreCargo]);
-        $query->andFilterWhere(['like', 'idArea', $this->idArea]);
+        //$query->andFilterWhere(['like', 'idArea', $this->idArea]);
 
 
         $query->andFilterWhere(['like', 'tituloOferta', $this->tituloOferta])
@@ -132,7 +132,7 @@ class OfertasLaboralesSearch extends OfertasLaborales
 
         $query->andFilterWhere(['like', 'nombreCiudad', $this->idCiudad]);
         $query->andFilterWhere(['like', 'nombreCargo', $this->nombreCargo]);
-        $query->andFilterWhere(['like', 'nombreArea', $this->idArea]);
+        //$query->andFilterWhere(['like', 'nombreArea', $this->idArea]);
 
 
         $query->andFilterWhere(['like', 'tituloOferta', $this->tituloOferta])

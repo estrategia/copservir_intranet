@@ -34,8 +34,6 @@ use yii\helpers\Url;
   ]);
   ?>
 
-  <?= $form->field($model, 'idArea')->textInput(['maxlength' => true]) ?>
-
   <?=
   $form->field($model, 'idCiudad')->widget(Select2::classname(), [
     'data' => $model->listaCiudad,

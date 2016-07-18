@@ -37,7 +37,7 @@ use yii\widgets\Pjax;
                   }
                 ],
                 'fechaPublicacion',
-                'idArea',
+                //'idArea',
                 [
                   'class' => 'yii\grid\ActionColumn',
                   'template' => '{link}',
