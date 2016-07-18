@@ -257,6 +257,7 @@ ul.list{ list-style-image: url("../img/multiportal/tarjetamas/check.png"); }
 }
 .footer-top.footer-copservir {
   background-image:url("../img/multiportal/copservir/footer.jpg");
+  background-size: cover;
 }
 .footer-top h3 {
   color: #fff;
@@ -831,6 +832,8 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
 .contenedor-redes{
   background-color: rgba(15, 107, 39, 0.67);
   border-radius: 15px;
-  padding: 50px;
+  padding: 25px 50px;
   text-align: center;
 }
+
+.list-cop{list-style-image: url('../img/multiportal/copservir/icono.PNG');}
