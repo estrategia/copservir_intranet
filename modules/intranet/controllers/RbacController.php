@@ -5,6 +5,7 @@ namespace app\modules\intranet\controllers;
 use Yii;
 use app\modules\intranet\models\AuthItem;
 use app\modules\intranet\models\AuthItemSearch;
+use app\modules\intranet\models\AuthItemChildSearch;
 use app\modules\intranet\models\AuthItemChild;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -100,7 +101,7 @@ class RbacController extends Controller
      */
     public function actionDetalle($id)
     {
-        $searchModel = new AuthItemSearch;
+        $searchModel = new AuthItemChildSearch;
         $authItemChild = new AuthItemChild;
         $dataProviderPermisos = $searchModel->searchPermisos(Yii::$app->request->queryParams);
 
@@ -164,7 +165,7 @@ class RbacController extends Controller
     public function actionQuitarPermiso($parent, $child)
     {
 
-      $searchModel = new AuthItemSearch;
+      $searchModel = new AuthItemChildSearch;
       $authItemChild = $this->findModelAuthItemChil($parent, $child);
       $dataProviderPermisos = $searchModel->searchPermisos(['id' => $parent]);
       $respond = [];

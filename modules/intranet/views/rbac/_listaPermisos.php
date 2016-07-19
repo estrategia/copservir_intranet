@@ -45,11 +45,7 @@ use yii\widgets\Pjax;
       'filterModel' => $searchModel,
       'columns' => [
           ['class' => 'yii\grid\SerialColumn'],
-          [
-            'attribute' => 'name',
-            'label'=>'Nombre',
-            'value' => 'objChild.name',
-          ],
+          'child',
           [
             'attribute' => 'description',
             'label'=>'Descripcion',
