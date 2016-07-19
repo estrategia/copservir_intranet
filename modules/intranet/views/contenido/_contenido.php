@@ -151,10 +151,10 @@ $completo = isset($completo) ? $completo : false;
                     </li>
                 </ul>
                 <div class="row">
-                    <div class="col-md-2" style="padding-top: 7px;overflow: hidden;">
+                    <div class="col-md-2 col-xs-12" style="padding-top: 7px;overflow: hidden;">
                         <img class=" img-responsive" src=<?= Yii::$app->homeUrl . 'img/fotosperfil/' . $noticia->objUsuarioPublicacion->imagenPerfil ?> alt="" data-src="" data-src-retina="" width="60" height="60">
                     </div>
-                    <div class="col-md-10">
+                    <div class="col-md-10 col-xs-12">
                         <textarea id="comentario_<?= $noticia->idContenido ?>" placeholder="Comentar Publicación..." class="form-control" rows="2"></textarea>
                         <?php
                         echo \vova07\imperavi\Widget::widget([
