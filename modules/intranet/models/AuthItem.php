@@ -3,6 +3,7 @@
 namespace app\modules\intranet\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "auth_item".
@@ -43,9 +44,9 @@ class AuthItem extends \yii\db\ActiveRecord {
 
     public function attributeLabels() {
         return [
-            'name' => 'Name',
-            'type' => 'Type',
-            'description' => 'Description',
+            'name' => 'Nombre',
+            'type' => 'Tipo',
+            'description' => 'Descripción',
             'rule_name' => 'Rule Name',
             'data' => 'Data',
             'created_at' => 'Created At',
@@ -84,10 +85,24 @@ class AuthItem extends \yii\db\ActiveRecord {
                 ->where("permiso.type=:tipoPermiso AND rolasignacion.user_id=:usuario")
                 ->addParams([':tipoPermiso' => 2, ':usuario' => $usuario])
                 ->all();
-        
+
         return $listPermisos;
-        var_dump($listPermisos->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
-        exit();
+        //var_dump($listPermisos->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
+        //exit();
+    }
+
+
+
+    public function getListaPermisos() {
+      $query = self::find()
+      ->joinwith(['children as permiso'])
+      ->where('Auth_Item.type =:tipo and Auth_Item.name not in (select child from Auth_Item_Child where parent = "'.$this->name.'")')
+      ->addParams([':tipo' => 2])
+      ->asArray()
+      ->all();
+
+      return ArrayHelper::map($query, 'name', 'name');
+
     }
 
 }

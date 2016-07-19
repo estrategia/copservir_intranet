@@ -201,7 +201,8 @@ class Contenido extends \yii\db\ActiveRecord {
     }
 
     public static function traerTodasNoticiasCopservir($idLineaTiempo) {
-        return $noticias = self::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listMeGusta', 'listComentarios', 'listMeGustaUsuario', 'objDenuncioComentarioUsuario', 'objContenidoAdjuntoImagenes'])
+        return $noticias = self::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listMeGusta', 'listComentarios',
+                        'listMeGustaUsuario', 'objDenuncioComentarioUsuario', 'objContenidoAdjuntoImagenes'])
                         ->where(
                                 ['and',
                                     ['<=', 'fechaInicioPublicacion', new Expression('now()')],

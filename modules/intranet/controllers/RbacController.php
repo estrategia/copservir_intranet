@@ -4,6 +4,8 @@ namespace app\modules\intranet\controllers;
 
 use Yii;
 use app\modules\intranet\models\AuthItem;
+use app\modules\intranet\models\AuthItemSearch;
+use app\modules\intranet\models\AuthItemChild;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -16,23 +18,16 @@ class RbacController extends Controller
     public function behaviors()
     {
         return [
+            [
+                'class' => \app\components\AccessFilter::className(),
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
             ],
-            /*
-            [
-                 'class' => \app\components\AuthItemFilter::className(),
-                 'only' => [
-                     //'admin', 'detalle', 'crear', 'actualizar', 'eliminar'
-                 ],
-                 'authsActions' => [
-                     //colocar los permisos
-                 ]
-             ],
-             */
+
         ];
     }
 
@@ -79,101 +74,138 @@ class RbacController extends Controller
         $auth->assign($admin, 123456);
     }
 
-    // CRUD PERMISOS
+    // CRUD ROLES
 
     /**
-     * Lists all AuthItem models.
+     * Lista todos los modelos AuthItem.
      * @return mixed
      */
-     /*
-    public function actionIndex()
+
+    public function actionAdmin()
     {
-        $auth = Yii::$app->authManager;
-        $dataProvider = new ActiveDataProvider([
-            'query' => AuthItem::find(),
+        $searchModel = new AuthItemSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('admin', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
-    }*/
+    }
 
     /**
-     * Displays a single AuthItem model.
+     * Muestra un solo modelo AuthItem.
      * @param string $id
      * @return mixed
      */
-    /*
-    public function actionView($id)
+    public function actionDetalle($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        $searchModel = new AuthItemSearch;
+        $authItemChild = new AuthItemChild;
+        $dataProviderPermisos = $searchModel->searchPermisos(Yii::$app->request->queryParams);
+
+        if ($authItemChild->load(Yii::$app->request->post()) && $authItemChild->save()){
+
+          $authItemChild = new AuthItemChild;
+          return $this->renderAjax('detalle', [
+              'model' => $this->findModel($id),
+              'searchModel' => $searchModel,
+              'dataProviderPermisos' => $dataProviderPermisos,
+              'authItemChild' => $authItemChild
+          ]);
+
+        }
+
+          return $this->render('detalle', [
+              'model' => $this->findModel($id),
+              'searchModel' => $searchModel,
+              'dataProviderPermisos' => $dataProviderPermisos,
+              'authItemChild' => $authItemChild
+          ]);
+
     }
-    */
+
     /**
-     * Creates a new AuthItem model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * Crea un nuevo modelo AuthItem.
      * @return mixed
      */
-     /*
-    public function actionCreate()
+    public function actionCrear()
     {
         $model = new AuthItem();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->name]);
+            return $this->redirect(['detalle', 'id' => $model->name]);
         } else {
-            return $this->render('create', [
+            return $this->render('crear', [
                 'model' => $model,
             ]);
         }
     }
-    */
+
     /**
-     * Updates an existing AuthItem model.
-     * If update is successful, the browser will be redirected to the 'view' page.
+     * Actualiza un modelo AuthItem existente.
      * @param string $id
      * @return mixed
      */
-     /*
-    public function actionUpdate($id)
+    public function actionActualizar($id)
     {
-
-      if (Yii::$app->authManager->checkAccess(Yii::$app->user->identity->numeroDocumento, 'actualizar')) {
-
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->name]);
+            return $this->redirect(['detalle', 'id' => $model->name]);
         } else {
-            return $this->render('update', [
+            return $this->render('actualizar', [
                 'model' => $model,
             ]);
         }
-      }else{
-        throw new ForbiddenHttpException('no tienes permiso para acceder');
-
-      }
     }
-    */
+
+
+    public function actionQuitarPermiso($parent, $child)
+    {
+
+      $searchModel = new AuthItemSearch;
+      $authItemChild = $this->findModelAuthItemChil($parent, $child);
+      $dataProviderPermisos = $searchModel->searchPermisos(['id' => $parent]);
+      $respond = [];
+
+      if ($authItemChild->delete()) {
+        $authItemChild = new AuthItemChild;
+        Yii::$app->session->setFlash('success', 'permiso eliminado con exito');
+      }else{
+        Yii::$app->session->setFlash('error', 'no se pudo eliminar el permiso');
+      }
+
+      $respond = [
+          'result' => 'ok',
+          'response' =>$this->renderAjax('_listaPermisos', [
+              'model' => $this->findModel($parent),
+              'searchModel' => $searchModel,
+              'dataProviderPermisos' => $dataProviderPermisos,
+              'authItemChild' => $authItemChild
+          ])
+      ];
+
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      return $respond;
+
+    }
+
+
     /**
-     * Deletes an existing AuthItem model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * elimina un modelo AuthItem existente.
      * @param string $id
      * @return mixed
      */
-     /*
-    public function actionDelete($id)
+
+    public function actionEliminar($id)
     {
         $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        return $this->redirect(['admin']);
     }
-    */
+
     /**
-     * Finds the AuthItem model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
+     * Encuentra un modelo AuthItem basado en su llave primaria.
      * @param string $id
      * @return AuthItem the loaded model
      * @throws NotFoundHttpException if the model cannot be found
@@ -186,4 +218,15 @@ class RbacController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    protected function findModelAuthItemChil($parent, $child)
+    {
+        if (($model = AuthItemChild::findOne(['parent' => $parent, 'child' => $child])) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+
 }
