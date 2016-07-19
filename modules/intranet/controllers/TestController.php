@@ -72,6 +72,19 @@ class TestController extends Controller {
         
     }
     
+    public function actionLogin($username,$password){
+        $client = new \SoapClient(\Yii::$app->params['webServices']['persona'], array(
+            "trace" => 1,
+            "exceptions" => 0,
+            'connection_timeout' => 5,
+            'cache_wsdl' => WSDL_CACHE_NONE
+        ));
+        
+        $result = $client->getLogin($username, sha1($password));
+        
+        VarDumper::dump($result,10,true);
+    }
+    
     public function actionOpcionesusuario() {
        /*$opcionesUsuario = UsuariosOpcionesFavoritos::find()->where(['=', 'numeroDocumento', 1113618983])->all();
        
