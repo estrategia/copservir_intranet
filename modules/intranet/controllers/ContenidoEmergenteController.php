@@ -5,6 +5,7 @@ namespace app\modules\intranet\controllers;
 use Yii;
 use app\modules\intranet\models\ContenidoEmergente;
 use app\modules\intranet\models\ContenidoEmergenteDestino;
+use app\modules\intranet\models\ContenidoEmergenteVisto;
 use app\modules\intranet\models\ContenidoEmergenteSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -165,6 +166,7 @@ class ContenidoEmergenteController extends Controller {
         $userNumeroDocumento = Yii::$app->user->identity->numeroDocumento;
 
         $query = ContenidoEmergente::getContenidoEmergente($userCiudad, $userGrupos, $userNumeroDocumento);
+        //var_dump($query);
 
         if ($query) {
             $respond = [
@@ -172,6 +174,7 @@ class ContenidoEmergenteController extends Controller {
                 'response' => $this->renderAjax('_contenidoEmergenteHtml', ['query' => $query]),
             ];
         } else {
+
             $respond = [
                 'result' => 'ok',
                 'response' => '',
@@ -189,11 +192,15 @@ class ContenidoEmergenteController extends Controller {
      */
     public function actionInactivaContenidoEmergente() {
 
-        $idPopup = Yii::$app->request->post('idPopup', '');
-        $modelContenido = $this->findModel($idPopup);
-        $modelContenido->estado = ContenidoEmergente::ESTADO_INACTIVO;
+        $idContenidoEmergente = Yii::$app->request->post('idPopup', '');
+        $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+
+        $modelContenidoEmergenteVisto = new ContenidoEmergenteVisto;
+        $modelContenidoEmergenteVisto->numeroDocumento = $numeroDocumento;
+        $modelContenidoEmergenteVisto->idContenidoEmergente = $idContenidoEmergente;
+
         $respond = [];
-        if ($modelContenido->save()) {
+        if ($modelContenidoEmergenteVisto->save()) {
             $respond = [
                 'result' => 'ok',
             ];

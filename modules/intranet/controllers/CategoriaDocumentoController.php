@@ -132,7 +132,7 @@ class CategoriaDocumentoController extends \yii\web\Controller {
             }
 
             if (!$flagAdmin && $flagHoja) {
-                $htmlEnlace = Html::a($categoria->nombre, ['documento/detalle', 'id' => $categoria->categoriaDocumentosDetalle->idDocumento], ['data-role' => 'hola']);
+                $htmlEnlace = Html::a($categoria->nombre, ['documento/detalle-documento', 'id' => $categoria->categoriaDocumentosDetalle->idDocumento], ['data-role' => 'hola']);
             }
         } else {
 

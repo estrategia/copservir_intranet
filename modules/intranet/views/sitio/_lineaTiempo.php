@@ -36,14 +36,11 @@ use \app\modules\intranet\models\LineaTiempo;
 
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
 
-    </div>
-    <div class="col-md-6">
-        <?=
-        ($linea->autorizacionAutomatica == 0) ? Html::a('Ver Noticas Copservir', ['contenido/noticias', 'lineaTiempo' => $linea->idLineaTiempo], [
-                    'class' => 'btn btn-block btn-warning',
-                ]) : '';
-        ?>
+      <?= Html::a('Ver todas las publicaciones', ['contenido/noticias', 'lineaTiempo' => $linea->idLineaTiempo], [
+                 'class' => 'btn btn-block btn-warning',
+             ])
+      ?>
     </div>
 </div>

@@ -7,7 +7,26 @@ use app\modules\intranet\models\ModuloContenido;
 <?php if ($objModulo->tipo == ModuloContenido::TIPO_HTML): ?>
     <?= $this->render('//common/contenido/_html', array('objModulo' => $objModulo,'tituloGrupo'=>$tituloGrupo)) ?>
 <?php elseif ($objModulo->tipo == ModuloContenido::TIPO_DATATABLE || $objModulo->tipo == ModuloContenido::TIPO_DATATABLE_CEDULA): ?>
+
     <?php $this->registerJsFile("@web/js/datatable.js", ['depends' => [app\assets\DataTableAsset::className()]]); ?>
     <?= $this->render('//common/contenido/_html', array('objModulo' => $objModulo,'tituloGrupo'=>$tituloGrupo)) ?>
     <div class="space-1"></div>
+<?php endif; ?>
+
+<?php if ($objModulo->tipo == ModuloContenido::TIPO_DATATABLE_CEDULA): ?>
+
+<?php
+  $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+  $this->registerJs("
+
+  $( document ).ready(function() {
+    $('.dataTables_filter').css('display','none');
+    $('.dataTables_length').css('display','none');
+    $('.dataTables_paginate').css('display','none');
+    $('.dataTables_info').css('display','none');
+
+    dataTablesGroupSearch2($objModulo->idModulo, $numeroDocumento)
+  });
+  ");
+?>
 <?php endif; ?>

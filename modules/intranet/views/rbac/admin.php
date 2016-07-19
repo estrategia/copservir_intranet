@@ -2,17 +2,21 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use app\modules\intranet\models\OfertasLaborales;
 
-$this->title = 'Ofertas Laborales';
-$this->params['breadcrumbs'][] = ['label' => 'Ofertas laborales'];
+
+/* @var $this yii\web\View */
+/* @var $searchModel app\modules\intranet\models\LineaTiempoSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+$this->title = 'Roles';
+$this->params['breadcrumbs'][] = ['label' => 'Roles'];
 ?>
-<div class="ofertas-laborales-index">
+<div class="linea-tiempo-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Crea una oferta laboral', ['crear'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crea un nuevo rol', ['crear'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -21,25 +25,8 @@ $this->params['breadcrumbs'][] = ['label' => 'Ofertas laborales'];
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'tituloOferta',
-            [
-              'attribute' => 'idCiudad',
-              'value' => 'objCiudad.nombreCiudad',
-            ],
-            'nombreCargo',
-            [
-              'attribute' => 'estado',
-              'filter' =>
-                Html::activeDropDownList($searchModel, 'estado', ['0' => 'Inactivo', '1' => 'Activo'],
-                  ['class'=>'form-control','prompt' => 'Seleccione']),
-              'value' => function($model) {
-                if ($model->estado == OfertasLaborales::ESTADO_ACTIVO ) {
-                  return 'Activo';
-                }else{
-                  return 'Inactivo';
-                }
-              }
-            ],
+            'name',
+            'description',
             [
               'class' => 'yii\grid\ActionColumn',
               'headerOptions'=> ['style'=>'width: 70px;'],

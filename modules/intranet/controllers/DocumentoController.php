@@ -73,11 +73,31 @@ class DocumentoController extends Controller {
     }
 
     /**
-     * Muestra un solo modelo Documento.
+     * Muestra un solo modelo Documento admin.
      * @param string $id
      * @return mixed
      */
     public function actionDetalle($id) {
+        $model = $this->findModel($id);
+
+        $logDocumento = LogDocumento::find()
+                        ->where("( idDocumento =:id )")
+                        ->addParams([':id' => $id])->all();
+
+
+        return $this->render('detalle', [
+                    'model' => $model,
+                    'logDocumento' => $logDocumento
+        ]);
+    }
+
+    /**
+     * Muestra un solo modelo Documento.
+     * @param string $id
+     * @return mixed
+     */
+    public function actionDetalleDocumento($id) {
+
         $model = $this->findModel($id);
 
         $logDocumento = LogDocumento::find()

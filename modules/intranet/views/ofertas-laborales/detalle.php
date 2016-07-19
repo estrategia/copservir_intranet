@@ -43,7 +43,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Ver oferta laboral'];
           'attribute' => 'nombreCargo',
           'value' => $model->nombreCargo,
         ],
-        'idArea',
         'urlElEmpleo:url',
         'fechaPublicacion',
         'fechaCierre',

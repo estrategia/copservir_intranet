@@ -25,7 +25,6 @@ use yii\helpers\ArrayHelper;
 * @property string $tituloOferta
 * @property string $urlElEmpleo
 * @property integer $idCargo
-* @property integer $idArea
 * @property string $descripcionContactoOferta
 * @property string $idInformacionContacto
 */
@@ -42,10 +41,10 @@ class OfertasLaborales extends \yii\db\ActiveRecord
   public function rules()
   {
     return [
-      [[ 'idCiudad', 'fechaPublicacion', 'fechaCierre', 'estado', 'numeroDocumento', 'fechaInicioPublicacion', 'fechaFinPublicacion', 'tituloOferta', 'urlElEmpleo', 'nombreCargo', 'idArea', 'descripcionContactoOferta', 'idInformacionContacto'], 'required'],
+      [[ 'idCiudad', 'fechaPublicacion', 'fechaCierre', 'estado', 'numeroDocumento', 'fechaInicioPublicacion', 'fechaFinPublicacion', 'tituloOferta', 'urlElEmpleo', 'nombreCargo', 'descripcionContactoOferta', 'idInformacionContacto'], 'required'],
       [[ 'idCiudad', 'numeroDocumento', 'idInformacionContacto'], 'integer'],
       [['fechaPublicacion', 'fechaCierre', 'fechaInicioPublicacion', 'fechaFinPublicacion'], 'safe'],
-      [['descripcionContactoOferta',  'idArea','nombreCargo'], 'string'],
+      [['descripcionContactoOferta','nombreCargo'], 'string'],
       [['tituloOferta', 'urlElEmpleo'], 'string', 'max' => 45]
     ];
   }
@@ -63,7 +62,6 @@ class OfertasLaborales extends \yii\db\ActiveRecord
       'tituloOferta' => 'Titulo Oferta',
       'urlElEmpleo' => 'Url El Empleo',
       'nombreCargo' => 'Cargo',
-      'idArea' => 'Area',
       'descripcionContactoOferta' => 'Descripcion Contacto Oferta',
       'idInformacionContacto' => 'Plantilla',
       'estado' => 'Estado'

@@ -1474,6 +1474,50 @@ $(document).on('click', "a[data-role='asignar-contenido-evento-calendario']", fu
 });
 
 //::::::::::::::::::::::
+// RBAC
+//::::::::::::::::::::::
+/**
+* peticion ajax para agregar un permiso a un rol
+* @param datos del formulario
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html para renderizar la grilla
+*/
+
+$(document).on('click', "a[data-role='eliminarPemisoRol']", function() {
+
+  var url = $(this).attr('href');
+
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: url,
+    //data: form.serialize(),
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading();
+      $('#listaContenidoEmergente').remove();
+    },
+
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+
+        if (data.result == "ok") {
+          $('.permisos').remove();
+          $('.lista-permisos').append(data.response);
+
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+
+  return false;
+});
+
+//::::::::::::::::::::::
 // OTROS
 //::::::::::::::::::::::
 /**
