@@ -6,6 +6,8 @@ if ($location == 0) {
   $idItem = 'bannerArriba';
 }else if ($location == 1) {
   $idItem = 'bannerAbajo';
+}if ($location == 2) {
+  $idItem = 'bannerLateral';
 }
 ?>
 
@@ -17,10 +19,9 @@ if ($location == 0) {
     <?php $contador = 0 ?>
     <?php foreach ($banners as $banner): ?>
       <div id="<?= $idItem.$contador  ?>" class="item">
-          <?= Funciones::getHtmlLink($banner['urlEnlaceNoticia'],"<img src='".Yii::$app->homeUrl . "img/campanas/".$banner['rutaImagen']."' alt=''>"); ?>
-         <div class="carousel-caption">
-
-        </div>
+          <?php // Funciones::getHtmlLink($banner['urlEnlaceNoticia'],"<img src='".Yii::$app->homeUrl . "img/campanas/".$banner['rutaImagen']."' alt=''>"); ?>
+          <?= "<img src='".Yii::$app->homeUrl . "img/campanas/".$banner['rutaImagen']."' alt=''>"; ?>
+         <!--<div class="carousel-caption"></div>-->
       </div>
       <?php  $contador++; ?>
     <?php endforeach; ?>

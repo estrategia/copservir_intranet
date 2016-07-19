@@ -64,6 +64,7 @@ $completo = isset($completo) ? $completo : false;
                             }
                         }
                         ?>
+                        
                         <div class="col-md-6  col-sm-6">
                         <a class="lightbox gallery<?= $noticia->idContenido ?>" href="<?= Yii::getAlias('@web') . "/img/imagenesContenidos/" . $imagenes->rutaArchivo ?>" style="<?= $style ?>">
 
