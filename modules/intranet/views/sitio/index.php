@@ -125,34 +125,24 @@ $this->title = 'Intranet - Copservir';
 
   <!-- Estadisticas -->
   <div class="col-md-12 col-sm-12">
-
     <?php foreach ($indicadores as $indicador): ?>
       <?php echo $this->render('_indicador', ['indicador' => $indicador]); ?>
     <?php endforeach; ?>
-
   </div>
 
   <!--publicidad derecha -->
-  <div class="col-md-12 col-sm-12">
+  <?php //if(!in_array(\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_BANNER_INF,Yii::$app->user->identity->getOcultosDashboard())): ?>
 
-
-    <div id="myCarousel" class="carousel slide vertical">
-      <!-- Carousel items -->
-      <div class="carousel-inner">
-        <?php $contador = 0 ?>
-        <?php foreach ($bannerDerecha as $banner): ?>
-          <div  id="bannerDerecha<?= $contador ?>" class="item">
-            <?= \app\modules\intranet\models\Funciones::getHtmlLink($banner['urlEnlaceNoticia'],"<img src='".Yii::$app->homeUrl . "img/campanas/".$banner['rutaImagen']."' alt=''>"); ?>
-          </div>
-          <?php $contador++; ?>
-        <?php endforeach; ?>
-
-      </div>
-
+    <div class="col-md-12">
+        <div class="tiles overflow-hidden full-height tiles-overlay-hover m-b-10 widget-item">
+          <?= $this->render('banner', ['banners' => $bannerDerecha, 'location' => 2]) ?>
+        </div>
+        
     </div>
+ <?php// endif;?>
 
 
-  </div>
+
 </div>
 
 <!-- END ESTADISTICAS -->
@@ -173,7 +163,7 @@ $this->title = 'Intranet - Copservir';
 
 <!-- BEGIN DOWN BANNER -->
 <?php if(!in_array(\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_BANNER_INF,Yii::$app->user->identity->getOcultosDashboard())): ?>
-  <div class="col-md-12">
+  <div class="col-md-12" style="margin-bottom:25px;">
     <?= $this->render('banner', ['banners' => $bannerAbajo, 'location' => 1]) ?>
   </div>
 <?php endif;?>
@@ -228,7 +218,7 @@ $( document ).ready(function() {
 
   // indica cuales son las primeras imagenes en los banner (sliders) de publicidad
   $('#bannerArriba0').attr('class', 'item active');
-  $('#bannerDerecha0').attr('class', 'item active');
+  $('#bannerLateral0').attr('class', 'item active');
   $('#bannerAbajo0').attr('class', 'item active');
 
   // para que se desplace el banner vertical
