@@ -11,7 +11,7 @@ use yii\helpers\Html;
   <div class="modal-dialog" role="document" style="width: 800px;">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Listado de comentarios </h4>
+        <h4 style="display:inline-block;" class="modal-title">Listado de comentarios </h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
 

@@ -65,13 +65,13 @@ $completo = isset($completo) ? $completo : false;
                         }
                         ?>
                         
-                        <div class="col-md-6  col-sm-6">
+                        <div class="col-md-3 col-sm-3">
                         <a class="lightbox gallery<?= $noticia->idContenido ?>" href="<?= Yii::getAlias('@web') . "/img/imagenesContenidos/" . $imagenes->rutaArchivo ?>" style="<?= $style ?>">
 
-                                <div class="slide-front ha tiles green  slide">
+                                <div class="slide-front ha slide">
                                     <div class="overlayer bottom-left fullwidth">
                                         <div class="overlayer-wrapper">
-                                            <div class="tiles gradient-black p-l-20 p-r-20 p-b-20 p-t-20" style="text-align:center;">
+                                            <div class="p-l-20 p-r-20 p-b-20 p-t-20" style="text-align:center;">
                                                 <h1 style="color:#fff !important;"><span class="semi-bold"><?= $mensaje ?></span></h1>
                                             </div>
                                         </div>

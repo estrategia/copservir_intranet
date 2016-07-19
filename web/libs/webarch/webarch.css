@@ -9043,7 +9043,7 @@ body.rtl .footer-widget {
     display: none;
   }
   .page-sidebar {
-    background-color: #0aa699 !important;
+    background-color: #3C8DBC !important;
   }
   .page-sidebar .page-sidebar-wrapper > ul > li.open > a,
   .page-sidebar .page-sidebar-wrapper > ul > li > a:hover,
@@ -9213,6 +9213,7 @@ body.rtl .footer-widget {
     position: fixed;
     z-index: 999;
     text-align: center;
+    background-color: #fff;
   }
   .logo {
     margin-right: auto;
@@ -9513,6 +9514,7 @@ body.rtl .footer-widget {
     text-align: center;
     min-height: 60px;
     display: block !important;
+    background-color: #fff;
   }
   .header .notifcation-center {
     margin-left: 15px;
