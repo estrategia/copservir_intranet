@@ -22,11 +22,12 @@ class CategoriaDocumentoController extends \yii\web\Controller {
             [
                  'class' => \app\components\AuthItemFilter::className(),
                  'only' => [
-                   'admin'
+                   'admin', 'index'
                  ],
                  'authsActions' => [
                      //colocar los permisos
                       'admin' => 'intranet_categoria-documento_admin',
+                      'index' => 'intranet_usuario'
                  ]
              ],
         ];

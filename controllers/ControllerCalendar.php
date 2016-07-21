@@ -9,6 +9,26 @@ use app\modules\intranet\models\EventosCalendario;
 
 abstract class ControllerCalendar extends Controller {
 
+  public function behaviors()
+  {
+      return [
+          [
+              'class' => \app\components\AccessFilter::className(),
+          ],
+          [
+               'class' => \app\components\AuthItemFilter::className(),
+               'only' => [
+                  'index', 'eventos', 'resumen'
+               ],
+               'authsActions' => [
+                   'index' => 'intranet_usuario',
+                   'eventos' => 'intranet_usuario',
+                   'resumen' => 'intranet_usuario',
+               ]
+           ],
+      ];
+  }
+
     public function actionIndex() {
         return $this->render('//common/calendario/index');
     }
@@ -16,7 +36,7 @@ abstract class ControllerCalendar extends Controller {
     public function actionTest() {
         $portal = $this->module->id;
         $destino = array();
-        
+
         if ($portal == "intranet") {
             if(Yii::$app->user->isGuest){
                 echo Json::encode(array('result' => 'error', 'response' => 'Solicitud inv&aacute;lida'));
@@ -26,7 +46,7 @@ abstract class ControllerCalendar extends Controller {
                 $destino['ciudad'] = Yii::$app->user->identity->getCiudadCodigo();
             }
         }
-        
+
         $fin = "2016-06-12";
         $inicio = "2016-03-01";
         $fInicio = \DateTime::createFromFormat('Y-m-d H:i:s', "$inicio 00:00:00");
@@ -38,7 +58,7 @@ abstract class ControllerCalendar extends Controller {
     public function actionEventos() {
         $portal = $this->module->id;
         $destino = array();
-        
+
         if ($portal == "intranet") {
             if(Yii::$app->user->isGuest){
                 echo Json::encode(array('result' => 'error', 'response' => 'Solicitud inv&aacute;lida'));
@@ -48,7 +68,7 @@ abstract class ControllerCalendar extends Controller {
                 $destino['ciudad'] = Yii::$app->user->identity->getCiudadCodigo();
             }
         }
-        
+
         $request = Yii::$app->request;
         $start = $request->post('inicio');
         $end = $request->post('fin');
@@ -83,7 +103,7 @@ abstract class ControllerCalendar extends Controller {
     public function actionResumen() {
         $portal = $this->module->id;
         $destino = array();
-        
+
         if ($portal == "intranet") {
             if(Yii::$app->user->isGuest){
                 echo Json::encode(array('result' => 'error', 'response' => 'Solicitud inv&aacute;lida'));
@@ -93,7 +113,7 @@ abstract class ControllerCalendar extends Controller {
                 $destino['ciudad'] = Yii::$app->user->identity->getCiudadCodigo();
             }
         }
-        
+
         $request = Yii::$app->request;
         $inicio = $request->post('inicio');
         $fin = $request->post('fin');

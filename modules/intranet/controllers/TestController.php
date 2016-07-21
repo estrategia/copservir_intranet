@@ -19,20 +19,20 @@ use app\modules\intranet\models\PublicacionesCampanas;
 use app\modules\intranet\models\GrupoInteresCargo;
 
 class TestController extends Controller {
-    
+
     public function actionBanner(){
         $userCiudad = Yii::$app->user->identity->getCiudadCodigo();
         $userGrupos = Yii::$app->user->identity->getGruposCodigos();
         $cargoNombre = Yii::$app->user->identity->getCargoNombre();
         $cargoCodigo = Yii::$app->user->identity->getCargoCodigo();
-        
+
         echo "Cargo [$cargoCodigo: $cargoNombre]<br>";
         echo "Ciudad: $userCiudad<br>";
         echo "<br>";
         echo "Grupos<br>";
         VarDumper::dump($userGrupos,10,true);
         echo "<br><br>";
-        
+
         $db = Yii::$app->db;
         $banners = $db->createCommand('select distinct pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia
         from t_CampanasDestino as pcc, t_PublicacionesCampanas as pc
@@ -48,30 +48,30 @@ class TestController extends Controller {
         ->bindValue('todosGrupos', \Yii::$app->params['grupo']['*']);
 
         var_dump($banners->rawSql);
-        
+
         echo "<br><br>";
-        
-        
+
+
         $listGrupoInteresCargo = GrupoInteresCargo::find()->all();
-        
+
         echo "Grupos Cargos:<br>";
         foreach ($listGrupoInteresCargo as $objGrupoCargo){
             VarDumper::dump($objGrupoCargo->attributes);echo "<br>";
         }
          echo "<br><br>";
-        
+
         //tareas
         $bannerArriba = PublicacionesCampanas::getCampana($userCiudad, $userGrupos, PublicacionesCampanas::POSICION_ARRIBA);
         VarDumper::dump($bannerArriba,10,true);
-        
+
     }
-    
+
     public function actionUsuario($cedula){
         $infoUsuario = \app\models\Usuario::callWSInfoPersona($cedula);
         VarDumper::dump($infoUsuario,10,true);
-        
+
     }
-    
+
     public function actionLogin($username,$password){
         $client = new \SoapClient(\Yii::$app->params['webServices']['persona'], array(
             "trace" => 1,
@@ -79,32 +79,32 @@ class TestController extends Controller {
             'connection_timeout' => 5,
             'cache_wsdl' => WSDL_CACHE_NONE
         ));
-        
+
         $result = $client->getLogin($username, sha1($password));
-        
+
         VarDumper::dump($result,10,true);
     }
-    
+
     public function actionOpcionesusuario() {
        /*$opcionesUsuario = UsuariosOpcionesFavoritos::find()->where(['=', 'numeroDocumento', 1113618983])->all();
-       
+
        VarDumper::dump($opcionesUsuario,10,true);*/
         //$opciones = new OpcionesUsuario(1113618983);
-        
+
         //VarDumper::dump($opciones->getOpcionesUsuario(),10,true);
-        
+
     //$opcionesUsuario = Menu::find()->alias('m')->innerJoinWith('objOpcion as o')->where("m.estado=:estado AND m.idMenu NOT IN(SELECT idMenu FROM t_UsuariosOpcionesFavoritos WHERE numeroDocumento=:usuario)", [':estado'=>1, ':usuario'=> 1113618983]);
-        
-        
-        
+
+
+
     //var_dump($opcionesUsuario->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
-        
+
     }
-    
+
     public function actionMenu(){
         $listMenu = Menu::find()->with('activeListSubMenu')->where('estado=1 AND idPadre is NULL')->orderBy('orden')->all();
         //var_dump($listMenu->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
-        
+
         foreach($listMenu as $objMenu){
             echo "$objMenu->idMenu: $objMenu->descripcion<br>";
             foreach($objMenu->activeListSubMenu as $objSubmenu1){
@@ -118,26 +118,26 @@ class TestController extends Controller {
             }
             echo "<br>";
         }
-        
-        
+
+
         //VarDumper::dump($listMenu->all(),10,true);
     }
-    
+
     public function actionMenuconstruir(){
         $listMenu = Menu::construirArrayMenu(false,Yii::$app->user->identity->numeroDocumento);
-        
+
         VarDumper::dump($listMenu,10,true);
     }
-    
+
     public function actionAut(){
         echo Yii::getAlias('@webroot');exit();
-        
+
         //$resultWebServicesLogin = \app\modules\intranet\models\LoginForm::callWSLogin("91250721", "91250721");
         //VarDumper::dump($resultWebServicesLogin,10,true);
-        
+
         $usuario = new \app\models\Usuario;
         $usuario->numeroDocumento = 91250721;
-        
+
         $client = new \SoapClient(\Yii::$app->params['webServices']['persona'], array(
           "trace" => 1,
           "exceptions" => 0,
@@ -146,12 +146,12 @@ class TestController extends Controller {
       ));
 
       $result = $client->getPersonaWithModel($usuario->numeroDocumento = 91250721, true, null);
-      
+
       VarDumper::dump($result,10,true);
-      
-        
+
+
     }
-    
+
     public function actionReplace(){
         $letters = array('@_numeroDocumento_', '@_numeroDocumentoEncriptado_');
         $fruit   = array('apple', 'pear');
@@ -159,7 +159,7 @@ class TestController extends Controller {
         $output  = str_replace($letters, $fruit, $text);
         echo $output;
     }
-    
+
     public function actionZone(){
         //$user = Yii::$app->user->identity;
         //if ($user && $user->timezone) {
@@ -168,11 +168,11 @@ class TestController extends Controller {
             echo date("Y-m-d H:i:s");
         //}
     }
-    
+
     public function actionTabs(){
         return $this->render('tabs');
     }
-    
+
     public function actionUrlTest(){
         echo Yii::$app->controller->module->id . "/" . Yii::$app->controller->id . "/" . Yii::$app->controller->action->id;
         //echo Yii::getAlias('@webroot');
@@ -193,15 +193,15 @@ class TestController extends Controller {
     }
 
     public function actionPermiso() {
-                  
+
         /*$listPermisos = AuthItem::find()
                 ->alias('permiso')
                 ->joinWith(['parents as rol', 'parents.authAssignments as rolasignacion'])
                 ->where("permiso.type=:tipoPermiso AND rol.name=:rol AND rolasignacion.user_id=:usuario")
                 ->addParams([':tipoPermiso' => 2, ':rol' => 'intranet_admin', ':usuario' => 1113618983])
                 ->all();*/
-        
-             
+
+
              $listPermisos = AuthItem::consultarPermisos('1113618983');
 
         foreach ($listPermisos as $objPermiso) {
@@ -232,18 +232,18 @@ class TestController extends Controller {
           echo "<br>";
           } */
     }
-    
+
     public function actionCargartable() {
 
         $model = new DataTableForm;
 
         if ($model->load(Yii::$app->request->post())) {
             $archivo = UploadedFile::getInstance($model, 'archivo');
-            
+
             if (!is_null($archivo)) {
                 $archivo->saveAs('contenidos/documentos/' . $archivo->baseName . '.' . $archivo->extension);
                 $rutaDocumento = $archivo->baseName . '.' . $archivo->extension;
-                
+
                 $extension['xlsx'] = '\PHPExcel_Reader_Excel2007';
                 $extension['xls'] = '\PHPExcel_Reader_Excel5';
                 $objReader = new $extension[$archivo->extension];
@@ -259,7 +259,7 @@ class TestController extends Controller {
             }
         }
 
-        
+
 
         return $this->render('datatableForm', ['model' => $model]);
 

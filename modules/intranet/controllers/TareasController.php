@@ -21,6 +21,20 @@ class TareasController extends Controller {
             [
                 'class' => \app\components\AccessFilter::className(),
             ],
+            [
+                 'class' => \app\components\AuthItemFilter::className(),
+                 'only' => [
+                   'listar-tareas', 'crear', 'actualizar', 'eliminar', 'actualizar-progreso', 'uncheck-home'
+                 ],
+                 'authsActions' => [
+                     'listar-tareas' => 'intranet_usuario',
+                     'crear' => 'intranet_usuario',
+                     'actualizar' => 'intranet_usuario',
+                     'eliminar' => 'intranet_usuario',
+                     'actualizar-progreso' => 'intranet_usuario',
+                     'uncheck-home' => 'intranet_usuario',
+                 ]
+             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

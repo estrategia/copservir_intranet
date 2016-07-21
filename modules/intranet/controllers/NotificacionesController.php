@@ -14,10 +14,18 @@ class NotificacionesController extends Controller {
         return [
             [
                 'class' => \app\components\AccessFilter::className(),
-                'only' => [
-                    'index', 'resumen', 'visto'
-                ],
             ],
+            [
+                 'class' => \app\components\AuthItemFilter::className(),
+                 'only' => [
+                     'index', 'resumen', 'visto'
+                 ],
+                 'authsActions' => [
+                   'index' => 'intranet_usuario',
+                   'resumen' => 'intranet_usuario',
+                   'visto' => 'intranet_usuario'
+                 ]
+             ],
         ];
     }
 

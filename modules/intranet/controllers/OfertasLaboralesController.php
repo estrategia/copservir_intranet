@@ -25,7 +25,7 @@ class OfertasLaboralesController extends Controller {
             [
                  'class' => \app\components\AuthItemFilter::className(),
                  'only' => [
-                     'admin', 'detalle', 'crear', 'actualizar', 'eliminar'
+                     'admin', 'detalle', 'crear', 'actualizar', 'eliminar', 'listar-ofertas'
                  ],
                  'authsActions' => [
                    'admin' => 'intranet_ofertas-laborales_admin',
@@ -33,6 +33,7 @@ class OfertasLaboralesController extends Controller {
                    'crear' => 'intranet_ofertas-laborales_admin',
                    'actualizar' => 'intranet_ofertas-laborales_admin',
                    'eliminar' => 'intranet_ofertas-laborales_admin',
+                   'listar-ofertas' => 'intranet_usuario'
                  ]
              ],
         ];

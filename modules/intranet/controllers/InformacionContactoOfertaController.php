@@ -21,9 +21,6 @@ class InformacionContactoOfertaController extends Controller {
         return [
             [
                 'class' => \app\components\AccessFilter::className(),
-                'only' => [
-                    'admin', 'detalle', 'crear', 'actualizar', 'eliminar', 'plantilla'
-                ],
             ],
             [
                 'class' => \app\components\AuthItemFilter::className(),

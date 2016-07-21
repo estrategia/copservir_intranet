@@ -22,6 +22,19 @@ class RbacController extends Controller
             [
                 'class' => \app\components\AccessFilter::className(),
             ],
+            [
+                 'class' => \app\components\AuthItemFilter::className(),
+                 'only' => [
+                     'admin', 'detalle', 'crear', 'actualizar', 'quitar-permiso'
+                 ],
+                 'authsActions' => [
+                     'admin' => 'intranet_rbac_admin',
+                     'detalle' => 'intranet_rbac_admin',
+                     'crear' => 'intranet_rbac_admin',
+                     'actualizar' => 'intranet_rbac_admin',
+                     'quitar-permiso' => 'intranet_rbac_admin',
+                 ]
+             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -30,49 +43,6 @@ class RbacController extends Controller
             ],
 
         ];
-    }
-
-    // por si se quiere tener un lugar donde crear los permisos y roles por defecto
-    public function actionInit()
-    {
-        $auth = Yii::$app->authManager;
-
-        // SE DEFINEN LOS PERMISOS
-        $crear = $auth->createPermission('crear');
-        //$crear->description = 'Crear';
-        $auth->add($crear);
-
-        $actualizar = $auth->createPermission('actualizar');
-        //$actualizar->description = 'Actualizar';
-        $auth->add($actualizar);
-
-        $visualizar = $auth->createPermission('visualizar');
-        //$visualizar->description = 'Visualizar';
-        $auth->add($visualizar);
-
-        $eliminar = $auth->createPermission('eliminar');
-        //$eliminar->description = 'Eliminar';
-        $auth->add($eliminar);
-
-        // SE DEFINEN LOS ROLES Y SE RELACIONAN CON LOS PERMISOS
-        $usuario = $auth->createRole('usuario');
-        $auth->add($usuario);
-        $auth->addChild($usuario, $visualizar);
-        $auth->addChild($usuario, $crear);
-
-        $admin = $auth->createRole('admin');
-        $auth->add($admin);
-        $auth->addChild($admin, $actualizar);
-        $auth->addChild($admin, $eliminar);
-        $auth->addChild($admin, $usuario);
-
-
-        //ASIGNACION DE LOS ROLES A LOS USUARIOS
-        // Assign roles to users. 1 and 2 are IDs returned by IdentityInterface::getId()
-        // usually implemented in your User model.
-        $auth->assign($usuario, 1234567);
-        $auth->assign($admin, 1234567);
-        $auth->assign($admin, 123456);
     }
 
     // CRUD ROLES

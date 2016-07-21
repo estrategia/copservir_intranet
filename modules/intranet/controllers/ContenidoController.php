@@ -25,20 +25,16 @@ class ContenidoController extends Controller {
         return [
             [
                 'class' => \app\components\AccessFilter::className(),
-                'only' => [
-                    'listado-me-gusta-contenido', 'listado-comentarios-contenido', 'denunciar-contenido', 'guardar-denuncio-contenido',
-                    'eliminar-comentario', 'denunciar-comentario', 'guardar-denuncio-comentario', 'detalle-contenido', 'agregar-destino',
-                    'noticias', 'mis-publicaciones', 'buscador-noticias', 'busqueda', 'enviar-amigo', 'listar-contenidos-pendientes',
-                    'detalle-aprobacion', 'eliminar-contenido', 'listar-contenidos-denunciados', 'detalle-denuncio', 'eliminar-contenido-denunciado',
-                    'listar-comentarios-denunciados', 'detalle-comentario-denuncio', 'eliminar-comentario-denunciado',
-                ],
             ],
             [
                  'class' => \app\components\AuthItemFilter::className(),
                  'only' => [
                      'listar-contenidos-pendientes', 'detalle-aprobacion', 'eliminar-contenido',
                      'listar-contenidos-denunciados', 'detalle-denuncio', 'eliminar-contenido-denunciado',
-                     'listar-comentarios-denunciados', 'detalle-comentario-denuncio', 'eliminar-comentario-denunciado'
+                     'listar-comentarios-denunciados', 'detalle-comentario-denuncio', 'eliminar-comentario-denunciado',
+                     'listado-me-gusta-contenido','listado-comentarios-contenido', 'denunciar-contenido', 'guardar-denuncio-contenido',
+                     'eliminar-comentario', 'denunciar-comentario', 'guardar-denuncio-comentario', 'detalle-contenido', 'agregar-destino',
+                     'noticias', 'mis-publicaciones', 'buscador-noticias', 'busqueda', 'enviar-amigo', 'todas-noticias'
                  ],
                  'authsActions' => [
                      'listar-contenidos-pendientes' => 'intranet_contenido_listar-contenidos-pendientes',
@@ -49,7 +45,22 @@ class ContenidoController extends Controller {
                      'eliminar-contenido-denunciado' => 'intranet_contenido_listar-contenidos-denunciados',
                      'listar-comentarios-denunciados' => 'intranet_contenido_listar-comentarios-denunciados',
                      'detalle-comentario-denuncio' => 'intranet_contenido_listar-comentarios-denunciados',
-                     'eliminar-comentario-denunciado' => 'intranet_contenido_listar-comentarios-denunciados'
+                     'eliminar-comentario-denunciado' => 'intranet_contenido_listar-comentarios-denunciados',
+                     'listado-me-gusta-contenido' => 'intranet_usuario',
+                     'listado-comentarios-contenido' => 'intranet_usuario',
+                     'denunciar-contenido' => 'intranet_usuario',
+                     'guardar-denuncio-contenido' => 'intranet_usuario',
+                     'eliminar-comentario' => 'intranet_usuario',
+                     'denunciar-comentario' => 'intranet_usuario',
+                     'guardar-denuncio-comentario' => 'intranet_usuario',
+                     'detalle-contenido' => 'intranet_usuario',
+                     'agregar-destino' => 'intranet_usuario',
+                     'noticias' => 'intranet_usuario',
+                     'mis-publicaciones' => 'intranet_usuario',
+                     'buscador-noticias' => 'intranet_usuario',
+                     'busqueda' => 'intranet_usuario',
+                     'enviar-amigo' => 'intranet_usuario',
+                     'todas-noticias' => 'intranet_usuario',
 
                  ]
              ],
@@ -301,7 +312,7 @@ class ContenidoController extends Controller {
         return $this->render('publicaciones', ['listDataProvider' => $dataProvider,]);
     }
 
-    //-------------------------------------------------
+
     public function actionTodasNoticias($lineaTiempo) {
 
         $linea = LineaTiempo::find()->where(['idLineaTiempo' => $lineaTiempo])->one();
@@ -316,7 +327,7 @@ class ContenidoController extends Controller {
         $this->view->title = 'Noticias';
         return $this->render('publicaciones', ['listDataProvider' => $dataProvider,]);
     }
-    //-------------------------------------------------
+
 
     public function actionMisPublicaciones() {
         $dataProvider = new ActiveDataProvider([

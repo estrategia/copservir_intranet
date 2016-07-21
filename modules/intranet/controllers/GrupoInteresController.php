@@ -21,10 +21,6 @@ class GrupoInteresController extends Controller {
         return [
             [
                 'class' => \app\components\AccessFilter::className(),
-                'only' => [
-                    'admin', 'detalle', 'crear', 'actualizar', 'eliminar',
-                    'eliminar-cargo', 'agrega-cargo', 'lista-cargos'
-                ],
             ],
             [
                  'class' => \app\components\AuthItemFilter::className(),

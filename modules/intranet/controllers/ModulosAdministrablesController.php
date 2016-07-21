@@ -29,7 +29,7 @@ class ModulosAdministrablesController extends Controller {
             [
                  'class' => \app\components\AuthItemFilter::className(),
                  'only' => [
-                     'admin', 'detalle', 'crear', 'actualizar', 'eliminar' , 'agregar-modulo', 'eliminar-modulo', 'editar-modulo'
+                     'admin', 'detalle', 'crear', 'actualizar', 'eliminar' , 'agregar-modulo', 'eliminar-modulo', 'editar-modulo', 'contenido'
                  ],
                  'authsActions' => [
                    'admin' => 'intranet_modulos-administrables_admin',
@@ -40,7 +40,8 @@ class ModulosAdministrablesController extends Controller {
                    'agregar-modulo' => 'intranet_modulos-administrables_admin',
                    'editar-modulo' => 'intranet_modulos-administrables_admin',
                    'eliminar-modulo' => 'intranet_modulos-administrables_admin',
-                   'ver-contenido' => 'intranet_modulos-administrables_admin'
+                   'ver-contenido' => 'intranet_modulos-administrables_admin',
+                   'contenido' => 'intranet_usuario'
                  ]
              ],
             'verbs' => [

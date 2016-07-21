@@ -33,6 +33,20 @@ class UsuarioController extends \yii\web\Controller {
                 'class' => \app\components\AccessFilter::className(),
                 'only' => ['autenticar', 'cambiar-clave', 'perfil', 'cambiar-foto-perfil', 'actualizar-datos','pantalla-inicio','modal-amigos'],
             ],
+            [
+                 'class' => \app\components\AuthItemFilter::className(),
+                 'only' => [
+                     'perfil', 'cambiar-foto-perfil', 'actualizar-datos','pantalla-inicio','modal-amigos', 'cambiar-clave'
+                 ],
+                 'authsActions' => [
+                     'perfil' => 'intranet_usuario',
+                     'cambiar-foto-perfil' => 'intranet_usuario',
+                     'actualizar-datos' => 'intranet_usuario',
+                     'pantalla-inicio' => 'intranet_usuario',
+                     'modal-amigos' => 'intranet_usuario',
+                     'cambiar-clave' => 'intranet_usuario',
+                 ]
+             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -185,7 +199,7 @@ class UsuarioController extends \yii\web\Controller {
                 }else if(!empty($infoUsuario['CorreoPersonal'])){
                     $correoUsuario = trim($infoUsuario['CorreoPersonal']);
                 }
-              
+
                 if(empty($correoUsuario)){
                     $model->addError('username', 'Usuario no tiene correo registrado');
                 }else{

@@ -46,15 +46,47 @@ class SitioController extends \app\controllers\CController {
             [
                  'class' => \app\components\AuthItemFilter::className(),
                  'only' => [
-                     'publicar-portales', 'publicar-portales-crear', 'publicar-portales-actualizar',
-                     'administrar-menu',
+                     'publicar-portales', 'publicar-portales-crear', 'publicar-portales-actualizar', 'administrar-menu','guardar-contenido-portal',
+                     'borrar-imagen', 'agregar-opcion-menu', 'render-crear-opcion-menu', 'render-editar-opcion-menu', 'crear-opcion-menu',
+                     'actualizar-opcion-menu', 'eliminar-enlace-menu', 'render-agregar-enlace', 'render-editar-enlace', 'guardar-opcion-menu',
+                     'guardar-edita-opcion',
+                     'index', 'cambiar-linea-tiempo', 'guardar-contenido', 'menu', 'me-gusta-contenido', 'guardar-comentario', 'organigrama',
+                     'quitar-elemento', 'todos-cumpleanos', 'todos-aniversarios', 'felicitar-aniversario', 'felicitar-cumpleanos', 'iconos'
                  ],
                  'authsActions' => [
                      'publicar-portales' => 'intranet_sitio_publicar-portales',
                      'publicar-portales-crear' => 'intranet_sitio_publicar-portales',
                      'publicar-portales-actualizar' => 'intranet_sitio_publicar-portales',
+                     'guardar-contenido-portal' => 'intranet_sitio_publicar-portales',
+                     'borrar-imagen' => 'intranet_sitio_publicar-portales',
+
+
                      'administrar-menu' => 'intranet_sitio_administrar-menu',
+                     'agregar-opcion-menu' => 'intranet_sitio_administrar-menu',
+                     'render-crear-opcion-menu' => 'intranet_sitio_administrar-menu',
+                     'render-editar-opcion-menu' => 'intranet_sitio_administrar-menu',
+                     'crear-opcion-menu' => 'intranet_sitio_administrar-menu',
+                     'actualizar-opcion-menu' => 'intranet_sitio_administrar-menu',
+                     'eliminar-enlace-menu' => 'intranet_sitio_administrar-menu',
+                     'render-agregar-enlace' => 'intranet_sitio_administrar-menu',
+                     'render-editar-enlace' => 'intranet_sitio_administrar-menu',
+                     'guardar-opcion-menu' => 'intranet_sitio_administrar-menu',
+                     'guardar-edita-opcion' => 'intranet_sitio_administrar-menu',
+
                      'iconos' => 'intranet_sitio_iconos',
+
+                     'index' => 'intranet_usuario',
+                     'cambiar-linea-tiempo' => 'intranet_usuario',
+                     'guardar-contenido' => 'intranet_usuario',
+                     'menu' => 'intranet_usuario',
+                     'me-gusta-contenido' => 'intranet_usuario',
+                     'guardar-comentario' => 'intranet_usuario',
+                     'organigrama' => 'intranet_usuario',
+                     'quitar-elemento' => 'intranet_usuario',
+                     'todos-cumpleanos' => 'intranet_usuario',
+                     'todos-aniversarios' => 'intranet_usuario',
+                     'felicitar-aniversario' => 'intranet_usuario',
+                     'felicitar-cumpleanos' => 'intranet_usuario'
                  ]
              ],
         ];

@@ -24,14 +24,11 @@ class ContenidoEmergenteController extends Controller {
         return [
             [
                 'class' => \app\components\AccessFilter::className(),
-                'only' => [
-                    'admin', 'detalle', 'crear', 'actualizar', 'eliminar',
-                ],
             ],
             [
                  'class' => \app\components\AuthItemFilter::className(),
                  'only' => [
-                     'admin', 'detalle', 'crear', 'actualizar', 'eliminar'
+                     'admin', 'detalle', 'crear', 'actualizar', 'eliminar', 'contenido-emergente-html', 'inactiva-contenido-emergente'
                  ],
                  'authsActions' => [
                    'admin' => 'intranet_contenido-emergente_admin',
@@ -39,6 +36,8 @@ class ContenidoEmergenteController extends Controller {
                    'crear' => 'intranet_contenido-emergente_admin',
                    'actualizar' => 'intranet_contenido-emergente_admin',
                    'eliminar' => 'intranet_contenido-emergente_admin',
+                   'contenido-emergente-html' => 'intranet_usuario',
+                   'inactiva-contenido-emergente' => 'intranet_usuario'
                  ]
              ],
             'verbs' => [
