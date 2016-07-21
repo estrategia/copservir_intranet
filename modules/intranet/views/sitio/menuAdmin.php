@@ -24,7 +24,7 @@ $opciones = Menu::construirArrayMenu(true,Yii::$app->user->identity->numeroDocum
       function(node, data) {
         node  = data.node;
         // Log node title
-        console.log(node.title);
+        // console.log(node.title);
       }
       ')
     ]

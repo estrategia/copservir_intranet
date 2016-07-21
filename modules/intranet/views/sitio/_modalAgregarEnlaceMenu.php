@@ -24,7 +24,10 @@ use yii\helpers\Url;
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <?= Html::submitButton('Agregar enlace', ['class' => 'btn btn-success', 'data-role' => 'guardar-enlace' ]) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Agregar enlace' : 'Guardar enlace', ['class' => 'btn btn-success',
+        'data-role' => $model->isNewRecord ? 'guardar-enlace' : 'guardar-edicion-enlace',
+        'data-opcion' => $model->isNewRecord ? '' : $model->idOpcion
+         ]) ?>
       </div>
     </div>
   </div>
