@@ -17,6 +17,7 @@ if ($location == 0) {
   <div class="carousel-inner" role="listbox">
 
     <?php $contador = 0 ?>
+
     <?php foreach ($banners as $banner): ?>
       <div id="<?= $idItem.$contador  ?>" class="item">
           <?php // Funciones::getHtmlLink($banner['urlEnlaceNoticia'],"<img src='".Yii::$app->homeUrl . "img/campanas/".$banner['rutaImagen']."' alt=''>"); ?>
@@ -28,12 +29,16 @@ if ($location == 0) {
   </div>
 
   <!-- Controls -->
-  <a class="left carousel-control" href="#<?= $idItem ?>" role="button" data-slide="prev">
-    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="right carousel-control" href="#<?= $idItem ?>" role="button" data-slide="next">
-    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
+  <?php if (count($banners) > 1 ): ?>
+
+    <a class="left carousel-control" href="#<?= $idItem ?>" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#<?= $idItem ?>" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+
+  <?php endif; ?>
 </div>
