@@ -44,9 +44,9 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-                <li><?= Html::a('Intranet', ['#']) ?></li>
+                <!-- <li><?= Html::a('Intranet', ['#']) ?></li>
                 <li><?= Html::a('Asociado', ['#']) ?></li>
-                <li><?= Html::a('Proveedor', ['#']) ?></li>
+                <li><?= Html::a('Proveedor', ['#']) ?></li> -->
                 <?php foreach (MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id) as $itemMenu): ?>
                   <li>
                     <?= $itemMenu->getHtmlLink(Yii::$app->controller->module->id) ?>
@@ -58,6 +58,7 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
         </nav>
 
     </div>
+
 
     <!-- CONTAINER -->
     <div id="container">
