@@ -30,8 +30,8 @@ class MultiportalAsset extends AssetBundle {
         'libs/bootstrap-media-lightbox-master/bootstrap-media-lightbox.css',
 
         //genericas plantilla intranet
-        'css/portales-style.css',
-        'css/portales-main.css',
+        'css/portales-style_1.css',
+        'css/portales-main_1.css',
         'css/common.css'
     ];
     public $js = [
