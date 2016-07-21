@@ -5,6 +5,7 @@ namespace app\modules\tarjetamas\models\formularios;
 use Yii;
 use yii\base\Model;
 use app\models\Usuario;
+use app\modules\intranet\models\AuthAssignment;
 
 //use app\modules\tarjetamas\models\UsuarioTarjetaMas;
 
