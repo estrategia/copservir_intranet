@@ -24,36 +24,33 @@ class UsuarioController extends Controller {
             [
                 'class' => \app\components\AccessFilter::className(),
                 'only' => [
-                    'index', 'cambiar-clave', 'actualizar-datos',  'suspender', 'ver', 'hacer-primaria'
+                    'index', 'cambiar-clave', 'actualizar-datos', 'suspender', 'ver', 'hacer-primaria', 'activar-tarjeta'
                 ],
                 'redirectUri' => ['/tarjetamas/sitio/index']
             ],
             [
                 'class' => \app\components\AccessFilter::className(),
                 'only' => [
-                     'mis-tarjetas', 
+                    'mis-tarjetas',
                 ],
                 'redirectUri' => ['/tarjetamas/usuario/autenticar']
             ],
-            /*
-              [
-              'class' => \app\components\AuthItemFilter::className(),
-              'only' => [
-              'admin', 'detalle', 'crear', 'actualizar', 'eliminar'
-              ],
-              'authsActions' => [
-              'detalle' => 'intranet_linea-tiempo_admin',
-              'crear' => 'intranet_linea-tiempo_admin',
-              'actualizar' => 'intranet_linea-tiempo_admin',
-              'eliminar' => 'intranet_linea-tiempo_admin',
-              ]
-              ],
-             */
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
+            [
+                'class' => \app\components\AuthItemFilter::className(),
+                'only' => [
+                    'index', 'mis-tarjetas', 'confirmar-bloqueo', 'ver', 'suspender', 'activar-tarjeta', 'hacer-primaria', 'cambiar-clave', 'actualizar-datos'
                 ],
+                'authsActions' => [
+                    'index' => Yii::$app->params['PerfilesUsuario']['tarjetaMas']['permiso'],
+                    'mis-tarjetas' => Yii::$app->params['PerfilesUsuario']['tarjetaMas']['permiso'],
+                    'confirmar-bloqueo' => Yii::$app->params['PerfilesUsuario']['tarjetaMas']['permiso'],
+                    'ver' => Yii::$app->params['PerfilesUsuario']['tarjetaMas']['permiso'],
+                    'suspender' => Yii::$app->params['PerfilesUsuario']['tarjetaMas']['permiso'],
+                    'activar-tarjeta' => Yii::$app->params['PerfilesUsuario']['tarjetaMas']['permiso'],
+                    'hacer-primaria' => Yii::$app->params['PerfilesUsuario']['tarjetaMas']['permiso'],
+                    'cambiar-clave' => Yii::$app->params['PerfilesUsuario']['tarjetaMas']['permiso'],
+                    'actualizar-datos' => Yii::$app->params['PerfilesUsuario']['tarjetaMas']['permiso'],
+                ]
             ],
         ];
     }
@@ -153,7 +150,7 @@ class UsuarioController extends Controller {
             $cedula = \Yii::$app->user->identity->numeroDocumento;
             $numeroTarjeta = $_POST['numeroTarjeta'];
             $respuesta = UsuarioTarjetaMas::callWSSuspenderTarjetaWeb($cedula, $numeroTarjeta);
-           // $respuesta[0]['CODIGO'] = 1;
+            // $respuesta[0]['CODIGO'] = 1;
             if ($respuesta[0]['CODIGO'] == 1) {
                 Yii::$app->session->setFlash('success', 'La tarjeta ha sido suspendida con éxito');
                 // return $this->redirect('mis-tarjetas');
@@ -273,7 +270,7 @@ class UsuarioController extends Controller {
                     Yii::$app->session->setFlash('success', 'Revisa tu correo y sigue las instrucciones para activar tu cuenta');
                     $model = new UsuarioTarjetaMas();
                 } else {
-                    throw new Exception("Error realizar el registro:" . yii\helpers\Json::enconde($logTarea->getErrors()), 101);
+                    throw new Exception("Error realizar el registro:" . yii\helpers\Json::enconde($modelUsuario->getErrors()), 101);
                 }
             } catch (Exception $e) {
 
@@ -335,7 +332,18 @@ class UsuarioController extends Controller {
             $modelUsuario = Usuario::findOne(['numeroDocumento' => $model->numeroDocumento]);
             $modelUsuario->estado = Usuario::ESTADO_ACTIVO;
             if ($modelUsuario->save()) {
-                Yii::$app->session->setFlash('success', 'Cuenta activada con exito, Ya puedes iniciar sesion');
+                $objAuthAssignment = AuthAssignment::find()
+                        ->where("item_name=:rol AND user_id=:usuario", [':rol' => \Yii::$app->params['PerfilesUsuario']['tarjetaMas']['permiso'], ':usuario' => $modelUsuario->numeroDocumento])
+                        ->one();
+                if ($objAuthAssignment == null) {
+                    $objAuthAssignment = new AuthAssignment;
+                    $objAuthAssignment->user_id = $modelUsuario->numeroDocumento;
+                    $objAuthAssignment->item_name = \Yii::$app->params['PerfilesUsuario']['tarjetaMas']['permiso'];
+                    $objAuthAssignment->created_at = strtotime(date('Y-m-d H:i:s'));
+                    $objAuthAssignment->save();
+                }
+
+                Yii::$app->session->setFlash('success', 'Cuenta activada con éxito, Ya puedes iniciar sesión');
             } else {
                 Yii::$app->session->setFlash('error', 'Error al activar la cuenta, este usuario no se ha registrado');
             }
@@ -348,7 +356,7 @@ class UsuarioController extends Controller {
 
     public function actionAutenticar() {
 
-        if (!\Yii::$app->user->isGuest) {
+        if (!\Yii::$app->user->isGuest && \Yii::$app->user->identity->tienePermiso(\Yii::$app->params['PerfilesUsuario']['tarjetaMas']['permiso'])) {
             return $this->redirect(['index']);
         }
 
@@ -431,7 +439,7 @@ class UsuarioController extends Controller {
 
         //se crea el enlace para restablecer la contraseña y el contenido del email
         $enlace = yii::$app->urlManager->createAbsoluteUrl(['tarjetamas/usuario/reestablecer-clave', 'codigo' => $codigoRecuperacion]);
-        $contenido_mail = "Ingresa a la siguiente direccion para reestalecer tu contraseña.\n" . $enlace;
+        $contenido_mail = "Ingresa a la siguiente direccion para reestablecer tu contraseña.\n" . $enlace;
 
         // envia correo
         $value = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
@@ -442,6 +450,9 @@ class UsuarioController extends Controller {
     }
 
     public function actionReestablecerClave($codigo) {
+        if (!\Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
+        }
 
         $model = new LoginForm();
         $model->scenario = 'cambiarClave';
@@ -454,10 +465,8 @@ class UsuarioController extends Controller {
             $model->username = $usuario->numeroDocumento;
 
             if ($usuario->save() && $model->login()) {
-
                 return $this->redirect(['index']);
             } else {
-
                 $model->addError($model->password, 'Error al reestablecer la clave');
             }
         }
