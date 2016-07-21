@@ -9,6 +9,7 @@ use app\modules\tarjetamas\models\formularios\RegistroForm;
 use app\modules\tarjetamas\models\UsuarioTarjetaMas;
 use app\modules\intranet\models\RecuperacionClave;
 use app\models\Usuario;
+use app\modules\intranet\models\AuthAssignment;
 use yii\filters\VerbFilter;
 use yii\data\ArrayDataProvider;
 use app\modules\tarjetamas\models\formularios\ActivarForm;
