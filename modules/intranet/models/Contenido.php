@@ -586,20 +586,24 @@ class Contenido extends \yii\db\ActiveRecord {
      * si no crea arroja una excepcion
      */
     public function guardarImagenes() {
+
+      $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
         if (!empty($this->imagenes)) {
 
             foreach ($this->imagenes['tmp_name'] as $key => $value) {
 
                 if (is_uploaded_file($value)) {
 
-                    $rutaGuardarArchivo = Yii::getAlias('@webroot') . "/img/imagenesContenidos/" . $this->imagenes['name'][$key];
+                    $rutaArchivo = Yii::getAlias('@webroot') . "/img/imagenesContenidos/".$this->imagenes['name'][$key];
+                    $rutaGuardarArchivo = Yii::getAlias('@webroot') . "/img/imagenesContenidos/".time().'_'.$numeroDocumento.'_'
+                      .$this->imagenes['name'][$key];
                     $contenidoAdjunto = new ContenidoAdjunto;
 
                     $contenidoAdjunto->idContenido = $this->idContenido;
                     $contenidoAdjunto->tipo = ContenidoAdjunto::TIPO_IMAGEN;
-                    $contenidoAdjunto->rutaArchivo = $this->imagenes['name'][$key];
+                    $contenidoAdjunto->rutaArchivo = time().'_'.$numeroDocumento.'_'.$this->imagenes['name'][$key];
 
-                    if (!is_file($rutaGuardarArchivo)) {
+                    if (!is_file($rutaArchivo)) {
 
                         move_uploaded_file($value, $rutaGuardarArchivo);
                     }

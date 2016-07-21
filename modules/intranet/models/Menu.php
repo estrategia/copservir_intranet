@@ -23,7 +23,7 @@ class Menu extends \yii\db\ActiveRecord {
         return [
             [['descripcion', 'estado', 'orden'], 'required'],
             [['idPadre', 'idRaiz', 'estado', 'orden'], 'integer'],
-            [['descripcion'], 'string', 'max' => 45]
+            [['descripcion', 'icono'], 'string', 'max' => 45]
         ];
     }
 
@@ -34,7 +34,8 @@ class Menu extends \yii\db\ActiveRecord {
             'idPadre' => 'Id Padre',
             'idRaiz' => 'Id Raiz',
             'estado' => 'Estado',
-            'orden' => 'Orden'
+            'orden' => 'Orden',
+            'icono' => 'Icono'
         ];
     }
 
@@ -161,6 +162,7 @@ class Menu extends \yii\db\ActiveRecord {
 
                 $dataOpcion = $objMenu->objOpcion->idOpcion;
                 $htmlRelacion = "<button class='btn btn-mini btn-success' data-role='quitar-enlace-menu'data-opcion='$dataOpcion' >Eliminar enlace</button>"
+                        ."<button class='btn btn-mini btn-success' data-role='editar-enlace'data-opcion='$dataOpcion' >Editar enlace</button>"
                         . "<button class='btn btn-mini btn-success' data-toggle='poptooltip' data-content='" . $objMenu->objOpcion->url . "'>Ver enlace</button>";
             }
 

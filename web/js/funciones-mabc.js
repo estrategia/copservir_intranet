@@ -1095,6 +1095,88 @@ $(document).on('click', "button[data-role='agregar-enlace-menu']", function() {
 });
 
 /**
+* peticion ajax para renderizar el modal con el formulario para actualizar un modelo Opcion que es donde se
+* guarda el enlace del item del menu
+* @param idOpcion
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html del modal
+*/
+$(document).on('click', "button[data-role='editar-enlace']", function() {
+
+  var idOpcion = $(this).attr('data-opcion');
+
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/sitio/render-editar-enlace',
+    data: {idOpcion: idOpcion},
+    dataType: 'json',
+    beforeSend: function() {
+      $("#widget-agregar-opcion-menu").remove();
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $('body').append(data.response);
+        $("#widget-agregar-opcion-menu").modal("show");
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+
+  return false;
+});
+
+/**
+* peticion ajax para guardar un modelo Opcion que es donde se guarda el enlace del item del menu
+* @param
+* @return data.result = json donde se especifica si todo se realizo bien
+*         data.response = html vista menuAdmin
+*/
+
+$(document).on('click', "button[data-role='guardar-edicion-enlace']", function() {
+
+  var idOpcion = $(this).attr('data-opcion');
+  var form = $("#formAgregarEnlace");
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/sitio/guardar-edita-opcion?id='+idOpcion,
+    data: form.serialize(),
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $("#menu").remove();
+        $('#container').append(data.response);
+        $("#widget-agregar-opcion-menu").modal("hide");
+      }else{
+        $("#widget-agregar-opcion-menu").modal("hide");
+        $('#widget-agregar-opcion-menu').on('hidden.bs.modal', function (e) {
+          $('#widget-agregar-opcion-menu').remove();
+          $('body').append(data.response);
+          $("#widget-agregar-opcion-menu").modal("show");
+        })
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
+
+/**
 * peticion ajax para guardar un modelo Opcion que es donde se guarda el enlace del item del menu
 * @param
 * @return data.result = json donde se especifica si todo se realizo bien

@@ -23,6 +23,8 @@ use yii\helpers\Url;
 
         <?= $form->field($model, 'descripcion')->textInput(['maxlength' => true]) ?>
 
+        <?= $form->field($model, 'icono')->textInput(['maxlength' => true]) ?>
+
         <?= $form->field($model, 'orden')->textInput(['type' => 'number']) ?>
 
         <?php $model->idPadre = $model->isNewRecord ? $idPadre : $model->idPadre;  ?>

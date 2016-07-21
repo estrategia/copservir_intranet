@@ -657,7 +657,7 @@ class SitioController extends \app\controllers\CController {
     }
 
     /**
-     * Renderiza el modal con el formulario para crear un modelo Opcion qe es donde se guarda el enlance del item del menu
+     * Renderiza el modal con el formulario para crear un modelo Opcion que es donde se guarda el enlance del item del menu
      * @param string $idMenu
      * @return el html con la vista del modal _modalAgregarEnlaceMenu
      */
@@ -678,12 +678,62 @@ class SitioController extends \app\controllers\CController {
     }
 
     /**
+     * Renderiza el modal con el formulario para actualizar un modelo Opcion que es donde se guarda el enlance del item del menu
+     * @return el html con la vista del modal _modalAgregarEnlaceMenu
+     */
+    public function actionRenderEditarEnlace()
+    {
+      $idOpcion = Yii::$app->request->post('idOpcion', NULL);
+      $model = Opcion::findOne(['idOpcion' => $idOpcion]);
+
+      $respond = [
+          'result' => 'ok',
+          'response' => $this->renderAjax('_modalAgregarEnlaceMenu', [
+              'model' => $model,
+              'idMenu' => $model->idMenu
+          ])
+      ];
+
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      return $respond;
+    }
+
+    /**
      * Crea un modelo Opcion qe es donde se guarda el enlance del item del menu
      * @param none
      * @return el html con la vista menuAdmin
      */
     public function actionGuardarOpcionMenu() {
         $model = new Opcion();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            $respond = [
+                'result' => 'ok',
+                'response' => $this->renderAjax('menuAdmin', [])
+            ];
+        } else {
+            $respond = [
+                'result' => 'error',
+                'response' => $this->renderAjax('_modalAgregarEnlaceMenu', [
+                    'model' => $model,
+                    'idMenu' => $model->idMenu
+                ])
+            ];
+        }
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $respond;
+    }
+
+    /**
+     * Actualiza un modelo Opcion qe es donde se guarda el enlance del item del menu
+     * @param none
+     * @return el html con la vista menuAdmin
+     */
+    public function actionGuardarEditaOpcion($id) {
+
+        $model = Opcion::findOne(['idOpcion' => $id]);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
