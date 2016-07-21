@@ -3,6 +3,6 @@
     Revisa tu correo
   </h2>
   <p>
-    Se te ha enviado un mensaje con las intrucciones para la recuperación de la contraseña, por favor revisa tu correo <?= $correo ?>.
+    Se te ha enviado un mensaje con las instrucciones para la recuperación de la contraseña, por favor revisa tu correo <?= $correo ?>.
   </p>
 </div>

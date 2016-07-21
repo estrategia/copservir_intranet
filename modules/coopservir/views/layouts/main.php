@@ -6,8 +6,7 @@ use app\modules\intranet\models\MenuPortales;
 MultiportalAsset::register($this);
 
 // Rutas imagenes
-$srcLogo = Yii::$app->homeUrl . 'img/multiportal/copservir/logo-curva.jpg';
-$srcLogoMovil = Yii::$app->homeUrl . 'img/multiportal/copservir/logo.png';
+$srcLogo = Yii::$app->homeUrl . 'img/multiportal/copservir/logo.png';
 $srcLogoFooter = Yii::$app->homeUrl . 'img/multiportal/copservir/logo-footer.jpg';
 $srcFb =  Yii::$app->homeUrl . 'img/multiportal/copservir/fb.png';
 $srcTw =  Yii::$app->homeUrl . 'img/multiportal/copservir/tw.png';
@@ -30,38 +29,30 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
     <?php $this->beginBody() ?>
     <!-- NAVBAR -->
     <div class="navbar-wrapper">
-        <nav class="navbar navbar-coop navbar-static-top nav-green">  
-          <div class="coop" style="border-radius: 0px;border: none;"></div>
+
+        <nav class="navbar navbar-coop navbar-static-top">
+          <div class="white-piece"></div>
           <div class="container coop">
-            <div class="navbar-header" style="margin:0px !important;">
+            <div class="navbar-header">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-                <?= Html::a("<img src='$srcLogoMovil' class='logo-coop'>", ['/coopservir/sitio/index'],['class'=>'navbar-brand']) ?>
+                <?= Html::a("<img src='$srcLogo'>", ['/coopservir/sitio/index'],['class'=>'navbar-brand copservir']) ?>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-                <li><?= Html::a('Intranet', ['/']) ?></li>
-                <li><?= Html::a('Asociado', ['/']) ?></li>
-                <li><?= Html::a('Proveedor', ['/']) ?></li>
+                <li><?= Html::a('Intranet', ['#']) ?></li>
+                <li><?= Html::a('Asociado', ['#']) ?></li>
+                <li><?= Html::a('Proveedor', ['#']) ?></li>
                 <?php foreach (MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id) as $itemMenu): ?>
                   <li>
-                    <?php echo $itemMenu->getHtmlLink(Yii::$app->controller->module->id) ?>
+                    <?= $itemMenu->getHtmlLink(Yii::$app->controller->module->id) ?>
                   </li>
                 <?php endforeach; ?>
               </ul>
-              <!--<ul class="nav navbar-nav">
-                <li><?= Html::a('Propósito', ['acerca-de']) ?></li>
-                <li><?= Html::a('Visión', ['vision']) ?></li>                
-                <li><?= Html::a('Historia', ['historia']) ?></li>
-                <li><?= Html::a('Identidad', ['identidad']) ?></li>
-                <li><?= Html::a('Compromiso social', ['compromiso']) ?></li>
-                <li><?= Html::a('Gestión', ['gestion-ambiental']) ?></li>
-                <li><?= Html::a('Sector cooperativo', ['sector-coperativo']) ?></li>
-              </ul>-->
             </div>
           </div>
         </nav>
@@ -73,36 +64,29 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
         <?= $content ?>
     </div>
 
-    <!-- FOOTER -->
+        <!-- FOOTER -->
     <footer>
         <div class="footer-top footer-copservir">
         <div class="container">
-            <div class="col-md-3"></div>
-            <div class="col-md-3 direcciones-coop">
-              <div class="space-1 footer"></div>
-                <div>
-                    <strong style="color:#fff;">Sede Copservir Barranquilla</strong>
-                    <p>Calle 110 Av. Circunvalar No. 6R - 400 Teléfono (5) 328 8156</p>
-                </div>
-                <div>
-                  <strong style="color:#fff;">Sede Copservir Bogotá</strong>
-                  <p>Calle 13 No. 42 - 10 Teléfono (1) 3351700</p> 
-                </div>            
-            </div>
-            
-            <div class="col-md-3 direcciones-coop">
-            <div class="space-1 footer"></div>
-                <div>
-                    <strong style="color:#fff;">Sede Copservir Bucaramanga</strong>
-                    <p>Carrera 16 No. 47 - 82 Teléfono (7) 6309450 Fax: 6309490</p>
-                </div>
-                <div>
-                  <strong style="color:#fff;">Sede Copservir Cali</strong>
-                  <p>Calle 18 No. 121 - 130 Pance Teléfono (2) 3218000</p> 
-                </div>
+            <div class="col-md-3">
+              <?= Html::a("<img src='$srcLogoFooter' class=''>", ['/coopservir/sitio/index']) ?>
+              <div class="space-1"></div>
             </div>
             <div class="col-md-3">
-               <div class="space-1 footer"></div>                
+              <strong style="color:#fff;">Sede Copservir Barranquilla</strong>
+              <p>Calle 110 Av. Circunvalar No. 6R - 400 Teléfono (5) 328 8156</p>
+
+              <strong style="color:#fff;">Sede Copservir Bogotá</strong>
+              <p>Calle 13 No. 42 - 10 Teléfono (1) 3351700</p> 
+            </div>
+            
+            <div class="col-md-3">
+              <strong style="color:#fff;">Sede Copservir Bucaramanga</strong>
+              <p>Carrera 16 No. 47 - 82 Teléfono (7) 6309450 Fax: 6309490</p>
+              <strong style="color:#fff;">Sede Copservir Cali</strong>
+              <p>Calle 18 No. 121 - 130 Pance Teléfono (2) 3218000</p> 
+            </div>
+            <div class="col-md-3">                
                <div class="contenedor-redes">
                     <strong style="color:#fff;">Nuestras</strong>
                     <p>Redes sociales</p> 

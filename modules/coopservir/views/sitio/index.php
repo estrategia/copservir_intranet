@@ -60,18 +60,15 @@ $srcSlide = Yii::$app->homeUrl . 'img/multiportal/copservir/';
                  <img class="img-responsive" src=<?= "" . $srcSlide . "parallax-home.jpg" ?> alt="">
              </div>
               <div class="col-md-6">
-                   <div>
-                   <ul class="list-cop">
-                     <li>
+                  
                         <h2 style="color:#23B149;font-size: 38px;font-weight: bold;margin:0px;">Somos ejemplo de permanencia, fortaleza y consolidación.</h2>
-                     </li>
-                   </ul>
+                   
                     <div class="space-1"></div>
-                    <p>Somos Copservir Ltda, una de las más importantes cooperativas del país. Desde hace más de 20 años comercializamos productos y servicios bajo la marca comercial La Rebaja Droguerías y Minimarkets.</p>
-                    <p>Nuestra consolidación empresarial y cooperativa, se puede evidenciar en nuestra expansión por el territorio Colombiano, llegando a más de 170 municipios del País generando así más de 6.000 empleos 
+                    <p class="text-justify">Somos Copservir Ltda, una de las más importantes cooperativas del país. Desde hace más de 20 años comercializamos productos y servicios bajo la marca comercial La Rebaja Droguerías y Minimarkets.</p>
+                    <p class="text-justify">Nuestra consolidación empresarial y cooperativa, se puede evidenciar en nuestra expansión por el territorio Colombiano, llegando a más de 170 municipios del País generando así más de 6.000 empleos 
                         directos, aportando al crecimiento y desarrollo de las diferentes regiones donde hacemos presencia con nuestros más de 800 puntos de venta, La rebaja Droguería.</p>
                     <div class="space-1"></div>
-                  </div>
+                  
               </div>
           </div>
       </div> <!-- / full section -->
