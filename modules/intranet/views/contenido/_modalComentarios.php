@@ -8,7 +8,7 @@ use yii\helpers\Html;
 
 <div class="modal fade" id="modal-comentarios-contenido" tabindex="-1" with='700px' role="dialog">
 
-  <div class="modal-dialog" role="document" style="width: 800px;">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 style="display:inline-block;" class="modal-title">Listado de comentarios </h4>
