@@ -50,7 +50,7 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/tarjetamas/logo-tarjeta-mas.png
               <li class="active"> <?= Html::a('PQRS', ['/tarjetamas/sitio/atencion']) ?></li>
               <li class="active">
 
-                <?php if (\Yii::$app->user->isGuest): ?>
+                <?php if (\Yii::$app->user->isGuest || !\Yii::$app->user->identity->tienePermiso(\Yii::$app->params['PerfilesUsuario']['tarjetaMas']['permiso']) ): ?>
                   <?= Html::a('Mi cuenta', "#") ?>
                   <ul class="submenu sub-tarjetamas">
                       <li class="active"><?= Html::a('Iniciar Sesión', ['/tarjetamas/usuario/autenticar']) ?></li>

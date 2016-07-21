@@ -438,13 +438,11 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
     }
 
     public function tienePermiso($nombrePermiso) {
-
-        if ($this->codigoPerfil == \Yii::$app->params['PerfilesUsuario']['intranet']['codigo']) {
+        /*if ($this->codigoPerfil == \Yii::$app->params['PerfilesUsuario']['intranet']['codigo']) {
             \Yii::$app->authManager->defaultRoles = [\Yii::$app->params['PerfilesUsuario']['intranet']['permiso']];
         } elseif ($this->codigoPerfil == \Yii::$app->params['PerfilesUsuario']['tarjetaMas']['codigo']) {
             \Yii::$app->authManager->defaultRoles = [\Yii::$app->params['PerfilesUsuario']['tarjetaMas']['permiso']];
-        }
-
+        }*/
 
         return Yii::$app->authManager->checkAccess($this->numeroDocumento, $nombrePermiso);
     }
