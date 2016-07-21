@@ -200,7 +200,32 @@ class Contenido extends \yii\db\ActiveRecord {
         return $query;
     }
 
-    public static function traerTodasNoticiasCopservir($idLineaTiempo) {
+    public static function traerTodasNoticiasArea($idLineaTiempo) {
+
+        $fecha = new \DateTime;
+
+        return $noticias = self::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listMeGusta', 'listComentarios', 'listMeGustaUsuario', 'objDenuncioComentarioUsuario', 'objContenidoAdjuntoImagenes'])
+                ->joinWith(['listContenidosDestinos'])->where(
+                        " fechaInicioPublicacion<=now() AND idLineaTiempo =:idLineaTiempo AND estado=:estado AND
+    (
+    (t_ContenidoDestino.codigoCiudad =:ciudad AND t_ContenidoDestino.idGrupoInteres IN (" . implode(", ", Yii::$app->user->identity->getGruposCodigos()) . ")) OR
+    (t_ContenidoDestino.codigoCiudad =:ciudad AND t_ContenidoDestino.idGrupoInteres=:gruposA ) OR
+    (t_ContenidoDestino.codigoCiudad =:ciudadA AND t_ContenidoDestino.idGrupoInteres=:gruposA ) OR
+    (t_ContenidoDestino.codigoCiudad =:ciudadA AND t_ContenidoDestino.idGrupoInteres IN (" . implode(",", Yii::$app->user->identity->getGruposCodigos()) . "))
+    )"
+                )
+                ->addParams([':estado' => self::APROBADO,
+                    ':fecha' => $fecha->format('Y-m-d H:i:s'),
+                    ':ciudad' => Yii::$app->user->identity->getCiudadCodigo(),
+                    ':idLineaTiempo' => $idLineaTiempo,
+                    ':ciudadA' => Yii::$app->params['ciudad']['*'],
+                    ':gruposA' => Yii::$app->params['grupo']['*']]
+                )
+                ->orderBy('fechaInicioPublicacion Desc');
+    }
+
+
+    public static function traerTodasNoticias($idLineaTiempo) {
         return $noticias = self::find()->with(['objUsuarioPublicacion', 'listComentarios', 'listMeGusta', 'listComentarios',
                         'listMeGustaUsuario', 'objDenuncioComentarioUsuario', 'objContenidoAdjuntoImagenes'])
                         ->where(

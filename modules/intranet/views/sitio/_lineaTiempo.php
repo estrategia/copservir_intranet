@@ -36,10 +36,17 @@ use \app\modules\intranet\models\LineaTiempo;
 
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
 
-      <?= Html::a('Ver todas las publicaciones', ['contenido/noticias', 'lineaTiempo' => $linea->idLineaTiempo], [
+      <?= Html::a('Ver todas las publicaciones de mi area', ['contenido/noticias', 'lineaTiempo' => $linea->idLineaTiempo], [
                  'class' => 'btn btn-block btn-warning',
+             ])
+      ?>
+    </div>
+    <div class="col-md-6">
+
+      <?= Html::a('Ver todas las publicaciones', ['contenido/todas-noticias', 'lineaTiempo' => $linea->idLineaTiempo], [
+                 'class' => 'btn btn-block btn-success',
              ])
       ?>
     </div>
