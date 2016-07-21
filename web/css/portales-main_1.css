@@ -91,7 +91,7 @@ ul.list{ list-style-image: url("../../web/img/multiportal/tarjetamas/check.png")
 }
 .navbar-nav > li > a {
   color: #fff;
-  padding: 30px;
+  padding: 30px 20px;
 }
 .centered {
   text-align: center;
@@ -557,7 +557,7 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
 }
 
 @media (max-width: 900px) {
-  .white-piece {
+ /*.white-piece {
       width: 100%;
       border-radius: 0;
   }
@@ -565,16 +565,32 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
     width: 100%;
   }
  .navbar > .container .navbar-brand.copservir{margin-left: 62% !important;margin-bottom: 20px}
- .carousel.slide.banner-copservir{margin-top: 162px;}
+ .carousel.slide.banner-copservir{margin-top: 162px;}*/
+ .container.coop .navbar-header {
+    margin-left: 0px;
+}
+.navbar-header {
+    position: relative;
+    margin-right: 0px !important;
+  }
+
+  .white-piece {
+    z-index: 2;
+}
+.container.coop .navbar-header {
+    z-index: 3;
+}
 
 }
 
+@media (max-width: 767px) {
+.white-piece {
+    z-index: 0;
+}
+}
 
 @media (min-width: 768px) {
   /* Navbar positioning foo */
-  .navbar-wrapper {
-
-  }
   .navbar-wrapper .container {
     padding-right: 15px;
     padding-left: 15px;
@@ -602,6 +618,7 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
     .navbar > .container .navbar-brand.copservir {
     margin-left: 55%;
   }
+
 }
 
 
@@ -619,13 +636,6 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
   }
   .navbar.navbar-coop.navbar-static-top {
     height: 80px;
-  }
-  .navbar-toggle .icon-bar {
-      background-color: #3CB04B;
-  }
-  .navbar-toggle {
-      border: 1px solid #3CB04B;
-      margin-top: 12px;
   }
   .subscribe .form-group {
     margin-top: 40px;
@@ -655,6 +665,13 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
 
 
 
+  .navbar-toggle {
+      border: 1px solid #3CB04B;
+      margin-top: 12px;
+  }
+  .navbar-toggle .icon-bar {
+      background-color: #3CB04B;
+  }
 
 
 /* FIN RESPONSIVE CSS
