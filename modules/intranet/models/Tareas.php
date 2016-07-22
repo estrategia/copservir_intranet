@@ -93,6 +93,20 @@ class Tareas extends \yii\db\ActiveRecord
     ->andWhere(['!=', 'estadoTarea', self::ESTADO_TAREA_NO_INDEX ])->orderBy('fechaRegistro DESC')->all();
   }
 
+  //-----------------------------------------------------
+  /**
+  * cuenta cuantas tareas tiene el usuario que no ha terminado
+  * @param numeroDocumento = identificador del usuario
+  * @return int = numero tareas
+  */
+  public static function getNumeroTareas($numeroDocumento)
+  {
+    return  self::find()->where(['numeroDocumento' => $numeroDocumento])
+      ->andWhere(['!=', 'estadoTarea', self::ESTADO_TAREA_INACTIVA])
+      ->andWhere(['<', 'progreso', 100])
+      ->orderBy('fechaRegistro DESC')->count();
+  }
+  //-----------------------------------------------------
   /**
   * consulta un modelo Tarea por sus atributos idTarea y numeroDocumento
   * @param idTarea = llave primaria de la tarea, numeroDocumento = identificador del usuario

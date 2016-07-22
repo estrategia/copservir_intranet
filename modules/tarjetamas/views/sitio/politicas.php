@@ -39,49 +39,27 @@ $this->title = 'Políticas de privacidad';
              <strong>Protección, seguridad y confidencialidad de la información</strong> <br>
             De conformidad con principios rectores de la Ley estatutaria 1581 de 2012 estamos comprometidos a asegurar que la información personal del usuario esté protegida. Con el fin de evitar el acceso no autorizado o divulgación, se cuenta con la infraestructura física e informática, así como los procedimientos administrativos apropiados para salvaguardar y asegurar la información que recopilamos en línea.    
          </p> 
-         <p class="text-justify">
-            Los terceros contratados por Copservir Ltda., están igualmente obligados a adherirse y dar cumplimiento a esta política de privacidad, así como a los protocolos de seguridad que aplicamos a todos nuestros procesos y a su vez garantizar la reserva de la información, inclusive después de finalizada su relación con alguna de las labores que comprende el tratamiento. 
-         </p> 
-         <strong class="text-justify">Declaración sobre  la prestación del servicio. </strong>
-         <p class="text-justify">
-           La prestación del servicio de El portal por parte de COPSERVIR tiene carácter gratuito para EL USUARIO y no REQUIERE suscripción o registro de EL USUARIO. No obstante, el empleo  de los  Servicios sólo puede hacerse mediante suscripción o registro de EL USUARIO, de la forma en que se indica expresamente en las correspondientes Condiciones Particulares. 
-         </p>
-        <p class="text-justify">EL USUARIO se obliga a usar el contenido del Portal de forma correcta y lícita. En particular, EL USUARIO se compromete a abstenerse de: (a) utilizar el Contenido del Portal, con fines o efectos contrarios a la ley, a la moral y a las buenas costumbres generalmente aceptadas o al orden público; (b) reproducir o copiar, distribuir, permitir el acceso del público a través de cualquier modalidad de comunicación pública, transformar, modificar o eliminar el Contenido del portal; (c) suprimir, eludir o manipular el Copyright o los derechos de autor y demás datos identificativos de los derechos de COPSERVIR o de los terceros citados como propietarios de los mismos y las respectivas firmas digitales, si fuere el caso; (d) emplear el contenido y, en particular, la información de cualquier clase obtenida a través del Portal o usar los servicios para remitir publicidad, comunicaciones con fines de venta directa o con cualquier otra clase de finalidad comercial, mensajes no solicitados dirigidos a una pluralidad de personas con independencia de su finalidad, así como comercializar o divulgar de cualquier modo dicha información.</p>
-
-        <p class="text-justify">
-          La información, el software, los productos y los servicios contenidos en El portal pueden contener errores de los cuales no se hacen responsables ni COPSERVIR y/o sus proveedores, a no ser que la distribución del Software se haga a título oneroso. Para utilizar algunos de los Servicios, EL USUARIO proporcionará previamente a COPSERVIR ciertos datos de carácter personal (en adelante, los "Datos Personales"). COPSERVIR tratará mediante procesos automatizados los Datos Personales con las finalidades y bajo las condiciones definidas en su Política de Protección de datos.
-        </p>
-
-         <strong class="text-justify">Declaración del límite de responsabilidad</strong>
-         <p class="text-justify">
-             <strong>Sobre la disponibilidad del servicio:</strong> Los responsables de este sitio web se comprometen a hacer todo lo posible para tenerlo siempre disponible al público, sin embargo no nos hacemos responsables de problemas técnicos fuera de nuestro control que ocasione fallas temporales.<br>
-             Copservir Ltda., propietaria de los establecimientos comerciales La Rebaja Droguerías y Minimarkets se reserva el derecho de realizar actualizaciones a esta declaración del límite de responsabilidad por lo que le recomendamos revisar este documento periódicamente para estar enterado de estos cambios. 
-         </p>
-         <strong class="text-justify"></strong>
-             <ul class="text-justify">
-                 <li>Información técnica del equipo con que accede al sitio web. </li>
-                 <li>Información estadística de la navegación del usuario por el sitio web (cedula y contraseña, archivos del sitio solicitados, palabras claves utilizadas en motores de búsqueda, etc.)</li>
-                 <li>Información para registrarse en tarjeta más (nombre, cedula, teléfono fijo, celular, correo electrónico, ciudad, dirección, barrio.)</li>
-                 <li>Información pertinente para la consulta de descuentos utilizados y disponibles y fecha de vigencia de tarjeta más, para el uso de encuestas o sondeos de opinión (nombre, cedula, teléfonos, correo electrónico).</li>
-                 <li>Participación en actividades comerciales como sorteos, rifas, descuentos o cualquier mecanismo de incentivo (nombre, cedula, teléfonos, correo electrónico, ciudad, dirección, barrio, fotos (opcional), mensaje (opcional).</li>
-                 <li>Registro de un caso a través del sistema  PQRS (nombre, cedula, teléfonos, correo electrónico, ciudad, descripción del caso). </li>
-             </ul>  
-          <strong class="text-justify">Información que se publica en este sitio</strong>   
-             <ul>
-                 <li>Información personal sobre los descuentos utilizados (nombres, cedula, tarjetas asignadas, punto de venta, valor de compra, descuentos otorgados, descuentos disponibles) </li>
-                 <li>Información personal sobre el seguimiento a los casos reportados a través del sistema  pqrs (nombre, cedula, teléfonos, correo electrónico, ciudad, descripción del caso, numero de caso y respuesta al caso).</li>
-             </ul>
-          <strong class="text-justify">La información recolectada se emplea para:</strong>   
-          <ul>
-                 <li>Utilizar la información suministrada por los usuarios a través de las encuestas o del sistema pqrs para mejorar los servicios que se ofrecen a través de nuestros diferentes canales de comercialización.</li>
-                 <li>Suministrar información valiosa al usuario que le permita tener un mayor conocimiento sobre temas de salud, belleza y bienestar integral. </li>
-          </ul> 
-          <p class="text-justify">
-           <strong> Exclusión de Garantías y Exoneración de Responsabilidad.</strong> COPSERVIR  no garantiza la disponibilidad y continuidad del funcionamiento de El portal y de los Servicios. Cuando ello sea razonablemente posible, COPSERVIR advertirá previamente las interrupciones en el funcionamiento de El portal y de los Servicios. COPSERVIR tampoco garantiza la utilidad de El portal y de los Servicios para la realización de alguna actividad en particular, ni su infalibilidad y, en particular, aunque no de modo exclusivo, que EL USUARIO pueda efectivamente utilizar El portal y los Servicios, acceder a las distintas páginas web que forman El portal o a aquellas desde las que se prestan los Servicios.
-          </p>   
-          <ul>
-            <li>COPSERVIR no asume responsabilidad alguna por los daños y perjuicios de toda naturaleza que puedan derivarse de la falta de disponibilidad o de continuidad del funcionamiento de El portal y de los servicios, de la falta de utilidad que EL USUARIO hubiere podido atribuir al Portal y a los servicios, a la fiabilidad de El portal y de los servicios y, en particular, aunque no de modo exclusivo, a las fallas en el acceso a las distintas páginas web de El portal o a aquellas desde las que se prestan los servicios. Lo anterior, debido a que todo servicio prestado a través de la INTERNET utiliza la infraestructura pública de comunicaciones, cuyo control y responsabilidad no están radicados en ningún momento en COPSERVIR.</li>
-          </ul>  
+         <h2>Declaración del límite de responsabilidad </h2>
+         <p class="text-justify"><strong>Sobre la disponibilidad del servicio:</strong> Los responsables de este sitio web se comprometen a hacer todo lo posible para tenerlo siempre disponible al público, sin embargo no nos hacemos responsables de problemas técnicos fuera de nuestro control que ocasione fallas temporales.</p>
+         <p class="text-justify">Copservir Ltda., propietaria de los establecimientos comerciales La Rebaja Droguerías y Minimarkets se reserva el derecho de realizar actualizaciones a esta declaración del límite de responsabilidad por lo que le recomendamos revisar este documento periódicamente para estar enterado de estos cambios. </p>
+         <ul class="text-justify">
+           <li>Información técnica del equipo con que accede al sitio web. </li>
+           <li>Información estadística de la navegación del usuario por el sitio web (cedula y contraseña, archivos del sitio solicitados, palabras claves utilizadas en motores de búsqueda, etc.)</li>
+           <li>Información estadística de la navegación del usuario por el sitio web (cedula y contraseña, archivos del sitio solicitados, palabras claves utilizadas en motores de búsqueda, etc.)</li>
+           <li>Información pertinente para la consulta de descuentos utilizados y disponibles y fecha de vigencia de tarjeta más, para el uso de encuestas o sondeos de opinión (nombre, cedula, teléfonos, correo electrónico).</li>
+           <li>Información pertinente para la consulta de descuentos utilizados y disponibles y fecha de vigencia de tarjeta más, para el uso de encuestas o sondeos de opinión (nombre, cedula, teléfonos, correo electrónico).</li>
+           <li>Información pertinente para la consulta de descuentos utilizados y disponibles y fecha de vigencia de tarjeta más, para el uso de encuestas o sondeos de opinión (nombre, cedula, teléfonos, correo electrónico).</li>
+         </ul>
+         <strong>Información que se publica en este sitio </strong>
+         <ul class="text-justify">
+           <li>Información personal sobre los descuentos utilizados (nombres, cedula, tarjetas asignadas, punto de venta, valor de compra, descuentos otorgados, descuentos disponibles) </li>
+           <li>Información personal sobre los descuentos utilizados (nombres, cedula, tarjetas asignadas, punto de venta, valor de compra, descuentos otorgados, descuentos disponibles) </li>
+         </ul>
+         <strong>La información recolectada se emplea para: </strong>
+         <ul class="text-justify">
+           <li>Utilizar la información suministrada por los usuarios a través de las encuestas o del sistema pqrs para mejorar los servicios que se ofrecen a través de nuestros diferentes canales de comercialización.</li>
+           <li>Suministrar información valiosa al usuario que le permita tener un mayor conocimiento sobre temas de salud, belleza y bienestar integral. </li>
+         </ul>
     </div> 
   </section>    
 </div>

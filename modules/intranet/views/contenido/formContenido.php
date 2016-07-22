@@ -10,7 +10,11 @@ use kartik\file\FileInput;
 $maxFileCount = Parametros::obtenerValorParametro('contenido_maxFileCount');
 $maxFileSize = Parametros::obtenerValorParametro('contenido_maxFileSize');
 
+$ruta = Yii::getAlias('@web')."/libs/fileinput/fileinput_locale_es.js";
+
 ?>
+<?php  ?>
+
 
 <div class="col-md-12">
 
@@ -46,6 +50,7 @@ $maxFileSize = Parametros::obtenerValorParametro('contenido_maxFileSize');
     <?php
     echo FileInput::widget([
       'name'=> 'imagen[]',
+      'language' => 'es',
       'id' => 'contenido-imagenes',
       'options' => ['multiple' => true, 'accept' => 'image/*'],
       'pluginOptions' => [
