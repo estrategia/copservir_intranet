@@ -8,6 +8,7 @@ use yii\bootstrap\Dropdown;
 use yii\widgets\Breadcrumbs;
 use app\assets\IntranetAsset;
 use app\modules\intranet\models\Menu;
+use app\modules\intranet\models\Tareas;
 use app\modules\intranet\models\MenuPortales;
 use app\modules\intranet\models\AuthItem;
 use app\modules\intranet\models\Opcion;
@@ -96,6 +97,10 @@ if (!Yii::$app->user->isGuest) {
                             <div id="notification-list" style="display:none"></div>
                             <div class="profile-pic">
                                 <img src=<?= "" . $srcPictureUser ?> alt="" data-src="" data-src-retina="" width="35" height="35" />
+                            </div>
+                            <div style="margin-left: 15px;display: inline-block; float: left; line-height: 35px;">
+                              <?php $numTareas =  Tareas::getNumeroTareas(Yii::$app->user->identity->numeroDocumento)?>
+                              <?= Html::a("<span class='badge badge-success'> $numTareas Tareas</span> ", ['tareas/listar-tareas']) ?>
                             </div>
                         </div>
                         <ul class="nav quick-section ">
