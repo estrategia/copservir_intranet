@@ -44,7 +44,7 @@ class IntranetAsset extends AssetBundle {
         // boostrap
         'libs/boostrapv3/js/bootstrap.min.js',
         'libs/jquery-bootstrap-scrolling-tabs/jquery.scrolling-tabs.min.js',
-        
+
         //genericas plantilla intranet
         'libs/pace/pace.min.js',
         'libs/jquery-scrollbar/jquery.scrollbar.min.js',
@@ -65,6 +65,8 @@ class IntranetAsset extends AssetBundle {
         'libs/timeago/jquery.timeago.es.js',
         // carousel
         'libs/multiportal/owl-carousel/owl.carousel.min.js',
+
+        
         //propios
         //'libs/fullcalendar/fullcalendar.js',
         'js/funciones-jj.js',

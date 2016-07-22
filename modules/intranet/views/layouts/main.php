@@ -100,7 +100,7 @@ if (!Yii::$app->user->isGuest) {
                             </div>
                             <div style="margin-left: 15px;display: inline-block; float: left; line-height: 35px;">
                               <?php $numTareas =  Tareas::getNumeroTareas(Yii::$app->user->identity->numeroDocumento)?>
-                              <?= Html::a("<span class='badge badge-success'> $numTareas Tareas</span> ", ['tareas/listar-tareas']) ?>
+                              <?= Html::a("<span class='glyphicon glyphicon-list-alt' aria-hidden='true'></span><span class='badge badge-success' style='position: absolute;'> $numTareas</span>", ['tareas/listar-tareas']) ?>
                             </div>
                         </div>
                         <ul class="nav quick-section ">

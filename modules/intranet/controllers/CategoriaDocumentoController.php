@@ -154,23 +154,23 @@ class CategoriaDocumentoController extends \yii\web\Controller {
         }
 
         $html = $html .
-                '
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          ' . $htmlEnlace . '
-        </h4>
-        ' . $htmlEditaCategoria . '
-        ' . $htmlRelaciona . '
-      </div>
-      <div class="panel-collapse collapse" id="' . $categoria->idCategoriaDocumento . '">
-        <div class="panel-body">
-          ' . $htmlCrearCategoria . '
-          ' . $this->crearMenuDocumentos($hijos, '', $flagAdmin) . '
-        </div>
-      </div>
-    </div>
-    ';
+                        '
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  ' . $htmlEnlace . '
+                </h4>
+                ' . $htmlEditaCategoria . '
+                ' . $htmlRelaciona . '
+              </div>
+              <div class="panel-collapse collapse" id="' . $categoria->idCategoriaDocumento . '">
+                <div class="panel-body">
+                  ' . $htmlCrearCategoria . '
+                  ' . $this->crearMenuDocumentos($hijos, '', $flagAdmin) . '
+                </div>
+              </div>
+            </div>
+            ';  
 
         return $html;
     }

@@ -160,4 +160,9 @@ class DefaultController extends Controller {
 
   }
 
+  public function actionPruebaChat()
+  {
+    return $this->render('/sparkweb/SparkWeb', []);
+  }
+
 }
