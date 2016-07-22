@@ -20,8 +20,7 @@ if ($location == 0) {
 
     <?php foreach ($banners as $banner): ?>
       <div id="<?= $idItem.$contador  ?>" class="item">
-          <?php // Funciones::getHtmlLink($banner['urlEnlaceNoticia'],"<img src='".Yii::$app->homeUrl . "img/campanas/".$banner['rutaImagen']."' alt=''>"); ?>
-          <?= "<img class='img-responsive' src='".Yii::$app->homeUrl . "img/campanas/".$banner['rutaImagen']."' alt=''>"; ?>
+          <?php Funciones::getHtmlLink($banner['urlEnlaceNoticia'],"<img class='img-responsive' src='".Yii::$app->homeUrl . "img/campanas/".$banner['rutaImagen']."' alt=''>"); ?>
          <!--<div class="carousel-caption"></div>-->
       </div>
       <?php  $contador++; ?>

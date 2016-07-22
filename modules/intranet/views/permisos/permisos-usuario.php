@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Administrar permisos'];
 <div class="row">
 <div class="col-md-4">
   <!--foto usuario -->
-  <img src="<?= Yii::getAlias('@web').'/img/fotosperfil/'. $usuario->imagenPerfil ?>" class="img-circle img-responsive" style="width: 20%;"/>
+  <img src="<?= Yii::getAlias('@web').'/img/fotosperfil/'. $usuario->getImagenPerfil() ?>" class="img-circle img-responsive" style="width: 20%;"/>
 </div>
 <div class="col-md-8">
   <!-- informacion del usuario -->

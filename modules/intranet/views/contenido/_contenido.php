@@ -19,7 +19,7 @@ $completo = isset($completo) ? $completo : false;
     <li>
         <div class="cbp_tmtime">
             <div class="user-profile text-center">
-                <img src= <?= Yii::$app->homeUrl . 'img/fotosperfil/' . $noticia->objUsuarioPublicacion->imagenPerfil ?> alt="" data-src="" data-src-retina="" width="80" height="80">
+                <img src= <?= Yii::$app->homeUrl . 'img/fotosperfil/' . $noticia->objUsuarioPublicacion->getImagenPerfil() ?> alt="" data-src="" data-src-retina="" width="80" height="80">
             </div>
             <div class="text-center time"> <?= $noticia->objUsuarioPublicacion->alias ?> </div>
 
@@ -152,7 +152,7 @@ $completo = isset($completo) ? $completo : false;
                 </ul>
                 <div class="row">
                     <div class="col-md-2 col-xs-12" style="padding-top: 7px;overflow: hidden;">
-                        <img class=" img-responsive" src=<?= Yii::$app->homeUrl . 'img/fotosperfil/' . $noticia->objUsuarioPublicacion->imagenPerfil ?> alt="" data-src="" data-src-retina="" width="60" height="60">
+                        <img class=" img-responsive" src=<?= Yii::$app->homeUrl . 'img/fotosperfil/' . $noticia->objUsuarioPublicacion->getImagenPerfil() ?> alt="" data-src="" data-src-retina="" width="60" height="60">
                     </div>
                     <div class="col-md-10 col-xs-12">
                         <textarea id="comentario_<?= $noticia->idContenido ?>" placeholder="Comentar Publicación..." class="form-control" rows="2"></textarea>

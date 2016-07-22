@@ -5,7 +5,7 @@
         <div class="user-profile-pic-wrapper">
           <div class="user-profile-pic-2x white-border">
             <div class="user-profile">
-              <img src= <?= Yii::$app->homeUrl . 'img/fotosperfil/' . $comentario->objUsuarioPublicacionComentario->imagenPerfil ?> alt="" data-src="" data-src-retina="" width="40" height="40">
+              <img src= <?= Yii::$app->homeUrl . 'img/fotosperfil/' . $comentario->objUsuarioPublicacionComentario->getImagenPerfil() ?> alt="" data-src="" data-src-retina="" width="40" height="40">
             </div>
 
           </div>

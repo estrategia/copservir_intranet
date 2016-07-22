@@ -9,7 +9,7 @@ use yii\helpers\Html;
       <?php foreach ($models as $model): ?>
 
         <div class="item orange center-block " style="text-align: center;">
-          <img  class='img-circle img-responsive' src="<?= Yii::getAlias('@web').'/img/fotosperfil/'. $model->objUsuario->imagenPerfil ?>"
+          <img  class='img-circle img-responsive' src="<?= Yii::getAlias('@web').'/img/fotosperfil/'. $model->objUsuario->getImagenPerfil() ?>"
             alt="Responsive" style="width: 50%;margin-left: auto; margin-right: auto;">
           <p>
             <?php

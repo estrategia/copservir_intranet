@@ -20,7 +20,7 @@ use yii\helpers\Html;
           <?php foreach ($usuariosMeGusta as $meGusta): ?>
             <div class="col-md-2">
               <div class="user-profile">
-                <img src= <?= Yii::$app->homeUrl . 'img/fotosperfil/' . $meGusta->objUsuario->imagenPerfil ?> alt="" data-src="" data-src-retina="" width="40" height="40">
+                <img src= <?= Yii::$app->homeUrl . 'img/fotosperfil/' . $meGusta->objUsuario->getImagenPerfil() ?> alt="" data-src="" data-src-retina="" width="40" height="40">
               </div>
               <?= $meGusta->objUsuario->alias ?>
             </div>

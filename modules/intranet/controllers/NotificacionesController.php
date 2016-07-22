@@ -52,8 +52,20 @@ class NotificacionesController extends Controller {
 
         return $this->render('index', ['dataProvider' => $dataProvider]);
     }
-
+    
     public function actionResumen() {
+        if(Yii::$app->user->isGuest){
+          echo Json::encode(array('result' => 'error', 'response' => "No autenticado"));
+          Yii::$app->end();
+        }
+          
+        $cantidad = Notificaciones::cantidadNoVistas(Yii::$app->user->identity->numeroDocumento);
+        $html = $this->renderPartial('resumen', ['listNotificaciones' => Notificaciones::consultarNotificaciones(Yii::$app->user->identity->numeroDocumento)]);
+        echo Json::encode(array('result' => 'ok', 'response' => ['html' => $html, 'count' => $cantidad]));
+        Yii::$app->end();
+    }
+
+    public function actionResumen_old() {
         echo Json::encode(array('result' => 'error', 'response' => "No autenticado"));
         Yii::$app->end();
         /* if(Yii::$app->user->isGuest){

@@ -18,13 +18,8 @@ $this->params['breadcrumbs'][] = ['label' => 'Permisos de usuarios'];
                 'attribute' => 'imagenPerfil',
                 'format' => 'raw',
                 'value' => function($model) {
-                  if (empty($model->imagenPerfil)) {
-                    return 'no tiene imagen';
-                  }else{
-                    return '<img src="' . Yii::getAlias('@web') . '/img/fotosperfil/' . $model->imagenPerfil .
+                    return '<img src="' . Yii::getAlias('@web') . '/img/fotosperfil/' . $model->getImagenPerfil() .
                       '" class="img-circle img-responsive" style="width: 10%;"/>';
-                  }
-
                 }
             ],
             'alias',

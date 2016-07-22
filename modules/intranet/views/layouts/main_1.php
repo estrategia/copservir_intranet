@@ -18,7 +18,7 @@ $srcPictureUser = "''";
 $userName = "";
 
 if (!Yii::$app->user->isGuest) {
-  $srcPictureUser = Yii::$app->homeUrl . 'img/fotosperfil/' . \Yii::$app->user->identity->imagenPerfil;
+  $srcPictureUser = Yii::$app->homeUrl . 'img/fotosperfil/' . \Yii::$app->user->identity->getImagenPerfil();
   $userName = Yii::$app->user->identity->alias;
   //$userDocumento = Yii::$app->user->identity->numeroDocumento;
 }
