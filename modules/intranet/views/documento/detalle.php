@@ -14,17 +14,20 @@ $this->params['breadcrumbs'][] = ['label' => 'Ver documento'];
 <div class="documento-view col-md-12">
 
   <h1><?= Html::encode($this->title) ?></h1>
+  
+  <?php if ($flag): ?>
+    <p>
+      <?= Html::a('Actualizar', ['actualizar', 'id' => $model->idDocumento], ['class' => 'btn btn-primary']) ?>
+      <?= Html::a('Inactivar', ['eliminar', 'id' => $model->idDocumento], [
+        'class' => 'btn btn-danger',
+        'data' => [
+        'confirm' => 'Estas eguro de eliminar este documento?',
+        'method' => 'post',
+      ],
+      ]) ?>
+    </p>
+  <?php endif; ?>
 
-  <p>
-    <?= Html::a('Actualizar', ['actualizar', 'id' => $model->idDocumento], ['class' => 'btn btn-primary']) ?>
-    <?= Html::a('Inactivar', ['eliminar', 'id' => $model->idDocumento], [
-      'class' => 'btn btn-danger',
-      'data' => [
-      'confirm' => 'Estas eguro de eliminar este documento?',
-      'method' => 'post',
-    ],
-    ]) ?>
-  </p>
 
   <?php
   echo DetailView::widget([

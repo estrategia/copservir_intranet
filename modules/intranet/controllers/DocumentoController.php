@@ -85,7 +85,9 @@ class DocumentoController extends Controller {
 
         return $this->render('detalle', [
                     'model' => $model,
-                    'logDocumento' => $logDocumento
+                    'logDocumento' => $logDocumento,
+                    'flag' => true
+
         ]);
     }
 
@@ -105,7 +107,8 @@ class DocumentoController extends Controller {
 
         return $this->render('detalle', [
                     'model' => $model,
-                    'logDocumento' => $logDocumento
+                    'logDocumento' => $logDocumento,
+                    'flag' => false
         ]);
     }
 
