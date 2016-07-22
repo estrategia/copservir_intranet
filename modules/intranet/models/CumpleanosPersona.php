@@ -60,8 +60,9 @@ class CumpleanosPersona extends \yii\db\ActiveRecord {
     {
         $query = self::find()->where('(  month(t_CumpleanosPersona.fecha) =:mes )')
         ->addParams([':mes' => date("m")])
-        ->all()
-        ;
+        ->all();
+        
+        return $query;
     }
 
     /**
@@ -81,7 +82,7 @@ class CumpleanosPersona extends \yii\db\ActiveRecord {
         $todosGrupo = \Yii::$app->params['grupo']['*'];
 
         $query =  self::find()->joinWith(['objGrupoInteresCargo', 'objUsuario'])->with(['objUsuario'])
-                        ->where("( m_Usuario.imagenPerfil is not null AND t_CumpleanosPersona.fecha>=:fecha AND t_CumpleanosPersona.fecha<=:fechaFin AND ( (t_CumpleanosPersona.codigoCiudad =:codigoCiudad AND m_GrupoInteresCargo.idGrupoInteres IN ($userGrupos)) OR (t_CumpleanosPersona.codigoCiudad =:codigoCiudad AND m_GrupoInteresCargo.idCargo=:todosGrupo) OR (t_CumpleanosPersona.codigoCiudad =:todosCiudad AND m_GrupoInteresCargo.idGrupoInteres IN ($userGrupos)) OR (t_CumpleanosPersona.codigoCiudad =:todosCiudad AND m_GrupoInteresCargo.idCargo =:todosGrupo) )   )")
+                        ->where("m_Usuario.imagenPerfil IS NOT NULL AND t_CumpleanosPersona.fecha>=:fecha AND t_CumpleanosPersona.fecha<=:fechaFin AND ( (t_CumpleanosPersona.codigoCiudad =:codigoCiudad AND m_GrupoInteresCargo.idGrupoInteres IN ($userGrupos)) OR (t_CumpleanosPersona.codigoCiudad =:codigoCiudad AND m_GrupoInteresCargo.idCargo=:todosGrupo) OR (t_CumpleanosPersona.codigoCiudad =:todosCiudad AND m_GrupoInteresCargo.idGrupoInteres IN ($userGrupos)) OR (t_CumpleanosPersona.codigoCiudad =:todosCiudad AND m_GrupoInteresCargo.idCargo =:todosGrupo) )")
                         ->addParams([':fecha' => $fecha->format('Y-m-d H:i:s'), ':fechaFin' => $fecha2->format('Y-m-d H:i:s' ), ':codigoCiudad' => $userCiudad, ':todosCiudad' => $todosCiudad, ':todosGrupo' => $todosGrupo])
                         ->orderBy('t_CumpleanosPersona.fecha asc')
                         ->all();
@@ -102,8 +103,8 @@ class CumpleanosPersona extends \yii\db\ActiveRecord {
         $fecha2 = new \DateTime;
         $fecha2->modify('+5 days');
 
-        return self::find()->joinWith(['objGrupoInteresCargo'])->with(['objUsuario'])
-                        ->where("( t_CumpleanosPersona.fecha>=:fecha and t_CumpleanosPersona.fecha<=:fechaFin  )")
+        return self::find()->joinWith(['objGrupoInteresCargo','objUsuario'])
+                        ->where("m_Usuario.imagenPerfil IS NOT NULL AND  t_CumpleanosPersona.fecha>=:fecha and t_CumpleanosPersona.fecha<=:fechaFin ")
                         ->addParams([':fecha' => $fecha->format('Y-m-d H:i:s'), ':fechaFin' => $fecha2->format('Y-m-d H:i:s' )])
                         ->orderBy('t_CumpleanosPersona.fecha asc')
                         ->all();
@@ -137,6 +138,25 @@ class CumpleanosPersona extends \yii\db\ActiveRecord {
         }
 
         return $arrDestinos;
+    }
+    
+    public static function callWSGetCumpleanos($cedulas) {
+        $client = new \SoapClient(\Yii::$app->params['webServices']['persona'], array(
+            "trace" => 1,
+            "exceptions" => 0,
+            'connection_timeout' => 5,
+            //'cache_wsdl' => WSDL_CACHE_NONE
+        ));
+
+        try {
+
+            $result = $client->getCumpleanos(date("m"), $cedulas);
+            return $result;
+        } catch (SoapFault $ex) {
+            Yii::error($ex->getMessage());
+        } catch (Exception $ex) {
+            Yii::error($ex->getMessage());
+        }
     }
 
 }

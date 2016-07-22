@@ -48,7 +48,7 @@ $this->title = 'Login';
                 <div class="checkbox checkbox check-success">
                     <div class="form-group ">
                         <?= Html::a('Olvide mi contraseña', 'recordar-clave', []); ?>
-                        <!--<?= $form->field($model, 'rememberMe')->checkbox(['template' => "{input} {label}</div>\n{error}"]) ?>-->
+                        <?= $form->field($model, 'rememberMe')->checkbox(['template' => "{input} {label}</div>\n{error}"]) ?>
                     </div>
                 </div>
             </div>

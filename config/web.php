@@ -104,8 +104,8 @@ $config = [
                     'levels' => ['profile'],
                     'categories' => ['yii\db\Command::query'],
                     'prefix' => function($message) {
-                return '';
-            }
+                        return '';
+                    }
                 ]
             ],
         ],

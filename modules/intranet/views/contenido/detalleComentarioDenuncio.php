@@ -51,12 +51,12 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', "Comentario #" . $mod
         [
           'label' => 'Publicado por:',
           'format'=>'raw',
-          'value' => '<img src="'.Yii::getAlias('@web').'/img/fotosperfil/'. $model->objUsuarioPublicacionComentario->imagenPerfil.'" class="img-circle img-responsive" style="width: 22%;"/><p>'.$model->objUsuarioPublicacionComentario->alias.' </p> '
+          'value' => '<img src="'.Yii::getAlias('@web').'/img/fotosperfil/'. $model->objUsuarioPublicacionComentario->getImagenPerfil().'" class="img-circle img-responsive" style="width: 22%;"/><p>'.$model->objUsuarioPublicacionComentario->alias.' </p> '
         ],
         [
           'label' => 'Denunciado por:',
           'format'=>'raw',
-          'value' => '<img src="'.Yii::getAlias('@web').'/img/fotosperfil/'. $model->objDenuncioComentario->objUsuario->imagenPerfil.'" class="img-circle img-responsive" style="width: 22%;"/><p>'.$model->objDenuncioComentario->objUsuario->alias.' </p> '
+          'value' => '<img src="'.Yii::getAlias('@web').'/img/fotosperfil/'. $model->objDenuncioComentario->objUsuario->getImagenPerfil().'" class="img-circle img-responsive" style="width: 22%;"/><p>'.$model->objDenuncioComentario->objUsuario->alias.' </p> '
         ],
         [
           'label' => 'Motivo:',

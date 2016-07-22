@@ -24,7 +24,7 @@ $srcLogo = Yii::$app->homeUrl . 'img/logo_copservir.png';
 $userName = "";
 
 if (!Yii::$app->user->isGuest) {
-    $srcPictureUser = Yii::$app->homeUrl . 'img/fotosperfil/' . \Yii::$app->user->identity->imagenPerfil;
+    $srcPictureUser = Yii::$app->homeUrl . 'img/fotosperfil/' . \Yii::$app->user->identity->getImagenPerfil();
     $userName = Yii::$app->user->identity->alias;
 }
 ?>

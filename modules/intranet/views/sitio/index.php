@@ -149,13 +149,13 @@ $this->title = 'Intranet - Copservir';
 
 <!-- begin OFERTAS LABORALES Y TAREAS -->
 <?php if (!in_array(\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_OFERTAS, Yii::$app->user->identity->getOcultosDashboard())): ?>
-  <?php //echo $this->render('_ofertasLaborales', ['ofertasLaborales' => $ofertasLaborales]) ?>
+  <?php echo $this->render('_ofertasLaborales', ['ofertasLaborales' => $ofertasLaborales]) ?>
 <?php endif; ?>
 
 
 <?php if (!in_array(\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_TAREAS, Yii::$app->user->identity->getOcultosDashboard())): ?>
   <div class="col-md-4" id="widget-tareas">
-    <?php //echo $this->render('/tareas/_tareasHome', ['tareasUsuario' => $tareasUsuario]) ?>
+    <?php echo $this->render('/tareas/_tareasHome', ['tareasUsuario' => $tareasUsuario]) ?>
   </div>
 <?php endif; ?>
 
@@ -199,7 +199,7 @@ $( document ).ready(function() {
     success: function(data) {
       console.log('succes')
       if (data.result == 'ok') {
-        console.log(data.response.length);
+        //console.log(data.response.length);
         if(data.response.length >0){
           $('body').append(data.response);
           $('#widget-popup').modal('show');

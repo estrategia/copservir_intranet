@@ -1,4 +1,5 @@
 <?php
+
 Yii::setAlias('@tests', dirname(__DIR__) . '/tests');
 
 $params = require(__DIR__ . '/params.php');
@@ -13,7 +14,7 @@ return [
         'gii' => 'yii\gii\Module',
     ],
     'components' => [
-      'authManager' => [
+        'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],
         'cache' => [
@@ -23,7 +24,31 @@ return [
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
+                    'levels' => ['error'],
+                    'categories' => ['application'],
+                    'logFile' => '@app/runtime/logs/console_error.log',
+                    'maxFileSize' => 1024 * 2,
+                    'maxLogFiles' => 50,
+                ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['warning'],
+                    'categories' => ['application'],
+                    'logFile' => '@app/runtime/logs/console_warning.log',
+                    'maxFileSize' => 1024 * 2,
+                    'maxLogFiles' => 20,
+                ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['info'],
+                    'categories' => ['application'],
+                    'logFile' => '@app/runtime/logs/console_info.log',
+                    'maxFileSize' => 1024 * 2,
+                    'maxLogFiles' => 20,
+                ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['trace'],
                 ],
             ],
         ],

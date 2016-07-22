@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Perfil de usuario')]
         <div class="row">
           <div class="col-md-3 col-sm-3" >
             <div class="user-profile-pic">
-              <img width="69" height="69" data-src-retina=""   data-src="" src="<?= Yii::$app->homeUrl . 'img/fotosperfil/' . \Yii::$app->user->identity->imagenPerfil ?>"  alt="">
+              <img width="69" height="69" data-src-retina=""   data-src="" src="<?= Yii::$app->homeUrl . 'img/fotosperfil/' . \Yii::$app->user->identity->getImagenPerfil() ?>"  alt="">
             </div>
             <div class="user-mini-description">
               <h3 class="text-success semi-bold">

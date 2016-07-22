@@ -458,5 +458,12 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
 
         return $codigoRecuperacion;
     }
+    
+    public function getImagenPerfil(){
+        if(empty($this->imagenPerfil))
+            return "no-image.png";
+        
+        return $this->imagenPerfil;
+    }
 
 }

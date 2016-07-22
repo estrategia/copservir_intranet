@@ -56,12 +56,12 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', "Contenido #" . $mode
         [
           'label' => 'Publicado por:',
           'format'=>'raw',
-          'value' => '<img src="'.Yii::getAlias('@web').'/img/fotosperfil/'. $model->objUsuarioPublicacion->imagenPerfil.'" class="img-circle img-responsive" style="width: 22%;"/><p>'.$model->objUsuarioPublicacion->alias.' </p> '
+          'value' => '<img src="'.Yii::getAlias('@web').'/img/fotosperfil/'. $model->objUsuarioPublicacion->getImagenPerfil().'" class="img-circle img-responsive" style="width: 22%;"/><p>'.$model->objUsuarioPublicacion->alias.' </p> '
         ],
         [
           'label' => 'Denunciado por:',
           'format'=>'raw',
-          'value' => '<img src="'.Yii::getAlias('@web').'/img/fotosperfil/'. $model->objDenunciosContenidos->objUsuario->imagenPerfil.'" class="img-circle img-responsive" style="width: 22%;"/><p>'.$model->objUsuarioPublicacion->alias.' </p> '
+          'value' => '<img src="'.Yii::getAlias('@web').'/img/fotosperfil/'. $model->objDenunciosContenidos->objUsuario->getImagenPerfil().'" class="img-circle img-responsive" style="width: 22%;"/><p>'.$model->objUsuarioPublicacion->alias.' </p> '
         ],
         [
           'label' => 'Motivo:',

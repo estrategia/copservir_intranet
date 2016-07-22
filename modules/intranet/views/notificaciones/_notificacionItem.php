@@ -4,13 +4,11 @@ use app\modules\intranet\models\Notificaciones;
 use yii\helpers\Url;
 ?>
 <div class="notification-messages <?= $objNotificacion->estadoNotificacion == Notificaciones::ESTADO_CREADA ? Yii::$app->params['notificaciones']['claseColor'][2] : Yii::$app->params['notificaciones']['claseColor'][$idx % 2] ?>">
-  <?php if (!empty($objNotificacion->objUsuarioDirige->imagenPerfil)): ?>
     <div class="user-profile">
       <a href="<?= Url::to(['contenido/detalle-contenido', 'idNoticia' => $objNotificacion->objContenido->idContenido]) ?>">
-        <img width="35" height="35" alt="" src="<?= Yii::$app->homeUrl . 'img/fotosperfil/' . $objNotificacion->objUsuarioDirige->imagenPerfil ?>">
+        <img width="35" height="35" alt="" src="<?= Yii::$app->homeUrl . 'img/fotosperfil/' . $objNotificacion->objUsuarioDirige->getImagenPerfil() ?>">
       </a>
     </div>
-  <?php endif; ?>
   <div class="message-wrapper">
     <div class="heading">
       <a href="<?= Url::to(['contenido/detalle-contenido', 'idNoticia' => $objNotificacion->objContenido->idContenido]) ?>">

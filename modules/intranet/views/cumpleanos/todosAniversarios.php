@@ -18,7 +18,7 @@ $this->title = 'Aniversarios';
         </div>
         <div class="grid-body center-block">
           <div>
-            <img class='img-circle img-responsive' src="<?= Yii::getAlias('@web').'/img/fotosperfil/'. $model->objUsuario->imagenPerfil ?>" alt="Responsive">
+            <img class='img-circle img-responsive' src="<?= Yii::getAlias('@web').'/img/fotosperfil/'. $model->objUsuario->getImagenPerfil() ?>" alt="Responsive">
             <br>
             <p>
               <?php

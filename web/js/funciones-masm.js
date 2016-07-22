@@ -44,9 +44,31 @@ function cargar_push()
   });
 }
 
+function cargarNotificaciones()
+{
+  $.ajax({
+    async: true,
+    type: "POST",
+    url: requestUrl + '/intranet/notificaciones/resumen',
+    dataType: 'json',
+    success: function (data) {
+      if (data.result == "ok") {
+          $('#notification-list').html(data.response.html);
+          jQuery("time.timeago").timeago();
+          if (data.response.count == 0) {
+            $('#notification-count').html('');
+          } else {
+            $('#notification-count').html(data.response.count);
+          }
+      }
+    }
+  });
+}
+
 $(document).ready(function () {
   jQuery("time.timeago").timeago();
-  cargar_push();
+  //cargar_push();
+  cargarNotificaciones();
 });
 
 $('#notification-div').on('hide.bs.dropdown', function () {

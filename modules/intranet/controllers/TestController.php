@@ -17,8 +17,22 @@ use app\modules\intranet\models\Menu;
 use app\modules\intranet\models\OpcionesUsuario;
 use app\modules\intranet\models\PublicacionesCampanas;
 use app\modules\intranet\models\GrupoInteresCargo;
+use app\modules\intranet\models\CumpleanosPersona;
+use app\modules\intranet\models\CumpleanosLaboral;
 
 class TestController extends Controller {
+    
+    public function actionCumple(){
+        $userCiudad = Yii::$app->user->identity->getCiudadCodigo();
+        $userGrupos = Yii::$app->user->identity->getGruposCodigos();
+
+        // cumpleaños y aniversarios
+        $aniversarios = CumpleanosLaboral::getAniversariosIndex($userCiudad, $userGrupos);
+        
+        //$models = \app\modules\intranet\models\CumpleanosLaboral::getAniversariosVerTodos();
+        
+        VarDumper::dump($aniversarios, 10, true);
+    }
 
     public function actionBanner(){
         $userCiudad = Yii::$app->user->identity->getCiudadCodigo();
