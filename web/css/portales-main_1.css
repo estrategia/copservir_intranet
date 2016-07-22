@@ -661,6 +661,9 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
     .navbar > .container .navbar-brand.copservir {
     margin-left: 0 !important;
   }
+  .navbar-nav > li > a {
+    padding: 15px 20px;
+  }
 }
 
 
