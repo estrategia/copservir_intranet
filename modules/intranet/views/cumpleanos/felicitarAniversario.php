@@ -80,4 +80,7 @@
       </div>
     </div>
   </div>
+
+  <?= $this->render('/common/errores', []) ?>
+  
 </div>

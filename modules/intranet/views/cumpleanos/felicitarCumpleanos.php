@@ -77,8 +77,10 @@
           <?= Html::submitButton('enviar', ['class' =>'btn btn-primary', 'data-role'=>'felicitaCumpleaños', 'data-cumpleanos'=>$modelCumpleanosPersona->idCumpleanosPersona]) ?>
         </div>
         <?php ActiveForm::end(); ?>
-
       </div>
     </div>
   </div>
+
+  <?= $this->render('/common/errores', []) ?>
+  
 </div>

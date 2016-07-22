@@ -15,7 +15,7 @@ $this->title = 'Intranet - Copservir';
 <?php endif;?>
 <!-- END UP BANNER -->
 <!-- BEGIN CUMPLEAÑOS -->
-<!--
+
 <?php if(!in_array(\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_CUMPLEANOS ,Yii::$app->user->identity->getOcultosDashboard())): ?>
 <div class="col-md-12">
   <div class="grid simple">
@@ -74,7 +74,7 @@ $this->title = 'Intranet - Copservir';
   </div>
 </div>
 <?php endif;?>
--->
+
 <!-- END CUMPLEAÑOS -->
 
 <!-- begin PUBLICACIONES -->
@@ -137,7 +137,7 @@ $this->title = 'Intranet - Copservir';
         <div class="tiles overflow-hidden full-height tiles-overlay-hover m-b-10 widget-item">
           <?= $this->render('banner', ['banners' => $bannerDerecha, 'location' => 2]) ?>
         </div>
-        
+
     </div>
  <?php //endif;?>
 

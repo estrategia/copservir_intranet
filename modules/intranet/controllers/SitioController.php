@@ -1048,6 +1048,7 @@ class SitioController extends \app\controllers\CController {
                                 'modelContenido' => new Contenido,
                             ])
                         ];
+                        Yii::$app->session->setFlash('success', 'Enviaste un saludo por su aniversario');
                         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                         return $respond;
                     }
@@ -1067,7 +1068,7 @@ class SitioController extends \app\controllers\CController {
     }
 
     /**
-     * template para felicitar a un usuario por su aniversario
+     * template para felicitar a un usuario por su cumpleaños
      * @return mixed
      */
     public function actionFelicitarCumpleanos($id) {
@@ -1104,6 +1105,7 @@ class SitioController extends \app\controllers\CController {
                                 'modelContenido' => new Contenido,
                             ])
                         ];
+                        Yii::$app->session->setFlash('success', 'Enviaste un saludo por su cumpleaños');
                         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                         return $respond;
                     }

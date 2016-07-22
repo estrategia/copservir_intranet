@@ -104,10 +104,11 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
   public function guardarImagen($rutaAnterior)
   {
     $file = UploadedFile::getInstance($this, 'rutaImagen'); // si no selecciona nada pone null
+    $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
 
     if (!is_null($file)) {
-      $file->saveAs('img/campanas/' . $file->baseName . '.' . $file->extension);
-      $this->rutaImagen = $file->baseName . '.' . $file->extension;
+      $file->saveAs('img/campanas/'.time().'_'.$numeroDocumento.'.' . $file->extension);
+      $this->rutaImagen = time().'_'.$numeroDocumento. '.' . $file->extension;
     }else{
       $this->rutaImagen = $rutaAnterior;
     }
