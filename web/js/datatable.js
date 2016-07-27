@@ -163,4 +163,5 @@ function dataTablesGroupSearch2(modulo, numeroDocumento){
     var tables = $('table.table.data-table[data-modulo="'+modulo+'"]').DataTable();
     tables.search(numeroDocumento);
     tables.draw();
+    $('.portal-container').show("slow");
 }

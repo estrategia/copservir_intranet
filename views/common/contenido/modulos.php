@@ -1,5 +1,5 @@
 <?php $tituloGrupo = isset($tituloGrupo)?$tituloGrupo:null; ?>
-<div class="portal-container">
+<div class="portal-container" hidden>
     <?php if(!empty($tituloGrupo)): ?>
         <h1><?=$tituloGrupo?></h1>
         <?php endif;?>

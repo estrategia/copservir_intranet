@@ -63,11 +63,11 @@ class Funciones {
         return $urlEnlace;
     }
 
-    public function getHtmlLink($url, $contenido="") {
+    public static function getHtmlLink($url, $contenido="") {
         if($url!==null){
             $url = trim($url);
         }
-        
+
         if (empty($url)) {
             echo "<a href='#'>$contenido</a>";
         } else {
