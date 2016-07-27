@@ -20,6 +20,7 @@ use yii\filters\VerbFilter;
 use yii\helpers\Html;
 
 class ContenidoController extends Controller {
+    public $enableCsrfValidation = false;
 
     public function behaviors() {
         return [

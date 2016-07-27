@@ -160,7 +160,7 @@ class LoginForm extends Model {
         if ($this->_user === false) {
             $this->_user = Usuario::findByUsername($this->username);
         }
-
+        
         return $this->_user;
     }
 

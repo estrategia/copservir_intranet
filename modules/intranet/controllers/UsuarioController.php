@@ -8,7 +8,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use app\modules\intranet\models\LoginForm;
 use app\modules\intranet\models\PersonaForm;
-use app\models\Usuario;//use app\modules\intranet\models\Usuario;
+use app\models\Usuario; //use app\modules\intranet\models\Usuario;
 use app\modules\intranet\models\ConexionesUsuarios;
 use app\modules\intranet\models\RecuperacionClave;
 use app\modules\intranet\models\FotoForm;
@@ -23,6 +23,15 @@ use Imagine\Image\Box;
 use Imagine\Image\Point;
 
 class UsuarioController extends \yii\web\Controller {
+
+    public function beforeAction($action) {
+        if ($action->id == 'autenticar') {
+            $this->enableCsrfValidation = false;
+        }
+
+        return parent::beforeAction($action);
+    }
+
     /*
       comportamientos del controlador
      */
@@ -31,22 +40,22 @@ class UsuarioController extends \yii\web\Controller {
         return [
             [
                 'class' => \app\components\AccessFilter::className(),
-                'only' => ['autenticar', 'cambiar-clave', 'perfil', 'cambiar-foto-perfil', 'actualizar-datos','pantalla-inicio','modal-amigos'],
+                'only' => ['autenticar', 'cambiar-clave', 'perfil', 'cambiar-foto-perfil', 'actualizar-datos', 'pantalla-inicio', 'modal-amigos'],
             ],
             [
-                 'class' => \app\components\AuthItemFilter::className(),
-                 'only' => [
-                     'perfil', 'cambiar-foto-perfil', 'actualizar-datos','pantalla-inicio','modal-amigos', 'cambiar-clave'
-                 ],
-                 'authsActions' => [
-                     'perfil' => 'intranet_usuario',
-                     'cambiar-foto-perfil' => 'intranet_usuario',
-                     'actualizar-datos' => 'intranet_usuario',
-                     'pantalla-inicio' => 'intranet_usuario',
-                     'modal-amigos' => 'intranet_usuario',
-                     'cambiar-clave' => 'intranet_usuario',
-                 ]
-             ],
+                'class' => \app\components\AuthItemFilter::className(),
+                'only' => [
+                    'perfil', 'cambiar-foto-perfil', 'actualizar-datos', 'pantalla-inicio', 'modal-amigos', 'cambiar-clave'
+                ],
+                'authsActions' => [
+                    'perfil' => 'intranet_usuario',
+                    'cambiar-foto-perfil' => 'intranet_usuario',
+                    'actualizar-datos' => 'intranet_usuario',
+                    'pantalla-inicio' => 'intranet_usuario',
+                    'modal-amigos' => 'intranet_usuario',
+                    'cambiar-clave' => 'intranet_usuario',
+                ]
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -90,12 +99,12 @@ class UsuarioController extends \yii\web\Controller {
 
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
 
-          // se guarda el registro de la conexion
-          $objConexionesUsuario = new ConexionesUsuarios();
-          $objConexionesUsuario->numeroDocumento = $model->username;
-          $objConexionesUsuario->fechaConexion = date('YmdHis');
-          $objConexionesUsuario->ip = $objConexionesUsuario->getRealIp(); //Yii::$app->getRequest()->getUserIP() ;
-          $objConexionesUsuario->save();
+            // se guarda el registro de la conexion
+            $objConexionesUsuario = new ConexionesUsuarios();
+            $objConexionesUsuario->numeroDocumento = $model->username;
+            $objConexionesUsuario->fechaConexion = date('YmdHis');
+            $objConexionesUsuario->ip = $objConexionesUsuario->getRealIp(); //Yii::$app->getRequest()->getUserIP() ;
+            $objConexionesUsuario->save();
 
           return $this->redirect(['sitio/index']);
         }
@@ -132,26 +141,25 @@ class UsuarioController extends \yii\web\Controller {
 
             $response = self::callWSCambiarClave($model->username, sha1($model->password));
 
-            if ($response){
+            if ($response) {
                 Yii::$app->session->setFlash('success', 'La contrase&ntilde;a se cambi&oacute; con &eacute;xito');
-              return $this->redirect(['perfil']);
-            }else{
-              Yii::$app->session->setFlash('error', 'Error al cambiar la contrase&ntilde;a');
+                return $this->redirect(['perfil']);
+            } else {
+                Yii::$app->session->setFlash('error', 'Error al cambiar la contrase&ntilde;a');
             }
         }
 
         return $this->render('cambiarClave', [
-          'model' => $model,
+                    'model' => $model,
         ]);
     }
 
     /**
-    * Funcion para consumir el web services para cambiar la contraseña de acceso
-    * @param string $username, string password
-    * @return boolean,
-    */
-      public static function callWSCambiarClave($username, $password)
-      {
+     * Funcion para consumir el web services para cambiar la contraseña de acceso
+     * @param string $username, string password
+     * @return boolean,
+     */
+    public static function callWSCambiarClave($username, $password) {
         $client = new \SoapClient(\Yii::$app->params['webServices']['persona'], array(
             "trace" => 1,
             "exceptions" => 0,
@@ -163,13 +171,12 @@ class UsuarioController extends \yii\web\Controller {
 
             $result = $client->cambiarClave($username, $password);
             return $result;
-
         } catch (SoapFault $ex) {
-          Yii::error($ex->getMessage());
+            Yii::error($ex->getMessage());
         } catch (Exception $ex) {
-          Yii::error($ex->getMessage());
+            Yii::error($ex->getMessage());
         }
-      }
+    }
 
     /*
       Accion para enviar un email con un enlace donde puede reestablecer su clave
@@ -189,20 +196,20 @@ class UsuarioController extends \yii\web\Controller {
         $fechaRecuperacion = new \DateTime();
 
         if ($model->load(Yii::$app->request->post())) {
-            $infoUsuario =  Usuario::callWSInfoPersona($model->username);
+            $infoUsuario = Usuario::callWSInfoPersona($model->username);
 
             if (empty($infoUsuario)) {
                 $model->addError('username', 'Usuario inactivo/no existe');
             } else {
                 if (!empty($infoUsuario['Email'])) {
                     $correoUsuario = trim($infoUsuario['Email']);
-                }else if(!empty($infoUsuario['CorreoPersonal'])){
+                } else if (!empty($infoUsuario['CorreoPersonal'])) {
                     $correoUsuario = trim($infoUsuario['CorreoPersonal']);
                 }
 
-                if(empty($correoUsuario)){
+                if (empty($correoUsuario)) {
                     $model->addError('username', 'Usuario no tiene correo registrado');
-                }else{
+                } else {
                     // se genera el codigo de recuperacion
                     $fecha = new \DateTime();
                     $fecha->modify('+ 1 day');
@@ -215,23 +222,23 @@ class UsuarioController extends \yii\web\Controller {
                     $objRecuperacionClave->recuperacionFecha = $fechaRecuperacion->format('Y-m-d H:i:s');
 
                     if ($objRecuperacionClave->save()) {
-                      //se crea el enlace para restablecer la contraseña y el contenido del email
-                      $enlace = yii::$app->urlManager->createAbsoluteUrl(['intranet/usuario/reestablecer-clave', 'codigo' => $codigoRecuperacion]);
-                      $contenido_mail = $this->renderPartial('_correoRecordar', ['enlace' => $enlace, 'infoUsuario' => $infoUsuario]) ;
-                      $contenido_enviar = $this->renderPartial('/common/correo', ['contenido' => $contenido_mail]) ;
+                        //se crea el enlace para restablecer la contraseña y el contenido del email
+                        $enlace = yii::$app->urlManager->createAbsoluteUrl(['intranet/usuario/reestablecer-clave', 'codigo' => $codigoRecuperacion]);
+                        $contenido_mail = $this->renderPartial('_correoRecordar', ['enlace' => $enlace, 'infoUsuario' => $infoUsuario]);
+                        $contenido_enviar = $this->renderPartial('/common/correo', ['contenido' => $contenido_mail]);
 
-                      // envia correo
-                      $value = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
-                        ->setTo($correoUsuario)->setSubject('Recuperacion Contraseña Intranet Copservir')
-                        ->setHtmlBody($contenido_enviar)->send();
+                        // envia correo
+                        $value = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
+                                        ->setTo($correoUsuario)->setSubject('Recuperacion Contraseña Intranet Copservir')
+                                        ->setHtmlBody($contenido_enviar)->send();
 
-                      if ($value) {
-                        return $this->render('mensajeRecuperacion',['correo'=>$correoUsuario]);
-                      }else{
-                        $model->addError('username', 'Error al enviar el correo');
-                      }
-                    }else{
-                      $model->addError('username', 'Ocurrio un error por favor vuelve a intentarlo');
+                        if ($value) {
+                            return $this->render('mensajeRecuperacion', ['correo' => $correoUsuario]);
+                        } else {
+                            $model->addError('username', 'Error al enviar el correo');
+                        }
+                    } else {
+                        $model->addError('username', 'Ocurrio un error por favor vuelve a intentarlo');
                     }
                 }
             }
@@ -256,28 +263,28 @@ class UsuarioController extends \yii\web\Controller {
         if ($model->load(Yii::$app->request->post())) {
 
             $fecha = new \DateTime;
-            $fecha->modify('+'.\Yii::$app->params['usuario']['tiempoRecuperarClave'].' days');
+            $fecha->modify('+' . \Yii::$app->params['usuario']['tiempoRecuperarClave'] . ' days');
 
             $objRecuperacionClave = RecuperacionClave::find()->where(['recuperacionCodigo' => $codigo])
-            ->andWhere(['<=', 'recuperacionFecha', $fecha->format('Y-m-d H:i:s' )])
-            ->orderBy('recuperacionFecha DESC')->one();
+                            ->andWhere(['<=', 'recuperacionFecha', $fecha->format('Y-m-d H:i:s')])
+                            ->orderBy('recuperacionFecha DESC')->one();
 
             if ($objRecuperacionClave === null) {
                 $model->addError('password2', 'Usuario sin codigo de recuperacion');
-            }else{
+            } else {
 
-              $infoUsuario =  Usuario::callWSInfoPersona($objRecuperacionClave->numeroDocumento);
+                $infoUsuario = Usuario::callWSInfoPersona($objRecuperacionClave->numeroDocumento);
 
-              $response = self::callWSCambiarClave($objRecuperacionClave->numeroDocumento, sha1($model->password));
-              if ($response){
-                return $this->render('mensajeReestablecer');
-                /*
-                Yii::$app->session->setFlash('success', 'contraseña reestablecida con exito');
-                $model = new LoginForm();
-                */
-              }else{
-                Yii::$app->session->setFlash('error', 'Ocurrio un error, No se pudo reestablecer la contraseña');
-              }
+                $response = self::callWSCambiarClave($objRecuperacionClave->numeroDocumento, sha1($model->password));
+                if ($response) {
+                    return $this->render('mensajeReestablecer');
+                    /*
+                      Yii::$app->session->setFlash('success', 'contraseña reestablecida con exito');
+                      $model = new LoginForm();
+                     */
+                } else {
+                    Yii::$app->session->setFlash('error', 'Ocurrio un error, No se pudo reestablecer la contraseña');
+                }
             }
         }
 
@@ -289,6 +296,7 @@ class UsuarioController extends \yii\web\Controller {
     /*
       Accion para ver la informacion del usuario
      */
+
     public function actionPerfil() {
         $meGustan = MeGustaContenidos::find()->where(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento])->count();
         $contenidos = Contenido::find()->where(['numeroDocumentoPublicacion' => Yii::$app->user->identity->numeroDocumento])->count();
@@ -314,7 +322,7 @@ class UsuarioController extends \yii\web\Controller {
                                 $rutaImagen = "$nombreImagen.$file->extension";
                                 $rutaImagenAnterior = $usuario->imagenPerfil;
                                 $file->saveAs(Yii::getAlias('@webroot') . '/img/fotosperfil/' . $rutaImagen);
-                                $image = Image::getImagine()->open(Yii::getAlias('@webroot') .'/img/fotosperfil/' . $rutaImagen);
+                                $image = Image::getImagine()->open(Yii::getAlias('@webroot') . '/img/fotosperfil/' . $rutaImagen);
 
                                 // rendering information about crop of ONE option
                                 $cropInfo = Json::decode($modelFoto->crop_info)[0];
@@ -340,9 +348,8 @@ class UsuarioController extends \yii\web\Controller {
                                 Yii::$app->session->setFlash('success', "Imagen perfil se carg&oacute; con &eacute;xito");
 
                                 if (!empty($rutaImagenAnterior) && $rutaImagen != $rutaImagenAnterior) {
-                                    unlink(Yii::getAlias('@webroot') ."/img/fotosperfil/" . $rutaImagenAnterior);
+                                    unlink(Yii::getAlias('@webroot') . "/img/fotosperfil/" . $rutaImagenAnterior);
                                 }
-
                             } else {
                                 $errorFotoPerfil = true;
                             }
@@ -366,7 +373,7 @@ class UsuarioController extends \yii\web\Controller {
                         Yii::$app->session->setFlash('success', "Fondo perfil se carg&oacute; con &eacute;xito");
 
                         if (!empty($rutaImagenAnterior) && $rutaImagen != $rutaImagenAnterior) {
-                            unlink(Yii::getAlias('@webroot') ."/img/imagenesFondo/" . $rutaImagenAnterior);
+                            unlink(Yii::getAlias('@webroot') . "/img/imagenesFondo/" . $rutaImagenAnterior);
                         }
                     }
                 }
@@ -389,19 +396,18 @@ class UsuarioController extends \yii\web\Controller {
         $model = new PersonaForm();
         $model->setValuesUserGuest();
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate() ) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
 
             $response = self::callWSActualizarPersona($model->attributes);
-            if ($response){
-              \Yii::$app->user->identity->generarDatos(true);
-              return $this->redirect(['perfil']);
-            }else{
-              Yii::$app->session->setFlash('error', 'Error al actualizar la información');
+            if ($response) {
+                \Yii::$app->user->identity->generarDatos(true);
+                return $this->redirect(['perfil']);
+            } else {
+                Yii::$app->session->setFlash('error', 'Error al actualizar la información');
             }
-
-        }else{
-          //var_dump($model->getErrors());
+        } else {
+            //var_dump($model->getErrors());
         }
 
         return $this->render('actualizarDatos', [
@@ -410,12 +416,11 @@ class UsuarioController extends \yii\web\Controller {
     }
 
     /**
-    * Funcion para actualizar la informacion de un usuario a traves de un web services
-    * @param string $request
-    * @return array['result'],
-    */
-      public static function callWSActualizarPersona($data)
-      {
+     * Funcion para actualizar la informacion de un usuario a traves de un web services
+     * @param string $request
+     * @return array['result'],
+     */
+    public static function callWSActualizarPersona($data) {
         $client = new \SoapClient(\Yii::$app->params['webServices']['persona'], array(
             "trace" => 1,
             "exceptions" => 0,
@@ -427,13 +432,12 @@ class UsuarioController extends \yii\web\Controller {
 
             $result = $client->actualizarPersona($data);
             return $result;
-
         } catch (SoapFault $ex) {
-          Yii::error($ex->getMessage());
+            Yii::error($ex->getMessage());
         } catch (Exception $ex) {
-          Yii::error($ex->getMessage());
+            Yii::error($ex->getMessage());
         }
-      }
+    }
 
     public function actionPantallaInicio() {
         // obtener opciones desactivadas

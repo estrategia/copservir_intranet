@@ -85,6 +85,30 @@ class TestController extends Controller {
         VarDumper::dump($infoUsuario,10,true);
 
     }
+    
+    public function actionUser($cedula, $login=true){
+        $usuario = null;
+        
+        if($cedula==null){
+            $usuario = \app\models\Usuario::find()->all();
+        }else{
+            if($login){
+                $usuario = \app\models\Usuario::findByUsername($cedula);
+            }else{
+                $usuario = \app\models\Usuario::find()->where("numeroDocumento=:documento",[":documento"=>$cedula])->one();
+            }
+        }
+        
+        
+        VarDumper::dump($usuario,5,true);
+        echo "<br><br>";
+        
+        if (!$usuario) {
+            echo "NO USUARIO";
+        }else{
+            echo "SI USUARIO";
+        }
+    }
 
     public function actionLogin($username,$password){
         $client = new \SoapClient(\Yii::$app->params['webServices']['persona'], array(
