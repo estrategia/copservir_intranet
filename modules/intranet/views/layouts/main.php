@@ -197,7 +197,7 @@ if (!Yii::$app->user->isGuest) {
                         <!-- MENU PORTALES -->
                         <?php foreach (MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id) as $itemMenu): ?>
                             <li>
-                                <?= $itemMenu->getHtmlLink(Yii::$app->controller->module->id) ?>
+                                <?php $itemMenu->getHtmlLink(Yii::$app->controller->module->id) ?>
                             </li>
                         <?php endforeach; ?>
 

@@ -197,6 +197,8 @@ class TareasController extends Controller {
                 } else {
                     $respond = [
                         'result' => 'ok',
+                        'response' => $idTarea,
+                        'progreso' => $modelTarea->progreso
                     ];
                 }
             }

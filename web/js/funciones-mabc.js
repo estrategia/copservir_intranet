@@ -26,7 +26,14 @@ $(document).on('slideStop', "input[data-role='slider-tarea']", function() {
     },
     success: function(data) {
       if (data.result == "ok") {
-        //console.log('progreso actualizado');
+        var elemento = '#tarea'+data.response
+        if (data.progreso < 100) {
+          $(elemento).removeClass('slider danger col-md-8');
+          $(elemento).addClass('slider primary col-md-8');
+        }else{
+          $(elemento).removeClass('slider primary col-md-8');
+          $(elemento).addClass('slider danger col-md-8');
+        }
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -1600,6 +1607,28 @@ $(document).on('click', "a[data-role='eliminarPemisoRol']", function() {
 });
 
 //::::::::::::::::::::::
+// MENU PORTALES
+//::::::::::::::::::::::
+$(document).on('click', "button[data-role='asignar-submenu-portal']", function() {
+
+  var idMenu = $(this).attr('data-menu');
+  var texto = $(this).attr('data-texto');
+
+  $('#submenu').val(texto);
+  $('#menuportales-idmenuportalpadre').val(idMenu);
+  $(this).text('seleccionado');
+  $('#widget-submenu-portal').modal('hide');
+  return false;
+});
+
+$(document).on('click', "#enviaFormularioMenuPortales", function() {
+  //console.log('dio click envia formulario');
+  $('#formMenuportales').submit();
+});
+
+
+
+//::::::::::::::::::::::
 // OTROS
 //::::::::::::::::::::::
 /**
@@ -1666,11 +1695,6 @@ function makeMap(jsonGrafica, patron, valorGrafica, flag) {
   mapBox.append(mapString);
 }
 
-$(document).on('click', "#enviaFormularioMenuPortales", function() {
-  //console.log('dio click envia formulario');
-  $('#formMenuportales').submit();
-});
-
 //mostrar y ocultar formulario para publicar una noticia
 var count = 1;
 $(document).on('click', "#mostrarFormularioContenido", function() {
@@ -1692,8 +1716,17 @@ $(document).on('click', "#mostrarFormularioContenido", function() {
 * @param none
 * @return none
 */
-$( document ).ready(function() {
 
+$(function() {
+
+  $('.list-group-item').on('click', function() {
+    $('.glyphicon', this)
+      .toggleClass('glyphicon-chevron-right')
+      .toggleClass('glyphicon-chevron-down');
+  });
+});
+
+$( document ).ready(function() {
   // carousel cumpleaños
   $("#owl-Cumpleaños").owlCarousel({
     //margin:10,

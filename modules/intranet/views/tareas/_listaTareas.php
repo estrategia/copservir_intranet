@@ -25,14 +25,39 @@ use yii\helpers\Html;
     </td>
     <td class="v-align-middle">
 
-      <div class="slider primary col-md-8">
-        <div class="slider slider-horizontal" >
 
-          <div class="tooltip top hide" >
-            <div class="tooltip-arrow"></div>
-            <div class="tooltip-inner"></div>
-          </div>
-          <input type="text" class="slider-element form-control" data-tarea="<?= $tarea->idTarea ?>" data-role="slider-tarea" value="" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="<?= $tarea->progreso?>" data-slider-orientation="horizontal" data-slider-selection="after" data-slider-tooltip="hide">
+          <?php if ($tarea->progreso < 100): ?>
+            <div class="slider primary col-md-8" id="tarea<?= $tarea->idTarea ?>">
+              <div class="slider slider-horizontal" >
+
+                <div class="tooltip top hide" >
+                  <div class="tooltip-arrow"></div>
+                  <div class="tooltip-inner"></div>
+                </div>
+
+                <input type="text" class="slider-element form-control" data-slider-tooltip="show" data-tarea="<?= $tarea->idTarea ?>"
+                data-role="slider-tarea" value="" data-slider-min="0" data-slider-max="100" data-slider-step="1"
+                data-slider-value="<?= $tarea->progreso?>" data-slider-orientation="horizontal" data-slider-selection="after"
+                data-slider-tooltip="hide">
+              </div>
+            </div>
+          <?php else: ?>
+            <div class="slider danger col-md-8" id="tarea<?= $tarea->idTarea ?>">
+              <div class="slider slider-horizontal" >
+
+                <div class="tooltip top hide" >
+                  <div class="tooltip-arrow"></div>
+                  <div class="tooltip-inner"></div>
+                </div>
+
+                <input type="text" class="slider-element form-control" data-slider-tooltip="show" data-tarea="<?= $tarea->idTarea ?>"
+                data-role="slider-tarea" value="" data-slider-min="0" data-slider-max="100" data-slider-step="1"
+                data-slider-value="<?= $tarea->progreso?>" data-slider-orientation="horizontal" data-slider-selection="after"
+                data-slider-tooltip="hide">
+              </div>
+            </div>
+          <?php endif; ?>
+
         </div>
       </div>
     </td>

@@ -385,7 +385,7 @@ class UsuarioController extends \yii\web\Controller {
       Accion para actualizar la informacion del usuario
      */
 
-    /*public function actionActualizarDatos() {
+    public function actionActualizarDatos() {
         $model = new PersonaForm();
         $model->setValuesUserGuest();
 
@@ -407,7 +407,7 @@ class UsuarioController extends \yii\web\Controller {
         return $this->render('actualizarDatos', [
                     'model' => $model,
         ]);
-    }*/
+    }
 
     /**
     * Funcion para actualizar la informacion de un usuario a traves de un web services

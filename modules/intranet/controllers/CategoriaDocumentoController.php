@@ -98,9 +98,23 @@ class CategoriaDocumentoController extends \yii\web\Controller {
             $dataparent = $categoria->idCategoriaDocumento;
         }
 
-        $htmlEnlace = '<a href="#' . $categoria->idCategoriaDocumento . '" data-parent="#' . $dataparent . '" data-toggle="collapse">
+        if ($flagAdmin) {
+          $htmlEnlace = '<a href="#' . $categoria->idCategoriaDocumento . '" data-parent="#' . $dataparent . '" data-toggle="collapse">
+            ' . $categoria->nombre . '
+            </a>';
+        }else{
+          $htmlEnlace = '<a href="#'. $categoria->idCategoriaDocumento .'" class="list-group-item" data-toggle="collapse">
+            <i class="glyphicon glyphicon-chevron-right"></i>' . $categoria->nombre . '
+            </a>';
+        }
+
+
+
+
+        /*
+        '<a href="#' . $categoria->idCategoriaDocumento . '" data-parent="#' . $dataparent . '" data-toggle="collapse">
     ' . $categoria->nombre . '
-    </a>';
+    </a>';*/
         $htmlRelaciona = '';
         $htmlCrearCategoria = '';
         $htmlEditaCategoria = '';
@@ -133,7 +147,9 @@ class CategoriaDocumentoController extends \yii\web\Controller {
             }
 
             if (!$flagAdmin && $flagHoja) {
-                $htmlEnlace = Html::a($categoria->nombre, ['documento/detalle-documento', 'id' => $categoria->categoriaDocumentosDetalle->idDocumento], ['data-role' => 'hola']);
+                $htmlEnlace = Html::a('<i class="glyphicon glyphicon-chevron-right"></i> '.$categoria->nombre, ['documento/detalle-documento',
+                'id' => $categoria->categoriaDocumentosDetalle->idDocumento], ['data-role' => 'hola', 'class' => 'list-group-item',
+                ]);
             }
         } else {
 
@@ -145,33 +161,42 @@ class CategoriaDocumentoController extends \yii\web\Controller {
             }
 
             if (!$flagAdmin && $flagHoja) {
-                $htmlEnlace = Html::a($categoria->nombre, ['#'], []);
+              $htmlEnlace = Html::a('<i class="glyphicon glyphicon-chevron-right"></i> '.$categoria->nombre .' (No hay un documento asociado)',
+              ['#'],
+              ['data-role' => 'hola', 'class' => 'list-group-item',
+              'data-toggle' => 'collapse']);
                 ;
-                $htmlRelaciona = '<button href="#"  class="btn btn-mini btn-success">
-        No hay un documento asociado
-        </button>';
             }
         }
 
-        $html = $html .
-                        '
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">
-                  ' . $htmlEnlace . '
-                </h4>
-                ' . $htmlEditaCategoria . '
-                ' . $htmlRelaciona . '
-              </div>
-              <div class="panel-collapse collapse" id="' . $categoria->idCategoriaDocumento . '">
-                <div class="panel-body">
-                  ' . $htmlCrearCategoria . '
-                  ' . $this->crearMenuDocumentos($hijos, '', $flagAdmin) . '
+        if ($flagAdmin) {
+          $html = $html .
+                          '
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    ' . $htmlEnlace . '
+                  </h4>
+                  ' . $htmlEditaCategoria . '
+                  ' . $htmlRelaciona . '
+                </div>
+                <div class="panel-collapse collapse" id="' . $categoria->idCategoriaDocumento . '">
+                  <div class="panel-body">
+                    ' . $htmlCrearCategoria . '
+                    ' . $this->crearMenuDocumentos($hijos, '', $flagAdmin) . '
+                  </div>
                 </div>
               </div>
-            </div>
-            ';  
-
+              ';
+        }else{
+          $html = $html .
+                          '
+                          '. $htmlEnlace . '
+                          <div class="list-group collapse" id="'. $categoria->idCategoriaDocumento.'">
+                          ' . $this->crearMenuDocumentos($hijos, '', $flagAdmin) . '
+                          </div>
+              ';
+        }
         return $html;
     }
 

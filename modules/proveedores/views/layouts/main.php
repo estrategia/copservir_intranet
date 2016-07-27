@@ -42,7 +42,7 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.pn
               <li class="active"> <?= Html::a('Calendario', ['/proveedores/calendario']) ?></li>
               <?php foreach (MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id) as $itemMenu): ?>
                 <li>
-                  <?= $itemMenu->getHtmlLink(Yii::$app->controller->module->id) ?>
+                  <?php $itemMenu->getHtmlLinkPortales(Yii::$app->controller->module->id) ?>
                 </li>
               <?php endforeach; ?>
             </ul>

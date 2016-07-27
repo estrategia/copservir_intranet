@@ -81,11 +81,11 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Perfil de usuario')]
                 <p><b>Cumplea&ntilde;os: </b> <?= \Yii::$app->user->identity->getCumpleanhos() ?></p>
               </div>
               <div class="col-md-2">
-                <?php //echo Html::a('Actualizar datos', ['usuario/actualizar-datos'], ['class' => 'btn btn-primary btn-small', 'name' => 'update-button']) ?>
+                <?=  Html::a('Actualizar datos', ['usuario/actualizar-datos'], ['class' => 'btn btn-primary btn-small', 'name' => 'update-button']) ?>
                 <div style="height: 5px"></div>
-                <?php echo Html::a('Cambiar contraseña', ['usuario/cambiar-clave'], ['class' => 'btn btn-primary btn-small', 'name' => 'password-button']) ?>
+                <?= Html::a('Cambiar contraseña', ['usuario/cambiar-clave'], ['class' => 'btn btn-primary btn-small', 'name' => 'password-button']) ?>
                 <div style="height: 5px"></div>
-                <?php echo Html::a('Cambiar fotos', ['usuario/cambiar-foto-perfil'], ['class' => 'btn btn-primary btn-small', 'name' => 'picture-button']) ?>
+                <?= Html::a('Cambiar fotos', ['usuario/cambiar-foto-perfil'], ['class' => 'btn btn-primary btn-small', 'name' => 'picture-button']) ?>
               </div>
 
 

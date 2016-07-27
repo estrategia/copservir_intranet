@@ -61,7 +61,7 @@ class Menu extends \yii\db\ActiveRecord {
         if ($activo){
             return self::find()->with('activeListSubMenu')->where('estado=1 AND idPadre is NULL')->orderBy('orden')->all();
         }else{
-            return self::find()->with('listSubMenu')->where('idPadre is NULL')->orderBy('orden')->all();
+            return self::find()->with('listSubMenu')->where('estado=1 AND idPadre is NULL')->orderBy('orden')->all();
         }
     }
 
@@ -71,7 +71,7 @@ class Menu extends \yii\db\ActiveRecord {
             if (empty($menuItem->objOpcion)) { // no tiene hipervinculo
                 //style=" font-size: 14px; font-weight: normal; color:#ffffff;
                 echo '<li class="list-menu-corporativo">
-                <a href="javascript:;"> <i class="icon-custom-ui"></i> <span class="title">' . $menuItem->descripcion . '</span> <span class=" arrow" ></span> </a>
+                <a href="javascript:;"> <i class="'.$menuItem->icono.'"></i> <span class="title">' . $menuItem->descripcion . '</span> <span class=" arrow" ></span> </a>
                     <ul class="sub-menu">';
 
                     foreach ($menuItem->activeListSubMenu as $subItem) {
@@ -182,8 +182,8 @@ class Menu extends \yii\db\ActiveRecord {
             $children = [];
             $htmlRelacion = '';
 
-            if (!empty($objMenu->listSubMenu)) {
-                foreach ($objMenu->listSubMenu as $objSubMenu) {
+            if (!empty($objMenu->activeListSubMenu)) { //listSubMenu
+                foreach ($objMenu->activeListSubMenu as $objSubMenu) { //listSubMenu
                     $children[] = self::obtenerHijosArrayAdmin($objSubMenu);
                 }
             } else {

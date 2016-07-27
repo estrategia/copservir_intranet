@@ -22,6 +22,28 @@ use app\modules\intranet\models\MenuPortales;
     <?php $model->estado = $model->isNewRecord ? 1 : $model->estado;  ?>
     <?= $form->field($model, 'estado')->dropDownList(['0' => 'Inactivo', '1' => 'Activo']); ?>
 
+
+      <div class="form-group">
+        <label for="">Menu Padre</label>
+        <div class="input-group">
+          <?php $nombreSubmenu = $model->isNewRecord ? '' : $model->objMenuPadre->nombre;  ?>
+          <?=  html::textInput ( 'submenu', $value = $nombreSubmenu,
+            $options = ['id' => 'submenu', 'class' => 'col-md-6 form-control ', 'disabled' => true] ) ?>
+          <div class="input-group-addon">
+            <a href="#" data-toggle="modal" data-target="#widget-submenu-portal">
+              asignar
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!--  data-role = 'asignar-submenu-portal' -->
+
+
+
+    <?php $model->idMenuPortalPadre = $model->isNewRecord ? NULL : $model->idMenuPortalPadre;  ?>
+    <?= $form->field($model, 'idMenuPortalPadre')->hiddenInput(['value'=> $model->idMenuPortalPadre, ])->label(false); ?>
+
     <?=
         $form->field($model, 'idPortal')->widget(Select2::classname(), [
         'data' => $model->getListaPortales(),
@@ -82,17 +104,23 @@ use app\modules\intranet\models\MenuPortales;
       $inputUrlHidden = $form->field($model, 'urlMenu')->hiddenInput(['value'=> ''])->label(false);
       $inputUrlHidden = str_replace("\n", "", $inputUrlHidden);
 
+      $iditem = 0;
       $bandera = 'false';
       if (!$model->isNewRecord) {
           $bandera = 'true';
+          $iditem = $model->objMenuPadre->idMenuPortales;
       }
+
+
 
       $this->registerJs("
           $( document ).ready(function() {
             valor = $('#menuportales-tipo').val();//parseInt($('#menuportales-tipo').val());
-            console.log('valor: '+ valor);
             if(".$bandera."){
               setInputUrl( valor );
+              $('#item$iditem').css('background-color', '#0aa699')
+              $('#item$iditem').css('color', 'white')
+              $('#button$iditem').text('asignado')
             }
           });
 
@@ -143,3 +171,9 @@ use app\modules\intranet\models\MenuPortales;
     </div>
 
 </div>
+
+<?=
+  $this->render('_modalSubMenu', [
+    'model' => $model,
+  ])
+?>

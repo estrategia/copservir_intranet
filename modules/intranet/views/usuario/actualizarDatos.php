@@ -31,17 +31,19 @@ $this->params['breadcrumbs'][] = $this->title;
       $form = ActiveForm::begin([]);
       ?>
 
-      <?= $form->field($model, 'Nombres')->textInput(['maxlength' => true]) ?>
-      <?= $form->field($model, 'PrimerApellido')->textInput(['maxlength' => true]) ?>
-      <?= $form->field($model, 'SegundoApellido')->textInput(['maxlength' => true]) ?>
+      <?php // $form->field($model, 'Nombres')->textInput(['maxlength' => true]) ?>
+      <?php // $form->field($model, 'PrimerApellido')->textInput(['maxlength' => true]) ?>
+      <?php // $form->field($model, 'SegundoApellido')->textInput(['maxlength' => true]) ?>
 
-      <?=
+      <?php
+        /*
           $form->field($model, 'FechaNacimiento')->widget(DatePicker::classname(), [
           'pluginOptions' => [
             'autoclose' => true,
             'format' => 'yyyy-mm-dd'
           ]
         ]);
+        */
       ?>
 
       <?= $form->field($model, 'Direccion')->textInput(['maxlength' => true]) ?>
@@ -53,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ]);
       ?>
 
-      <?= $form->field($model, 'Email')->input('email') ?>
+      <?php // $form->field($model, 'Email')->input('email') ?>
 
       <?= $form->field($model, 'EmailPersonal')->input('email') ?>
 

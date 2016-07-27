@@ -6,8 +6,11 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Menú documentos org
 <h1><?=$this->title?></h1>
 
 <!-- MENU -->
-<div data-toggle="collapse" id="accordion" class="panel-group">
-  <?= $menu ?>
+<div class="just-padding">
+  <div class="list-group list-group-root well">
+      <?= $menu ?>
+  </div>
+
 </div>
 
 <!--
