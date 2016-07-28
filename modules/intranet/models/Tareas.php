@@ -126,7 +126,7 @@ class Tareas extends \yii\db\ActiveRecord
   */
   public static function getListaPrioridad()
   {
-    $opciones = PrioridadTarea::find()->asArray()->all();
+    $opciones = PrioridadTarea::find()->where(['estado' => 1])->asArray()->all();
     return ArrayHelper::map($opciones, 'idPrioridadTarea', 'nombre');
   }
 
