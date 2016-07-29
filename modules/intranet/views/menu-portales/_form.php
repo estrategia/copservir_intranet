@@ -26,7 +26,15 @@ use app\modules\intranet\models\MenuPortales;
       <div class="form-group">
         <label for="">Menu Padre</label>
         <div class="input-group">
-          <?php $nombreSubmenu = $model->isNewRecord ? '' : $model->objMenuPadre->nombre;  ?>
+          <?php
+          $nombreSubmenu = '';
+          if (!$model->isNewRecord) {
+              if ($model->objMenuPadre) {
+                $nombreSubmenu = $model->objMenuPadre->nombre;
+              }
+          }
+          ?>
+
           <?=  html::textInput ( 'submenu', $value = $nombreSubmenu,
             $options = ['id' => 'submenu', 'class' => 'col-md-6 form-control ', 'disabled' => true] ) ?>
           <div class="input-group-addon">
@@ -104,11 +112,13 @@ use app\modules\intranet\models\MenuPortales;
       $inputUrlHidden = $form->field($model, 'urlMenu')->hiddenInput(['value'=> ''])->label(false);
       $inputUrlHidden = str_replace("\n", "", $inputUrlHidden);
 
-      $iditem = 0;
+      $iditem = NULL;
       $bandera = 'false';
       if (!$model->isNewRecord) {
           $bandera = 'true';
-          $iditem = $model->objMenuPadre->idMenuPortales;
+          if ($model->objMenuPadre) {
+            $iditem = $model->objMenuPadre->idMenuPortales;
+          }
       }
 
 

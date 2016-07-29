@@ -163,5 +163,10 @@ function dataTablesGroupSearch2(modulo, numeroDocumento){
     var tables = $('table.table.data-table[data-modulo="'+modulo+'"]').DataTable();
     tables.search(numeroDocumento);
     tables.draw();
-    $('.portal-container').show("slow");
+    var elemento = '#contenido-modulos-'+modulo
+    $(elemento).find('.dataTables_filter').css('display','none');
+    $(elemento).find('.dataTables_length').css('display','none');
+    $(elemento).find('.dataTables_paginate').css('display','none');
+    $(elemento).find('.dataTables_info').css('display','none');
+    $(elemento).show("slow");
 }

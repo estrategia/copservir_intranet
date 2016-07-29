@@ -20,11 +20,6 @@ use app\modules\intranet\models\ModuloContenido;
   $this->registerJs("
 
   $( document ).ready(function() {
-    $('.dataTables_filter').css('display','none');
-    $('.dataTables_length').css('display','none');
-    $('.dataTables_paginate').css('display','none');
-    $('.dataTables_info').css('display','none');
-
     dataTablesGroupSearch2($objModulo->idModulo, $numeroDocumento)
   });
   ");
