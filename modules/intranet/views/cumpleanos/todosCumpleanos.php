@@ -14,7 +14,6 @@ $this->title = 'Cumpleaños';
       <div class="grid simple horizontal red">
         <div class="grid-title  center-block">
           <h4>  <?= $model->nombre  ?> </h4>
-          <!--<div class="tools"> <a href="javascript:;" class="collapse"></a> <a href="#grid-config" data-toggle="modal" class="config"></a> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>-->
         </div>
         <div class="grid-body center-block">
           <div>

@@ -19,7 +19,7 @@ use yii\web\JsExpression;
             'data' => $modelGrupoInteresCargo->listaCargo,
             'options' => ['placeholder' => 'buscar cargos...', 'id' => 'agregaCargos', 'multiple' => true
             ],
-            'pluginEvents' => [  ///*$('#grupointerescargo-nombrecargo').val(e.params.args.data.text);*/ $('.selDiv option[value="SEL1"]')
+            'pluginEvents' => [
               "select2:selecting" => "function(e) {
                 var valor = e.params.args.data.text;
                 $(\"#grupointerescargo-nombrecargo option[ value = '\"+valor+\"']\").attr('selected', 'selected');

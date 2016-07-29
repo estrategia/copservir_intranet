@@ -1,11 +1,7 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\modules\intranet\models\PublicacionesCampanas;
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\PublicacionesCampanas */
 
 $this->title = 'Ver publicidad';
 $this->params['breadcrumbs'][] = ['label' => 'Publicidad', 'url'=>['/intranet/publicaciones-campanas/admin']];
@@ -29,7 +25,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Ver publicidad'];
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            //'idImagenCampana',
             'nombreImagen',
             [
               'attribute' => 'rutaImagen',

@@ -9,9 +9,7 @@ $columnas = [];
 if ($modelo->objPortal->nombrePortal == 'intranet') {
   $columnas = [
     ['class' => 'yii\grid\SerialColumn'],
-
     'titulo',
-
     [
       'attribute' => 'idLineaTiempo',
       'value' => 'objLineaTiempo.nombreLineaTiempo',
@@ -42,7 +40,6 @@ if ($modelo->objPortal->nombrePortal == 'intranet') {
 }else{
   $columnas = [
     ['class' => 'yii\grid\SerialColumn'],
-
     'titulo',
     [
       'class' => 'yii\grid\ActionColumn',
@@ -68,8 +65,6 @@ if ($modelo->objPortal->nombrePortal == 'intranet') {
     ]
   ];
 }
-
-
 ?>
 
 <div class="col-md-12" id="contenidos-lista">

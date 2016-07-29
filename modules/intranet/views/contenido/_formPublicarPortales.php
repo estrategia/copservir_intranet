@@ -29,7 +29,7 @@ if (!$contenidoModel->isNewRecord) {
 
 ?>
 <div class="publicar-portales">
-  
+
   <?= $this->render('/common/errores', []) ?>
 
 <?php
@@ -51,7 +51,6 @@ if (!$contenidoModel->isNewRecord) {
       'replaceDivs' => false,
       'lang' => 'es',
       'minHeight' => 100,
-      //'buttons' => ['format', 'bold', 'italic'],
       'imageUpload' => Url::toRoute('contenido/cargar-imagen'),
       'fileUpload' => Url::toRoute('contenido/cargar-archivo'),
       'plugins' => [
@@ -248,11 +247,3 @@ if (!$contenidoModel->isNewRecord) {
   ?>
 </div>
 </div>
-
-<!--
-para saber las opciones seleccionadas
-$( "#contenido-portales option:selected" ).each(function() {
-      console.log($( this ).text()) ;
-    });
-
--->

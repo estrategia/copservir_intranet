@@ -3,12 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\datetime\DateTimePicker;
-//use vova07\imperavi\Widget;
 use yii\helpers\Url;
 
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\ContenidoEmergente */
-/* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="contenido-emergente-form">

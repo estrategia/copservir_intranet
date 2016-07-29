@@ -1,8 +1,4 @@
 <?php
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model app\models\LoginForm */
-
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
@@ -22,7 +18,7 @@ $this->title = 'Login';
                 ]);
         ?>
         <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
-            
+
 
             <?=
             $form->field($model, 'username', [

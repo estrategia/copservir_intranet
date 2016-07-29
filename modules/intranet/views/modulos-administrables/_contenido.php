@@ -17,11 +17,9 @@ use app\modules\intranet\models\ModuloContenido;
             'replaceDivs' => false,
             'lang' => 'es',
             'minHeight' => 100,
-            //  'buttons' => ['format', 'bold', 'italic'],
             'imageUpload' => Url::toRoute('contenido/cargar-imagen'),
             'fileUpload' => Url::toRoute('contenido/cargar-archivo'),
             'plugins' => [
-                //'imagemanager',
                 'fullscreen'
             ],
             'fileManagerJson' => Url::to(['sitio/files-get']),

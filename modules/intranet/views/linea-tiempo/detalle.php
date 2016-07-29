@@ -1,11 +1,7 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\modules\intranet\models\LineaTiempo;
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\LineaTiempo */
 
 $this->title = 'detalle linea de tiempo';
 $this->params['breadcrumbs'][] = ['label' => 'Líneas de tiempo', 'url' => ['/intranet/linea-tiempo/admin']];
@@ -29,7 +25,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Ver línea de tiempo'];
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            //'idLineaTiempo',
             'nombreLineaTiempo',
             'descripcion',
             [

@@ -5,8 +5,6 @@ use yii\widgets\DetailView;
 use yii\widgets\ActiveForm;
 use \app\modules\intranet\models\DenunciosContenidosComentarios;
 
-/* @var $this yii\web\View */
-
 $this->title = 'Comentario denunciado';
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Comentarios denunciados'), 'url' =>['/intranet/contenido/listar-comentarios-denunciados']];
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', "Comentario #" . $model->objDenuncioComentario->idContenidoComentario)];
@@ -16,7 +14,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', "Comentario #" . $mod
 
   <h1><?= Html::encode($this->title) ?></h1>
 
-  <!-- si el conteniido se encuentra pendiente de aprobacion -->
   <?php if ($model->objDenuncioComentario->estado == DenunciosContenidosComentarios::PENDIENTE_APROBACION): ?>
     <?php $form = ActiveForm::begin(); ?>
     <?= $form->field($model->objDenuncioComentario, 'estado')->hiddenInput(['value'=> DenunciosContenidosComentarios::APROBADO ])->label(false); ?>
@@ -63,7 +60,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', "Comentario #" . $mod
           'format'=>'raw',
           'value' => $model->objDenuncioComentario->descripcionDenuncio
         ],
-
       ],
       ]) ?>
     </div>

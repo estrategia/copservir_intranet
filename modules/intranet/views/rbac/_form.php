@@ -1,12 +1,7 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\modules\intranet\models\AuthItem;
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\AuthItem */
-/* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="auth-item-form">

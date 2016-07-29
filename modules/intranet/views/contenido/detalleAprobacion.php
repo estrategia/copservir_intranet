@@ -16,7 +16,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contenido #' . $mode
 
   <h1><?= Html::encode($this->title) ?></h1>
 
-  <!-- si el contido se encuentra pendiente de aprobacion -->
   <?php if ($model->estado == Contenido::PENDIENTE_APROBACION): ?>
     <?php $form = ActiveForm::begin(); ?>
     <?= $form->field($model, 'estado')->hiddenInput(['value'=> Contenido::APROBADO ])->label(false); ?>
@@ -44,11 +43,9 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contenido #' . $mode
       'attributes' => [
         'titulo',
         [
-
           'attribute' =>'contenido',
           'format'=>'raw',
           'value'=>$model->contenido,
-
         ],
         [
           'label' => 'Linea de tiempo',
@@ -60,7 +57,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contenido #' . $mode
           'format'=>'raw',
           'value' => '<img src="'.Yii::getAlias('@web').'/img/fotosperfil/'. $model->objUsuarioPublicacion->getImagenPerfil().'" class="img-circle img-responsive" style="width: 22%;"/><p>'.$model->objUsuarioPublicacion->alias.' </p> '
         ],
-
       ],
       ]) ?>
 

@@ -1,17 +1,10 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
 use kartik\datetime\DateTimePicker;
 use app\modules\intranet\models\ContenidoDestino;
-
-
 use kartik\select2\Select2;
 use yii\helpers\Url;
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\OfertasLaborales */
-/* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="ofertas-laborales-form">

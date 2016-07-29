@@ -1,9 +1,5 @@
 <?php
-
 use yii\helpers\Html;
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\Documento */
 
 $this->title = 'Actualizar el Documento: ' . $model->titulo;
 $this->params['breadcrumbs'][] = ['label' => 'Documentos organizacionales', 'url' => ['/intranet/documento/admin']];

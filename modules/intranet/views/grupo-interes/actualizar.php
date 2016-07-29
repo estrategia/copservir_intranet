@@ -1,9 +1,5 @@
 <?php
-
 use yii\helpers\Html;
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\GrupoInteres */
 
 $this->title = 'Actualizar grupo';
 $this->params['breadcrumbs'][] = ['label' => 'Grupos de interés', 'url' => ['/intranet/grupo-interes/admin']];
@@ -18,5 +14,5 @@ $this->params['breadcrumbs'][] = ['label' => 'Actualizar grupo'];
       'model' => $model,
       ]) ?>
 
-    </div>
   </div>
+</div>

@@ -12,9 +12,6 @@ use app\modules\intranet\models\AuthItem;
  */
 class AuthItemChildSearch extends AuthItemChild
 {
-    /**
-     * @inheritdoc
-     */
     public $description;
 
     public function rules()
@@ -24,27 +21,19 @@ class AuthItemChildSearch extends AuthItemChild
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function scenarios()
     {
-        // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
 
     /**
      * Creates data provider instance with search query applied
-     *
      * @param array $params
-     *
      * @return ActiveDataProvider
      */
     public function searchPermisos($params){
       $query = AuthItemChild::find()
       ->where(['parent' => $params['id']]);
-
-      // add conditions that should always apply here
 
       $dataProvider = new ActiveDataProvider([
           'query' => $query,
@@ -53,8 +42,6 @@ class AuthItemChildSearch extends AuthItemChild
       $this->load($params);
 
       if (!$this->validate()) {
-          // uncomment the following line if you do not want to return any records when validation fails
-          // $query->where('0=1');
           return $dataProvider;
       }
 
@@ -63,11 +50,6 @@ class AuthItemChildSearch extends AuthItemChild
       $query->andFilterWhere(['like', 'parent', $this->parent])
           ->andFilterWhere(['like', 'child', $this->child])
           ->andFilterWhere(['like', 'description', $this->description]);
-
-
-        //$query->joinWith('objCargo');
-
-        //$query->andFilterWhere(['like', 'nombreCiudad', $this->idCiudad]);
 
       return $dataProvider;
     }

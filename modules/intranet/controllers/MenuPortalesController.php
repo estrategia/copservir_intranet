@@ -131,6 +131,21 @@ class MenuPortalesController extends Controller {
       }
     }
 
+    public function actionRenderModal($idPortal)
+    {
+      if (Yii::$app->request->isAjax) {
+
+        $respond = [
+            'result' => 'ok',
+            'response' => $this->renderAjax('_modalSubMenu', [
+                'idPortal' => $idPortal,
+        ])];
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $respond;
+      }
+    }
+
     /**
      * Ecuentra un modelo MenuPortales basado en su llave pimaria .
      * @param string $id

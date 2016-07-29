@@ -35,6 +35,15 @@ $this->params['breadcrumbs'][] = ['label' => 'Menú portales'];
               }
             ],
             [
+              'attribute' => 'idPortal',
+              'filter' =>
+                Html::activeDropDownList($searchModel, 'idPortal', MenuPortales::getListaPortales(),
+                  ['class'=>'form-control','prompt' => 'Seleccione']),
+              'value' => function($model) {
+                return $model->objPortal->nombrePortal;
+              }
+            ],
+            [
               'attribute' => 'tipo',
               'filter' =>
                 Html::activeDropDownList($searchModel, 'tipo', ['1' => 'Enlace interno', '2' => 'Enlace externo'],

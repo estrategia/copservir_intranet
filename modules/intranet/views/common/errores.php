@@ -1,4 +1,3 @@
-<!-- para visualizar los mensajes de error -->
 <div class="row">
   <div class="col-lg-12">
     <?php foreach (Yii::$app->session->getAllFlashes() as $tipo => $mensaje): ?>

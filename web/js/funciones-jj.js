@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 //::::::::::::::::::::::
 // LINEAS DE TIEMPO
 //::::::::::::::::::::::
@@ -24,7 +19,6 @@ function cambiarTimeline(lineaTiempo, href) {
         },
         complete: function (data) {
             $('html').hideLoading();
-
         },
         success: function (data) {
             if (data.result == "ok") {
@@ -34,7 +28,6 @@ function cambiarTimeline(lineaTiempo, href) {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('html').hideLoading();
-
         }
     });
 }
@@ -44,7 +37,6 @@ $(document).on('click', "a[data-role='cambiar-timeline']", function () {
     var lineaTiempo = $(this).attr('data-timeline');
     var href = $(this).attr('href');
     cambiarTimeline(lineaTiempo, href);
-
 });
 
 $(document).on('click', "a[data-role='agregar-destino-contenido']", function () {
@@ -59,7 +51,6 @@ $(document).on('click', "a[data-role='agregar-destino-contenido']", function () 
         },
         complete: function (data) {
             $('html').hideLoading();
-
         },
         success: function (data) {
             if (data.result == "ok") {
@@ -96,7 +87,6 @@ $(document).on('click', "a[data-role='ver-contenido-administrable']", function (
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('html').hideLoading();
-
         }
     });
     return false;
@@ -146,11 +136,9 @@ $(document).on('click', "a[data-role='guardar-contenido']", function () {
             }
 
             if (data.result == 'error') {
-
               alert('Error:'+ data.error);
               $('html').hideLoading();
             }
-
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('html').hideLoading();
@@ -160,7 +148,7 @@ $(document).on('click', "a[data-role='guardar-contenido']", function () {
 
     return false;
 });
-//---------------------------------------------------------------------------
+
 /*
  * peticion ajax para guardar un contenido de una publicacion en el template
  * publicar portales.
@@ -187,7 +175,6 @@ $(document).on('click', "a[data-role='guardar-contenido-publicar-portales']", fu
         dataType: 'json',
         beforeSend: function () {
             $('html').showLoading();
-            //$("#btnAgregarContenido").attr('disabled', true);
         },
         complete: function (data) {
             $('html').hideLoading();
@@ -230,7 +217,6 @@ $(document).on('click', "a[data-role='actualizar-contenido-publicar-portales']",
         dataType: 'json',
         beforeSend: function () {
             $('html').showLoading();
-            //$("#btnAgregarContenido").attr('disabled', true);
         },
         complete: function (data) {
             $('html').hideLoading();
@@ -243,11 +229,9 @@ $(document).on('click', "a[data-role='actualizar-contenido-publicar-portales']",
             $("#btnAgregarContenido").attr('disabled', false);
         }
     });
-
     return false;
 });
 
-//---------------------------------------------------------------------------
 //::::::::::::::::::::::
 // MENU
 //::::::::::::::::::::::
@@ -270,24 +254,19 @@ $(document).on('click', "input[data-role='agregar-opcion']", function () {
         },
         complete: function (data) {
             $('html').hideLoading();
-
         },
         success: function (data) {
             if (data.result == "ok") {
               $('.list-menu-corporativo').remove();
               $(data.response).insertAfter('#list-menu-corporativo');
               $.Webarch.init();
-              //
-              //document.insertBefore(data.response, document.getElementById('list-menu-corporativo'));
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('html').hideLoading();
-
         }
     });
 });
-
 
 $(document).on('click', "a[data-role='me-gusta-contenido']", function () {
 
@@ -310,7 +289,6 @@ $(document).on('click', "a[data-role='me-gusta-contenido']", function () {
         success: function (data) {
             if (data.result == "ok") {
                 $('#numero-megusta_' + idContenido).html(data.response);
-
                 if (val == 1) {
                     $("#megusta_" + idContenido).css('display', 'none');
                     $("#no_megusta_" + idContenido).css('display', '');
@@ -331,7 +309,6 @@ $(document).on('click', "button[data-role='guardar-comentario-contenido']", func
 
     var idContenido = $(this).attr('data-contenido');
     var comentario = $('#comentario_' + idContenido).val();
-
 
     $.ajax({
         type: 'POST',
@@ -363,7 +340,6 @@ $(document).on('click', "button[data-role='guardar-comentario-contenido']", func
     });
 });
 
-
 $(document).on('click', 'a[data-role="listado-me-gusta-contenido"]', function () {
     $.ajax({
         type: 'POST',
@@ -377,7 +353,6 @@ $(document).on('click', 'a[data-role="listado-me-gusta-contenido"]', function ()
         },
         complete: function () {
             $('html').hideLoading();
-
         },
         success: function (data) {
             if (data.result == 'ok') {
@@ -389,13 +364,11 @@ $(document).on('click', 'a[data-role="listado-me-gusta-contenido"]', function ()
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('html').hideLoading();
-
             alert('Error: ' + errorThrown);
         }
     });
     return false;
 });
-
 
 $(document).on('click', 'a[data-role="listado-comentarios-contenido"]', function () {
     $.ajax({
@@ -410,13 +383,11 @@ $(document).on('click', 'a[data-role="listado-comentarios-contenido"]', function
         },
         complete: function () {
             $('html').hideLoading();
-
         },
         success: function (data) {
             if (data.result == 'ok') {
                 $('body').append(data.response);
                 $("#modal-comentarios-contenido").modal("show");
-
             } else {
                 alert(data.response);
             }
@@ -444,20 +415,17 @@ $(document).on('click', 'a[data-role="denunciar-contenido"]', function () {
         },
         complete: function () {
             $('html').hideLoading();
-
         },
         success: function (data) {
             if (data.result == 'ok') {
                 $('.div-modal-denuncio-contenido').append(data.response);
                 $("#modal-contenido-denuncio").modal("show");
-
             } else {
                 alert(data.response);
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('html').hideLoading();
-
             alert('Error: ' + errorThrown);
         }
     });
@@ -477,7 +445,6 @@ $(document).on('click', 'button[data-role="guardar-denuncio-contenido"]', functi
         url: requestUrl + '/intranet/contenido/guardar-denuncio-contenido',
         data: form.serialize(),
         beforeSend: function () {
-
             $('html').showLoading();
         },
         complete: function () {
@@ -485,10 +452,8 @@ $(document).on('click', 'button[data-role="guardar-denuncio-contenido"]', functi
         },
         success: function (data) {
             if (data.result == 'ok') {
-
                 $("#lt" + elemento).html(data.response);
                 $("#modal-contenido-denuncio").modal("hide");
-
             } else {
                 $("#modal-contenido-denuncio").modal("hide");
                 $('#modal-contenido-denuncio').on('hidden.bs.modal', function (e) {
@@ -499,8 +464,6 @@ $(document).on('click', 'button[data-role="guardar-denuncio-contenido"]', functi
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('html').hideLoading();
-
-            //alert('Error: ' + errorThrown);
         }
     });
     return false;
@@ -516,27 +479,22 @@ $(document).on('click', 'a[data-role="eliminar-comentario"]', function () {
         url: requestUrl + '/intranet/contenido/eliminar-comentario',
         data: {idComentario: idComentario},
         beforeSend: function () {
-
             $('html').showLoading()
         },
         complete: function () {
             $('html').hideLoading();
-
         },
         success: function (data) {
             if (data.result == 'ok') {
-
                 $("#numero-comentarios_"+data.idContenido).empty();
                 $("#numero-comentarios_"+data.idContenido).append(data.numeroComentarios);
                 $("#comentarios_contenido").html(data.response);
-
             } else {
                 alert(data.response);
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('html').hideLoading();
-
             alert('Error: ' + errorThrown);
         }
     });
@@ -559,21 +517,18 @@ $(document).on('click', 'a[data-role="denunciar-comentario"]', function () {
         },
         complete: function () {
             $('html').hideLoading();
-
         },
         success: function (data) {
             if (data.result == 'ok') {
                 $("#modal-comentarios-contenido").modal('hide');
                 $('body').append(data.response);
                 $("#modal-comentario-denuncio").modal('show');
-
             } else {
                 alert(data.response);
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('html').hideLoading();
-
             alert('Error: ' + errorThrown);
         }
     });
@@ -591,18 +546,15 @@ $(document).on('click', 'button[data-role="guardar-denuncio-comentario"]', funct
         url: requestUrl + '/intranet/contenido/guardar-denuncio-comentario',
         data: form.serialize(),
         beforeSend: function () {
-
             $('html').showLoading()
         },
         complete: function () {
             $('html').hideLoading();
-
         },
         success: function (data) {
             if (data.result == 'ok') {
                 $("#modal-comentario-denuncio").modal('hide');
             } else {
-
                 $("#modal-comentario-denuncio").modal("hide");
                 $('#modal-comentario-denuncio').on('hidden.bs.modal', function (e) {
                   $('#modal-comentario-denuncio').remove();
@@ -613,7 +565,6 @@ $(document).on('click', 'button[data-role="guardar-denuncio-comentario"]', funct
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('html').hideLoading();
-
             alert('Error: ' + errorThrown);
         }
     });
@@ -634,10 +585,8 @@ $(document).on('click', 'a[data-role="quitar-elemento"]', function () {
         },
         complete: function () {
             $('html').hideLoading();
-
         },
         success: function (data) {
-
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('html').hideLoading();
@@ -663,10 +612,8 @@ $(document).on('click', 'input[data-role="toggle-elemento"]', function () {
         },
         complete: function () {
             $('html').hideLoading();
-
         },
         success: function (data) {
-
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('html').hideLoading();
@@ -693,18 +640,14 @@ $(document).on('click', 'a[data-role="agregar-modulo"]', function () {
         },
         complete: function () {
             $('html').hideLoading();
-
-
         },
         success: function (data) {
             if (data.result == 'ok') {
                 $("#tabla_agregados").yiiGridView("applyFilter");
             }
-
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('html').hideLoading();
-
             alert('Error: ' + errorThrown);
         }
     });
@@ -735,7 +678,6 @@ $(document).on('click', 'a[data-role="eliminar-modulo"]', function () {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('html').hideLoading();
-
             alert('Error: ' + errorThrown);
         }
     });
@@ -767,7 +709,6 @@ $(document).on('click', 'a[data-role="editar-modulo"]', function () {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('html').hideLoading();
-
             alert('Error: ' + errorThrown);
         }
     });

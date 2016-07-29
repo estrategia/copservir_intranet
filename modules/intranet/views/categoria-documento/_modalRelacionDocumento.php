@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use kartik\select2\Select2;
 ?>
-<!-- Modal -->
+
 <div class="modal fade" id="widget-relaciona-documento" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -21,8 +21,6 @@ use kartik\select2\Select2;
 
         <?=
         $form->field($model, 'idDocumento')->widget(Select2::classname(), [
-          //'model'=> $model,
-          //'name' => 'CategoriaDocumentoDetalle[idDocumento]',
           'id'=> 'relacion',
           'data' => $listaDocumentos,
           'options' => ['placeholder' => 'Seleccione', 'onchange' => ' $( "#plantilla-documento" ).remove(); getPlantillaDocumento($(this).val())'],

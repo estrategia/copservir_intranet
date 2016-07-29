@@ -4,17 +4,12 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use app\modules\intranet\models\ContenidoEmergente;
 
-/* @var $this yii\web\View */
-/* @var $searchModel app\modules\intranet\models\ContenidoEmergenteSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
 $this->title = 'Contenido Emergente';
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contenidos emergentes')];
 ?>
 <div class="contenido-emergente-index">
 
   <h1><?= Html::encode($this->title) ?></h1>
-  <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
   <p>
     <?= Html::a('Crea un contenido emergente', ['crear'], ['class' => 'btn btn-success']) ?>
@@ -24,7 +19,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contenidos emergente
     'filterModel' => $searchModel,
     'columns' => [
       ['class' => 'yii\grid\SerialColumn'],
-
       'contenido:ntext',
       'fechaInicio',
       'fechaFin',

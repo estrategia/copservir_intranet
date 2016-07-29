@@ -1,9 +1,5 @@
 <?php
-
 use yii\helpers\Html;
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\AuthItem */
 
 $this->title = 'Actualiza el rol: ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Auth Items', 'url' => ['index']];

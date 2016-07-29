@@ -1,11 +1,6 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\ContenidoEmergenteSearch */
-/* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="contenido-emergente-search">
@@ -24,8 +19,6 @@ use yii\widgets\ActiveForm;
   <?= $form->field($model, 'fechaFin') ?>
 
   <?= $form->field($model, 'estado') ?>
-
-  <?php // echo $form->field($model, 'fechaRegistro') ?>
 
   <div class="form-group">
     <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

@@ -4,10 +4,6 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use app\modules\intranet\models\Contenido;
 
-/* @var $this yii\web\View */
-/* @var $searchModel app\modules\intranet\models\LineaTiempoSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
 $this->title = 'Noticias de portales';
 $this->params['breadcrumbs'][] = ['label' => 'Noticias de portales'];
 ?>
@@ -26,13 +22,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Noticias de portales'];
             ['class' => 'yii\grid\SerialColumn'],
             'titulo',
             'fechaPublicacion',
-            /*[
-              'attribute' => 'portal',
-              'value' =>  function($model) {
-                var_dump($model);
-                return $model->estado;
-              }
-            ],*/
             [
               'attribute' => 'estado',
               'value' => function($model) {
@@ -50,7 +39,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Noticias de portales'];
                 }
               }
             ],
-
             [
               'class' => 'yii\grid\ActionColumn',
               'headerOptions'=> ['style'=>'width: 70px;'],

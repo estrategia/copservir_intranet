@@ -1,12 +1,7 @@
-<?php
-
 use yii\helpers\Html;
+<?php
 use yii\grid\GridView;
 use app\modules\intranet\models\LineaTiempo;
-
-/* @var $this yii\web\View */
-/* @var $searchModel app\modules\intranet\models\LineaTiempoSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Lineas de Tiempo';
 $this->params['breadcrumbs'][] = ['label' => 'Líneas de tiempo'];

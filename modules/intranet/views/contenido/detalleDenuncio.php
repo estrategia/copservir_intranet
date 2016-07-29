@@ -6,8 +6,6 @@ use yii\widgets\ActiveForm;
 use \app\modules\intranet\models\Contenido;
 use \app\modules\intranet\models\DenunciosContenidos;
 
-/* @var $this yii\web\View */
-
 $this->title = 'Contenido denunciado';
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contenidos denunciados'), 'url' =>['/intranet/contenido/listar-contenidos-denunciados']];
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', "Contenido #" . $model->objDenunciosContenidos->idContenido)];
@@ -17,7 +15,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', "Contenido #" . $mode
 
   <h1><?= Html::encode($this->title) ?></h1>
 
-  <!-- si el conteniido se encuentra pendiente de aprobacion -->
   <?php if ($model->objDenunciosContenidos->estado == DenunciosContenidos::PENDIENTE_APROBACION): ?>
     <?php $form = ActiveForm::begin(); ?>
     <?= $form->field($model->objDenunciosContenidos, 'estado')->hiddenInput(['value'=> DenunciosContenidos::APROBADO ])->label(false); ?>
@@ -42,11 +39,9 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', "Contenido #" . $mode
       'attributes' => [
         'titulo',
         [
-
           'attribute' =>'contenido',
           'format'=>'raw',
           'value'=>$model->contenido,
-
         ],
         [
           'label' => 'Linea de tiempo',
@@ -68,7 +63,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', "Contenido #" . $mode
           'format'=>'raw',
           'value' => $model->objDenunciosContenidos->descripcionDenuncio
         ],
-
       ],
       ]) ?>
     </div>

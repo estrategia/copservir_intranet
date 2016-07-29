@@ -28,6 +28,7 @@ class MenuPortales extends \yii\db\ActiveRecord {
     const INACTIVO = 0;
     const ENLACE_INTERNO = 1;
     const ENLACE_EXTERNO = 2;
+    const SIN_ENLACE = 3;
 
     public static function tableName() {
         return 't_MenuPortales';
@@ -35,13 +36,14 @@ class MenuPortales extends \yii\db\ActiveRecord {
 
     public function rules() {
         return [
-            [['idPortal', 'nombre', 'urlMenu', 'tipo', 'estado'], 'required'],
+            [['idPortal', 'nombre', 'tipo', 'estado'], 'required'],
             [['idPortal', 'tipo', 'estado', 'idMenuPortalPadre'], 'integer'],
             [['fechaInicio', 'fechaFin', 'fechaRegistro', 'fechaActualizacion'], 'safe'],
             [['nombre'], 'string', 'max' => 50],
             [['urlMenu'], 'string', 'max' => 500],
             [['icono'], 'string', 'max' => 45],
             [['idPortal'], 'exist', 'skipOnError' => true, 'targetClass' => Portal::className(), 'targetAttribute' => ['idPortal' => 'idPortal']],
+            ['idMenuPortalPadre', 'validateIdPadre'],
             [['idMenuPortalPadre'], 'exist', 'skipOnError' => true, 'targetClass' => self::className(), 'targetAttribute' => [ 'idMenuPortalPadre' =>  'idMenuPortales']],
         ];
     }
@@ -61,6 +63,15 @@ class MenuPortales extends \yii\db\ActiveRecord {
             'fechaActualizacion' => 'Fecha Actualizacion',
             'idMenuPortalPadre' => 'Menu Padre'
         ];
+    }
+
+    public function validateIdPadre($attribute, $params) {
+
+      $padre = self::findOne(['idMenuPortales' => $this->idMenuPortalPadre]);
+
+      if( $this->idPortal !== $padre->idPortal ) {
+        $this->addError($attribute, 'Los portales no corresponden');
+      }
     }
 
     // RELACIONES
@@ -96,10 +107,10 @@ class MenuPortales extends \yii\db\ActiveRecord {
     * Consulta para obtener los padres del menu
     * @return modelos MenuPortales
     */
-    public static function getPadres($idMenuPortales)
+    public static function getPadres($idPortal)
     {
-      return self::find()->where('idMenuPortalPadre is null ') //and idMenuPortales !=:idMenuPortales
-      ->addParams([':idMenuPortales'=> $idMenuPortales])
+      return self::find()->where('idMenuPortalPadre is null and idPortal =:idPortal ') //and idMenuPortales !=:idMenuPortales
+      ->addParams([':idPortal' => $idPortal])
       ->all();
     }
 
@@ -107,11 +118,11 @@ class MenuPortales extends \yii\db\ActiveRecord {
     * Consulta para obtener los hijos del un modelo Menu
     * @return modelos MenuPortales
     */
-    public static function getHijos($idMenuPortales)
+    public static function getHijos($idMenuPortales, $idPortal)
     {
       $query = self::find()
-      ->where("( idMenuPortalPadre =:idMenuPortales)") //and idMenuPortales !=:idMenuPortales
-      ->addParams([':idMenuPortales'=> $idMenuPortales])
+      ->where("( idMenuPortalPadre =:idMenuPortales and idPortal =:idPortal)") //and idMenuPortales !=:idMenuPortales
+      ->addParams([':idMenuPortales'=> $idMenuPortales, ':idPortal' => $idPortal])
       ->all();
 
       return $query;
@@ -126,7 +137,7 @@ class MenuPortales extends \yii\db\ActiveRecord {
         }
     }
 
-    public function getListaPortales()
+    public static function getListaPortales()
     {
       $opciones = Portal::find()->asArray()->all();
       return ArrayHelper::map($opciones, 'idPortal', 'nombrePortal');
@@ -195,25 +206,25 @@ class MenuPortales extends \yii\db\ActiveRecord {
 
     }
 
-    public function construirMenuModal()
+    public static function construirMenuModal($idPortal)
     {
-      $padres = self::getPadres($this->idMenuPortales);
-      $html = $this->crearMenu($padres, ' ');
+      $padres = self::getPadres($idPortal);
+      $html = self::crearMenu($padres, ' ', $idPortal);
 
       return $html;
 
     }
 
 
-    public function crearMenu($padres, $html)
+    public static function crearMenu($padres, $html, $idPortal)
     {
       if (empty($padres)) {
         $html = $html . '';
 
       }else {
         foreach ($padres as $item) {
-          $hijos = self::getHijos($item->idMenuPortales);
-            $html = $this->RenderItemAdmin($item, $hijos, $html);
+          $hijos = self::getHijos($item->idMenuPortales, $idPortal);
+            $html = self::RenderItemAdmin($item, $hijos, $html, $idPortal);
         }
       }
 
@@ -221,7 +232,7 @@ class MenuPortales extends \yii\db\ActiveRecord {
       return $html;
     }
 
-    public function RenderItemAdmin($item, $hijos, $html)
+    public static function RenderItemAdmin($item, $hijos, $html, $idPortal)
     {
       $html = $html .
                       '
@@ -233,7 +244,7 @@ class MenuPortales extends \yii\db\ActiveRecord {
                         </button>
                       </a>
                       <div class="list-group collapse" id="'.$item->idMenuPortales.'">
-                        ' . $this->crearMenu($hijos, '') . '
+                        ' . self::crearMenu($hijos, '', $idPortal) . '
                       </div>
           ';
 

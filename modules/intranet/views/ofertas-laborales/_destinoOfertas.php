@@ -10,7 +10,6 @@ use yii\widgets\ActiveForm;
 <div class="col-md-12" id="listaOfertas">
 
       <h4>Grupos de interes y ciudad de destino</h4>
-      <!-- formulario para agregar un destino nuevo -->
       <?php $form = ActiveForm::begin(['options' => ['id'=> 'formEnviaDestinosOferta']]); ?>
 
       <div class="col-md-4">
@@ -51,15 +50,12 @@ use yii\widgets\ActiveForm;
         ?>
       </div>
 
-
-
+  <br><br>
+  <br><br>
+  <br><br>
   <!-- lista de destinos de esa oferta laboral solo se muestra si va a actualizar -->
-  <br><br>
-  <br><br>
-  <br><br>
   <div class="col-md-12">
     <div>
-
       <?=  GridView::widget([
         'dataProvider' => $destinoOfertasLaborales,
         'columns' => [
@@ -97,7 +93,6 @@ use yii\widgets\ActiveForm;
         ],
       ],
     ]); ?>
-
     </div>
   </div>
 </div>

@@ -22,36 +22,6 @@ use app\modules\intranet\models\MenuPortales;
     <?php $model->estado = $model->isNewRecord ? 1 : $model->estado;  ?>
     <?= $form->field($model, 'estado')->dropDownList(['0' => 'Inactivo', '1' => 'Activo']); ?>
 
-
-      <div class="form-group">
-        <label for="">Menu Padre</label>
-        <div class="input-group">
-          <?php
-          $nombreSubmenu = '';
-          if (!$model->isNewRecord) {
-              if ($model->objMenuPadre) {
-                $nombreSubmenu = $model->objMenuPadre->nombre;
-              }
-          }
-          ?>
-
-          <?=  html::textInput ( 'submenu', $value = $nombreSubmenu,
-            $options = ['id' => 'submenu', 'class' => 'col-md-6 form-control ', 'disabled' => true] ) ?>
-          <div class="input-group-addon">
-            <a href="#" data-toggle="modal" data-target="#widget-submenu-portal">
-              asignar
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!--  data-role = 'asignar-submenu-portal' -->
-
-
-
-    <?php $model->idMenuPortalPadre = $model->isNewRecord ? NULL : $model->idMenuPortalPadre;  ?>
-    <?= $form->field($model, 'idMenuPortalPadre')->hiddenInput(['value'=> $model->idMenuPortalPadre, ])->label(false); ?>
-
     <?=
         $form->field($model, 'idPortal')->widget(Select2::classname(), [
         'data' => $model->getListaPortales(),
@@ -61,6 +31,30 @@ use app\modules\intranet\models\MenuPortales;
         ],
       ]);
     ?>
+
+    <div class="form-group">
+      <label for="">Menu Padre</label>
+      <div class="input-group">
+        <?php
+        $nombreSubmenu = '';
+        if (!$model->isNewRecord) {
+            if ($model->objMenuPadre) {
+              $nombreSubmenu = $model->objMenuPadre->nombre;
+            }
+        }
+        ?>
+
+        <?=  html::textInput ( 'submenu', $value = $nombreSubmenu,
+          $options = ['id' => 'submenu', 'class' => 'col-md-6 form-control ', 'disabled' => true] ) ?>
+        <div class="input-group-addon">
+          <a href="#" data-toggle="modal"  data-role="asignar-padre"> <!--data-target="#widget-submenu-portal"-->
+            asignar
+          </a>
+        </div>
+      </div>
+    </div>
+    <?php $model->idMenuPortalPadre = $model->isNewRecord ? NULL : $model->idMenuPortalPadre;  ?>
+    <?= $form->field($model, 'idMenuPortalPadre')->hiddenInput(['value'=> $model->idMenuPortalPadre, ])->label(false); ?>
 
     <?=
       $form->field($model, 'fechaInicio')->widget(DateTimePicker::classname(), [
@@ -88,7 +82,7 @@ use app\modules\intranet\models\MenuPortales;
 
     <?=
        $form->field($model, 'tipo')->widget(Select2::classname(), [
-        'data' => [ MenuPortales::ENLACE_INTERNO => 'Enlace interno', MenuPortales::ENLACE_EXTERNO => 'Enlace externo'],
+        'data' => [ MenuPortales::SIN_ENLACE => 'Sin Enlace', MenuPortales::ENLACE_INTERNO => 'Enlace Interno', MenuPortales::ENLACE_EXTERNO => 'Enlace externo'],
         'options' => ['placeholder' => 'Seleccione un tipo'],
         'pluginEvents' => [
                             "select2:selecting" => "function(e) { setInputUrl(e.params.args.data.id);}",
@@ -125,6 +119,11 @@ use app\modules\intranet\models\MenuPortales;
 
       $this->registerJs("
           $( document ).ready(function() {
+
+
+
+
+
             valor = $('#menuportales-tipo').val();//parseInt($('#menuportales-tipo').val());
             if(".$bandera."){
               setInputUrl( valor );
@@ -149,19 +148,23 @@ use app\modules\intranet\models\MenuPortales;
         }
 
         function setInputUrl(selectedOption) {
-          console.log('entro setInputUrl');
 
           if(parseInt(selectedOption) === ".MenuPortales::ENLACE_EXTERNO."){
-            console.log('entro extreno');
+
             $('#gridView-moduloContenido').hide();
             $('.field-menuportales-urlmenu').remove();
             $('#divUrlMenu').append('$inputUrl');
           }
 
           if(parseInt(selectedOption) === ".MenuPortales::ENLACE_INTERNO."){
-            console.log('entro interno');
+
             $('.field-menuportales-urlmenu').remove();
             $('#gridView-moduloContenido').show();
+          }
+
+          if(parseInt(selectedOption) === ".MenuPortales::SIN_ENLACE."){
+
+            $('.field-menuportales-urlmenu').remove();
           }
         }
       ");
@@ -182,8 +185,10 @@ use app\modules\intranet\models\MenuPortales;
 
 </div>
 
-<?=
+<?php
+  /*
   $this->render('_modalSubMenu', [
     'model' => $model,
   ])
+  */
 ?>

@@ -11,7 +11,6 @@ use yii\widgets\Pjax;
 <div class="col-md-12 permisos">
 
   <h4>asigne un permiso al rol</h4>
-  <!-- formulario para asignar permiso -->
   <?php Pjax::begin(['timeout' => 10000, 'clientOptions' => ['container' => 'pjax-container']]); ?>
   <?php $form = ActiveForm::begin(['options' => ['id'=> 'formAuthItemChild', 'data-pjax' => '']]); ?>
   <div class="col-md-6">

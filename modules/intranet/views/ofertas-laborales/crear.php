@@ -1,10 +1,5 @@
 <?php
-
 use yii\helpers\Html;
-
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\OfertasLaborales */
 
 $this->title = 'Crear Ofertas Laborales';
 $this->params['breadcrumbs'][] = ['label' => 'Ofertas laborales', 'url' => ['admin']];

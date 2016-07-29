@@ -1,5 +1,3 @@
-<?php //$this->registerJsFile("@web/js/datatable.js", ['depends' => [app\assets\DataTableAsset::className()]]); ?>
-
 <div class="row <?php echo ($nHojas > 1) ? "data-tables-group": ""?>">
     <?php if ($nHojas > 1): ?>
         <div class="col-md-12">

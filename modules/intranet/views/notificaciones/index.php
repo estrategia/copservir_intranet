@@ -1,9 +1,6 @@
 <?php
-
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
-
-/* @var $this yii\web\View */
 ?>
 
 <div class="col-md-1 "></div>

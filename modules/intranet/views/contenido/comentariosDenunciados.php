@@ -55,7 +55,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Comentarios denuncia
                 },
               ],
             ],
-
           ],
         ]); ?>
         <?php Pjax::end(); ?>

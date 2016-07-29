@@ -3,7 +3,6 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
-<!-- Modal -->
 <div class="modal fade" id="widget-categoria" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -18,7 +17,6 @@ use yii\helpers\Url;
         </h4>
       </div>
       <div class="modal-body">
-
 
         <?php $form = ActiveForm::begin(['id'=>'formCategoria']); ?>
         <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
@@ -38,7 +36,6 @@ use yii\helpers\Url;
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
         <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary', 'data-role' => $model->isNewRecord ? 'guardar-categoria' : 'actualizar-categoria', $model->isNewRecord ? : 'data-categoria'=>$model->idCategoriaDocumento]) ?>
-
       </div>
     </div>
   </div>

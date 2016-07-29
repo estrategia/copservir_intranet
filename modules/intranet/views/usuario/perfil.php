@@ -7,7 +7,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Perfil de usuario')]
 
 <?= $this->render('/common/errores', []) ?>
 
-<!-- PLANTILLA -->
 <div class="row">
   <div class="col-md-12">
     <div class=" tiles white col-md-12 no-padding">
@@ -34,7 +33,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Perfil de usuario')]
           </div>
           <div class="col-md-5 user-description-box  col-sm-5">
             <h4 class="semi-bold no-margin"><?= Yii::$app->user->identity->alias ?></h4>
-            <!--<h6 class="no-margin"><?= \Yii::$app->user->identity->getProfesion() ?></h6>-->
             <br>
             <p><i class="fa fa-briefcase"></i> <?= \Yii::$app->user->identity->getCargoNombre() ?></p>
           </div>
@@ -61,18 +59,12 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Perfil de usuario')]
               <div class="post col-md-5">
                 <h5>Informaci&oacute;n General</h5>
                 <p><b>nombre: </b> <?= \Yii::$app->user->identity->getNombres().' '.\Yii::$app->user->identity->getPrimerApellido().' '.\Yii::$app->user->identity->getSegundoApellido() ?></p>
-                <!--<p><b>Profesi&oacute;n: </b> <?= \Yii::$app->user->identity->getProfesion() ?></p>-->
                 <p><b>Cargo: </b> <?= \Yii::$app->user->identity->getCargoNombre() ?></p>
-                <!--<p><b>&Aacute;rea:</b> <?= \Yii::$app->user->identity->getAreaNombre() ?></p>-->
                 <p><b>Vinculaci&oacute;n: </b> <?= \Yii::$app->user->identity->getVinculacion() ?></p>
                 <p><b>Antiguedad: </b> <?= \Yii::$app->user->identity->getAntiguedad() ?></p>
-                <!--<p><b>Jefe inmediato: </b> <?= \Yii::$app->user->identity->getJefeInmediatoNombre() ?></p>-->
               </div>
               <div class="col-md-5">
-                <!--<h5>Educación</h5>
-                <p><b>Superiores: </b> <?= \Yii::$app->user->identity->getEstudiosSuperiores() ?></p>-->
                 <h5>Otra Informaci&oacute;n</h5>
-                <!--<p><b>Extensi&oacute;n: </b> <?= \Yii::$app->user->identity->getExtension() ?></p>-->
                 <p><b>E-mail: </b> <?= \Yii::$app->user->identity->getEmail() ?></p>
                 <p><b>E-mail Personal: </b> <?= \Yii::$app->user->identity->getEmailPersonal() ?></p>
                 <p><b>Números Telefonicos: </b> <?= \Yii::$app->user->identity->getCelular() ?></p>
@@ -87,8 +79,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Perfil de usuario')]
                 <div style="height: 5px"></div>
                 <?= Html::a('Cambiar fotos', ['usuario/cambiar-foto-perfil'], ['class' => 'btn btn-primary btn-small', 'name' => 'picture-button']) ?>
               </div>
-
-
             </div>
             <div class="clearfix"></div>
             <br>
@@ -118,4 +108,3 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Perfil de usuario')]
 <br>
 </div>
 </div>
-<!-- END PLANTILLA -->

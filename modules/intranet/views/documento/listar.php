@@ -4,17 +4,12 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use app\modules\intranet\models\Documento;
 
-/* @var $this yii\web\View */
-/* @var $searchModel app\modules\intranet\models\DocumentoSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
 $this->title = 'Documentos';
 $this->params['breadcrumbs'][] = ['label' => 'Documentos organizacionales'];
 ?>
 <div class="documento-index">
 
   <h1><?= Html::encode($this->title) ?></h1>
-  <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
   <p>
     <?= Html::a('Crear un documento', ['crear'], ['class' => 'btn btn-success']) ?>
@@ -24,8 +19,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Documentos organizacionales'];
     'filterModel' => $searchModel,
     'columns' => [
       ['class' => 'yii\grid\SerialColumn'],
-
-      //'idDocumento',
       'titulo',
       'descripcion',
       [
@@ -49,10 +42,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Documentos organizacionales'];
           }
         }
       ],
-      // 'fechaCreacion',
-      // 'fechaActualizacion',
-
-      //['class' => 'yii\grid\ActionColumn'],
       [
         'class' => 'yii\grid\ActionColumn',
         'headerOptions'=> ['style'=>'width: 70px;'],
@@ -69,7 +58,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Documentos organizacionales'];
           }
         ],
       ],
-
     ],
   ]); ?>
 </div>
