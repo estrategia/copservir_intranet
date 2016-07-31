@@ -19,7 +19,7 @@ use app\modules\intranet\models\Indicadores;
         </div>
     </div>
 
-    <!-- Indicadores -->
+
     <?php foreach (Indicadores::find()->all() as $indicador): ?>
         <div class="col-md-3">
             <div class="buton-check">
@@ -28,7 +28,6 @@ use app\modules\intranet\models\Indicadores;
             </div>
         </div>
     <?php endforeach; ?>
-    <!-- Fin de indicadores -->
 
     <div class="col-md-3">
         <div class="buton-check">

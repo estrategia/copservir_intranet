@@ -1,9 +1,5 @@
 <?php
-
 use yii\helpers\Html;
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\LineaTiempo */
 
 $this->title = 'Actualiza una linea de tiempo';
 $this->params['breadcrumbs'][] = ['label' => 'Líneas de tiempo', 'url' => ['/intranet/linea-tiempo/admin']];

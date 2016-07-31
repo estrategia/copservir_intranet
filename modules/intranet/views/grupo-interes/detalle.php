@@ -1,11 +1,7 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\modules\intranet\models\GrupoInteres;
-
-/* @var $this yii\web\View */
-/* @var $grupo app\modules\intranet\grupos\GrupoInteres */
 
 $this->title = "Ver grupos";
 $this->params['breadcrumbs'][] = ['label' => 'Grupos de interés', 'url' => ['/intranet/grupo-interes/admin']];

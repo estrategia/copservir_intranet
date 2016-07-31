@@ -2,9 +2,7 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\Html;
-
 ?>
-
 
 <div class="modal fade" id="modal-comentarios-contenido" tabindex="-1" with='700px' role="dialog">
 
@@ -16,7 +14,6 @@ use yii\helpers\Html;
       </div>
 
       <div class="modal-body" id='comentarios_contenido'>
-        <!-- listado de me gusta's -->
         <?php echo $this->render('_listadoComentarios',['comentariosContenido' => $comentariosContenido]);?>
       </div>
       <div class="modal-footer">

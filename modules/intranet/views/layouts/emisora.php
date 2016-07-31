@@ -25,8 +25,6 @@
   $ipNegado = $ipNegacion[0];
 
   if($existe){
-  //si existe la cedula en el csv no muestra nada
-  //$html .='No Mostrar';
   }else  if($ipNegado == 192) {
   $html .='<div align="right" style="width:87%; margin: 0 auto;">
         <table>
@@ -45,7 +43,6 @@
         </table>
       </div>';
   } else if ($ipNegado == 10){
-  //No muestra nada
   }
 
 ?>

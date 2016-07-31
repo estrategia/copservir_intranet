@@ -1,12 +1,6 @@
 <?php
-
 use yii\helpers\Html;
 use yii\grid\GridView;
-
-
-/* @var $this yii\web\View */
-/* @var $searchModel app\modules\intranet\models\LineaTiempoSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Roles';
 $this->params['breadcrumbs'][] = ['label' => 'Roles'];

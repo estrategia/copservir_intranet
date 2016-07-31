@@ -1,5 +1,4 @@
 <?php
-
 use yii\helpers\Html;
 use \app\modules\intranet\models\Contenido;
 use \app\modules\intranet\models\LineaTiempo;
@@ -9,7 +8,6 @@ use \app\modules\intranet\models\LineaTiempo;
         <?= $linea->descripcion ?>
     </div>
 <?php endif; ?>
-<!-- las noticias -->
 
 <?php if ($linea->tipo != LineaTiempo::TIPO_ANIVERSARIO): ?>
     <div class="">

@@ -1,10 +1,7 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\modules\intranet\models\PrioridadTarea;
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\PrioridadTarea */
 
 $this->title = 'Detalle';
 $this->params['breadcrumbs'][] = ['label' => 'Prioridad Tareas', 'url' => ['index']];

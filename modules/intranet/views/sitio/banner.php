@@ -13,7 +13,6 @@ if ($location == 0) {
 
 <div id="<?= $idItem ?>" class="carousel slide" data-ride="carousel">
 
-  <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
 
     <?php $contador = 0 ?>
@@ -21,13 +20,11 @@ if ($location == 0) {
     <?php foreach ($banners as $banner): ?>
       <div id="<?= $idItem.$contador  ?>" class="item">
           <?php Funciones::getHtmlLink($banner['urlEnlaceNoticia'],"<img class='img-responsive' src='".Yii::$app->homeUrl . "img/campanas/".$banner['rutaImagen']."' alt=''>"); ?>
-         <!--<div class="carousel-caption"></div>-->
       </div>
       <?php  $contador++; ?>
     <?php endforeach; ?>
   </div>
 
-  <!-- Controls -->
   <?php if (count($banners) > 1 ): ?>
 
     <a class="left carousel-control" href="#<?= $idItem ?>" role="button" data-slide="prev">

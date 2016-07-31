@@ -1,10 +1,5 @@
 <?php
-
 use yii\helpers\Html;
-
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\GrupoInteres */
 
 $this->title = 'Crea un grupo de interes';
 $this->params['breadcrumbs'][] = ['label' => 'Grupos de interés', 'url' => ['/intranet/grupo-interes/admin']];

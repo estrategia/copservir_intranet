@@ -1,12 +1,7 @@
 <?php
-
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\modules\intranet\models\PublicacionesCampanas;
-
-/* @var $this yii\web\View */
-/* @var $searchModel app\modules\intranet\models\PublicacionesCampanasSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Campañas publicitarias';
 $this->params['breadcrumbs'][] = ['label' => 'Publicidad'];
@@ -14,8 +9,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Publicidad'];
 <div class="publicaciones-campanas-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <p>
         <?= Html::a('Crear publicidad', ['crear'], ['class' => 'btn btn-success']) ?>
     </p>

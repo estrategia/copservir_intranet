@@ -1,14 +1,7 @@
 <?php
-
 use yii\helpers\Html;
 
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\Tareas */
-
 $this->title = 'Crear Tareas';
-//$this->params['breadcrumbs'][] = ['label' => 'Tareas', 'url' => ['index']];
-//$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 

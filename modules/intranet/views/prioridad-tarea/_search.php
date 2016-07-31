@@ -1,11 +1,6 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\PrioridadTareaSearch */
-/* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="prioridad-tarea-search">

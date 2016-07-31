@@ -1,10 +1,5 @@
 <?php
-
 use yii\helpers\Html;
-
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\AuthItem */
 
 $this->title = 'Crea un rol';
 $this->params['breadcrumbs'][] = ['label' => 'Auth Items', 'url' => ['index']];

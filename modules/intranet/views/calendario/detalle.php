@@ -68,11 +68,3 @@ $this->title = "Detalle evento";
   </div>
 
 </div>
-
-<?php
-  /*$this->registerJs("
-  $( document ).ready(function() {
-    $('.btn-$model->idContenido').text('asignado');
-  });
-  ");*/
-?>

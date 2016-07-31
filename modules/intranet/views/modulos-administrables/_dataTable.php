@@ -1,11 +1,7 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\modules\intranet\models\ModuloContenido;
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\Documento */
-/* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="documento-form">
@@ -13,7 +9,6 @@ use app\modules\intranet\models\ModuloContenido;
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <?= $form->field($modelForm, 'archivo')->fileInput(); ?>
-
 
     <div class="form-group">
         <?= Html::submitButton('cargar', ['class' => 'btn btn-primary']) ?>

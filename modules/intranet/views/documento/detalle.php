@@ -1,11 +1,7 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\modules\intranet\models\Documento;
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\Documento */
 
 $this->title = $model->titulo;
 if($flag){
@@ -16,10 +12,11 @@ if($flag){
     $this->params['breadcrumbs'][] = ['label' => 'Ver documento'];
 }
 ?>
+
 <div class="documento-view col-md-12">
 
   <h1><?= Html::encode($this->title) ?></h1>
-  
+
   <?php if ($flag): ?>
     <p>
       <?= Html::a('Actualizar', ['actualizar', 'id' => $model->idDocumento], ['class' => 'btn btn-primary']) ?>

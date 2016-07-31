@@ -1,12 +1,7 @@
 <?php
-
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\modules\intranet\models\PrioridadTarea;
-
-/* @var $this yii\web\View */
-/* @var $searchModel app\modules\intranet\models\PrioridadTareaSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Prioridad Tareas';
 $this->params['breadcrumbs'][] = $this->title;

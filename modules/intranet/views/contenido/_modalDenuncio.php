@@ -4,7 +4,6 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 ?>
 
-
 <div class="modal fade" id="modal-contenido-denuncio" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -35,14 +34,11 @@ use yii\helpers\Html;
 
       </div>
 
-
-
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
         <?= Html::button(Yii::t('app', 'Denunciar' ), ['class' => 'btn btn-primary', 'data-role' => 'guardar-denuncio-contenido', 'data-linea-tiempo' => $idLineaTiempo]) ?>
       </div>
       <?php ActiveForm::end(); ?>
-
 
     </div>
   </div>

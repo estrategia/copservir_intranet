@@ -45,7 +45,6 @@ use app\modules\intranet\models\EventosCalendarioDestino;
 
     <div class="col-md-6">
 
-      <!-- horas -->
       <?=
         $form->field($model, 'horaInicioEvento')->widget(TimePicker::classname(), [
         'pluginOptions' => [
@@ -93,15 +92,11 @@ use app\modules\intranet\models\EventosCalendarioDestino;
       ?>
     </div>
 
-
-
     <?php $model->numeroDocumento = $model->isNewRecord ? Yii::$app->user->identity->numeroDocumento : $model->numeroDocumento;  ?>
     <?= $form->field($model, 'numeroDocumento')->hiddenInput(['value'=> $model->numeroDocumento])->label(false);  ?>
 
     <?php $model->fechaRegistro = $model->isNewRecord ? date("Y-m-d H:i:s") : $model->fechaRegistro;  ?>
     <?= $form->field($model, 'fechaRegistro')->hiddenInput(['value'=> $model->fechaRegistro])->label(false); ?>
-
-
 
     <div class="col-md-12" id="divDestinos" hidden>
       <div id="contenido-destino">

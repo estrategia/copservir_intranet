@@ -1,6 +1,5 @@
 <?php use app\modules\intranet\models\Menu;
 $items = $opciones->getOpcionesUsuario();
-
 ?>
 
 <?php if (!empty($items)): ?>

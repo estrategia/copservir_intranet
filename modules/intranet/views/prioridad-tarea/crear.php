@@ -1,10 +1,5 @@
 <?php
-
 use yii\helpers\Html;
-
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\PrioridadTarea */
 
 $this->title = 'Crear Prioridad Tarea';
 $this->params['breadcrumbs'][] = ['label' => 'Prioridad Tareas', 'url' => ['index']];

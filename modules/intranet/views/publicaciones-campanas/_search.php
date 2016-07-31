@@ -1,11 +1,6 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\PublicacionesCampanasSearch */
-/* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="publicaciones-campanas-search">
@@ -24,14 +19,6 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'numeroDocumento') ?>
 
     <?= $form->field($model, 'urlEnlaceNoticia') ?>
-
-    <?php // echo $form->field($model, 'fechaInicio') ?>
-
-    <?php // echo $form->field($model, 'estado') ?>
-
-    <?php // echo $form->field($model, 'posicion') ?>
-
-    <?php // echo $form->field($model, 'fechaFin') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

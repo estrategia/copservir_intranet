@@ -9,15 +9,10 @@ use kartik\file\FileInput;
 
 $maxFileCount = Parametros::obtenerValorParametro('contenido_maxFileCount');
 $maxFileSize = Parametros::obtenerValorParametro('contenido_maxFileSize');
-
 $ruta = Yii::getAlias('@web')."/libs/fileinput/fileinput_locale_es.js";
-
 ?>
-<?php  ?>
-
 
 <div class="col-md-12">
-
 
   <?php
   $form = ActiveForm::begin([
@@ -27,7 +22,6 @@ $ruta = Yii::getAlias('@web')."/libs/fileinput/fileinput_locale_es.js";
   ]);
   ?>
 
-
   <?php echo $form->field($objContenido, 'titulo')->input(['value' => 1]); ?>
   <?php
   echo $form->field($objContenido, 'contenido')->widget(Widget::className(), [
@@ -36,10 +30,9 @@ $ruta = Yii::getAlias('@web')."/libs/fileinput/fileinput_locale_es.js";
       'lang' => 'es',
       'minHeight' => 100,
       'buttons' => ['format', 'bold', 'italic'],
-      //'imageUpload' => Url::toRoute('contenido/cargar-imagen'),
+
       'fileUpload' => Url::toRoute('contenido/cargar-archivo'),
       'plugins' => [
-        //'imagemanager',
         'fullscreen'
       ],
       'fileManagerJson' => Url::to(['sitio/files-get']),
@@ -97,7 +90,6 @@ $ruta = Yii::getAlias('@web')."/libs/fileinput/fileinput_locale_es.js";
 
     <?php $requiere = ($objLineaTiempo->autorizacionAutomatica == 0) ? ' (Requiere aprobación)' : ''; ?>
     <?= Html::a(Yii::t('app', 'Publicar Noticia' . $requiere), '#', ['class' => 'btn btn-primary btn-small', 'data-role' => 'guardar-contenido', 'data-href' => "#lt$objLineaTiempo->idLineaTiempo", 'id' => 'btnAgregarContenido']) ?>
-
 
     <?php ActiveForm::end(); ?>
 

@@ -4,9 +4,6 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\modules\intranet\models\ContenidoEmergente;
 
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\ContenidoEmergente */
-
 $this->title = 'Ver contenido emergente';
 $this->params['breadcrumbs'][] = ['label' => 'Contenidos emergentes', 'url'=>['/intranet/contenido-emergente/admin']];
 $this->params['breadcrumbs'][] = ['label' => "Ver #$model->idContenidoEmergente"];

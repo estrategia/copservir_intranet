@@ -1,11 +1,7 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\LineaTiempoSearch */
-/* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="linea-tiempo-search">

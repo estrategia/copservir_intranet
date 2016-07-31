@@ -2,9 +2,8 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use app\modules\intranet\models\MenuPortales;
 ?>
-
-<!-- Modal -->
 
 <div class="modal fade" id="widget-submenu-portal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -18,7 +17,7 @@ use yii\helpers\Url;
       <div class="modal-body">
         <div class="just-padding">
           <div class="list-group list-group-root well">
-              <?= $model->construirMenuModal() ?>
+              <?= MenuPortales::construirMenuModal($idPortal) ?>
           </div>
         </div>
       </div>

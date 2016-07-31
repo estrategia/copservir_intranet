@@ -1,13 +1,7 @@
 <?php
-
-//use vova07\imperavi\Widget;
-//use yii\widgets\ActiveForm;
-//use yii\helpers\Url;
-//use yii\helpers\Html;
 use yii\widgets\ListView;
-
-/* @var $this yii\web\View */
 ?>
+
 <?=
 ListView::widget([
   'dataProvider' => $listDataProvider,

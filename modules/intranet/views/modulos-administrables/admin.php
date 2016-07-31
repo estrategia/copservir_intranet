@@ -1,10 +1,4 @@
 <?php
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 use yii\bootstrap\Html;
 use yii\grid\GridView;
 use yii\widgets\Breadcrumbs;
@@ -32,7 +26,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Módulos Administrat
             ],
             'titulo',
             'descripcion',
-            //'fechaRegistro',
             [
                 'label' => 'URL',
                 'format' => 'text',
@@ -61,7 +54,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Módulos Administrat
                       return  Html::a('<span class="glyphicon glyphicon-trash"></span>', $url);
                     }
                 ],
-            ],  
+            ],
         ],
         'options' => [
             'class' => 'table-responsive'

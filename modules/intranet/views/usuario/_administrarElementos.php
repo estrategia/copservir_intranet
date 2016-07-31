@@ -43,7 +43,6 @@ use app\modules\intranet\models\Indicadores;
         </div>
     </div>
     
-    <!-- Indicadores -->
     <?php foreach (Indicadores::find()->all() as $indicador): ?>
         <div class="col-md-4">
             <div class="buton-check">
@@ -53,5 +52,4 @@ use app\modules\intranet\models\Indicadores;
             </div>
         </div>
     <?php endforeach; ?>
-    <!-- Fin de indicadores -->
 </div>

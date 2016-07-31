@@ -1,13 +1,8 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\datetime\DateTimePicker;
 use yii\helpers\Url;
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\LineaTiempo */
-/* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="linea-tiempo-form">

@@ -132,15 +132,12 @@ $(document).on('click', "a[data-role='inactivarTarea']", function() {
       beforeSend: function() {
         $('body').showLoading()
       },
-
       complete: function(data) {
         $('body').hideLoading();
       },
       success: function(data) {
         if (data.result == "ok") {
-          //console.log('tarea inactiva');
           $('#widget-tareas').html(data.response);
-          //$('#widget-tareas').html(data.response);
         }
       },
       error: function(jqXHR, textStatus, errorThrown) {
@@ -178,7 +175,6 @@ $(document).on('click', "button[data-role='inactiva-popup']", function() {
     },
     success: function(data) {
       if (data.result == "ok") {
-        //console.log('popup inactiva');
         $('#widget-popup').modal('hide');
       }
     },
@@ -209,13 +205,10 @@ $(document).on('click', "a[data-role='eliminarDestinoContenidoEmergente']", func
       data: {idCiudad: idCiudad, idGrupo: idGrupo, idContenidoEmergente: idContenidoEmergente},
       dataType: 'json',
       beforeSend: function() {
-        //    Loading.show();
         $('body').showLoading();
         $('#listaContenidoEmergente').remove();
       },
-
       complete: function(data) {
-        //   Loading.hide();
         $('body').hideLoading();
       },
       success: function(data) {
@@ -247,17 +240,13 @@ $(document).on('click', "a[data-role='agregar-destino-contenido-emergente']", fu
     data: form.serialize(),
     dataType: 'json',
     beforeSend: function() {
-      //    Loading.show();
       $('body').showLoading();
       $('#listaContenidoEmergente').remove();
     },
-
     complete: function(data) {
-      //   Loading.hide();
       $('body').hideLoading();
     },
     success: function(data) {
-
         if (data.result == "ok") {
           $('#destinosContenidoEmergente').append(data.response);
         }
@@ -269,8 +258,6 @@ $(document).on('click', "a[data-role='agregar-destino-contenido-emergente']", fu
   return false;
 });
 
-
-// -----------------------------------------------------------------------------
 /**
 * funcion con una peticion ajax para redenrizar el modal donde se seleccionaran los amigos a
 * quienes deseo compartir el clasificado
@@ -290,19 +277,13 @@ $(document).on('click', "button[data-role='widget-enviarAmigo']", function() {
     beforeSend: function() {
       $('body').showLoading()
     },
-
     complete: function(data) {
-
       $('body').hideLoading();
-      //$("#widget-enviarAmigo").remove();
     },
     success: function(data) {
       if (data.result == "ok") {
-        //console.log('progreso actualizado');
-        if (data.result == "ok") {
           $('body').append(data.response);
           $("#widget-enviarAmigo").modal("show");
-        }
       }else{
           alert(data.response);
       }
@@ -330,7 +311,6 @@ $(document).on('click', "button[data-role='enviar-amigos']", function() {
     beforeSend: function() {
       $('body').showLoading()
     },
-
     complete: function(data) {
       $('body').hideLoading();
     },
@@ -375,13 +355,10 @@ $(document).on('click', "a[data-role='eliminarCargoGrupo']", function() {
       data: {idCargo: idCargo, idGrupo: idGrupo},
       dataType: 'json',
       beforeSend: function() {
-        //    Loading.show();
         $('body').showLoading();
         $('#listaCargos').remove();
       },
-
       complete: function(data) {
-        //   Loading.hide();
         $('body').hideLoading();
       },
       success: function(data) {
@@ -417,22 +394,17 @@ $(document).on('click', "a[data-role='agregar-cargo']", function() {
     data: form.serialize(),
     dataType: 'json',
     beforeSend: function() {
-      //    Loading.show();
       $('body').showLoading();
       $('#listaCargos').remove();
     },
     complete: function(data) {
-      //   Loading.hide();
       $('body').hideLoading();
     },
     success: function(data) {
       if (data.result == "ok") {
-        //console.log('progreso actualizado');
-        if (data.result == "ok") {
-          $('#select2-agregaCargos-container').attr('title','');
-          $('#select2-agregaCargos-container').text('');
-          $('#cargosGrupo').append(data.response);
-        }
+        $('#select2-agregaCargos-container').attr('title','');
+        $('#select2-agregaCargos-container').text('');
+        $('#cargosGrupo').append(data.response);
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -467,13 +439,10 @@ $(document).on('click', "a[data-role='eliminarDestino']", function() {
       data: {idCiudad: idCiudad, idGrupo: idGrupo, idOferta: idOferta},
       dataType: 'json',
       beforeSend: function() {
-        //    Loading.show();
         $('body').showLoading();
         $('#listaOfertas').remove();
       },
-
       complete: function(data) {
-        //   Loading.hide();
         $('body').hideLoading();
       },
       success: function(data) {
@@ -505,17 +474,13 @@ $(document).on('click', "a[data-role='agregar-destino-oferta']", function() {
     data: form.serialize(),
     dataType: 'json',
     beforeSend: function() {
-      //    Loading.show();
       $('body').showLoading();
       $('#listaOfertas').remove();
     },
-
     complete: function(data) {
-      //   Loading.hide();
       $('body').hideLoading();
     },
     success: function(data) {
-
         if (data.result == "ok") {
           $('#destinosOfertas').append(data.response);
         }
@@ -581,11 +546,9 @@ $(document).on('click', "a[data-role='contacto-oferta']", function() {
       url: requestUrl +'/intranet/informacion-contacto-oferta/plantilla?id='+idOferta,
       dataType: 'json',
       beforeSend: function() {
-        //    Loading.show();
         $('body').showLoading();
       },
       complete: function(data) {
-        //   Loading.hide();
         $('body').hideLoading();
       },
       success: function(data) {
@@ -656,7 +619,6 @@ $(document).on('click', "button[data-role='categoria-editar']", function() {
     type: 'POST',
     async: true,
     url: requestUrl + '/intranet/categoria-documento/render-editar-categoria?id='+idCategoria,
-    //data: form.serialize(),
     dataType: 'json',
     beforeSend: function() {
       $("#widget-categoria").remove();
@@ -814,7 +776,6 @@ $(document).on('click', "button[data-role='guardar-relacion']", function() {
     data: form.serialize(),
     dataType: 'json',
     beforeSend: function() {
-
       $('body').showLoading()
     },
     complete: function(data) {
@@ -826,7 +787,6 @@ $(document).on('click', "button[data-role='guardar-relacion']", function() {
         $('#container').append(data.response);
         $("#widget-relaciona-documento").modal("hide");
       }else{
-
         $("#widget-relaciona-documento").modal("hide");
         $('#widget-relaciona-documento').on('hidden.bs.modal', function (e) {
           $('#widget-relaciona-documento').remove();
@@ -841,7 +801,6 @@ $(document).on('click', "button[data-role='guardar-relacion']", function() {
   });
   return false;
 });
-
 
 /**
 * peticion ajax eliminar la relacion entre una CategoriaDocumento y un Documento
@@ -878,7 +837,6 @@ $(document).on('click', "button[data-role='no-relaciona-documento']", function()
   return false;
 });
 
-
 /**
 * funcion con peticion ajax donde se pide el documento para crear su plantilla
 * @param id = identificador del documento
@@ -894,7 +852,6 @@ function getPlantillaDocumento(id) {
   });
 }
 
-//---------------------------------
 // funcion que por ahora redirige a el detalle del documento
 $(document).on('click', "a[data-role='hola']", function() {
   var url = $(this).attr('href');
@@ -1001,15 +958,12 @@ $(document).on('click', "button[data-role='guardar-opcion-menu']", function() {
         $('#container').append(data.response);
         $("#widget-opcion-menu").modal("hide");
       }else{
-
-          $("#widget-opcion-menu").modal("hide");
-          $('#widget-opcion-menu').on('hidden.bs.modal', function (e) {
-            $("#widget-opcion-menu").remove();
-            $('body').append(data.response);
-            $("#widget-opcion-menu").modal("show");
-            console.log('entro al finalizar el hide');
-          })
-
+        $("#widget-opcion-menu").modal("hide");
+        $('#widget-opcion-menu').on('hidden.bs.modal', function (e) {
+          $("#widget-opcion-menu").remove();
+          $('body').append(data.response);
+          $("#widget-opcion-menu").modal("show");
+        })
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -1025,7 +979,6 @@ $(document).on('click', "button[data-role='guardar-opcion-menu']", function() {
 * @return data.result = json donde se especifica si todo se realizo bien
 *         data.response = html de la vista
 */
-
 $(document).on('click', "button[data-role='actualizar-opcion-menu']", function() {
 
   var idMenu = $(this).attr('data-opcion');
@@ -1048,14 +1001,12 @@ $(document).on('click', "button[data-role='actualizar-opcion-menu']", function()
         $('#container').append(data.response);
         $("#widget-opcion-menu").modal("hide");
       }else{
-
           $("#widget-opcion-menu").modal("hide");
           $('#widget-opcion-menu').on('hidden.bs.modal', function (e) {
             $('#widget-opcion-menu').remove();
             $('body').append(data.response);
             $("#widget-opcion-menu").modal("show");
           })
-
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -1111,7 +1062,6 @@ $(document).on('click', "button[data-role='agregar-enlace-menu']", function() {
 $(document).on('click', "button[data-role='editar-enlace']", function() {
 
   var idOpcion = $(this).attr('data-opcion');
-
   $.ajax({
     type: 'POST',
     async: true,
@@ -1135,7 +1085,6 @@ $(document).on('click', "button[data-role='editar-enlace']", function() {
       $('body').hideLoading();
     }
   });
-
   return false;
 });
 
@@ -1145,7 +1094,6 @@ $(document).on('click', "button[data-role='editar-enlace']", function() {
 * @return data.result = json donde se especifica si todo se realizo bien
 *         data.response = html vista menuAdmin
 */
-
 $(document).on('click', "button[data-role='guardar-edicion-enlace']", function() {
 
   var idOpcion = $(this).attr('data-opcion');
@@ -1192,7 +1140,6 @@ $(document).on('click', "button[data-role='guardar-edicion-enlace']", function()
 
 $(document).on('click', "button[data-role='guardar-enlace']", function() {
 
-
   var form = $("#formAgregarEnlace");
   $.ajax({
     type: 'POST',
@@ -1233,7 +1180,6 @@ $(document).on('click', "button[data-role='guardar-enlace']", function() {
 * @return data.result = json donde se especifica si todo se realizo bien
 *         data.response = html de la vista menuAdmin
 */
-
 $(document).on('click', "button[data-role='quitar-enlace-menu']", function() {
 
   var idOpcion = $(this).attr('data-opcion');
@@ -1320,7 +1266,6 @@ $(document).on('click', "button[data-role='felicitaAniversario']", function() {
   var formElement = document.getElementById("formAniversario");
   var formData = new FormData(formElement);
   var id = $(this).attr('data-aniversario');
-  console.log(id);
   var files = $('#contenido-imagenes').fileinput('getFileStack');
 
   if (files.length > 0) {
@@ -1379,13 +1324,10 @@ $(document).on('click', "a[data-role='eliminarDestinoCampana']", function() {
       data: {idCiudad: idCiudad, idGrupo: idGrupo, idCampana: idCampana},
       dataType: 'json',
       beforeSend: function() {
-        //    Loading.show();
         $('body').showLoading();
         $('#listaCampanas').remove();
       },
-
       complete: function(data) {
-        //   Loading.hide();
         $('body').hideLoading();
       },
       success: function(data) {
@@ -1417,17 +1359,13 @@ $(document).on('click', "a[data-role='agregar-destino-campana']", function() {
     data: form.serialize(),
     dataType: 'json',
     beforeSend: function() {
-      //    Loading.show();
       $('body').showLoading();
       $('#listaCampanas').remove();
     },
-
-    complete: function(data) {
-      //   Loading.hide();
       $('body').hideLoading();
+      complete: function(data) {
     },
     success: function(data) {
-
         if (data.result == "ok") {
           $('#destinosCampana').append(data.response);
         }
@@ -1463,13 +1401,10 @@ $(document).on('click', "a[data-role='eliminarDestinoEventoCalendario']", functi
       data: {idCiudad: idCiudad, idGrupo: idGrupo, idEvento: idEvento},
       dataType: 'json',
       beforeSend: function() {
-        //    Loading.show();
         $('body').showLoading();
         $('#listaEventos').remove();
       },
-
       complete: function(data) {
-        //   Loading.hide();
         $('body').hideLoading();
       },
       success: function(data) {
@@ -1502,17 +1437,13 @@ $(document).on('click', "a[data-role='agregar-destino-evento-calendario']", func
     data: form.serialize(),
     dataType: 'json',
     beforeSend: function() {
-      //    Loading.show();
       $('body').showLoading();
       $('#listaEventos').remove();
     },
-
     complete: function(data) {
-      //   Loading.hide();
       $('body').hideLoading();
     },
     success: function(data) {
-
         if (data.result == "ok") {
           $('#destinosEventos').append(data.response);
         }
@@ -1524,7 +1455,6 @@ $(document).on('click', "a[data-role='agregar-destino-evento-calendario']", func
   return false;
 });
 
-
 $(document).on('click', "a[data-role='asignar-contenido-evento-calendario']", function() {
 
   var idContenido = $(this).attr('data-contenido');
@@ -1534,25 +1464,19 @@ $(document).on('click', "a[data-role='asignar-contenido-evento-calendario']", fu
   $.ajax({
     type: 'POST',
     async: true,
-    url: url, //requestUrl + '/intranet/calendario/asignar-contenido-evento',
+    url: url,
     data: {idContenido: idContenido, idEvento: idEvento},
     dataType: 'json',
     beforeSend: function() {
-      //    Loading.show();
       $('body').showLoading();
       $('#contenidos-lista').remove();
     },
-
     complete: function(data) {
-      //   Loading.hide();
       $('body').hideLoading();
     },
     success: function(data) {
-
       if (data.result == "ok") {
-        //location.reload();
         $('#lista-contenido-asignar').append(data.response);
-
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -1580,22 +1504,18 @@ $(document).on('click', "a[data-role='eliminarPemisoRol']", function() {
     type: 'POST',
     async: true,
     url: url,
-    //data: form.serialize(),
     dataType: 'json',
     beforeSend: function() {
       $('body').showLoading();
       $('#listaContenidoEmergente').remove();
     },
-
     complete: function(data) {
       $('body').hideLoading();
     },
     success: function(data) {
-
         if (data.result == "ok") {
           $('.permisos').remove();
           $('.lista-permisos').append(data.response);
-
         }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -1609,11 +1529,51 @@ $(document).on('click', "a[data-role='eliminarPemisoRol']", function() {
 //::::::::::::::::::::::
 // MENU PORTALES
 //::::::::::::::::::::::
+
+$(document).on('click', "a[data-role='asignar-padre']", function() {
+
+    var idPortal = $('#menuportales-idportal').val();
+    var tipo = $('#menuportales-tipo').val();
+
+    if ( idPortal != '' && tipo == 3 ) {
+      construirModal(idPortal);
+    }else{
+        alert('Debes seleccionar un portal y el campo tipo debe ser ( Sin Enlace ) para poder asignar un padre al menu');
+    }
+    return false;
+});
+
+function construirModal(idPortal) {
+
+  $.ajax({
+    type: 'GET',
+    async: true,
+    url: requestUrl + '/intranet/menu-portales/render-modal?idPortal='+idPortal,
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading();
+      $('#listaContenidoEmergente').remove();
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+        if (data.result == "ok") {
+          $('#widget-submenu-portal').remove();
+          $('body').append(data.response);
+          $('#widget-submenu-portal').modal('show');
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+}
+
 $(document).on('click', "button[data-role='asignar-submenu-portal']", function() {
 
   var idMenu = $(this).attr('data-menu');
   var texto = $(this).attr('data-texto');
-
   $('#submenu').val(texto);
   $('#menuportales-idmenuportalpadre').val(idMenu);
   $(this).text('seleccionado');
@@ -1622,11 +1582,8 @@ $(document).on('click', "button[data-role='asignar-submenu-portal']", function()
 });
 
 $(document).on('click', "#enviaFormularioMenuPortales", function() {
-  //console.log('dio click envia formulario');
   $('#formMenuportales').submit();
 });
-
-
 
 //::::::::::::::::::::::
 // OTROS
@@ -1698,9 +1655,8 @@ function makeMap(jsonGrafica, patron, valorGrafica, flag) {
 //mostrar y ocultar formulario para publicar una noticia
 var count = 1;
 $(document).on('click', "#mostrarFormularioContenido", function() {
-  //console.log('dio click envia formulario');
-  $('#publicarContenido').toggle('slow');
 
+  $('#publicarContenido').toggle('slow');
   count ++;
   if (count % 2 === 0 ) {
       $("#mostrarFormularioContenido").text('ocultar formulario')
@@ -1713,10 +1669,7 @@ $(document).on('click', "#mostrarFormularioContenido", function() {
 
 /**
 * Acciones que se ejecutan cuando el navegador cargue los scripts
-* @param none
-* @return none
 */
-
 $(function() {
 
   $('.list-group-item').on('click', function() {
@@ -1729,7 +1682,6 @@ $(function() {
 $( document ).ready(function() {
   // carousel cumpleaños
   $("#owl-Cumpleaños").owlCarousel({
-    //margin:10,
     items: 4,
     autoWidth: true,
     autoplay: true,
@@ -1741,7 +1693,6 @@ $( document ).ready(function() {
 
   // carousel aniversarios
   $("#owl-Aniversarios").owlCarousel({
-    //margin:10,
     items: 4,
     autoWidth: true,
     autoplay: true,
@@ -1753,7 +1704,6 @@ $( document ).ready(function() {
 
   // javascript para que se busque una noticia cuando presiona enter
   $('#busqueda').keypress(function(event) {
-
     if (event.which == 13) {
       event.preventDefault();
       $('#formBuscadorNoticias').submit();

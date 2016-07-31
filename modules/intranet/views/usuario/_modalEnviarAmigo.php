@@ -6,7 +6,7 @@ use yii\helpers\Html;
 
 ?>
 
-<!-- Modal -->
+
 <div class="modal fade" id="widget-enviarAmigo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -19,7 +19,6 @@ use yii\helpers\Html;
         <p>
           Selecciona a los amigos que quieres enviarle esta publicación
         </p>
-        <!-- div con formulario para realizar la busqueda de los amigos y pega a la lista los amigos seleccionados -->
         <?= Html::beginForm(['contenido/enviar-amigo'], 'post', ['id'=> 'formEnviarAmigo']); ?>
         <div id="inputUsuarios" class="form-group">
         <?php
@@ -42,7 +41,6 @@ use yii\helpers\Html;
         <?= Html::endForm()     ?>
 
         <div class="error"></div>
-
 
       </div>
       <div class="modal-footer">

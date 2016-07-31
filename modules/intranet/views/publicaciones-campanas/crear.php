@@ -1,10 +1,5 @@
 <?php
-
 use yii\helpers\Html;
-
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\PublicacionesCampanas */
 
 $this->title = 'Crear publicidad';
 $this->params['breadcrumbs'][] = ['label' => 'Publicidad', 'url'=>['/intranet/publicaciones-campanas/admin']];

@@ -31,9 +31,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Administrar indicadores'];
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            //'idIndicador',
-            //'colorFondo',
             'descripcion',
             'valor',
             [
@@ -49,8 +46,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Administrar indicadores'];
                 }
               }
             ],
-            //'textoComplementario',
-
             [
               'class' => 'yii\grid\ActionColumn',
               'headerOptions'=> ['style'=>'width: 70px;'],

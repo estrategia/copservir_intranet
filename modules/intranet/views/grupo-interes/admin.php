@@ -1,12 +1,7 @@
 <?php
-
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\modules\intranet\models\GrupoInteres;
-
-/* @var $this yii\web\View */
-/* @var $searchModel app\modules\intranet\models\TareasSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Grupos de interes';
 $this->params['breadcrumbs'][] = ['label' => 'Grupos de interés'];
@@ -24,7 +19,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Grupos de interés'];
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            //['class' => 'yii\grid\SerialColumn'],
             'idGrupoInteres',
             'nombreGrupo',
             [

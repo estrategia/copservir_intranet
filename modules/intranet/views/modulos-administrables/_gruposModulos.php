@@ -1,10 +1,5 @@
 <?php
-
 use yii\helpers\Html;
-//use yii\helpers\Url;
-//use yii\widgets\ActiveForm;
-//use vova07\imperavi\Widget;
-//use app\modules\intranet\models\ModuloContenido;
 use yii\grid\GridView;
 ?>
 <input type='hidden' value='<?= $model->idModulo ?>' id='idGrupo' name='idGrupo'/>
@@ -26,7 +21,6 @@ GridView::widget([
         ],
         ['attribute' => 'titulo',
         ],
-        
         'descripcion',
         [
             'attribute' => 'contenido',
@@ -38,7 +32,6 @@ GridView::widget([
             },
         ],
         [
-            //    'attribute' => 'IdOrigenCaso',
             'label' => 'Opción',
             'format' => 'text',
             'content' => function($data, $model) {

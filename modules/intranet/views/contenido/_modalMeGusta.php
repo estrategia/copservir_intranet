@@ -5,7 +5,6 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 ?>
 
-
 <div class="modal fade" id="modal-me-gusta-contenido" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

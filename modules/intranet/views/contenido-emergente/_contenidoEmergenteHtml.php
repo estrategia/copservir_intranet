@@ -1,5 +1,3 @@
-
-<!-- Modal -->
 <div class="modal fade" id="widget-popup" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

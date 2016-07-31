@@ -6,13 +6,10 @@ use app\modules\intranet\models\GrupoInteres;
 use app\modules\intranet\models\Ciudad;
 use kartik\select2\Select2;
 use yii\widgets\ActiveForm;
-
 ?>
-
 
 <div class="col-md-12" id="listaCampanas">
   <h4>Grupos de interes y ciudad de destino</h4>
-  <!-- formulario para agregar un destino nuevo -->
   <?php $form = ActiveForm::begin(['options' => ['id'=> 'formEnviaDestinosCampana']]); ?>
 
   <div class="col-md-4">
@@ -55,6 +52,7 @@ use yii\widgets\ActiveForm;
   <br><br>
   <br><br>
   <br><br>
+  
   <!-- lista de destinos de esa campaña -->
   <div class="col-md-12">
     <div id="listaOfertas">

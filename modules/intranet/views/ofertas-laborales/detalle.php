@@ -1,11 +1,7 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\modules\intranet\models\OfertasLaborales;
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\OfertasLaborales */
 
 $this->title = 'detalle oferta';
 $this->params['breadcrumbs'][] = ['label' => 'Ofertas laborales', 'url' => ['admin']];
@@ -53,7 +49,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Ver oferta laboral'];
           'format'=>'raw',
           'value' =>  $model->objInformacionContactoOferta->plantillaContactoHtml,
         ],
-
       ],
       ]) ?>
 

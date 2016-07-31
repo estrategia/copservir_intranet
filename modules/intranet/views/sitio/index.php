@@ -189,26 +189,20 @@ $( document ).ready(function() {
     url: requestUrl + '/intranet/contenido-emergente/contenido-emergente-html',
     dataType: 'json',
     beforeSend: function() {
-      //    Loading.show();
       $('#widget-popup').remove();
     },
 
     complete: function(data) {
-      //   Loading.hide();
     },
     success: function(data) {
-      console.log('succes')
       if (data.result == 'ok') {
-        //console.log(data.response.length);
         if(data.response.length >0){
           $('body').append(data.response);
           $('#widget-popup').modal('show');
         }
-
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
-
     }
   })
 

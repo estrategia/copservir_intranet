@@ -44,7 +44,5 @@
         <div class="clearfix"></div>
       </div>
     </div>
-
-
   <?php endforeach; ?>
 </div>

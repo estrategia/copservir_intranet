@@ -33,7 +33,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contenidos por aprob
                 return $model->objLineaTiempo->nombreLineaTiempo;
               }
             ],
-
             [
               'class' => 'yii\grid\ActionColumn',
               'headerOptions'=> ['style'=>'width: 70px;'],

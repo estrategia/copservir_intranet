@@ -14,7 +14,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Administrar permisos'];
   <img src="<?= Yii::getAlias('@web').'/img/fotosperfil/'. $usuario->getImagenPerfil() ?>" class="img-circle img-responsive" style="width: 20%;"/>
 </div>
 <div class="col-md-8">
-  <!-- informacion del usuario -->
   <h4>
     <?= Html::encode($usuario->alias) ?>
   </h4>
@@ -53,7 +52,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Administrar permisos'];
     <?php ActiveForm::end(); ?>
   </div>
   <div class="col-md-12" id="lista-permisos">
-
     <!-- permisos del rol q seleccione en le formulario -->
   </div>
 </div>
@@ -62,7 +60,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Administrar permisos'];
   <!-- roles y permisos asignados al usuario-->
   <div class="col-md-12">
     <h4>Roles y permisos asignados al  usuario</h4>
-    
+
     <?php foreach ($roles as $rol): ?>
     <div class="grid simple">
       <div class="grid-title no-border" style="background-color:#367FA9 !important;">

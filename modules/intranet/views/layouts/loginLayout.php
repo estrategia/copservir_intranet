@@ -7,11 +7,10 @@ use yii\widgets\Breadcrumbs;
 use app\assets\IntranetAsset;
 
 IntranetAsset::register($this);
-
 $srcLogo = Yii::$app->homeUrl . 'img/logo_copservir.png';
-//$srcFondo = Yii::$app->homeUrl . 'img/work.jpg';
 ?>
 <?php $this->beginPage() ?>
+
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>

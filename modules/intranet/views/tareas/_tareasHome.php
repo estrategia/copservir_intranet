@@ -17,9 +17,6 @@ use yii\helpers\Url;
 
         </a>
       </div>
-      <!--<div class="controller tools">
-         <a href="javascript:;" class="collapse"></a> <a href="javascript:;" class="remove" data-role="quitar-elemento" data-elemento="<?=\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_TAREAS?>"></a>
-      </div>-->
     </div>
     <div class="widget-body">
       <br>
@@ -38,9 +35,8 @@ use yii\helpers\Url;
             $check_success = 'check-success';
             $checkeado = 'checked';
           }
-
           ?>
-
+          
           <div class= "<?=  "checkbox ".$check_success ?> col-md-12" >
             <div class="col-md-3">
               <a href='#' data-tarea= "<?= $tarea->idTarea?>" data-location="<?= Tareas::TAREAS_INDEX ?>" data-role='inactivarTarea'>

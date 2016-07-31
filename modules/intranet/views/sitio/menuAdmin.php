@@ -1,5 +1,4 @@
 <?php
-
 use app\modules\intranet\models\Menu;
 use yii\helpers\Html;
 
@@ -23,8 +22,6 @@ $opciones = Menu::construirArrayMenu(true,Yii::$app->user->identity->numeroDocum
       'activate' => new \yii\web\JsExpression('
       function(node, data) {
         node  = data.node;
-        // Log node title
-        // console.log(node.title);
       }
       ')
     ]

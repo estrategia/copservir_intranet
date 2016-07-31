@@ -1,16 +1,10 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\Documento */
-
 $this->title = 'Actualizar Inaformacion del Documento: ' . $model->titulo;
-//$this->params['breadcrumbs'][] = ['label' => 'Documentos', 'url' => ['index']];
-//$this->params['breadcrumbs'][] = ['label' => $model->idDocumento, 'url' => ['view', 'id' => $model->idDocumento]];
-//$this->params['breadcrumbs'][] = 'Update';
 ?>
+
 <div class="documento-update">
 
   <h4><?= Html::encode($this->title) ?></h4>

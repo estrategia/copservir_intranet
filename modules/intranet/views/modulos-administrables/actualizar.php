@@ -1,10 +1,7 @@
 <?php
-
 use yii\helpers\Html;
 use \yii\widgets\Breadcrumbs;
 use app\modules\intranet\models\ModuloContenido;
-/* @var $this yii\web\View */
-/* @var $model app\models\TipoPQRS */
 
 $this->title = Yii::t('app', 'Actualizar  ', []);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Módulos Administrativos'),'url' => ['admin']];
@@ -21,7 +18,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Editar')];
                     <?=  Html::a('Editar',['actualizar','id' => $params['model']->idModulo],['class' => "btn btn-primary ".(($params['opcion'] == 'editar')?"active":"")] )?>
                     <?=  Html::a('Contenido',['contenido','id' => $params['model']->idModulo],['class' =>"btn btn-primary ".(($params['opcion'] == "contenido")?"active":"")] )?>
                 </div>
-                <?php //if($params['model']->tipo == ModuloContenido::TIPO_GROUP_MODULES):?>
                 <br>
                 <br>
                 <br>
@@ -40,11 +36,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Editar')];
                       ['disabled' => 'disabled', 'class' =>'form-control', 'id' => 'copy-input']
                        ) ?>
                   </div>
-
-
-
                 </div>
-                <?php //endif;?>
             </div>
             <br/>
             <div>
@@ -57,8 +49,8 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Editar')];
 <?php
   $this->registerJs("
   $(document).ready(function() {
-// Initialize the tooltip.
-$('#copy-button').tooltip();
+    // Initialize the tooltip.
+    $('#copy-button').tooltip();
 
 // When the copy button is clicked, select the value of the text box, attempt
 // to execute the copy command, and trigger event to update tooltip message
@@ -91,7 +83,5 @@ $('#copy-button').bind('copied', function(event, message) {
       .tooltip('fixTitle');*/
 });
 });
-
-
   ");
 ?>

@@ -1,4 +1,3 @@
-
 <?php
 use app\modules\intranet\models\Menu;
 
@@ -13,8 +12,6 @@ echo yii2mod\tree\Tree::widget([
     'activate' => new \yii\web\JsExpression('
     function(node, data) {
       node  = data.node;
-      // Log node title
-      console.log(node.title);
     }
     ')
   ]

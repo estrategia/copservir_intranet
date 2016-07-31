@@ -1,9 +1,5 @@
 <?php
-
 use yii\helpers\Html;
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\Parametros */
 
 $this->title = 'Actualiza el parametro: ' . $model->idParametro;
 $this->params['breadcrumbs'][] = ['label' => 'Parametros de aplicación', 'url'=>['/intranet/parametros/admin']];

@@ -1,13 +1,7 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\Url;
-//use vova07\imperavi\Widget;
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\intranet\models\InformacionContactoOferta */
-/* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="informacion-contacto-oferta-form">

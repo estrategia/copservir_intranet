@@ -1,12 +1,10 @@
 <?php
-
 use yii\helpers\Url;
 use yii\helpers\Html;
 use \yii\widgets\LinkPager;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 ?>
-
 
 <div class="col-md-8">
   <br><br><br>
@@ -37,7 +35,6 @@ use yii\widgets\Pjax;
                   }
                 ],
                 'fechaPublicacion',
-                //'idArea',
                 [
                   'class' => 'yii\grid\ActionColumn',
                   'template' => '{link}',
