@@ -84,10 +84,10 @@ class Menu extends \yii\db\ActiveRecord {
 
                 if (strpos($menuItem->objOpcion->url, 'https://') !== false || strpos($menuItem->objOpcion->url, 'http://') !== false) {
                     $urlMenu = Funciones::reemplazarPatronDocumentoUsuario($menuItem->objOpcion->url);
-                    echo "<li class='list-menu-corporativo'> <a target='_blank' href='$urlMenu'> <i class='icon-custom-ui'></i><span class='title'>$menuItem->descripcion</span> </a> </li>";
+                    echo "<li class='list-menu-corporativo'> <a target='_blank' href='$urlMenu'> <i class='$menuItem->icono'></i><span class='title'>$menuItem->descripcion</span> </a> </li>";
                 } else {
                     echo "<li class='list-menu-corporativo'>";
-                    echo \yii\bootstrap\Html::a("<i class='icon-custom-ui'></i><span class='title'>$menuItem->descripcion</span>", [$menuItem->objOpcion->url]);
+                    echo \yii\bootstrap\Html::a("<i class='$menuItem->icono'></i><span class='title'>$menuItem->descripcion</span>", [$menuItem->objOpcion->url]);
                     echo "</li>";
                 }
             }
@@ -104,8 +104,8 @@ class Menu extends \yii\db\ActiveRecord {
         $opcionArray = [];
 
         if ($flagAdmin) {
-            foreach ($listMenu as $objMenu) {
-                $opcionArray[] = self::obtenerHijosArrayAdmin($objMenu);
+            foreach ($listMenu as $contadorMenu => $objMenu) {
+                $opcionArray[] = self::obtenerHijosArrayAdmin($objMenu, $contadorMenu+1);
             }
         } else {
             $opcionesUsuario = UsuariosMenuInactivo::find()->where(['=', 'numeroDocumento', $numeroDocumento])->all();
@@ -152,8 +152,8 @@ class Menu extends \yii\db\ActiveRecord {
      * @param $objMenu modelo Menu
      * @return array con title = titulo ha renderizar en el menu, children = hijos de esa categoria del menu, folder = ?
      */
-    public static function obtenerHijosArrayAdmin($objMenu) {
-        $htmlEditar = "<button class='btn btn-mini btn-success' data-role='opcion-menu-render-actualizar' data-opcion='$objMenu->idMenu'>Editar</button>";
+    public static function obtenerHijosArrayAdmin($objMenu, $contadorMenu) {
+        $htmlEditar = "<button class='btn btn-mini' data-role='opcion-menu-render-actualizar' data-opcion='$objMenu->idMenu'>Editar</button>";
 
         if (!empty($objMenu->objOpcion)) { // es hoja
             $htmlRelacion = '';
@@ -161,17 +161,17 @@ class Menu extends \yii\db\ActiveRecord {
             if (!empty($objMenu->objOpcion)) {
 
                 $dataOpcion = $objMenu->objOpcion->idOpcion;
-                $htmlRelacion = "<button class='btn btn-mini btn-success' data-role='quitar-enlace-menu'data-opcion='$dataOpcion' >Eliminar enlace</button>"
-                        ."<button class='btn btn-mini btn-success' data-role='editar-enlace'data-opcion='$dataOpcion' >Editar enlace</button>"
-                        . "<button class='btn btn-mini btn-success' data-toggle='poptooltip' data-content='" . $objMenu->objOpcion->url . "'>Ver enlace</button>";
+                $htmlRelacion = "<button class='btn btn-mini' data-role='quitar-enlace-menu'data-opcion='$dataOpcion' >Eliminar enlace</button>"
+                        ."<button class='btn btn-mini' data-role='editar-enlace'data-opcion='$dataOpcion' >Editar enlace</button>"
+                        . "<button class='btn btn-mini' data-toggle='poptooltip' data-content='" . $objMenu->objOpcion->url . "'>Ver enlace</button>";
             }
-
+            
             return [
                 'title' => "
-                    <div class='panel-default'>
+                    <div class='panel-default panel-submenu'>
                     <div class=' panel-heading'>
                     <h6 class='panel-title' style='font-size: 13px;'>
-                    $objMenu->descripcion
+                    $contadorMenu. $objMenu->descripcion
                     </h6>
                     $htmlEditar
                     $htmlRelacion
@@ -181,24 +181,27 @@ class Menu extends \yii\db\ActiveRecord {
         } else { // tiene hijos
             $children = [];
             $htmlRelacion = '';
+            
+            $class = "panel-menu";
 
             if (!empty($objMenu->activeListSubMenu)) { //listSubMenu
-                foreach ($objMenu->activeListSubMenu as $objSubMenu) { //listSubMenu
-                    $children[] = self::obtenerHijosArrayAdmin($objSubMenu);
+                foreach ($objMenu->activeListSubMenu as $contadorSubmenu => $objSubMenu) { //listSubMenu
+                    $children[] = self::obtenerHijosArrayAdmin($objSubMenu, $contadorSubmenu+1);
                 }
             } else {
-                $htmlRelacion = "<button class='btn btn-mini btn-success' data-role='agregar-enlace-menu' data-opcion='$objMenu->idMenu'> Agregar enlaces</button>";
+                $class = "panel-submenu";
+                $htmlRelacion = "<button class='btn btn-mini' data-role='agregar-enlace-menu' data-opcion='$objMenu->idMenu'> Agregar enlaces</button>";
             }
 
             return [
                 'title' => "
-                    <div class='panel-default'>
+                    <div class='panel-default $class'>
                     <div class=' panel-heading'>
                     <h6 class='panel-title' style='font-size: 13px;'>
-                    $objMenu->descripcion
+                    $contadorMenu. $objMenu->descripcion
                     </h6>
                     $htmlEditar
-                    <button class='btn btn-mini btn-success' data-role='opcion-menu-render-crear' data-padre='$objMenu->idMenu'>
+                    <button class='btn btn-mini' data-role='opcion-menu-render-crear' data-padre='$objMenu->idMenu'>
                     Agregar
                     </button>
                     $htmlRelacion

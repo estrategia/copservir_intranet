@@ -8,8 +8,13 @@ use app\modules\intranet\models\Documento;
 /* @var $model app\modules\intranet\models\Documento */
 
 $this->title = $model->titulo;
-$this->params['breadcrumbs'][] = ['label' => 'Documentos organizacionales', 'url' => ['/intranet/documento/admin']];
-$this->params['breadcrumbs'][] = ['label' => 'Ver documento'];
+if($flag){
+    $this->params['breadcrumbs'][] = ['label' => 'Documentos organizacionales', 'url' => ['/intranet/documento/admin']];
+    $this->params['breadcrumbs'][] = ['label' => 'Ver documento'];
+}else{
+    $this->params['breadcrumbs'][] = ['label' => 'Menú documentos organizacionales', 'url' => ['/intranet/categoria-documento/index']];
+    $this->params['breadcrumbs'][] = ['label' => 'Ver documento'];
+}
 ?>
 <div class="documento-view col-md-12">
 

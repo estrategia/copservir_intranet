@@ -62,7 +62,7 @@ class SitioController extends \app\controllers\CController {
 
 
                      'administrar-menu' => 'intranet_sitio_administrar-menu',
-                     'agregar-opcion-menu' => 'intranet_sitio_administrar-menu',
+                     'agregar-opcion-menu' => 'intranet_usuario',
                      'render-crear-opcion-menu' => 'intranet_sitio_administrar-menu',
                      'render-editar-opcion-menu' => 'intranet_sitio_administrar-menu',
                      'crear-opcion-menu' => 'intranet_sitio_administrar-menu',

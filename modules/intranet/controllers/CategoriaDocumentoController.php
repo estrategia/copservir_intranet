@@ -99,7 +99,7 @@ class CategoriaDocumentoController extends \yii\web\Controller {
         }
 
         if ($flagAdmin) {
-          $htmlEnlace = '<a href="#' . $categoria->idCategoriaDocumento . '" data-parent="#' . $dataparent . '" data-toggle="collapse">
+          $htmlEnlace = '<a href="#' . $categoria->idCategoriaDocumento . '" data-parent="#' . $dataparent . '" data-toggle="collapse"  class="collapsed">
             ' . $categoria->nombre . '
             </a>';
         }else{
@@ -147,8 +147,8 @@ class CategoriaDocumentoController extends \yii\web\Controller {
             }
 
             if (!$flagAdmin && $flagHoja) {
-                $htmlEnlace = Html::a('<i class="glyphicon glyphicon-chevron-right"></i> '.$categoria->nombre, ['documento/detalle-documento',
-                'id' => $categoria->categoriaDocumentosDetalle->idDocumento], ['data-role' => 'hola', 'class' => 'list-group-item',
+                $htmlEnlace = Html::a($categoria->nombre, ['documento/detalle-documento',
+                'id' => $categoria->categoriaDocumentosDetalle->idDocumento], ['class' => 'list-group-item',
                 ]);
             }
         } else {
@@ -161,11 +161,9 @@ class CategoriaDocumentoController extends \yii\web\Controller {
             }
 
             if (!$flagAdmin && $flagHoja) {
-              $htmlEnlace = Html::a('<i class="glyphicon glyphicon-chevron-right"></i> '.$categoria->nombre .' (No hay un documento asociado)',
+              $htmlEnlace = Html::a($categoria->nombre .' (No hay un documento asociado)',
               ['#'],
-              ['data-role' => 'hola', 'class' => 'list-group-item',
-              'data-toggle' => 'collapse']);
-                ;
+              ['class' => 'list-group-item','data-toggle' => 'collapse']);
             }
         }
 

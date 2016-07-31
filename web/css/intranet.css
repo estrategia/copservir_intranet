@@ -242,3 +242,21 @@ MENU DESPLEGABLE
 .list-group-item .glyphicon {
     margin-right: 5px;
 }
+
+.panel-default.panel-menu > .panel-heading{
+    border: 1px solid #A0A8AB;
+    background-color: #d1dade;
+}
+
+.panel-default > .panel-heading > .panel-title{
+    font-weight: bold;
+}
+
+.panel-default.panel-menu > .panel-heading > .panel-title{
+    color: #1E7AA9;
+}
+
+.panel-default.panel-submenu > .panel-heading{
+    border: 1px solid #A0A8AB;
+    background-color: #fff;
+}

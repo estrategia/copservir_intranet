@@ -279,6 +279,8 @@ $(document).on('click', "input[data-role='agregar-opcion']", function () {
               $.Webarch.init();
               //
               //document.insertBefore(data.response, document.getElementById('list-menu-corporativo'));
+            }else{
+                alert(data.response);
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {

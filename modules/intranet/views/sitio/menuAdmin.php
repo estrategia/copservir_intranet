@@ -12,7 +12,7 @@ $opciones = Menu::construirArrayMenu(true,Yii::$app->user->identity->numeroDocum
   <h1><?= Html::encode($this->title) ?></h1>
 
   <p>
-    <button type="button" name="button" class="btn btn-success" data-role="opcion-menu-render-crear" >Crear opcion del menu</button>
+      <button type="button" name="button" class="btn btn-success" data-role="opcion-menu-render-crear" >Crear opci&oacute;n del men&uacute;</button>
   </p>
 
   <?=   yii2mod\tree\Tree::widget([
