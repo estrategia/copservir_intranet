@@ -1362,8 +1362,8 @@ $(document).on('click', "a[data-role='agregar-destino-campana']", function() {
       $('body').showLoading();
       $('#listaCampanas').remove();
     },
-      $('body').hideLoading();
-      complete: function(data) {
+    complete: function(data) {
+        $('body').hideLoading();
     },
     success: function(data) {
         if (data.result == "ok") {
