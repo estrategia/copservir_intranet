@@ -1533,17 +1533,19 @@ $(document).on('click', "a[data-role='eliminarPemisoRol']", function() {
 $(document).on('click', "a[data-role='asignar-padre']", function() {
 
     var idPortal = $('#menuportales-idportal').val();
-    var tipo = $('#menuportales-tipo').val();
+    var idMenuPortal = $(this).attr('data-menu-portal');
 
-    if ( idPortal != '' && tipo == 3 ) {
-      construirModal(idPortal);
+    console.log(idMenuPortal);
+
+    if ( idPortal != '') {
+      construirModal(idPortal, idMenuPortal);
     }else{
-        alert('Debes seleccionar un portal y el campo tipo debe ser ( Sin Enlace ) para poder asignar un padre al menu');
+        alert('Debes seleccionar un portal para poder asignar un padre al menu');
     }
     return false;
 });
 
-function construirModal(idPortal) {
+function construirModal(idPortal, idMenuPortal) {
 
   $.ajax({
     type: 'GET',
@@ -1561,6 +1563,13 @@ function construirModal(idPortal) {
         if (data.result == "ok") {
           $('#widget-submenu-portal').remove();
           $('body').append(data.response);
+
+
+          $('#button'+idMenuPortal).remove();
+
+          padre = $('#menuportales-idmenuportalpadre').val();
+          $('#button'+padre).text('Asignado');
+
           $('#widget-submenu-portal').modal('show');
         }
     },

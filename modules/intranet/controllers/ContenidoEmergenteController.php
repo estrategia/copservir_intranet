@@ -93,7 +93,7 @@ class ContenidoEmergenteController extends Controller {
         $model = new ContenidoEmergente();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['detalle', 'id' => $model->idContenidoEmergente]);
+            return $this->redirect(['actualizar', 'id' => $model->idContenidoEmergente]);
         } else {
             return $this->render('crear', [
                         'model' => $model,

@@ -43,6 +43,7 @@ class MenuPortales extends \yii\db\ActiveRecord {
             [['urlMenu'], 'string', 'max' => 500],
             [['icono'], 'string', 'max' => 45],
             [['idPortal'], 'exist', 'skipOnError' => true, 'targetClass' => Portal::className(), 'targetAttribute' => ['idPortal' => 'idPortal']],
+            ['idMenuPortalPadre', 'validateUrlPadre'],
             ['idMenuPortalPadre', 'validateIdPadre'],
             [['idMenuPortalPadre'], 'exist', 'skipOnError' => true, 'targetClass' => self::className(), 'targetAttribute' => [ 'idMenuPortalPadre' =>  'idMenuPortales']],
         ];
@@ -74,6 +75,14 @@ class MenuPortales extends \yii\db\ActiveRecord {
       }
     }
 
+    public function validateUrlPadre($attribute, $params) {
+
+      $padre = self::findOne(['idMenuPortales' => $this->idMenuPortalPadre]);
+
+      if( $padre->tipo !== self::SIN_ENLACE ) {
+        $this->addError($attribute, 'El menu padre no puede tener enlace');
+      }
+    }
     // RELACIONES
 
     public function getObjPortal() {
