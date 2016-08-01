@@ -1,16 +1,16 @@
 <?php
 
-namespace app\modules\coopservir;
+namespace app\modules\copservir;
 
 /**
  * coopservir module definition class
  */
-class CoopservirModule extends \yii\base\Module {
+class CopservirModule extends \yii\base\Module {
 
     /**
      * @inheritdoc
      */
-    public $controllerNamespace = 'app\modules\coopservir\controllers';
+    public $controllerNamespace = 'app\modules\copservir\controllers';
     public $defaultRoute = 'sitio';
     public $layout = 'main';
 
@@ -19,7 +19,7 @@ class CoopservirModule extends \yii\base\Module {
      */
     public function init() {
         parent::init();
-        \Yii::$app->errorHandler->errorAction = 'coopservir/sitio/error';
+        \Yii::$app->errorHandler->errorAction = 'copservir/sitio/error';
 
         // custom initialization code goes here
     }

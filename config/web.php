@@ -133,7 +133,7 @@ $config = [
             ],
         ],
     ],
-    'defaultRoute' => '/coopservir/sitio',
+    'defaultRoute' => '/copservir/sitio',
     'params' => $params,
     'modules' => [
         'intranet' => [
@@ -145,8 +145,8 @@ $config = [
         'convenios' => [
             'class' => 'app\modules\convenios\ConveniosModule',
         ],
-        'coopservir' => [
-            'class' => 'app\modules\coopservir\CoopservirModule',
+        'copservir' => [
+            'class' => 'app\modules\copservir\CopservirModule',
         ],
         'tarjetamas' => [
             'class' => 'app\modules\tarjetamas\TarjetaMasModule',

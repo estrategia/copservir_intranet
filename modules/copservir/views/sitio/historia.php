@@ -13,7 +13,7 @@ $srcIconLocation = Yii::$app->homeUrl . 'img/multiportal/copservir/cd-icon-locat
       <div class="container">
         <div class="page-title">
           <h1>Nuestra Historia</h1>
-          <div class="breadcrumbs"><?= Html::a('Inicio', ['/coopservir']) ?> / Nuestra Historia</div>
+          <div class="breadcrumbs"><?= Html::a('Inicio', ['/copservir']) ?> / Nuestra Historia</div>
         </div>
       </div>
     </div>
@@ -23,12 +23,12 @@ $srcIconLocation = Yii::$app->homeUrl . 'img/multiportal/copservir/cd-icon-locat
       <img class="img-responsive" style="border-radius: 10px;" src=<?= "" . $srcHistoria ?> alt="">
       <div class="space-1"></div>
       <p>
-          Hace más de 20 años nuestros trabajadores, se asociaron con el sueño de ser una de las cadenas más grandes de farmacias en Colombia y desde ese entonces juntos hemos establecido más de 470 puntos de venta, este logro no hubiera sido posible sin los aportes mensuales realizados por nuestros asociados, el trabajo en equipo y el emprendimiento que cada uno desde sus lugares de trabajo aporta a nuestra cooperativa, Copservir, convirtiéndola en un modelo de atención único en el país, haciendo del cooperativismo y servicio pilares de nuestra filosofía empresarial. En todos estos años el esfuerzo y dedicación nos ha permitido consolidarnos como uno de los gigantes en la distribución de medicamentos en Colombia, con un modelo de negocio fortalecido y tendiente a expandirse. 
+          Hace más de 20 años nuestros trabajadores, se asociaron con el sueño de ser una de las cadenas más grandes de farmacias en Colombia y desde ese entonces juntos hemos establecido más de 470 puntos de venta, este logro no hubiera sido posible sin los aportes mensuales realizados por nuestros asociados, el trabajo en equipo y el emprendimiento que cada uno desde sus lugares de trabajo aporta a nuestra cooperativa, Copservir, convirtiéndola en un modelo de atención único en el país, haciendo del cooperativismo y servicio pilares de nuestra filosofía empresarial. En todos estos años el esfuerzo y dedicación nos ha permitido consolidarnos como uno de los gigantes en la distribución de medicamentos en Colombia, con un modelo de negocio fortalecido y tendiente a expandirse.
       </p>
       <p>Credibilidad y confianza determinan nuestra relación con los clientes en las diferentes regiones del país, pues somos una empresa que propende por la protección de los derechos del cliente, el mejoramiento continuo de nuestros protocolos de atención y la prevención del fraude. Nuestra marca La Rebaja Droguería es una vecina de siempre, transformada en sus estructuras para el beneficio de nuestros usuarios y trabajadores, en una historia que escribimos juntos en pro de la defensa del derecho al trabajo al éxito organizativo. </p>
       <h2>Nuestra Historia año a año</h2>
       <section id="cd-timeline" class="cd-container">
-          
+
         <div class="cd-timeline-block">
           <div class="cd-timeline-img cd-picture">
             <img src=<?= "" . $srcIconPicture ?> alt="Picture">
@@ -96,8 +96,8 @@ $srcIconLocation = Yii::$app->homeUrl . 'img/multiportal/copservir/cd-icon-locat
             <span class="cd-date">Feb 26</span>
           </div> <!-- cd-timeline-content -->
         </div> <!-- cd-timeline-block -->
-        
- 
+
+
         <div class="cd-timeline-block">
           <div class="cd-timeline-img cd-location">
             <img src=<?= "" . $srcIconLocation ?> alt="Location">
@@ -109,7 +109,7 @@ $srcIconLocation = Yii::$app->homeUrl . 'img/multiportal/copservir/cd-icon-locat
             <p>Se crea el  <strong>Modelo de capacitación Virtual </strong>debido a las distancias geográficas, esta herramienta se desarrolló para permitir que el personal realizara su inducción general y capacitaciones que ofrece la cooperativa de manera virtual, sin necesidad de desplazamientos. </p>
           </div> <!-- cd-timeline-content -->
         </div> <!-- cd-timeline-block -->
-        
+
 
          <div class="cd-timeline-block">
           <div class="cd-timeline-img cd-movie">
@@ -118,13 +118,13 @@ $srcIconLocation = Yii::$app->homeUrl . 'img/multiportal/copservir/cd-icon-locat
 
           <div class="cd-timeline-content">
             <h2>2010</h2>
-            <p>Se logra la negociación y compra de 40 farmacias en el departamento de Antioquia, permitiendo el crecimiento Horizontal de La Rebaja Droguería. <br> 
+            <p>Se logra la negociación y compra de 40 farmacias en el departamento de Antioquia, permitiendo el crecimiento Horizontal de La Rebaja Droguería. <br>
             Nace el <strong>Fondo Muto de Inversión Mi Futuro</strong>como una alternativa de ahorro para los trabajadores de Copservir.
             </p>
           </div> <!-- cd-timeline-content -->
         </div> <!-- cd-timeline-block -->
-        
-  
+
+
         <div class="cd-timeline-block">
           <div class="cd-timeline-img cd-location">
             <img src=<?= "" . $srcIconLocation ?> alt="Location">
@@ -135,9 +135,9 @@ $srcIconLocation = Yii::$app->homeUrl . 'img/multiportal/copservir/cd-icon-locat
             <p>Copservir incursiona en los <strong>Social Media</strong>, generando información, creando conversación, animando a las personas a participar, y posicionando la presencia en la red de la marca La Rebaja Droguería. </p>
             <p><strong>Numero Único</strong> Para facilidad de nuestros clientes se desarrolló este sistema de comunicación que permite ubicar el punto de venta más cercano de acuerdo al lugar de donde se está realizando la llamada.</p>
           </div> <!-- cd-timeline-content -->
-        </div> <!-- cd-timeline-block -->       
-        
- 
+        </div> <!-- cd-timeline-block -->
+
+
          <div class="cd-timeline-block">
           <div class="cd-timeline-img cd-movie">
             <img src=<?= "" . $srcIconMovie ?> alt="Movie">
@@ -148,8 +148,8 @@ $srcIconLocation = Yii::$app->homeUrl . 'img/multiportal/copservir/cd-icon-locat
             <p> <strong>Ventas empresariales</strong> Es un área creada para establecer convenios con Fondos de empleados o empresas donde se le brinda a las personas pertenecientes a estos un descuento preferencial en el momento de la compra en La Rebaja Drogueria </p>
           </div> <!-- cd-timeline-content -->
         </div> <!-- cd-timeline-block -->
-        
-   
+
+
         <div class="cd-timeline-block">
           <div class="cd-timeline-img cd-location">
             <img src=<?= "" . $srcIconLocation ?> alt="Location">
@@ -159,9 +159,9 @@ $srcIconLocation = Yii::$app->homeUrl . 'img/multiportal/copservir/cd-icon-locat
             <h2>2015</h2>
             <p><strong>Flota de mensajeros:</strong>  Se cuenta con una flota completa de mensajeros para el servicio de nuestros clientes.</p>
           </div> <!-- cd-timeline-content -->
-        </div> <!-- cd-timeline-block -->          
-        
-        
+        </div> <!-- cd-timeline-block -->
+
+
       </section> <!-- cd-timeline -->
     </div>
     <div class="space-2"></div>
