@@ -13,20 +13,20 @@ $srcMision = Yii::$app->homeUrl . 'img/multiportal/copservir/nuestro-proposito.j
       <div class="container">
         <div class="page-title">
           <h1>Nuestro propósito</h1>
-          <div class="breadcrumbs"><?= Html::a('Inicio', ['/coopservir']) ?>  / Nuestro Propósito</div>
+          <div class="breadcrumbs"><?= Html::a('Inicio', ['/copservir']) ?>  / Nuestro Propósito</div>
         </div>
       </div>
     </div>
 
-    <div class="container internal">        
+    <div class="container internal">
         <img class="img-responsive" style="border-radius: 10px;" src=<?= "" . $srcMision ?> alt="">
          <div class="space-2"></div>
       <p>
          Nuestra orientación estratégica está centrada en optimizar y potencializar nuestro talento humano procurando siempre su desarrollo personal y profesional, el mejoramiento de la calidad de vida de sus asociados –
          trabajadores y sus familias lográndolo a través de nuestros programas de otorgamiento de beneficios, reconocimientos y contribuciones, es por esto, por la calidad, el esfuerzo y la dedicación de cada uno de sus asociados –
-         trabajadores que nuestra cooperativa, Copservir,  se ha posicionado con gran éxito dentro del mercado Farmacéutico, manteniéndose siempre a la vanguardia comercial. Generamos estrategias para mantener fortalecidas relaciones 
-         comerciales con nuestros clientes y proveedores, siendo ellos pilares de nuestra razón de ser. 
-      </p>      
+         trabajadores que nuestra cooperativa, Copservir,  se ha posicionado con gran éxito dentro del mercado Farmacéutico, manteniéndose siempre a la vanguardia comercial. Generamos estrategias para mantener fortalecidas relaciones
+         comerciales con nuestros clientes y proveedores, siendo ellos pilares de nuestra razón de ser.
+      </p>
       <div class="space-2"></div>
     </div>
       <div class="gray-sec">
