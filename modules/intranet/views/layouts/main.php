@@ -195,11 +195,7 @@ if (!Yii::$app->user->isGuest) {
                         <?= $this->render('_menuCorporativoUsuario', ['menu' => Menu::getMenuPadre(), 'opciones' => new OpcionesUsuario(Yii::$app->user->identity->numeroDocumento)]); ?>
 
                         <!-- MENU PORTALES -->
-                        <?php foreach (MenuPortales::traerMenuPortalesIndex(Yii::$app->controller->module->id) as $itemMenu): ?>
-                            <li>
-                                <?php $itemMenu->getHtmlLink(Yii::$app->controller->module->id) ?>
-                            </li>
-                        <?php endforeach; ?>
+                        <?php MenuPortales::generarMenu(Yii::$app->controller->module->id) ?>
 
                         <!-- MENU ADMIN -->
                         <?php if (!Yii::$app->user->isGuest): ?>

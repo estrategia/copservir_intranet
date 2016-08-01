@@ -92,12 +92,12 @@ class MenuPortales extends \yii\db\ActiveRecord {
 
     // CONSULTAS
 
-    public static function traerMenuPortalesIndex($portal) {
-        $query = MenuPortales::find()
-                ->select(['t_MenuPortales.idMenuPortales', 't_MenuPortales.nombre', 't_MenuPortales.icono', 't_MenuPortales.tipo', 't_MenuPortales.urlMenu'])
-                ->joinWith(['objPortal'])
-                ->where('m_Portal.nombrePortal=:portal AND t_MenuPortales.estado=:estado AND t_MenuPortales.idMenuPortalPadre IS NULL ')
-                ->addParams([':estado' => self::APROBADO, ':portal' => $portal])
+    public static function traerMenuPortalesIndex($nombrePortal) {
+        $portalModel = Portal::encontrarModeloPorNombre($nombrePortal);
+
+        $query = MenuPortales::find()->select(['idMenuPortales', 'nombre', 'icono', 'tipo', 'urlMenu'])
+                ->where('( idPortal=:idPortal and estado=:estado and idMenuPortalPadre is null )')
+                ->addParams([':estado' => self::APROBADO, ':idPortal' => $portalModel->idPortal])
                 ->all();
 
         return $query;
@@ -155,51 +155,6 @@ class MenuPortales extends \yii\db\ActiveRecord {
 
     public function getUrlInterna($nombrePortal){
         return [ "/$nombrePortal/sitio/contenido?menu=".$this->idMenuPortales];
-    }
-    
-    public static function generarMenu($portal){
-        $listMenu = self::traerMenuPortalesIndex($portal);
-        
-        foreach ($listMenu as $objMenu){
-            self::generarSubMenu($objMenu, $portal);
-        }
-    }
-    
-    public static function generarSubMenu($objMenu, $portal){
-        $menuClass = "";
-        $submenuClass = "sub-menu";
-        
-        if($portal!='intranet'){
-            $menuClass = "active";
-            $submenuClass = "submenu sub-$portal";
-        }
-        
-        if(empty($objMenu->objMenuHijos)){
-            if($objMenu->tipo == self::ENLACE_EXTERNO){
-                $urlMenu = Funciones::reemplazarPatronDocumentoUsuario($objMenu->urlMenu);
-                echo "<li class='$menuClass'><a href='$urlMenu' target='_blank'> <i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span> </a></li>";
-            }else if($objMenu->tipo == self::ENLACE_INTERNO){
-                echo "<li class='$menuClass'>";
-                echo \yii\helpers\Html::a("<i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span>", $objMenu->getUrlInterna($portal));
-                echo "</li>";
-            }else{
-                echo "<li class='$menuClass'><a href='#'> <i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span> </a></li>";
-            }
-        }else{
-            echo "<li class='$menuClass'>";
-            if($portal=='intranet'){
-                echo "<a href='javascript:;'><i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span><span class='arrow'></span></a>";
-            }else{
-                echo "<a href='#'><i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span></a>";
-            }
-            
-            echo "<ul class='$submenuClass'>";
-            foreach ($objMenu->objMenuHijos as $objSubMenu){
-                self::generarSubMenu($objSubMenu, $portal);
-            }
-            echo "</ul>";
-            echo "</li>";
-        }
     }
 
     public function getHtmlLink($portal){
