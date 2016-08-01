@@ -47,7 +47,7 @@ use app\modules\intranet\models\MenuPortales;
         <?=  html::textInput ( 'submenu', $value = $nombreSubmenu,
           $options = ['id' => 'submenu', 'class' => 'col-md-6 form-control ', 'disabled' => true] ) ?>
         <div class="input-group-addon">
-          <a href="#" data-toggle="modal"  data-role="asignar-padre"> <!--data-target="#widget-submenu-portal"-->
+          <a href="#" data-toggle="modal"  data-role="asignar-padre" data-menu-portal = "<?= $model->idMenuPortales ?>">
             asignar
           </a>
         </div>
@@ -115,21 +115,12 @@ use app\modules\intranet\models\MenuPortales;
           }
       }
 
-
-
       $this->registerJs("
           $( document ).ready(function() {
-
-
-
-
 
             valor = $('#menuportales-tipo').val();//parseInt($('#menuportales-tipo').val());
             if(".$bandera."){
               setInputUrl( valor );
-              $('#item$iditem').css('background-color', '#0aa699')
-              $('#item$iditem').css('color', 'white')
-              $('#button$iditem').text('asignado')
             }
           });
 

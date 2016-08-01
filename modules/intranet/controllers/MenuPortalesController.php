@@ -105,15 +105,24 @@ class MenuPortalesController extends Controller {
         $dataProviderModuloContenido = $searchModel->search(Yii::$app->request->queryParams);
 
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['detalle', 'id' => $model->idMenuPortales]);
-        } else {
-            return $this->render('actualizar', [
-                        'model' => $model,
-                        'searchModel' => $searchModel,
-                        'dataProviderModuloContenido' => $dataProviderModuloContenido
-            ]);
+        if ($model->load(Yii::$app->request->post())) {
+
+            if ($model->tipo == MenuPortales::SIN_ENLACE) {
+              $model->urlMenu = NULL;
+            }
+
+            if ( $model->save()) {
+              return $this->redirect(['detalle', 'id' => $model->idMenuPortales]);
+            }
+
         }
+
+        return $this->render('actualizar', [
+                    'model' => $model,
+                    'searchModel' => $searchModel,
+                    'dataProviderModuloContenido' => $dataProviderModuloContenido
+        ]);
+
     }
 
     /**
@@ -134,7 +143,6 @@ class MenuPortalesController extends Controller {
     public function actionRenderModal($idPortal)
     {
       if (Yii::$app->request->isAjax) {
-
         $respond = [
             'result' => 'ok',
             'response' => $this->renderAjax('_modalSubMenu', [
