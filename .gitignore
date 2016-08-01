@@ -26,3 +26,5 @@ phpunit.phar
 /web/img/fotosperfil/*
 /web/img/imagenesFondo/*
 /web/assets/
+/web/img/imagenesContenidos/*
+/web/img/gruposInteres/*
