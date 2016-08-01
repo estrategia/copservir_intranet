@@ -16,7 +16,7 @@ return [
         'claseColor' => ['info', 'succes', 'danger']
     ],
     'contenido' => [
-        'diasNoticias' => 7,
+        'diasNoticias' => 20,
         'aniosBusqueda' => 5,
         'imagen' => [
             'ancho' => 1024,//pixeles
@@ -54,7 +54,7 @@ return [
         'codigoSeguridad' => 'CopservirLaMejorEmpresaParaTrabajar2016',
         'tarjetaMas' => 'http://siidesarrollo.copservir.com/tarjetamas/WsTarjetaMas/ws',
         //'tarjetaMas' => 'http://sii.copservir.com/tarjetamas/WsTarjetaMas/ws',
-        'persona' => 'http://localhost/copservir/wsMultiportal/persona',
+        'persona' => 'http://192.168.0.25/copservir/wsMultiportal/persona',
         //'persona' => 'http://sii.copservir.com/gestionhumana/wsMultiportal/persona',
     ],
     'usuario' => [
