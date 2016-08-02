@@ -44,6 +44,7 @@ $srcYt = Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
+                          <!--
                             <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
                               <ul class="dropdown-menu">
                                 <li><a href="#">Page 1-1</a></li>
@@ -60,9 +61,9 @@ $srcYt = Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
                             </li>
                             <li><?= Html::a('Page 2', ['#']) ?></li>
                             <li><?= Html::a('page 3', ['#']) ?></li>
-                            <li><?= Html::a('Page 4', ['#']) ?></li>
+                            <li><?= Html::a('Page 4', ['#']) ?></li>-->
 
-                            <!--<?php //MenuPortales::generarMenu(Yii::$app->controller->module->id) ?>-->
+                            <?= MenuPortales::generarMenu(Yii::$app->controller->module->id) ?>
                         </ul>
                     </div>
                 </div>
