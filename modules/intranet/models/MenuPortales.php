@@ -227,13 +227,22 @@ class MenuPortales extends \yii\db\ActiveRecord {
         return $html;
     }
 
-    public static function RenderItemAdmin($item, $hijos, $html, $idPortal) {
-        $html = $html . '<a href="#' . $item->idMenuPortales . '" class="list-group-item" data-toggle="collapse" id="item' . $item->idMenuPortales . '">
-                        <i class="glyphicon glyphicon-chevron-right"></i>' . $item->nombre . '
-                        <button href="#" data-role = "asignar-submenu-portal" data-menu = "' . $item->idMenuPortales . '"
-                        data-texto = "' . $item->nombre . '" class="btn btn-mini btn-success pull-right" id="button' . $item->idMenuPortales . '">
-                          asignar
-                        </button>
+
+    public static function RenderItemAdmin($item, $hijos, $html, $idPortal)
+    {
+      $htmlBotonAsignar = '';
+      if ($item->tipo == self::SIN_ENLACE) {
+        $htmlBotonAsignar = '<button href="#" data-role = "asignar-submenu-portal" data-menu = "'.$item->idMenuPortales.'"
+        data-texto = "'.$item->nombre.'" class="btn btn-mini btn-success pull-right" id="button'.$item->idMenuPortales.'">
+          asignar
+        </button>';
+      }
+
+      $html = $html .
+                      '
+                      <a href="#'.$item->idMenuPortales.'" class="list-group-item" data-toggle="collapse" id="item'.$item->idMenuPortales.'">
+                        <i class="glyphicon glyphicon-chevron-right"></i>'.$item->nombre.'
+                        '.$htmlBotonAsignar.'
                       </a>
                       <div class="list-group collapse" id="' . $item->idMenuPortales . '">
                         ' . self::crearMenu($hijos, '', $idPortal) . '
