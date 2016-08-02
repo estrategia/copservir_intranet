@@ -583,11 +583,6 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
 
 }
 
-@media (max-width: 767px) {
-.white-piece {
-    z-index: 0;
-}
-}
 
 @media (min-width: 768px) {
   /* Navbar positioning foo */
@@ -627,7 +622,9 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
   .white-piece {
       width: 100%;
       border-radius: 0;
+      z-index: 0;
   }
+  .dropdown-menu.level {margin-left: initial;}
   .navbar-brand {
       float: none;
   }
@@ -705,7 +702,14 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
     display:block;
 }
 
-.submenu {padding:0;border-top:1px solid #fff;}
+
+      
+.nav li ul li ul {
+  right: -250px;
+  top: 0;
+}
+
+.submenu {padding:0;border-top:1px solid #fff;z-index: 1000;}
 .submenu li {padding:20px;cursor:pointer;}
 .submenu li a {color:#fff;}
 .submenu li a:hover {text-decoration:none;}
@@ -729,6 +733,16 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
    background-color: #a50606;
 }
 
+/*.submenu.sub-copservir li {
+   background-color: #3CB04B; 
+   border-left:5px solid #fff;
+}
+
+.submenu.sub-copservir li:hover {
+   background-color: #146f02;
+}*/
+
+
 .default-icon .fa {
     color:#fff;
     padding: 24px 0px;
@@ -746,3 +760,8 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
 }
 .container.coop .navbar-nav > li > a {background-color: #3CB04B;}
 .container.coop .navbar-nav > li > a:hover {background-color: #146f02;} 
+
+.dropdown-menu {background-color: #3CB04B;}
+.dropdown-menu > li > a {color: #fff;}
+.navbar-nav > li > .dropdown-menu {border-top: 3px solid #fff;}
+.dropdown-menu.level {margin-left: 100%;border-radius: 0px 0px 4px 4px;border-top: 3px solid #fff;}

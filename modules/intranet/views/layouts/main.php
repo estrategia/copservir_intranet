@@ -47,7 +47,9 @@ if (!Yii::$app->user->isGuest) {
                     <ul class="nav pull-left notifcation-center visible-xs visible-sm">
                         <li class="dropdown">
                             <a href="#main-menu" data-webarch="toggle-left-side">
-                                <div class="iconset top-menu-toggle-white"></div>
+                                <!-- <div class="iconset top-menu-toggle-white"></div> -->
+                                <i class="fa fa-bars menu-movil" aria-hidden="true" style="color:#357296;"></i>
+
                             </a>
                         </li>
                     </ul>
@@ -55,7 +57,15 @@ if (!Yii::$app->user->isGuest) {
                     <!-- BEGIN LOGO -->
                     <?= Html::a('<img src=' . $srcLogo . ' class="logo" data-src="" data-src-retina="" style="margin: 6px 30px; width: 180px; position:relative"/>', ['sitio/index'], []) ?>
                     <!-- END LOGO -->
-                    <ul class="nav pull-right notifcation-center"></ul>
+                    <ul class="nav pull-right notifcation-center visible-xs visible-sm">
+                        <!--icono menu derecha-->
+                        <li class="dropdown">
+                            <a href="#" class="chat-menu-toggle" data-webarch="toggle-right-side">
+                                <!-- <div class="iconset top-menu-toggle-white"></div> -->
+                                <i class="fa fa-ellipsis-v menu-movil" aria-hidden="true" style="color:#357296;"></i>
+                            </a>
+                        </li>
+                    </ul>
                 </div><!-- END RESPONSIVE MENU TOGGLER -->
 
                 <div class="header-quick-nav" >
@@ -70,14 +80,18 @@ if (!Yii::$app->user->isGuest) {
                             <li>
                               <?= $this->render('emisora', []); ?>
                             </li>
+
+                            <!-- BUSCADOR -->
                             <!--
                             <li class="m-r-10 input-prepend inside search-form no-boarder">
-                                <?= Html::beginForm(['contenido/buscador-noticias'], 'post', ['id' => 'formBuscadorNoticias']); ?>
-                                <span class="add-on">
-                                    <span class="iconset top-search"></span>
+                                <?php // Html::beginForm(['contenido/buscador-noticias'], 'post', ['id' => 'formBuscadorNoticias']); ?>
+                                <span class="add-on pull-left">
+                                    <span class="iconset top-search pull-left"></span>
                                 </span>
-                                <input id="busqueda" name="busqueda" type="text"  class="no-boarder " placeholder="Buscar..." style="width:250px;">
-                                <?= Html::endForm() ?>
+
+                                <input id="busqueda" name="q" type="text"  class="no-boarder " placeholder="Escriba el texto a buscar"
+                                style="width:250px;" size="40">
+                                <?php // Html::endForm() ?>
                             </li>
                             -->
                         </ul>
@@ -123,6 +137,8 @@ if (!Yii::$app->user->isGuest) {
                             </li>
                         </ul>
                     </div> <!-- END CHAT TOGGLER -->
+
+
                 </div><!-- END TOP NAVIGATION MENU -->
             </div><!-- END TOP NAVIGATION BAR -->
         </div>
@@ -243,6 +259,56 @@ if (!Yii::$app->user->isGuest) {
                 </div>
             </div>
             <!-- END PAGE CONTAINER -->
+
+
+<!-- BEGIN CHAT -->
+<div class="chat-window-wrapper">
+    <div id="main-chat-wrapper" class="inner-content">
+        <div class="chat-window-wrapper scroller scrollbar-dynamic" id="chat-users" >
+
+            <div class="side-widget fadeIn">
+               <div class="side-widget-title">Notificaciones</div>
+                <div class="side-widget-content">
+                 <div id="groups-list">
+                    <ul class="groups" >
+                        <li><a href="#"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> Ver todo</a></li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+            <div class="side-widget fadeIn">
+               <div class="side-widget-title">Tareas</div>
+               <div id="favourites-list">
+                <div class="side-widget-content" >
+                    <ul class="groups" >
+                        <li><a href="#"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> Tareas pendientes</a></li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+            <div class="side-widget">
+               <div class="side-widget-title">Detalles de mi cuenta</div>
+                 <div class="side-widget-content" id="friends-list">
+                    <ul class="groups" >
+                      <li><?= Html::a('<i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> Mi cuenta', ['usuario/perfil']) ?></li>
+                      <li><?= Html::a('<i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> Mi menu', ['sitio/menu/']) ?></li>
+                      <li><?= Html::a('<i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> Mi pantalla de inicio',
+                       ['usuario/pantalla-inicio']) ?></li>
+                      <li>
+                          <?= Html::beginForm(['usuario/salir'], 'post', ['id' => 'form-salir']); ?>
+                          <?= Html::submitButton('<i class="fa fa-power-off"></i> Salir', ['class' => 'btn btn-link']); ?>
+                          <?= Html::endForm(); ?>
+                      </li>                        
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END CHAT -->
+
+
         </div>
         <!-- END CONTAINER -->
         <div class="div-modal-denuncio-contenido"></div>

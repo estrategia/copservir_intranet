@@ -10,6 +10,7 @@ use \app\modules\intranet\models\LineaTiempo;
 use \app\modules\intranet\models\Contenido;
 use \app\modules\intranet\models\MeGustaContenidos;
 use \app\modules\intranet\models\ContenidosComentarios;
+use \app\modules\intranet\models\XML2Array;
 use \app\modules\intranet\models\DenunciosContenidos;
 use app\modules\intranet\models\DenunciosContenidosComentarios;
 use app\modules\intranet\models\ContenidoDestino;
@@ -342,22 +343,128 @@ class ContenidoController extends Controller {
         return $this->render('publicaciones', ['listDataProvider' => $dataProvider]);
     }
 
+/*------------------------------------------------------------------------------*/
     /**
      * buscardor de noticias
-     * @param post-> busqueda  | lo que el usuario escribe en la barra de busqueda
-     * @return mixed | redirige a la vista donde se hara la busuqeda pasando como parametros de la url:
-     * busqueda = el patron de busqueda, a = año, m = mes, d = dia
+     * @param post-> q  | lo que el usuario escribe en la barra de busqueda
      */
     public function actionBuscadorNoticias() {
+        /*
         $busqueda = trim(Yii::$app->request->post('busqueda', ''));
         $this->redirect(['busqueda', 'busqueda' => $busqueda, 'a' => '', 'm' => '', 'd' => '']);
+        */
+
+        $q = "";
+        $resultados = "";
+
+        if(isset($_POST["q"]))
+	       $q = $_POST["q"];
+        else if(isset($_GET["q"]))
+	       $q = $_GET["q"];
+
+        if($q != "")
+        {
+          //intranet_publico_collection -> publico
+	        //intranet_grupogerencial_collection -> grupo gerencial
+
+	        $pq = urlencode($q); 					//Cadena a buscar
+	        $site = 'intranet_publico_collection';	//Coleccion
+	        $client = 'default_frontend'; 			//Interfaz de busqueda
+          $output = 'xml_no_dtd'; 				//Formato de salida
+          $filter = 0; 							//Determina si filtra los resultados y los agrupa
+	        $num = 200; 							//Numero de registros a mostrar
+          $ie = 'UTF-8'; 							//Codificacion de la consulta
+          $ulang = 'es'; 							//Lenguaje de la consulta
+	        $entqr = 3; 							//Politica de expansion de la consulta (0 = Ninguna, 1 = Estandar, 2 = Local, 3 = Completa)
+	        $entqrm = 0; 							//Controla las expansiones de los meta-tags para la busqueda (0 = Ninguna, 1 = Nombres, 2 = Valores, 3 = Ambas)
+	        $wc = 20; 								//Numero de comodines
+	        $wc_mc = 1; 							//Considerar los comodines (wildcards)
+
+	        $url = 'http://gsa.copservir.com/search?site='.$site.'&client='.$client.'&output='.$output.'&q='.$pq.'&filter='.$filter.'&num='.$num.'&ie='.$ie.'&ulang='.$ulang.'&entqr='.$entqr.'&entqrm='.$entqrm.'&wc='.$wc.'&wc_mc='.$wc_mc;
+	        $result = file_get_contents($url);
+
+          $rutaArchivo = Yii::getAlias('@app').'/modules/intranet/controllers/XML2Array.php';
+
+	        //require_once \Yii::$app->basePath .'/modules/intranet/controllers/XML2Array.php';//require_once 'XML2Array.php';
+
+	        $dom = new \DomDocument('1.0', 'utf-8');
+	        $dom->loadXML($result);
+
+	        $array = XML2Array::createArray($dom);
+
+	        if(isset($array["GSP"]) && isset($array["GSP"]["Spelling"]["Suggestion"]) && $array["GSP"]["Spelling"]["Suggestion"] != "")
+	        {
+		        $attributes = $array["GSP"]["Spelling"]["Suggestion"]["@attributes"];
+		        $resultados .= "&lt;sugerencia&gt;&lt;nombre&gt;".$attributes["q"]."&lt;/nombre&gt;&lt;/sugerencia&gt; - Tal vez quiso decir <a href='pruebas.php?q=".$attributes["q"]."'>".$attributes["q"]."</a><br />";
+	        }
+
+	        if(isset($array["GSP"]) && isset($array["GSP"]["RES"]) && isset($array["GSP"]["RES"]["R"]))
+	        {
+		        $cantidad = (isset($array["GSP"]["RES"]["M"])) ? $array["GSP"]["RES"]["M"] : 0;
+
+		        if($cantidad == 0)
+		        {
+			        $resultados = "No se han encontrado resultados para la búsqueda.";
+		        }
+		        else if($cantidad == 1)
+		        {
+			        $dato = $array["GSP"]["RES"]["R"];
+			        $resultados .= $this->obtenerDatos($dato);
+		        }
+		        else
+		        {
+			        foreach($array["GSP"]["RES"]["R"] as $dato)
+				      $resultados .= $this->obtenerDatos($dato);
+		        }
+	        }
+	        else
+	        {
+	            $resultados = "No se han encontrado resultados para la búsqueda.";
+	        }
+        }
+
+
+        return $this->render('busqueda', ['resultados' => $resultados, 'patron' => $q]);
     }
+
+    function obtenerDatos($dato)
+    {
+    	$ss = (isset($dato["S"])) ? str_replace(array("<br>", "<br />", "<br/>"), array("", "", ""), $dato["S"]) : ""; //Fragmento de texto que coincide con la busqueda
+    	$enlace = "";
+
+    	if(isset($dato["U"]))
+    		$enlace = "<a href='".$dato["U"]."' target='_blank'>Documento tipo: <b>".$this->tipoEnlace($dato["U"])."</b></a> -_- ".$ss."<br />";
+    	else if(isset($dato["UE"]))
+    		$enlace = "<a href='".$dato["UE"]."' target='_blank'> Documento tipo: <b>".$this->tipoEnlace($dato["UE"])."</b></a> -_- ".$ss." - <b></b><br />";
+
+    	return $enlace;
+    }
+
+    function tipoEnlace($url)
+    {
+    	$patron_con = '/^http:\/\/www\.copservir\.com\/intranet\/contenido\//';
+    	$patron_doc = '/^http:\/\/www\.copservir\.com\/intranet\/documento\//';
+
+    	$arr_contenido = preg_match($patron_con, $url, $coincidencias_con);
+
+    	if(sizeof($coincidencias_con) > 0)
+    	{
+    		return "CONTENIDO";
+    	}
+    	else
+    	{
+    		$arr_documento = preg_match($patron_doc, $url, $coincidencias_doc);
+    		return (sizeof($coincidencias_doc) > 0) ? "DOCUMENTO" : "ARCHIVO";
+    	}
+    }
+/*------------------------------------------------------------------------------*/
 
     /**
      * buscardor de noticias
      * @param busqueda = el patron de busqueda, a = año, m = mes, d = dia
      * @return mixed | retorna la vista con las noticias encontradas
      */
+     /*
     public function actionBusqueda($busqueda, $a, $m, $d) {
 
         $flag = '';  // indica si la url lleva año, mes y dia
@@ -399,12 +506,13 @@ class ContenidoController extends Controller {
 
         return $this->render('busqueda', ['resultados' => $resultados, 'url' => $url, 'flag' => $flag, 'valorGrafica' => $valorGrafica, 'patron' => $busqueda]);
     }
-
+    */
     /**
      * funcion auxiliar para crear la url para generar la imagen y su json para mapearla
      * @param valorGrafica = valores que tomara la grafica, flag = bandera para poner el nombe de los meses
      * @return arreglo con las dos urls
      */
+     /*
     public function makeUrlChart($valorGrafica, $flag) {
         /*
           > chof = - para mapear => json
@@ -422,7 +530,6 @@ class ContenidoController extends Controller {
           > chds = limites minimos y maximos de cada serie
 
           > chxl = etiquetas
-         */
 
 
         $url = 'https://chart.googleapis.com/chart?cht=s&amp;chs=908x70&amp;chxt=x&amp;chm=o,0aa699,0,0,20.0,0&amp;';
@@ -466,7 +573,6 @@ class ContenidoController extends Controller {
             $maximo = 0;
         }
 
-
         $chd = substr($chd, 0, -1);
 
         // se defienen los limites
@@ -483,7 +589,7 @@ class ContenidoController extends Controller {
 
         return ['url' => $url, 'urlJson' => $urlJson];
     }
-
+    */
     /**
      * accion donde el usuario envia una publicacion a un amigo
      * @param post = los usuarios que selecciono para enviar la publicación

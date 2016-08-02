@@ -72,11 +72,11 @@ $completo = isset($completo) ? $completo : false;
                                     <div class="overlayer bottom-left fullwidth">
                                         <div class="overlayer-wrapper">
                                             <div class="p-l-20 p-r-20 p-b-20 p-t-20" style="text-align:center;">
-                                                <h1 style="color:#fff !important;"><span class="semi-bold"><?= $mensaje ?></span></h1>
+                                                <h1 style="color:#fff !important;line-height: 85px;background-color: rgba(0, 0, 0, 0.17)"><span class="semi-bold"><?= $mensaje ?></span></h1>
                                             </div>
                                         </div>
                                     </div>
-                                    <img src="<?= Yii::getAlias('@web') . "/img/imagenesContenidos/" . $imagenes->rutaArchivo ?>" class="img-thumbnail"/>
+                                    <img src="<?= Yii::getAlias('@web') . "/img/imagenesContenidos/" . $imagenes->rutaArchivo ?>" class="img-thumbnail publicacion"/>
                                 </div>
 
                         </a>
