@@ -433,7 +433,7 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
   min-width: 100%;
 }
 .nav > li > a:focus, .nav > li > a:hover {
-  background-color: #146f02;
+  background-color: #EF4637;
 }
 
 .acerca-home {
@@ -671,10 +671,10 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
     height: 80px;
   }
   .navbar-toggle .icon-bar {
-      background-color: #3CB04B;
+      background-color: #CD242A;
   }
   .navbar-toggle {
-      border: 1px solid #3CB04B;
+      border: 1px solid #CD242A;
       margin-top: 12px;
   }
   .subscribe .form-group {
@@ -694,12 +694,13 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
   }
   .navbar.navbar-coop.navbar-static-top.nav-green .navbar-brand {margin-left: 0% !important;}
   .carousel.banner-copservir {margin-top: 0px;}
-  .navbar-toggle {float: left;}
+ 
 .navbar.navbar-coop.navbar-static-top.nav-green .container-fluid.coop {width: 100% !important;}
   .navbar.navbar-coop.navbar-static-top.nav-green .navbar-nav {margin-left: 0px !important;}
 
   .espacios{display: none;}
   .bannerTarjeta {margin-top: 0px;}
+  .navbar.navbar-coop.navbar-static-top .navbar-nav {margin-left: 0%;}
 }
 
 @media (min-width: 768px) {
@@ -764,9 +765,9 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
     min-width:250px;
     list-style:none;
 }
-.nav li:hover > ul {
+/*.nav li:hover > ul {
     display:block;
-}
+}*/
 
 .submenu {padding:0;border-top:1px solid #fff;z-index:100;}
 .submenu li {padding:20px;cursor:pointer;}
@@ -837,3 +838,18 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
 }
 
 .list-cop{list-style-image: url('../img/multiportal/copservir/icono.PNG');}
+
+.navbar-nav > li > .dropdown-menu.tarjetaMas {
+    background-color: #CD242A;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+}
+
+.dropdown-menu.tarjetaMas > li > a {color:#fff;padding: 15px 20px;}
+.dropdown-menu.tarjetaMas > li > a:hover {color:#CD242A !important;}
+.nav .open > a {color: #CD242A;}
+
+.nav .open > a, .nav .open > a:hover{
+    background-color: #EF4637 !important;
+    color: #fff !important;
+}

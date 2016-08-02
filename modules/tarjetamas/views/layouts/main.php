@@ -29,6 +29,7 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/tarjetamas/logo-tarjeta-mas.png
             <nav class="navbar navbar-coop navbar-static-top company-bgcolor-1">
                 <div class="white-piece tarjetamas"></div>
                 <div class="container">
+
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                             <span class="sr-only">Toggle navigation</span>
@@ -38,7 +39,9 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/tarjetamas/logo-tarjeta-mas.png
                         </button>
                         <?= Html::a("<img src='$srcLogo' width='200'>", ['/tarjetamas/sitio/index'], ['class' => 'navbar-brand tarjetamas']) ?>
                     </div>
-                    <div id="navbar" class="navbar-collapse collapse tarjeta-mas">
+
+                        <!--menu viejo-->
+                    <!--<div id="navbar" class="navbar-collapse collapse tarjeta-mas">
                         <ul class="nav navbar-nav">
                             <li class="active">
                                 <?= Html::a('Tarjeta M&aacute;s', ['/tarjetamas/sitio/informacion']) ?>
@@ -64,7 +67,35 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/tarjetamas/logo-tarjeta-mas.png
                             </li>
                             <?php MenuPortales::generarMenu(Yii::$app->controller->module->id) ?>
                         </ul>
+                    </div> --> 
+
+
+                    <!--Menu nuevo-->
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown">
+                            <?= Html::a('Tarjeta M&aacute;s <span class="caret"></span>', ['/tarjetamas/sitio/informacion'],
+                                        ['class'=>'dropdown-toggle','data-toggle'=>'dropdown']) ?>
+                              <ul class="dropdown-menu tarjetaMas">
+                                <li><?= Html::a('Términos y condiciones', ['/tarjetamas/sitio/terminos']) ?></li>
+                                <li><?= Html::a('Política de privacidad', ['/tarjetamas/sitio/politicas']) ?></li>
+                              </ul>
+                            </li>
+                            <li><?= Html::a('Preguntas frecuentes', ['/tarjetamas/sitio/preguntas']) ?></li>
+                            <li><?= Html::a('PQRS', ['/tarjetamas/sitio/atencion']) ?></li></li>
+                            <li class="dropdown">
+                            <?= Html::a('Mi cuenta <span class="caret"></span>', ['/tarjetamas/sitio/informacion'],
+                                        ['class'=>'dropdown-toggle','data-toggle'=>'dropdown']) ?>
+                              <ul class="dropdown-menu tarjetaMas">
+                                <li><?= Html::a('Iniciar Sesión', ['/tarjetamas/usuario/autenticar']) ?></li>
+                                <li><?= Html::a('Registrarse', ['/tarjetamas/usuario/registro']) ?></li>
+                              </ul>
+                            </li>
+
+                            <?php MenuPortales::generarMenu(Yii::$app->controller->module->id) ?>
+                        </ul>
                     </div>
+
                 </div>
             </nav>
         </div>
