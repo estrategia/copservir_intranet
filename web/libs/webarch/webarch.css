@@ -10233,3 +10233,8 @@ span.fancytree-active span.fancytree-title {
 .carousel-control.right {background-image: linear-gradient(to right,rgba(0,0,0,.0001) 0,rgba(0,0,0,0.05) 100%);}
 .carousel-control {width: 4%;}
 .menu-movil.fa::before { font-size: 27px;}
+
+.img-thumbnail.publicacion {
+  width: 163px !important;
+  height: 145px !important;
+}
