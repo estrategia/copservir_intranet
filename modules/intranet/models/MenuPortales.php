@@ -45,7 +45,7 @@ class MenuPortales extends \yii\db\ActiveRecord {
             [['idPortal'], 'exist', 'skipOnError' => true, 'targetClass' => Portal::className(), 'targetAttribute' => ['idPortal' => 'idPortal']],
             ['idMenuPortalPadre', 'validateUrlPadre'],
             ['idMenuPortalPadre', 'validateIdPadre'],
-            [['idMenuPortalPadre'], 'exist', 'skipOnError' => true, 'targetClass' => self::className(), 'targetAttribute' => [ 'idMenuPortalPadre' =>  'idMenuPortales']],
+            [['idMenuPortalPadre'], 'exist', 'skipOnError' => true, 'targetClass' => self::className(), 'targetAttribute' => [ 'idMenuPortalPadre' => 'idMenuPortales']],
         ];
     }
 
@@ -68,73 +68,70 @@ class MenuPortales extends \yii\db\ActiveRecord {
 
     public function validateIdPadre($attribute, $params) {
 
-      $padre = self::findOne(['idMenuPortales' => $this->idMenuPortalPadre]);
+        $padre = self::findOne(['idMenuPortales' => $this->idMenuPortalPadre]);
 
-      if( $this->idPortal !== $padre->idPortal ) {
-        $this->addError($attribute, 'Los portales no corresponden');
-      }
+        if ($this->idPortal !== $padre->idPortal) {
+            $this->addError($attribute, 'Los portales no corresponden');
+        }
     }
 
     public function validateUrlPadre($attribute, $params) {
 
-      $padre = self::findOne(['idMenuPortales' => $this->idMenuPortalPadre]);
+        $padre = self::findOne(['idMenuPortales' => $this->idMenuPortalPadre]);
 
-      if( $padre->tipo !== self::SIN_ENLACE ) {
-        $this->addError($attribute, 'El menu padre no puede tener enlace');
-      }
+        if ($padre->tipo !== self::SIN_ENLACE) {
+            $this->addError($attribute, 'El menu padre no puede tener enlace');
+        }
     }
+
     // RELACIONES
 
     public function getObjPortal() {
         return $this->hasOne(Portal::className(), ['idPortal' => 'idPortal']);
     }
 
-    public function getObjMenuPadre()
-    {
-      return $this->hasOne(self::className(), ['idMenuPortales' => 'idMenuPortalPadre']);
+    public function getObjMenuPadre() {
+        return $this->hasOne(self::className(), ['idMenuPortales' => 'idMenuPortalPadre']);
     }
 
-    public function getObjMenuHijos()
-    {
-      return $this->hasMany(self::className(), ['idMenuPortalPadre' => 'idMenuPortales']);
+    public function getObjMenuHijos() {
+        return $this->hasMany(self::className(), ['idMenuPortalPadre' => 'idMenuPortales']);
     }
 
     // CONSULTAS
 
-    public static function traerMenuPortalesIndex($nombrePortal) {
-        $portalModel = Portal::encontrarModeloPorNombre($nombrePortal);
-
-        $query = MenuPortales::find()->select(['idMenuPortales', 'nombre', 'icono', 'tipo', 'urlMenu'])
-                ->where('( idPortal=:idPortal and estado=:estado and idMenuPortalPadre is null )')
-                ->addParams([':estado' => self::APROBADO, ':idPortal' => $portalModel->idPortal])
+    public static function traerMenuPortalesIndex($portal) {
+        $query = MenuPortales::find()
+                ->select(['t_MenuPortales.idMenuPortales', 't_MenuPortales.nombre', 't_MenuPortales.icono', 't_MenuPortales.tipo', 't_MenuPortales.urlMenu'])
+                ->joinWith(['objPortal'])
+                ->where('m_Portal.nombrePortal=:portal AND t_MenuPortales.estado=:estado AND t_MenuPortales.idMenuPortalPadre IS NULL ')
+                ->addParams([':estado' => self::APROBADO, ':portal' => $portal])
                 ->all();
 
         return $query;
     }
 
     /**
-    * Consulta para obtener los padres del menu
-    * @return modelos MenuPortales
-    */
-    public static function getPadres($idPortal)
-    {
-      return self::find()->where('idMenuPortalPadre is null and idPortal =:idPortal ') //and idMenuPortales !=:idMenuPortales
-      ->addParams([':idPortal' => $idPortal])
-      ->all();
+     * Consulta para obtener los padres del menu
+     * @return modelos MenuPortales
+     */
+    public static function getPadres($idPortal) {
+        return self::find()->where('idMenuPortalPadre is null and idPortal =:idPortal ') //and idMenuPortales !=:idMenuPortales
+                        ->addParams([':idPortal' => $idPortal])
+                        ->all();
     }
 
     /**
-    * Consulta para obtener los hijos del un modelo Menu
-    * @return modelos MenuPortales
-    */
-    public static function getHijos($idMenuPortales, $idPortal)
-    {
-      $query = self::find()
-      ->where("( idMenuPortalPadre =:idMenuPortales and idPortal =:idPortal)") //and idMenuPortales !=:idMenuPortales
-      ->addParams([':idMenuPortales'=> $idMenuPortales, ':idPortal' => $idPortal])
-      ->all();
+     * Consulta para obtener los hijos del un modelo Menu
+     * @return modelos MenuPortales
+     */
+    public static function getHijos($idMenuPortales, $idPortal) {
+        $query = self::find()
+                ->where("( idMenuPortalPadre =:idMenuPortales and idPortal =:idPortal)") //and idMenuPortales !=:idMenuPortales
+                ->addParams([':idMenuPortales' => $idMenuPortales, ':idPortal' => $idPortal])
+                ->all();
 
-      return $query;
+        return $query;
     }
 
     // FUNCIONES
@@ -146,100 +143,90 @@ class MenuPortales extends \yii\db\ActiveRecord {
         }
     }
 
-    public static function getListaPortales()
-    {
-      $opciones = Portal::find()->asArray()->all();
-      return ArrayHelper::map($opciones, 'idPortal', 'nombrePortal');
+    public static function getListaPortales() {
+        $opciones = Portal::find()->asArray()->all();
+        return ArrayHelper::map($opciones, 'idPortal', 'nombrePortal');
     }
 
     public static function traerMenuPortal($nombrePortal, $idMenu) {
         $objMenu = self::find()
                 ->joinWith(['objPortal'])
-                ->where("m_Portal.nombrePortal=:portal AND t_MenuPortales.idMenuPortales=:menu AND t_MenuPortales.estado=:estado",
-                        [':portal'=>  $nombrePortal,':menu'=>$idMenu, ':estado' => self::APROBADO]);
+                ->where("m_Portal.nombrePortal=:portal AND t_MenuPortales.idMenuPortales=:menu AND t_MenuPortales.estado=:estado", [':portal' => $nombrePortal, ':menu' => $idMenu, ':estado' => self::APROBADO]);
 
         return $objMenu->one();
         //var_dump($objMenu->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);exit();
     }
 
-    public function getUrlInterna($nombrePortal){
-        return [ "/$nombrePortal/sitio/contenido?menu=".$this->idMenuPortales];
+    public function getUrlInterna($nombrePortal) {
+        return [ "/$nombrePortal/sitio/contenido?menu=" . $this->idMenuPortales];
     }
 
-    public function getHtmlLink($portal){
+    public static function generarMenu($portal) {
+        $listMenu = self::traerMenuPortalesIndex($portal);
 
-      $enlace = '';
-
-      if($this->esExterno()){
-          $urlMenu = Funciones::reemplazarPatronDocumentoUsuario($this->urlMenu);
-
-            $enlace =  "<a href='$urlMenu' target='_blank'> <i class='$this->icono'></i> <span class='title'>$this->nombre</span> </a>";
-
-
-      }else{
-
-          $enlace =  \yii\helpers\Html::a('<i class="' . $this->icono . '"></i> <span class="title">' . $this->nombre .
-           '</span>', $this->getUrlInterna($portal), []);
-      }
-        echo
-        '<li class="">
-          '.$enlace.'
-          <ul class="sub-menu">
-          ';
-
-          foreach ($this->objMenuHijos as $subItem) {
-              $subItem->getHtmlLink($portal);
-          }
-
-          echo '
-          </ul>
-         </li>'
-         ;
-    }
-
-    public function getHtmlLinkPortales($portal){
-
-        echo
-        '<li class="active">
-        <i class="' . $this->icono . '"></i>
-        <a>' . $this->nombre .'</a>
-        <ul class="submenu sub-poveedor">
-        ';
-        foreach ($this->objMenuHijos as $subItem) {
-            $subItem->getHtmlLink($portal);
+        foreach ($listMenu as $objMenu) {
+            self::generarSubMenu($objMenu, $portal);
         }
-        echo '
-        </ul>
-        </li>
-        ';
-
     }
 
-    public static function construirMenuModal($idPortal)
-    {
-      $padres = self::getPadres($idPortal);
-      $html = self::crearMenu($padres, ' ', $idPortal);
+    public static function generarSubMenu($objMenu, $portal) {
+        $menuClass = "";
+        $submenuClass = "sub-menu";
 
-      return $html;
-
-    }
-
-
-    public static function crearMenu($padres, $html, $idPortal)
-    {
-      if (empty($padres)) {
-        $html = $html . '';
-
-      }else {
-        foreach ($padres as $item) {
-          $hijos = self::getHijos($item->idMenuPortales, $idPortal);
-            $html = self::RenderItemAdmin($item, $hijos, $html, $idPortal);
+        if ($portal != 'intranet') {
+            $menuClass = "active";
+            $submenuClass = "submenu sub-$portal";
         }
-      }
 
+        if (empty($objMenu->objMenuHijos)) {
+            if ($objMenu->tipo == self::ENLACE_EXTERNO) {
+                $urlMenu = Funciones::reemplazarPatronDocumentoUsuario($objMenu->urlMenu);
+                echo "<li class='$menuClass'><a href='$urlMenu' target='_blank'> <i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span> </a></li>";
+            } else if ($objMenu->tipo == self::ENLACE_INTERNO) {
+                echo "<li class='$menuClass'>";
+                echo \yii\helpers\Html::a("<i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span>", $objMenu->getUrlInterna($portal));
+                echo "</li>";
+            } else {
+                echo "<li class='$menuClass'><a href='#'> <i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span> </a></li>";
+            }
+        } else {
+            echo "<li class='$menuClass'>";
+            if ($portal == 'intranet') {
+                echo "<a href='javascript:;'><i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span><span class='arrow'></span></a>";
+            } else {
+                echo "<a href='#'><i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span></a>";
+            }
 
-      return $html;
+            echo "<ul class='$submenuClass'>";
+            foreach ($objMenu->objMenuHijos as $objSubMenu) {
+                self::generarSubMenu($objSubMenu, $portal);
+            }
+            echo "</ul>";
+            echo "</li>";
+        }
     }
+
+    public static function construirMenuModal($idPortal) {
+        $padres = self::getPadres($idPortal);
+        $html = self::crearMenu($padres, ' ', $idPortal);
+
+        return $html;
+    }
+
+    public static function crearMenu($padres, $html, $idPortal) {
+        if (empty($padres)) {
+            $html = $html . '';
+        } else {
+            foreach ($padres as $item) {
+                $hijos = self::getHijos($item->idMenuPortales, $idPortal);
+                $html = self::RenderItemAdmin($item, $hijos, $html, $idPortal);
+            }
+        }
+
+
+        return $html;
+    }
+
 
     public static function RenderItemAdmin($item, $hijos, $html, $idPortal)
     {
@@ -250,18 +237,18 @@ class MenuPortales extends \yii\db\ActiveRecord {
           asignar
         </button>';
       }
-      
+
       $html = $html .
                       '
                       <a href="#'.$item->idMenuPortales.'" class="list-group-item" data-toggle="collapse" id="item'.$item->idMenuPortales.'">
                         <i class="glyphicon glyphicon-chevron-right"></i>'.$item->nombre.'
                         '.$htmlBotonAsignar.'
                       </a>
-                      <div class="list-group collapse" id="'.$item->idMenuPortales.'">
+                      <div class="list-group collapse" id="' . $item->idMenuPortales . '">
                         ' . self::crearMenu($hijos, '', $idPortal) . '
-                      </div>
-          ';
+                      </div>';
 
-      return $html;
+        return $html;
     }
+
 }

@@ -25,3 +25,6 @@ phpunit.phar
 /config/db.php
 /web/img/fotosperfil/*
 /web/img/imagenesFondo/*
+/web/assets/*
+/web/img/imagenesContenidos/*
+/web/img/gruposInteres/*
