@@ -44,10 +44,25 @@ $srcYt = Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                          <!-- <li><?= Html::a('Intranet', ['#']) ?></li>
-                          <li><?= Html::a('Asociado', ['#']) ?></li>
-                          <li><?= Html::a('Proveedor', ['#']) ?></li> -->
-                            <?php MenuPortales::generarMenu(Yii::$app->controller->module->id) ?>
+                            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
+                              <ul class="dropdown-menu">
+                                <li><a href="#">Page 1-1</a></li>
+                                <li><a href="#">Page 1-2</a></li>
+                                <li class="dropdown">
+                                  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1-2-1</a>
+                                      <ul class="dropdown-menu level">
+                                          <li><a href="#">Page 1-1</a></li>
+                                          <li><a href="#">Page 1-2</a></li>
+                                          <li><a href="#">Page 1-3</a></li>
+                                      </ul>
+                                </li>
+                              </ul>
+                            </li>
+                            <li><?= Html::a('Page 2', ['#']) ?></li>
+                            <li><?= Html::a('page 3', ['#']) ?></li>
+                            <li><?= Html::a('Page 4', ['#']) ?></li>
+
+                            <!--<?php //MenuPortales::generarMenu(Yii::$app->controller->module->id) ?>-->
                         </ul>
                     </div>
                 </div>

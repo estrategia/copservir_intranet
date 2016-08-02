@@ -62,7 +62,7 @@ if (!Yii::$app->user->isGuest) {
                         <li class="dropdown">     
                             <a href="#" class="chat-menu-toggle" data-webarch="toggle-right-side">
                                 <!-- <div class="iconset top-menu-toggle-white"></div> -->
-                                <i class="fa fa-plus-square-o menu-movil" aria-hidden="true" style="color:#357296;"></i>
+                                <i class="fa fa-ellipsis-v menu-movil" aria-hidden="true" style="color:#357296;"></i>
                             </a>
                         </li> 
                     </ul>
