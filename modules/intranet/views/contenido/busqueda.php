@@ -85,16 +85,17 @@ $( document ).ready(function() {
 */
 ?>
 <!-- NUEVO BUSCADOR -->
-<!--<div class="col-md-12">
+
+<div class="col-md-12">
 <?php
 
- //s$items = explode("<br />", $resultados);
+ $items = explode("<br />", $resultados);
 
 ?>
-<h3><?php // Html::encode('resultados para: '.$patron) ?></h3>
-<?php //foreach ($items as $item): ?>
-  <?php //if (!empty($item)): ?>
-  <?php //$itemDividido = explode("-_-", $item); ?>
+<h3><?=  Html::encode('resultados para: '.$patron) ?></h3>
+<?php foreach ($items as $item): ?>
+  <?php if (!empty($item)): ?>
+  <?php $itemDividido = explode("-_-", $item); ?>
   <ul class="cbp_tmtimeline">
     <li>
       <div class="cbp_tmtime">
@@ -102,17 +103,17 @@ $( document ).ready(function() {
       <div class="cbp_tmicon primary animated bounceIn"> <i class="fa fa-comments"></i> </div>
       <div class="cbp_tmlabel">
         <div class="p-t-10 p-l-30 p-r-20 p-b-20 xs-p-r-10 xs-p-l-10 xs-p-t-5">
-          <?php // $itemDividido[0] ?>
+          <?=  $itemDividido[0] ?>
           <p class="m-t-5 dark-text">
-            <?php // if (count($itemDividido)>1): ?>
-              <?php // $itemDividido[1] ?>
-            <?php //endif; ?>
+            <?php  if (count($itemDividido)>1): ?>
+              <?=  $itemDividido[1] ?>
+            <?php endif; ?>
           </p>
         </div>
       </div>
     </li>
   </ul>
-  <?php // endif; ?>
-<?php // endforeach; ?>
+  <?php  endif; ?>
+<?php  endforeach; ?>
 </div>
--->
+<!-- -->

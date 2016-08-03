@@ -87,11 +87,12 @@ class UsuarioController extends \yii\web\Controller {
      */
 
     public function actionAutenticar() {
-
+        
         $this->layout = 'loginLayout';
 
         if (!\Yii::$app->user->isGuest) {
             return $this->redirect(['sitio/index']);
+            
         }
 
         $model = new LoginForm();
@@ -105,9 +106,11 @@ class UsuarioController extends \yii\web\Controller {
             $objConexionesUsuario->fechaConexion = date('YmdHis');
             $objConexionesUsuario->ip = $objConexionesUsuario->getRealIp(); //Yii::$app->getRequest()->getUserIP() ;
             $objConexionesUsuario->save();
+            
 
           return $this->redirect(['sitio/index']);
         }
+     
         return $this->render('autenticar', [
                     'model' => $model,
         ]);

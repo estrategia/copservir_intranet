@@ -9235,7 +9235,7 @@ body.rtl .footer-widget {
   .page-sidebar {
     position: fixed;
     width: 260px;
-    background-color: #1b1e24 !important;
+    /*background-color: #1b1e24 !important;*/
     z-index: auto;
     visibility: hidden;
     opacity: 0;
@@ -9284,12 +9284,12 @@ body.rtl .footer-widget {
   }
   .page-sidebar .page-sidebar-wrapper > ul > li > a {
     padding: 11.5px 31px 11.5px 31px;
-    color: #8B91A0;
+    color: #fff;
   }
   .page-sidebar .page-sidebar-wrapper > ul > li.open > a,
   .page-sidebar .page-sidebar-wrapper > ul > li > a:hover,
   .page-sidebar .page-sidebar-wrapper > ul > li:hover > a {
-    background: #1b1e24;
+    background: #367FA9;
   }
   .page-sidebar .page-sidebar-wrapper > ul > li.open > a,
   .page-sidebar .page-sidebar-wrapper > ul > li > a:hover,
@@ -9297,7 +9297,7 @@ body.rtl .footer-widget {
     padding: 11.5px 31px 11.5px 31px;
   }
   .page-sidebar .page-sidebar-wrapper > ul > li > a i {
-    color: #8B91A0;
+    color: #fff;
   }
   .page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu {
     position: relative;
@@ -10238,3 +10238,5 @@ span.fancytree-active span.fancytree-title {
   width: 163px !important;
   height: 145px !important;
 }
+
+.form-group.field-loginform-rememberme label{display: initial;margin-left: 0px;}
