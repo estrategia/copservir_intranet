@@ -174,20 +174,24 @@ class MenuPortales extends \yii\db\ActiveRecord {
         $submenuClass = "sub-menu";
 
         if ($portal != 'intranet') {
-            $menuClass = "active";
-            $submenuClass = "submenu sub-$portal";
+            $menuClass = "dropdown";
+            $submenuClass = "dropdown-menu";
         }
 
         if (empty($objMenu->objMenuHijos)) {
             if ($objMenu->tipo == self::ENLACE_EXTERNO) {
                 $urlMenu = Funciones::reemplazarPatronDocumentoUsuario($objMenu->urlMenu);
-                echo "<li class='$menuClass'><a href='$urlMenu' target='_blank'> <i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span> </a></li>";
+                echo "<li class='$menuClass'><a class='dropdown-toggle' data-toggle='dropdown' href='$urlMenu'
+                target='_blank'> <i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span> </a>
+                </li>";
             } else if ($objMenu->tipo == self::ENLACE_INTERNO) {
                 echo "<li class='$menuClass'>";
-                echo \yii\helpers\Html::a("<i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span>", $objMenu->getUrlInterna($portal));
+                echo \yii\helpers\Html::a("<i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span>",
+                 $objMenu->getUrlInterna($portal), ['class'=>$menuClass,  'data-toggle'=>'dropdown']);
                 echo "</li>";
             } else {
-                echo "<li class='$menuClass'><a href='#'> <i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span> </a></li>";
+                echo "<li class='$menuClass'><a class='dropdown-toggle' data-toggle='dropdown' href='#'>
+                <i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span> </a></li>";
             }
         } else {
             echo "<li class='$menuClass'>";
@@ -197,12 +201,16 @@ class MenuPortales extends \yii\db\ActiveRecord {
                 echo "<a href='#'><i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span></a>";
             }
 
+            if ($objMenu->objMenuHijos && $objMenu->idMenuPortalPadre != NULL) {
+              $submenuClass = 'dropdown-menu level';
+            }
             echo "<ul class='$submenuClass'>";
+
             foreach ($objMenu->objMenuHijos as $objSubMenu) {
                 self::generarSubMenu($objSubMenu, $portal);
             }
-            echo "</ul>";
-            echo "</li>";
+          echo "</ul>";
+          echo "</li>";
         }
     }
 

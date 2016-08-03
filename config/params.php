@@ -57,6 +57,7 @@ return [
         'persona' => 'http://localhost/copservir/wsMultiportal/persona',
         //'persona' => 'http://192.168.0.30/copservir/wsMultiportal/persona',
         //'persona' => 'http://sii.copservir.com/gestionhumana/wsMultiportal/persona',
+
     ],
     'usuario' => [
       'tiempoRecuperarClave' => 1 // dias
