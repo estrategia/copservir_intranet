@@ -33,6 +33,7 @@ $srcYt = Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
             <nav class="navbar navbar-coop navbar-static-top">
                 <div class="white-piece"></div>
                 <div class="container coop">
+
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                             <span class="sr-only">Toggle navigation</span>
@@ -42,27 +43,30 @@ $srcYt = Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
                         </button>
                         <?= Html::a("<img src='$srcLogo'>", ['/copservir/sitio/index'], ['class' => 'navbar-brand copservir']) ?>
                     </div>
+
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
+                          <!--
                             <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
-                              <ul class="dropdown-menu">
-                                <li><a href="#">Page 1-1</a></li>
-                                <li><a href="#">Page 1-2</a></li>
-                                <li class="dropdown">
-                                  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1-2-1</a>
-                                      <ul class="dropdown-menu level">
-                                          <li><a href="#">Page 1-1</a></li>
-                                          <li><a href="#">Page 1-2</a></li>
-                                          <li><a href="#">Page 1-3</a></li>
-                                      </ul>
+                              <ul class="dropdown-menu copservir">
+                                <li><a href="#">element 1</a></li>
+                                <li><a href="#">element 2</a></li>
+                                <li><a href="#">element 3</a></li>
+                                <li class="dropdown-submenu">
+                                  <a href="#">element 4</a>
+                                  <ul class="dropdown-menu">
+                                    <li><a tabindex="-1" href="#">Second level</a></li>
+                                    <li><a href="#">Second level</a></li>
+                                    <li><a href="#">Second level</a></li>
+                                  </ul>
                                 </li>
                               </ul>
                             </li>
                             <li><?= Html::a('Page 2', ['#']) ?></li>
                             <li><?= Html::a('page 3', ['#']) ?></li>
-                            <li><?= Html::a('Page 4', ['#']) ?></li>
+                            <li><?= Html::a('Page 4', ['#']) ?></li>-->
 
-                            <!--<?php //MenuPortales::generarMenu(Yii::$app->controller->module->id) ?>-->
+                            <?= MenuPortales::generarMenu(Yii::$app->controller->module->id) ?>
                         </ul>
                     </div>
                 </div>
