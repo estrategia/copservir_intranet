@@ -13,7 +13,7 @@
       <?php echo $this->render('_notificacionItem', ['objNotificacion'=>$objNotificacion, 'idx'=>$idx]); ?>
     <?php endforeach; ?>
     <div class="text-center">
-      <?= yii\bootstrap\Html::a('Ver todo', ['notificaciones/'], ['class' => 'btn btn-link btn-block']) ?>
+      <?= yii\bootstrap\Html::a('Ver todos', ['notificaciones/'], ['class' => 'btn btn-link btn-block']) ?>
     </div>
   <?php endif; ?>
 </div>
