@@ -52,7 +52,7 @@ class LoginForm extends Model {
             'captcha' => 'Captcha',
             'password' => 'Contraseña',
             'password2' => 'Confirmar contraseña',
-            'rememberMe' => 'Recordar',
+            'rememberMe' => 'Recordar contraseña',
         ];
     }
 
