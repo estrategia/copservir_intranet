@@ -14,7 +14,7 @@ return [
     ],
     'notificaciones' => [
         'limiteVisualizar' => 5,
-        'claseColor' => ['info', 'succes', 'danger']
+        'claseColor' => ['info', 'success', 'danger']
     ],
     'contenido' => [
         'diasNoticias' => 7,

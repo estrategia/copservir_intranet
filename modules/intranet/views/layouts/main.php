@@ -137,8 +137,6 @@ if (!Yii::$app->user->isGuest) {
                             </li>
                         </ul>
                     </div> <!-- END CHAT TOGGLER -->
-
-
                 </div><!-- END TOP NAVIGATION MENU -->
             </div><!-- END TOP NAVIGATION BAR -->
         </div>
@@ -162,50 +160,6 @@ if (!Yii::$app->user->isGuest) {
                     <!-- BEGIN SIDEBAR MENU -->
                     <div class="clearfix"></div>
                     <ul>
-                        <li><?= Html::a('<i class="icon-custom-home"></i> <span class="title">Inicio</span> <span class="selected"></span>', ['/intranet/sitio/index']) ?></li>
-			<li class=""> <a href="javascript:;"> <i class="fa fa-user-plus"></i> <span class="title">Menú Usuario</span> <span class="arrow "></span> </a>
-                            <ul class="sub-menu">
-                                <li>
-                                    <?= Html::a('<i class="fa fa-list-alt"></i> <span class="title">Mis Publicaciones</span> <span class="selected"></span>', ['/intranet/contenido/mis-publicaciones']) ?>
-                                </li>
-
-                                <!-- li>
-                                    <?= Html::a('<i class="fa fa-list-ul"></i> <span class="title">Mis Tareas</span> <span class="selected"></span>', ['/intranet/tareas/listar-tareas']) ?>
-                                </li -->
-                                <!-- li>
-                                    <?= Html::a('<i class="fa fa-sitemap"></i> <span class="title">Organigrama</span> <span class="selected"></span>', ['intranet/sitio/organigrama']) ?>
-                                </li-->
-                                <!-- li>
-                                    <?= Html::a('<i class="fa fa-calendar"></i> <span class="title">Calendario</span> <span class="selected"></span>', ['/intranet/calendario/']) ?>
-                                </li-->
-                                <!-- MENU CORPORATIVO -->
-                                <li>
-                                    <a href="http://intranet2.copservir.com/copservirportal/aplespecial/aplinternos/usrlogin_nueva_intranet.php?cedula=<?=Yii::$app->user->identity->numeroDocumento?>&seguir=168" target="_blank"><i class="fa fa-hourglass-start"></i> <span class="title">Mis Permisos</span> <span class="selected"></span></a>
-                                </li>
-                                <li>
-                                    <?= Html::a('<i class="fa fa-file-pdf-o"></i> <span class="title">Mis Certificados</span> <span class="selected"></span>', ['/intranet/sitio/contenido?modulo=83']) ?>
-                                </li>
-                                <li>
-                                    <a href="https://bancolombia.olb.todo1.com/olb/Init" target="_blank"><i class="fa fa-money"></i> <span class="title">Bancolombia</span> <span class="selected"></span></a>
-                                </li>
-                                <li>
-                                    <?= Html::a('<i class="fa fa-cogs"></i> <span class="title">Aplicativos Internos</span> <span class="selected"></span>', ['/intranet/sitio/contenido?modulo=86']) ?>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <!--
-                        <li class="start open active">
-                        <?= Html::a('<i class="icon-custom-home"></i> <span class="title">Inicio</span> <span class="selected"></span>', ['/intranet/sitio/index']) ?>
-                        </li>
-                        -->
-
-                        <!--
-                        <li >
-                        <?= Html::a('<i class="fa fa-book"></i> <span class="title">Docs procedimientos</span> <span class="selected"></span>', ['/intranet/categoria-documento/']) ?>
-                        </li>
-                        -->
-
                         <!--OPCIONES SELECCIONADAS POR EL USUARIO DEL MENU CORPORATIVO -->
                         <li id='list-menu-corporativo'></li>
                         <?= $this->render('_menuCorporativoUsuario', ['menu' => Menu::getMenuPadre(), 'opciones' => new OpcionesUsuario(Yii::$app->user->identity->numeroDocumento)]); ?>
