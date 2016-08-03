@@ -55,6 +55,7 @@ return [
         'tarjetaMas' => 'http://siidesarrollo.copservir.com/tarjetamas/WsTarjetaMas/ws',
         //'tarjetaMas' => 'http://sii.copservir.com/tarjetamas/WsTarjetaMas/ws',
         'persona' => 'http://localhost/copservir/wsMultiportal/persona',
+        //'persona' => 'http://192.168.0.30/copservir/wsMultiportal/persona',
         //'persona' => 'http://sii.copservir.com/gestionhumana/wsMultiportal/persona',
     ],
     'usuario' => [
