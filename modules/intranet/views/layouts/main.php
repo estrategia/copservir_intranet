@@ -298,7 +298,7 @@ if (!Yii::$app->user->isGuest) {
                           <?= Html::beginForm(['usuario/salir'], 'post', ['id' => 'form-salir']); ?>
                           <?= Html::submitButton('<i class="fa fa-power-off"></i> Salir', ['class' => 'btn btn-link']); ?>
                           <?= Html::endForm(); ?>
-                      </li>                        
+                      </li>
                     </ul>
 
                 </div>
