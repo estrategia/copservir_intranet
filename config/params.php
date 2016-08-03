@@ -3,6 +3,7 @@
 return [
     'adminEmail' => 'webmaster@copservir.com',
     'rutaGruposModulos' => '/intranet/sitio/contenido?modulo=',
+    'limiteBotonesPaginador' => 5,
     'ciudad' => ['*' => 999999],
     'grupo' => ['*' => 999999],
     'calendario' => [

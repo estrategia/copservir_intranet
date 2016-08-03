@@ -17,6 +17,10 @@ $this->params['breadcrumbs'][] = ['label' => 'Menú portales'];
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'pager' => [
+          'maxButtonCount' => 5,    // Set maximum number of page buttons that can be displayed
+        ],
+        'layout' => "{summary}\n{items}\n<center>{pager}</center>",
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 

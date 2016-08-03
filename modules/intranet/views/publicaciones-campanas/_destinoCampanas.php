@@ -52,13 +52,17 @@ use yii\widgets\ActiveForm;
   <br><br>
   <br><br>
   <br><br>
-  
+
   <!-- lista de destinos de esa campaña -->
   <div class="col-md-12">
     <div id="listaOfertas">
 
       <?=  GridView::widget([
         'dataProvider' => $destinoCampanas,
+        'pager' => [
+          'maxButtonCount' => Yii::$app->params['limiteBotonesPaginador'],    // Set maximum number of page buttons that can be displayed
+        ],
+        'layout' => "{summary}\n{items}\n<center>{pager}</center>",
         'columns' => [
           ['class' => 'yii\grid\SerialColumn'],
           [

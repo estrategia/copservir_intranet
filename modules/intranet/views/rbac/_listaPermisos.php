@@ -42,6 +42,10 @@ use yii\widgets\Pjax;
   <?= GridView::widget([
       'dataProvider' => $dataProviderPermisos,
       'filterModel' => $searchModel,
+      'pager' => [
+        'maxButtonCount' => Yii::$app->params['limiteBotonesPaginador'],    // Set maximum number of page buttons that can be displayed
+      ],
+      'layout' => "{summary}\n{items}\n<center>{pager}</center>",
       'columns' => [
           ['class' => 'yii\grid\SerialColumn'],
           'child',

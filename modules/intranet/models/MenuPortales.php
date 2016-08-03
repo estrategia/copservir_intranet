@@ -171,38 +171,41 @@ class MenuPortales extends \yii\db\ActiveRecord {
 
     public static function generarSubMenu($objMenu, $portal) {
         $menuClass = "";
-        $submenuClass = "sub-menu";
+        $submenuClass = "dropdown-menu";
 
         if ($portal != 'intranet') {
             $menuClass = "dropdown";
-            $submenuClass = "dropdown-menu";
         }
 
         if (empty($objMenu->objMenuHijos)) {
             if ($objMenu->tipo == self::ENLACE_EXTERNO) {
                 $urlMenu = Funciones::reemplazarPatronDocumentoUsuario($objMenu->urlMenu);
-                echo "<li class='$menuClass'><a class='dropdown-toggle' data-toggle='dropdown' href='$urlMenu'
+                echo "<li><a href='$urlMenu'
                 target='_blank'> <i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span> </a>
                 </li>";
             } else if ($objMenu->tipo == self::ENLACE_INTERNO) {
-                echo "<li class='$menuClass'>";
+                echo "<li>";
                 echo \yii\helpers\Html::a("<i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span>",
-                 $objMenu->getUrlInterna($portal), ['class'=>$menuClass,  'data-toggle'=>'dropdown']);
+                 $objMenu->getUrlInterna($portal), []);
                 echo "</li>";
             } else {
-                echo "<li class='$menuClass'><a class='dropdown-toggle' data-toggle='dropdown' href='#'>
+                echo "<li><a href='#'>
                 <i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span> </a></li>";
             }
         } else {
+
+            if ($objMenu->objMenuHijos && $objMenu->idMenuPortalPadre != NULL) {
+              $menuClass = 'dropdown-submenu';
+            }
+            $icono = '';
+            if ($objMenu->objMenuHijos && $objMenu->idMenuPortalPadre == NULL) {
+              $icono = "<span class='caret'></span>";
+            }
             echo "<li class='$menuClass'>";
             if ($portal == 'intranet') {
                 echo "<a href='javascript:;'><i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span><span class='arrow'></span></a>";
             } else {
-                echo "<a href='#'><i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span></a>";
-            }
-
-            if ($objMenu->objMenuHijos && $objMenu->idMenuPortalPadre != NULL) {
-              $submenuClass = 'dropdown-menu level';
+                echo "<a class='dropdown-toggle' data-toggle='dropdown' href='#'><i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span>$icono</a>";
             }
             echo "<ul class='$submenuClass'>";
 

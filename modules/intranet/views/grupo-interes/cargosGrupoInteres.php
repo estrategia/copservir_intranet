@@ -63,6 +63,10 @@ Html::a('Agregar cargo', ['#'], [
 <?=
 GridView::widget([
     'dataProvider' => $grupoInteresCargo,
+    'pager' => [
+      'maxButtonCount' => Yii::$app->params['limiteBotonesPaginador'],    // Set maximum number of page buttons that can be displayed
+    ],
+    'layout' => "{summary}\n{items}\n<center>{pager}</center>",
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
         'nombreCargo',

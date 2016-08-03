@@ -25,9 +25,11 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.pn
 
         <!-- NAVBAR -->
         <div class="navbar-wrapper">
+
             <nav class="navbar navbar-coop navbar-static-top company-bgcolor-1">
                 <div class="white-piece"></div>
-                <div class="container">
+                <div class="container coop">
+
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                             <span class="sr-only">Toggle navigation</span>
@@ -35,16 +37,36 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.pn
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <?= Html::a("<img src='$srcLogo'>", ['/proveedores/sitio/index'], ['class' => 'navbar-brand']) ?>
+                        <?= Html::a("<img src='$srcLogo'>", ['/proveedores/sitio/index'], ['class' => 'navbar-brand copservir']) ?>
                     </div>
+
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                            <li class="active"> <?= Html::a('Calendario', ['/proveedores/calendario']) ?></li>
-                            <?php MenuPortales::generarMenu(Yii::$app->controller->module->id) ?>
+                            <li class=""> <?=  Html::a('Calendario', ['/proveedores/calendario']) ?></li>
+                            <!--<li><?= Html::a('Page 2', ['#']) ?></li>
+                            <li><?= Html::a('page 3', ['#']) ?></li>
+                            <li><?= Html::a('Page 4', ['#']) ?></li>
+                            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
+                              <ul class="dropdown-menu">
+                                <li><a href="#">element 1</a></li>
+                                <li><a href="#">element 2</a></li>
+                                <li><a href="#">element 3</a></li>
+                                <li class="dropdown-submenu">
+                                  <a href="#">element 4</a>
+                                  <ul class="dropdown-menu">
+                                    <li><a tabindex="-1" href="#">Second level</a></li>
+                                    <li><a href="#">Second level</a></li>
+                                    <li><a href="#">Second level</a></li>
+                                  </ul>
+                                </li>
+                              </ul>
+                            </li>-->
+                            <?= MenuPortales::generarMenu(Yii::$app->controller->module->id) ?>
                         </ul>
                     </div>
                 </div>
             </nav>
+
         </div>
 
         <!-- CONTAINER -->

@@ -17,6 +17,10 @@ $this->params['breadcrumbs'][] = ['label' => 'Líneas de tiempo'];
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'pager' => [
+          'maxButtonCount' => Yii::$app->params['limiteBotonesPaginador'],    // Set maximum number of page buttons that can be displayed
+        ],
+        'layout' => "{summary}\n{items}\n<center>{pager}</center>",
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 

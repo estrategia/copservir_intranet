@@ -25,25 +25,29 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/convenios/logo-convenios-empres
 
     <!-- NAVBAR -->
     <div class="navbar-wrapper">
-        <nav class="navbar navbar-coop navbar-static-top company-bgcolor-2">
-          <div class="white-piece"></div>
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <?= Html::a("<img src='$srcLogo'>", ['/convenios/sitio/index'],['class'=>'navbar-brand']) ?>
+
+        <nav class="navbar navbar-coop navbar-static-top company-bgcolor-1">
+            <div class="white-piece"></div>
+            <div class="container coop">
+
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <?= Html::a("<img src='$srcLogo'>", ['/convenios/sitio/index'],['class'=>'navbar-brand']) ?>
+                </div>
+
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <?= MenuPortales::generarMenu(Yii::$app->controller->module->id) ?>
+                    </ul>
+                </div>
             </div>
-            <div id="navbar" class="navbar-collapse collapse">
-              <ul class="nav navbar-nav">
-                <?php MenuPortales::generarMenu(Yii::$app->controller->module->id) ?>
-              </ul>
-            </div>
-          </div>
         </nav>
+
     </div>
 
     <!-- CONTAINER -->

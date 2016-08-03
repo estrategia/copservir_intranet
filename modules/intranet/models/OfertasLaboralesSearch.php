@@ -95,14 +95,14 @@ class OfertasLaboralesSearch extends OfertasLaborales
     {
 
         $query = OfertasLaborales::find()->orderby('idCiudad')
-          ->with(['objCargo', 'objArea', 'objCiudad', 'objInformacionContactoOferta']);
+          ->with([ 'objCiudad', 'objInformacionContactoOferta']);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-              'pageSize' => 10,
+              'pageSize' => 1,
             ],
         ]);
 
