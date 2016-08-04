@@ -356,6 +356,7 @@ class ContenidoController extends Controller {
 
         $q = "";
         $resultados = "";
+        $tipoSite = "intranet_publico_collection";
 
         if(isset($_POST["q"]))
 	       $q = $_POST["q"];
@@ -366,9 +367,13 @@ class ContenidoController extends Controller {
         {
           //intranet_publico_collection -> publico
 	        //intranet_grupogerencial_collection -> grupo gerencial
+          if(in_array( Yii::$app->user->identity->getCargoCodigo(), Yii::$app->params['cargos']['cargosBuscadorAdmin']))
+          {
+            $tipoSite = "intranet_grupogerencial_collection";
+          }
 
 	        $pq = urlencode($q); 					//Cadena a buscar
-	        $site = 'intranet_publico_collection';	//Coleccion
+	        $site = $tipoSite;	//Coleccion
 	        $client = 'default_frontend'; 			//Interfaz de busqueda
           $output = 'xml_no_dtd'; 				//Formato de salida
           $filter = 0; 							//Determina si filtra los resultados y los agrupa
@@ -384,8 +389,6 @@ class ContenidoController extends Controller {
 	        $result = file_get_contents($url);
 
           $rutaArchivo = Yii::getAlias('@app').'/modules/intranet/controllers/XML2Array.php';
-
-	        //require_once \Yii::$app->basePath .'/modules/intranet/controllers/XML2Array.php';//require_once 'XML2Array.php';
 
 	        $dom = new \DomDocument('1.0', 'utf-8');
 	        $dom->loadXML($result);
