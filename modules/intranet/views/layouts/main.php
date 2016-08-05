@@ -216,7 +216,7 @@ if (!Yii::$app->user->isGuest) {
 
 
 <!-- BEGIN CHAT -->
-<div class="chat-window-wrapper">
+<div class="chat-window-wrapper visible-xs visible-sm">
     <div id="main-chat-wrapper" class="inner-content">
         <div class="chat-window-wrapper scroller scrollbar-dynamic" id="chat-users" >
 
