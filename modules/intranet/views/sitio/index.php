@@ -134,7 +134,7 @@ $this->title = 'Intranet - Copservir';
   <?php //if(!in_array(\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_BANNER_INF,Yii::$app->user->identity->getOcultosDashboard())): ?>
 
     <div class="col-md-12">
-        <div class="tiles overflow-hidden full-height tiles-overlay-hover m-b-10 widget-item">
+        <div class="overflow-hidden full-height tiles-overlay-hover m-b-10 widget-item">
           <?= $this->render('banner', ['banners' => $bannerDerecha, 'location' => 2]) ?>
         </div>
 

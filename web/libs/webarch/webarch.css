@@ -559,7 +559,7 @@ body.boxed-layout .footer-widget {
 }
 .page-sidebar .page-sidebar-wrapper > ul > li a i {
   color: #fff;
-  width: 20px;
+  width: 15px;
   text-align: center;
   display: inline-block;
 }
@@ -586,14 +586,16 @@ body.boxed-layout .footer-widget {
   list-style: none;
   clear: both;
   margin: 0px;
-  background-color:#357296;
+  background-color:#103348;
   padding: 1px 0px 0px 0px;
+      /*margin-bottom: 25px;*/
 }
 .page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu > li {
   background: none;
   margin: 0px;
   padding: 0px;
   margin-top: 1px !important;
+  padding: 0px 0px 15px 0px;
 }
 .page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu > li > a {
   margin-left: 0px;
@@ -692,7 +694,7 @@ body.boxed-layout .footer-widget {
 .page-sidebar.mini {
   width: 50px;
   overflow: visible !important;
-  background-color: #3C8DBC !important;
+  background-color: #103348 !important;
   height: 100%;
   margin-top: 0;
   position: fixed;
@@ -10240,3 +10242,6 @@ span.fancytree-active span.fancytree-title {
 }
 
 .form-group.field-loginform-rememberme label{display: initial;margin-left: 0px;}
+
+#bannerLateral .carousel-control .glyphicon-chevron-left {margin-left: 0px;}
+#bannerLateral .carousel-control .glyphicon-chevron-right {margin-left: 0px;}
