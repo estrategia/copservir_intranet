@@ -1,6 +1,10 @@
 <?php
-
 use app\modules\intranet\models\Indicadores;
+
+$this->title = 'Mi Pantalla de inicio';
+
+$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="row">
     <div class="col-md-4">
@@ -42,7 +46,7 @@ use app\modules\intranet\models\Indicadores;
             <label for="banner-fin"><span><span></span></span> Banner Fin</label>
         </div>
     </div>
-    
+
     <?php foreach (Indicadores::find()->all() as $indicador): ?>
         <div class="col-md-4">
             <div class="buton-check">

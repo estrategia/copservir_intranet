@@ -1,5 +1,12 @@
 <?php
 use yii\widgets\ListView;
+
+if ($todasArea) {
+  $this->title = 'Publicaciones de mi área';
+}else{
+  $this->title = 'Todas las publicaciones';
+}
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <?=

@@ -311,7 +311,7 @@ class ContenidoController extends Controller {
         ]);
 
         $this->view->title = 'Noticias';
-        return $this->render('publicaciones', ['listDataProvider' => $dataProvider,]);
+        return $this->render('publicaciones', ['listDataProvider' => $dataProvider,'todasArea' => true]);
     }
 
 
@@ -327,7 +327,7 @@ class ContenidoController extends Controller {
         ]);
 
         $this->view->title = 'Noticias';
-        return $this->render('publicaciones', ['listDataProvider' => $dataProvider,]);
+        return $this->render('publicaciones', ['listDataProvider' => $dataProvider, 'todasArea' => false]);
     }
 
 

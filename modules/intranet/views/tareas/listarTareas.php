@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 
 $this->title = 'Tareas';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="col-md-12">

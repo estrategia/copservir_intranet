@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 
 $this->title = 'Cumpleaños';
+$this->params['breadcrumbs'][] = $this->title
 ?>
 
 <h1><?= Html::encode($this->title) ?></h1>

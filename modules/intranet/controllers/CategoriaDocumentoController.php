@@ -48,7 +48,7 @@ class CategoriaDocumentoController extends \yii\web\Controller {
      */
     public function actionIndex() {
         $padres = CategoriaDocumento::getPadres();
-        $html = $this->crearMenuDocumentos($padres, ' ', false);
+        $html = $this->crearMenuDocumentos($padres, ' ');
         return $this->render('index', ['menu' => $html]);
     }
 
@@ -59,7 +59,8 @@ class CategoriaDocumentoController extends \yii\web\Controller {
      * $flagAdmin = bandera que indica si es la vista administrador o no
      * @return $html = string con todo el codigo html del menu
      */
-    public function crearMenuDocumentos($arrayCategoriasDocumento, $html, $flagAdmin) {
+    public function crearMenuDocumentos($arrayCategoriasDocumento, $html) {
+
         if (empty($arrayCategoriasDocumento)) {
 
             $html = $html . '';
@@ -70,133 +71,58 @@ class CategoriaDocumentoController extends \yii\web\Controller {
                 $hijos = CategoriaDocumento::getHijos($categoria->idCategoriaDocumento);
 
                 if (!empty($hijos)) {
-                    $html = $this->RenderCategoria($categoria, $hijos, false, $html, $flagAdmin);
+                    $html = $this->RenderCategoria($categoria, $hijos, false, $html);
                 } else {
-                    $html = $this->RenderCategoria($categoria, $hijos, true, $html, $flagAdmin);
+                    $html = $this->RenderCategoria($categoria, $hijos, true, $html);
                 }
             }
         }
         return $html;
+
     }
 
-    /**
-     * Funcion auxiliar donde se va creando el string con el html del menu
-     * @param $categoria = modelo CategoriaDocumento
-     * $hijos = arreglo de modelos CategoriaDocumento cuyo padre es categoria
-     * $html = string con el codigo html del menu que se va gerenando
-     * $flagAdmin = bandera que indica si es la vista administrador o no
-     * $flagHoja = bandera que indica si el elemento es una hoja o no
-     * @return $html = string con todo el codigo html del menu
-     */
-    public function RenderCategoria($categoria, $hijos, $flagHoja, $html, $flagAdmin) {
-        // se acomoda el data-parent para indicar las dependencias
-        // del acordeon dependiendo si es raiz o hijo
-        $dataparent = '';
-        if (is_null($categoria->idCategoriaPadre)) {
-            $dataparent = 'accordion';
-        } else {
-            $dataparent = $categoria->idCategoriaDocumento;
-        }
+    public function RenderCategoria($categoria, $hijos, $flagHoja, $html) {
 
-        if ($flagAdmin) {
-          $htmlEnlace = '<a href="#' . $categoria->idCategoriaDocumento . '" data-parent="#' . $dataparent . '" data-toggle="collapse"  class="collapsed">
-            ' . $categoria->nombre . '
-            </a>';
-        }else{
-          $htmlEnlace = '<a href="#'. $categoria->idCategoriaDocumento .'" class="list-group-item" data-toggle="collapse">
-            <i class="glyphicon glyphicon-chevron-right"></i>' . $categoria->nombre . '
-            </a>';
-        }
-
-
-
-
-        /*
-        '<a href="#' . $categoria->idCategoriaDocumento . '" data-parent="#' . $dataparent . '" data-toggle="collapse">
-    ' . $categoria->nombre . '
-    </a>';*/
-        $htmlRelaciona = '';
-        $htmlCrearCategoria = '';
-        $htmlEditaCategoria = '';
-
-
-        if ($flagAdmin) {
-
-            $htmlCrearCategoria = '<button href="#" data-role="categoria-crear" data-padre="' . $categoria->idCategoriaDocumento . '"
-      class="btn btn-mini btn-success">
-      crear categoria
-      </button><br><br>';
-
-            $htmlEditaCategoria = '<button href="#" data-role="categoria-editar" data-categoria="' . $categoria->idCategoriaDocumento . '"
-      class="btn btn-mini btn-success">
-      editar categoria
-      </button>';
-        }
+        $htmlEnlace = '<a href="#'. $categoria->idCategoriaDocumento .'" class="list-group-item" data-toggle="collapse">
+          <i class="glyphicon glyphicon-chevron-right"></i>' . $categoria->nombre . '
+          </a>';
 
         // crea los elementos html dependiendo si la categoria tiene un documento asociado
         if (!is_null($categoria->categoriaDocumentosDetalle)) {
 
-            if ($flagAdmin && $flagHoja) {
-                $htmlRelaciona = '<button href="#"  data-role="no-relaciona-documento"
-        data-categoria="' . $categoria->idCategoriaDocumento . '"
-        data-documento="' . $categoria->categoriaDocumentosDetalle->idDocumento . '"
-        class="btn btn-mini btn-success">
-        quitar relacion
-        </button>';
-                $htmlCrearCategoria = '';
-            }
-
-            if (!$flagAdmin && $flagHoja) {
+            if ($flagHoja) {
                 $htmlEnlace = Html::a($categoria->nombre, ['documento/detalle-documento',
                 'id' => $categoria->categoriaDocumentosDetalle->idDocumento], ['class' => 'list-group-item',
                 ]);
             }
         } else {
 
-            if ($flagAdmin && $flagHoja) {
-                $htmlRelaciona = '<button href="#"  data-categoria="' . $categoria->idCategoriaDocumento . '"
-        data-role="relaciona-documento" class="btn btn-mini btn-success">
-        relacionar documento
-        </button>';
-            }
-
-            if (!$flagAdmin && $flagHoja) {
+            if ($flagHoja) {
               $htmlEnlace = Html::a($categoria->nombre .' (No hay un documento asociado)',
               ['#'],
               ['class' => 'list-group-item','data-toggle' => 'collapse']);
             }
         }
 
-        if ($flagAdmin) {
-          $html = $html .
-                          '
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h4 class="panel-title">
-                    ' . $htmlEnlace . '
-                  </h4>
-                  ' . $htmlEditaCategoria . '
-                  ' . $htmlRelaciona . '
-                </div>
-                <div class="panel-collapse collapse" id="' . $categoria->idCategoriaDocumento . '">
-                  <div class="panel-body">
-                    ' . $htmlCrearCategoria . '
-                    ' . $this->crearMenuDocumentos($hijos, '', $flagAdmin) . '
-                  </div>
-                </div>
-              </div>
-              ';
-        }else{
-          $html = $html .
-                          '
-                          '. $htmlEnlace . '
-                          <div class="list-group collapse" id="'. $categoria->idCategoriaDocumento.'">
-                          ' . $this->crearMenuDocumentos($hijos, '', $flagAdmin) . '
-                          </div>
-              ';
-        }
+        $html = $html .
+                        '
+                        '. $htmlEnlace . '
+                        <div class="list-group collapse" id="'. $categoria->idCategoriaDocumento.'">
+                        ' . $this->crearMenuDocumentos($hijos, '') . '
+                        </div>';
+
         return $html;
     }
+
+
+    /**
+     * Funcion auxiliar donde se va creando el string con el html del menu
+     * @param $categoria = modelo CategoriaDocumento
+     * $hijos = arreglo de modelos CategoriaDocumento cuyo padre es categoria
+     * $html = string con el codigo html del menu que se va gerenando
+     * $flagHoja = bandera que indica si el elemento es una hoja o no
+     * @return $html = string con todo el codigo html del menu
+     */
 
     /**
      * renderiza la vista del administrador para realizar acciones sobre el menu de las categorias
@@ -205,8 +131,87 @@ class CategoriaDocumentoController extends \yii\web\Controller {
      */
     public function actionAdmin() {
         $padres = CategoriaDocumento::getPadres();
-        $html = $this->crearMenuDocumentos($padres, ' ', true);
+        $html = $this->crearMenuDocumentosAdmin($padres);
         return $this->render('administrar-categorias-documento', ['menu' => $html]);
+    }
+
+    public function crearMenuDocumentosAdmin($arrayCategoriasDocumento)
+    {
+      $opcionArray = [];
+
+      foreach ($arrayCategoriasDocumento as $categoria) {
+        $opcionArray[] = self::obtenerHijosArrayAdmin($categoria);
+      }
+
+      return $opcionArray;
+    }
+
+    public static function obtenerHijosArrayAdmin($objCategoria) {
+
+      $hijos = CategoriaDocumento::getHijos($objCategoria->idCategoriaDocumento);
+
+      $htmlCrearCategoria = '<button class="btn btn-mini" data-role="categoria-crear" data-padre="' . $objCategoria->idCategoriaDocumento . '"
+      class="btn btn-mini btn-success">
+      crear categoria
+      </button>';
+
+      $htmlEditaCategoria = '<button class="btn btn-mini" data-role="categoria-editar" data-categoria="' . $objCategoria->idCategoriaDocumento . '"
+      class="btn btn-mini btn-success">
+      editar categoria
+      </button>';
+
+      if (!empty($hijos)) {
+
+        $children = [];
+
+        foreach ($hijos as $objSubmenu) {
+            $children[] = self::obtenerHijosArrayAdmin($objSubmenu);
+        }
+
+        return ['title' => "
+        <div class='panel-default panel-menu'>
+          <div class=' panel-heading'>
+            <h6 class='panel-title' style='font-size: 13px;'>
+              <a href='#'>
+                $objCategoria->nombre
+              </a>
+            </h6>
+            $htmlCrearCategoria
+            $htmlEditaCategoria
+          </div>
+        </div>", 'children' => $children, 'folder' => true];
+
+      }else{
+        $htmlRelaciona = '';
+        // crea los elementos html dependiendo si la categoria tiene un documento asociado
+        if (!is_null($objCategoria->categoriaDocumentosDetalle)) {
+          $htmlRelaciona = '<button class="btn btn-mini" data-role="no-relaciona-documento"
+          // este va si es admin y hoja y si tiene un documento relacionado
+          data-categoria="' . $objCategoria->idCategoriaDocumento . '"
+          data-documento="' . $objCategoria->categoriaDocumentosDetalle->idDocumento . '"
+          class="btn btn-mini btn-success">
+          quitar relacion
+          </button>';
+        }else{
+          // este va si es admin y hoja y no tiene un documento relacionado
+          $htmlRelaciona = '<button class="btn btn-mini" data-categoria="' . $objCategoria->idCategoriaDocumento . '"
+        data-role="relaciona-documento" class="btn btn-mini btn-success">
+        relacionar documento
+        </button>';
+        }
+
+        return ['title' => "
+        <div class='panel-default panel-submenu'>
+          <div class=' panel-heading'>
+            <h6 class='panel-title' style='font-size: 13px;'>
+              $objCategoria->nombre
+            </h6>
+            $htmlCrearCategoria
+            $htmlEditaCategoria
+            $htmlRelaciona
+          </div>
+        </div> "];
+      }
     }
 
     /**

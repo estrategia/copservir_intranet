@@ -1,6 +1,9 @@
 <?php
 use app\modules\intranet\models\Menu;
 
+$this->title = 'Mi Menu';
+
+$this->params['breadcrumbs'][] = $this->title;
 
 $opciones = Menu::construirArrayMenu(false,Yii::$app->user->identity->numeroDocumento);
 

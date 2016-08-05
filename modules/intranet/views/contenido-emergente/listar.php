@@ -57,5 +57,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contenidos emergente
       ],
 
     ],
+    
   ]); ?>
 </div>

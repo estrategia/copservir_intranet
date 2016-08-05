@@ -7,7 +7,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Menú documentos org
 
 <div class="just-padding">
   <div class="list-group list-group-root well">
-      <?= $menu ?>
+      <?php echo $menu ?>
   </div>
 
 </div>

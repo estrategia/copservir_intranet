@@ -5,7 +5,10 @@
   use yii\helpers\Html;
   use kartik\file\FileInput;
 
-  $this->title = 'Cumpleaños';
+
+  $this->title = 'Felicitar Cumpleaños';
+  $this->params['breadcrumbs'][] = ['label' => 'Cumpleaños', 'url' => ['/intranet/sitio/todos-cumpleanos']];
+  $this->params['breadcrumbs'][] = $this->title
  ?>
 
 <div class="col-md-12 center-block" id="felicitar">
@@ -82,5 +85,5 @@
   </div>
 
   <?= $this->render('/common/errores', []) ?>
-  
+
 </div>

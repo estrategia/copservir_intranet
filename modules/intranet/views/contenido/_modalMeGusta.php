@@ -17,12 +17,61 @@ use yii\helpers\Html;
 
         <div class="row">
           <?php foreach ($usuariosMeGusta as $meGusta): ?>
+            <!--
             <div class="col-md-2">
-              <div class="user-profile">
-                <img src= <?= Yii::$app->homeUrl . 'img/fotosperfil/' . $meGusta->objUsuario->getImagenPerfil() ?> alt="" data-src="" data-src-retina="" width="40" height="40">
-              </div>
-              <?= $meGusta->objUsuario->alias ?>
+              <center>
+                <div class="notification-messages">
+
+                  <div class="user-profile">
+                    <img src= <?= Yii::$app->homeUrl . 'img/fotosperfil/' . $meGusta->objUsuario->getImagenPerfil() ?> alt=""
+                    data-src="" data-src-retina="" width="40" height="40">
+                  </div>
+
+                  <div class="message-wrapper">
+                    <div class="heading">
+                        <?= $meGusta->objUsuario->alias ?>
+                    </div>
+                    <div class="description"></div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+              </center>
+
             </div>
+            -->
+            <center>
+              <div class="col-md-12">
+
+
+            <div class="tiles white ">
+                <div class="p-t-20 p-b-15 b-b b-grey">
+                  <div class="post overlap-left-10">
+
+                    <div class="user-profile-pic-wrapper">
+                      <div class="user-profile-pic-2x white-border">
+                        <div class="user-profile">
+                          <img src= <?= Yii::$app->homeUrl . 'img/fotosperfil/' . $meGusta->objUsuario->getImagenPerfil() ?> alt=""
+                          data-src="" data-src-retina="" width="40" height="40">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="info-wrapper small-width inline">
+                      <div class="info text-black ">
+                        <p>
+                          <?= $meGusta->objUsuario->alias ?>
+                        </p>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </center>
+
           <?php endforeach; ?>
         </div>
       </div>

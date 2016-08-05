@@ -2,6 +2,8 @@
 use yii\helpers\Html;
 
 $this->title = 'Actualiza Tareas: ' . ' ' . $model->titulo;
+$this->params['breadcrumbs'][] = ['label' => 'Tareas', 'url' => ['/intranet/tareas/listar-tareas']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tareas-update">
 

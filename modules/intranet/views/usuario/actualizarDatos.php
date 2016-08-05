@@ -8,6 +8,8 @@ use kartik\select2\Select2;
 use kartik\date\DatePicker;
 
 $this->title = 'Actualizar Datos';
+
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Perfil de usuario'), 'url'=>['/intranet/usuario/perfil']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="col-md-8">

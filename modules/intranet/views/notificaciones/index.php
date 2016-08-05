@@ -1,6 +1,9 @@
 <?php
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
+
+$this->title = 'Notificaciones';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="col-md-1 "></div>
