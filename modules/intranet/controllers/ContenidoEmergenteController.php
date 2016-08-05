@@ -137,6 +137,13 @@ class ContenidoEmergenteController extends Controller {
         }
     }
 
+    public function actionResetearVistos($id)
+    {
+      $rowsDeleted = ContenidoEmergenteVisto::deleteAll('idContenidoEmergente = :idContenidoEmergente', [':idContenidoEmergente' => $id]);
+      Yii::$app->session->setFlash('info', 'Se resetearon '.$rowsDeleted.' usuarios');
+      return $this->redirect(['admin']);
+    }
+
     /**
      * Encuenta un modelo ContenidoEmergente basado en su llave primaria
      * Si no encuentra un modelo lanza una excepcion 404 HTTP exception.

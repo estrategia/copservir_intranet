@@ -349,11 +349,7 @@ class ContenidoController extends Controller {
      * @param post-> q  | lo que el usuario escribe en la barra de busqueda
      */
     public function actionBuscadorNoticias() {
-        /*
-        $busqueda = trim(Yii::$app->request->post('busqueda', ''));
-        $this->redirect(['busqueda', 'busqueda' => $busqueda, 'a' => '', 'm' => '', 'd' => '']);
-        */
-
+        
         $q = "";
         $resultados = "";
         $tipoSite = "intranet_publico_collection";

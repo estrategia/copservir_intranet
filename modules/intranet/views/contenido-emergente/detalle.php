@@ -14,6 +14,7 @@ $this->params['breadcrumbs'][] = ['label' => "Ver #$model->idContenidoEmergente"
 
   <p>
     <?= Html::a('Actualizar', ['actualizar', 'id' => $model->idContenidoEmergente], ['class' => 'btn btn-primary']) ?>
+    <?= Html::a('<i class="fa fa-undo" aria-hidden="true"></i> Resetear vistos', ['resetear-vistos', 'id' => $model->idContenidoEmergente], ['class' => 'btn btn-primary']) ?>
     <?= Html::a('Inactivar', ['eliminar', 'id' => $model->idContenidoEmergente], [
       'class' => 'btn btn-danger',
       'data' => [

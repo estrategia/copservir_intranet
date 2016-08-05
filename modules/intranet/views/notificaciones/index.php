@@ -16,12 +16,15 @@ $this->params['breadcrumbs'][] = $this->title;
       <?=
       ListView::widget([
         'dataProvider' => $dataProvider,
+        'pager' => [
+          'maxButtonCount' => 5,    // Set maximum number of page buttons that can be displayed
+        ],
         'options' => [
           'tag' => 'div',
           'class' => 'list-wrapper',
           'id' => 'list-wrapper',
         ],
-        'layout' => "{summary}\n{items}\n<div class='col-md-4 col-md-offset-8'>{pager}</div>",
+        'layout' => "{summary}\n{items}\n<center><div class='col-md-4 col-md-offset-8'>{pager}</div></center>",
         'itemView' => function ($model, $var, $index, $widget) {
           return $this->render('_notificacionItem', ['objNotificacion' => $model, 'idx' => $index]);
         },

@@ -225,7 +225,11 @@ if (!Yii::$app->user->isGuest) {
                 <div class="side-widget-content">
                  <div id="groups-list">
                     <ul class="groups" >
-                        <li><a href="#"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> Ver todo</a></li>
+                      <li>
+                        <?= yii\bootstrap\Html::a('<i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> Ver todo', ['notificaciones/'], []) ?>
+                      </li>
+
+                      <!--<li><a href="#"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> Ver todo</a></li>-->
                     </ul>
                 </div>
                 </div>
@@ -235,7 +239,12 @@ if (!Yii::$app->user->isGuest) {
                <div id="favourites-list">
                 <div class="side-widget-content" >
                     <ul class="groups" >
-                        <li><a href="#"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> Tareas pendientes</a></li>
+                      <li>
+                        <?= Html::a("<span class='glyphicon glyphicon-list-alt' aria-hidden='true'>
+                          </span><span class='badge badge-success' style='position: absolute;'> $numTareas</span>
+                            <span style='margin-left: 20px;'>Tareas pendientes</span>", ['tareas/listar-tareas']) ?>
+                      </li>
+                      <!--<li><a href="#"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> Tareas pendientes</a></li>-->
                     </ul>
                 </div>
                 </div>
