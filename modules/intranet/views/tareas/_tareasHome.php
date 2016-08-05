@@ -38,12 +38,12 @@ use yii\helpers\Url;
           ?>
           
           <div class= "<?=  "checkbox ".$check_success ?> col-md-12" >
-            <div class="col-md-3">
+            <div class="col-md-3 col-xs-2">
               <a href='#' data-tarea= "<?= $tarea->idTarea?>" data-location="<?= Tareas::TAREAS_INDEX ?>" data-role='inactivarTarea'>
                 <li class="fa fa-times"></li>
               </a>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-9 col-xs-10">
               <input type="checkbox" <?= $checkeado?>  id="chk_todo<?= $tarea->idTarea ?>" class="todo-list" data-tarea="<?= $tarea->idTarea ?>" data-role="tarea-check">
               <label for="chk_todo<?= $tarea->idTarea ?>"  class="<?= $clase ?>"><?= $tarea->descripcion ?></label>
             </div>

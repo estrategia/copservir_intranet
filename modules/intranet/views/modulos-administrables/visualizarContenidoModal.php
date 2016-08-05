@@ -1,5 +1,5 @@
-<div class="modal fade" id="modal-contenido-administrable" tabindex="-1" with='100%' role="dialog">
-  <div class="modal-dialog" role="document" style="width: 800px;">
+<div class="modal fade" id="modal-contenido-administrable" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Contenido </h4>

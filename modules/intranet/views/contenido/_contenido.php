@@ -62,7 +62,7 @@ $completo = isset($completo) ? $completo : false;
                   <!-- IMAGENES -->
                   <?php if (!empty($noticia->objContenidoAdjuntoImagenes)): ?>
                       <?php $contador = 0; ?>
-
+                      <div class="row">
                       <?php foreach ($noticia->objContenidoAdjuntoImagenes as $imagenes): ?>
                           <?php
                           $contador++;
@@ -78,8 +78,8 @@ $completo = isset($completo) ? $completo : false;
                               }
                           }
                           ?>
-
-                          <div class="col-md-3 col-sm-3">
+                        
+                          <div class="col-md-4 col-sm-4">
                           <a class="lightbox gallery<?= $noticia->idContenido ?>" href="<?= Yii::getAlias('@web') . "/img/imagenesContenidos/" . $imagenes->rutaArchivo ?>" style="<?= $style ?>">
 
                                   <div class="slide-front ha slide">
@@ -90,12 +90,13 @@ $completo = isset($completo) ? $completo : false;
                                               </div>
                                           </div>
                                       </div>
-                                      <img src="<?= Yii::getAlias('@web') . "/img/imagenesContenidos/" . $imagenes->rutaArchivo ?>" class="img-thumbnail publicacion"/>
+                                      <img src="<?= Yii::getAlias('@web') . "/img/imagenesContenidos/" . $imagenes->rutaArchivo ?>" class="img-thumbnail"/>
                                   </div>
 
                           </a>
                           </div>
                       <?php endforeach; ?>
+                          </div>
                       <?php $this->registerJs("jQuery('.gallery$noticia->idContenido').lightbox();");?>
                       <script type="text/javascript">
                         jQuery('.lightbox').lightbox();

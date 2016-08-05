@@ -484,7 +484,7 @@ body.boxed-layout .footer-widget {
   font-weight: normal;
 }
 .page-sidebar {
-  background-color: #3C8DBC !important;
+  background-color: #103348 !important;
   height: 100%;
   font-family: 'Open Sans';
   -webkit-backface-visibility: hidden;
@@ -924,7 +924,7 @@ body.boxed-layout .footer-widget {
   top: 0;
   right: 0;
   width: 260px;
-  background-color: #3C8DBC;
+  background-color: #103348;
   height: 100%;
   z-index: 5;
   -webkit-transition: opacity 0.1s ease;
@@ -9048,7 +9048,7 @@ body.rtl .footer-widget {
     display: none;
   }
   .page-sidebar {
-    background-color: #3C8DBC !important;
+    background-color: #103348 !important;
   }
   .page-sidebar .page-sidebar-wrapper > ul > li.open > a,
   .page-sidebar .page-sidebar-wrapper > ul > li > a:hover,
@@ -10080,6 +10080,14 @@ body.rtl .footer-widget {
   }
 }
 
+
+@media (max-width: 373px) {
+  .logo{
+    margin: 15px 0px !important;
+    width: 150px !important;
+  }
+}
+
 /* carrusel vertical */
 .vertical .carousel-inner {
   height: 100%;
@@ -10220,7 +10228,7 @@ label {cursor:pointer;}
     border: 3px solid #F2F4F6;
 }
 
-.btn.btn-default.btn-xs.menu_corporativo{background-color: #3C8DBC;color:#fff;}
+.btn.btn-default.btn-xs.menu_corporativo{background-color: #103348;color:#fff;}
 
 span.fancytree-active span.fancytree-title {
     background-color: initial !important;
@@ -10245,3 +10253,5 @@ span.fancytree-active span.fancytree-title {
 
 #bannerLateral .carousel-control .glyphicon-chevron-left {margin-left: 0px;}
 #bannerLateral .carousel-control .glyphicon-chevron-right {margin-left: 0px;}
+
+.modal-dialog .modal-header h4 {display: initial;}
