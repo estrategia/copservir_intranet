@@ -96,7 +96,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contenido #' . $mode
               </div>
           <?php endforeach; ?>
           <?php $this->registerJs("jQuery('.gallery$model->idContenido').lightbox();");?>
-          
+
       <?php endif; ?>
       <br><br>
     </div>

@@ -104,7 +104,7 @@ $this->title = 'Intranet - Copservir';
 </ul>
 
 <div class="tab-content">
-  <div class="tab-pane active">
+  <div class="">
     <!-- el contenido de las lineas de tiempo -->
     <?php $i = 0; ?>
     <?php foreach ($lineasTiempo as $linea): ?>

@@ -28,7 +28,7 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.pn
 
             <nav class="navbar navbar-coop navbar-static-top company-bgcolor-1">
                 <div class="white-piece"></div>
-                <div class="container coop">
+                <div class="container proveedor">
 
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
