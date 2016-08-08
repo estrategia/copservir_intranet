@@ -461,7 +461,11 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
   .container.coop {
     width: 1372px;
   }
+  .container.proveedor {
+    width: 1372px;
+  }
   .container.coop .navbar-nav {margin-left: 4%;}
+  .container.proveedor .navbar-nav {margin-left: 4%;}
 }
 
 
@@ -505,7 +509,11 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
       width: 23%;
   }
   .container.coop .navbar-header {margin-left: 22px;}
+  .container.proveedor .navbar-header {margin-left: 22px;}
   .container.coop .navbar-nav {
+    margin-left: 3%;
+  }
+  .container.proveedor .navbar-nav {
     margin-left: 3%;
   }
 }
@@ -518,6 +526,9 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
   .container.coop .navbar-nav {
     margin-left: 2%;
   }
+   .container.proveedor .navbar-nav {
+    margin-left: 2%;
+  }
 
 }
 
@@ -527,6 +538,9 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
       width: 24%;
   }
   .container.coop .navbar-nav {
+    margin-left: 0%;
+  }
+  .container.proveedor .navbar-nav {
     margin-left: 0%;
   }
 }
@@ -569,6 +583,9 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
  .container.coop .navbar-header {
     margin-left: 0px;
 }
+ .container.proveedor .navbar-header {
+    margin-left: 0px;
+}
 .navbar-header {
     position: relative;
     margin-right: 0px !important;
@@ -578,6 +595,9 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
     z-index: 2;
 }
 .container.coop .navbar-header {
+    z-index: 3;
+}
+.container.proveedor .navbar-header {
     z-index: 3;
 }
 
@@ -619,6 +639,7 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
 
 @media (max-width: 767px) {
   .container.coop {width: 100%;}
+  .container.proveedor {width: 100%;}
   .white-piece {
       width: 100%;
       border-radius: 0;
@@ -750,6 +771,11 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
 }
 .container.coop .navbar-nav > li > a {background-color: #3CB04B;}
 .container.coop .navbar-nav > li > a:hover {background-color: #146f02;} 
+
+.container.proveedor .navbar-nav > li > a {background-color: #C00000;}
+.container.proveedor .navbar-nav > li > a:hover {background-color: #E10A0A;} 
+
+
 
 .dropdown-menu {background-color: #3CB04B;}
 .dropdown-menu > li > a {color: #fff;}
