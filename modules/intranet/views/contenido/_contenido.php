@@ -74,7 +74,7 @@ $completo = isset($completo) ? $completo : false;
 
                           if ($contador == \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) {
                               if (($contador) != count($noticia->objContenidoAdjuntoImagenes)) {
-                                  $mensaje = (count($noticia->objContenidoAdjuntoImagenes) - \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) . '+'; // cambiar por una constante
+                                  $mensaje = (count($noticia->objContenidoAdjuntoImagenes) - \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) . '+'; 
                               }
                           }
                           ?>
@@ -92,14 +92,10 @@ $completo = isset($completo) ? $completo : false;
                                       </div>
                                       <img src="<?= Yii::getAlias('@web') . "/img/imagenesContenidos/" . $imagenes->rutaArchivo ?>" class="img-thumbnail publicacion"/>
                                   </div>
-
                           </a>
                           </div>
                       <?php endforeach; ?>
                       <?php $this->registerJs("jQuery('.gallery$noticia->idContenido').lightbox();");?>
-                      <script type="text/javascript">
-                        jQuery('.lightbox').lightbox();
-                      </script>
                   <?php endif; ?>
 
                 </div>

@@ -58,7 +58,7 @@ class IntranetAsset extends AssetBundle {
         'libs/jquery-ui-touch/jquery.ui.touch-punch.min.js',
         //slider tareas intranet
         'libs/boostrap-slider/js/bootstrap-slider.js',
-        'libs/bootstrap-media-lightbox-master/bootstrap-media-lightbox.min.js',
+        'libs/bootstrap-media-lightbox-master/bootstrap-media-lightbox.js',
         'libs/modernizr/modernizr.js',
         // 'js/dashboard/dashboard.js',
         'libs/timeago/jquery.timeago.js',
@@ -66,7 +66,7 @@ class IntranetAsset extends AssetBundle {
         // carousel
         'libs/multiportal/owl-carousel/owl.carousel.min.js',
 
-        
+
         //propios
         //'libs/fullcalendar/fullcalendar.js',
         'js/funciones-jj.js',
