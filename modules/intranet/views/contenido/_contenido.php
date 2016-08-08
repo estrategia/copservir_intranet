@@ -28,7 +28,7 @@ $completo = isset($completo) ? $completo : false;
         <div class="cbp_tmicon primary animated bounceIn"> <i class="fa fa-comments"></i> </div>
 
         <div class="cbp_tmlabel">
-            <div class="p-t-10 p-l-30 p-r-20 p-b-20 xs-p-r-10 xs-p-l-10 xs-p-t-5">
+            <div class="">
 
                 <h5 class="inline semi-bold m-b-5"><?= $noticia->objUsuarioPublicacion->alias ?></h5>
                 <div class="muted">
@@ -86,7 +86,7 @@ $completo = isset($completo) ? $completo : false;
                                       <div class="overlayer bottom-left fullwidth">
                                           <div class="overlayer-wrapper">
                                               <div class="p-l-20 p-r-20 p-b-20 p-t-20" style="text-align:center;">
-                                                  <h1 style="color:#fff !important;line-height: 85px;background-color: rgba(0, 0, 0, 0.17)"><span class="semi-bold"><?= $mensaje ?></span></h1>
+                                                  <h1 style="color:#fff !important;line-height:37px;background-color: rgba(0, 0, 0, 0.17)"><span class="semi-bold"><?= $mensaje ?></span></h1>
                                               </div>
                                           </div>
                                       </div>
@@ -110,8 +110,8 @@ $completo = isset($completo) ? $completo : false;
             <!-- comentarios y me gusta -->
 
             <?php if ($noticia->objLineaTiempo->tipo == LineaTiempo::TIPO_PUBLICACION || $noticia->objLineaTiempo->tipo == LineaTiempo::TIPO_ANIVERSARIO): ?>
-                <ul class="action-links post p-b-15 p-t-15 p-l-15 b-b b-grey grey col-md-12" >
-                    <li style="width:100%; padding:10px; border-top: 1px solid #eee;">
+                <ul class="action-links post b-grey grey col-md-12 col-sm-12 col-xs-12" >
+                    <li style="width:100%; padding:10px; border: 1px solid #eee;">
                         <?php $noExisteMeGusta = (empty($noticia->listMeGustaUsuario) || count($noticia->listMeGustaUsuario) < 1) ?>
 
                         <a id='megusta_<?= $noticia->idContenido ?>' class="" data-role='me-gusta-contenido' data-contenido='<?= $noticia->idContenido ?>' data-value='1' style='font-weight: bold;cursor:pointer; cursor: hand ;display: <?= $noExisteMeGusta ? '' : 'none' ?>'>
@@ -164,11 +164,11 @@ $completo = isset($completo) ? $completo : false;
                         <?php endif; ?>
                     </li>
                 </ul>
-                <div class="p-b-10 p-l-10 p-r-10">
-                    <div class="profile-img-wrapper pull-left" style="margin-top: 15px;overflow: hidden;height: 50px; width: 50px;">
-                        <img class=" img-responsive" src=<?= Yii::$app->homeUrl . 'img/fotosperfil/' . $noticia->objUsuarioPublicacion->getImagenPerfil() ?> alt="" data-src="" data-src-retina="" width="60" height="60">
+                
+                    <div class="col-lg-2 col-md-2 col-xs-12">
+                        <img class="profile img-responsive" src=<?= Yii::$app->homeUrl . 'img/fotosperfil/' . $noticia->objUsuarioPublicacion->getImagenPerfil() ?> alt="" data-src="" data-src-retina="" width="60" height="60">
                     </div>
-                    <div class="inline pull-right" style="width:86%">
+                    <div class="col-lg-10 col-md-10 col-xs-12 ">
                         <textarea class="input-group transparent" id="comentario_<?= $noticia->idContenido ?>" placeholder="Comentar Publicación..." class="form-control" rows="2">
                         </textarea>
                         <?php
@@ -186,7 +186,7 @@ $completo = isset($completo) ? $completo : false;
                         ]);
                         ?>
                     </div>
-                </div>
+                
                 <div class="clearfix"></div>
 
                 <br>

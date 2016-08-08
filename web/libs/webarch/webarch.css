@@ -8050,7 +8050,6 @@ input[type="checkbox"] {
   margin: 4px 0 0;
   list-style: none;
   font-size: 13px;
-  padding: 0;
   float: left;
 }
 .cbp_tmtimeline .action-links li {
@@ -10088,6 +10087,12 @@ body.rtl .footer-widget {
   }
 }
 
+@media (max-width: 991px) {
+  .profile{margin: 0px auto;padding-bottom: 10px;padding-top: 10px;}
+}
+
+
+
 /* carrusel vertical */
 .vertical .carousel-inner {
   height: 100%;
@@ -10255,3 +10260,8 @@ span.fancytree-active span.fancytree-title {
 #bannerLateral .carousel-control .glyphicon-chevron-right {margin-left: 0px;}
 
 .modal-dialog .modal-header h4 {display: initial;}
+.profile{
+    border-radius: 100px;
+    margin-top: 9px;
+    margin-bottom: 9px;
+}
