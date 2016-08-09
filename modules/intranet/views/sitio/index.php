@@ -22,9 +22,9 @@ $this->title = 'Intranet - Copservir';
 
     <div class="grid-title no-border">
 
-      <div class="tools">
+      <div class="tools" style="margin: 8px !important">
         <a href="javascript:;" data-role="quitar-elemento"
-        data-elemento="<?=\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_CUMPLEANOS ?> "  class="remove"></a>
+        data-elemento="<?=\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_CUMPLEANOS ?>" class="remove"></a>
       </div>
 
        <ul class="nav nav-tabs" role="tablist">
