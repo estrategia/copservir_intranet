@@ -60,51 +60,43 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contenido #' . $mode
       ],
       ]) ?>
 
-      <?php if ($model->objContenidoAdjuntoImagenes): ?>
-        <div class="row">
-          <div class="col-md-12">
-            <h4>Imagenes asociadas a la publicación</h4>
-            <?php $contador = 0; ?>
-            <?php foreach ($model->objContenidoAdjuntoImagenes as $imagenes): ?>
+      <?php if (!empty($model->objContenidoAdjuntoImagenes)): ?>
+          <?php $contador = 0; ?>
 
+          <?php foreach ($model->objContenidoAdjuntoImagenes as $imagenes): ?>
               <?php
-                $contador++;
-                $style = '';
-                $mensaje = '';
-                if ($contador > \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) {
+              $contador++;
+              $style = '';
+              $mensaje = '';
+              if ($contador > \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) {
                   $style = 'display:none';
-                }
+              }
 
-                if ($contador == \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) {
+              if ($contador == \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) {
                   if (($contador) != count($model->objContenidoAdjuntoImagenes)) {
-                    $mensaje = (count($model->objContenidoAdjuntoImagenes) - \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) . '+'; // cambiar por una constante
+                      $mensaje = (count($model->objContenidoAdjuntoImagenes) - \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) . '+';
                   }
-                }
+              }
               ?>
-              <div class="col-md-2  col-sm-2">
-                <a class="lightbox gallery<?= $model->idContenido ?>"
-                  href="<?= Yii::getAlias('@web') . "/img/imagenesContenidos/" . $imagenes->rutaArchivo ?>" style="<?= $style ?>">
 
-                  <div class="slide-front ha slide">
-                    <div class="overlayer bottom-left fullwidth">
-                      <div class="overlayer-wrapper">
-                        <div class="p-l-20 p-r-20 p-b-20 p-t-20" style="text-align:center;">
-                          <h1 style="color:#fff !important;line-height: 85px;background-color:rgba(0, 0, 0, 0.17);"><span class="semi-bold"><?= $mensaje ?></span></h1>
-                        </div>
+              <div class="col-md-3 col-sm-3">
+              <a class="lightbox gallery<?= $model->idContenido ?>" href="<?= Yii::getAlias('@web') . "/img/imagenesContenidos/" . $imagenes->rutaArchivo ?>" style="<?= $style ?>">
+
+                      <div class="slide-front ha slide">
+                          <div class="overlayer bottom-left fullwidth">
+                              <div class="overlayer-wrapper">
+                                  <div class="p-l-20 p-r-20 p-b-20 p-t-20" style="text-align:center;">
+                                      <h1 style="color:#fff !important;line-height: 85px;background-color: rgba(0, 0, 0, 0.17)"><span class="semi-bold"><?= $mensaje ?></span></h1>
+                                  </div>
+                              </div>
+                          </div>
+                          <img src="<?= Yii::getAlias('@web') . "/img/imagenesContenidos/" . $imagenes->rutaArchivo ?>" class="img-thumbnail publicacion"/>
                       </div>
-                    </div>
-                    <img src="<?= Yii::getAlias('@web') . "/img/imagenesContenidos/" . $imagenes->rutaArchivo ?>" class="img-thumbnail publicacion"/>
-                  </div>
-
-                </a>
+              </a>
               </div>
-            <?php endforeach; ?>
-            <?php $this->registerJs("jQuery('.gallery$model->idContenido').lightbox();");?>
-            <script type="text/javascript">
-                jQuery('.lightbox').lightbox();
-            </script>
-          </div>
-        </div>
+          <?php endforeach; ?>
+          <?php $this->registerJs("jQuery('.gallery$model->idContenido').lightbox();");?>
+
       <?php endif; ?>
       <br><br>
     </div>

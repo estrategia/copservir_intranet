@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 
 $this->title = 'Crear Prioridad Tarea';
-$this->params['breadcrumbs'][] = ['label' => 'Prioridad Tareas', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Prioridad Tareas', 'url' => ['/intranet/prioridad-tarea/admin']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="prioridad-tarea-create">

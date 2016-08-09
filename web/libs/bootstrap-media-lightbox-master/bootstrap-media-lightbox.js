@@ -91,12 +91,13 @@
 
         // add content to the lightbox
         var target = $a.attr('href');
-        var supportedImageFormats = [ "png", "jpg", "jpeg", "bmp" ]
+        var supportedImageFormats = [ "jpe", "png", "jpg", "jpeg", "bmp" ]
         var extension =  target.split('.').pop().toLowerCase();
         if ($a.data('target') !== undefined) {
 
         }
         if ($.inArray(extension, supportedImageFormats) > -1) {
+            console.log('en el arreglo');
             this.addImage(target);
         } else if (target.substr(0, 22) == "http://www.youtube.com") {
             this.addYoutubeVideo(target);
@@ -129,7 +130,7 @@
 
         var preloader = new Image();
         preloader.onload = function() {
-        
+
             // set default size if size is undefined
             if (t.options.width === undefined && t.options.height === undefined) {
                 t.contentWidth = preloader.width; // original imagel width
@@ -222,7 +223,7 @@
     BootstrapLightBox.prototype.addCaption = function($a)
     {
         var caption = $a.attr('title');
-        
+
         if (caption !== "" && caption !== undefined && this.options.caption === true) {
             // below it will affect the height of the image with the caption or without it
             this.caption = true;
@@ -249,13 +250,13 @@
         var windowHeight = $( window ).height();
         var windowWidth = $( window ).width();
         var offsetHeight = this.caption?80:30;
-        
+
         if (this.contentWidth + 50 > windowWidth) {
             var oldWith = this.contentWidth;
             this.contentWidth = windowWidth - 50;
             this.contentHeight = this.contentHeight * this.contentWidth / oldWith;
         }
-        
+
         if (this.contentHeight + offsetHeight > windowHeight) {
             var oldHeight = this.contentHeight;
             this.contentHeight = windowHeight - offsetHeight;
@@ -268,7 +269,7 @@
         var windowHeight = $( window ).height();
         var windowWidth = $( window ).width();
         var offsetHeight = this.caption?50:0;
-        
+
         $element.css({"margin-top": (windowHeight - offsetHeight - this.contentHeight)/2});
         $element.css({"margin-left": (windowWidth - this.contentWidth)/2});
     }

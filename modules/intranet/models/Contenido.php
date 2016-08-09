@@ -619,7 +619,7 @@ class Contenido extends \yii\db\ActiveRecord {
 
                 if (is_uploaded_file($value)) {
 
-                    $rutaArchivo = Yii::getAlias('@webroot') . "/img/imagenesContenidos/".$this->imagenes['name'][$key];
+                    //$rutaArchivo = Yii::getAlias('@webroot') . "/img/imagenesContenidos/".$this->imagenes['name'][$key];
                     $rutaGuardarArchivo = Yii::getAlias('@webroot') . "/img/imagenesContenidos/".time().'_'.$numeroDocumento.'_'
                       .$this->imagenes['name'][$key];
                     $contenidoAdjunto = new ContenidoAdjunto;
@@ -628,15 +628,16 @@ class Contenido extends \yii\db\ActiveRecord {
                     $contenidoAdjunto->tipo = ContenidoAdjunto::TIPO_IMAGEN;
                     $contenidoAdjunto->rutaArchivo = time().'_'.$numeroDocumento.'_'.$this->imagenes['name'][$key];
 
-                    if (!is_file($rutaArchivo)) {
+                    if (!is_file($rutaGuardarArchivo)) {
 
                         move_uploaded_file($value, $rutaGuardarArchivo);
                     }
 
                     if (!$contenidoAdjunto->save()) {
-
                         throw new \Exception("Error al guardar las imagenes:" . json_encode($contenidoAdjunto->getErrors()), 100);
                     }
+                }else{
+                  throw new \Exception("Error al guardar las imagenes" , 100);
                 }
             }
         }

@@ -4,7 +4,7 @@ use yii\widgets\DetailView;
 use app\modules\intranet\models\PrioridadTarea;
 
 $this->title = 'Detalle';
-$this->params['breadcrumbs'][] = ['label' => 'Prioridad Tareas', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Prioridad Tareas', 'url' => ['/intranet/prioridad-tarea/admin']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="prioridad-tarea-view">

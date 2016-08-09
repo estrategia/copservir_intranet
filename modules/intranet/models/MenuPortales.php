@@ -175,6 +175,8 @@ class MenuPortales extends \yii\db\ActiveRecord {
 
         if ($portal != 'intranet') {
             $menuClass = "dropdown";
+        }else{
+          $submenuClass = "sub-menu";
         }
 
         if (empty($objMenu->objMenuHijos)) {

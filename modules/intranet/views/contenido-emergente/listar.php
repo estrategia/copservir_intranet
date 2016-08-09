@@ -11,6 +11,8 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contenidos emergente
 
   <h1><?= Html::encode($this->title) ?></h1>
 
+  <?= $this->render('/common/errores', []) ?>
+
   <p>
     <?= Html::a('Crea un contenido emergente', ['crear'], ['class' => 'btn btn-success']) ?>
   </p>
@@ -55,7 +57,18 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contenidos emergente
           }
         ],
       ],
+      [
+        'class' => 'yii\grid\ActionColumn',
+        'headerOptions'=> ['style'=>'width: 70px;'],
+        'template' => '{resetear-vistos}',
+        'buttons' => [
+          'resetear-vistos' => function ($url, $model) {
+            return  Html::a('<i class="fa fa-undo" aria-hidden="true"></i>', $url);
+          },
+        ],
+      ]
 
     ],
+
   ]); ?>
 </div>

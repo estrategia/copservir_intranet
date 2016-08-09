@@ -2,8 +2,8 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 
-$this->title = 'Administrar menú de documentos';
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Menú documentos organizacionales')];
+$this->title = 'Administrar menú de documentos organizacionales';
+$this->params['breadcrumbs'][] = $this->title
 ?>
 
 <div class="col-md-12" id="menu-categoria-documento">
@@ -12,7 +12,19 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Menú documentos org
     <button type="button" name="button" class="btn btn-success" data-role="categoria-crear" >Crear categoria</button>
   </p>
 
-  <div data-toggle="collapse" id="accordion" class="panel-group">
-    <?= $menu ?>
-  </div>
+<?php
+  echo yii2mod\tree\Tree::widget([
+    'items' => $menu,
+    'options' => [
+      'autoCollapse' => true,
+      'clickFolderMode' => 2,
+      'activate' => new \yii\web\JsExpression('
+      function(node, data) {
+        node  = data.node;
+      }
+      ')
+    ]
+  ]);
+?>
+
 </div>

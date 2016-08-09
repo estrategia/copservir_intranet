@@ -2,8 +2,8 @@
 use app\modules\intranet\models\Menu;
 use yii\helpers\Html;
 
-$this->title = 'Administra menú corporativo';
-$this->params['breadcrumbs'][] = ['label' => 'Menú corporativo'];
+$this->title = 'Administrar menú corporativo';
+$this->params['breadcrumbs'][] = $this->title;
 $opciones = Menu::construirArrayMenu(true,Yii::$app->user->identity->numeroDocumento);
 
 ?>

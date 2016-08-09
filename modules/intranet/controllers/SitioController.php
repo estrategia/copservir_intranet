@@ -272,10 +272,7 @@ class SitioController extends \app\controllers\CController {
                     $solicitarGrupo = Yii::$app->request->post('SolicitarGrupoObjetivo');
 
                     if ($solicitarGrupo == 1) {
-
-                        //$contenidodestino = Yii::$app->request->post('ContenidoDestino');
                         $contenido->guardarContenidoDestino($contenidodestino);
-
                     } else {
                       $contenido->guardarContenidoDestinoTodos();
                     }
