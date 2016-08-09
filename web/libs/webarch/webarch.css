@@ -8803,7 +8803,7 @@ body.rtl .footer-widget {
     padding-top: 0px;
   }
   .page-sidebar.opened {
-    background-color: #1b1e24 !important;
+    background-color: #1a4e6b !important;
     height: auto;
     font-family: 'Open Sans';
     width: 250px;
@@ -8821,14 +8821,14 @@ body.rtl .footer-widget {
     width: 200px;
   }
   .page-sidebar.opened .page-sidebar-wrapper > ul > li > a {
-    color: #8b91a0;
+    color: #fff;
   }
   .page-sidebar.opened .page-sidebar-wrapper > ul > li:last-child > a {
     border-bottom: 1px solid transparent !important;
   }
   .page-sidebar.opened .page-sidebar-wrapper > ul > li a i {
-    color: #8b91a0;
-    width: 20px;
+    color: #fff;
+    width: 15px;
     text-align: center;
     display: inline-block;
     margin-right: 10px;
@@ -8836,7 +8836,7 @@ body.rtl .footer-widget {
   .page-sidebar.opened .page-sidebar-wrapper > ul > li.open > a,
   .page-sidebar.opened .page-sidebar-wrapper > ul > li > a:hover,
   .page-sidebar.opened .page-sidebar-wrapper > ul > li:hover > a {
-    background: #1b1e24;
+    background: #1a4e6b;
     /* border-left:4px solid  #0aa699;*/
     padding: 11.5px 31px;
     color: #fff;
@@ -10264,4 +10264,10 @@ span.fancytree-active span.fancytree-title {
     border-radius: 100px;
     margin-top: 9px;
     margin-bottom: 9px;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .page-sidebar.opened {
+    height: 100%;
+    }
 }
