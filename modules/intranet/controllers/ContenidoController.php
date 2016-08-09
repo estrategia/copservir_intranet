@@ -92,7 +92,7 @@ class ContenidoController extends Controller {
                 'path' => '@app/web/contenidos/archivos/',
                 'uploadOnlyImage' => false,
                 'validatorOptions' => [
-                    'maxSize' => Yii::$app->params['contenido']['archivo']['tamanho'] * 1024 * 1024,
+                    'maxSize' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? null :  Yii::$app->params['contenido']['archivo']['tamanho'] * 1024 * 1024,
                     'extensions' => Yii::$app->params['contenido']['archivo']['formatosValidos']
                 ]
             ]

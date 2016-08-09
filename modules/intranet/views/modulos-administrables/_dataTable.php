@@ -20,7 +20,7 @@ use app\modules\intranet\models\ModuloContenido;
 
 <?php if (!empty($model->contenido)): ?>
 <?php $this->registerJsFile("@web/js/datatable.js", ['depends' => [app\assets\DataTableAsset::className()]]); ?>
-    <div class="portal-container" hidden>
+    <div class="portal-container">
         <?= $model->contenido ?>
     </div>
 <?php endif; ?>
