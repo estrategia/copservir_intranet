@@ -107,7 +107,7 @@ class CategoriaDocumentoController extends \yii\web\Controller {
         $html = $html .
                         '
                         '. $htmlEnlace . '
-                        <div class="list-group collapse" id="'. $categoria->idCategoriaDocumento.'">
+                        <div class="list-group collapse" id="'. $categoria->idCategoriaDocumento.'" style="padding-left: 45px;">
                         ' . $this->crearMenuDocumentos($hijos, '') . '
                         </div>';
 
@@ -149,6 +149,9 @@ class CategoriaDocumentoController extends \yii\web\Controller {
     public static function obtenerHijosArrayAdmin($objCategoria) {
 
       $hijos = CategoriaDocumento::getHijos($objCategoria->idCategoriaDocumento);
+
+      $htmlEditarRelacion = '';
+      $htmlVerDocumento = '';
 
       $htmlCrearCategoria = '<button class="btn btn-mini" data-role="categoria-crear" data-padre="' . $objCategoria->idCategoriaDocumento . '"
       class="btn btn-mini btn-success">
@@ -192,6 +195,17 @@ class CategoriaDocumentoController extends \yii\web\Controller {
           class="btn btn-mini btn-success">
           quitar relacion
           </button>';
+
+          $htmlCrearCategoria = '';
+
+          $htmlEditarRelacion = '<button class="btn btn-mini" data-categoria="' . $objCategoria->idCategoriaDocumento . '"
+        data-role="edita-relacion" class="btn btn-mini btn-success">
+        editar relacion
+        </button>';
+
+        $htmlVerDocumento = Html::a('ver documento', ['documento/detalle-documento',
+        'id' => $objCategoria->categoriaDocumentosDetalle->idDocumento], []);
+
         }else{
           // este va si es admin y hoja y no tiene un documento relacionado
           $htmlRelaciona = '<button class="btn btn-mini" data-categoria="' . $objCategoria->idCategoriaDocumento . '"
@@ -208,7 +222,9 @@ class CategoriaDocumentoController extends \yii\web\Controller {
             </h6>
             $htmlCrearCategoria
             $htmlEditaCategoria
+            $htmlEditarRelacion
             $htmlRelaciona
+            $htmlVerDocumento
           </div>
         </div> "];
       }
@@ -432,6 +448,48 @@ class CategoriaDocumentoController extends \yii\web\Controller {
 
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $categorias;
+    }
+
+    public function actionRenderEditarRelacion()
+    {
+      $idCategoriaDocumento = Yii::$app->request->post('idCategoriaDocumento', NULL);
+      $listaDocumentos = ArrayHelper::map(Documento::getTodosDocumento(), 'idDocumento', 'titulo');
+      $model = CategoriaDocumentoDetalle::findOne([ 'idCategoriaDocumento' => $idCategoriaDocumento ]);
+
+      $categorias = [
+          'result' => 'ok',
+          'response' => $this->renderAjax('_modalRelacionDocumento', [
+              'model' => $model,
+              'listaDocumentos' => $listaDocumentos,
+              'idCategoriaDocumento' => $idCategoriaDocumento
+          ])
+      ];
+
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      return $categorias;
+    }
+
+    public function actionGuardarEditaRelacion($id) {
+
+        $model = CategoriaDocumentoDetalle::findOne(['idCategoriaDocumento' => $id]);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            $respond = [
+                'result' => 'ok',
+            ];
+        } else {
+            $respond = [
+                'result' => 'error',
+                'response' => $this->renderAjax('_modalRelacionDocumento', [
+                    'model' => $model,
+                    'idMenu' => $model->idMenu
+                ])
+            ];
+        }
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $respond;
     }
 
     /**

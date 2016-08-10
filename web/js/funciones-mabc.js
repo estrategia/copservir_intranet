@@ -802,6 +802,79 @@ $(document).on('click', "button[data-role='guardar-relacion']", function() {
   return false;
 });
 
+$(document).on('click', "button[data-role='edita-relacion']", function() {
+
+  var idCategoriaDocumento = $(this).attr('data-categoria');
+
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/categoria-documento/render-editar-relacion',
+    data: {idCategoriaDocumento: idCategoriaDocumento},
+    dataType: 'json',
+    beforeSend: function() {
+      $("#widget-relaciona-documento").remove();
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $('body').append(data.response);
+        $("#widget-relaciona-documento").modal("show");
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+
+
+  return false;
+});
+
+$(document).on('click', "button[data-role='guardar-edito-relacion']", function() {
+
+
+
+  var idCategoriaDocumento = $(this).attr('data-categoria');
+  var form = $("#formRelacionaCategoria");
+
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/categoria-documento/guardar-edita-relacion?id='+idCategoriaDocumento,
+    data: form.serialize(),
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $("#widget-relaciona-documento").modal("hide");
+      }else{
+        $("#widget-relaciona-documento").modal("hide");
+        $('#widget-relaciona-documento').on('hidden.bs.modal', function (e) {
+          $('#widget-relaciona-documento').remove();
+          $('body').append(data.response);
+          $("#widget-relaciona-documento").modal("show");
+        })
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+
+  console.log('cilck guarda edicion relacion');
+  return false;
+
+});
+
 /**
 * peticion ajax eliminar la relacion entre una CategoriaDocumento y un Documento
 * @param idCategoria, idDocumento = identificadores de los elemntos a relacionar

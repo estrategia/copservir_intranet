@@ -37,7 +37,9 @@ use yii\helpers\Url;
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary', 'data-role' => $model->isNewRecord ? 'guardar-opcion-menu' : 'actualizar-opcion-menu', $model->isNewRecord ? : 'data-opcion'=>$model->idMenu]) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
+        'data-role' => $model->isNewRecord ? 'guardar-opcion-menu' : 'actualizar-opcion-menu',
+         $model->isNewRecord ? : 'data-opcion'=>$model->idMenu]) ?>
       </div>
     </div>
   </div>

@@ -223,6 +223,7 @@ MENU DESPLEGABLE
 
 .list-group.list-group-root .list-group {
     margin-bottom: 0;
+    background-color: #fff;
 }
 
 .list-group.list-group-root .list-group-item {
@@ -240,7 +241,7 @@ MENU DESPLEGABLE
 }
 
 .list-group.list-group-root > .list-group > .list-group > .list-group-item {
-    padding-left: 45px;
+    /*padding-left: 45px;*/
 }
 
 .list-group-item .glyphicon {
