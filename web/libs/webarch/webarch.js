@@ -501,6 +501,10 @@ $(document).ready(function () {
                 $('.footer-widget').hide();
                 $('.main-menu-wrapper').scrollbar('destroy');
             }
+            
+            if(window.innerWidth <= 1024){
+                $('#main-menu').toggleClass('opened');
+            }
         }
     });
 

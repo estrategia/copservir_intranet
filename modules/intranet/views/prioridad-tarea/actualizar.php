@@ -3,7 +3,7 @@ use yii\helpers\Html;
 
 $this->title = 'Actualiza Prioridad Tarea: ';
 $this->params['breadcrumbs'][] = ['label' => 'Prioridad Tareas', 'url' => ['/intranet/prioridad-tarea/admin']];
-$this->params['breadcrumbs'][] = ['label' => $model->idPrioridadTarea, 'url' => ['view', 'id' => $model->idPrioridadTarea]];
+//$this->params['breadcrumbs'][] = ['label' => $model->idPrioridadTarea, 'url' => ['view', 'id' => $model->idPrioridadTarea]];
 $this->params['breadcrumbs'][] = 'Actualizar';
 ?>
 <div class="prioridad-tarea-update">
