@@ -22,16 +22,69 @@ use app\modules\intranet\models\CumpleanosLaboral;
 
 class TestController extends Controller {
     
-    public function actionCumple(){
+    public function actionCumple($index=1){
+        $listGrupos = \app\modules\intranet\models\GrupoInteres::find()->all();
+        echo "Listar grupos [".count($listGrupos)."]: <br>";
+        foreach($listGrupos as $objGrupo){
+            VarDumper::dump($objGrupo->attributes, 10, true);
+            echo "<br>";
+        }
+        echo "<br>";
+        
+        $listGruposCargos = GrupoInteresCargo::find()->all();
+        echo "Listar grupos cargos [".count($listGruposCargos)."]: <br>";
+        foreach($listGruposCargos as $objGrupoCargo){
+            VarDumper::dump($objGrupoCargo->attributes, 10, true);
+            echo "<br>";
+        }
+        echo "<br>";
+        
+        
         $userCiudad = Yii::$app->user->identity->getCiudadCodigo();
         $userGrupos = Yii::$app->user->identity->getGruposCodigos();
-
+        echo "Ciudad: $userCiudad";
+        echo "<br>";
+        echo "Cargo: ". Yii::$app->user->identity->getCargoCodigo();
+        echo "<br>";
+        echo "Grupos : " . VarDumper::dumpAsString($userGrupos, 10, true);
+        echo "<br><br>";
+        
         // cumpleaños y aniversarios
-        $aniversarios = CumpleanosLaboral::getAniversariosIndex($userCiudad, $userGrupos);
+        $listCumpleLaboral = array();
+        $fecha = new \DateTime();
+        $anho1 = $fecha->format("Y");
+        $mes1 = $fecha->format("m");
+        $fecha->modify("+1 month");
+        $anho2 = $fecha->format("Y");
+        $mes2 = $fecha->format("m");
+        
+        if($index){
+            $listCumpleLaboral = CumpleanosLaboral::getAniversariosIndex($userCiudad, $userGrupos);
+        }else{
+            $listCumpleLaboral = CumpleanosLaboral::find()->where("fecha>=:fecha1 AND fecha<:fecha2", [':fecha1'=>"$anho1-$mes1-01",':fecha2'=>"$anho2-$mes2-01"])->orderBy("fecha")->all();
+        }
+        
+        echo "Listar cumple laboral [".count($listCumpleLaboral)."]: <br>";
+        foreach($listCumpleLaboral as $objCumpleLaboral){
+            VarDumper::dump($objCumpleLaboral->attributes, 10, true);
+            echo "<br>";
+        }
+        
+        $listCumplePersonal = array();
+        
+        if($index){
+            $listCumplePersonal = CumpleanosPersona::getCumpleanosIndex($userCiudad, $userGrupos);
+        }else{
+            $listCumplePersonal = CumpleanosPersona::find()->where("fecha>=:fecha1 AND fecha<:fecha2", [':fecha1'=>"$anho1-$mes1-01",':fecha2'=>"$anho2-$mes2-01"])->orderBy("fecha")->all();
+        }
+        
+        echo "<br>Listar cumple personal [".count($listCumplePersonal)."]: <br>";
+        foreach($listCumplePersonal as $objCumplePersonal){
+            VarDumper::dump($objCumplePersonal->attributes, 10, true);
+            echo "<br>";
+        }
         
         //$models = \app\modules\intranet\models\CumpleanosLaboral::getAniversariosVerTodos();
-        
-        VarDumper::dump($aniversarios, 10, true);
     }
 
     public function actionBanner(){

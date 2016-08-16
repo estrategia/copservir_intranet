@@ -33,7 +33,6 @@ $srcYt = Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
             <nav class="navbar navbar-coop navbar-static-top">
                 <div class="white-piece"></div>
                 <div class="container coop">
-
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                             <span class="sr-only">Toggle navigation</span>
@@ -46,26 +45,6 @@ $srcYt = Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
 
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                          
-                            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
-                              <ul class="dropdown-menu copservir">
-                                <li><a href="#">element 1</a></li>
-                                <li><a href="#">element 2</a></li>
-                                <li><a href="#">element 3</a></li>
-                                <li class="dropdown-submenu">
-                                  <a href="#">element 4</a>
-                                  <ul class="dropdown-menu">
-                                    <li><a tabindex="-1" href="#">Second level</a></li>
-                                    <li><a href="#">Second level</a></li>
-                                    <li><a href="#">Second level</a></li>
-                                  </ul>
-                                </li>
-                              </ul>
-                            </li>
-                            <li><?= Html::a('Page 2', ['#']) ?></li>
-                            <li><?= Html::a('page 3', ['#']) ?></li>
-                            <li><?= Html::a('Page 4', ['#']) ?></li>
-
                             <?= MenuPortales::generarMenu(Yii::$app->controller->module->id) ?>
                         </ul>
                     </div>

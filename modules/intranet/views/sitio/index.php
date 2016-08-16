@@ -18,7 +18,7 @@ $this->title = 'Intranet - Copservir';
 
 <?php if(!in_array(\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_CUMPLEANOS ,Yii::$app->user->identity->getOcultosDashboard())): ?>
 <div class="col-md-12">
-  <div class="grid simple">
+    <div class="grid simple" style="margin-bottom:0px">
 
     <div class="grid-title no-border">
 
@@ -33,10 +33,10 @@ $this->title = 'Intranet - Copservir';
        </ul>
 
     </div>
-    <div class="grid-body no-border">
+        <div class="grid-body no-border" style="padding: 0px">
 
         <div class="tab-content">
-          <div role="tabpanel" class="tab-pane active" id="cumpleanos">
+            <div role="tabpanel" class="tab-pane active" id="cumpleanos" style="padding: 0">
             <div class="col-md-12">
               <?php if(!empty($cumpleanos)): ?>
                 <?= $this->render('/cumpleanos/_carouselCumpleanos', ['flag'=>'Cumpleaños', 'models'=>$cumpleanos]) ?>
@@ -45,14 +45,12 @@ $this->title = 'Intranet - Copservir';
 
             <div class="col-md-12">
               <?=
-                Html::a('Ver todos',  ['todos-cumpleanos'], [
-                  'class' => 'btn btn-primary btn-lg btn-block',
-                ]);
+                Html::a('Ver todos',  ['todos-cumpleanos'], ['class' => 'btn btn-primary btn-lg btn-block btn-sm btn-small']);
               ?>
             </div>
 
           </div>
-          <div role="tabpanel" class="tab-pane" id="aniversarios">
+            <div role="tabpanel" class="tab-pane" id="aniversarios" style="padding:0">
             <div class="col-md-12">
               <?php if(!empty($aniversarios)): ?>
                 <?=  $this->render('/cumpleanos/_carouselCumpleanos', ['flag'=>'Aniversarios', 'models'=>$aniversarios]) ?>
@@ -61,9 +59,7 @@ $this->title = 'Intranet - Copservir';
 
             <div class="col-md-12">
               <?=
-                Html::a('Ver todos',  ['todos-aniversarios'], [
-                  'class' => 'btn btn-primary btn-lg btn-block',
-                ]);
+                Html::a('Ver todos',  ['todos-aniversarios'], ['class' => 'btn btn-primary btn-lg btn-block btn-sm btn-small']);
               ?>
             </div>
 

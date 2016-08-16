@@ -11,29 +11,24 @@ use yii\helpers\Html;
         <div class="item orange center-block " style="text-align: center;">
           <img  class='img-circle img-responsive' src="<?= Yii::getAlias('@web').'/img/fotosperfil/'. $model->objUsuario->getImagenPerfil() ?>"
             alt="Responsive" style="width: 50%;margin-left: auto; margin-right: auto;">
-          <p>
+          
             <?php
             $fecha_dividida = explode("-", $model->fecha);
             $mes = \Yii::$app->params['calendario']['meses'][ (int)$fecha_dividida[1]];
             $dia = $fecha_dividida[2];
             if ($flag=='Cumpleaños') {
-              echo '<p>';
-              echo
-              Html::a('<h5>'.$model->nombre.'</h5>',  ['felicitar-cumpleanos', 'id'=>$model->idCumpleanosPersona], [
-              ]);
-              echo '</p>';
-              echo "Cumple el ".$dia.' de '.$mes;
+              //echo '<p>';
+              echo Html::a($model->nombre,  ['felicitar-cumpleanos', 'id'=>$model->idCumpleanosPersona], [ ]);
+              //echo '</p>';
+              echo "<div>Cumple el ".$dia.' de '.$mes. '</div>';
             }else{
-              echo '<p>';
-              echo
-              Html::a('<h5>'.$model->nombre.'</h5>',  ['felicitar-aniversario','id'=>$model->idCumpleanosLaboral], [
-
-              ]);
-              echo '</p>';
-              echo "Aniversario el ".$dia.' de '.$mes;
+              //echo '<p>';
+              echo Html::a($model->nombre,  ['felicitar-aniversario','id'=>$model->idCumpleanosLaboral], []);
+              //echo '</p>';
+              echo "<div>Aniversario el ".$dia.' de '.$mes. '</div>';
             }
             ?>
-          </p>
+          
         </div>
 
       <?php endforeach; ?>

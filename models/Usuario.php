@@ -463,6 +463,12 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
         if(empty($this->imagenPerfil))
             return "no-image.png";
         
+        $directorio = Yii::getAlias('@webroot') . '/img/fotosperfil/' . $this->imagenPerfil;
+
+        if (!file_exists($directorio)) {
+            return "no-image.png";
+        }
+        
         return $this->imagenPerfil;
     }
 

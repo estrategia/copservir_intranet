@@ -78,14 +78,19 @@ class CumpleanosLaboral extends \yii\db\ActiveRecord {
         $fecha2 = new \DateTime;
         $fecha2->modify('+5 days');
 
-        $userGrupos = implode(',', $userGrupos);
+        /*$userGrupos = implode(',', $userGrupos);
         $todosCiudad = \Yii::$app->params['ciudad']['*'];
         $todosGrupo = \Yii::$app->params['grupo']['*'];
-
+        
         $query = self::find()->joinWith(['objGrupoInteresCargo','objUsuario'])
                 ->where("m_Usuario.imagenPerfil IS NOT NULL AND  t_CumpleanosLaboral.fecha>=:fecha AND t_CumpleanosLaboral.fecha<=:fechaFin AND ( (t_CumpleanosLaboral.codigoCiudad =:codigoCiudad AND m_GrupoInteresCargo.idGrupoInteres IN ($userGrupos)) OR (t_CumpleanosLaboral.codigoCiudad =:codigoCiudad AND m_GrupoInteresCargo.idCargo=:todosGrupo) OR (t_CumpleanosLaboral.codigoCiudad =:todosCiudad AND m_GrupoInteresCargo.idGrupoInteres IN ($userGrupos)) OR (t_CumpleanosLaboral.codigoCiudad =:todosCiudad AND m_GrupoInteresCargo.idCargo =:todosGrupo) )")
                 ->addParams([':fecha' => $fecha->format('Y-m-d H:i:s'), ':fechaFin' => $fecha2->format('Y-m-d H:i:s' ), ':codigoCiudad' => $userCiudad,
                  ':todosCiudad' => $todosCiudad, ':todosGrupo' => $todosGrupo])
+                ->orderBy('t_CumpleanosLaboral.fecha asc');*/
+
+        $query = self::find()->joinWith(['objUsuario'])
+                ->where("m_Usuario.imagenPerfil IS NOT NULL AND  t_CumpleanosLaboral.fecha>=:fecha AND t_CumpleanosLaboral.fecha<=:fechaFin")
+                ->addParams([':fecha' => $fecha->format('Y-m-d'), ':fechaFin' => $fecha2->format('Y-m-d' )])
                 ->orderBy('t_CumpleanosLaboral.fecha asc');
 
         //return $query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql;
@@ -104,11 +109,12 @@ class CumpleanosLaboral extends \yii\db\ActiveRecord {
         $fecha2 = new \DateTime;
         $fecha2->modify('+5 days');
 
-        return self::find()->joinWith(['objGrupoInteresCargo','objUsuario'])
-                        ->where("m_Usuario.imagenPerfil IS NOT NULL AND t_CumpleanosLaboral.fecha>=:fecha and t_CumpleanosLaboral.fecha<=:fechaFin")
-                        ->addParams([':fecha' => $fecha->format('Y-m-d H:i:s'), ':fechaFin' => $fecha2->format('Y-m-d H:i:s' )])
-                        ->orderBy('t_CumpleanosLaboral.fecha asc')
-                        ->all();
+        $query = self::find()->joinWith(['objUsuario'])
+                        ->where("m_Usuario.imagenPerfil IS NOT NULL AND t_CumpleanosLaboral.fecha>=:fecha")
+                        ->addParams([':fecha' => $fecha->format('Y-m-d')])
+                        ->orderBy('t_CumpleanosLaboral.fecha asc');
+        
+        return $query->all();
     }
 
     public static function encontrarModelo($id) {
