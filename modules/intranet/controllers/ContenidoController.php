@@ -349,7 +349,7 @@ class ContenidoController extends Controller {
      * @param post-> q  | lo que el usuario escribe en la barra de busqueda
      */
     public function actionBuscadorNoticias() {
-        
+
         $q = "";
         $resultados = "";
         $tipoSite = "intranet_publico_collection";
@@ -432,9 +432,9 @@ class ContenidoController extends Controller {
     	$enlace = "";
 
     	if(isset($dato["U"]))
-    		$enlace = "<a href='".$dato["U"]."' target='_blank'>Documento tipo: <b>".$this->tipoEnlace($dato["U"])."</b></a> -_- ".$ss."<br />";
+    		$enlace = "<a href='".$dato["U"]."' target='_blank'>Tipo: <b>".$this->tipoEnlace($dato["U"])."</b></a> -_- ".$ss."<br />";
     	else if(isset($dato["UE"]))
-    		$enlace = "<a href='".$dato["UE"]."' target='_blank'> Documento tipo: <b>".$this->tipoEnlace($dato["UE"])."</b></a> -_- ".$ss." - <b></b><br />";
+    		$enlace = "<a href='".$dato["UE"]."' target='_blank'> Tipo: <b>".$this->tipoEnlace($dato["UE"])."</b></a> -_- ".$ss." - <b></b><br />";
 
     	return $enlace;
     }

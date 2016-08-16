@@ -82,18 +82,18 @@ if (!Yii::$app->user->isGuest) {
                             </li>
 
                             <!-- BUSCADOR -->
-                            <!--
+
                             <li class="m-r-10 input-prepend inside search-form no-boarder">
-                                <?php // Html::beginForm(['contenido/buscador-noticias'], 'post', ['id' => 'formBuscadorNoticias']); ?>
+                                <?= Html::beginForm(['contenido/buscador-noticias'], 'post', ['id' => 'formBuscadorNoticias']); ?>
                                 <span class="add-on pull-left">
                                     <span class="iconset top-search pull-left"></span>
                                 </span>
 
                                 <input id="busqueda" name="q" type="text"  class="no-boarder " placeholder="Escriba el texto a buscar"
                                 style="width:250px;" size="40">
-                                <?php // Html::endForm() ?>
+                                <?= Html::endForm() ?>
                             </li>
-                            -->
+
                         </ul>
                     </div><!-- END TOP NAVIGATION MENU -->
 

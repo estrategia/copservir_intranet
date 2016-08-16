@@ -167,12 +167,11 @@ table.table.table-striped.table-bordered > thead > tr > th{
     border-radius: 15px 100px;
 }*/
 
-/*
-.popover {
-    background-color: #424242;
-    opacity: 0.5;
-}
 
+.popover {
+    border: 3px solid #ccc;
+}
+/*
 .popover > .arrow::after {
     opacity: 0.5;
 }
@@ -238,10 +237,6 @@ MENU DESPLEGABLE
 
 .list-group.list-group-root > .list-group > .list-group-item {
     padding-left: 30px;
-}
-
-.list-group.list-group-root > .list-group > .list-group > .list-group-item {
-    /*padding-left: 45px;*/
 }
 
 .list-group-item .glyphicon {
