@@ -39,7 +39,10 @@ use kartik\select2\Select2;
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <?= Html::submitButton('Relacionar', ['class' => 'btn btn-success', 'data-role' => 'guardar-relacion' ]) ?>
+        <?= Html::submitButton('Relacionar', ['class' => 'btn btn-success',
+         'data-role' => $model->isNewRecord ? 'guardar-relacion' : 'guardar-edito-relacion',
+         $model->isNewRecord ? : 'data-categoria'=>$idCategoriaDocumento
+          ]) ?>
 
       </div>
     </div>

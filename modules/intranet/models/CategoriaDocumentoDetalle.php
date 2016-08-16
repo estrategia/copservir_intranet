@@ -37,7 +37,7 @@ class CategoriaDocumentoDetalle extends \yii\db\ActiveRecord
     return [
       'idCategoriaDocumento' => 'Id Categoria Documento',
       'contenido' => 'Contenido',
-      'idDocumento' => 'Id Documento',
+      'idDocumento' => 'Documento',
     ];
   }
 

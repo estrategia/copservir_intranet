@@ -96,17 +96,40 @@ $( document ).ready(function() {
 <?php foreach ($items as $item): ?>
   <?php if (!empty($item)): ?>
   <?php $itemDividido = explode("-_-", $item); ?>
+  <?php
+    $icono = 'fa fa-comments';
+    $color = 'primary'; //success info
+    $posDocumento = strpos($itemDividido[0], 'DOCUMENTO');
+    $posArchivo = strpos($itemDividido[0], 'ARCHIVO');
+
+    if ($posDocumento !== false) {
+      $color = 'success';
+      $icono = 'glyphicon glyphicon-book';
+    }else if ($posArchivo !== false){
+      $color = 'info';
+      $icono = 'fa fa-file';
+    }
+   ?>
   <ul class="cbp_tmtimeline">
     <li>
       <div class="cbp_tmtime">
       </div>
-      <div class="cbp_tmicon primary animated bounceIn"> <i class="fa fa-comments"></i> </div>
+      <div class="cbp_tmicon <?= $color ?> animated bounceIn"> <i class="<?= $icono ?>"></i> </div>
       <div class="cbp_tmlabel">
         <div class="p-t-10 p-l-30 p-r-20 p-b-20 xs-p-r-10 xs-p-l-10 xs-p-t-5">
           <?=  $itemDividido[0] ?>
           <p class="m-t-5 dark-text">
             <?php  if (count($itemDividido)>1): ?>
-              <?=  $itemDividido[1] ?>
+              <?php
+                $pos = strpos($itemDividido[1], '...');
+               ?>
+              <?php  if ($pos === false): ?>
+                <p>
+                  No se puede obtener fragmento de busqueda
+                </p>
+              <?php else: ?>
+                <?=  $itemDividido[1] ?>
+              <?php endif; ?>
             <?php endif; ?>
           </p>
         </div>

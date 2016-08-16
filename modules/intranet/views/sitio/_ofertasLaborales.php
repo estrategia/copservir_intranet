@@ -53,7 +53,9 @@ use yii\widgets\Pjax;
                   'template' => '{contacto}',
                   'buttons' => [
                     'contacto' => function ($url, $model, $key) {
-                      return Html::a('contacto', '#', ['class' => 'btn btn-xs btn-primary', 'data-html' => 'true', 'data-content' => '', 'role' => "button", 'data-toggle' => "popover", 'data-trigger' => "focus", 'data-placement' => "right", 'data-role' => "contacto-oferta", 'data-oferta' => $model->idInformacionContacto]);
+                      return Html::a('contacto', '#', ['class' => 'btn btn-xs btn-primary', 'data-html' => 'true', 'data-content' => '',
+                      'role' => "button", 'data-toggle' => "popover", 'data-trigger' => "focus", 'data-placement' => "right",
+                      'data-role' => "contacto-oferta", 'data-oferta' => $model->idInformacionContacto]);
                     },
                   ],
                 ],
@@ -63,7 +65,7 @@ use yii\widgets\Pjax;
             <?php Pjax::end(); ?>
           <?php endif; ?>
           <?=
-          Html::a('Ver todos', ['ofertas-laborales/listar-ofertas'], [
+          Html::a('Ver todas las ofertas laborales', ['ofertas-laborales/listar-ofertas'], [
             'class' => 'btn btn-block btn-primary',
           ]);
           ?>
