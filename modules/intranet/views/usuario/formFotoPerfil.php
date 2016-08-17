@@ -25,12 +25,12 @@ echo $form->field($modelFoto, 'imagenPerfil')->widget(Cropbox::className(), [
   'attributeCropInfo' => 'crop_info',
   'pluginOptions' => [
     'variants' => [[
-      'width' => 200,
-      'height' => 200,
-      'minWidth' => 100,
-      'minHeight' => 100,
-      'maxWidth' => 450,
-      'maxHeight' => 450
+      'width' => 300,
+      'height' => 300,
+      'minWidth' => 300,
+      'minHeight' => 300,
+      'maxWidth' => 300,
+      'maxHeight' => 300
       ]],
       ['width' => 300, 'height' => 300]
     ]
