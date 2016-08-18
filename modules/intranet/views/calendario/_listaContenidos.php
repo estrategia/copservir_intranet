@@ -2,8 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\widgets\Pjax;
-
+//use yii\widgets\Pjax;
+/*
 $columnas = [];
 
 if ($modelo->objPortal->nombrePortal == 'intranet') {
@@ -65,8 +65,9 @@ if ($modelo->objPortal->nombrePortal == 'intranet') {
     ]
   ];
 }
+*/
 ?>
-
+<!--
 <div class="col-md-12" id="contenidos-lista">
 
   <br><br>
@@ -75,12 +76,12 @@ if ($modelo->objPortal->nombrePortal == 'intranet') {
   <div>
     <?php
 
-     Pjax::begin(['timeout' => 10000, 'clientOptions' => ['container' => 'pjax-container']]); ?>
-    <?=  GridView::widget([
+     //Pjax::begin(['timeout' => 10000, 'clientOptions' => ['container' => 'pjax-container']]); ?>
+    <?php /* GridView::widget([
       'dataProvider' => $dataProviderContenido,
       'filterModel' => $searchModel,
       'columns' => $columnas,
-  ]); ?>
-  <?php Pjax::end(); ?>
+  ]); */?>
+  <?php //Pjax::end(); ?>
   </div>
 </div>

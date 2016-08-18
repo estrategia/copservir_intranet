@@ -15,7 +15,7 @@ use app\models\Usuario;
  * @property integer $idEventoCalendario
  * @property integer $idContenido
  * @property string $tituloEvento
- * @property string $descripcionEvento
+ * @property string $url
  * @property integer $numeroDocumento
  * @property string $fechaRegistro
  * @property string $fechaInicioEvento
@@ -37,10 +37,10 @@ class EventosCalendario extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['idContenido', 'numeroDocumento', 'estado', 'idPortal'], 'integer'],
-            [['tituloEvento', 'descripcionEvento', 'numeroDocumento', 'fechaRegistro', 'fechaInicioEvento', 'fechaFinEvento', 'fechaInicioVisible', 'idPortal'], 'required'],
+            [['tituloEvento', 'numeroDocumento', 'fechaRegistro', 'fechaInicioEvento', 'fechaFinEvento', 'fechaInicioVisible', 'idPortal'], 'required'],
             [['fechaRegistro', 'fechaInicioEvento', 'horaInicioEvento', 'fechaFinEvento', 'horaFinEvento', 'fechaInicioVisible'], 'safe'],
             [['tituloEvento'], 'string', 'max' => 45],
-            [['descripcionEvento'], 'string', 'max' => 200]
+            [['url'], 'string', 'max' => 200]
         ];
     }
 
@@ -49,7 +49,7 @@ class EventosCalendario extends \yii\db\ActiveRecord {
             'idEventoCalendario' => 'Id Evento',
             'idContenido' => 'Contenido',
             'tituloEvento' => 'Título Evento',
-            'descripcionEvento' => 'Descripción Evento',
+            'url' => 'Url',
             'numeroDocumento' => 'Número Documento',
             'fechaRegistro' => 'Fecha Registro',
             'fechaInicioEvento' => 'Fecha Inicio Evento',

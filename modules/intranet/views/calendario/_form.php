@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-//use kartik\datetime\DateTimePicker;
 use kartik\date\DatePicker;
 use kartik\time\TimePicker;
 use kartik\select2\Select2;
@@ -18,7 +17,7 @@ use app\modules\intranet\models\EventosCalendarioDestino;
     <div class="col-md-6">
         <?= $form->field($model, 'tituloEvento')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'descripcionEvento')->textArea(['rows' => '3', 'maxlength' => true]) ?>
+        <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
 
         <?php $model->estado = $model->isNewRecord ? 1 : $model->estado;  ?>
         <?= $form->field($model, 'estado')->dropDownList(['0' => 'Inactivo', '1' => 'Activo']); ?>
