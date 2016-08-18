@@ -78,6 +78,7 @@ if (!Yii::$app->user->isGuest) {
                         <ul class="nav quick-section">
                             <li class="quicklinks"> <span class="h-seperate"></span></li>
                             <li>
+                              <!-- EMISORA -->
                               <?= $this->render('emisora', []); ?>
                             </li>
 
@@ -93,7 +94,7 @@ if (!Yii::$app->user->isGuest) {
                                 style="width:250px;" size="40">
                                 <?= Html::endForm() ?>
                             </li>
-
+                            
                         </ul>
                     </div><!-- END TOP NAVIGATION MENU -->
 

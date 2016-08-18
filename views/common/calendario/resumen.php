@@ -11,7 +11,6 @@ use yii\helpers\Html;
             <li>
               <?= Html::a($objEvento->tituloEvento, [$objEvento->url], ['style' => 'color:#ffffff; font-size:13px;']) ?>
             </li>
-            <?php // $objEvento->descripcionEvento ?>
         <?php endforeach; ?>
     </ul>
 <?php endif; ?>
