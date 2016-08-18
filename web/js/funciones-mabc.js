@@ -1764,24 +1764,30 @@ $(function() {
 $( document ).ready(function() {
   // carousel cumpleaños
   $("#owl-Cumpleaños").owlCarousel({
-    items: 4,
     autoWidth: true,
     autoplay: true,
     autoplayTimeout:1000,
     autoplayHoverPause:true,
     responsiveClass:true,
     loop:true,
+    items: 5,
+    itemsDesktop: [1000, 5], //5 items between 1000px and 901px
+    itemsDesktopSmall: [900, 4] // betweem 900px and 601px
+    //itemsTablet: [400, 1], //2 items between 600 and 0
+    //itemsMobile: [300, 1] // itemsMobile disabled - inherit from itemsTablet option
   });
 
   // carousel aniversarios
   $("#owl-Aniversarios").owlCarousel({
-    items: 4,
     autoWidth: true,
     autoplay: true,
     autoplayTimeout:1000,
     autoplayHoverPause:true,
     responsiveClass:true,
     loop:true,
+    items: 5,
+    itemsDesktop: [1000, 5], //5 items between 1000px and 901px
+    itemsDesktopSmall: [900, 4]
   });
 
   // javascript para que se busque una noticia cuando presiona enter

@@ -261,10 +261,17 @@ MENU DESPLEGABLE
     background-color: #fff;
 }
 
-li.list-menu-corporativo{
-    padding:0 !important;
-}
-
 .login-container > .tiles.white {
   background-color: rgba(255, 255, 255, 0.61);
+}
+
+.text-truncate{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.text-truncate.text-truncate-hover:hover{
+    overflow: visible; 
+    white-space: normal;
 }

@@ -22,6 +22,13 @@ use app\modules\intranet\models\CumpleanosLaboral;
 
 class TestController extends Controller {
     
+    public function actionTiempo(){
+        $fecha_i = "2014-08-18";
+        $fecha_f = "2016-08-17";
+        $result = \app\modules\intranet\models\Funciones::tiempoTranscurridos($fecha_i, $fecha_f);
+        VarDumper::dump($result, 10, true);
+    }
+    
     public function actionCumple($index=1){
         $listGrupos = \app\modules\intranet\models\GrupoInteres::find()->all();
         echo "Listar grupos [".count($listGrupos)."]: <br>";
@@ -59,7 +66,7 @@ class TestController extends Controller {
         $mes2 = $fecha->format("m");
         
         if($index){
-            $listCumpleLaboral = CumpleanosLaboral::getAniversariosIndex($userCiudad, $userGrupos);
+            $listCumpleLaboral = CumpleanosLaboral::getAniversariosIndex();
         }else{
             $listCumpleLaboral = CumpleanosLaboral::find()->where("fecha>=:fecha1 AND fecha<:fecha2", [':fecha1'=>"$anho1-$mes1-01",':fecha2'=>"$anho2-$mes2-01"])->orderBy("fecha")->all();
         }
@@ -73,7 +80,7 @@ class TestController extends Controller {
         $listCumplePersonal = array();
         
         if($index){
-            $listCumplePersonal = CumpleanosPersona::getCumpleanosIndex($userCiudad, $userGrupos);
+            $listCumplePersonal = CumpleanosPersona::getCumpleanosIndex();
         }else{
             $listCumplePersonal = CumpleanosPersona::find()->where("fecha>=:fecha1 AND fecha<:fecha2", [':fecha1'=>"$anho1-$mes1-01",':fecha2'=>"$anho2-$mes2-01"])->orderBy("fecha")->all();
         }

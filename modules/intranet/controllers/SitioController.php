@@ -127,8 +127,8 @@ class SitioController extends \app\controllers\CController {
         $bannerDerecha = PublicacionesCampanas::getCampana($userCiudad, $userGrupos, PublicacionesCampanas::POSICION_DERECHA);
 
         // cumpleaños y aniversarios
-        $cumpleanos = CumpleanosPersona::getCumpleanosIndex($userCiudad, $userGrupos);
-        $aniversarios = CumpleanosLaboral::getAniversariosIndex($userCiudad, $userGrupos);
+        $cumpleanos = CumpleanosPersona::getCumpleanosIndex();
+        $aniversarios = CumpleanosLaboral::getAniversariosIndex();
 
         return $this->render('index', [
                     'contenidoModel' => $contenidoModel,

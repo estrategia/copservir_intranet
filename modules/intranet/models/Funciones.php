@@ -22,6 +22,19 @@ class Funciones {
         $dias = floor($dias);
         return $dias;
     }
+    
+    public static function tiempoTranscurridos($fecha_i, $fecha_f){
+        $fecha1 = new \DateTime("$fecha_i 00:00:00");
+        $fecha2 = new \DateTime("$fecha_f 00:00:00");
+        $fecha = $fecha1->diff($fecha2);
+        return [
+            'Y' => $fecha->y,
+            'm' => $fecha->m,
+            'd' => $fecha->d,
+            'H' => $fecha->h,
+            'i' => $fecha->i,
+        ];
+    }
 
     public static function reemplazarPatronDocumentoUsuario($contenido) {
         $numeroDocumento = "__GUEST__";
