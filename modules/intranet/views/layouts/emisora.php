@@ -29,16 +29,11 @@
   $html .='<div align="right" style="width:87%; margin: 0 auto;">
         <table>
           <tr>
-            <td>
-              <img src="'.Yii::getAlias('@web').'/img/boton_emisora_copservir.png'.'" alt="Radio Copservir">
-            </td>
-            <td bgcolor="#585556">
-              <audio id="audio-player" controls="controls" autoplay="true" style="width: 180px; height: 28px;">
+              <audio id="audio-player" controls="controls" style="width: 180px; height: 28px;">
                 <source src="http://radio.cenek.com:8000/radio" type="audio/mpeg">
                 <source src="http://radio.cenek.com:8000/radio" type="audio/ogg">
                 Su navegador no soporta streaming.
               </audio>
-            </td>
           </tr>
         </table>
       </div>';

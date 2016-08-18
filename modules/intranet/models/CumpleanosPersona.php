@@ -69,31 +69,15 @@ class CumpleanosPersona extends \yii\db\ActiveRecord {
      * @param $userCiudad = ciudad donde se encuentra el usuario, $userGrupos = grupos de interes del usuario
      * @return array modelo CumpleanosLaboral
      */
-    public static function getCumpleanosIndex($userCiudad, $userGrupos) {
+    public static function getCumpleanosIndex() {
         $fecha = new \DateTime;
-        $fecha->modify('-5 days');
-
-        $fecha2 = new \DateTime;
-        $fecha2->modify('+5 days');
-
-        /*$userGrupos = implode(',', $userGrupos);
-        $todosCiudad = \Yii::$app->params['ciudad']['*'];
-        $todosGrupo = \Yii::$app->params['grupo']['*'];
-
-        $query =  self::find()->joinWith(['objGrupoInteresCargo', 'objUsuario'])->with(['objUsuario'])
-                        ->where("m_Usuario.imagenPerfil IS NOT NULL AND t_CumpleanosPersona.fecha>=:fecha AND t_CumpleanosPersona.fecha<=:fechaFin AND ( (t_CumpleanosPersona.codigoCiudad =:codigoCiudad AND m_GrupoInteresCargo.idGrupoInteres IN ($userGrupos)) OR (t_CumpleanosPersona.codigoCiudad =:codigoCiudad AND m_GrupoInteresCargo.idCargo=:todosGrupo) OR (t_CumpleanosPersona.codigoCiudad =:todosCiudad AND m_GrupoInteresCargo.idGrupoInteres IN ($userGrupos)) OR (t_CumpleanosPersona.codigoCiudad =:todosCiudad AND m_GrupoInteresCargo.idCargo =:todosGrupo) )")
-                        ->addParams([':fecha' => $fecha->format('Y-m-d H:i:s'), ':fechaFin' => $fecha2->format('Y-m-d H:i:s' ), ':codigoCiudad' => $userCiudad, ':todosCiudad' => $todosCiudad, ':todosGrupo' => $todosGrupo])
-                        ->orderBy('t_CumpleanosPersona.fecha asc');*/
-        
-        
         $query =  self::find()->joinWith(['objUsuario'])
-                        ->where("m_Usuario.imagenPerfil IS NOT NULL AND t_CumpleanosPersona.fecha>=:fecha AND t_CumpleanosPersona.fecha<=:fechaFin")
-                        ->addParams([':fecha' => $fecha->format('Y-m-d'), ':fechaFin' => $fecha2->format('Y-m-d')])
+                        ->where("m_Usuario.imagenPerfil IS NOT NULL AND t_CumpleanosPersona.fecha=:fecha")
+                        ->addParams([':fecha' => $fecha->format('Y-m-d')])
                         ->orderBy('t_CumpleanosPersona.fecha asc');
 
         //return $query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql;
         return $query->all();
-
     }
 
     /**
