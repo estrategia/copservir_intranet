@@ -21,7 +21,7 @@ class SiiController extends Controller {
         $cedulasOmitir = $this->generarCedulas($cumpleanos);
 
         $response = CumpleanosPersona::callWSGetCumpleanos($cedulasOmitir);
-        
+
         if (!empty($response)) {
             foreach ($response as $value) {
                 try {
@@ -31,6 +31,15 @@ class SiiController extends Controller {
                     $model->idCargo = $value['CodigoCargo'];
                     $model->fecha = date("Y") . '-' . $value['Mes'] . '-' . $value['Dia'];
                     $model->codigoCiudad = $value['CodigoCiudad'];
+                    $model->fechaIngreso = $value['FechaIngreso'];
+
+                    if (!is_null($value['NombrePuntoDeVenta'])) {
+                      $model->ubicacion = $value['NombrePuntoDeVenta'];
+                    }elseif (!is_null($value['NombreCEDI'])) {
+                      $model->ubicacion = $value['NombreCEDI'];
+                    }else {
+                      $model->ubicacion = $value['NombreSede'];
+                    }
 
                     if (!$model->save()) {
                         throw new \Exception("Error al sincronizar cumpleanos: " . \yii\helpers\Json::encode($model->getErrors()), 100);
@@ -62,7 +71,8 @@ class SiiController extends Controller {
                     $model->idCargo = $value['CodigoCargo'];
                     $model->fecha = date("Y") . '-' . $value['Mes'] . '-' . $value['Dia'];
                     $model->codigoCiudad = $value['CodigoCiudad'];
-                    
+                    $model->fechaIngreso = $value['FechaIngreso'];
+
                     if (!$model->save()) {
                         throw new \Exception("Error al sincronizar aniversarios: " . \yii\helpers\Json::encode($model->getErrors()), 100);
                     }

@@ -22,9 +22,9 @@ class CumpleanosPersona extends \yii\db\ActiveRecord {
 
     public function rules() {
         return [
-            [['numeroDocumento', 'nombre', 'idCargo', 'fecha', 'codigoCiudad'], 'required'],
+            [['numeroDocumento', 'nombre', 'idCargo', 'fecha', 'codigoCiudad', 'fechaIngreso'], 'required'],
             [['numeroDocumento', 'codigoCiudad'], 'integer'],
-            [['fecha'], 'safe'],
+            [['fecha', 'fechaIngreso'], 'safe'],
             [['nombre', 'idCargo'], 'string', 'max' => 255],
         ];
     }
@@ -37,6 +37,7 @@ class CumpleanosPersona extends \yii\db\ActiveRecord {
             'idCargo' => 'Id Cargo',
             'fecha' => 'Fecha',
             'codigoCiudad' => 'Id Ciudad',
+            'fechaIngreso' => 'Fecha de Ingreso'
         ];
     }
 
@@ -61,7 +62,7 @@ class CumpleanosPersona extends \yii\db\ActiveRecord {
         $query = self::find()->where('(  month(t_CumpleanosPersona.fecha) =:mes )')
         ->addParams([':mes' => date("m")])
         ->all();
-        
+
         return $query;
     }
 
@@ -96,7 +97,7 @@ class CumpleanosPersona extends \yii\db\ActiveRecord {
                         ->where("m_Usuario.imagenPerfil IS NOT NULL AND  t_CumpleanosPersona.fecha>=:fecha")
                         ->addParams([':fecha' => $fecha->format('Y-m-d')])
                         ->orderBy('t_CumpleanosPersona.fecha asc');
-        
+
         return $query->all();
     }
 
@@ -129,7 +130,7 @@ class CumpleanosPersona extends \yii\db\ActiveRecord {
 
         return $arrDestinos;
     }
-    
+
     public static function callWSGetCumpleanos($cedulas) {
         $client = new \SoapClient(\Yii::$app->params['webServices']['persona'], array(
             "trace" => 1,

@@ -14,10 +14,14 @@ use yii\helpers\Html;
             $dia = $fecha_dividida[2];
             if ($flag=='Cumpleaños') {
               echo Html::a("<div class='text-truncate text-truncate-hover' style='width: 100px; font-size: 12px; margin: auto;'>$model->nombre</div>",  ['felicitar-cumpleanos', 'id'=>$model->idCumpleanosPersona], []);
-              echo "<div>$dia de $mes</div>";
+              echo "<div class='text-truncate text-truncate-hover'
+              style='width: 100px; font-size: 12px; margin: auto;'>$model->ubicacion</div>";
             }else{
               echo Html::a("<div class='text-truncate text-truncate-hover' style='width: 100px; font-size: 12px; margin: auto;'>$model->nombre</div>",  ['felicitar-aniversario','id'=>$model->idCumpleanosLaboral], []);
-              echo "<div>$dia de $mes</div>";
+              $datetime1 = date_create($model->fecha);
+              $datetime2 = date_create($model->fechaIngreso);
+              $interval = date_diff($datetime1, $datetime2);
+              echo "<div>Cumple: ".$interval->format('%y')." años</div>";
             }
             ?>
         </div>
