@@ -1972,6 +1972,10 @@ you can use the generic selector below, but it's slower:
     padding-top: 123px;
   }
 }
+
+
+  .owl-pagination {display: none;}
+
 /*------------------------------------------------------------------
 [4. Typography]
 */

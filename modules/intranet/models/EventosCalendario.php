@@ -36,7 +36,7 @@ class EventosCalendario extends \yii\db\ActiveRecord {
 
     public function rules() {
         return [
-            [['idContenido', 'numeroDocumento', 'estado', 'idPortal'], 'integer'],
+            [[ 'numeroDocumento', 'estado', 'idPortal'], 'integer'],
             [['tituloEvento', 'numeroDocumento', 'fechaRegistro', 'fechaInicioEvento', 'fechaFinEvento', 'fechaInicioVisible', 'idPortal'], 'required'],
             [['fechaRegistro', 'fechaInicioEvento', 'horaInicioEvento', 'fechaFinEvento', 'horaFinEvento', 'fechaInicioVisible'], 'safe'],
             [['tituloEvento'], 'string', 'max' => 45],
@@ -47,7 +47,6 @@ class EventosCalendario extends \yii\db\ActiveRecord {
     public function attributeLabels() {
         return [
             'idEventoCalendario' => 'Id Evento',
-            'idContenido' => 'Contenido',
             'tituloEvento' => 'Título Evento',
             'url' => 'Url',
             'numeroDocumento' => 'Número Documento',

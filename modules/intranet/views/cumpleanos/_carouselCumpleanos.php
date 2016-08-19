@@ -25,7 +25,12 @@ use yii\helpers\Html;
             }
             ?>
         </div>
+
       <?php endforeach; ?>
+    </div>
+    <div class="owl-nav" style="text-align:center;padding: 20px;">
+      <div class="owl-prev" style="display:initial;background-color: #099a8c;color:#fff;padding: 5px; border-radius: 5px;">Anterior</div>
+      <div class="owl-next" style="display:initial;background-color: #099a8c;color:#fff;padding: 5px; border-radius: 5px;">Siguiente</div>
     </div>
   </div>
 </section>

@@ -1764,6 +1764,21 @@ $(function() {
 $( document ).ready(function() {
   // carousel cumpleaños
   $("#owl-Cumpleaños").owlCarousel({
+    autoWidth: true,
+    autoplay: true,
+    autoplayTimeout:1000,
+    autoplayHoverPause:true,
+    responsiveClass:true,
+    loop:true,
+    items: 5,
+    nav:false,
+    dots: false,
+    navContainer: true
+
+  });
+
+  // carousel aniversarios
+  $("#owl-Aniversarios").owlCarousel({
     /*
     autoWidth: true,
     autoplay: true,
@@ -1772,82 +1787,28 @@ $( document ).ready(function() {
     responsiveClass:true,
     loop:true,
     items: 5,
-    */
-    //--
-    /*itemsDesktop: [1000, 5], //5 items between 1000px and 901px
-    itemsDesktopSmall: [900, 4], // betweem 900px and 601px
-    itemsTablet: [400, 1], //2 items between 600 and 0
-    itemsMobile: [300, 1],*/
-
-    responsive:{
-        0:{
-            items:1,
-            nav:true,
-            dots: false,
-            autoWidth: true,
-            autoplay: true,
-            autoplayTimeout:1000,
-            autoplayHoverPause:true,
-            responsiveClass:true,
-            loop:true
-        },
-        600:{
-            items:3,
-            nav:true,
-            dots: false,
-            autoWidth: true,
-            autoplay: true,
-            autoplayTimeout:1000,
-            autoplayHoverPause:true,
-            responsiveClass:true,
-            loop:true
-        },
-        1000:{
-            items:5,
-            nav:true,
-            dots: false,
-            autoWidth: true,
-            autoplay: true,
-            autoplayTimeout:1000,
-            autoplayHoverPause:true,
-            responsiveClass:true,
-            loop:true,
-
-        }
-    }
-  });
-
-  // carousel aniversarios
-  $("#owl-Aniversarios").owlCarousel({
-    autoWidth: true,
-    autoplay: true,
-    autoplayTimeout:1000,
-    autoplayHoverPause:true,
-    responsiveClass:true,
-    loop:true,
-    items: 5,
-    /*itemsDesktop: [1000, 5], //5 items between 1000px and 901px
-    itemsDesktopSmall: [900, 4], // betweem 900px and 601px
-    itemsTablet: [400, 1], //2 items between 600 and 0
-    itemsMobile: [300, 1],*/
     nav:true,
-    navRewind : false,
     dots: false,
+    */
+    /*
     responsive:{
         0:{
             items:1,
-            nav:true
+            nav:true,
+            dots: false
         },
         600:{
             items:3,
-            nav:false
+            nav:true,
+            dots: false
         },
         1000:{
             items:5,
             nav:true,
-            loop:false
+            dots: false
         }
     }
+    */
   });
 
   // javascript para que se busque una noticia cuando presiona enter
