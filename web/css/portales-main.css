@@ -1,6 +1,7 @@
 /* GLOBAL STYLES
 -------------------------------------------------- */
 /* Padding below the footer and lighter body text */
+body {overflow-x: hidden;}
 @font-face{ 
 	font-family: 'FontAwesome';
 	src: url('../libs/fonts/FontAwesome/fonts/FontAwesome.eot');
