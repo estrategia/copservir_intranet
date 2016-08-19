@@ -260,6 +260,7 @@ public function actionAgregaDestinoEvento()
  *         respond.result = indica si todo se realizo bien o mal
  *         respond.response = html GridView con lista de contenidos
  */
+/*
 public function actionAsignarContenidoEvento($id, $idEvento)
 {
   if (Yii::$app->request->isAjax) {
@@ -290,7 +291,7 @@ public function actionAsignarContenidoEvento($id, $idEvento)
 
   }
 }
-
+*/
   /**
    * Ecuentra un modelo EventosCalendario basado en su llave pimaria .
    * @param string $id

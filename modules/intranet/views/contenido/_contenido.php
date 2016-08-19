@@ -17,15 +17,21 @@ $completo = isset($completo) ? $completo : false;
 </style>
 <ul class="cbp_tmtimeline">
     <li>
+      <!--
         <div class="cbp_tmtime">
-            <div class="user-profile text-center">
-                <img src= <?= Yii::$app->homeUrl . 'img/fotosperfil/' . $noticia->objUsuarioPublicacion->getImagenPerfil() ?>
-                alt="" data-src="" data-src-retina="" width="80" height="80">
-            </div>
             <div class="text-center time">  </div>
         </div>
+      -->
 
-        <div class="cbp_tmicon primary animated bounceIn"> <i class="fa fa-comments"></i> </div>
+        <div class="cbp_tmicon animated bounceIn">
+          <!--
+          <i class="fa fa-comments"></i>
+          -->
+          <div class="user-profile text-center">
+              <img src= <?= Yii::$app->homeUrl . 'img/fotosperfil/' . $noticia->objUsuarioPublicacion->getImagenPerfil() ?>
+              alt="" data-src="" data-src-retina="" width="50" height="50">
+          </div>
+        </div>
 
         <div class="cbp_tmlabel">
             <div class="">
@@ -74,11 +80,11 @@ $completo = isset($completo) ? $completo : false;
 
                           if ($contador == \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) {
                               if (($contador) != count($noticia->objContenidoAdjuntoImagenes)) {
-                                  $mensaje = (count($noticia->objContenidoAdjuntoImagenes) - \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) . '+'; 
+                                  $mensaje = (count($noticia->objContenidoAdjuntoImagenes) - \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) . '+';
                               }
                           }
                           ?>
-                        
+
                           <div class="col-md-4 col-sm-4">
                           <a class="lightbox gallery<?= $noticia->idContenido ?>" href="<?= Yii::getAlias('@web') . "/img/imagenesContenidos/" . $imagenes->rutaArchivo ?>" style="<?= $style ?>">
 
@@ -160,7 +166,7 @@ $completo = isset($completo) ? $completo : false;
                         <?php endif; ?>
                     </li>
                 </ul>
-                
+
                     <div class="col-lg-2 col-md-2 col-xs-12">
                         <img class="profile img-responsive" src=<?= Yii::$app->homeUrl . 'img/fotosperfil/' . $noticia->objUsuarioPublicacion->getImagenPerfil() ?> alt="" data-src="" data-src-retina="" width="60" height="60">
                     </div>
@@ -182,7 +188,7 @@ $completo = isset($completo) ? $completo : false;
                         ]);
                         ?>
                     </div>
-                
+
                 <div class="clearfix"></div>
 
                 <br>

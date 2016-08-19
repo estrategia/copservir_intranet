@@ -26,7 +26,7 @@ $this->title = "Detalle evento";
         'model' => $model,
         'attributes' => [
           'tituloEvento',
-          'descripcionEvento',
+          'url:url',
           'fechaInicioEvento',
           'fechaFinEvento',
           'horaInicioEvento',
@@ -53,6 +53,7 @@ $this->title = "Detalle evento";
 
 </div>
 
+<!---
 <div class="col-md-12">
   <span id="modelo" hidden data-evento = <?= "$model->idEventoCalendario"  ?>></span>
   <div id="lista-contenido-asignar">
@@ -68,3 +69,4 @@ $this->title = "Detalle evento";
   </div>
 
 </div>
+-->

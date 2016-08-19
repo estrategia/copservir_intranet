@@ -29,7 +29,7 @@ class EventosCalendarioSearch extends EventosCalendario
   */
   public function search($params)
   {
-    $query = EventosCalendario::find();
+    $query = EventosCalendario::find()->orderBy('fechaRegistro DESC');
 
     $dataProvider = new ActiveDataProvider([
       'query' => $query,
