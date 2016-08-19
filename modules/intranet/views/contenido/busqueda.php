@@ -93,19 +93,26 @@ $( document ).ready(function() {
 
 ?>
 <h3><?=  Html::encode('resultados para: '.$patron) ?></h3>
+
+<?php if (strstr($items[0], 'Tal vez quiso decir ') !== false): ?>
+    <?php $items = array_slice($items, 1); ?>
+<?php endif; ?>
+
 <?php foreach ($items as $item): ?>
   <?php if (!empty($item)): ?>
   <?php $itemDividido = explode("-_-", $item); ?>
   <?php
     $icono = 'fa fa-comments';
     $color = 'primary'; //success info
-    $posDocumento = strpos($itemDividido[0], 'DOCUMENTO');
-    $posArchivo = strpos($itemDividido[0], 'ARCHIVO');
+    $posDocumento = strstr($itemDividido[0], 'Tipo: <b>DOCUMENTO</b>');
+    $posArchivo = strstr($itemDividido[0], 'Tipo: <b>ARCHIVO</b>');
 
     if ($posDocumento !== false) {
       $color = 'success';
       $icono = 'glyphicon glyphicon-book';
-    }else if ($posArchivo !== false){
+    }
+
+    if ($posArchivo !== false){
       $color = 'info';
       $icono = 'fa fa-file';
     }
@@ -139,4 +146,3 @@ $( document ).ready(function() {
   <?php  endif; ?>
 <?php  endforeach; ?>
 </div>
-<!-- -->

@@ -33,9 +33,9 @@ class SiiController extends Controller {
                     $model->codigoCiudad = $value['CodigoCiudad'];
                     $model->fechaIngreso = $value['FechaIngreso'];
 
-                    if (!is_null($value['NombrePuntoDeVenta'])) {
+                    if (!empty($value['NombrePuntoDeVenta'])) {
                       $model->ubicacion = $value['NombrePuntoDeVenta'];
-                    }elseif (!is_null($value['NombreCEDI'])) {
+                    }elseif (!empty($value['NombreCEDI'])) {
                       $model->ubicacion = $value['NombreCEDI'];
                     }else {
                       $model->ubicacion = $value['NombreSede'];
@@ -49,6 +49,7 @@ class SiiController extends Controller {
                 }
             }
         }
+
         \Yii::info('sincronizar cumpleanos -- fin');
     }
 

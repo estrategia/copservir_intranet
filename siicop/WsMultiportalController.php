@@ -383,11 +383,16 @@ class WsMultiportalController extends CController {
             $sql = "SELECT p.NumeroDocumento,p.PrimerApellido,p.SegundoApellido, p.Nombres, 
                        month(p.FechaNacimiento) as Mes, day(p.FechaNacimiento) as Dia,
                           c.IdCiudad as 'CodigoCiudad',
-                          car.IdCargo as 'CodigoCargo' 
+                          car.IdCargo as 'CodigoCargo',
+                          e.FechaIngreso,
+                          s.NombreSede, cd.NombreCEDI, pv.NombrePuntoDeVenta
                           FROM m_Empleado e
                           LEFT JOIN m_Persona p ON p.NumeroDocumento = e.NumeroDocumento
+                          LEFT JOIN m_PuntoVenta pv ON pv.IdCentroCostos = e.IdCentroCostos
+                          LEFT JOIN m_Cedi cd ON cd.IdCentroCostos = e.IdCentroCostos
+                          LEFT JOIN m_Sede s ON s.CodigoSede = cast(e.IdOperaciones as SIGNED)
                           RIGHT JOIN m_Ciudad c ON c.IdCiudad = p.IdCiudad
-                          RIGHT JOIN m_Cargo car ON car.IdCargo = e.IdCargo
+                          RIGHT JOIN m_Cargo car ON car.IdCargo = e.IdCargo    
                           WHERE e.IdEstado = 1" . $parametro;
 
             $data = Yii::app()->getDb()->createCommand($sql)->queryAll();
@@ -419,7 +424,8 @@ class WsMultiportalController extends CController {
             $sql = "SELECT p.NumeroDocumento,p.PrimerApellido,p.SegundoApellido, p.Nombres,
                           month(e.FechaIngreso) as Mes, day(e.FechaIngreso) as Dia,
                           c.IdCiudad as 'CodigoCiudad',
-                          car.IdCargo as 'CodigoCargo' 
+                          car.IdCargo as 'CodigoCargo',
+                          e.FechaIngreso
                           FROM m_Empleado e
                           LEFT JOIN m_Persona p ON p.NumeroDocumento = e.NumeroDocumento
                           RIGHT JOIN m_Ciudad c ON c.IdCiudad = p.IdCiudad

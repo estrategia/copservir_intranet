@@ -26,6 +26,7 @@ class CumpleanosPersona extends \yii\db\ActiveRecord {
             [['numeroDocumento', 'codigoCiudad'], 'integer'],
             [['fecha', 'fechaIngreso'], 'safe'],
             [['nombre', 'idCargo'], 'string', 'max' => 255],
+            [['ubicacion',], 'string', 'max' => 200],
         ];
     }
 
@@ -37,7 +38,8 @@ class CumpleanosPersona extends \yii\db\ActiveRecord {
             'idCargo' => 'Id Cargo',
             'fecha' => 'Fecha',
             'codigoCiudad' => 'Id Ciudad',
-            'fechaIngreso' => 'Fecha de Ingreso'
+            'fechaIngreso' => 'Fecha de Ingreso',
+            'ubicacion' => 'Ubicacion'
         ];
     }
 
