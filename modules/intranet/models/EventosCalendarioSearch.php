@@ -12,7 +12,7 @@ class EventosCalendarioSearch extends EventosCalendario
   public function rules()
   {
     return [
-      [['idContenido', 'numeroDocumento', 'estado'], 'integer'],
+      [[ 'numeroDocumento', 'estado'], 'integer'],
       [['tituloEvento', 'numeroDocumento', 'fechaRegistro', 'horaInicioEvento', 'fechaInicioEvento', 'fechaFinEvento', 'fechaInicioVisible'], 'safe'],
     ];
   }
@@ -52,7 +52,7 @@ class EventosCalendarioSearch extends EventosCalendario
     ]);
 
     $query->andFilterWhere(['like', 'tituloEvento', $this->tituloEvento])
-    
+
     ;
 
     return $dataProvider;

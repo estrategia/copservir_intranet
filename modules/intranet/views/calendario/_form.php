@@ -17,6 +17,20 @@ use app\modules\intranet\models\EventosCalendarioDestino;
     <div class="col-md-6">
         <?= $form->field($model, 'tituloEvento')->textInput(['maxlength' => true]) ?>
 
+
+        <?=
+           $form->field($model, 'tipo')->widget(Select2::classname(), [
+            'data' => [ EventosCalendario::ENLACE_INTERNO => 'Enlace Interno', EventosCalendario::ENLACE_EXTERNO => 'Enlace externo'],
+            'options' => ['placeholder' => 'Seleccione un tipo'],
+            'pluginEvents' => [
+                                "select2:selecting" => "function(e) { setInputUrl(e.params.args.data.id);}",
+                              ],
+            'pluginOptions' => [
+                'allowClear' => true,
+            ],
+          ]);
+        ?>
+
         <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
 
         <?php $model->estado = $model->isNewRecord ? 1 : $model->estado;  ?>
@@ -125,6 +139,65 @@ use app\modules\intranet\models\EventosCalendarioDestino;
           }
         }
 
+      ");
+    ?>
+
+    <!--  ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  -->
+    <?php
+
+      $inputUrl = $form->field($model, 'urlMenu')->textInput(['maxlength' => true]);
+      $inputUrl = str_replace("\n", "", $inputUrl);
+
+      $inputUrlHidden = $form->field($model, 'urlMenu')->hiddenInput(['value'=> ''])->label(false);
+      $inputUrlHidden = str_replace("\n", "", $inputUrlHidden);
+
+      $iditem = NULL;
+      $bandera = 'false';
+      if (!$model->isNewRecord) {
+          $bandera = 'true';
+          if ($model->objMenuPadre) {
+            $iditem = $model->objMenuPadre->idMenuPortales;
+          }
+      }
+
+      $this->registerJs("
+          $( document ).ready(function() {
+
+            valor = $('#menuportales-tipo').val();//parseInt($('#menuportales-tipo').val());
+            if(".$bandera."){
+              setInputUrl( valor );
+            }
+          });
+
+        $(document).on('click', 'a[data-role=\'asignar-contenido\']', function() {
+          var idModuloContendio = $(this).attr('data-modulo-contenido');
+          asignarContenido(idModuloContendio,  $(this))
+          return false;
+        });
+
+        function asignarContenido(option, element) {
+          $('.field-menuportales-urlmenu').remove();
+          $('#divUrlMenu').append('$inputUrlHidden');
+          $('#menuportales-urlmenu').attr('value', option);
+          $('.btn-select').text('seleccionar');
+          element.text('ok');
+        }
+
+        function setInputUrl(selectedOption) {
+
+          if(parseInt(selectedOption) === ".EventosCalendario::ENLACE_EXTERNO."){
+
+            $('#gridView-moduloContenido').hide();
+            $('.field-menuportales-urlmenu').remove();
+            $('#divUrlMenu').append('$inputUrl');
+          }
+
+          if(parseInt(selectedOption) === ".EventosCalendario::ENLACE_INTERNO."){
+
+            $('.field-menuportales-urlmenu').remove();
+            $('#gridView-moduloContenido').show();
+          }
+        }
       ");
     ?>
 

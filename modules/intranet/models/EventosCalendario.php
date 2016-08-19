@@ -29,15 +29,17 @@ class EventosCalendario extends \yii\db\ActiveRecord {
 
   const ACTIVO = 1;
   const INACTIVO = 0;
-
+  const ENLACE_INTERNO = 1;
+  const ENLACE_EXTERNO = 2;
+  
     public static function tableName() {
         return 't_EventosCalendario';
     }
 
     public function rules() {
         return [
-            [[ 'numeroDocumento', 'estado', 'idPortal'], 'integer'],
-            [['tituloEvento', 'numeroDocumento', 'fechaRegistro', 'fechaInicioEvento', 'fechaFinEvento', 'fechaInicioVisible', 'idPortal'], 'required'],
+            [[ 'numeroDocumento', 'estado', 'idPortal', 'tipoUrl'], 'integer'],
+            [['tituloEvento', 'numeroDocumento', 'fechaRegistro', 'fechaInicioEvento', 'fechaFinEvento', 'fechaInicioVisible', 'idPortal', 'tipoUrl'], 'required'],
             [['fechaRegistro', 'fechaInicioEvento', 'horaInicioEvento', 'fechaFinEvento', 'horaFinEvento', 'fechaInicioVisible'], 'safe'],
             [['tituloEvento'], 'string', 'max' => 45],
             [['url'], 'string', 'max' => 200]
@@ -58,6 +60,7 @@ class EventosCalendario extends \yii\db\ActiveRecord {
             'fechaInicioVisible' => 'Fecha Inicio Visible',
             'estado' => 'Estado',
             'idPortal' => 'Portal',
+            'tipoUrl' => 'tipo de Url'
         ];
     }
 
