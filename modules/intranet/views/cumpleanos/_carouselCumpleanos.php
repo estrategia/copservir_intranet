@@ -1,7 +1,6 @@
 <?php
 use yii\helpers\Html;
 ?>
-
 <section id="carousel-cumpleanos">
   <div class="internal col-md-12">
     <div id="<?= 'owl-'.$flag ?>" class="owl-carousel">
@@ -29,8 +28,8 @@ use yii\helpers\Html;
       <?php endforeach; ?>
     </div>
     <div class="owl-nav" style="text-align:center;padding: 20px;">
-      <div class="owl-prev" style="display:initial;background-color: #099a8c;color:#fff;padding: 5px; border-radius: 5px;">Anterior</div>
-      <div class="owl-next" style="display:initial;background-color: #099a8c;color:#fff;padding: 5px; border-radius: 5px;">Siguiente</div>
+      <div class="owl-prev-<?= $flag ?>" style="display:initial;background-color: #099a8c;color:#fff;padding: 5px; border-radius: 5px;">Anterior</div>
+      <div class="owl-next-<?= $flag ?>" style="display:initial;background-color: #099a8c;color:#fff;padding: 5px; border-radius: 5px;">Siguiente</div>
     </div>
   </div>
 </section>

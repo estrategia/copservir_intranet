@@ -210,11 +210,6 @@ $( document ).ready(function() {
   $('#bannerArriba0').attr('class', 'item active');
   $('#bannerLateral0').attr('class', 'item active');
   $('#bannerAbajo0').attr('class', 'item active');
-
-  // para que se desplace el banner vertical
-  $('#myCarousel').carousel({
-    interval: 5000
-  })
 });
 
 "

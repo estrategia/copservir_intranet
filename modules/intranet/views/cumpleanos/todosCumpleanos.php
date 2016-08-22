@@ -25,13 +25,17 @@ $this->params['breadcrumbs'][] = $this->title
               $fecha_dividida = explode("-", $model->fecha);
               $mes = \Yii::$app->params['calendario']['meses'][ (int)$fecha_dividida[1]];
               $dia = $fecha_dividida[2];
-              echo "Cumple el ".$dia.' de '.$mes;
-              echo '<p>';
+              echo '<div style="font-size: 12px; margin: auto;text-align: center;">'. $dia.' de '.$mes. '</div>';
+
+              echo "<div class='text-truncate text-truncate-hover' style='width: 100px; font-size: 12px; margin: auto;text-align: center;'>
+                      $model->ubicacion
+                    </div>";
               echo
+              '<div style="text-align: center;"> '.
               Html::a('Felicitar',  ['felicitar-cumpleanos', 'id'=>$model->idCumpleanosPersona], [
                 'class' => 'btn btn-primary',
-              ]);
-              echo '</p>';
+              ])
+              .'</div>';
               ?>
             </p>
           </div>

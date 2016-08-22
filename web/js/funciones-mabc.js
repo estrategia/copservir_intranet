@@ -1762,8 +1762,10 @@ $(function() {
 });
 
 $( document ).ready(function() {
-  // carousel cumpleaños
-  $("#owl-Cumpleaños").owlCarousel({
+
+  // CAROUSEL CUMPLEAÑOS
+  var owlCumple = $('#owl-Cumpleaños');
+  owlCumple.owlCarousel({
     autoWidth: true,
     autoplay: true,
     autoplayTimeout:1000,
@@ -1773,13 +1775,21 @@ $( document ).ready(function() {
     items: 5,
     nav:false,
     dots: false,
-    navContainer: true
-
   });
 
-  // carousel aniversarios
-  $("#owl-Aniversarios").owlCarousel({
-    /*
+  // EVENTOS PARA MOVER EL CAROUSEL CUMPLEAÑOS
+  $('.owl-prev-Cumpleaños').click(function() {;
+    owlCumple.trigger('owl.prev');
+  })
+
+  $('.owl-next-Cumpleaños').click(function() {
+    owlCumple.trigger('owl.next');
+  })
+
+  // CAROUSEL ANIVERSARIOS
+  var owlAni = $('#owl-Aniversarios');
+
+  owlAni.owlCarousel({
     autoWidth: true,
     autoplay: true,
     autoplayTimeout:1000,
@@ -1787,29 +1797,18 @@ $( document ).ready(function() {
     responsiveClass:true,
     loop:true,
     items: 5,
-    nav:true,
+    nav:false,
     dots: false,
-    */
-    /*
-    responsive:{
-        0:{
-            items:1,
-            nav:true,
-            dots: false
-        },
-        600:{
-            items:3,
-            nav:true,
-            dots: false
-        },
-        1000:{
-            items:5,
-            nav:true,
-            dots: false
-        }
-    }
-    */
   });
+
+  // EVENTOS PARA MOVER EL CAROUSEL ANIVERSARIOS
+  $('.owl-prev-Aniversarios').click(function() {;
+    owlAni.trigger('owl.prev');
+  })
+
+  $('.owl-next-Aniversarios').click(function() {
+    owlAni.trigger('owl.next');
+  })
 
   // javascript para que se busque una noticia cuando presiona enter
   $('#busqueda').keypress(function(event) {
