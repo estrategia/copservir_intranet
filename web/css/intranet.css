@@ -271,7 +271,7 @@ MENU DESPLEGABLE
     text-overflow: ellipsis;
 }
 
-.text-truncate.text-truncate-hover:hover{
-    overflow: visible; 
-    white-space: normal;
+.text-truncate-hover:hover{
+    overflow: visible !important; 
+    white-space: normal !important;
 }

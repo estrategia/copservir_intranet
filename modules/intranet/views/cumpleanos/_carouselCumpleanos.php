@@ -20,7 +20,7 @@ use yii\helpers\Html;
               $datetime1 = date_create($model->fecha);
               $datetime2 = date_create($model->fechaIngreso);
               $interval = date_diff($datetime1, $datetime2);
-              echo "<div>Cumple: ".$interval->format('%y')." años</div>";
+              echo "<div>".$interval->format('%y')." años</div>";
             }
             ?>
         </div>

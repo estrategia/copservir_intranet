@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title
     <div class="col-md-3 center-block">
       <div class="grid simple horizontal red">
         <div class="grid-title  center-block">
-          <h4>  <?= $model->nombre  ?> </h4>
+            <h4 style="width: 100%">  <?= $model->nombre  ?> </h4>
         </div>
         <div class="grid-body center-block">
           <div>
