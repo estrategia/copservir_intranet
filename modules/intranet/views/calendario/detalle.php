@@ -36,10 +36,6 @@ $this->title = "Detalle evento";
             'value' =>  $model->objPortal->nombrePortal
           ],
           [
-            'attribute' => 'idContenido',
-            'value' =>  $model->objContenido ? $model->objContenido->titulo : 'No se ha asignado',
-          ],
-          [
             'attribute' => 'numeroDocumento',
             'label' => 'creado por',
             'value' =>  $model->objUsuario->alias

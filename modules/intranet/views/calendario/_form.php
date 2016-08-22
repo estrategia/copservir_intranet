@@ -7,6 +7,7 @@ use kartik\time\TimePicker;
 use kartik\select2\Select2;
 use app\modules\intranet\models\MenuPortales;
 use app\modules\intranet\models\EventosCalendarioDestino;
+use app\modules\intranet\models\EventosCalendario;
 
 ?>
 
@@ -16,20 +17,6 @@ use app\modules\intranet\models\EventosCalendarioDestino;
 
     <div class="col-md-6">
         <?= $form->field($model, 'tituloEvento')->textInput(['maxlength' => true]) ?>
-
-
-        <?=
-           $form->field($model, 'tipo')->widget(Select2::classname(), [
-            'data' => [ EventosCalendario::ENLACE_INTERNO => 'Enlace Interno', EventosCalendario::ENLACE_EXTERNO => 'Enlace externo'],
-            'options' => ['placeholder' => 'Seleccione un tipo'],
-            'pluginEvents' => [
-                                "select2:selecting" => "function(e) { setInputUrl(e.params.args.data.id);}",
-                              ],
-            'pluginOptions' => [
-                'allowClear' => true,
-            ],
-          ]);
-        ?>
 
         <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
 
@@ -128,80 +115,25 @@ use app\modules\intranet\models\EventosCalendarioDestino;
           $bandera = 'false';
       }
 
+      $inputUrl = $form->field($model, 'url')->textInput(['maxlength' => true]);
+      $inputUrl = str_replace("\n", "", $inputUrl);
+
+      $inputUrlHidden = $form->field($model, 'url')->hiddenInput(['value'=> ''])->label(false);
+      $inputUrlHidden = str_replace("\n", "", $inputUrlHidden);
+
       $this->registerJs("
-
         function setInputTimeLine(selectedOption) {
-
           if(selectedOption === 'intranet' && ".$bandera."){
             $('#divDestinos').show();
           }else{
             $('#divDestinos').hide();
           }
         }
-
-      ");
-    ?>
-
-    <!--  ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  -->
-    <?php
-
-      $inputUrl = $form->field($model, 'urlMenu')->textInput(['maxlength' => true]);
-      $inputUrl = str_replace("\n", "", $inputUrl);
-
-      $inputUrlHidden = $form->field($model, 'urlMenu')->hiddenInput(['value'=> ''])->label(false);
-      $inputUrlHidden = str_replace("\n", "", $inputUrlHidden);
-
-      $iditem = NULL;
-      $bandera = 'false';
-      if (!$model->isNewRecord) {
-          $bandera = 'true';
-          if ($model->objMenuPadre) {
-            $iditem = $model->objMenuPadre->idMenuPortales;
-          }
-      }
-
-      $this->registerJs("
-          $( document ).ready(function() {
-
-            valor = $('#menuportales-tipo').val();//parseInt($('#menuportales-tipo').val());
-            if(".$bandera."){
-              setInputUrl( valor );
-            }
-          });
-
-        $(document).on('click', 'a[data-role=\'asignar-contenido\']', function() {
-          var idModuloContendio = $(this).attr('data-modulo-contenido');
-          asignarContenido(idModuloContendio,  $(this))
-          return false;
-        });
-
-        function asignarContenido(option, element) {
-          $('.field-menuportales-urlmenu').remove();
-          $('#divUrlMenu').append('$inputUrlHidden');
-          $('#menuportales-urlmenu').attr('value', option);
-          $('.btn-select').text('seleccionar');
-          element.text('ok');
-        }
-
-        function setInputUrl(selectedOption) {
-
-          if(parseInt(selectedOption) === ".EventosCalendario::ENLACE_EXTERNO."){
-
-            $('#gridView-moduloContenido').hide();
-            $('.field-menuportales-urlmenu').remove();
-            $('#divUrlMenu').append('$inputUrl');
-          }
-
-          if(parseInt(selectedOption) === ".EventosCalendario::ENLACE_INTERNO."){
-
-            $('.field-menuportales-urlmenu').remove();
-            $('#gridView-moduloContenido').show();
-          }
-        }
       ");
     ?>
 
     <?php ActiveForm::end(); ?>
+
 </div>
 
 <div class="col-md-12"> <hr> </div>
@@ -211,7 +143,6 @@ use app\modules\intranet\models\EventosCalendarioDestino;
       <div id="destinosEventos">
         <?= $this->render('_destinoEventos', ['model' => $model, 'destinoEventosCalendario' => $destinoEventosCalendario, 'modelDestinoEventos' => $modelDestinoEventos]) ?>
       </div>
-
     </div>
   <?php endif ?>
 </div>

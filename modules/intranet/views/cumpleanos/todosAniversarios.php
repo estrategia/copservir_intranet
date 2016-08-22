@@ -25,14 +25,18 @@ $this->params['breadcrumbs'][] = $this->title
               $fecha_dividida = explode("-", $model->fecha);
               $mes = \Yii::$app->params['calendario']['meses'][ (int)$fecha_dividida[1]];
               $dia = $fecha_dividida[2];
-              echo "Aniversario el ".$dia.' de '.$mes;
-              echo '<p>';
+              echo '<div style="font-size: 12px; margin: auto;text-align: center;">'. $dia.' de '.$mes. '</div>';
+              $datetime1 = date_create($model->fecha);
+              $datetime2 = date_create($model->fechaIngreso);
+              $interval = date_diff($datetime1, $datetime2);
+              echo "<div style='font-size: 12px; margin: auto;text-align: center;'>Cumple: ".$interval->format('%y')." años</div>";
               echo
+              '<div style="text-align: center;">'.
               Html::a('Felicitar',  ['felicitar-aniversario','id'=>$model->idCumpleanosLaboral], [
                 'class' => 'btn btn-primary',
-              ]);
-              echo '</p>';
-
+              ])
+              . '</div>'
+              ;
               ?>
             </p>
           </div>

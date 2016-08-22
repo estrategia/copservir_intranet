@@ -10276,3 +10276,5 @@ span.fancytree-active span.fancytree-title {
     }
 }
 ul.menu-principal{margin-bottom: 30px !important;}
+.owl-prev:hover {cursor:pointer;}
+.owl-next:hover {cursor:pointer;}
