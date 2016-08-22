@@ -36,9 +36,9 @@ class SiiController extends Controller {
                     if (!empty($value['NombrePuntoDeVenta'])) {
                       $model->ubicacion = $value['NombrePuntoDeVenta'];
                     }elseif (!empty($value['NombreCEDI'])) {
-                      $model->ubicacion = $value['NombreCEDI'];
+                      $model->ubicacion = "CEDI " . $value['NombreCEDI'];
                     }else {
-                      $model->ubicacion = $value['NombreSede'];
+                      $model->ubicacion = "Sede ". $value['NombreSede'];
                     }
 
                     if (!$model->save()) {
