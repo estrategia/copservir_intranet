@@ -924,7 +924,7 @@ body.boxed-layout .footer-widget {
   top: 0;
   right: 0;
   width: 260px;
-  background-color: #1a4e6b;
+  background-color: #fff;
   height: 100%;
   z-index: 5;
   -webkit-transition: opacity 0.1s ease;
@@ -938,7 +938,7 @@ body.boxed-layout .footer-widget {
   height: 58px;
 }
 .chat-window-wrapper .side-widget {
-  margin-top: 15px;
+  /*margin-top: 15px;*/
   display: block;
 }
 .chat-window-wrapper .side-widget-title {
@@ -1971,8 +1971,12 @@ you can use the generic selector below, but it's slower:
   .horizontal-menu .page-content .content {
     padding-top: 123px;
   }
+  
 }
 
+@media (max-width: 766px){
+  .chat-window-wrapper {background-color: #1a4e6b !important;}
+}
 
   .owl-pagination {display: none;}
 
@@ -7578,6 +7582,7 @@ input[type="checkbox"] {
   width: 68px;
   border: 5px solid #ffffff;
   background-color: #e5e9ec;
+  object-fit: cover;
 }
 .user-mini-description {
   margin-right: 10px;
@@ -8803,7 +8808,7 @@ body.rtl .footer-widget {
   }
   /*** Body ***/
   body {
-    background-color: #0aa699;
+    background-color: #fff;
     padding-top: 0px;
   }
   .page-sidebar.opened {
@@ -9121,7 +9126,7 @@ body.rtl .footer-widget {
 /* Portrait view of all tablet devices */
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
   body {
-    background-color: #1b1e24;
+    background-color: #fff;
   }
   body.hide-top-content-header .header {
     width: 100%;
@@ -10268,7 +10273,14 @@ span.fancytree-active span.fancytree-title {
     border-radius: 100px;
     margin-top: 9px;
     margin-bottom: 9px;
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
 }
+
+.user-profile img{ object-fit: cover;}
+.profile-wrapper img {object-fit: cover;}
+.profile-pic img {object-fit: cover;}
 
 @media (min-width: 768px) and (max-width: 1024px) {
     .page-sidebar.opened {
