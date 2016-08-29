@@ -13,7 +13,6 @@ use app\models\Usuario;
  * This is the model class for table "t_EventosCalendario".
  *
  * @property integer $idEventoCalendario
- * @property integer $idContenido
  * @property string $tituloEvento
  * @property string $url
  * @property integer $numeroDocumento
@@ -79,7 +78,6 @@ class EventosCalendario extends \yii\db\ActiveRecord {
         if (empty($destino)) {
             $query = self::find()
                     ->alias('t')
-                    ->with(['objContenido'])
                     ->joinWith(['objPortal as objPortal'])->where("( ($fechaInicio<=:inicio AND $fechaFin>:inicio) OR ($fechaInicio<:fin AND $fechaFin>=:fin) OR ($fechaInicio>=:inicio AND $fechaFin<=:fin) ) AND t.estado=:estado AND objPortal.nombrePortal=:portal")
                     ->orderBy('fechaInicioEvento ASC')
                     ->addParams([':inicio' => $inicio, ':fin' => $fin, ':estado' => 1, ':portal' => $portal])
@@ -88,7 +86,6 @@ class EventosCalendario extends \yii\db\ActiveRecord {
         } else {
             $query = self::find()
                     ->alias('t')
-                    ->with(['objContenido'])
                     ->joinWith(['listEventosDestinos as destinos', 'objPortal as objPortal'])->where("( ($fechaInicio<=:inicio AND $fechaFin>:inicio) OR ($fechaInicio<:fin AND $fechaFin>=:fin) OR ($fechaInicio>=:inicio AND $fechaFin<=:fin) ) AND t.estado=:estado AND objPortal.nombrePortal=:portal AND ( (destinos.codigoCiudad=:ciudad AND destinos.idGrupoInteres IN (" . $destino['grupos'] . ")) OR (destinos.codigoCiudad=:ciudadA AND destinos.idGrupoInteres IN (" . $destino['grupos'] . ")) OR (destinos.codigoCiudad=:ciudad AND destinos.idGrupoInteres=:gruposA) OR (destinos.codigoCiudad=:ciudadA AND destinos.idGrupoInteres=:gruposA) )")
                     ->orderBy('fechaInicioEvento ASC')
                     ->addParams([':inicio' => $inicio, ':fin' => $fin, ':estado' => 1, ':portal' => $portal, ':ciudad' => $destino['ciudad'], ':ciudadA' => Yii::$app->params['ciudad']['*'], ':gruposA' => Yii::$app->params['grupo']['*']])
@@ -111,11 +108,11 @@ class EventosCalendario extends \yii\db\ActiveRecord {
             'allDay' => true
         ];
 
-        if ($this->objContenido != null) {
+        if (!empty($this->url)) {
             if ($portal == "intranet") {
-                $evento['href'] = Url::to(['/intranet/contenido/detalle-contenido', 'idNoticia' => $this->idContenido]);
+                $evento['href'] = $this->url;
             } else {
-                $evento['href'] = Url::to(["/$portal/sitio/detalle-noticia", 'idNoticia' => $this->idContenido]);
+                $evento['href'] = $this->url;
             }
         }
 
@@ -134,10 +131,6 @@ class EventosCalendario extends \yii\db\ActiveRecord {
 
     public function getObjPortal() {
         return $this->hasOne(Portal::className(), ['idPortal' => 'idPortal']);
-    }
-
-    public function getObjContenido() {
-        return $this->hasOne(Contenido::className(), ['idContenido' => 'idContenido']);
     }
 
     public function getObjUsuario() {

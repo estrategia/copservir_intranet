@@ -14,7 +14,7 @@
 <div class="col-md-12 center-block" id="felicitar">
   <div class="grid simple horizontal green">
     <div class="grid-title  center-block">
-      <h4>
+      <h4 class="text-truncate-hover" style="width: 100%">
         Felicita a <?= $modelCumpleanosPersona->nombre  ?>  en su cumpleaños
       </h4>
     </div>

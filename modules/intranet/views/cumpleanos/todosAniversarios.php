@@ -13,8 +13,8 @@ $this->params['breadcrumbs'][] = $this->title
 
     <div class="col-md-3 center-block">
       <div class="grid simple horizontal red">
-        <div class="grid-title  center-block">
-          <h4>  <?= $model->nombre  ?> </h4>
+        <div class="grid-title center-block">
+            <h4 style="width: 100%">  <?= $model->nombre  ?> </h4>
         </div>
         <div class="grid-body center-block">
           <div>
@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title
               $datetime1 = date_create($model->fecha);
               $datetime2 = date_create($model->fechaIngreso);
               $interval = date_diff($datetime1, $datetime2);
-              echo "<div style='font-size: 12px; margin: auto;text-align: center;'>Cumple: ".$interval->format('%y')." años</div>";
+              echo "<div style='font-size: 12px; margin: auto;text-align: center;'>".$interval->format('%y')." años</div>";
               echo
               '<div style="text-align: center;">'.
               Html::a('Felicitar',  ['felicitar-aniversario','id'=>$model->idCumpleanosLaboral], [

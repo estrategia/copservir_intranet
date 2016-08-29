@@ -9,7 +9,11 @@ use yii\helpers\Html;
     <ul>
         <?php foreach ($listEventos as $objEvento): ?>
             <li>
-              <?= Html::a($objEvento->tituloEvento, [$objEvento->url], ['style' => 'color:#ffffff; font-size:13px;']) ?>
+                <?php if(empty($objEvento->url)): ?>
+                    <?= $objEvento->tituloEvento ?>
+                <?php else: ?>
+                    <?= Html::a($objEvento->tituloEvento, [$objEvento->url], ['style' => 'color:#ffffff; font-size:13px;']) ?>
+                <?php endif;?>
             </li>
         <?php endforeach; ?>
     </ul>
