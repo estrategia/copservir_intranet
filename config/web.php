@@ -142,6 +142,9 @@ $config = [
         'tarjetamas' => [
             'class' => 'app\modules\tarjetamas\TarjetaMasModule',
         ],
+        'trademarketing' => [
+            'class' => 'app\modules\trademarketing\TradeMarketingModule',
+        ],
         'treemanager' => [
             'class' => '\kartik\tree\Module',
         // other module settings, refer detailed documentation
