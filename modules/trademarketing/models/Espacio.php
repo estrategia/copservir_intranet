@@ -54,7 +54,17 @@ class Espacio extends \yii\db\ActiveRecord
 
     public function getMapListaVariables()
     {
-      $opciones = VariableMedicion::find()->where(['estado' => VariableMedicion::ESTADO_ACTIVO])->asArray()->all();
-      return ArrayHelper::map($opciones, 'idVariable', 'nombre');
+        $opciones = VariableMedicion::find()->where(['estado' => VariableMedicion::ESTADO_ACTIVO])->asArray()->all();
+        return ArrayHelper::map($opciones, 'idVariable', 'nombre');
+    }
+
+    public static function getIdNameEspacios()
+    {
+        return self::find()->select(['idEspacio', 'nombre'])->where(['estado' => self::ESTADO_ACTIVO])->all();
+    }
+
+    public static function countEspacios()
+    {
+        return self::find()->where(['estado' => self::ESTADO_ACTIVO])->count();
     }
 }

@@ -6,7 +6,7 @@ use app\modules\trademarketing\models\RangoCalificaciones;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\trademarketing\models\RangoCalificacionesSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $dataProvider yii\data\ActiveDataProvider RangoCalificaciones */
 
 $this->title = 'Rangos de calificaciones';
 // $this->params['breadcrumbs'][] = $this->title;

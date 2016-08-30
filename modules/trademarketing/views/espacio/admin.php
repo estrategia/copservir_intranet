@@ -6,7 +6,7 @@ use app\modules\trademarketing\models\Espacio;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\trademarketing\models\EspacioSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $dataProvider yii\data\ActiveDataProvider Espacio */
 
 $this->title = 'Espacios';
 //$this->params['breadcrumbs'][] = $this->title;

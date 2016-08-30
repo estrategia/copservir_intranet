@@ -6,7 +6,7 @@ use app\modules\trademarketing\models\Categoria;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\trademarketing\models\CategoriaSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $dataProvider yii\data\ActiveDataProvider de Categorias*/
 
 $this->title = 'Categorias';
 //$this->params['breadcrumbs'][] = $this->title;

@@ -57,7 +57,9 @@ return [
         //'tarjetaMas' => 'http://sii.copservir.com/tarjetamas/WsTarjetaMas/ws',
         'persona' => 'http://localhost/copservir/wsMultiportal/persona',
         //'persona' => 'http://sii.copservir.com/gestionhumana/wsMultiportal/persona',
-
+        'tradeMarketing' => [
+          'puntosVenta' => 'http://localhost/copservir/puntoventa/sweb/puntoventa',
+        ]
     ],
     'usuario' => [
       'tiempoRecuperarClave' => 1 // dias

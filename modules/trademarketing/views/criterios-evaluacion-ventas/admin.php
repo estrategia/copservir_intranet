@@ -6,7 +6,7 @@ use app\modules\trademarketing\models\CriteriosEvaluacionVentas;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\trademarketing\models\CriteriosEvaluacionVentasSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $dataProvider yii\data\ActiveDataProvider CriteriosEvalucionVentas*/
 
 $this->title = 'Criterios de evaluacion de ventas';
 //$this->params['breadcrumbs'][] = $this->title;

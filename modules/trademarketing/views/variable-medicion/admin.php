@@ -6,7 +6,7 @@ use app\modules\trademarketing\models\VariableMedicion;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\trademarketing\models\VariableMedicionSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $dataProvider yii\data\ActiveDataProvider VariableMedicion */
 
 $this->title = 'Variables de medicion';
 //$this->params['breadcrumbs'][] = $this->title;
