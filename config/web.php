@@ -11,6 +11,34 @@ $config = [
     'on beforeAction' => function ($event) {
         date_default_timezone_set('America/Bogota');
     },
+    'modules' => [
+        'intranet' => [
+            'class' => 'app\modules\intranet\IntranetModule',
+        ],
+        'proveedores' => [
+            'class' => 'app\modules\proveedores\ProveedoresModule',
+        ],
+        'convenios' => [
+            'class' => 'app\modules\convenios\ConveniosModule',
+        ],
+        'copservir' => [
+            'class' => 'app\modules\copservir\CopservirModule',
+        ],
+        'tarjetamas' => [
+            'class' => 'app\modules\tarjetamas\TarjetaMasModule',
+        ],
+        'trademarketing' => [
+            'class' => 'app\modules\trademarketing\TradeMarketingModule',
+        ],
+        'treemanager' => [
+            'class' => '\kartik\tree\Module',
+        // other module settings, refer detailed documentation
+        ]
+    /* 'gridview' => [
+      //'class' => '\kartik\grid\Module',
+      //'downloadAction' => '',
+      ] */
+    ],
     'components' => [
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
@@ -32,6 +60,9 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'h8pmv7opsbl15jp5q81qr11r42',
+            'parsers' => [
+              'application/json' => 'yii\web\JsonParser',
+            ]
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -121,39 +152,24 @@ $config = [
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+
+                // REST
+                [
+                  'class' => 'yii\rest\UrlRule',
+                  'controller' => ['trademarketing/rest/rest-asignacion-punto-venta'],
+                  'pluralize'=>false,
+                  'tokens' => [
+                    '{id}' => '<id:\\w+>'
+                  ],
+                ],
+
             ],
         ],
+
     ],
     'defaultRoute' => '/copservir/sitio',
     'params' => $params,
-    'modules' => [
-        'intranet' => [
-            'class' => 'app\modules\intranet\IntranetModule',
-        ],
-        'proveedores' => [
-            'class' => 'app\modules\proveedores\ProveedoresModule',
-        ],
-        'convenios' => [
-            'class' => 'app\modules\convenios\ConveniosModule',
-        ],
-        'copservir' => [
-            'class' => 'app\modules\copservir\CopservirModule',
-        ],
-        'tarjetamas' => [
-            'class' => 'app\modules\tarjetamas\TarjetaMasModule',
-        ],
-        'trademarketing' => [
-            'class' => 'app\modules\trademarketing\TradeMarketingModule',
-        ],
-        'treemanager' => [
-            'class' => '\kartik\tree\Module',
-        // other module settings, refer detailed documentation
-        ]
-    /* 'gridview' => [
-      //'class' => '\kartik\grid\Module',
-      //'downloadAction' => '',
-      ] */
-    ],
+
 ];
 
 if (YII_ENV_DEV) {
