@@ -29,7 +29,7 @@ $this->title = 'Detalle asignacion';
             //'idComercial',
             'NombrePuntoDeVenta',
             'nombreTipoNegocio',
-            'idCiudad',
+            'ciudad.nombreCiudad',
             //'idZona',
             'nombreZona',
             //'idSede',

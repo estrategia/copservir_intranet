@@ -40,7 +40,7 @@ class AsignacionPuntoVentaController extends Controller
     }
 
     /**
-     * Lista todos los modelos AsignacionPuntoVenta que estan pendientes de calificar para un usuario.
+     * Lista todos los modelos AsignacionPuntoVenta que estan pendientes
      * @return mixed
      */
     public function actionAsignaciones()
@@ -55,7 +55,7 @@ class AsignacionPuntoVentaController extends Controller
     }
 
     /**
-     * Visualiza un solo modelo AsignacionPuntoVenta que esta pendiente de calificar para un usuario.
+     * Visualiza un solo modelo AsignacionPuntoVenta que esta pendiente
      * @param string $id
      * @return mixed
      */
@@ -67,42 +67,45 @@ class AsignacionPuntoVentaController extends Controller
     }
 
     /**
-     * Crea un modelo AsignacionPuntoVenta.
-     * @return mixed
-     */
-     /*
-    public function actionCreate()
-    {
-        $model = new AsignacionPuntoVenta();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idAsignacion]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
-    */
-    /**
-     * Actualiza un modelo AsignacionPuntoVenta existente.
+     * Crea calificaciones para una asignacion
      * @param string $id
      * @return mixed
      */
-     /*
-    public function actionActualizar($id)
+    public function actionCalificar($id)
     {
-        $model = $this->encontrarModeloAsignacion($id);
+        $modeloAsignacion = $this->encontrarModeloAsignacion($id);
+        $modelosUnidadesNegocio = $this->callWSGetUnidadesNegocio();
+        //$modelosCategoria = ;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['detalle', 'id' => $model->idAsignacion]);
-        } else {
-            return $this->render('actualizar', [
-                'model' => $model,
-            ]);
+        return $this->render('calificar', [
+            'modeloAsignacion' => $modeloAsignacion,
+        ]);
+
+    }
+
+    /**
+     * Peticion mediante un webService soap a siicop de las unidades de negocio
+     * @param string $id
+     * @return mixed
+     */
+    private function callWSGetUnidadesNegocio()
+    {
+        $client = new \SoapClient(\Yii::$app->params['webServices']['tradeMarketing']['unidades'], array(
+            "trace" => 1,
+            "exceptions" => 0,
+            'connection_timeout' => 5,
+            //'cache_wsdl' => WSDL_CACHE_NONE
+        ));
+
+        try {
+            $result = $client->getUnidades();
+            return $result;
+        } catch (SoapFault $ex) {
+            Yii::error($ex->getMessage());
+        } catch (Exception $ex) {
+            Yii::error($ex->getMessage());
         }
     }
-    */
 
     /**
      * Encuentra un modelo AsignacionPuntoVenta basado en el valor de su llave primaria

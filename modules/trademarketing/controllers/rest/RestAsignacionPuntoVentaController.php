@@ -17,6 +17,7 @@ class RestAsignacionPuntoVentaController extends ActiveController
 
         // customize the data provider preparation with the "prepareDataProvider()" method
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
+        $actions['findByPV']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
 
         return $actions;
     }
@@ -26,5 +27,4 @@ class RestAsignacionPuntoVentaController extends ActiveController
         $searchModel = new AsignacionPuntoVentaSearch();
         return $searchModel->searchAll(\Yii::$app->request->queryParams);
     }
-
 }

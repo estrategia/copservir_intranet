@@ -4,6 +4,7 @@ namespace app\modules\trademarketing\models;
 
 use Yii;
 use app\models\Usuario;
+use \app\modules\intranet\models\Ciudad;
 
 /**
  * Modelo para la tabla "t_TRMA_AsignacionPuntoVenta".
@@ -74,6 +75,10 @@ class AsignacionPuntoVenta extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getCiudad() {
+        return $this->hasOne(Ciudad::className(), ['idCiudad' => 'idCiudad']);
+    }
+
     public function getUsuario() {
         return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumento']);
     }
@@ -84,5 +89,10 @@ class AsignacionPuntoVenta extends \yii\db\ActiveRecord
 
     public function getUsuarioSubAminidtrador() {
         return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumentosubAdministradorpuntoVenta']);
+    }
+
+    public function extraFields()
+    {
+      return ['ciudad'];
     }
 }

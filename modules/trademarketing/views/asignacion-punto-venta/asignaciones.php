@@ -27,7 +27,7 @@ $this->title = 'Puntos de venta asignados';
             //'idComercial',
             'NombrePuntoDeVenta',
             //'nombreTipoNegocio',
-            'idCiudad',
+            'ciudad.nombreCiudad',
             // 'idZona',
             'nombreZona',
             //'idSede',

@@ -59,6 +59,7 @@ return [
         //'persona' => 'http://sii.copservir.com/gestionhumana/wsMultiportal/persona',
         'tradeMarketing' => [
           'puntosVenta' => 'http://localhost/copservir/puntoventa/sweb/puntoventa',
+          'unidades' => 'http://localhost/copservir/tradeMarketing/wsTradeMarketing/unidades'
         ]
     ],
     'usuario' => [
