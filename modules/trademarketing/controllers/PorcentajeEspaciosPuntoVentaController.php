@@ -104,11 +104,11 @@ class PorcentajeEspaciosPuntoVentaController extends Controller
 
     /**
     * Crea un array de modelos PorcentajeEspaciosPuntoVenta dependiendo de los espacios creados y los modelos
-    * PorcentajeEspaciosPuntoVenta que hayan po ese punto de venta 
+    * PorcentajeEspaciosPuntoVenta que hayan po ese punto de venta
     * @param string $puntoVenta
     * @return Boolean
     */
-    public function getModelosPorcentaje($puntoVenta)
+    protected function getModelosPorcentaje($puntoVenta)
     {
         $modelosPorcentaje = array();
         $cantidadEspacios =  Espacio::countEspacios();

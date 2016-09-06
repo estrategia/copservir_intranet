@@ -3,6 +3,8 @@
 namespace app\modules\trademarketing\controllers;
 
 use Yii;
+use app\modules\trademarketing\models\Categoria;
+use app\modules\trademarketing\models\CalificacionVariable;
 use app\modules\trademarketing\models\AsignacionPuntoVenta;
 use app\modules\trademarketing\models\AsignacionPuntoVentaSearch;
 use yii\web\Controller;
@@ -75,12 +77,61 @@ class AsignacionPuntoVentaController extends Controller
     {
         $modeloAsignacion = $this->encontrarModeloAsignacion($id);
         $modelosUnidadesNegocio = $this->callWSGetUnidadesNegocio();
-        //$modelosCategoria = ;
+        $modelosCategoria = Categoria::getCategorias();
+        $modelosCalificacion = $this->getModelosCalificacion($id, $modelosCategoria, $modelosUnidadesNegocio);
+        // var_dump($modelosCalificacion);
+        // exit();
+
 
         return $this->render('calificar', [
             'modeloAsignacion' => $modeloAsignacion,
+            'modelosUnidadesNegocio' => $modelosUnidadesNegocio,
+            'modelosCategoria' => $modelosCategoria,
+            'modelosCalificacion' => $modelosCalificacion
         ]);
 
+    }
+
+    /**
+    * Crea un array de modelos CalificacionVariable dependiendo de las variables y unidades de negocio
+    * @param int $idAsignacion, array<Categoria> $modelosCategoria, array $unidadesNegocio
+    * @return array<CalificacionVariable>
+    */
+    protected function getModelosCalificacion($idAsignacion, $modelosCategoria, $unidadesNegocio)
+    {
+      $modelosCalificacion = array();
+
+      foreach ($modelosCategoria as $categoria) {
+
+        foreach ($categoria->variablesMedicion as $variable){
+
+          if ($variable->calificaUnidadNegocio === 1) {
+
+            foreach ($unidadesNegocio as $unidad) {
+
+              $modelo = CalificacionVariable::find()->where(['idAsignacion' => $idAsignacion, 'idVariable' => $variable->idVariable, 'IdAgrupacion' => $unidad['IdAgrupacion']])->one();
+
+              if ($modelo !== null) {
+                array_push($modelosCalificacion, $modelo);
+              }else{
+                array_push($modelosCalificacion, new CalificacionVariable());
+              }
+            }
+
+          }else{
+
+            $modelo = CalificacionVariable::find()->where(['idAsignacion' => $idAsignacion, 'idVariable' => $variable->idVariable])->one();
+
+            if ($modelo !== null) {
+              array_push($modelosCalificacion, $modelo);
+            }else{
+              array_push($modelosCalificacion, new CalificacionVariable());
+            }
+          }
+        }
+      }
+
+      return $modelosCalificacion;
     }
 
     /**
@@ -88,7 +139,7 @@ class AsignacionPuntoVentaController extends Controller
      * @param string $id
      * @return mixed
      */
-    private function callWSGetUnidadesNegocio()
+    protected function callWSGetUnidadesNegocio()
     {
         $client = new \SoapClient(\Yii::$app->params['webServices']['tradeMarketing']['unidades'], array(
             "trace" => 1,

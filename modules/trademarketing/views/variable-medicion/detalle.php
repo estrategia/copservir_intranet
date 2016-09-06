@@ -43,7 +43,7 @@ $this->title = 'Detalle variable';
             ],
             [
               'attribute' => 'calificaUnidadNegocio',
-              'value' =>  $model->calificaUnidadNegocio == 1 ? 'Si' : 'No',
+              'value' =>  $model->calificaUnidadNegocio == VariableMedicion::CALIFICA_UNIDAD ? 'Si' : 'No',
             ],
         ],
     ]) ?>

@@ -43,8 +43,13 @@ class Categoria extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getVariablesmedicion()
+    public function getVariablesMedicion()
     {
         return $this->hasMany(Variablemedicion::className(), ['idCategoria' => 'idCategoria']);
+    }
+
+    public static function getCategorias()
+    {
+        return self::find()->where(['estado' => self::ESTADO_ACTIVO])->all();
     }
 }

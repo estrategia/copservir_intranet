@@ -54,7 +54,7 @@ $this->title = 'Variables de medicion';
                 Html::activeDropDownList($searchModel, 'calificaUnidadNegocio', ['0' => 'No',
                   '1' => 'Si'], ['class'=>'form-control','prompt' => 'Seleccione']),
                   'value' => function($model) {
-                      if ($model->calificaUnidadNegocio == 1 ) {
+                      if ($model->calificaUnidadNegocio == VariableMedicion::CALIFICA_UNIDAD ) {
                         return 'Si';
                       }else{
                         return 'No';

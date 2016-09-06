@@ -1,10 +1,10 @@
 <?php
 
 use yii\helpers\Html;
-use app\assets\MultiportalAsset;
+use app\assets\tradeMarketingAsset;
 use app\modules\intranet\models\MenuPortales;
 
-MultiportalAsset::register($this);
+tradeMarketingAsset::register($this);
 
 ?>
 <?php $this->beginPage() ?>

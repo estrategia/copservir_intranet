@@ -33,7 +33,7 @@ use app\modules\trademarketing\models\VariableMedicion;
 
     <?php $model->calificaUnidadNegocio = $model->isNewRecord ? '1' : $model->calificaUnidadNegocio;  ?>
     <?=
-      $form->field($model, 'calificaUnidadNegocio')->dropDownList(['1' => 'Si', '0' => 'No']);
+      $form->field($model, 'calificaUnidadNegocio')->dropDownList([VariableMedicion::CALIFICA_UNIDAD => 'Si', VariableMedicion::NO_CALIFICA_UNIDAD => 'No']);
     ?>
 
     <div class="form-group">

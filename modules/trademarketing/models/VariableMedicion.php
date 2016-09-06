@@ -23,6 +23,8 @@ class VariableMedicion extends \yii\db\ActiveRecord
 {
     const ESTADO_ACTIVO = 1;
     const ESTADO_INACTIVO = 0;
+    const CALIFICA_UNIDAD = 1;
+    const NO_CALIFICA_UNIDAD = 0;
 
     public static function tableName()
     {
