@@ -20,6 +20,7 @@ $this->title = 'Califica un punto de venta';
 				<h2>LISTA DE CHEQUEO DE LA REVISIÓN EN PUNTOS DE VENTA PLUS</h2>
 		</center>
 
+
 		<?= $this->render('_cabeceraListaChequeo', [
         'modeloAsignacion' => $modeloAsignacion,
     ]) ?>
@@ -69,8 +70,8 @@ $this->title = 'Califica un punto de venta';
 												<?php $modelosCalificacion[$contador]->valor = $modelosCalificacion[$contador]->isNewRecord ?
 							                0 : $modelosCalificacion[$contador]->valor ?>
 
-												<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']valor')->textInput(['maxlength' => true, 'data-califica-unidad' => 'si', 'data-index' => $contador])->label(false) ?>
-
+												<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']valor')->textInput(['maxlength' => true, 'data-califica-unidad' => 'si', 'data-index' => $contador,  'data-cantidad-variables' => count($categoria->variablesMedicion)])->label(false) ?>
+												
 												<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']idAsignacion')->hiddenInput(
 							                ['value'=> $modeloAsignacion->idAsignacion])->label(false); ?>
 
@@ -89,7 +90,7 @@ $this->title = 'Califica un punto de venta';
 											<?php $modelosCalificacion[$contador]->valor = $modelosCalificacion[$contador]->isNewRecord ?
 														0 : $modelosCalificacion[$contador]->valor ?>
 
-											 <?=  $form->field($modelosCalificacion[$contador], '['.$contador.']valor')->textInput(['maxlength' => true, 'data-index' => $contador])->label(false) ?>
+											 <?=  $form->field($modelosCalificacion[$contador], '['.$contador.']valor')->textInput(['maxlength' => true, 'data-index' => $contador,  'data-cantidad-variables' => count($categoria->variablesMedicion)])->label(false) ?>
 
 											<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']idAsignacion')->hiddenInput(
 						                ['value'=> $modeloAsignacion->idAsignacion])->label(false); ?>
@@ -113,81 +114,49 @@ $this->title = 'Califica un punto de venta';
 
 
 						</tr>
+
+
+
+
 					<?php endforeach; ?>
 
-					<!-- Resultados -->
- 					<!--
-					<tr>
-						<td>CATEGORY</td>
-						<td></td>
-						<td>0</td>
-						<td>0</td>
-						<td>0</td>
-						<td>4</td>
-						<td>0</td>
-						<td></td>
-						<td></td>
-					</tr>
- 					<tr>
-						<td>OTRAS VARIABLES </td>
-						<td></td>
-						<td>0</td>
-						<td>0</td>
-						<td>0</td>
-						<td>0</td>
-						<td>0</td>
-						<td></td>
-						<td></td>
-					</tr>
- 					<tr>
-						<td>GESTION Y SEGUIMIENTO ADMON</td>
-						<td></td>
-						<td>10</td>
-						<td>10</td>
-						<td>10</td>
-						<td>10</td>
-						<td>10</td>
-						<td></td>
-						<td></td>
-					</tr>
- 					<tr>
-						<td>SERVICIO AL CLIENTE</td>
-						<td></td>
-						<td>0</td>
-						<td>0</td>
-						<td>0</td>
-						<td>0</td>
-						<td>0</td>
-						<td></td>
-						<td></td>
-					</tr>
- 					<tr>
-						<td>INFRAEST Y TECNOLOG</td>
-						<td></td>
-						<td>0</td>
-						<td>0</td>
-						<td>0</td>
-						<td>0</td>
-						<td>0</td>
-						<td></td>
-						<td></td>
-					</tr>
- 					<tr>
-						<td>TOTAL</td>
-						<td></td>
-						<td>2</td>
-						<td>2</td>
-						<td>2</td>
-						<td>3</td>
-						<td>2</td>
-						<td></td>
-						<td></td>
-					</tr>
-				 -->
+					<?php $contadorTotalUnidades = 0 ?>
+					<?php foreach ($modelosCategoria as $categoria): ?>
+						<tr>
+							<td colspan="2">
+								<?= $categoria->nombre ?>
+							</td>
+								<?php foreach ($modelosUnidadesNegocio as $unidadNegocio): ?>
+
+									<td id='total-unidad-<?= $contadorTotalUnidades ?>'>
+										hola
+									</td>
+									<?php $contadorTotalUnidades++ ?>
+								<?php endforeach; ?>
+						</tr>
+					<?php endforeach; ?>
+
+
+						<tr>
+							<td colspan="2">
+								TOTAL
+							</td>
+								<?php foreach ($modelosUnidadesNegocio as $unidadNegocio): ?>
+
+									<td>
+										total - 0
+									</td>
+								<?php endforeach; ?>
+						</tr>
 			  </tbody>
 			</table>
 		<center>
 
+			<?php // Html::submitButton('Guardar',
+						//['class' => 'btn btn-primary']) ?>
+
+			<?php // Html::submitButton('Finalizar y Guardar',
+						//['class' => 'btn btn-success']) ?>
 		<?php ActiveForm::end(); ?>
 <!-- ACA FUE QUE -->
 
@@ -204,14 +173,17 @@ $this->title = 'Califica un punto de venta';
 	$cantidadCampos = count($modelosCalificacion);
 	$cantidadUnidades = count($modelosUnidadesNegocio);
 
+
+
 	$this->registerJs("
 		var cantidadCampos = $cantidadCampos;
 		var cantidadUnidades = $cantidadUnidades;
 		var calculos = new CalificacionAsignacionView(cantidadCampos, cantidadUnidades);
 		calculos.actualizarTotalesPorVariables();
-		
+
 		$( document ).ready(function() {
 			calculos.calcularTotalPorVariables();
+			calculos.calcularTotalPorUnidades();
 		});
 
 	");
