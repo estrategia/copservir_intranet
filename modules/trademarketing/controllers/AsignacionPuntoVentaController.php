@@ -19,19 +19,20 @@ class AsignacionPuntoVentaController extends Controller
             [
                 'class' => \app\components\AccessFilter::className(),
             ],
-            /*
+
             [
                  'class' => \app\components\AuthItemFilter::className(),
                  'only' => [
-                   'admin', 'index'
+                   'asignaciones', 'detalle', 'calificar'
                  ],
                  'authsActions' => [
                      //colocar los permisos
-                      'admin' => 'intranet_categoria-documento_admin',
-                      'index' => 'intranet_usuario'
+                      'asignaciones' => 'tradeMarketing_asignaciones_supervisor',
+                      'detalle' => 'tradeMarketing_asignaciones_supervisor',
+                      'calificar' => 'tradeMarketing_asignaciones_supervisor'
                  ]
              ],
-             */
+
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -79,8 +80,55 @@ class AsignacionPuntoVentaController extends Controller
         $modelosUnidadesNegocio = $this->callWSGetUnidadesNegocio();
         $modelosCategoria = Categoria::getCategorias();
         $modelosCalificacion = $this->getModelosCalificacion($id, $modelosCategoria, $modelosUnidadesNegocio);
-        // var_dump($modelosCalificacion);
-        // exit();
+
+        if (Yii::$app->request->post()) {
+
+          $dataCalificaciones = Yii::$app->request->post('CalificacionVariable');
+          $finalizaAsignacion = Yii::$app->request->post('finalizar');
+
+          $transaction = CalificacionVariable::getDb()->beginTransaction();
+
+          try {
+
+            foreach ($modelosCalificacion as $index => $calificacion) {
+              $tempData = array('CalificacionVariable' => $dataCalificaciones[$index] );
+
+              if ($calificacion->load($tempData)) {
+
+                if (!$calificacion->save()) {
+
+                    Yii::$app->session->setFlash('error', 'error al guardar la informacion'.json_encode($calificacion->getErrors()));
+
+                };
+              }
+            }
+
+            if( !is_null($finalizaAsignacion)) {
+              $modeloAsignacion->setEstadoFinalizado();
+            }else{
+              $modeloAsignacion->setEstadoPendiente();
+            }
+
+            if (!$modeloAsignacion->save()) {
+                Yii::$app->session->setFlash('error', 'error al guardar la informacion'.json_encode($modeloAsignacion->getErrors()));
+            }else{
+
+              if( !is_null($finalizaAsignacion)) {
+                return $this->redirect(['asignaciones']);
+              }else{
+
+                Yii::$app->session->setFlash('success', 'Progreso de la calificacion guardado con exito');
+                return $this->refresh();
+              }
+            };
+
+            $transaction->commit();
+
+          } catch (Exception $e) {
+            $transaction->rollBack();
+            Yii::$app->session->setFlash('error', $e->getMessage());
+          }
+        }
 
 
         return $this->render('calificar', [

@@ -20,19 +20,20 @@ class RangoCalificacionesController extends Controller
             [
                 'class' => \app\components\AccessFilter::className(),
             ],
-            /*
             [
                  'class' => \app\components\AuthItemFilter::className(),
                  'only' => [
-                   'admin', 'index'
+                   'admin', 'detalle', 'crear', 'actualizar', 'inactivar'
                  ],
                  'authsActions' => [
                      //colocar los permisos
-                      'admin' => 'intranet_categoria-documento_admin',
-                      'index' => 'intranet_usuario'
+                      'admin' => 'tradeMarketing_rango-calificaciones_admin',
+                      'detalle' => 'tradeMarketing_rango-calificaciones_admin',
+                      'crear' => 'tradeMarketing_rango-calificaciones_admin',
+                      'actualizar' => 'tradeMarketing_rango-calificaciones_admin',
+                      'inactivar' => 'tradeMarketing_rango-calificaciones_admin'
                  ]
              ],
-             */
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

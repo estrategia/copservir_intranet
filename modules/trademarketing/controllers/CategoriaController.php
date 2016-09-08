@@ -20,19 +20,22 @@ class CategoriaController extends Controller
             [
                 'class' => \app\components\AccessFilter::className(),
             ],
-            /*
+
             [
                  'class' => \app\components\AuthItemFilter::className(),
                  'only' => [
-                   'admin', 'index'
+                   'admin', 'detalle', 'crear', 'actualizar', 'inactivar'
                  ],
                  'authsActions' => [
                      //colocar los permisos
-                      'admin' => 'intranet_categoria-documento_admin',
-                      'index' => 'intranet_usuario'
+                      'admin' => 'tradeMarketing_categorias_admin',
+                      'detalle' => 'tradeMarketing_categorias_admin',
+                      'crear' => 'tradeMarketing_categorias_admin',
+                      'actualizar' => 'tradeMarketing_categorias_admin',
+                      'inactivar' => 'tradeMarketing_categorias_admin'
                  ]
              ],
-             */
+
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

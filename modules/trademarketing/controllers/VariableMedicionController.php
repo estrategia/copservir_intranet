@@ -20,19 +20,20 @@ class VariableMedicionController extends Controller
             [
                 'class' => \app\components\AccessFilter::className(),
             ],
-            /*
             [
                  'class' => \app\components\AuthItemFilter::className(),
                  'only' => [
-                   'admin', 'index'
+                   'admin', 'detalle', 'crear', 'actualizar', 'inactivar'
                  ],
                  'authsActions' => [
                      //colocar los permisos
-                      'admin' => 'intranet_categoria-documento_admin',
-                      'index' => 'intranet_usuario'
+                      'admin' => 'tradeMarketing_variable_medicion_admin',
+                      'detalle' => 'tradeMarketing_variable_medicion_admin',
+                      'crear' => 'tradeMarketing_variable_medicion_admin',
+                      'actualizar' => 'tradeMarketing_variable_medicion_admin',
+                      'inactivar' => 'tradeMarketing_variable_medicion_admin'
                  ]
              ],
-             */
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

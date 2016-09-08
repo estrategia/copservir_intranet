@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\modules\trademarketing\models\VariableMedicion;
+use app\modules\trademarketing\models\AsignacionPuntoVenta;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\trademarketing\models\AsignacionPuntoVentaSearch */
@@ -20,6 +21,7 @@ $this->title = 'Califica un punto de venta';
 				<h2>LISTA DE CHEQUEO DE LA REVISIÓN EN PUNTOS DE VENTA PLUS</h2>
 		</center>
 
+		<?= $this->render('/common/errores', []) ?>
 
 		<?= $this->render('_cabeceraListaChequeo', [
         'modeloAsignacion' => $modeloAsignacion,
@@ -71,11 +73,14 @@ $this->title = 'Califica un punto de venta';
 							                0 : $modelosCalificacion[$contador]->valor ?>
 
 												<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']valor')->textInput(['maxlength' => true, 'data-califica-unidad' => 'si', 'data-index' => $contador,  'data-cantidad-variables' => count($categoria->variablesMedicion)])->label(false) ?>
-												
+
 												<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']idAsignacion')->hiddenInput(
 							                ['value'=> $modeloAsignacion->idAsignacion])->label(false); ?>
 
-												<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']idAgrupacion')->hiddenInput(
+												<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']idVariable')->hiddenInput(
+							                ['value'=> $variable->idVariable])->label(false); ?>
+
+												<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']IdAgrupacion')->hiddenInput(
 							                ['value'=> $unidadNegocio['IdAgrupacion']])->label(false); ?>
 
 												<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']nombreUnidadNegocio')->hiddenInput(
@@ -95,11 +100,9 @@ $this->title = 'Califica un punto de venta';
 											<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']idAsignacion')->hiddenInput(
 						                ['value'=> $modeloAsignacion->idAsignacion])->label(false); ?>
 
-											<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']idAgrupacion')->hiddenInput(
-						              ['value'=> $unidadNegocio['IdAgrupacion']])->label(false); ?>
+											<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']idVariable')->hiddenInput(
+						                ['value'=> $variable->idVariable])->label(false); ?>
 
-											<?php  $form->field($modelosCalificacion[$contador], '['.$contador.']nombreUnidadNegocio')->hiddenInput(
-						                ['value'=> $unidadNegocio['NombreUnidadNegocio']])->label(false); ?>
 								 		</td>
 										<?php $contador++ ?>
 										<?php endif; ?>
@@ -141,10 +144,10 @@ $this->title = 'Califica un punto de venta';
 							<td colspan="2">
 								TOTAL
 							</td>
-								<?php foreach ($modelosUnidadesNegocio as $unidadNegocio): ?>
+								<?php foreach ($modelosUnidadesNegocio as $index => $unidadNegocio): ?>
 
-									<td>
-										total - 0
+									<td id='total-definitivo-<?= $index ?>'>
+										0
 									</td>
 								<?php endforeach; ?>
 						</tr>
@@ -152,11 +155,11 @@ $this->title = 'Califica un punto de venta';
 			</table>
 		<center>
 
-			<?php // Html::submitButton('Guardar',
-						//['class' => 'btn btn-primary']) ?>
+			<?=  Html::submitButton('Guardar',
+						['class' => 'btn btn-primary', 'name' => 'guardar']) ?>
 
-			<?php // Html::submitButton('Finalizar y Guardar',
-						//['class' => 'btn btn-success']) ?>
+			<?=  Html::submitButton('Finalizar y Guardar',
+						['class' => 'btn btn-success', 'name' => 'finalizar']) ?>
 		<?php ActiveForm::end(); ?>
 <!-- ACA FUE QUE -->
 
@@ -172,18 +175,21 @@ $this->title = 'Califica un punto de venta';
 
 	$cantidadCampos = count($modelosCalificacion);
 	$cantidadUnidades = count($modelosUnidadesNegocio);
+	$cantidadCategorias = count($modelosCategoria);
 
 
 
 	$this->registerJs("
 		var cantidadCampos = $cantidadCampos;
 		var cantidadUnidades = $cantidadUnidades;
-		var calculos = new CalificacionAsignacionView(cantidadCampos, cantidadUnidades);
-		calculos.actualizarTotalesPorVariables();
+		var cantidadCategorias = $cantidadCategorias;
+		var calculos = new CalificacionAsignacionView(cantidadCampos, cantidadUnidades, cantidadCategorias);
+		calculos.actualizarTotales();
 
 		$( document ).ready(function() {
 			calculos.calcularTotalPorVariables();
 			calculos.calcularTotalPorUnidades();
+			calculos.calcularTotales();
 		});
 
 	");

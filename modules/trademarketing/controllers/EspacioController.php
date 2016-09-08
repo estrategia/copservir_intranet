@@ -19,19 +19,20 @@ class EspacioController extends Controller
             [
                 'class' => \app\components\AccessFilter::className(),
             ],
-            /*
             [
                  'class' => \app\components\AuthItemFilter::className(),
                  'only' => [
-                   'admin', 'index'
+                   'admin', 'detalle', 'crear', 'actualizar', 'inactivar'
                  ],
                  'authsActions' => [
                      //colocar los permisos
-                      'admin' => 'intranet_categoria-documento_admin',
-                      'index' => 'intranet_usuario'
+                      'admin' => 'tradeMarketing_espacios_admin',
+                      'detalle' => 'tradeMarketing_espacios_admin',
+                      'crear' => 'tradeMarketing_espacios_admin',
+                      'actualizar' => 'tradeMarketing_espacios_admin',
+                      'inactivar' => 'tradeMarketing_espacios_admin'
                  ]
              ],
-             */
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

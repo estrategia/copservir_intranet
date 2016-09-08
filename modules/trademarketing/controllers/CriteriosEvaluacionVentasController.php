@@ -19,19 +19,20 @@ class CriteriosEvaluacionVentasController extends Controller
             [
                 'class' => \app\components\AccessFilter::className(),
             ],
-            /*
             [
                  'class' => \app\components\AuthItemFilter::className(),
                  'only' => [
-                   'admin', 'index'
+                   'admin', 'detalle', 'crear', 'actualizar', 'inactivar'
                  ],
                  'authsActions' => [
                      //colocar los permisos
-                      'admin' => 'intranet_categoria-documento_admin',
-                      'index' => 'intranet_usuario'
+                      'admin' => 'tradeMarketing_criterios-evaluacion_admin',
+                      'detalle' => 'tradeMarketing_criterios-evaluacion_admin',
+                      'crear' => 'tradeMarketing_criterios-evaluacion_admin',
+                      'actualizar' => 'tradeMarketing_criterios-evaluacion_admin',
+                      'inactivar' => 'tradeMarketing_criterios-evaluacion_admin'
                  ]
              ],
-             */
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

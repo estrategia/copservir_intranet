@@ -34,6 +34,9 @@ class AsignacionPuntoVenta extends \yii\db\ActiveRecord
     const ESTADO_PENDIENTE = 1;
     const ESTADO_CALIFICADO = 2;
 
+    const ACTION_GUARDAR = 0;
+    const ACTION_FINALIZAR = 1;
+
     public static function tableName()
     {
         return 't_TRMA_AsignacionPuntoVenta';
@@ -91,6 +94,15 @@ class AsignacionPuntoVenta extends \yii\db\ActiveRecord
         return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumentosubAdministradorpuntoVenta']);
     }
 
+    public function setEstadoPendiente()
+    {
+      $this->estado = self::ESTADO_PENDIENTE;
+    }
+
+    public function setEstadoFinalizado()
+    {
+      $this->estado = self::ESTADO_CALIFICADO;
+    }
     public function extraFields()
     {
       return ['ciudad'];

@@ -19,19 +19,17 @@ class PorcentajeEspaciosPuntoVentaController extends Controller
             [
                 'class' => \app\components\AccessFilter::className(),
             ],
-            /*
             [
                  'class' => \app\components\AuthItemFilter::className(),
                  'only' => [
-                   'admin', 'index'
+                   'seleccion-punto-venta', 'asignar'
                  ],
                  'authsActions' => [
                      //colocar los permisos
-                      'admin' => 'intranet_categoria-documento_admin',
-                      'index' => 'intranet_usuario'
+                      'seleccion-punto-venta' => 'tradeMarketing_porcentaje-espacios_admin',
+                      'asignar' => 'tradeMarketing_porcentaje-espacios_admin',
                  ]
              ],
-             */
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -76,13 +74,14 @@ class PorcentajeEspaciosPuntoVentaController extends Controller
               $transaction = PorcentajeEspaciosPuntoVenta::getDb()->beginTransaction();
 
               try {
-                foreach ($modelosPorcentaje as $index =>$porcentaje) {
+                foreach ($modelosPorcentaje as $index => $porcentaje) {
                     $porcentaje->idComercial = $puntoVenta;
                     $porcentaje->idEspacio = $dataEspacios[$index]['idEspacio'];
                     $porcentaje->valor = $dataEspacios[$index]['valor'];
 
                     if (!$porcentaje->save()) {
-                        throw new \Exception("Error al guardar un valor: ".json_encode($porcentaje->getErrors()), 101);
+                        Yii::$app->session->setFlash('error', 'no se pueden guardar los porcentajes'.json_encode($porcentaje->getErrors()) );
+                        //throw new \Exception("Error al guardar un valor: ".json_encode($porcentaje->getErrors()), 101);
                     };
                 }
 
