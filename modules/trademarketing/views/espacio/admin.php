@@ -28,10 +28,10 @@ $this->title = 'Espacios';
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            [
-              'attribute' => 'idVariable',
-              'value' => 'variable.nombre',
-            ],
+            // [
+            //   'attribute' => 'idVariable',
+            //   'value' => 'variable.nombre',
+            // ],
             'nombre',
             [
               'attribute' => 'estado',

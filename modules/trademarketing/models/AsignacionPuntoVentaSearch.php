@@ -72,6 +72,50 @@ class AsignacionPuntoVentaSearch extends AsignacionPuntoVenta
         return $dataProvider;
     }
 
+    /**
+     * Crea una instancia dataProvider con la query para aplicar la busqueda.
+     * @param array $params
+     * @return ActiveDataProvider
+     */
+    public function searchCalificadas($params)
+    {
+        $query = AsignacionPuntoVenta::find()->where([ 'estado'=> AsignacionPuntoVenta::ESTADO_CALIFICADO,
+          'numeroDocumento' => Yii::$app->user->identity->numeroDocumento]);
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params,'');
+
+        if (!$this->validate()) {
+            return $dataProvider;
+        }
+
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'idAsignacion' => $this->idAsignacion,
+            'idCiudad' => $this->idCiudad,
+            'idZona' => $this->idZona,
+            'idSede' => $this->idSede,
+            'numeroDocumento' => $this->numeroDocumento,
+            'numeroDocumentoAdministradorPuntoVenta' => $this->numeroDocumentoAdministradorPuntoVenta,
+            'numeroDocumentosubAdministradorpuntoVenta' => $this->numeroDocumentosubAdministradorpuntoVenta,
+            'estado' => $this->estado,
+            'fechaAsignacion' => $this->fechaAsignacion,
+        ]);
+
+        $query->andFilterWhere(['like', 'idComercial', $this->idComercial])
+            ->andFilterWhere(['like', 'NombrePuntoDeVenta', $this->NombrePuntoDeVenta])
+            ->andFilterWhere(['like', 'nombreTipoNegocio', $this->nombreTipoNegocio])
+            ->andFilterWhere(['like', 'nombreZona', $this->nombreZona])
+            ->andFilterWhere(['like', 'nombreSede', $this->nombreSede]);
+
+        return $dataProvider;
+    }
+
     public function searchAll($params)
     {
         $query = AsignacionPuntoVenta::find();

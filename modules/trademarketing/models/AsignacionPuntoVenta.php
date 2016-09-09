@@ -6,6 +6,7 @@ use Yii;
 use app\models\Usuario;
 use \app\modules\intranet\models\Ciudad;
 
+
 /**
  * Modelo para la tabla "t_TRMA_AsignacionPuntoVenta".
  *
@@ -25,6 +26,7 @@ use \app\modules\intranet\models\Ciudad;
  * @property string $fechaAsignacion
  *
  * @property Usuario $usuario
+ * @property array[CalificacionVariable] $calificaciones
  * @property Usuario $usuarioAdministrador
  * @property Usuario $usuarioSubAminidtrador
  */
@@ -78,6 +80,11 @@ class AsignacionPuntoVenta extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getCalificaciones()
+    {
+        return $this->hasMany(CalificacionVariable::className(), ['idAsignacion' => 'idAsignacion']);
+    }
+
     public function getCiudad() {
         return $this->hasOne(Ciudad::className(), ['idCiudad' => 'idCiudad']);
     }
@@ -103,8 +110,11 @@ class AsignacionPuntoVenta extends \yii\db\ActiveRecord
     {
       $this->estado = self::ESTADO_CALIFICADO;
     }
+
+
+    // extra campos para solicitar las relaciones en la peticion rest
     public function extraFields()
     {
-      return ['ciudad'];
+      return ['calificaciones'];
     }
 }

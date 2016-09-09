@@ -29,50 +29,74 @@ $this->title = 'Califica un punto de venta';
 
 <!-- ACA FUE QUE -->
 		<?php $form = ActiveForm::begin(); ?>
+		<div class="col-md-12">
 
-		<center>
-			<table class="table table-bordered" width="100%">
-				<thead>
-					<tr>
-							<th>UNIDADES DE NEGOCIO</th>
-							<th>VARIABLES</th>
-
-							<?php foreach ($modelosUnidadesNegocio as $unidadNegocio): ?>
-								<th>
-										<?= $unidadNegocio['NombreUnidadNegocio'] ?>
-									</th>
-								<?php endforeach; ?>
-
-								<th>TOTAL</th>
-								<th>OBSERVACIÓN</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php $contador = 0 ?>
-					<?php foreach ($modelosCategoria as $categoria): ?>
+			<center>
+				<table class="table table-condensed table-bordered" width="100%">
+					<thead>
 						<tr>
-							<td rowspan="<?= count($categoria->variablesMedicion)+1 ?>"> <!-- aca +1 -->
-								<?= $categoria->nombre ?>
-							</td>
+								<th>UNIDADES DE NEGOCIO</th>
+								<th>VARIABLES</th>
+
+								<?php foreach ($modelosUnidadesNegocio as $unidadNegocio): ?>
+									<th>
+											<?= $unidadNegocio['NombreUnidadNegocio'] ?>
+										</th>
+									<?php endforeach; ?>
+
+									<th>TOTAL</th>
+									<th>OBSERVACIÓN</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php $contador = 0 ?>
+						<?php foreach ($modelosCategoria as $categoria): ?>
+							<tr>
+								<td rowspan="<?= count($categoria->variablesMedicion)+1 ?>"> <!-- aca +1 -->
+									<?= $categoria->nombre ?>
+								</td>
 
 
-					 		<?php foreach ($categoria->variablesMedicion as $variable): ?>
-						 		<tr>
-									<td>
-										<?= $variable->nombre ?>
-							 		</td>
+						 		<?php foreach ($categoria->variablesMedicion as $variable): ?>
+							 		<tr>
+										<td>
+											<?= $variable->nombre ?>
+								 		</td>
 
 
-							 		<?php if ($variable->calificaUnidadNegocio === VariableMedicion::CALIFICA_UNIDAD): ?>
+								 		<?php if ($variable->calificaUnidadNegocio === VariableMedicion::CALIFICA_UNIDAD): ?>
 
-										<?php foreach ($modelosUnidadesNegocio as $unidadNegocio): ?>
+											<?php foreach ($modelosUnidadesNegocio as $unidadNegocio): ?>
 
-			 								 <td>
+				 								 <td>
 
+													<?php $modelosCalificacion[$contador]->valor = $modelosCalificacion[$contador]->isNewRecord ?
+								                0 : $modelosCalificacion[$contador]->valor ?>
+
+													<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']valor')->textInput(['maxlength' => true, 'data-califica-unidad' => 'si', 'data-index' => $contador,  'data-cantidad-variables' => count($categoria->variablesMedicion)])->label(false) ?>
+
+													<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']idAsignacion')->hiddenInput(
+								                ['value'=> $modeloAsignacion->idAsignacion])->label(false); ?>
+
+													<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']idVariable')->hiddenInput(
+								                ['value'=> $variable->idVariable])->label(false); ?>
+
+													<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']IdAgrupacion')->hiddenInput(
+								                ['value'=> $unidadNegocio['IdAgrupacion']])->label(false); ?>
+
+													<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']nombreUnidadNegocio')->hiddenInput(
+								                ['value'=> $unidadNegocio['NombreUnidadNegocio']])->label(false); ?>
+				 								</td>
+												<?php $contador++ ?>
+
+											<?php endforeach; ?>
+								 		<?php else: ?>
+
+									 		<td colspan="<?= count($modelosUnidadesNegocio) ?>">
 												<?php $modelosCalificacion[$contador]->valor = $modelosCalificacion[$contador]->isNewRecord ?
-							                0 : $modelosCalificacion[$contador]->valor ?>
+															0 : $modelosCalificacion[$contador]->valor ?>
 
-												<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']valor')->textInput(['maxlength' => true, 'data-califica-unidad' => 'si', 'data-index' => $contador,  'data-cantidad-variables' => count($categoria->variablesMedicion)])->label(false) ?>
+												 <?=  $form->field($modelosCalificacion[$contador], '['.$contador.']valor')->textInput(['maxlength' => true, 'data-index' => $contador,  'data-cantidad-variables' => count($categoria->variablesMedicion)])->label(false) ?>
 
 												<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']idAsignacion')->hiddenInput(
 							                ['value'=> $modeloAsignacion->idAsignacion])->label(false); ?>
@@ -80,97 +104,72 @@ $this->title = 'Califica un punto de venta';
 												<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']idVariable')->hiddenInput(
 							                ['value'=> $variable->idVariable])->label(false); ?>
 
-												<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']IdAgrupacion')->hiddenInput(
-							                ['value'=> $unidadNegocio['IdAgrupacion']])->label(false); ?>
-
-												<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']nombreUnidadNegocio')->hiddenInput(
-							                ['value'=> $unidadNegocio['NombreUnidadNegocio']])->label(false); ?>
-			 								</td>
+									 		</td>
 											<?php $contador++ ?>
-
-										<?php endforeach; ?>
-							 		<?php else: ?>
-
-								 		<td colspan="<?= count($modelosUnidadesNegocio) ?>">
-											<?php $modelosCalificacion[$contador]->valor = $modelosCalificacion[$contador]->isNewRecord ?
-														0 : $modelosCalificacion[$contador]->valor ?>
-
-											 <?=  $form->field($modelosCalificacion[$contador], '['.$contador.']valor')->textInput(['maxlength' => true, 'data-index' => $contador,  'data-cantidad-variables' => count($categoria->variablesMedicion)])->label(false) ?>
-
-											<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']idAsignacion')->hiddenInput(
-						                ['value'=> $modeloAsignacion->idAsignacion])->label(false); ?>
-
-											<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']idVariable')->hiddenInput(
-						                ['value'=> $variable->idVariable])->label(false); ?>
-
-								 		</td>
-										<?php $contador++ ?>
-										<?php endif; ?>
+											<?php endif; ?>
 
 
-							 		<td id = "total-<?= $contador-1 ?>"></td> <!-- total -->
-						 	 		<td></td> <!-- observacion -->
+								 		<td id = "total-<?= $contador-1 ?>"></td> <!-- total -->
+							 	 		<td></td> <!-- observacion -->
 
-						 		</tr>
+							 		</tr>
 
-							<?php endforeach; ?>
-
-
-						</tr>
-
-
-
-
-					<?php endforeach; ?>
-
-					<?php $contadorTotalUnidades = 0 ?>
-					<?php foreach ($modelosCategoria as $categoria): ?>
-						<tr>
-							<td colspan="2">
-								<?= $categoria->nombre ?>
-							</td>
-								<?php foreach ($modelosUnidadesNegocio as $unidadNegocio): ?>
-
-									<td id='total-unidad-<?= $contadorTotalUnidades ?>'>
-										hola
-									</td>
-									<?php $contadorTotalUnidades++ ?>
 								<?php endforeach; ?>
-						</tr>
-					<?php endforeach; ?>
 
 
-						<tr>
-							<td colspan="2">
-								TOTAL
-							</td>
-								<?php foreach ($modelosUnidadesNegocio as $index => $unidadNegocio): ?>
+							</tr>
 
-									<td id='total-definitivo-<?= $index ?>'>
-										0
-									</td>
-								<?php endforeach; ?>
-						</tr>
-			  </tbody>
-			</table>
-		<center>
 
-			<?=  Html::submitButton('Guardar',
-						['class' => 'btn btn-primary', 'name' => 'guardar']) ?>
 
-			<?=  Html::submitButton('Finalizar y Guardar',
-						['class' => 'btn btn-success', 'name' => 'finalizar']) ?>
-		<?php ActiveForm::end(); ?>
+
+						<?php endforeach; ?>
+
+						<?php $contadorTotalUnidades = 0 ?>
+						<?php foreach ($modelosCategoria as $categoria): ?>
+							<tr>
+								<td colspan="2">
+									<?= $categoria->nombre ?>
+								</td>
+									<?php foreach ($modelosUnidadesNegocio as $unidadNegocio): ?>
+
+										<td id='total-unidad-<?= $contadorTotalUnidades ?>'>
+											hola
+										</td>
+										<?php $contadorTotalUnidades++ ?>
+									<?php endforeach; ?>
+							</tr>
+						<?php endforeach; ?>
+
+
+							<tr>
+								<td colspan="2">
+									
+								</td>
+									<?php foreach ($modelosUnidadesNegocio as $index => $unidadNegocio): ?>
+
+										<td id='total-definitivo-<?= $index ?>'>
+											0
+										</td>
+									<?php endforeach; ?>
+							</tr>
+				  </tbody>
+				</table>
+			<center>
+
+				<?=  Html::submitButton('Guardar',
+							['class' => 'btn btn-primary', 'name' => 'guardar']) ?>
+
+				<?=  Html::submitButton('Finalizar y Guardar',
+							['class' => 'btn btn-success', 'name' => 'finalizar']) ?>
+			<?php ActiveForm::end(); ?>
+
+		</div>
 <!-- ACA FUE QUE -->
-
 </div>
 
 <div class="space-1"></div>
 <div class="space-2"></div>
 
-<script type="text/javascript">
-
-</script>
 <?php
 
 	$cantidadCampos = count($modelosCalificacion);

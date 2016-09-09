@@ -33,6 +33,7 @@ class tradeMarketingAsset extends AssetBundle {
 
         //propios
         'js/tradeMarketing/vistas/calificacionAsignacionView.js',
+        'js/tradeMarketing/vistas/reporteAsignacionView.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

@@ -143,9 +143,7 @@ $config = [
         'db' => require(__DIR__ . '/db.php'),
         'urlManager' => [
 
-            //'urlFormat' => 'path',
             'showScriptName' => false,
-            //'caseSensitive' => true,
             'enablePrettyUrl' => true,
             'rules' => [
                 'site/page/<view:\w+>' => 'site/page/',
@@ -156,13 +154,17 @@ $config = [
                 // REST
                 [
                   'class' => 'yii\rest\UrlRule',
-                  'controller' => ['trademarketing/rest/rest-asignacion-punto-venta'],
+                  'controller' => [
+                     'trademarketing/rest/rest-asignacion-punto-venta',
+                     'trademarketing/rest/prueba',
+                     'trademarketing/rest/rest-espacio',
+                     'trademarketing/rest/rest-rango-calificacion'
+                  ],
                   'pluralize'=>false,
                   'tokens' => [
                     '{id}' => '<id:\\w+>'
                   ],
                 ],
-
             ],
         ],
 

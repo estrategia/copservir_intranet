@@ -52,7 +52,7 @@ class CalificacionVariable extends \yii\db\ActiveRecord
         return $this->hasOne(VariableMedicion::className(), ['idVariable' => 'idVariable']);
     }
 
-    public function getIdAsignacion0()
+    public function getAsignacion()
     {
         return $this->hasOne(AsignacionPuntoVenta::className(), ['idAsignacion' => 'idAsignacion']);
     }

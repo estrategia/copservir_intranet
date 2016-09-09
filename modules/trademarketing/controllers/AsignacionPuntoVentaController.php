@@ -4,6 +4,8 @@ namespace app\modules\trademarketing\controllers;
 
 use Yii;
 use app\modules\trademarketing\models\Categoria;
+use app\modules\trademarketing\models\Espacio;
+use app\modules\trademarketing\models\RangoCalificaciones;
 use app\modules\trademarketing\models\CalificacionVariable;
 use app\modules\trademarketing\models\AsignacionPuntoVenta;
 use app\modules\trademarketing\models\AsignacionPuntoVentaSearch;
@@ -23,11 +25,12 @@ class AsignacionPuntoVentaController extends Controller
             [
                  'class' => \app\components\AuthItemFilter::className(),
                  'only' => [
-                   'asignaciones', 'detalle', 'calificar'
+                   'asignaciones-pendientes', 'asignaciones-calificadas','detalle', 'calificar'
                  ],
                  'authsActions' => [
                      //colocar los permisos
-                      'asignaciones' => 'tradeMarketing_asignaciones_supervisor',
+                      'asignaciones-pendientes' => 'tradeMarketing_asignaciones_supervisor',
+                      'asignaciones-calificadas' => 'tradeMarketing_asignaciones_supervisor',
                       'detalle' => 'tradeMarketing_asignaciones_supervisor',
                       'calificar' => 'tradeMarketing_asignaciones_supervisor'
                  ]
@@ -46,12 +49,27 @@ class AsignacionPuntoVentaController extends Controller
      * Lista todos los modelos AsignacionPuntoVenta que estan pendientes
      * @return mixed
      */
-    public function actionAsignaciones()
+    public function actionAsignacionesPendientes()
     {
         $searchModel = new AsignacionPuntoVentaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('asignaciones', [
+        return $this->render('asignaciones-pendientes', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Lista todos los modelos AsignacionPuntoVenta que estan calificadas
+     * @return mixed
+     */
+    public function actionAsignacionesCalificadas()
+    {
+        $searchModel = new AsignacionPuntoVentaSearch();
+        $dataProvider = $searchModel->searchCalificadas(Yii::$app->request->queryParams);
+
+        return $this->render('asignaciones-calificadas', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -114,7 +132,7 @@ class AsignacionPuntoVentaController extends Controller
             }else{
 
               if( !is_null($finalizaAsignacion)) {
-                return $this->redirect(['asignaciones']);
+                return $this->redirect(['asignaciones-calificadas']);
               }else{
 
                 Yii::$app->session->setFlash('success', 'Progreso de la calificacion guardado con exito');
@@ -204,6 +222,43 @@ class AsignacionPuntoVentaController extends Controller
         } catch (Exception $ex) {
             Yii::error($ex->getMessage());
         }
+    }
+
+
+    public function actionReporte($id)
+    {
+        $modeloAsignacion = $this->encontrarModeloAsignacion($id);
+        $modelosUnidadesNegocio = $this->callWSGetUnidadesNegocio();
+        $modelosEspacios = Espacio::find()->all();
+        $modelosRangoCalificaciones = RangoCalificaciones::find()->orderBy('valor')->all();
+        $porcentajesEspacios = $this->getPorcentajesEspacio($modelosEspacios, $modeloAsignacion->idComercial);
+
+        return $this->render('reporte', [
+            'modeloAsignacion' => $modeloAsignacion,
+            'modelosUnidadesNegocio' => $modelosUnidadesNegocio,
+            'modelosEspacios' => $modelosEspacios,
+            'modelosRangoCalificaciones' => $modelosRangoCalificaciones,
+            'porcentajesEspacios' => $porcentajesEspacios
+        ]);
+    }
+
+    protected function getPorcentajesEspacio($modelosEspacios, $idComercial)
+    {
+      $porcentajeEspacios = array();
+
+      foreach ($modelosEspacios as $espacio) {
+
+        $porcentaje = $espacio->getPorcentajeEspacio($idComercial, $espacio->idEspacio);
+        if ($porcentaje != null) {
+          $porcentajeEspacios[$espacio->nombre] = $porcentaje->valor;
+        }else{
+          $porcentajeEspacios[$espacio->nombre] = 0;
+          Yii::$app->session->setFlash('error', "Faltan porcentajes para los espacios, los calculos se haran con ceros");
+        }
+      }
+      
+      return $porcentajeEspacios;
+
     }
 
     /**

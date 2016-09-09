@@ -31,10 +31,10 @@ $this->title = 'Detalle espacio';
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            [
-              'label' => 'Variable',
-              'attribute' => 'variable.nombre',
-            ],
+            // [
+            //   'label' => 'Variable',
+            //   'attribute' => 'variable.nombre',
+            // ],
             'nombre',
             [
               'attribute' => 'estado',

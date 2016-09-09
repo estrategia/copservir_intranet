@@ -2,7 +2,7 @@
 
 <div class="col-md-12">
 
-		<table class="table table-bordered" width="100%" >
+		<table class="table table-condensed table-bordered" width="100%" >
 			<tr>
 					<td>
 						PUNTO DE VENTA

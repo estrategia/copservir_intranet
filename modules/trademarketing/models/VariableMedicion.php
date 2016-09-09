@@ -54,11 +54,10 @@ class VariableMedicion extends \yii\db\ActiveRecord
         ];
     }
 
-
-    public function getEspacios()
-    {
-        return $this->hasMany(Espacio::className(), ['idVariable' => 'idVariable']);
-    }
+    // public function getEspacios()
+    // {
+    //     return $this->hasMany(Espacio::className(), ['idVariable' => 'idVariable']);
+    // }
 
     public function getCategoria()
     {

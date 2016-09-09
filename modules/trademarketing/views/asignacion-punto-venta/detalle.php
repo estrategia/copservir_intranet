@@ -18,9 +18,19 @@ $this->title = 'Detalle asignacion';
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('calificar', ['calificar', 'id' => $model->idAsignacion], ['class' => 'btn btn-primary']) ?>
-    </p>
+
+    <?php if ($model->estado === AsignacionPuntoVenta::ESTADO_CALIFICADO): ?>
+      <p>
+          <?= Html::a('ver Reporte', ['reporte', 'id' => $model->idAsignacion], ['class' => 'btn btn-primary']) ?>
+      </p>
+    <?php else: ?>
+      <?php if ($model->estado === AsignacionPuntoVenta::ESTADO_PENDIENTE): ?>
+        <p>
+            <?= Html::a('calificar', ['calificar', 'id' => $model->idAsignacion], ['class' => 'btn btn-primary']) ?>
+        </p>
+      <?php endif; ?>
+    <?php endif; ?>
+
 
     <?= DetailView::widget([
         'model' => $model,
