@@ -52,4 +52,10 @@ class Categoria extends \yii\db\ActiveRecord
     {
         return self::find()->where(['estado' => self::ESTADO_ACTIVO])->all();
     }
+
+    // extra campos para solicitar las relaciones en la peticion rest
+    public function extraFields()
+    {
+      return ['variablesMedicion'];
+    }
 }

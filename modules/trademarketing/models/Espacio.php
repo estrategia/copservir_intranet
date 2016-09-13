@@ -30,11 +30,11 @@ class Espacio extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre',  'estado'], 'required'],
+            [['idVariable', 'nombre',  'estado'], 'required'],
             [['estado'], 'integer'],
             [['nombre'], 'string', 'max' => 45],
-            //[['idVariable'], 'exist', 'skipOnError' => true, 'targetClass' => VariableMedicion::className(),
-              //'targetAttribute' => ['idVariable' => 'idVariable']],
+            [['idVariable'], 'exist', 'skipOnError' => true, 'targetClass' => VariableMedicion::className(),
+              'targetAttribute' => ['idVariable' => 'idVariable']],
         ];
     }
 
@@ -42,22 +42,22 @@ class Espacio extends \yii\db\ActiveRecord
     {
         return [
             'idEspacio' => 'Id Espacio',
-            //'idVariable' => 'Variable',
+            'idVariable' => 'Variable',
             'nombre' => 'Nombre',
             'estado' => 'Estado',
         ];
     }
 
-    // public function getVariable()
-    // {
-    //     return $this->hasOne(VariableMedicion::className(), ['idVariable' => 'idVariable']);
-    // }
+    public function getVariable()
+    {
+        return $this->hasOne(VariableMedicion::className(), ['idVariable' => 'idVariable']);
+    }
 
-    // public function getMapListaVariables()
-    // {
-    //     $opciones = VariableMedicion::find()->where(['estado' => VariableMedicion::ESTADO_ACTIVO])->asArray()->all();
-    //     return ArrayHelper::map($opciones, 'idVariable', 'nombre');
-    // }
+    public function getMapListaVariables()
+    {
+        $opciones = VariableMedicion::find()->where(['estado' => VariableMedicion::ESTADO_ACTIVO])->asArray()->all();
+        return ArrayHelper::map($opciones, 'idVariable', 'nombre');
+    }
 
     public static function getIdNameEspacios()
     {

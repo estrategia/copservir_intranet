@@ -22,11 +22,11 @@ use app\modules\trademarketing\models\Espacio;
         Espacio::ESTADO_ACTIVO => 'Activo']);
     ?>
 
-     <?php
-      // $form->field($model, 'idVariable')->widget(Select2::classname(), [
-      //   'data' => $model->getMapListaVariables(),
-      //   'options' => ['placeholder' => 'Seleccione la una variable']
-      // ]);
+     <?=
+      $form->field($model, 'idVariable')->widget(Select2::classname(), [
+        'data' => $model->getMapListaVariables(),
+        'options' => ['placeholder' => 'Seleccione la una variable']
+      ]);
     ?>
 
     <div class="form-group">

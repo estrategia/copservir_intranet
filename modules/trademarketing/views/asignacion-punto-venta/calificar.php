@@ -35,24 +35,42 @@ $this->title = 'Califica un punto de venta';
 				<table class="table table-condensed table-bordered" width="100%">
 					<thead>
 						<tr>
-								<th>UNIDADES DE NEGOCIO</th>
-								<th>VARIABLES</th>
+								<th rowspan="2">UNIDADES DE NEGOCIO</th>
+								<th rowspan="2">VARIABLES</th>
 
-								<?php foreach ($modelosUnidadesNegocio as $unidadNegocio): ?>
+								<?php foreach ($modelosUnidadesNegocio as $index => $unidadNegocio): ?>
 									<th>
 											<?= $unidadNegocio['NombreUnidadNegocio'] ?>
 										</th>
 									<?php endforeach; ?>
+									<th rowspan="2">TOTAL</th>
+									<th rowspan="2">OBSERVACIÓN</th>
+						</tr>
+						<tr>
 
-									<th>TOTAL</th>
-									<th>OBSERVACIÓN</th>
+							<?php foreach ($modelosUnidadesNegocio as $index => $unidadNegocio): ?>
+							<th>
+								<?php $modelosPorcentajeUnidad[$index]->porcentaje = $modelosPorcentajeUnidad[$index]->isNewRecord ?
+											0 : $modelosPorcentajeUnidad[$index]->porcentaje ?>
+
+								<?=  $form->field($modelosPorcentajeUnidad[$index], '['.$index.']porcentaje')->textInput(['maxlength' => true])->label(false) ?>
+
+								<?=  $form->field($modelosPorcentajeUnidad[$index], '['.$index.']idAsignacion')->hiddenInput(
+											['value'=> $modeloAsignacion->idAsignacion])->label(false); ?>
+
+								<?=  $form->field($modelosPorcentajeUnidad[$index], '['.$index.']idAgrupacion')->hiddenInput(
+											['value'=>  $unidadNegocio['IdAgrupacion']])->label(false); ?>
+							</th>
+							<?php endforeach; ?>
+
 						</tr>
 					</thead>
 					<tbody>
 						<?php $contador = 0 ?>
+						<?php $contadorObservaciones = 0 ?>
 						<?php foreach ($modelosCategoria as $categoria): ?>
 							<tr>
-								<td rowspan="<?= count($categoria->variablesMedicion)+1 ?>"> <!-- aca +1 -->
+								<td rowspan="<?= count($categoria->variablesMedicion)+1 ?>">
 									<?= $categoria->nombre ?>
 								</td>
 
@@ -110,17 +128,26 @@ $this->title = 'Califica un punto de venta';
 
 
 								 		<td id = "total-<?= $contador-1 ?>"></td> <!-- total -->
-							 	 		<td></td> <!-- observacion -->
+							 	 		<td><!-- observacion -->
+
+												<?=  $form->field($modelosObservaciones[$contadorObservaciones], '['.$contadorObservaciones.']descripcion')->textInput(['maxlength' => true])->label(false) ?>
+
+
+												<?=  $form->field($modelosObservaciones[$contadorObservaciones], '['.$contadorObservaciones.']idAsignacion')->hiddenInput(
+															['value'=>  $modeloAsignacion->idAsignacion])->label(false); ?>
+
+												<?=  $form->field($modelosObservaciones[$contadorObservaciones], '['.$contadorObservaciones.']idVariable')->hiddenInput(
+															['value'=>  $variable->idVariable])->label(false); ?>
+
+												<?php $contadorObservaciones++ ?>
+
+							 	 		</td> <!-- /observacion -->
 
 							 		</tr>
 
 								<?php endforeach; ?>
 
-
 							</tr>
-
-
-
 
 						<?php endforeach; ?>
 
@@ -143,7 +170,7 @@ $this->title = 'Califica un punto de venta';
 
 							<tr>
 								<td colspan="2">
-									
+
 								</td>
 									<?php foreach ($modelosUnidadesNegocio as $index => $unidadNegocio): ?>
 

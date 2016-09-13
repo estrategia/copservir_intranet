@@ -3,10 +3,10 @@
 */
 
 var ReporteAsignacionView = function (cantidadCampos, cantidadUnidades, cantidadEspacios) {
-	this.cantidadCampos = cantidadCampos;
-	this.cantidadUnidades = cantidadUnidades;
-	this.cantidadEspacios = cantidadEspacios;
-	this.arrayPromedios = [];
+		this.cantidadCampos = cantidadCampos;
+		this.cantidadUnidades = cantidadUnidades;
+		this.cantidadEspacios = cantidadEspacios;
+		this.arrayPromedios = [];
 
 };
 
@@ -33,13 +33,39 @@ ReporteAsignacionView.prototype.calcularTotalPorUnidades = function()
 		this.setPromediosUnidades();
 }
 
+ReporteAsignacionView.prototype.calcularTotalRango = function()
+{
+		var suma = 0;
+
+		for (var i = 0; i < this.cantidadUnidades; i++) {
+			var elementoTotalPromedio = '#promedio-unidad-'+i;
+			var elementoPorcentajeUnidad = '#porcentaje-unidad-'+i;
+
+			var valorTotalPromedio  =  parseFloat($(elementoTotalPromedio).text());
+			var valorPorcentajeUnidad = parseFloat($(elementoPorcentajeUnidad).text()) / 100;
+
+			suma += valorTotalPromedio * valorPorcentajeUnidad;
+		}
+
+		this.setTotalRango(suma);
+}
+
 /**
-* Asigna los promedios en la posicion de la tabla 
+* Asigna los promedios en la posicion de la tabla
 */
 ReporteAsignacionView.prototype.setPromediosUnidades = function()
 {
-	for (var i = 0; i < this.cantidadUnidades; i++) {
-		var elementoTotalPromedio = '#promedio-unidad-'+i;
-		$(elementoTotalPromedio).text(this.arrayPromedios[i]);
-	}
+		for (var i = 0; i < this.cantidadUnidades; i++) {
+			var elementoTotalPromedio = '#promedio-unidad-'+i;
+			$(elementoTotalPromedio).text(this.arrayPromedios[i]);
+		}
+}
+
+/**
+* Asigna el calculo del total
+*/
+ReporteAsignacionView.prototype.setTotalRango = function(total)
+{
+		console.log('setTotalRango');
+		$('#total-rango').text(total);
 }

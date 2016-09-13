@@ -17,7 +17,7 @@ class PorcentajeEspaciosPuntoVentaSearch extends PorcentajeEspaciosPuntoVenta
     public function rules()
     {
         return [
-            [['idPorcentajeEspacio', 'idEspacio', 'valor'], 'integer'],
+            [['idEspacio', 'valor'], 'integer'],
             [['idComercial'], 'safe'],
         ];
     }
@@ -43,7 +43,7 @@ class PorcentajeEspaciosPuntoVentaSearch extends PorcentajeEspaciosPuntoVenta
             'query' => $query,
         ]);
 
-        $this->load($params);
+        $this->load($params,'');
 
         if (!$this->validate()) {
             return $dataProvider;
@@ -51,12 +51,12 @@ class PorcentajeEspaciosPuntoVentaSearch extends PorcentajeEspaciosPuntoVenta
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'idPorcentajeEspacio' => $this->idPorcentajeEspacio,
+            'idComercial' => $this->idComercial,
             'idEspacio' => $this->idEspacio,
             'valor' => $this->valor,
         ]);
 
-        $query->andFilterWhere(['like', 'idComercial', $this->idComercial]);
+        //$query->andFilterWhere(['like', 'idComercial', $this->idComercial]);
 
         return $dataProvider;
     }

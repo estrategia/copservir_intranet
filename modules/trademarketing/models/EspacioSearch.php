@@ -47,7 +47,7 @@ class EspacioSearch extends Espacio
             return $dataProvider;
         }
 
-        //$query->joinWith('variable');
+        $query->joinWith('variable');
 
         // grid filtering conditions
         $query->andFilterWhere([
@@ -55,8 +55,8 @@ class EspacioSearch extends Espacio
             'estado' => $this->estado,
         ]);
 
-        $query->andFilterWhere(['like', 'nombre', $this->nombre]);
-          //    ->andFilterWhere(['like', 'm_TRMA_Variablemedicion.nombre', $this->idVariable]);
+        $query->andFilterWhere(['like', 'nombre', $this->nombre])
+              ->andFilterWhere(['like', 'm_TRMA_Variablemedicion.nombre', $this->idVariable]);
 
         return $dataProvider;
     }

@@ -89,4 +89,10 @@ class PorcentajeEspaciosPuntoVenta extends \yii\db\ActiveRecord
     {
         return self::find()->where(['idComercial' => $puntoVenta])->count();
     }
+
+    // extra campos para solicitar las relaciones en la peticion rest
+    public function extraFields()
+    {
+      return ['espacio'];
+    }
 }

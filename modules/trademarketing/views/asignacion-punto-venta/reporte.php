@@ -65,7 +65,7 @@ $colspan = count($modelosEspacios) + 3;
 									<td>
 											<?= $unidadNegocio['NombreUnidadNegocio'] ?>
 									</td>
-									<td>Porcentaje unidad</td>
+									<td id="porcentaje-unidad-<?= $index ?>"><?= $porcentajesUnidades[$unidadNegocio['NombreUnidadNegocio']]. '%'?></td>
 									<?php foreach ($modelosEspacios as $espacio): ?>
 
 										<td id="calificacion-<?= $contador ?>">
@@ -80,9 +80,9 @@ $colspan = count($modelosEspacios) + 3;
 						<?php endforeach; ?>
 
 			 			<tr>
-							<td colspan="<?= $colspan-1 ?>">RANGO DE CALIFICACION DE 1 A 5</td>
-							<td>1,4</td> <!-- total -->
-							<td>DEFICIENTE </td> <!-- nombre rango en el que esta -->
+							<td colspan="<?= $colspan-1 ?>">RANGO DE CALIFICACION</td>
+							<td id="total-rango"></td> <!-- total -->
+							<!--<td>DEFICIENTE </td>  nombre rango en el que esta -->
 						</tr>
 				</tbody>
 			</table>
@@ -114,6 +114,7 @@ $colspan = count($modelosEspacios) + 3;
 
 		$( document ).ready(function() {
 			calculos.calcularTotalPorUnidades();
+			calculos.calcularTotalRango();
 		});
 
 	");

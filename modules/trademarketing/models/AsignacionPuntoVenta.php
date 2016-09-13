@@ -85,6 +85,16 @@ class AsignacionPuntoVenta extends \yii\db\ActiveRecord
         return $this->hasMany(CalificacionVariable::className(), ['idAsignacion' => 'idAsignacion']);
     }
 
+    public function getObservaciones()
+    {
+        return $this->hasMany(Observaciones::className(), ['idAsignacion' => 'idAsignacion']);
+    }
+
+    public function getPorcentajeUnidad()
+    {
+        return $this->hasMany(PorcentajeUnidad::className(), ['idAsignacion' => 'idAsignacion']);
+    }
+
     public function getCiudad() {
         return $this->hasOne(Ciudad::className(), ['idCiudad' => 'idCiudad']);
     }
@@ -115,6 +125,6 @@ class AsignacionPuntoVenta extends \yii\db\ActiveRecord
     // extra campos para solicitar las relaciones en la peticion rest
     public function extraFields()
     {
-      return ['calificaciones'];
+      return ['calificaciones', 'observaciones', 'porcentajeUnidad'];
     }
 }
