@@ -12,6 +12,7 @@ use Yii;
  * @property string $valor
  * @property integer $estado
  */
+
 class RangoCalificaciones extends \yii\db\ActiveRecord
 {
     const ESTADO_ACTIVO = 1;

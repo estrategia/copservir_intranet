@@ -5,6 +5,10 @@ namespace app\modules\trademarketing\models;
 use Yii;
 use yii\base\Model;
 
+/**
+* modelo que agrupa las variables necesarias para generar el reporte y la calificacion
+*/
+
 class Reporte extends Model
 {
 	public $asignacion;
@@ -17,23 +21,77 @@ class Reporte extends Model
 	public $observaciones;
 	public $porcentajeUnidades;
 	public $unidadesNegocio;
+	public $valoresReporte;
 
-	function __construct($idAsignacion) {
+	function __construct() {
+  }
 
+	/**
+	* Consulta e inicializa los modelos necesarios para realizar la calificacion de una asignacion
+	* @param integer $idAsignacion
+	*/
+	public function generarValoresCalificacion($idAsignacion)
+	{
+			$this->asignacion = $this->consultarAsignacion($idAsignacion);
+			$this->consultarCategoriasConVariables();
+			$this->unidadesNegocio = $this->callWSGetUnidadesNegocio();
+			$this->calificaciones = $this->consultarCalificaciones();
+			$this->observaciones = $this->consultarObservaciones();
+			$this->porcentajeUnidades = $this->consultarModelosPorcentajesUnidades();
+	}
 
-				$this->asignacion = $this->consultarAsignacion($idAsignacion);
-				$this->consultarCategoriasConVariables();
-				$this->unidadesNegocio = $this->callWSGetUnidadesNegocio();
-				$this->espacios = $this->consultarEspacios();
-				$this->porcentajeEspacios = $this->consultarPorcentajesEspacio();
-				$this->porcentajeUnidades = $this->consultarPorcentajesUnidades();
-				$this->calificaciones = $this->consultarCalificaciones();
-				$this->observaciones = $this->consultarObservaciones();
+	/**
+	* Consulta e inicializa los modelos necesarios para generar los reportes de una asignacion
+	* @param integer $idAsignacion
+	*/
+	public function cearReporte($idAsignacion)
+	 {
+			 $this->asignacion = $this->consultarAsignacion($idAsignacion);
+			 $this->consultarCategoriasConVariables();
+			 $this->unidadesNegocio = $this->callWSGetUnidadesNegocio();
+			 $this->espacios = $this->consultarEspacios();
+			 $this->porcentajeEspacios = $this->consultarPorcentajesEspacio();
+			 $this->porcentajeUnidades = $this->consultarPorcentajesUnidades();
+			 $this->calificaciones = $this->consultarCalificaciones();
+			 $this->observaciones = $this->consultarObservaciones();
+			 $this->rangoCalificaciones = $this->consultarRangosCalificacion();
+	 }
 
+	 /**
+	 * crea un arreglo de modelos CalificacionVariable los cuales son los valores del reporte de evaluacion
+	 * @return array
+	 */
+	 public function generarValoresReporte()
+	 {
+		 		$arrayCalificaciones = array();
 
-   }
+				foreach ($this->unidadesNegocio as $unidad) {
+					foreach ($this->espacios as $espacio) {
+					$calificacion = null;
+					if ($espacio->variable->calificaUnidadNegocio == VariableMedicion::CALIFICA_UNIDAD) {
+						$calificacion = CalificacionVariable::find()->where([
+							'idAsignacion' => $this->asignacion->idAsignacion,
+							'idVariable' => $espacio->variable->idVariable,
+							'IdAgrupacion' => $unidad['IdAgrupacion'],
+							])->one();
+	 				}else{
+						$calificacion = CalificacionVariable::find()->where([
+							'idAsignacion' => $this->asignacion->idAsignacion,
+							'idVariable' => $espacio->variable->idVariable,
+							])->one();
+					}
 
+					array_push($arrayCalificaciones, $calificacion);
+					}
+				}
 
+				$this->valoresReporte = $arrayCalificaciones;
+	 }
+
+	 /**
+	 * consulta un modelo AsignacionPuntoVenta segun el valor de su llave primaria
+	 * @return modelo AsignacionPuntoVenta
+	 */
 	 private function consultarAsignacion($idAsignacion)
 	 {
 			 if (($model = AsignacionPuntoVenta::findOne($idAsignacion)) !== null) {
@@ -43,6 +101,9 @@ class Reporte extends Model
 			 }
 	 }
 
+	 /**
+	 * Asigna las categorias y sus respectivas variables
+	 */
 	 private function consultarCategoriasConVariables()
 	 {
 			 	$temp_variables = array();
@@ -55,6 +116,10 @@ class Reporte extends Model
 				$this->variables = $temp_variables;
 	 }
 
+	 /**
+	 * Peticion webService soap de las unidades de negocio
+	 * @return array
+	 */
 	 private function callWSGetUnidadesNegocio()
 	 {
 			 $client = new \SoapClient(\Yii::$app->params['webServices']['tradeMarketing']['unidades'], array(
@@ -74,16 +139,28 @@ class Reporte extends Model
 			 }
 	 }
 
+	 /**
+	 * consulta todos los modelos Espacio
+	 * @return array
+	 */
 	 private function consultarEspacios()
 	 {
 	 			return Espacio::find()->all();
 	 }
 
+	 /**
+	 * consulta todos los modelos RangoCalificaciones
+	 * @return array
+	 */
 	 private function consultarRangosCalificacion()
 	 {
-	 			$this->$rangoCalificaciones = RangoCalificaciones::find()->orderBy('valor')->all();
+	 			return RangoCalificaciones::find()->orderBy('valor')->all();
 	 }
 
+	 /**
+	 * crea un arreglo de modelos porcentajeEspacios consultados en base a el punto de venta y espacio
+	 * @return array
+	 */
 	 private function consultarPorcentajesEspacio()
 	 {
 			 $listaPorcentaje = array();
@@ -104,6 +181,10 @@ class Reporte extends Model
 
 	 }
 
+	 /**
+	 * crea un arreglo de modelos PorcentajeUnidad consultados en base a si asignacion, unidad de negocio
+	 * @return array
+	 */
 	 private function consultarPorcentajesUnidades()
 	 {
 			 $porcentajeUnidades = array();
@@ -123,6 +204,31 @@ class Reporte extends Model
 			 return $porcentajeUnidades;
 	 }
 
+	 /**
+	 * crea un arreglo de modelos PorcentajeUnidad consultados en base a si asignacion, unidad de negocio
+	 * @return array
+	 */
+	 private function consultarModelosPorcentajesUnidades()
+	 {
+			 $modelosPorcentajeUnidad = array();
+
+			 foreach ($this->unidadesNegocio as $unidad) {
+				 $modelo = PorcentajeUnidad::find()->where([ 'idAsignacion' => $this->asignacion->idAsignacion, 'idAgrupacion' => $unidad['IdAgrupacion'] ])->one();
+
+				 if ($modelo !== null) {
+					 array_push($modelosPorcentajeUnidad, $modelo);
+				 }else{
+					 array_push($modelosPorcentajeUnidad, new PorcentajeUnidad());
+				 }
+			 }
+
+			 return $modelosPorcentajeUnidad;
+	 }
+
+	 /**
+	 * crea un arreglo de modelos CalificacionVariable consultados en base a su asignacion, variable y/o unidade de negocio
+	 * @return array
+	 */
 	 protected function consultarCalificaciones()
 	 {
 		 $modelosCalificacion = array();
@@ -161,6 +267,10 @@ class Reporte extends Model
 	 }
 
 
+	 /**
+	 * crea un arreglo de modelos Observaciones consultados en base a si asignacion, variable
+	 * @return array
+	 */
 	 protected function consultarObservaciones()
 	 {
 			 $modelosObservacion = array();

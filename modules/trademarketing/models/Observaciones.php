@@ -14,6 +14,7 @@ use Yii;
  *
  * @property VariableMedicion $variable
  */
+
 class Observaciones extends \yii\db\ActiveRecord
 {
 
@@ -42,6 +43,8 @@ class Observaciones extends \yii\db\ActiveRecord
         ];
     }
 
+    // RELACIONES
+    
     public function getVariable()
     {
         return $this->hasOne(VariableMedicion::className(), ['idVariable' => 'idVariable']);

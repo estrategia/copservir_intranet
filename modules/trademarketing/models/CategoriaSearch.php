@@ -10,6 +10,7 @@ use app\modules\trademarketing\models\Categoria;
 /**
  * CategoriaSearch representa el modelo detrás de la forma de búsqueda de `app\modules\trademarketing\models\Categoria`.
  */
+ 
 class CategoriaSearch extends Categoria
 {
     public function rules()

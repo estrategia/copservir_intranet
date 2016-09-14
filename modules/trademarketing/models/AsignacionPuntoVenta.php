@@ -29,7 +29,11 @@ use \app\modules\intranet\models\Ciudad;
  * @property array[CalificacionVariable] $calificaciones
  * @property Usuario $usuarioAdministrador
  * @property Usuario $usuarioSubAminidtrador
+ * @property array[Observaciones] $observaciones
+ * @property array[PorcentajeUnidad] porcentajeUnidad
+ * @property Ciudad ciudad
  */
+ 
 class AsignacionPuntoVenta extends \yii\db\ActiveRecord
 {
     const ESTADO_INACTIVO = 0;
@@ -80,6 +84,8 @@ class AsignacionPuntoVenta extends \yii\db\ActiveRecord
         ];
     }
 
+    // RELACIONES
+
     public function getCalificaciones()
     {
         return $this->hasMany(CalificacionVariable::className(), ['idAsignacion' => 'idAsignacion']);
@@ -110,6 +116,8 @@ class AsignacionPuntoVenta extends \yii\db\ActiveRecord
     public function getUsuarioSubAminidtrador() {
         return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumentosubAdministradorpuntoVenta']);
     }
+
+    // FUNCIONES
 
     public function setEstadoPendiente()
     {

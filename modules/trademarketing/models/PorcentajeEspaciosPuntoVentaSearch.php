@@ -11,6 +11,7 @@ use app\modules\trademarketing\models\PorcentajeEspaciosPuntoVenta;
  * PorcentajeEspaciosPuntoVentaSearch representa el modelo detrás de la forma de búsqueda de
  * `app\modules\trademarketing\models\PorcentajeEspaciosPuntoVenta`.
  */
+ 
 class PorcentajeEspaciosPuntoVentaSearch extends PorcentajeEspaciosPuntoVenta
 {
 

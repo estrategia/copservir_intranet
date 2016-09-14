@@ -10,6 +10,7 @@ use app\modules\trademarketing\models\Espacio;
 /**
  * EspacioSearch representa el modelo detrás de la forma de búsqueda de `app\modules\trademarketing\models\Espacio`.
  */
+ 
 class EspacioSearch extends Espacio
 {
     public function rules()

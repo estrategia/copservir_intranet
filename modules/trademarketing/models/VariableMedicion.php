@@ -16,9 +16,10 @@ use app\modules\trademarketing\models\Categoria;
  * @property integer $estado
  * @property integer $calificaUnidadNegocio
  *
- * @property Espacio[] Espacios
+ * @property array[Espacio] &espacios
  * @property Categoria $Categoria
  */
+
 class VariableMedicion extends \yii\db\ActiveRecord
 {
     const ESTADO_ACTIVO = 1;
@@ -54,6 +55,8 @@ class VariableMedicion extends \yii\db\ActiveRecord
         ];
     }
 
+    // RELACIONES
+
     public function getEspacios()
     {
         return $this->hasMany(Espacio::className(), ['idVariable' => 'idVariable']);
@@ -63,6 +66,8 @@ class VariableMedicion extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Categoria::className(), ['idCategoria' => 'idCategoria']);
     }
+
+    //FUNCIONES
 
     public function getMapListaCategorias()
     {

@@ -10,6 +10,7 @@ use app\modules\trademarketing\models\VariableMedicion;
 /**
  * VariableMedicionSearch representa el modelo detrás de la forma de búsqueda de `app\modules\trademarketing\models\VariableMedicion`.
  */
+ 
 class VariableMedicionSearch extends VariableMedicion
 {
 

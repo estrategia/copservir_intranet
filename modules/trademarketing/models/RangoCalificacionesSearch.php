@@ -10,6 +10,7 @@ use app\modules\trademarketing\models\RangoCalificaciones;
 /**
  * RangoCalificacionesSearch representa el modelo detrás de la forma de búsqueda de `app\modules\trademarketing\models\RangoCalificaciones`.
  */
+ 
 class RangoCalificacionesSearch extends RangoCalificaciones
 {
     public function rules()

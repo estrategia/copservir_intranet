@@ -10,6 +10,7 @@ use app\modules\trademarketing\models\AsignacionPuntoVenta;
 /**
  * AsignacionPuntoVentaSearch representa el modelo detrás de la forma de búsqueda de `app\modules\trademarketing\models\AsignacionPuntoVenta`.
  */
+ 
 class AsignacionPuntoVentaSearch extends AsignacionPuntoVenta
 {
 

@@ -8,9 +8,13 @@ use app\modules\trademarketing\models\PorcentajeEspaciosPuntoVenta;
 
 class SitioController extends Controller
 {
-    public function actionIndex()
-    {
-    }
+    public function actions() {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ],
+        ];
+    }    
 }
 
 ?>

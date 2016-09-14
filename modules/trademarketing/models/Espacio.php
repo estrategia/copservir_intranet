@@ -4,7 +4,6 @@ namespace app\modules\trademarketing\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
-//use app\modules\trademarketing\models\VariableMedicion;
 use app\modules\trademarketing\models\PorcentajeEspaciosPuntoVenta;
 
 /**
@@ -17,6 +16,7 @@ use app\modules\trademarketing\models\PorcentajeEspaciosPuntoVenta;
  *
  * @property Variablemedicion $Variable
  */
+
 class Espacio extends \yii\db\ActiveRecord
 {
     const ESTADO_ACTIVO = 1;
@@ -48,16 +48,14 @@ class Espacio extends \yii\db\ActiveRecord
         ];
     }
 
+    // RELACIONES
+
     public function getVariable()
     {
         return $this->hasOne(VariableMedicion::className(), ['idVariable' => 'idVariable']);
     }
 
-    public function getMapListaVariables()
-    {
-        $opciones = VariableMedicion::find()->where(['estado' => VariableMedicion::ESTADO_ACTIVO])->asArray()->all();
-        return ArrayHelper::map($opciones, 'idVariable', 'nombre');
-    }
+    // CONSULTAS
 
     public static function getIdNameEspacios()
     {
@@ -73,4 +71,14 @@ class Espacio extends \yii\db\ActiveRecord
     {
         return self::find()->where(['estado' => self::ESTADO_ACTIVO])->count();
     }
+
+    //FUNCIONES
+
+    public function getMapListaVariables()
+    {
+        $opciones = VariableMedicion::find()->where(['estado' => VariableMedicion::ESTADO_ACTIVO])->asArray()->all();
+        return ArrayHelper::map($opciones, 'idVariable', 'nombre');
+    }
+
+
 }

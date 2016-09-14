@@ -43,10 +43,26 @@ class PorcentajeEspaciosPuntoVenta extends \yii\db\ActiveRecord
         ];
     }
 
+    // RELACIONES
+
     public function getEspacio()
     {
         return $this->hasOne(Espacio::className(), ['idEspacio' => 'idEspacio']);
     }
+    
+    // CONSULTAS
+
+    public static function getPorcentajeByPuntoVenta($puntoVenta)
+    {
+      return self::find()->where(['idComercial' => $puntoVenta])->all();
+    }
+
+    public static function countPorcentajesByPuntoVenta($puntoVenta)
+    {
+        return self::find()->where(['idComercial' => $puntoVenta])->count();
+    }
+
+    // FUNCIONES
 
     public function getMapListaPuntosVenta(){
         $WSResult = $this->callWsPuntosVenta();
@@ -78,16 +94,6 @@ class PorcentajeEspaciosPuntoVenta extends \yii\db\ActiveRecord
         } catch (Exception $exc) {
 
         }
-    }
-
-    public static function getPorcentajeByPuntoVenta($puntoVenta)
-    {
-      return self::find()->where(['idComercial' => $puntoVenta])->all();
-    }
-
-    public static function countPorcentajesByPuntoVenta($puntoVenta)
-    {
-        return self::find()->where(['idComercial' => $puntoVenta])->count();
     }
 
     // extra campos para solicitar las relaciones en la peticion rest

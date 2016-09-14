@@ -17,6 +17,7 @@ use Yii;
  * @property VariableMedicion $variable
  * @property AsignacionPuntoVenta $asignacion
  */
+ 
 class CalificacionVariable extends \yii\db\ActiveRecord
 {
     public static function tableName()
@@ -46,6 +47,8 @@ class CalificacionVariable extends \yii\db\ActiveRecord
             'nombreUnidadNegocio' => 'Unidad Negocio',
         ];
     }
+
+    // RELACIONES
 
     public function getVariable()
     {

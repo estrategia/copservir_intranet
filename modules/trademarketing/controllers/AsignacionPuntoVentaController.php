@@ -5,6 +5,7 @@ namespace app\modules\trademarketing\controllers;
 use Yii;
 use app\modules\trademarketing\models\Categoria;
 use app\modules\trademarketing\models\Espacio;
+use app\modules\trademarketing\models\Reporte;
 use app\modules\trademarketing\models\Observaciones;
 use app\modules\trademarketing\models\PorcentajeUnidad;
 use app\modules\trademarketing\models\RangoCalificaciones;
@@ -14,7 +15,6 @@ use app\modules\trademarketing\models\AsignacionPuntoVentaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\db\Query;
 
 
 class AsignacionPuntoVentaController extends Controller
@@ -91,7 +91,11 @@ class AsignacionPuntoVentaController extends Controller
         ]);
     }
 
-
+    /**
+    * verifica si la suma de los porcentajes de las unidades de negocio es igual a 100
+    * @param array $dataPorcentajeUnidad
+    * @return Boolean
+    */
     protected function validarSumaPorcentajesUnidad($dataPorcentajeUnidad)
     {
         $suma = 0;
@@ -107,19 +111,29 @@ class AsignacionPuntoVentaController extends Controller
     }
 
     /**
-     * Crea calificaciones para una asignacion
-     * @param string $id
+     * Permite la calificacion de un punto de venta asignado
+     * @param string $id: id de la asignacion
      * @return mixed
      */
     public function actionCalificar($id)
     {
+        $informacionCalificacion = new Reporte();
+        $informacionCalificacion->generarValoresCalificacion($id);
+        $modeloAsignacion =  $informacionCalificacion->asignacion;
+        $modelosPorcentajeUnidad = $informacionCalificacion->porcentajeUnidades;
+        $modelosCalificacion = $informacionCalificacion->calificaciones;
+        $modelosObservaciones = $informacionCalificacion->observaciones;
+        $modelosUnidadesNegocio = $informacionCalificacion->unidadesNegocio;
+        $modelosCategoria = $informacionCalificacion->categorias;
 
-        $modeloAsignacion = $this->encontrarModeloAsignacion($id);
-        $modelosUnidadesNegocio = $this->callWSGetUnidadesNegocio();
-        $modelosCategoria = Categoria::getCategorias();
-        $modelosCalificacion = $this->getModelosCalificacion($id, $modelosCategoria, $modelosUnidadesNegocio);
-        $modelosObservaciones = $this->getObservaciones($id, $modelosCategoria);
-        $modelosPorcentajeUnidad = $this->getPorcentajesUnidad($id, $modelosUnidadesNegocio);
+        if ($modeloAsignacion->estado === AsignacionPuntoVenta::ESTADO_CALIFICADO) {
+            //throw new \Exception("El punto de venta ya ha sido calificado " , 100);
+            throw new \yii\web\HttpException(404, 'El punto de venta ya ha sido calificado ');
+        }
+
+        if ($modeloAsignacion->estado === AsignacionPuntoVenta::ESTADO_INACTIVO) {
+            throw new \yii\web\HttpException(404, 'La asignacion se encuentra inactiva');
+        }
 
         if (Yii::$app->request->post()) {
 
@@ -139,6 +153,8 @@ class AsignacionPuntoVentaController extends Controller
                   if ($calificacion->load($tempData)) {
 
                     if (!$calificacion->save()) {
+
+                        //throw new \Exception("'error observacion:" .json_encode($observacion->getErrors()) , 100);
                         Yii::$app->session->setFlash('error calificacion', 'error al guardar la informacion'.json_encode($calificacion->getErrors()));
 
                     };
@@ -153,8 +169,8 @@ class AsignacionPuntoVentaController extends Controller
                   if ($observacion->load($tempData)) {
 
                     if (!$observacion->save()) {
-                        throw new \Exception("'error observacion:" .son_encode($observacion->getErrors()) , 100);
-                        ///Yii::$app->session->setFlash('error observacion', 'error al guardar la informacion'.json_encode($observacion->getErrors()));
+                        //throw new \Exception("'error observacion:" .json_encode($observacion->getErrors()) , 100);
+                        Yii::$app->session->setFlash('error observacion', 'error al guardar la informacion'.json_encode($observacion->getErrors()));
                     };
                   }
                 }
@@ -166,8 +182,8 @@ class AsignacionPuntoVentaController extends Controller
                     if ($porcentaje->load($tempData)) {
 
                       if (!$porcentaje->save()) {
-                          throw new \Exception("error porcentaje:" .json_encode($porcentaje->getErrors()) , 100);
-                          ///Yii::$app->session->setFlash('error porcentaje', 'error al guardar la informacion'.json_encode($porcentaje->getErrors()));
+                          //throw new \Exception("error porcentaje:" .json_encode($porcentaje->getErrors()) , 100);
+                          Yii::$app->session->setFlash('error porcentaje', 'error al guardar la informacion'.json_encode($porcentaje->getErrors()));
                       };
                     }
                 }
@@ -187,11 +203,11 @@ class AsignacionPuntoVentaController extends Controller
 
                   if( !is_null($finalizaAsignacion)) {
                     $transaction->commit();
-                    return $this->redirect(['asignaciones-calificadas']);
+                    return $this->redirect(['reporte', 'id' => $modeloAsignacion->idAsignacion]);
                   }else{
 
-                    Yii::$app->session->setFlash('success', 'Progreso de la calificacion guardado con exito');
                     $transaction->commit();
+                    Yii::$app->session->setFlash('success', 'Progreso de la calificacion guardado con exito');
                     return $this->refresh();
                   }
                 };
@@ -217,177 +233,49 @@ class AsignacionPuntoVentaController extends Controller
 
     }
 
-
     /**
-    * Crea un array de modelos PorcentajeUnidad dependiendo de las unidades de negocio
-    * @param int $idAsignacion, array<unidadNegocio> $modelosUnidadesNegocio
-    * @return array<PorcentajeUnidad>
-    */
-    protected function getPorcentajesUnidad($idAsignacion, $modelosUnidadesNegocio)
-    {
-        $modelosPorcentajeUnidad = array();
-
-        foreach ($modelosUnidadesNegocio as $unidad) {
-          $modelo = PorcentajeUnidad::find()->where([ 'idAsignacion' => $idAsignacion, 'idAgrupacion' => $unidad['IdAgrupacion'] ])->one();
-
-          if ($modelo !== null) {
-            array_push($modelosPorcentajeUnidad, $modelo);
-          }else{
-            array_push($modelosPorcentajeUnidad, new PorcentajeUnidad());
-          }
-        }
-
-        return $modelosPorcentajeUnidad;
-    }
-
-    /**
-    * Crea un array de modelos Observaciones dependiendo de las variables
-    * @param int $idAsignacion, array<Categoria> $modelosCategoria
-    * @return array<Observaciones>
-    */
-    protected function getObservaciones($idAsignacion, $modelosCategoria)
-    {
-        $modelosObservacion = array();
-
-        foreach ($modelosCategoria as $categoria) {
-
-          foreach ($categoria->variablesMedicion as $variable){
-              $modelo = Observaciones::find()->where(['idAsignacion' => $idAsignacion, 'idVariable' => $variable->idVariable])->one();
-              if ($modelo !== null) {
-                array_push($modelosObservacion, $modelo);
-              }else{
-                array_push($modelosObservacion, new Observaciones);
-              }
-          }
-        }
-
-        return $modelosObservacion;
-    }
-
-    /**
-    * Crea un array de modelos CalificacionVariable dependiendo de las variables y unidades de negocio
-    * @param int $idAsignacion, array<Categoria> $modelosCategoria, array $unidadesNegocio
-    * @return array<CalificacionVariable>
-    */
-    protected function getModelosCalificacion($idAsignacion, $modelosCategoria, $unidadesNegocio)
-    {
-      $modelosCalificacion = array();
-
-      foreach ($modelosCategoria as $categoria) {
-
-        foreach ($categoria->variablesMedicion as $variable){
-
-          if ($variable->calificaUnidadNegocio === 1) {
-
-            foreach ($unidadesNegocio as $unidad) {
-
-              $modelo = CalificacionVariable::find()->where(['idAsignacion' => $idAsignacion, 'idVariable' => $variable->idVariable, 'IdAgrupacion' => $unidad['IdAgrupacion']])->one();
-
-              if ($modelo !== null) {
-                array_push($modelosCalificacion, $modelo);
-              }else{
-                array_push($modelosCalificacion, new CalificacionVariable());
-              }
-            }
-
-          }else{
-
-            $modelo = CalificacionVariable::find()->where(['idAsignacion' => $idAsignacion, 'idVariable' => $variable->idVariable])->one();
-
-            if ($modelo !== null) {
-              array_push($modelosCalificacion, $modelo);
-            }else{
-              array_push($modelosCalificacion, new CalificacionVariable());
-            }
-          }
-        }
-      }
-
-      return $modelosCalificacion;
-    }
-
-    /**
-     * Peticion mediante un webService soap a siicop de las unidades de negocio
-     * @param string $id
+     * Visualiza los reportes generados el punto de venta
+     * @param string $id: id de la asignacion
      * @return mixed
      */
-    protected function callWSGetUnidadesNegocio()
-    {
-        $client = new \SoapClient(\Yii::$app->params['webServices']['tradeMarketing']['unidades'], array(
-            "trace" => 1,
-            "exceptions" => 0,
-            'connection_timeout' => 5,
-            //'cache_wsdl' => WSDL_CACHE_NONE
-        ));
-
-        try {
-            $result = $client->getUnidades();
-            return $result;
-        } catch (SoapFault $ex) {
-            Yii::error($ex->getMessage());
-        } catch (Exception $ex) {
-            Yii::error($ex->getMessage());
-        }
-    }
-
-
     public function actionReporte($id)
     {
-        $modeloAsignacion = $this->encontrarModeloAsignacion($id);
-        $modelosUnidadesNegocio = $this->callWSGetUnidadesNegocio();
-        $modelosEspacios = Espacio::find()->all();
-        $modelosRangoCalificaciones = RangoCalificaciones::find()->orderBy('valor')->all();
-        $porcentajesEspacios = $this->getPorcentajesEspacio($modelosEspacios, $modeloAsignacion->idComercial);
-        $porcentajesUnidades = $this->getPorcentajesUnidades($modelosUnidadesNegocio, $modeloAsignacion->idAsignacion);
+        $informacionReporte = new Reporte();
+        $informacionReporte->cearReporte($id);
+        $informacionReporte->generarValoresReporte();
+        $modeloAsignacion =  $informacionReporte->asignacion;
+        $modelosPorcentajeUnidad = (array)$informacionReporte->porcentajeUnidades;
+        $modelosCalificacion = $informacionReporte->calificaciones;
+        $modelosObservaciones = $informacionReporte->observaciones;
+        $modelosUnidadesNegocio = $informacionReporte->unidadesNegocio;
+        $modelosEspacios = $informacionReporte->espacios;
+        $modelosCategoria = $informacionReporte->categorias;
+        $modelosRangoCalificaciones = $informacionReporte->rangoCalificaciones;
+        $modelosPorcentajeEspacio = (array)$informacionReporte->porcentajeEspacios;
+        $modelosVariables = (array)$informacionReporte->variables;
+        $valoresReporte = $informacionReporte->valoresReporte;
+
+        if ($modeloAsignacion->estado === AsignacionPuntoVenta::ESTADO_PENDIENTE) {
+            throw new \Exception("El punto de venta  no ha sido calificado" , 100);
+        }
+
+        if ($modeloAsignacion->estado === AsignacionPuntoVenta::ESTADO_INACTIVO) {
+            throw new \Exception("La asignacion se encuentra inactiva " , 100);
+        }
 
         return $this->render('reporte', [
-            'modeloAsignacion' => $modeloAsignacion,
-            'modelosUnidadesNegocio' => $modelosUnidadesNegocio,
-            'modelosEspacios' => $modelosEspacios,
-            'modelosRangoCalificaciones' => $modelosRangoCalificaciones,
-            'porcentajesEspacios' => $porcentajesEspacios,
-            'porcentajesUnidades' => $porcentajesUnidades,
+          'modeloAsignacion' => $modeloAsignacion,
+          'modelosUnidadesNegocio' => $modelosUnidadesNegocio,
+          'modelosCalificacion' => $modelosCalificacion,
+          'modelosEspacios' => $modelosEspacios,
+          'modelosCategoria' => $modelosCategoria,
+          'modelosRangoCalificaciones' => $modelosRangoCalificaciones,
+          'modelosObservaciones' => $modelosObservaciones,
+          'modelosPorcentajeUnidad' => $modelosPorcentajeUnidad,
+          'modelosVariables' => $modelosVariables,
+          'modelosPorcentajeEspacio' => $modelosPorcentajeEspacio,
+          'valoresReporte' => $valoresReporte,
         ]);
-    }
-
-    protected function getPorcentajesEspacio($modelosEspacios, $idComercial)
-    {
-      $porcentajeEspacios = array();
-
-      foreach ($modelosEspacios as $espacio) {
-
-        $porcentaje = $espacio->getPorcentajeEspacio($idComercial, $espacio->idEspacio);
-        if ($porcentaje != null) {
-          $porcentajeEspacios[$espacio->nombre] = $porcentaje->valor;
-        }else{
-          $porcentajeEspacios[$espacio->nombre] = 0;
-          Yii::$app->session->setFlash('error', "Faltan porcentajes para los espacios, los calculos se haran con ceros");
-        }
-      }
-
-      return $porcentajeEspacios;
-
-    }
-
-
-    protected function getPorcentajesUnidades($modelosUnidadesNegocio, $idAsignacion)
-    {
-      $porcentajeUnidades = array();
-
-      foreach ($modelosUnidadesNegocio as $unidad) {
-
-        $modelo = PorcentajeUnidad::find()->where(['idAsignacion' => $idAsignacion, 'idAgrupacion' => $unidad['IdAgrupacion']])->one();
-
-        if ($modelo != null) {
-          $porcentajeUnidades[$unidad['NombreUnidadNegocio']] = $modelo->porcentaje;
-        }else{
-          $porcentajeUnidades[$unidad['NombreUnidadNegocio']] = 0;
-          Yii::$app->session->setFlash('error', "No se encontraron porcentajes para las unidades, los calculos se haran con ceros");
-        }
-      }
-
-      return $porcentajeUnidades;
-
     }
 
     /**
@@ -404,4 +292,6 @@ class AsignacionPuntoVentaController extends Controller
             throw new NotFoundHttpException('El recurso no existe.');
         }
     }
+
+    
 }

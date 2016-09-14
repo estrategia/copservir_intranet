@@ -14,6 +14,7 @@ use Yii;
  *
  * @property AsignacionPuntoVenta $asignacion
  */
+
 class PorcentajeUnidad extends \yii\db\ActiveRecord
 {
 
@@ -41,7 +42,9 @@ class PorcentajeUnidad extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getIdAsignacion0()
+    // RELACIONES
+
+    public function getAsignacion()
     {
         return $this->hasOne(AsignacionPuntoVenta::className(), ['idAsignacion' => 'idAsignacion']);
     }

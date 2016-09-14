@@ -12,8 +12,9 @@ use Yii;
  * @property string $descripcion
  * @property integer $estado
  *
- * @property Variablemedicion[] $Variablesmedicion
+ * @property array[Variablemedicion] $variablesMedicion
  */
+
 class Categoria extends \yii\db\ActiveRecord
 {
     const ESTADO_ACTIVO = 1;
@@ -43,16 +44,21 @@ class Categoria extends \yii\db\ActiveRecord
         ];
     }
 
+    // RELACIONES
+
     public function getVariablesMedicion()
     {
         return $this->hasMany(Variablemedicion::className(), ['idCategoria' => 'idCategoria']);
     }
 
+    // CONSULTAS
     public static function getCategorias()
     {
         return self::find()->where(['estado' => self::ESTADO_ACTIVO])->all();
     }
 
+    // FUNCIONES
+    
     // extra campos para solicitar las relaciones en la peticion rest
     public function extraFields()
     {

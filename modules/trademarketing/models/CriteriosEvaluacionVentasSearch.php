@@ -11,6 +11,7 @@ use app\modules\trademarketing\models\CriteriosEvaluacionVentas;
  * CriteriosEvaluacionVentasSearch representa el modelo detrás de la forma de búsqueda de
  *   `app\modules\trademarketing\models\CriteriosEvaluacionVentas`.
  */
+ 
 class CriteriosEvaluacionVentasSearch extends CriteriosEvaluacionVentas
 {
     public function rules()
