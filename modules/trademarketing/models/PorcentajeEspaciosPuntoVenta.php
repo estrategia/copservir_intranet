@@ -8,7 +8,6 @@ use yii\helpers\ArrayHelper;
 /**
  * Modelo para la tabla "t_TRMA_PorcentajeEspaciosPuntoVenta".
  *
- * @property string $idPorcentajeEspacio
  * @property string $idComercial
  * @property string $idEspacio
  * @property string $valor
@@ -20,7 +19,7 @@ class PorcentajeEspaciosPuntoVenta extends \yii\db\ActiveRecord
 {
     public static function tableName()
     {
-        return 't_trma_porcentajeespaciospuntoventa';
+        return 't_TRMA_PorcentajeEspaciosPuntoVenta';
     }
 
     public function rules()
@@ -49,7 +48,7 @@ class PorcentajeEspaciosPuntoVenta extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Espacio::className(), ['idEspacio' => 'idEspacio']);
     }
-    
+
     // CONSULTAS
 
     public static function getPorcentajeByPuntoVenta($puntoVenta)

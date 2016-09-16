@@ -7,7 +7,6 @@ use Yii;
 /**
  * This is the model class for table "t_trma_porcentajeunidad".
  *
- * @property string $idPorcentajeEspacio
  * @property string $porcentaje
  * @property string $idAsignacion
  * @property string $idAgrupacion
@@ -20,7 +19,7 @@ class PorcentajeUnidad extends \yii\db\ActiveRecord
 
     public static function tableName()
     {
-        return 't_trma_porcentajeunidad';
+        return 't_TRMA_PorcentajeUnidad';
     }
 
     public function rules()
@@ -35,7 +34,6 @@ class PorcentajeUnidad extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idPorcentajeEspacio' => 'Id Porcentaje Espacio',
             'porcentaje' => 'Porcentaje',
             'idAsignacion' => 'Id Asignacion',
             'idAgrupacion' => 'Id Agrupacion',

@@ -5,7 +5,7 @@ namespace app\modules\trademarketing\models;
 use Yii;
 
 /**
- * Modelo para la tabla "m_TRMA_CalificacionVariable".
+ * Modelo para la tabla "t_TRMA_CalificacionVariable".
  *
  * @property string $idCalificacion
  * @property string $idVariable
@@ -17,12 +17,12 @@ use Yii;
  * @property VariableMedicion $variable
  * @property AsignacionPuntoVenta $asignacion
  */
- 
+
 class CalificacionVariable extends \yii\db\ActiveRecord
 {
     public static function tableName()
     {
-        return 't_trma_calificacionvariable';
+        return 't_TRMA_CalificacionVariable';
     }
 
     public function rules()
