@@ -158,7 +158,7 @@ $config = [
                      'trademarketing/rest/rest-asignacion-punto-venta',
                      'trademarketing/rest/prueba',
                      'trademarketing/rest/rest-reporte',
-                     'trademarketing/rest/rest-rango-calificacion'
+                     'trademarketing/rest/rest-observaciones'
                   ],
                   'extraPatterns' => [
                     'GET informacion-reporte' => 'informacion-reporte',

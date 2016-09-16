@@ -136,6 +136,9 @@ $this->title = 'Califica un punto de venta';
 												<?=  $form->field($modelosObservaciones[$contadorObservaciones], '['.$contadorObservaciones.']idAsignacion')->hiddenInput(
 															['value'=>  $modeloAsignacion->idAsignacion])->label(false); ?>
 
+												<?=  $form->field($modelosObservaciones[$contadorObservaciones], '['.$contadorObservaciones.']numeroDocumento')->hiddenInput(
+															['value'=>  Yii::$app->user->identity->numeroDocumento])->label(false); ?>
+
 												<?=  $form->field($modelosObservaciones[$contadorObservaciones], '['.$contadorObservaciones.']idVariable')->hiddenInput(
 															['value'=>  $variable->idVariable])->label(false); ?>
 

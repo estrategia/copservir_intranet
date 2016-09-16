@@ -26,8 +26,8 @@ class Observaciones extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idAsignacion', 'idVariable'], 'required'],
-            [['idAsignacion', 'idVariable'], 'integer'],
+            [['idAsignacion', 'idVariable', 'numeroDocumento'], 'required'],
+            [['idAsignacion', 'idVariable', 'numeroDocumento'], 'integer'],
             [['descripcion'], 'string', 'max' => 200],
             [['idVariable'], 'exist', 'skipOnError' => true, 'targetClass' => VariableMedicion::className(), 'targetAttribute' => ['idVariable' => 'idVariable']],
         ];
@@ -40,11 +40,12 @@ class Observaciones extends \yii\db\ActiveRecord
             'descripcion' => 'Descripcion',
             'idAsignacion' => 'Id Asignacion',
             'idVariable' => 'Id Variable',
+            'numeroDocumento' => 'Realizado por',
         ];
     }
 
     // RELACIONES
-    
+
     public function getVariable()
     {
         return $this->hasOne(VariableMedicion::className(), ['idVariable' => 'idVariable']);
