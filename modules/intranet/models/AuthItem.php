@@ -96,7 +96,7 @@ class AuthItem extends \yii\db\ActiveRecord {
     public function getListaPermisos() {
       $query = self::find()
       ->joinwith(['children as permiso'])
-      ->where('Auth_Item.type =:tipo and Auth_Item.name not in (select child from Auth_Item_Child where parent = "'.$this->name.'")')
+      ->where('auth_item.type =:tipo and auth_item.name not in (select child from auth_item_child where parent = "'.$this->name.'")')
       ->addParams([':tipo' => 2])
       ->asArray()
       ->all();

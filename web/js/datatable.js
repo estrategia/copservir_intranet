@@ -2,7 +2,8 @@ $.extend(true, $.fn.dataTable.defaults, {
     //"sDom": "<'row'<'col-md-6'l T><'col-md-6'f>r>t<'row'<'col-md-12'p i>>",
     "sPaginationType": "bootstrap",
     //searching: false,
-    "aaSorting": [[0, "asc"]],
+    //"aaSorting": [[0, "asc"]],
+    ordering:  false,
     "oLanguage": {
         "sProcessing": "Procesando...",
         "sLengthMenu": "_MENU_",

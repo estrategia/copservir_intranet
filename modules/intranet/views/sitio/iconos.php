@@ -755,7 +755,7 @@
       </li>
       <li>
         <span class="glyphicon glyphicon-header" aria-hidden="true"></span>
-        <span class="glyphicon-class">glyphicon glyphicon-header</span
+        <span class="glyphicon-class">glyphicon glyphicon-header</span>
       </li>
       <li>
         <span class="glyphicon glyphicon-compressed" aria-hidden="true"></span>

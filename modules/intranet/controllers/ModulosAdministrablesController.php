@@ -144,6 +144,8 @@ class ModulosAdministrablesController extends Controller {
                 $modelForm = new DataTableForm;
 
                 if ($modelForm->load(Yii::$app->request->post())) {
+                	ini_set('memory_limit', -1);
+                	//set_time_limit(300);
                     $archivo = UploadedFile::getInstance($modelForm, 'archivo');
 
                     if (!is_null($archivo)) {
@@ -151,10 +153,13 @@ class ModulosAdministrablesController extends Controller {
                         $rutaDocumento = Yii::$app->user->identity->numeroDocumento . "_" . date('YmdHis') . '.' . $archivo->extension;
                         $archivo->saveAs($rutaDirectorio . $rutaDocumento);
 
-
+                        /*$cacheMethod = \PHPExcel_CachedObjectStorageFactory::cache_to_phpTemp;
+                        $cacheSettings = array( ' memoryCacheSize ' => '8MB');
+                        \PHPExcel_Settings::setCacheStorageMethod($cacheMethod, $cacheSettings);*/
                         $extension['xlsx'] = '\PHPExcel_Reader_Excel2007';
                         $extension['xls'] = '\PHPExcel_Reader_Excel5';
                         $objReader = new $extension[$archivo->extension];
+                        //$objReader->setReadDataOnly(true);
                         $objPHPExcel = $objReader->load($rutaDirectorio . $rutaDocumento);
 
                         $nHojas = $objPHPExcel->getSheetCount();
