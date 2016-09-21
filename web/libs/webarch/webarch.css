@@ -10290,3 +10290,13 @@ span.fancytree-active span.fancytree-title {
 ul.menu-principal{margin-bottom: 30px !important;}
 .owl-prev:hover {cursor:pointer;}
 .owl-next:hover {cursor:pointer;}
+
+/* Nuevos css JP*/
+.tiles_lrv {
+  background-color: #FAAC58;
+  color: #ffffff;
+  position: relative;
+}
+.tiles_lrv .tiles-body {
+  padding: 19px 18px 15px 24px;
+}

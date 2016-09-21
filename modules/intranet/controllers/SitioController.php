@@ -33,6 +33,8 @@ use yii\helpers\Html;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
+//Nuevos Modelos - By JPolanco
+use app\modules\intranet\models\CalificacionCaritas;
 
 use yii\web\UploadedFile;
 
@@ -125,10 +127,29 @@ class SitioController extends \app\controllers\CController {
         $bannerArriba = PublicacionesCampanas::getCampana($userCiudad, $userGrupos, PublicacionesCampanas::POSICION_ARRIBA);
         $bannerAbajo = PublicacionesCampanas::getCampana($userCiudad, $userGrupos, PublicacionesCampanas::POSICION_ABAJO);
         $bannerDerecha = PublicacionesCampanas::getCampana($userCiudad, $userGrupos, PublicacionesCampanas::POSICION_DERECHA);
+		$bannerArribaTwo = array();
+		$bannerArribaTwo[0] = array('idImagenCampana'=>'20', 'rutaImagen'=>'banner_capsulitas_20160816.png', 'urlEnlaceNoticia'=>'');
+		$bannerArribaTwo[1] = array('idImagenCampana'=>'21', 'rutaImagen'=>'1470070086_16929837.jpg', 'urlEnlaceNoticia'=>'/intranet/sitio/contenido?modulo=108');
 
-        // cumpleaños y aniversarios
-        $cumpleanos = CumpleanosPersona::getCumpleanosIndex();
-        $aniversarios = CumpleanosLaboral::getAniversariosIndex();
+        //cumpleaños y aniversarios
+        $cumpleanos = CumpleanosPersona::getCumpleanosIndex($userCiudad, $userGrupos);
+        $aniversarios = CumpleanosLaboral::getAniversariosIndex($userCiudad, $userGrupos);
+		
+		//calificacion caritas
+		//$calificacionCaritas = Yii::$app->db2->createCommand("SELECT * FROM t_calificacionDomicilios")->queryOne();
+		//$calificacionCaritas = Yii::$app->db2->createCommand("SELECT count(*) AS cantidad FROM t_calificacionDomicilios WHERE TipoCompra=1 and ExperienciaCalificacion='excelente' and TipoCompra = 1 and HoraRegistro >= '2016-06-01 00:00:00' and HoraRegistro <= '2016-06-30 23:59:59'")->queryOne();
+		
+		//Obtner mes y ultimo dia del mes
+		$m = date("m");
+		$y = date("Y");
+		$mes = mktime( 0, 0, 0, $m, 1, $y ); 
+		$numeroDeDiasMes = intval(date("t",$mes));
+			
+		//calificacion la rebaja virtual
+		$a2= CalificacionCaritas::operacionLrv("excelente",5,$m,$numeroDeDiasMes);
+		$b2= CalificacionCaritas::operacionLrv("bueno",4.5,$m,$numeroDeDiasMes);
+		$c2= CalificacionCaritas::operacionLrv("regular",3.9,$m,$numeroDeDiasMes);
+		$d2= CalificacionCaritas::operacionLrv("malo",3,$m,$numeroDeDiasMes);
 
         return $this->render('index', [
                     'contenidoModel' => $contenidoModel,
@@ -141,9 +162,13 @@ class SitioController extends \app\controllers\CController {
                     'bannerDerecha' => $bannerDerecha,
                     'cumpleanos' => $cumpleanos,
                     'aniversarios' => $aniversarios,
+					'bannerArribaTwo' => $bannerArribaTwo,
+					'a2' => $a2, 
+					'b2' => $b2, 
+					'c2' => $c2, 
+					'd2' => $d2, 					
         ]);
     }
-
     public function actionImageUpload() {
         $message = "";
 

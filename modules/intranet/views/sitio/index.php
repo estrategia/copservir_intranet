@@ -3,13 +3,34 @@
 use yii\helpers\Html;
 
 $this->title = 'Intranet - Copservir';
+
+$userCedula = Yii::$app->user->identity->numeroDocumento;
+$rutaArchivo = Yii::getAlias('@webroot') . "/emisora/cedula_vendedores.csv";
+$separador = ",";
+$array_lrv = array();
+$existe = false;
+if(($handle = fopen("$rutaArchivo", "r")) !== false)
+{
+	while(($datos = fgetcsv($handle, 0, $separador)) !== false){
+		$array_lrv[$datos[0]] = $datos;
+		if(trim($datos[0]) == $userCedula){
+			$existe=true;
+			break;
+		}
+	}
+	fclose($handle);
+}
 ?>
 
 <!-- begin UP BANNER -->
 <?php if(!in_array(\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_BANNER_SUP,Yii::$app->user->identity->getOcultosDashboard())): ?>
   <div class="col-md-12">
     <div class="overflow-hidden full-height tiles-overlay-hover m-b-10 widget-item">
-      <?= $this->render('banner', ['banners' => $bannerArriba, 'location' => 0]) ?>
+	  <?php if($existe): ?>
+		<?= $this->render('banner', ['banners' => $bannerArribaTwo, 'location' => 0]) ?>
+	  <?php else:?>
+	    <?= $this->render('banner', ['banners' => $bannerArriba, 'location' => 0]) ?>
+	  <?php endif; ?>	
     </div>
   </div>
 <?php endif;?>
@@ -125,8 +146,44 @@ $this->title = 'Intranet - Copservir';
       <?php echo $this->render('_indicador', ['indicador' => $indicador]); ?>
     <?php endforeach; ?>
   </div>
+  
+  <div class="col-md-12 col-sm-12">		   
+	<?php
+	//cantidad clientes
+	$ac2=$a2/5;
+	$bc2=$b2/4.5;
+	$cc2=$c2/3.9;
+	$dc2=$d2/3;
 
-  <!--publicidad derecha -->
+	$suma_clientes2=$ac2+$bc2+$cc2+$dc2;//suma cantidad clientes
+	$suma_ponderado2=$a2+$b2+$c2+$d2;//suma ponderado
+	$calificacion2= floor(($suma_ponderado2/$suma_clientes2)*pow(10, 1))/pow(10,1);//calificacion resultado final
+	?>			
+		<div id="indicador_3"> 
+			<div class="tiles_lrv m-b-10">
+				<div class="tiles-body">				
+					<div class="row">
+						<div class="col-xs-3"><img src="../../../archivos_intranet/caritas/logo_icono.png" width="45"></div>
+						<div class="col-xs-9"><h4 class="text-black no-margin semi-bold">Experiencia Compra LRV</h4></div>
+					</div>
+					<h1 class="semi-bold text-white"><?= $calificacion2 ?> 
+						<?php if ($calificacion2 <= 3): ?>
+							<?= "<i class='icon-custom-down icon-custom-2x'></i>" ?>
+						<?php else:?>
+							<?= "<i class='icon-custom-up icon-custom-2x'></i>" ?>
+						<?php endif; ?>
+					</h1>
+					<div class="description">
+						<span class="text-white mini-description">Encuestas: <?= $suma_clientes2 ?></span>
+					</div>
+					<button class="btn btn-white btn-xs btn-mini" type="button" onclick="window.open('http://intranet2.copservir.com/intranet/docs/calificacion.php?mostrar=1', '_blank')">Más indicadores</button>
+				</div>
+			</div>
+	    </div>				
+  </div>
+<!-- END ESTADISTICAS --> 
+
+<!--publicidad derecha -->
   <?php //if(!in_array(\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_BANNER_INF,Yii::$app->user->identity->getOcultosDashboard())): ?>
 
     <div class="col-md-12">
@@ -136,12 +193,7 @@ $this->title = 'Intranet - Copservir';
 
     </div>
  <?php //endif;?>
-
-
-
 </div>
-
-<!-- END ESTADISTICAS -->
 
 <!-- begin OFERTAS LABORALES Y TAREAS -->
 <?php if (!in_array(\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_OFERTAS, Yii::$app->user->identity->getOcultosDashboard())): ?>

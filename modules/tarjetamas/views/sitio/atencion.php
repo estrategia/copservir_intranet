@@ -26,7 +26,7 @@ $src = Yii::$app->homeUrl . 'img/multiportal/tarjetamas';
               <img width="400" class="img-responsive" src=<?= "" . $src . "/atencion-cliente.jpg" ?> alt="">
           </div>-->
          <div class="col-md-12">
-             <iframe src="http://www.servicoop.co/pqrs/web/pqrs/index?sitio=3" align="middle" frameborder="0" height="400px" width="100%"></iframe>
+             <iframe src="http://pqrs.copservir.com/pqrs/web/pqrsexterno/pqrs/index?sitio=3" align="middle" frameborder="0" height="400px" width="100%"></iframe>
          </div>
       </div> 
   </section>    

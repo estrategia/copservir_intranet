@@ -6,21 +6,46 @@ if ($location == 0) {
   $idItem = 'bannerArriba';
 }else if ($location == 1) {
   $idItem = 'bannerAbajo';
-}if ($location == 2) {
+}else if ($location == 2) {
   $idItem = 'bannerLateral';
+}else if ($location == 3) {
+  $idItem = 'bannerArriba';
+}
+
+$userCedula = Yii::$app->user->identity->numeroDocumento;
+//$userNombreCompleto = Yii::$app->user->identity->nombres." ".Yii::$app->user->identity->primerApellido." ".Yii::$app->user->identity->segundoApellido;
+$userNombreCompleto = Yii::$app->user->identity->nombres;
+
+$rutaArchivo = Yii::getAlias('@webroot') . "/emisora/cedula_vendedores.csv";
+$separador = ",";
+$array_lrv = array();
+$existe = false;
+if(($handle = fopen("$rutaArchivo", "r")) !== false)
+{
+	while(($datos = fgetcsv($handle, 0, $separador)) !== false){
+		$array_lrv[$datos[0]] = $datos;
+		if(trim($datos[0]) == $userCedula){
+			$existe=true;
+			break;
+		}
+	}
+	fclose($handle);
 }
 ?>
 
 <div id="<?= $idItem ?>" class="carousel slide" data-ride="carousel">
 
-  <div class="carousel-inner" role="listbox">
-
+  <div class="carousel-inner" role="listbox">		
     <?php $contador = 0 ?>
-
     <?php foreach ($banners as $banner): ?>
       <div id="<?= $idItem.$contador  ?>" class="item">
           <?php Funciones::getHtmlLink($banner['urlEnlaceNoticia'],"<img class='img-responsive' src='".Yii::$app->homeUrl . "img/campanas/".$banner['rutaImagen']."' alt=''>"); ?>
-      </div>
+		  <?php if($existe and $idItem == "bannerArriba" and $banner['idImagenCampana'] == 20): ?>	
+			  <div class="carousel-caption">
+				<h3>Hola <?= $userNombreCompleto ?></h3>
+			  </div>	  
+          <?php endif; ?>	
+	  </div>
       <?php  $contador++; ?>
     <?php endforeach; ?>
   </div>

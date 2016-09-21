@@ -168,7 +168,7 @@ $completo = isset($completo) ? $completo : false;
                 </ul>
 
                     <div class="col-lg-2 col-md-2 col-xs-12">
-                        <img class="profile img-responsive" src=<?= Yii::$app->homeUrl . 'img/fotosperfil/' . $noticia->objUsuarioPublicacion->getImagenPerfil() ?> alt="" data-src="" data-src-retina="" width="60" height="60">
+                        <img class="profile" src=<?= Yii::$app->homeUrl . 'img/fotosperfil/' . $noticia->objUsuarioPublicacion->getImagenPerfil() ?> alt="" data-src="" data-src-retina="">
                     </div>
                     <div class="col-lg-10 col-md-10 col-xs-12 ">
                         <textarea class="input-group transparent" id="comentario_<?= $noticia->idContenido ?>" placeholder="Comentar Publicación..." class="form-control" rows="2">
