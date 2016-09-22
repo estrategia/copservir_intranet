@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\modules\trademarketing\models\CriteriosEvalucionVentas;
+use app\modules\trademarketing\models\CriteriosEvaluacionVentas;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\trademarketing\models\CriteriosEvaluacionVentas */

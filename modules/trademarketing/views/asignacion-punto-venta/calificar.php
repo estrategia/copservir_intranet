@@ -12,10 +12,8 @@ use app\modules\trademarketing\models\AsignacionPuntoVenta;
 $this->title = 'Califica un punto de venta';
 
 ?>
-<div class="space-1"></div>
-<div class="space-2"></div>
 
-<div class="container">
+<div class="">
 
 		<center>
 				<h2>LISTA DE CHEQUEO DE LA REVISIÓN EN PUNTOS DE VENTA PLUS</h2>

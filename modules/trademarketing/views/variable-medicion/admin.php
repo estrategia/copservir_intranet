@@ -9,11 +9,11 @@ use app\modules\trademarketing\models\VariableMedicion;
 /* @var $dataProvider yii\data\ActiveDataProvider VariableMedicion */
 
 $this->title = 'Variables de medicion';
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'TradeMarketing-Variable')];
+
 ?>
-<div class="space-1"></div>
-<div class="space-2"></div>
-<div class="container">
+
+<div class="">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -100,5 +100,3 @@ $this->title = 'Variables de medicion';
     ]); ?>
 </div>
 
-<div class="space-1"></div>
-<div class="space-2"></div>

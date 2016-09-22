@@ -64,7 +64,7 @@ if (!Yii::$app->user->isGuest) {
                     </ul>
 
                     <!-- BEGIN LOGO -->
-                    <?= Html::a('<img src=' . $srcLogo . ' class="logo" data-src="" data-src-retina="" style="margin: 6px 30px; width: 180px; position:relative"/>', ['sitio/index'], []) ?>
+                    <?= Html::a('<img src=' . $srcLogo . ' class="logo" data-src="" data-src-retina="" style="margin: 6px 30px; width: 180px; position:relative"/>', ['/intranet/sitio/index'], []) ?>
                     <!-- END LOGO -->
                     <ul class="nav pull-right notifcation-center visible-xs visible-sm">
                         <!--icono menu derecha-->

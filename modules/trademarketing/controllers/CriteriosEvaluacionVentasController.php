@@ -12,6 +12,8 @@ use yii\filters\VerbFilter;
 
 class CriteriosEvaluacionVentasController extends Controller
 {
+	public $defaultAction = "admin";
+	
     public function behaviors()
     {
         return [

@@ -8,12 +8,10 @@ use app\modules\trademarketing\models\CriteriosEvaluacionVentas;
 /* @var $model app\modules\trademarketing\models\CriteriosEvaluacionVentas */
 
 $this->title = 'detalle del criterio de evaluacion de ventas';
-// $this->params['breadcrumbs'][] = ['label' => 'Criterios Evaluacion Ventas', 'url' => ['index']];
-// $this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'TradeMarketing-Criterios'), 'url' => ['/trademarketing/criterios-evaluacion-ventas']];
+$this->params['breadcrumbs'][] = "Detalle";
 ?>
-<div class="space-1"></div>
-<div class="space-2"></div>
-<div class="container">
+<div class="">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -42,6 +40,3 @@ $this->title = 'detalle del criterio de evaluacion de ventas';
     ]) ?>
 
 </div>
-
-<div class="space-1"></div>
-<div class="space-2"></div>

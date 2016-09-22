@@ -9,11 +9,8 @@ use app\modules\trademarketing\models\Categoria;
 /* @var $dataProvider yii\data\ActiveDataProvider de Categorias*/
 
 $this->title = 'Categorias';
-//$this->params['breadcrumbs'][] = $this->title;
-?>
-<div class="space-1"></div>
-<div class="space-2"></div>
-<div class="container">
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'TradeMarketing-Categorías')];?>
+<div class="">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -83,6 +80,3 @@ $this->title = 'Categorias';
     ]); ?>
 
 </div>
-
-<div class="space-1"></div>
-<div class="space-2"></div>

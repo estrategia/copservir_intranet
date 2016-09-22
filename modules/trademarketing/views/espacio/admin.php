@@ -9,11 +9,10 @@ use app\modules\trademarketing\models\Espacio;
 /* @var $dataProvider yii\data\ActiveDataProvider Espacio */
 
 $this->title = 'Espacios';
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'TradeMarketing-Espacios')];
+
 ?>
-<div class="space-1"></div>
-<div class="space-2"></div>
-<div class="container">
+<div class="">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -84,6 +83,3 @@ $this->title = 'Espacios';
         ],
     ]); ?>
 </div>
-
-<div class="space-1"></div>
-<div class="space-2"></div>

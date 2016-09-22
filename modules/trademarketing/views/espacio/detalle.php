@@ -8,15 +8,12 @@ use app\modules\trademarketing\models\Espacio;
 /* @var $model app\modules\trademarketing\models\Espacio */
 
 $this->title = 'Detalle espacio';
-// $this->params['breadcrumbs'][] = ['label' => 'Espacios', 'url' => ['index']];
-// $this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'TradeMarketing-Espacios'), 'url' => ['/trademarketing/espacio']];
+$this->params['breadcrumbs'][] = "Detalle";
 ?>
-<div class="space-1"></div>
-<div class="space-2"></div>
-<div class="container">
 
+<div class="">
     <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <?= Html::a('Actualizar', ['actualizar', 'id' => $model->idEspacio], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Inactivar', ['inactivar', 'id' => $model->idEspacio], [
@@ -44,6 +41,3 @@ $this->title = 'Detalle espacio';
     ]) ?>
 
 </div>
-
-<div class="space-1"></div>
-<div class="space-2"></div>

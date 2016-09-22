@@ -9,11 +9,10 @@ use app\modules\trademarketing\models\CriteriosEvaluacionVentas;
 /* @var $dataProvider yii\data\ActiveDataProvider CriteriosEvalucionVentas*/
 
 $this->title = 'Criterios de evaluacion de ventas';
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'TradeMarketing-Criterios')];
+
 ?>
-<div class="space-1"></div>
-<div class="space-2"></div>
-<div class="container">
+<div class="">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -82,6 +81,3 @@ $this->title = 'Criterios de evaluacion de ventas';
         ],
     ]); ?>
 </div>
-
-<div class="space-1"></div>
-<div class="space-2"></div>

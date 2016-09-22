@@ -7,12 +7,11 @@ use yii\helpers\Html;
 /* @var $model app\modules\trademarketing\models\VariableMedicion */
 
 $this->title = 'Crea una variable de medicion';
-//$this->params['breadcrumbs'][] = ['label' => 'Variable Medicions', 'url' => ['index']];
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'TradeMarketing-Variable'), 'url' => ['/trademarketing/variable-medicion']];
+$this->params['breadcrumbs'][] = "Crear";
 ?>
-<div class="space-1"></div>
-<div class="space-2"></div>
-<div class="container">
+
+<div class="">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -22,5 +21,3 @@ $this->title = 'Crea una variable de medicion';
 
 </div>
 
-<div class="space-1"></div>
-<div class="space-2"></div>

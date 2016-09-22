@@ -8,12 +8,10 @@ use yii\helpers\Html;
 /* @var $modelosPorcentaje array modelos PorcentajeEspaciosPuntoVenta*/
 
 $this->title = 'Asigna los porcentajes a cada espacio por punto de venta ';
-// $this->params['breadcrumbs'][] = ['label' => 'Porcentaje Espacios Punto Ventas', 'url' => ['index']];
-// $this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'TradeMarketing-%Espacio PDV'), 'url' => ['/trademarketing/porcentaje-espacios-punto-venta/seleccion-punto-venta']];
+$this->params['breadcrumbs'][] = "Asignar";
 ?>
-<div class="space-1"></div>
-<div class="space-2"></div>
-<div class="container">
+<div class="">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -25,7 +23,3 @@ $this->title = 'Asigna los porcentajes a cada espacio por punto de venta ';
     ]) ?>
 
 </div>
-
-
-<div class="space-1"></div>
-<div class="space-2"></div>

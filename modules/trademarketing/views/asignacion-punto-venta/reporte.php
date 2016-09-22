@@ -9,10 +9,7 @@ $this->title = 'Reportes';
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<div class="space-1"></div>
-<div class="space-2"></div>
-
-<div class="container">
+<div class="">
 
 	<div>
 
@@ -70,6 +67,3 @@ $this->title = 'Reportes';
 	</div>
 
 </div>
-
-<div class="space-1"></div>
-<div class="space-2"></div>

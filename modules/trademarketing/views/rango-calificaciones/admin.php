@@ -9,11 +9,11 @@ use app\modules\trademarketing\models\RangoCalificaciones;
 /* @var $dataProvider yii\data\ActiveDataProvider RangoCalificaciones */
 
 $this->title = 'Rangos de calificaciones';
-// $this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'TradeMarketing-Rango calificaciones')];
+
 ?>
-<div class="space-1"></div>
-<div class="space-2"></div>
-<div class="container">
+
+<div class="">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -82,6 +82,3 @@ $this->title = 'Rangos de calificaciones';
         ],
     ]); ?>
 </div>
-
-<div class="space-1"></div>
-<div class="space-2"></div>

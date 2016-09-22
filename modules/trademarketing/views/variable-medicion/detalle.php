@@ -8,12 +8,10 @@ use app\modules\trademarketing\models\VariableMedicion;
 /* @var $model app\modules\trademarketing\models\VariableMedicion */
 
 $this->title = 'Detalle variable';
-//$this->params['breadcrumbs'][] = ['label' => 'Variable Medicions', 'url' => ['index']];
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'TradeMarketing-Variable'), 'url' => ['/trademarketing/variable-medicion']];
+$this->params['breadcrumbs'][] = "Detalle";
 ?>
-<div class="space-1"></div>
-<div class="space-2"></div>
-<div class="container">
+<div class="">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -49,6 +47,3 @@ $this->title = 'Detalle variable';
     ]) ?>
 
 </div>
-
-<div class="space-1"></div>
-<div class="space-2"></div>

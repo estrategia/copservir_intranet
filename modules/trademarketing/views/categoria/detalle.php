@@ -10,10 +10,11 @@ use app\modules\trademarketing\models\Categoria;
 $this->title = 'Detalle categoria';
 //$this->params['breadcrumbs'][] = ['label' => 'Categorias', 'url' => ['index']];
 //$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'TradeMarketing-Categorías'), 'url' => ['/trademarketing/categoria']];
+$this->params['breadcrumbs'][] = "Detalle";
 ?>
-<div class="space-1"></div>
-<div class="space-2"></div>
-<div class="container">
+
+<div class="">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -42,5 +43,3 @@ $this->title = 'Detalle categoria';
 
 </div>
 
-<div class="space-1"></div>
-<div class="space-2"></div>

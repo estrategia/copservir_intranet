@@ -8,12 +8,11 @@ use kartik\select2\Select2;
 /* @var $model app\modules\trademarketing\models\PorcentajeEspaciosPuntoVenta */
 
 $this->title = 'Selecciona un punto de venta';
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'TradeMarketing-%Espacio PDV')];
+
 ?>
 
-<div class="space-1"></div>
-<div class="space-2"></div>
-
-<div class="container">
+<div class="">
 
     <?php $form = ActiveForm::begin(); ?>
 
@@ -30,6 +29,3 @@ $this->title = 'Selecciona un punto de venta';
 
     <?php ActiveForm::end(); ?>
 </div>
-
-<div class="space-1"></div>
-<div class="space-2"></div>

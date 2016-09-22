@@ -12,6 +12,8 @@ use yii\filters\VerbFilter;
 
 class EspacioController extends Controller
 {
+	public $defaultAction = "admin";
+	
     public function behaviors()
     {
         return [

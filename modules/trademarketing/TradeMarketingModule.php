@@ -12,7 +12,7 @@ class TradeMarketingModule extends \yii\base\Module
      */
     public $controllerNamespace = 'app\modules\trademarketing\controllers';
     public $defaultRoute = 'sitio';
-    public $layout = 'main';
+    public $layout = '@app/modules/intranet/views/layouts/main';
 
     /**
      * @inheritdoc
@@ -20,7 +20,7 @@ class TradeMarketingModule extends \yii\base\Module
     public function init()
     {
         parent::init();
-        \Yii::$app->errorHandler->errorAction = 'trademarketing/sitio/error';
+        \Yii::$app->errorHandler->errorAction = '/trademarketing/sitio/error';
 
         // custom initialization code goes here
     }

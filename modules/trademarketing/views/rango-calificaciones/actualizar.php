@@ -6,13 +6,10 @@ use yii\helpers\Html;
 /* @var $model app\modules\trademarketing\models\RangoCalificaciones */
 
 $this->title = 'Actualiza un rango de calificaciones';
-// $this->params['breadcrumbs'][] = ['label' => 'Rango Calificaciones', 'url' => ['index']];
-// $this->params['breadcrumbs'][] = ['label' => $model->idRangoCalificacion, 'url' => ['view', 'id' => $model->idRangoCalificacion]];
-// $this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'TradeMarketing-Rango calificaciones'), 'url' => ['/trademarketing/rango-calificaciones']];
+$this->params['breadcrumbs'][] = "Actualizar";
 ?>
-<div class="space-1"></div>
-<div class="space-2"></div>
-<div class="container">
+<div class="">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -21,6 +18,3 @@ $this->title = 'Actualiza un rango de calificaciones';
     ]) ?>
 
 </div>
-
-<div class="space-1"></div>
-<div class="space-2"></div>

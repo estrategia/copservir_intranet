@@ -12,6 +12,7 @@ use yii\filters\VerbFilter;
 
 class RangoCalificacionesController extends Controller
 {
+	public $defaultAction = "admin";
 
     public function behaviors()
     {
