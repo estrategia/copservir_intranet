@@ -106,14 +106,14 @@ class Reporte extends Model
 	 */
 	 private function consultarCategoriasConVariables()
 	 {
-			 	$temp_variables = array();
+			 	$this->variables = array();
 
 			 	$this->categorias = Categoria::getCategorias();
 				foreach ($this->categorias as $key => $value) {
-					$temp_variables[$value->nombre] = $value->variablesMedicion;
+					$this->variables[$value->nombre] = $value->variablesMedicion;
 				}
 
-				$this->variables = $temp_variables;
+				//$this->variables = $temp_variables;
 	 }
 
 	 /**
@@ -167,7 +167,7 @@ class Reporte extends Model
 
 			 foreach ($this->espacios as $espacio) {
 
-				 $porcentaje = $espacio->getPorcentajeEspacio($this->asignacion->idComercial, $espacio->idEspacio);
+				 $porcentaje = Espacio::getPorcentajeEspacio($this->asignacion->idComercial, $espacio->idEspacio);
 
 				 if ($porcentaje != null) {
 					 $listaPorcentaje[$espacio->nombre] = $porcentaje->valor;
@@ -197,7 +197,7 @@ class Reporte extends Model
 					 $porcentajeUnidades[$unidad['NombreUnidadNegocio']] = $modelo->porcentaje;
 				 }else{
 					 $porcentajeUnidades[$unidad['NombreUnidadNegocio']] = 0;
-					 Yii::$app->session->setFlash('error', "No se encontraron porcentajes para las unidades, los calculos se haran con ceros");
+					 //Yii::$app->session->setFlash('error', "No se encontraron porcentajes para las unidades, los calculos se haran con ceros");
 				 }
 			 }
 

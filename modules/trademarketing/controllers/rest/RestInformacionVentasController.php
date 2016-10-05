@@ -3,8 +3,7 @@
 namespace app\modules\trademarketing\controllers\rest;
 
 use yii\rest\ActiveController;
-use app\modules\trademarketing\models\InformacionVentasSearch;
-
+use app\modules\trademarketing\models\InformacionVentas;
 /**
 * Controlador para api REST del modelo AsignacionPuntoVenta
 */
@@ -17,16 +16,23 @@ class RestInformacionVentasController extends ActiveController
     {
         $actions = parent::actions();
 
-        // Personaliza el dataProvider que va a usar la accion
-        $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
+        // desactiva las acciones
+        unset($actions['delete'], $actions['create'], $actions['update'], $actions['options'], $actions['view'], $actions['index']);
 
         return $actions;
     }
 
-    // uso del dataProvider personalizado
-    public function prepareDataProvider()
+    /**
+    * Accion que indica la url donde se pedira la informacion del reporte de ventas
+    * url generada para la peticion:
+    * copservir_intranet/web/trademarketing/rest/rest-informacion-ventas/informacion-reporte-ventas?mesInicio=$mesInicio&mesFin=$mesFin&puntoVenta=$puntoVenta
+    * @param $mesInicio, $mesFin, $puntoVenta
+    * @return informacion del modleo InformacionVentas
+    */
+    public function actionInformacionReporteVentas($mesInicio, $mesFin, $puntoVenta)
     {
-        $searchModel = new InformacionVentasSearch();
-        return $searchModel->search(\Yii::$app->request->queryParams);
+      
+        $info = new InformacionVentas($mesInicio, $mesFin, $puntoVenta);
+        return $info;
     }
 }

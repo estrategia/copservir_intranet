@@ -29,7 +29,7 @@ class VariableMedicion extends \yii\db\ActiveRecord
 
     public static function tableName()
     {
-        return 'm_TRMA_Variablemedicion';
+        return 'm_TRMA_VariableMedicion';
     }
 
     public function rules()

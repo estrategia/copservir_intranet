@@ -48,7 +48,7 @@ class Categoria extends \yii\db\ActiveRecord
 
     public function getVariablesMedicion()
     {
-        return $this->hasMany(Variablemedicion::className(), ['idCategoria' => 'idCategoria']);
+        return $this->hasMany(VariableMedicion::className(), ['idCategoria' => 'idCategoria']);
     }
 
     // CONSULTAS

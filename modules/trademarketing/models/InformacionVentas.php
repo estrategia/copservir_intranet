@@ -3,45 +3,70 @@
 namespace app\modules\trademarketing\models;
 
 use Yii;
+use yii\base\Model;
 
 /**
- * Modelo para la tabla "t_TRMA_AsignacionPuntoVenta".
- *
- * @property string $idComercial
- * @property integer $idAgrupacion
- * @property integer $valor
- * @property integer $mes
- * @property string $anio
- *
- */
- 
-class InformacionVentas extends \yii\db\ActiveRecord
+* modelo que agrupa las variables necesarias para generar el reporte de ventas
+*/
+
+class InformacionVentas extends Model
 {
 
+    public $informacionActual;
+    public $meses;
+    public $informacionAnterior;
+    public $mesInicio;
+    public $mesFin;
+    public $puntoVenta;
+    public $criteriosEvaluacion;
 
-    public static function tableName()
-    {
-        return 't_TRMA_InformacionVentas';
+
+
+    function __construct($mesInicio, $mesFin, $puntoVenta) {
+        
+        $this->mesInicio = $mesInicio;
+        $this->mesFin = $mesFin;
+        $this->puntoVenta = $puntoVenta;
+
+        
+        $this->informacionActual = $this->consultarInformacionActual();
+        $this->informacionAnterior = $this->consultarInformacionAnterior();
+        $this->meses = $this->consultarMeses();
+        $this->criteriosEvaluacion = $this->consultarCriterios();
+        
     }
 
-    public function rules()
+    public function consultarInformacionAnterior()
     {
-        return [
-            [['idComercial', 'idAgrupacion', 'valor', 'anio', 'mes'], 'required'],
-            [['idAgrupacion', 'valor', 'mes'], 'integer'],
-            [['anio'], 'safe'],
-            [['idComercial'], 'string', 'max' => 10],
-        ];
+        return InformacionVentasAnterior::find()
+        ->where('( mes >=:mesInicio AND mes <=:mesFin AND idComercial =:puntoVenta)')
+        ->addParams([':mesInicio' => $this->mesInicio, ':mesFin' => $this->mesFin, ':puntoVenta' => $this->puntoVenta])
+        ->all();
+        
     }
 
-    public function attributeLabels()
+    public function consultarInformacionActual()
     {
-        return [
-            'idComercial' => 'Punto de Venta',
-            'idAgrupacion' => 'Unidad de negocio',
-            'valor' => 'Valor',
-            'anio' => 'Año',
-            'Mes' => 'Mes',
-        ];
+        return InformacionVentasActual::find()
+        ->where('( mes >=:mesInicio AND mes <=:mesFin AND idComercial =:puntoVenta)')
+        ->addParams([':mesInicio' => $this->mesInicio, ':mesFin' => $this->mesFin, ':puntoVenta' => $this->puntoVenta])
+        ->all();;
+        
     }
+
+    public function consultarMeses()
+    {
+        return InformacionVentasAnterior::find()
+        ->where('( mes >=:mesInicio AND mes <=:mesFin AND idComercial =:puntoVenta)')
+        ->groupBy(['mes'])
+        ->addParams([':mesInicio' => $this->mesInicio, ':mesFin' => $this->mesFin, ':puntoVenta' => $this->puntoVenta])
+        ->all();
+        
+    }
+
+    public function consultarCriterios()
+    {
+        return CriteriosEvaluacionVentas::find()->all();
+    }
+
 }

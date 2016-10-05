@@ -1,7 +1,7 @@
 <?php
+$html = '';
 
-  $html = '';
-
+if(!Yii::$app->getUser()->isGuest){
   $cargo = Yii::$app->user->identity->getCargoCodigo();
 
   $rutaArchivo = Yii::getAlias('@webroot') . "/emisora/cargos_emisora.csv";
@@ -39,6 +39,8 @@
       </div>';
   } else if ($ipNegado == 10){
   }
+  
+}
 
 ?>
 
