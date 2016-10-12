@@ -15,7 +15,12 @@ class ProveedoresModule extends \yii\base\Module {
         Yii::$app->errorHandler->errorAction = 'proveedores/sitio/error';
 
 
-        // custom initialization code goes here
+        $this->modules = [
+            'visitaMedica' => [
+                // you should consider using a shorter namespace here!
+                'class' => 'app\modules\proveedores\modules\visitamedica\visitamedica\visitaMedica',
+            ],
+        ];
     }
 
 }

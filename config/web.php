@@ -17,6 +17,12 @@ $config = [
         ],
         'proveedores' => [
             'class' => 'app\modules\proveedores\ProveedoresModule',
+            'modules' => [
+                'visitamedica' => [
+                    'class' => 'app\modules\proveedores\modules\visitamedica\VisitaMedica',
+                    'layout' => 'visitaMedica',
+                ],
+            ],
         ],
         'convenios' => [
             'class' => 'app\modules\convenios\ConveniosModule',
@@ -33,7 +39,7 @@ $config = [
         'treemanager' => [
             'class' => '\kartik\tree\Module',
         // other module settings, refer detailed documentation
-        ]
+        ],
     /* 'gridview' => [
       //'class' => '\kartik\grid\Module',
       //'downloadAction' => '',
@@ -150,6 +156,9 @@ $config = [
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+                'proveedores/visitamedica/productos/producto/<codigoProducto:\d+>' => 'proveedores/visitamedica/productos/producto',
+                'proveedores/visitamedica/reportes/acceso/<tiempo:\w+\-?\w+>' => 'proveedores/visitamedica/reportes/acceso',
+                'proveedores/visitamedica/reportes/producto/<tiempo:\w+\-?\w+>' => 'proveedores/visitamedica/reportes/producto',
 
                 // REST
                 [

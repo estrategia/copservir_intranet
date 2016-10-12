@@ -50,6 +50,8 @@ return [
     'PerfilesUsuario' => [
         'intranet' => ['codigo' => 1, 'permiso' => 'intranet_usuario'],
         'tarjetaMas' => ['codigo' => 2, 'permiso' => 'tarjeta_mas_usuario'],
+        'visitaMedica' => ['codigo' => 3, 'permiso' => ''],
+
     ],
     'webServices' => [
         'codigoSeguridad' => 'CopservirLaMejorEmpresaParaTrabajar2016',
@@ -60,7 +62,8 @@ return [
         'tradeMarketing' => [
           'puntosVenta' => 'http://localhost/copservir/puntoventa/sweb/puntoventa',
           'unidades' => 'http://localhost/copservir/trademarketing/wsTradeMarketing/unidades'
-        ]
+        ],
+        'lrv' => 'http://localhost/lrv/rest'
     ],
     'usuario' => [
       'tiempoRecuperarClave' => 1 // dias
@@ -92,5 +95,21 @@ return [
         '001203', //DIRECTOR DE LOGISTICA PUNTOS DE VENTA
         '001204', //DIRECTOR DE LOGISTICA CEDIS
       ]
-    ]
+    ],
+    'visitamedica' => [
+        'session' => [
+            'ubicacion' => [
+                'ciudad' => 'visitamedica.ubicacion.ciudad',
+                'nombreCiudad' => 'visitamedica.ubicacion.nombreCiudad',
+                'sector' => 'visitamedica.ubicacion.sector',
+                'nombreSector' => 'visitamedica.ubicacion.nombreSector',
+                ''
+            ],
+            'filtrosUsuario' => 'visitamedica.filtrosUsuario',
+        ],
+    ],
+    'google' => array(
+        'llaveMapa' => 'gme-copservir'
+    ),
+
 ];
