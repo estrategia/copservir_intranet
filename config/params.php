@@ -92,5 +92,8 @@ return [
         '001203', //DIRECTOR DE LOGISTICA PUNTOS DE VENTA
         '001204', //DIRECTOR DE LOGISTICA CEDIS
       ]
-    ]
+    ],
+	'tradeMarketing' => [
+		'directorioCargues' => '/uploads/trademarketing/'		
+	]
 ];

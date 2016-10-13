@@ -183,7 +183,7 @@ if (!$contenidoModel->isNewRecord) {
   <?= Html::label('Añadir otro') ?>
 
   <div id="contenido-destino">
-    <?php echo $this->render('_formDestinoContenido', ['objContenidoDestino' => new ContenidoDestino, 'consultaTodos' => $esAdmin]) ?>
+    <?php echo $this->render('_formDestinoContenido', ['objContenidoDestino' => new ContenidoDestino, 'consultaTodos' => true]) ?>
   </div>
 
 </div>

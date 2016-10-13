@@ -18,7 +18,7 @@ class InformacionVentasAnterior extends \yii\db\ActiveRecord
 
     public static function tableName()
     {
-        return 't_trma_informacionventasanterior';
+        return 't_TRMA_InformacionVentasAnterior';
     }
 
     public function rules()

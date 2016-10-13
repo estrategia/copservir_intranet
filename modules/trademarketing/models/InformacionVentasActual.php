@@ -18,7 +18,7 @@ class InformacionVentasActual extends \yii\db\ActiveRecord
 
     public static function tableName()
     {
-        return 't_trma_informacionventasactual';
+        return 't_TRMA_InformacionVentasActual';
     }
 
     public function rules()

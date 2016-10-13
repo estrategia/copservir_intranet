@@ -358,10 +358,10 @@ class SitioController extends \app\controllers\CController {
         throw new \yii\web\ForbiddenHttpException('Acceso no permitdo.',403);
       }
 
-      $esAdmin = false;
-      if (Yii::$app->user->identity->tienePermiso('intranet_admin')) {
+      $esAdmin = true;
+      /*if (Yii::$app->user->identity->tienePermiso('intranet_admin')) {
         $esAdmin = true;
-      }
+      }*/
 
       $contenidoModel = new Contenido;
       $contenidoModel->scenario = Contenido::SCENARIO_PUBLICAR_PORTALES;
@@ -424,8 +424,6 @@ class SitioController extends \app\controllers\CController {
                     'esAdmin' => $esAdmin,
         ]);
       }
-
-
     }
 
     public function actionPublicarPortalesActualizar($id)

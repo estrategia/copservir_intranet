@@ -4,6 +4,7 @@ namespace app\modules\trademarketing\models;
 
 use Yii;
 use yii\base\Model;
+use app\models\SIICOP;
 
 /**
 * modelo que agrupa las variables necesarias para generar el reporte y la calificacion
@@ -34,7 +35,7 @@ class Reporte extends Model
 	{
 			$this->asignacion = $this->consultarAsignacion($idAsignacion);
 			$this->consultarCategoriasConVariables();
-			$this->unidadesNegocio = $this->callWSGetUnidadesNegocio();
+			$this->unidadesNegocio = SIICOP::wsGetUnidadesNegocio();
 			$this->calificaciones = $this->consultarCalificaciones();
 			$this->observaciones = $this->consultarObservaciones();
 			$this->porcentajeUnidades = $this->consultarModelosPorcentajesUnidades();
@@ -48,7 +49,7 @@ class Reporte extends Model
 	 {
 			 $this->asignacion = $this->consultarAsignacion($idAsignacion);
 			 $this->consultarCategoriasConVariables();
-			 $this->unidadesNegocio = $this->callWSGetUnidadesNegocio();
+			 $this->unidadesNegocio = SIICOP::wsGetUnidadesNegocio();
 			 $this->espacios = $this->consultarEspacios();
 			 $this->porcentajeEspacios = $this->consultarPorcentajesEspacio();
 			 $this->porcentajeUnidades = $this->consultarPorcentajesUnidades();
@@ -122,7 +123,7 @@ class Reporte extends Model
 	 */
 	 private function callWSGetUnidadesNegocio()
 	 {
-			 $client = new \SoapClient(\Yii::$app->params['webServices']['tradeMarketing']['unidades'], array(
+			 /*$client = new \SoapClient(\Yii::$app->params['webServices']['tradeMarketing']['unidades'], array(
 					 "trace" => 1,
 					 "exceptions" => 0,
 					 'connection_timeout' => 5,
@@ -136,7 +137,8 @@ class Reporte extends Model
 					 Yii::error($ex->getMessage());
 			 } catch (Exception $ex) {
 					 Yii::error($ex->getMessage());
-			 }
+			 }*/
+	 	return SIICOP::wsGetUnidadesNegocio();
 	 }
 
 	 /**
