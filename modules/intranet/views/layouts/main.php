@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\bootstrap\Dropdown;
@@ -11,9 +12,11 @@ use app\modules\intranet\models\Menu;
 use app\modules\intranet\models\Tareas;
 use app\modules\intranet\models\MenuPortales;
 use app\modules\intranet\models\AuthItem;
+use app\modules\intranet\models\Ciudad;
 use app\modules\intranet\models\Opcion;
 use app\modules\intranet\models\OpcionesUsuario;
 use nirvana\showloading\ShowLoadingAsset;
+use kartik\select2\Select2;
 
 ShowLoadingAsset::register($this);
 IntranetAsset::register($this);
@@ -102,6 +105,17 @@ if (!Yii::$app->user->isGuest) {
                                 <input id="busqueda" name="q" type="text"  class="no-boarder " placeholder="Escriba el texto a buscar"
                                 style="width:250px;" size="40">
                                 <?= Html::endForm() ?>
+                            </li>
+                            <li>
+                                <?php 
+                                    echo Select2::widget([
+                                        'name' => 'ciudadVisualizacion',
+                                        'id' => 'selectCiudadVisualizacion',
+                                        'value' => '',
+                                        'data' => ArrayHelper::map(Ciudad::find()->orderBy('nombreCiudad')->all(), 'codigoCiudad', 'nombreCiudad'),
+                                        'options' => ['placeholder' => 'Seleccione la ciudad para ver las publicaciones']
+                                    ]);
+                                ?>
                             </li>
                             
                         </ul>

@@ -7,11 +7,13 @@ use yii\web\IdentityInterface;
 use yii\base\NotSupportedException;
 use yii\base\Event;
 use yii\web\ForbiddenHttpException;
+use yii\web\Session;
 use yii\data\ActiveDataProvider;
 use app\modules\intranet\models\GrupoInteresCargo;
 use app\modules\intranet\models\UsuarioWidgetInactivo;
 use app\modules\tarjetamas\models\UsuarioTarjetaMas;
-use app\modules\proveedores\modules\visitamedica\models\Usuario as UsuarioProveedor;
+use app\modules\proveedores\models\UsuarioProveedor;
+use app\modules\intranet\models\UsuarioIntranet;
 
 /**
  * This is the model class for table "m_usuario".
@@ -41,6 +43,10 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
                 'nombre' => null
             ],
             'fechaCumpleanhos' => null
+        ],
+        'ciudadVisualizacion' => [
+            'codigo' => null,
+            'nombre' => null
         ],
         'academica' => [
             'profesion' => null,
@@ -108,6 +114,10 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
                     $this->data['personal']['ciudad']['codigo'] = $infoPersona['Codigo'];
                     $this->data['personal']['fechaCumpleanhos'] = $infoPersona['FechaNacimiento'];
 
+                    $this->data['ciudadVisualizacion']['codigo'] = $infoPersona['Codigo'];
+                    $this->data['ciudadVisualizacion']['nombre'] = $infoPersona['Ciudad'];
+
+
                     //$this->data['academica']['profesion'] = "Ingeniero de sistemas y ciencias de la computación";
                     //$this->data['academica']['estudiosSuperiores'] = "Universidad del valle sede Melendez";
                     $this->data['academica']['profesion'] = "";
@@ -132,6 +142,27 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
                     }
 
                     \Yii::$app->session->set('user.data', $this->data);
+
+                    $usuarioIntranet = UsuarioIntranet::findOne($this->numeroDocumento);
+
+                    if (empty($usuarioIntranet)) {
+                        $usuarioIntranet = new UsuarioIntranet();
+                        $usuarioIntranet->numeroDocumento = $this->numeroDocumento;
+                        $usuarioIntranet->nombres = $infoPersona['Nombres'];
+                        $usuarioIntranet->primerApellido = $infoPersona['PrimerApellido'];
+                        $usuarioIntranet->segundoApellido = $infoPersona['SegundoApellido'];
+                        $usuarioIntranet->idCargo = $infoPersona['CodigoCargo'];
+                        $usuarioIntranet->nombreCargo = $infoPersona['Cargo'];
+                        $usuarioIntranet->save();
+                    } else {
+                        $usuarioIntranet->nombres = $infoPersona['Nombres'];
+                        $usuarioIntranet->primerApellido = $infoPersona['PrimerApellido'];
+                        $usuarioIntranet->segundoApellido = $infoPersona['SegundoApellido'];
+                        $usuarioIntranet->idCargo = $infoPersona['CodigoCargo'];
+                        $usuarioIntranet->nombreCargo = $infoPersona['Cargo'];
+                        $usuarioIntranet->update();
+                    }
+
                     return true;
                 }
             } catch (SoapFault $exc) {
@@ -223,6 +254,13 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
         return $this->hasOne(UsuarioProveedor::className(), ['numeroDocumento' => 'numeroDocumento']);
     }
 
+    public function getObjUsuarioIntranet()
+    {
+        $consulta = $this->hasOne(UsuarioIntranet::className(), ['numeroDocumento' => 'numeroDocumento']);
+        // var_dump($consulta);
+        return $consulta;
+    }
+
     public static function findIdentity($id) {
         return static::findOne(['idUsuario' => $id, 'estado' => 1]);
     }
@@ -312,9 +350,18 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
         return $this->data['personal']['ciudad']['nombre'];
     }
 
-    public function getCiudadCodigo() {
+    public function getCiudadCodigo($tipo = 1) {
         $this->restaurarSesion();
+        if ($tipo == 1) {
+           return $this->data['ciudadVisualizacion']['codigo'];
+        }
         return $this->data['personal']['ciudad']['codigo'];
+    }
+
+    public function setCiudadVisualizacion($codigoCiudad)
+    {
+        $this->data['ciudadVisualizacion']['codigo'] = $codigoCiudad;
+        \Yii::$app->session->set('user.data', $this->data);
     }
 
     public function getCumpleanhos() {

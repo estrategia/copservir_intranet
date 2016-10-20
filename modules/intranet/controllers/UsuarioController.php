@@ -401,10 +401,12 @@ class UsuarioController extends \yii\web\Controller {
         $model->setValuesUserGuest();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-
-
+            var_dump(\Yii::$app->user->identity->numeroDocumento);
+            $usuario = Usuario::find()->where(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento])->one();
+            $usuario->alias = Yii::$app->request->post()['PersonaForm']['alias'];
+            
             $response = self::callWSActualizarPersona($model->attributes);
-            if ($response) {
+            if ($response && $usuario->update()) {
                 \Yii::$app->user->identity->generarDatos(true);
                 return $this->redirect(['perfil']);
             } else {

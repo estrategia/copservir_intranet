@@ -3,8 +3,8 @@
 namespace app\modules\proveedores\modules\visitamedica\controllers;
 
 use Yii;
-use app\modules\proveedores\modules\visitamedica\models\Usuario;
-use app\modules\proveedores\modules\visitamedica\models\UsuarioSearch;
+use app\modules\proveedores\models\UsuarioProveedor;
+use app\modules\proveedores\models\UsuarioProveedorSearch;
 use app\modules\proveedores\modules\visitamedica\models\CorreoAdminForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -61,7 +61,7 @@ class UsuarioController extends Controller
      */
     public function actionAdmin()
     {
-        $searchModel = new UsuarioSearch();
+        $searchModel = new UsuarioProveedorSearch();
         $params = Yii::$app->request->queryParams;
         $laboratorio = null;
         // var_dump(Yii::$app->user->identity->objUsuarioProveedor);
@@ -73,7 +73,7 @@ class UsuarioController extends Controller
         }
         $filtrosUsuario = \Yii::$app->session->set(\Yii::$app->params['visitamedica']['session']['filtrosUsuario'], $params);
         // var_dump($filtrosUsuario = \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['filtrosUsuario']));
-        $dataProvider = $searchModel->search($params, $laboratorio, true);
+        $dataProvider = $searchModel->search($params, $laboratorio, true, \Yii::$app->controller->module->id);
         // var_dump($params);
         // var_dump($searchModel->attributes);
 
@@ -102,15 +102,12 @@ class UsuarioController extends Controller
      */
     public function actionCrear()
     {
-        $usuarioVimed = new Usuario();
-
-        // Yii::$app->user->identity->tienePermiso("visitaMedica_admin");
-        // echo Yii::$app->user->identity->tienePermiso("visitaMedica_proveedor");
-        // echo Yii::$app->user->identity->tienePermiso("visitaMedica_visitador");
-        
+        $usuarioVimed = new UsuarioProveedor();
         if ($usuarioVimed->load(Yii::$app->request->post())) {
 
-            $documento = Yii::$app->request->post()['Usuario']['numeroDocumento'];
+            $usuarioVimed->modulo = \Yii::$app->controller->module->id;
+            // var_dump($usuarioVimed);
+            $documento = Yii::$app->request->post()['UsuarioProveedor']['numeroDocumento'];
             
             $usuarioIntranet = new \app\models\Usuario();
             $usuarioIntranet->numeroDocumento = $documento;
@@ -147,11 +144,11 @@ class UsuarioController extends Controller
                     'usuario' => $usuarioIntranet->numeroDocumento,
                     'password' => $contrasena,
                 ];
-                $contenidoCorreo = $this->renderPartial('_notificacionRegistro',['infoUsuario' => $infoUsuario]);
-                $correoEnviar = $this->renderPartial('/common/correo', ['contenido' => $contenidoCorreo]);
-                $correoEnviado = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
-                                        ->setTo($usuarioVimed->email)->setSubject('Credencales Acceso Visita-Medica Copservir')
-                                        ->setHtmlBody($correoEnviar)->send();
+                // $contenidoCorreo = $this->renderPartial('_notificacionRegistro',['infoUsuario' => $infoUsuario]);
+                // $correoEnviar = $this->renderPartial('/common/correo', ['contenido' => $contenidoCorreo]);
+                // $correoEnviado = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
+                //                         ->setTo($usuarioVimed->email)->setSubject('Credencales Acceso Visita-Medica Copservir')
+                //                         ->setHtmlBody($correoEnviar)->send();
 
                 return $this->redirect(['ver', 'id' => $usuarioVimed->numeroDocumento]);
             }
@@ -192,7 +189,7 @@ class UsuarioController extends Controller
     public function actionMiCuenta()
     {
         $intranetUser = \app\models\Usuario::findOne(Yii::$app->user->identity->idUsuario);
-        $vimedUser = Usuario::findOne(['numeroDocumento', $intranetUser->numeroDocumento]);
+        $vimedUser = UsuarioProveedor::findOne(['numeroDocumento', $intranetUser->numeroDocumento]);
         if($vimedUser->save()) {
             return $this->redirect(['ver', 'id' => $vimedUser->numeroDocumento]);
         } else {
@@ -238,7 +235,7 @@ class UsuarioController extends Controller
     public function actionExportarUsuarios()
     {
 
-        $searchModel = new UsuarioSearch();
+        $searchModel = new UsuarioProveedorSearch();
         $objPHPExcel = new \PHPExcel();
         $objPHPExcel->getProperties()->setTitle("Reporte Bonos");
 
@@ -263,7 +260,7 @@ class UsuarioController extends Controller
            $laboratorio = null;
         }
 
-        $dataProvider = $searchModel->search($params, $laboratorio, false);
+        $dataProvider = $searchModel->search($params, $laboratorio, false, \Yii::$app->controller->module->module);
 
         // var_dump($dataProvider);
 
@@ -306,7 +303,7 @@ class UsuarioController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Usuario::findOne($id)) !== null) {
+        if (($model = UsuarioProveedor::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

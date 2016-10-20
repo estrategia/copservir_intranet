@@ -80,10 +80,10 @@ class UbicacionController extends Controller
     $session = \Yii::$app->session;
 
     // return $data->response;
-    // $session->set(\Yii::$app->params['visitamedica']['session']['ubicacion']['ciudad'], $data->response->codigoCiudad);
-    // $session->set(\Yii::$app->params['visitamedica']['session']['ubicacion']['sector'], $data->response->codigoSector);
-    // $session->set(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreCiudad'], $data->response->nombreCiudad);
-    // $session->set(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreSector'], $data->response->nombreSector);
+    $session->set(\Yii::$app->params['visitamedica']['session']['ubicacion']['ciudad'], $data->response->codigoCiudad);
+    $session->set(\Yii::$app->params['visitamedica']['session']['ubicacion']['sector'], $data->response->codigoSector);
+    $session->set(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreCiudad'], $data->response->nombreCiudad);
+    $session->set(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreSector'], $data->response->nombreSector);
     
     // var_dump($data->response);
     // var_dump($session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['ciudad']));

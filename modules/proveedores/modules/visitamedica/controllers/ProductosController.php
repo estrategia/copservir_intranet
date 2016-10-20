@@ -41,6 +41,11 @@
 
     public function actionBuscar()
     {
+      $ciudad = \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['ciudad']);
+      if (!isset($ciudad)) {
+        \Yii::$app->session->setFlash('error', "Debes seleccionar una ubicacion primero");
+        return $this->redirect( \Yii::$app->getUrlManager()->getBaseUrl() . '/proveedores/visitamedica/ubicacion');
+      }
 
       if (isset($_GET['term'])) {
         $client = new Client();

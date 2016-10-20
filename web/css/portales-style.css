@@ -443,3 +443,29 @@ TARJETA MAS
 .submenu.sub-poveedor li:hover{
    background-color: #EF4637;
 }
+
+/*------------------------------
+
+PROVEEDORES
+
+-------------------------------*/
+.form-header {
+    border-bottom: solid 1px #D5D5D5;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.form-header h4 {
+    font-weight: 700;
+}
+
+.datepicker {
+  background-color: white !important;
+}
+
+@media only screen and (min-width: 768px) {
+  .content {
+    margin-top: 80px!important;
+  }
+}
+

@@ -5,6 +5,15 @@
     $this->params['breadcrumbs'][] = ['label' => 'Seleccion de ubicacion'];
 ?>
 
+<?php if (Yii::$app->session->hasFlash('error')): ?>
+<div class="alert alert-info" role="alert">
+    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+    <strong>
+      <?= Yii::$app->session->getFlash('error') ?>
+    </strong>
+</div>
+<?php endif; ?>
+
 <button id="mostrarMapa" onclick="cargarMapa()" class="btn btn-default">Mapa</button>
 <button id="gps" onclick="getLocation()" class="btn btn-default">GPS</button>
 
@@ -117,8 +126,8 @@
         lat = map.getCenter().lat();
         lon = map.getCenter().lng();
     }
-    // console.log(lat);
-    // console.log(lon);
+    console.log(lat); 
+    console.log(lon);
     $.ajax({
         type: 'POST',
         dataType: 'json',
@@ -134,14 +143,13 @@
         success: function(data) {
             json = JSON.parse(data);
             if (json.result == 'ok') {
+                console.log(json.response);
                 $('#modal-ubicacion-map').modal('hide');
-                // $('#ubicacion-seleccion-ciudad').val(json.response.ciudad);
-                // $('#ubicacion-seleccion-sector').val(json.response.sector);
-                // $('#ubicacion-seleccion-direccion').val('');
-
-                // $('#div-ubicacion-tipoubicacion > button').removeClass('activo').addClass('inactivo');
-                // $('#div-ubicacion-tipoubicacion > button[data-role="ubicacion-mapa"]').removeClass('inactivo').addClass('activo');
-                // ubicacionSeleccion();
+                $('#ubicacion').text(json.response.nombreCiudad + " " + json.response.nombreSector);
+                $('input[name="nombreCiudad"]').val(json.response.nombreCiudad);
+                $('input[name="nombreSector"]').val(json.response.nombreSector);
+                $('input[name="codigoCiudad"]').val(json.response.codigoCiudad);
+                $('input[name="codigoSector"]').val(json.response.codigoSector);
                 $('#modal-confirmacion').modal('show');
             } else {
                alert('Error: ' + json.result);
