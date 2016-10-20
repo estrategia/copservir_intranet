@@ -32,7 +32,6 @@ function cambiarTimeline(lineaTiempo, href) {
     });
 }
 
-
 $(document).on('click', "a[data-role='cambiar-timeline']", function () {
     var lineaTiempo = $(this).attr('data-timeline');
     var href = $(this).attr('href');
@@ -716,4 +715,32 @@ $(document).on('click', 'a[data-role="editar-modulo"]', function () {
         }
     });
     return false;
+});
+
+
+
+$('#selectCiudadVisualizacion').change(function() {
+   $.ajax({
+        type: 'POST',
+        async: true,
+        url: requestUrl + '/intranet/sitio/cambiar-ciudad-visualizacion',
+        data: {codigoCiudad: $(this).val()},
+        dataType: 'json',
+        beforeSend: function () {
+            $('html').showLoading();
+
+        },
+        complete: function (data) {
+            $('html').hideLoading();
+        },
+        success: function (data) {
+            console.log(data);
+            location.reload();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('html').hideLoading();
+            alert('Error: ' + errorThrown);
+        }
+   });
+console.log($(this).val());
 });

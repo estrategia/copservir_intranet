@@ -1,16 +1,16 @@
 <?php
 
-namespace app\modules\proveedores\modules\visitamedica\models;
+namespace app\modules\proveedores\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\proveedores\modules\visitamedica\models\Usuario;
+use app\modules\proveedores\models\UsuarioProveedor;
 
 /**
- * UsuarioSearch represents the model behind the search form about `app\modules\proveedores\modules\visitamedica\models\Usuario`.
+ * UsuarioProveedorSearch represents the model behind the search form about `app\modules\proveedores\models\UsuarioProveedor`.
  */
-class UsuarioSearch extends Usuario
+class UsuarioProveedorSearch extends UsuarioProveedor
 {
     /**
      * @inheritdoc
@@ -39,9 +39,9 @@ class UsuarioSearch extends Usuario
      *
      * @return ActiveDataProvider
      */
-    public function search($params, $nitLaboratorio, $paginacion)
+    public function search($params, $nitLaboratorio, $paginacion, $modulo)
     {
-        $query = Usuario::find();
+        $query = UsuarioProveedor::find();
 
         // add conditions that should always apply here
 
@@ -60,6 +60,7 @@ class UsuarioSearch extends Usuario
 
         $this->load($params);
         $this->nitLaboratorio = $nitLaboratorio;
+        $this->modulo = $modulo;
 
         // grid filtering conditions
         $query->andFilterWhere([
@@ -67,6 +68,7 @@ class UsuarioSearch extends Usuario
             'telefono' => $this->telefono,
             'celular' => $this->celular,
             'fechaNacimiento' => $this->fechaNacimiento,
+            'modulo' => $this->modulo,
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre])

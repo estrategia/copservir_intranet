@@ -62,6 +62,7 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.pn
                               </ul>
                             </li>-->
                             <?= MenuPortales::generarMenu(Yii::$app->controller->module->id) ?>
+                            <li class=""> <?=  Html::a('Usuarios', ['/proveedores/usuario']) ?></li>
                         </ul>
                     </div>
                 </div>
@@ -70,7 +71,7 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.pn
         </div>
 
         <!-- CONTAINER -->
-        <div id="container">
+        <div id="container" class="content">
             <?= $content ?>
         </div>
 

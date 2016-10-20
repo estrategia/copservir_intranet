@@ -16,6 +16,7 @@ class PersonaForm extends Model {
   public $IdCiudad;
   public $FechaNacimiento;
   public $NumeroDocumento;
+  public $alias;
 
   /**
   * @return array the validation rules.
@@ -23,11 +24,12 @@ class PersonaForm extends Model {
   public function rules() {
     return [
 
-      [['Nombres','Direccion', 'FechaNacimiento', 'IdCiudad'], 'required'],
+      [['Nombres','Direccion', 'FechaNacimiento', 'IdCiudad', 'alias'], 'required'],
       [['Email', 'EmailPersonal'], 'email'],
       [['IdCiudad', 'NumeroDocumento'], 'integer' ],
       [['Nombres', 'PrimerApellido', 'SegundoApellido'], 'string', 'max' => 255],
       [['Direccion'], 'string', 'min' =>8],
+      [['alias'], 'string', 'min' =>8, 'max' => '60' ],
       [['FechaNacimiento'], 'safe'],
     ];
   }
@@ -42,7 +44,8 @@ class PersonaForm extends Model {
       'Direccion' => 'Residencia',
       'IdCiudad' => 'Ciudad',
       'FechaNacimiento' => 'Fecha Nacimiento',
-      'NumeroDocumento'=>'Numero Documento'
+      'NumeroDocumento'=>'Numero Documento',
+      'alias' => 'Alias',
     ];
   }
 
@@ -58,6 +61,7 @@ class PersonaForm extends Model {
       $this->Direccion = \Yii::$app->user->identity->getResidencia();
       $this->Email = \Yii::$app->user->identity->getEmail();
       $this->EmailPersonal = \Yii::$app->user->identity->getEmailPersonal();
+      $this->alias = \Yii::$app->user->identity->alias;
     }
 
   }

@@ -57,6 +57,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
       <?= $form->field($model, 'EmailPersonal')->input('email') ?>
 
+      <?= $form->field($model, 'alias')->input('text') ?>
+
       <div class="form-group">
           <?= Html::submitButton('Actualizar', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
       </div>

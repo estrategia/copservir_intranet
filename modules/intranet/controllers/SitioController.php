@@ -258,6 +258,18 @@ class SitioController extends \app\controllers\CController {
         return $respond;
     }
 
+    public function actionCambiarCiudadVisualizacion()
+    {
+      $ciudad = Yii::$app->request->post('codigoCiudad');
+      Yii::$app->user->identity->setCiudadVisualizacion($ciudad);
+
+      $response = [
+        'result' => Yii::$app->user->identity->getCiudadCodigo()
+      ];
+
+      return json_encode($response);
+    }
+
     /*
       accion para guardar un contenido en alguna linea de tiempos
      */

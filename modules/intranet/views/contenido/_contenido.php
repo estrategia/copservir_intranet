@@ -36,7 +36,11 @@ $completo = isset($completo) ? $completo : false;
         <div class="cbp_tmlabel">
             <div class="">
 
-                <h5 class="inline semi-bold m-b-5"><?= $noticia->objUsuarioPublicacion->alias ?></h5>
+                <h5 class="inline semi-bold m-b-5"> 
+                  <?php $persona = $noticia->objUsuarioPublicacion->objUsuarioIntranet;
+                    echo $persona['nombres'] . ' ' . $persona['primerApellido'] . ' | ' .  $persona['nombreCargo'];
+                  ?>
+                </h5>
                 <div class="muted">
 
                   <?php if (isset($noticia->fechaInicioPublicacion)): ?>

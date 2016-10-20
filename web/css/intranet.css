@@ -275,3 +275,7 @@ MENU DESPLEGABLE
     overflow: visible !important; 
     white-space: normal !important;
 }
+
+.datepicker {
+    background-color: white !important;
+}
