@@ -34,13 +34,17 @@
         "sadovojav/yii2-image-cutter": "dev-master",
         "bupy7/yii2-widget-cropbox": "1.0",
         "kartik-v/yii2-widget-fileinput": "@dev",
-        "phpoffice/phpexcel": "dev-develop"
+        "phpoffice/phpexcel": "dev-develop",
+        "yiisoft/yii2-httpclient": "^2.0",
+        "2amigos/yii2-date-picker-widget" : "*",
+        "yiisoft/yii2-jui": "~2.0.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
         "yiisoft/yii2-debug": "*",
         "yiisoft/yii2-gii": "*",
-        "yiisoft/yii2-faker": "*"
+        "yiisoft/yii2-faker": "*",
+        "yiisoft/yii2-jui": "~2.0.0"
     },
     "config": {
         "process-timeout": 1800

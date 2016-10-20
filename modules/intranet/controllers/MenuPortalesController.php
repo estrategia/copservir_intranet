@@ -82,7 +82,6 @@ class MenuPortalesController extends Controller {
         $searchModel = new ModuloContenidoSearch();
         $dataProviderModuloContenido = $searchModel->search(Yii::$app->request->queryParams);
 
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['detalle', 'id' => $model->idMenuPortales]);
         } else {

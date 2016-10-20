@@ -67,18 +67,14 @@ class MenuPortales extends \yii\db\ActiveRecord {
     }
 
     public function validateIdPadre($attribute, $params) {
-
         $padre = self::findOne(['idMenuPortales' => $this->idMenuPortalPadre]);
-
-        if ($this->idPortal !== $padre->idPortal) {
+        if ($this->idPortal != $padre->idPortal) {
             $this->addError($attribute, 'Los portales no corresponden');
         }
     }
 
     public function validateUrlPadre($attribute, $params) {
-
         $padre = self::findOne(['idMenuPortales' => $this->idMenuPortalPadre]);
-
         if ($padre->tipo !== self::SIN_ENLACE) {
             $this->addError($attribute, 'El menu padre no puede tener enlace');
         }

@@ -11,6 +11,7 @@ use yii\data\ActiveDataProvider;
 use app\modules\intranet\models\GrupoInteresCargo;
 use app\modules\intranet\models\UsuarioWidgetInactivo;
 use app\modules\tarjetamas\models\UsuarioTarjetaMas;
+use app\modules\proveedores\modules\visitamedica\models\Usuario as UsuarioProveedor;
 
 /**
  * This is the model class for table "m_usuario".
@@ -215,6 +216,11 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
 
     public function getObjUsuarioTarjetaMas() {
         return $this->hasOne(UsuarioTarjetaMas::className(), ['numeroDocumento' => 'numeroDocumento']);
+    }
+
+    public function getObjUsuarioProveedor()
+    {
+        return $this->hasOne(UsuarioProveedor::className(), ['numeroDocumento' => 'numeroDocumento']);
     }
 
     public static function findIdentity($id) {

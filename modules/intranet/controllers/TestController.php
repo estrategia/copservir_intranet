@@ -19,6 +19,7 @@ use app\modules\intranet\models\PublicacionesCampanas;
 use app\modules\intranet\models\GrupoInteresCargo;
 use app\modules\intranet\models\CumpleanosPersona;
 use app\modules\intranet\models\CumpleanosLaboral;
+use app\modules\intranet\models\LoginForm;
 
 class TestController extends Controller {
     
@@ -140,10 +141,16 @@ class TestController extends Controller {
 
     }
 
-    public function actionUsuario($cedula){
+    public function actionUsuario($cedula, $pass=null){
+    	echo "<br>Persona<br>";
         $infoUsuario = \app\models\Usuario::callWSInfoPersona($cedula);
         VarDumper::dump($infoUsuario,10,true);
-
+        
+        if(!empty($pass)){
+        	echo "<br><br>Login:<br>";
+        	$resultWebServicesLogin = LoginForm::callWSLogin($cedula, $pass);
+        	VarDumper::dump($resultWebServicesLogin,10,true);
+        }
     }
     
     public function actionUser($cedula, $login=true){
