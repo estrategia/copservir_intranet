@@ -5,7 +5,8 @@ use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use kartik\time\TimePicker;
 use kartik\select2\Select;
-use bootstrap\modal;    
+use kartik\select2\Select2;
+use bootstrap\modal;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\proveedores\modules\visitamedica\models\Usuario */
@@ -55,7 +56,16 @@ use bootstrap\modal;
                 <?= $form->field($model, 'nitLaboratorio')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="col-md-4">
-                <?= $form->field($model, 'Ciudad')->textInput(['maxlength' => true]) ?>
+                <?php 
+                    echo $form->field($model, 'Ciudad')->widget(Select2::classname(), [
+                        'data' => $ciudades,
+                        'size' => Select2::SMALL,
+                        'options' => ['placeholder' => 'Selecciona una ciudad'],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]);
+                ?>
                 <?= $form->field($model, 'Direccion')->textInput(['maxlength' => true]) ?>
             </div>
         </div>

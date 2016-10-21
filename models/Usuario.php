@@ -93,7 +93,7 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
         }
     }
 
-    public function generarDatos($forzar = false) {
+    public function generarDatos($forzar = false, $sesion = true) {
         if (!$this->data['sesionRestaurada'] || $forzar) {
             try {
                 $infoPersona = self::callWSInfoPersona($this->numeroDocumento);
@@ -141,7 +141,9 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
                         $this->data['gruposInteres'][] = $objGrupoInteresCargo->idGrupoInteres;
                     }
 
-                    \Yii::$app->session->set('user.data', $this->data);
+                    if ($sesion) {
+                        \Yii::$app->session->set('user.data', $this->data);
+                    }
 
                     $usuarioIntranet = UsuarioIntranet::findOne($this->numeroDocumento);
 
@@ -502,6 +504,11 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
 
     public function getRoles() {
         return Yii::$app->authManager->getRolesByUser($this->numeroDocumento);
+    }
+
+    public function getData()
+    {
+        return $this->data;
     }
 
     public function generarCodigoRecuperacion() {

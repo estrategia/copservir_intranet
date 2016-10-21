@@ -58,7 +58,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Perfil de usuario')]
             <div class="info-wrapper">
               <div class="post col-md-5">
                 <h5>Informaci&oacute;n General</h5>
-                <p><b>nombre: </b> <?= \Yii::$app->user->identity->getNombres().' '.\Yii::$app->user->identity->getPrimerApellido().' '.\Yii::$app->user->identity->getSegundoApellido() ?></p>
+                <p><b>Nombre: </b> <?= \Yii::$app->user->identity->getNombres().' '.\Yii::$app->user->identity->getPrimerApellido().' '.\Yii::$app->user->identity->getSegundoApellido() ?></p>
                 <p><b>Cargo: </b> <?= \Yii::$app->user->identity->getCargoNombre() ?></p>
                 <p><b>Vinculaci&oacute;n: </b> <?= \Yii::$app->user->identity->getVinculacion() ?></p>
                 <p><b>Antiguedad: </b> <?= \Yii::$app->user->identity->getAntiguedad() ?></p>
@@ -77,7 +77,9 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Perfil de usuario')]
                 <div style="height: 5px"></div>
                 <?= Html::a('Cambiar contraseña', ['usuario/cambiar-clave'], ['class' => 'btn btn-primary btn-small', 'name' => 'password-button']) ?>
                 <div style="height: 5px"></div>
-                <?= Html::a('Cambiar fotos', ['usuario/cambiar-foto-perfil'], ['class' => 'btn btn-primary btn-small', 'name' => 'picture-button']) ?>
+                <?= Html::a('Cambiar foto de perfil', ['usuario/cambiar-foto-perfil'], ['class' => 'btn btn-primary btn-small', 'name' => 'picture-button']) ?>
+                <div style="height: 5px"></div>
+                <?= Html::a('Cambiar imagen de fondo', ['usuario/cambiar-imagen-fondo'], ['class' => 'btn btn-primary btn-small', 'name' => 'picture-button']) ?>
               </div>
             </div>
             <div class="clearfix"></div>

@@ -3,17 +3,24 @@
 namespace app\modules\proveedores\controllers;
 
 use Yii;
+use yii\web\Controller;
+use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
+use yii\helpers\Json;
+use yii\helpers\VarDumper;
+use yii\helpers\ArrayHelper;
+use yii\imagine\Image;
+use Imagine\Image\Box;
+use Imagine\Image\Point;
 use app\modules\proveedores\models\UsuarioProveedor;
 use app\modules\proveedores\models\UsuarioProveedorSearch;
 use app\modules\proveedores\models\LoginForm;
 use app\modules\intranet\models\ConexionesUsuarios;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use app\modules\intranet\models\Funciones;
-use yii\helpers\ArrayHelper;
 use app\models\SIICOP;
-use yii\helpers\VarDumper;
+use app\modules\intranet\models\Ciudad;
+use app\modules\intranet\models\FotoForm;
 /**
  * UsuarioController implements the CRUD actions for UsuarioProveedor model.
  */
@@ -58,6 +65,17 @@ class UsuarioController extends Controller
         ]);
     }
 
+    public function actionSalir() {
+
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['autenticar']);
+            exit();
+        }
+        Yii::$app->user->logout();
+        $model = new LoginForm();
+        $this->redirect(['autenticar', ['model' => $model]]);
+    }
+
     public function actionIndex()
     {
         $searchModel = new UsuarioProveedorSearch();
@@ -74,7 +92,7 @@ class UsuarioController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionView($id)
+    public function actionVer($id)
     {   
         $model = $this->findModel(Yii::$app->request->get()['id']);
         if (Yii::$app->request->post()) {
@@ -95,28 +113,29 @@ class UsuarioController extends Controller
         ]);
     }
 
-    public function actionPermisos()
-    {   
-        if (Yii::$app->request->post()) {
-            var_dump(Yii::$app->request->post());
-        }
-        if (Yii::$app->request->get()) {
-            $model = $this->findModel(Yii::$app->request->get()['id']);
-            return $this->render('permisos', [
-                'model' => $model,
-                'permisos' => $model->getPermisosAsignacion(),
-            ]);   
-        }
-    }
+    // public function actionPermisos()
+    // {   
+    //     if (Yii::$app->request->post()) {
+    //         var_dump(Yii::$app->request->post());
+    //     }
+    //     if (Yii::$app->request->get()) {
+    //         $model = $this->findModel(Yii::$app->request->get()['id']);
+    //         return $this->render('permisos', [
+    //             'model' => $model,
+    //             'permisos' => $model->getPermisosAsignacion(),
+    //         ]);   
+    //     }
+    // }
 
     /**
      * Creates a new UsuarioProveedor model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCrear()
     {      
         $usuarioProveedor = new UsuarioProveedor();
+        $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
         $terceros = $this->getTerceros();
         $unidadesNegocio = SIICOP::wsGetUnidadesNegocio(1);
         $tercerosSelect = ArrayHelper::map($terceros, 'NumeroDocumento', 'Nombre');
@@ -138,9 +157,9 @@ class UsuarioController extends Controller
             $usuarioProveedor->nombreLaboratorio = $laboratorio['Nombre'];
             $usuarioProveedor->nitLaboratorio = $laboratorio['NumeroDocumento'];
             $usuarioProveedor->idAgrupacion = $idAgrupacion;
-            $usuarioProveedor->nombreUnidadNegocio = $unidadesNegocio[$idAgrupacion];
-
-            // var_dump($usuarioProveedor);
+            if(array_key_exists($idAgrupacion, $unidadesNegocio)) {
+                $usuarioProveedor->nombreUnidadNegocio = $unidadesNegocio[$idAgrupacion];
+            }
 
             $usuarioIntranet = new \app\models\Usuario();
             $usuarioIntranet->numeroDocumento = $documento;
@@ -156,13 +175,13 @@ class UsuarioController extends Controller
                     'usuario' => $usuarioIntranet->numeroDocumento,
                     'password' => $contrasena,
                 ];
-                // $contenidoCorreo = $this->renderPartial('_notificacionRegistro',['infoUsuario' => $infoUsuario]);
-                // $correoEnviar = $this->renderPartial('/common/correo', ['contenido' => $contenidoCorreo]);
-                // $correoEnviado = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
-                //                         ->setTo($usuarioProveedor->email)->setSubject('Credencales Acceso Proveedores Copservir')
-                //                         ->setHtmlBody($correoEnviar)->send();
+                $contenidoCorreo = $this->renderPartial('_notificacionRegistro',['infoUsuario' => $infoUsuario]);
+                $correoEnviar = $this->renderPartial('/common/correo', ['contenido' => $contenidoCorreo]);
+                $correoEnviado = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
+                                        ->setTo($usuarioProveedor->email)->setSubject('Credencales Acceso Proveedores Copservir')
+                                        ->setHtmlBody($correoEnviar)->send();
 
-                return $this->redirect(['view', 'id' => $usuarioProveedor->numeroDocumento]);
+                return $this->redirect(['ver', 'id' => $usuarioProveedor->numeroDocumento]);
             }
 
         } else {
@@ -170,6 +189,7 @@ class UsuarioController extends Controller
                 'model' => $usuarioProveedor,
                 'terceros' => $tercerosSelect,
                 'unidadesNegocio' => $unidadesNegocio,
+                'ciudades' => $ciudades,
             ]);
         }
     }
@@ -180,11 +200,12 @@ class UsuarioController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionActualizar($id)
     {
         $usuarioProveedor = $this->findModel($id);
         $terceros = $this->getTerceros();
         $unidadesNegocio = SIICOP::wsGetUnidadesNegocio(1);
+        $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
         // array_unshift($unidadesNegocio, '(no definido)');  // $unidadesNegocio
         $tercerosSelect = ArrayHelper::map($terceros, 'NumeroDocumento', 'Nombre');
         $laboratorio = null;
@@ -203,19 +224,88 @@ class UsuarioController extends Controller
             $usuarioProveedor->nombreLaboratorio = $laboratorio['Nombre'];
             $usuarioProveedor->nitLaboratorio = $laboratorio['NumeroDocumento'];
             $usuarioProveedor->idAgrupacion = $idAgrupacion;
-            $usuarioProveedor->nombreUnidadNegocio = $unidadesNegocio[$idAgrupacion];
+            if(array_key_exists($idAgrupacion, $unidadesNegocio)) {
+                $usuarioProveedor->nombreUnidadNegocio = $unidadesNegocio[$idAgrupacion];
+            }
 
 
             if ($usuarioProveedor->save()) {
-                return $this->redirect(['view', 'id' => $usuarioProveedor->numeroDocumento]);
+                return $this->redirect(['ver', 'id' => $usuarioProveedor->numeroDocumento]);
             }
         } else {
             return $this->render('update', [
                 'model' => $usuarioProveedor,
                 'terceros' => $tercerosSelect,
                 'unidadesNegocio' => $unidadesNegocio,
+                'ciudades' => $ciudades,
             ]);
         }
+    }
+
+    public function actionCambiarFotoPerfil() {
+        $modelFoto = FotoForm::find()->where(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento, 'estado' => 1])->one();
+        $errorFotoPerfil = false;
+        // $modelFoto = new FotoForm();
+        if ($modelFoto->load(Yii::$app->request->post())) {
+            // llamar al webservice y mandar los datos
+            {
+
+                $usuario = \app\models\Usuario::findOne(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento, 'estado' => 1]);
+                $modelFoto->imagenPerfil =  UploadedFile::getInstances($modelFoto, 'imagenPerfil');
+                try {
+                    if ($modelFoto->imagenPerfil) {
+                        foreach ($modelFoto->imagenPerfil as $file) {
+                            if (isset(Json::decode($modelFoto->crop_info)[0])) {
+                                $nombreImagen = Yii::$app->user->identity->numeroDocumento;
+                                $rutaImagen = "$nombreImagen.$file->extension";
+                                $rutaImagenAnterior = $usuario->imagenPerfil;
+                                $file->saveAs(Yii::getAlias('@webroot') . '/img/fotosperfil/' . $rutaImagen);
+                                $image = Image::getImagine()->open(Yii::getAlias('@webroot') . '/img/fotosperfil/' . $rutaImagen);
+
+                                // rendering information about crop of ONE option
+                                $cropInfo = Json::decode($modelFoto->crop_info)[0];
+                                $cropInfo['dWidth'] = (int) $cropInfo['dWidth']; //new width image
+                                $cropInfo['dHeight'] = (int) $cropInfo['dHeight']; //new height image
+                                $cropInfo['x'] = $cropInfo['x']; //begin position of frame crop by X
+                                $cropInfo['y'] = $cropInfo['y']; //begin position of frame crop by Y
+                                $cropInfo['width'] = (int) $cropInfo['width']; //width of cropped image
+                                $cropInfo['height'] = (int) $cropInfo['height']; //height of cropped image
+                                //saving thumbnail
+                                $newSizeThumb = new Box($cropInfo['dWidth'], $cropInfo['dHeight']);
+                                $cropSizeThumb = new Box($cropInfo['width'], $cropInfo['height']); //frame size of crop
+                                $cropPointThumb = new Point($cropInfo['x'], $cropInfo['y']);
+                                $pathThumbImage = 'img/fotosperfil/' . $rutaImagen;
+
+                                $image->resize($newSizeThumb)
+                                        ->crop($cropPointThumb, $cropSizeThumb)
+                                        ->save($pathThumbImage, ['quality' => 100]);
+
+                                $usuario->imagenPerfil = $rutaImagen;
+                                $usuario->save();
+                                Yii::$app->user->identity->imagenPerfil = $rutaImagen;
+                                Yii::$app->session->setFlash('success', "Imagen perfil se carg&oacute; con &eacute;xito");
+
+                                if (!empty($rutaImagenAnterior) && $rutaImagen != $rutaImagenAnterior) {
+                                    unlink(Yii::getAlias('@webroot') . "/img/fotosperfil/" . $rutaImagenAnterior);
+                                }
+                            } else {
+                                $errorFotoPerfil = true;
+                            }
+                        }
+                    }
+                } catch (\Exception $e) {
+                    Yii::$app->session->setFlash('error', $e->getMessage());
+                }
+                
+            }
+            $modelFoto = new FotoForm();
+
+            if ($errorFotoPerfil) {
+                $modelFoto->addError('imagenPerfil', 'Debe recortar la imagen');
+            }
+        }
+
+        return $this->render('formFotoPerfil', ['modelFoto' => $modelFoto,]);
     }
 
     /**
@@ -224,12 +314,12 @@ class UsuarioController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
+    // public function actionDelete($id)
+    // {
+    //     $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
-    }
+    //     return $this->redirect(['index']);
+    // }
 
     /**
      * Finds the UsuarioProveedor model based on its primary key value.

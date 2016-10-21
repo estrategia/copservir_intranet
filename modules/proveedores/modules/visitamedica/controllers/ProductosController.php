@@ -43,7 +43,7 @@
     {
       $ciudad = \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['ciudad']);
       if (!isset($ciudad)) {
-        \Yii::$app->session->setFlash('error', "Debes seleccionar una ubicacion primero");
+        \Yii::$app->session->setFlash('error', "Por favor selecciona una ubicacion");
         return $this->redirect( \Yii::$app->getUrlManager()->getBaseUrl() . '/proveedores/visitamedica/ubicacion');
       }
 
@@ -87,7 +87,7 @@
       $codigoCiudad . '/sector/' . $codigoSector;
 
       // echo $urlDetalleProducto;
-      $urlDetallePdv = \Yii::$app->params['webServices']['lrv'] . '/producto/simular';
+      $urlDetallePdv = \Yii::$app->params['webServices']['detallePDV'];
 
       $detalleProducto = $client->createRequest()
       ->setMethod('get')

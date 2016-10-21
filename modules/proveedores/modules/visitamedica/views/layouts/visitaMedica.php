@@ -4,7 +4,7 @@ use app\assets\VisitaMedicaAsset;
 use nirvana\showloading\ShowLoadingAsset;
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
-
+use yii\helpers\Url;
 
 ShowLoadingAsset::register($this);
 VisitaMedicaAsset::register($this);
@@ -44,7 +44,7 @@ VisitaMedicaAsset::register($this);
                     </a>
                     <div class="profile">
                         <div class="profile-image">
-                        
+                          <img src=" <?php echo Yii::$app->homeUrl . 'img/fotosperfil/' . \Yii::$app->user->identity->getImagenPerfil(); ?> " alt="">
                         </div>
                         <div class="profile-data">
                             <div class="profile-data-name"> 
@@ -59,10 +59,7 @@ VisitaMedicaAsset::register($this);
                         </div>
                     </div>                                                                        
                 </li>
-                <li class="xn-title">Navegación</li>
-               <!--  <li class="active">
-                    <a href="index.php"><span class="fa fa-desktop"></span> <span class="xn-text">Panel de Control</span></a>                        
-                </li>         -->            
+                <li class="xn-title">Navegación</li>         
                 <li>
                     <a href="<?= ($baseUrl . '/proveedores/visitamedica/productos/buscar')?>"><span class="fa fa-search"></span> <span class="xn-text">Consulta Productos</span></a>                        
                 </li> 

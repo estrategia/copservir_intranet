@@ -45,7 +45,7 @@ class ContenidoDestino extends \yii\db\ActiveRecord
 
     if ($bandera) {
 
-      $opciones = GrupoInteres::find()->orderBy('nombreGrupo')->asArray()->all();
+      $opciones = GrupoInteres::find()->where(['estado'=>1])->orderBy('nombreGrupo')->asArray()->all();
 
       return ArrayHelper::map($opciones, 'idGrupoInteres', 'nombreGrupo');
 
@@ -54,7 +54,7 @@ class ContenidoDestino extends \yii\db\ActiveRecord
       $userGrupos = Yii::$app->user->identity->getGruposCodigos();
       $userGrupos = implode(',',$userGrupos);
 
-      $opciones = GrupoInteres::find()->where(" ( idGrupoInteres IN ($userGrupos))")
+      $opciones = GrupoInteres::find()->where(" ( idGrupoInteres IN ($userGrupos)) AND estado = 1")
       ->orderBy('nombreGrupo')
       ->asArray()
       ->all();

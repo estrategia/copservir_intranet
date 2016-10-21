@@ -8,7 +8,8 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use app\modules\intranet\models\LoginForm;
 use app\modules\intranet\models\PersonaForm;
-use app\models\Usuario; //use app\modules\intranet\models\Usuario;
+use app\models\Usuario; 
+use app\modules\intranet\models\UsuarioIntranet;
 use app\modules\intranet\models\ConexionesUsuarios;
 use app\modules\intranet\models\RecuperacionClave;
 use app\modules\intranet\models\FotoForm;
@@ -17,6 +18,7 @@ use yii\web\UploadedFile;
 use app\modules\intranet\models\UsuarioWidgetInactivo;
 use app\modules\intranet\models\MeGustaContenidos;
 use app\modules\intranet\models\GrupoInteres;
+use app\modules\intranet\models\Ciudad;
 use yii\imagine\Image;
 use yii\helpers\Json;
 use Imagine\Image\Box;
@@ -41,7 +43,7 @@ class UsuarioController extends \yii\web\Controller {
         return [
             [
                 'class' => \app\components\AccessFilter::className(),
-                'only' => ['autenticar', 'cambiar-clave', 'perfil', 'cambiar-foto-perfil', 'actualizar-datos', 'pantalla-inicio', 'modal-amigos'],
+                'only' => ['autenticar', 'cambiar-clave', 'perfil', 'cambiar-foto-perfil', 'cambiar-imagen-fondo', 'actualizar-datos', 'pantalla-inicio', 'modal-amigos'],
             ],
             [
                 'class' => \app\components\AuthItemFilter::className(),
@@ -308,6 +310,21 @@ class UsuarioController extends \yii\web\Controller {
         return $this->render('perfil', ['contenidos' => $contenidos, 'meGustan' => $meGustan, 'gruposReferencia' => $gruposReferencia]);
     }
 
+    public function actionVer()
+    {
+        if (Yii::$app->request->get()) {
+            $documento = Yii::$app->request->get()['documento'];
+            $usuario = Usuario::find($documento)->one();
+            $usuario->generarDatos(false, false);
+            var_dump($usuario->getData());
+            $meGustan = MeGustaContenidos::find()->where(['numeroDocumento' => $usuario->numeroDocumento])->count();
+            $contenidos = Contenido::find()->where(['numeroDocumentoPublicacion' => $usuario->numeroDocumento])->count();
+            $gruposReferencia = GrupoInteres::find()->where('idGrupoInteres IN (' . implode(",", $usuario->getGruposCodigos()) . ')')->all();
+            // var_dump($usuarioIntranet);
+        return $this->render('perfilUsuario', ['contenidos' => $contenidos, 'meGustan' => $meGustan, 'gruposReferencia' => $gruposReferencia, 'usuario' => $usuario]);
+        }   
+    }
+
     public function actionCambiarFotoPerfil() {
         $modelFoto = FotoForm::find()->where(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento, 'estado' => 1])->one();
         $errorFotoPerfil = false;
@@ -362,25 +379,7 @@ class UsuarioController extends \yii\web\Controller {
                 } catch (\Exception $e) {
                     Yii::$app->session->setFlash('error', $e->getMessage());
                 }
-                $modelFoto->imagenFondo = UploadedFile::getInstances($modelFoto, 'imagenFondo');
-
-                if ($modelFoto->imagenFondo) {
-                    foreach ($modelFoto->imagenFondo as $file) {
-                        $nombreImagen = Yii::$app->user->identity->numeroDocumento;
-                        $rutaImagen = "$nombreImagen.$file->extension";
-                        $rutaImagenAnterior = $usuario->imagenFondo;
-                        $file->saveAs(Yii::getAlias('@webroot') . '/img/imagenesFondo/' . $rutaImagen);
-
-                        $usuario->imagenFondo = $rutaImagen;
-                        $usuario->save();
-                        Yii::$app->user->identity->imagenFondo = $rutaImagen;
-                        Yii::$app->session->setFlash('success', "Fondo perfil se carg&oacute; con &eacute;xito");
-
-                        if (!empty($rutaImagenAnterior) && $rutaImagen != $rutaImagenAnterior) {
-                            unlink(Yii::getAlias('@webroot') . "/img/imagenesFondo/" . $rutaImagenAnterior);
-                        }
-                    }
-                }
+                
             }
             $modelFoto = new FotoForm();
 
@@ -390,6 +389,35 @@ class UsuarioController extends \yii\web\Controller {
         }
 
         return $this->render('formFotoPerfil', ['modelFoto' => $modelFoto,]);
+    }
+
+    public function actionCambiarImagenFondo()
+    {   
+        $usuario = Usuario::findOne(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento, 'estado' => 1]);
+        $modelFoto = FotoForm::find()->where(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento, 'estado' => 1])->one();
+        if ($modelFoto->load(Yii::$app->request->post())) {
+            $modelFoto->imagenFondo = UploadedFile::getInstances($modelFoto, 'imagenFondo');
+            if ($modelFoto->imagenFondo) {
+                foreach ($modelFoto->imagenFondo as $file) {
+                    $nombreImagen = Yii::$app->user->identity->numeroDocumento;
+                    $rutaImagen = "$nombreImagen.$file->extension";
+                    $rutaImagenAnterior = $usuario->imagenFondo;
+                    $file->saveAs(Yii::getAlias('@webroot') . '/img/imagenesFondo/' . $rutaImagen);
+
+                    $usuario->imagenFondo = $rutaImagen;
+                    $usuario->save();
+                    Yii::$app->user->identity->imagenFondo = $rutaImagen;
+                    Yii::$app->session->setFlash('success', "Fondo perfil se carg&oacute; con &eacute;xito");
+
+                    if (!empty($rutaImagenAnterior) && $rutaImagen != $rutaImagenAnterior) {
+                        unlink(Yii::getAlias('@webroot') . "/img/imagenesFondo/" . $rutaImagenAnterior);
+                    }
+                }
+            }
+        }
+        $modelFoto = new FotoForm();
+
+        return $this->render('formImagenFondo', ['modelFoto' => $modelFoto,]);
     }
 
     /*

@@ -66,13 +66,16 @@ class LoginForm extends Model {
 
         if ($resultWebServicesLogin['result'] == 3) {
             //$user = $this->getUser();
-        } else if ($resultWebServicesLogin['result'] == 0) {
-            $this->addError($attribute, 'Usuario no existe');
-        } else if ($resultWebServicesLogin['result'] == 1) {
-            $this->addError($attribute, 'El usuario se encuentra inactivo');
-        } else if ($resultWebServicesLogin['result'] == 2) {
-            $this->addError($attribute, 'Contraseña incorrecta por favor verifica de nuevo');
+        } else {
+            $this->addError($attribute, 'Tu usuario o contraseña no son correctos. Si no recuerdas la contraseña, restablécela.');
         }
+        // } else if ($resultWebServicesLogin['result'] == 0) {
+        //     $this->addError($attribute, 'Usuario no existe');
+        // } else if ($resultWebServicesLogin['result'] == 1) {
+        //     $this->addError($attribute, 'El usuario se encuentra inactivo');
+        // } else if ($resultWebServicesLogin['result'] == 2) {
+        //     $this->addError($attribute, 'Contraseña incorrecta por favor verifica de nuevo');
+        // }
 
         /*
           if (!$this->hasErrors()) {

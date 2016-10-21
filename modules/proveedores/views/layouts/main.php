@@ -62,7 +62,23 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.pn
                               </ul>
                             </li>-->
                             <?= MenuPortales::generarMenu(Yii::$app->controller->module->id) ?>
-                            <li class=""> <?=  Html::a('Usuarios', ['/proveedores/usuario']) ?></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                                
+                            <li>
+                                <a data-toggle="dropdown" class="dropdown-toggle  pull-right " href="#" id="user-options">
+                                    <div class="iconset top-settings-dark ">
+                                        <span class="glyphicon glyphicon-cog"></span>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="user-options" style="background-color: white;">
+                                    <li>
+                                        <?= Html::beginForm(['usuario/salir'], 'post', ['id' => 'form-salir']); ?>
+                                        <?= Html::submitButton('<i class="fa fa-power-off"></i> Salir', ['class' => 'btn btn-link']); ?>
+                                        <?= Html::endForm(); ?>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                 </div>

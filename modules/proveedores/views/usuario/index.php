@@ -22,7 +22,7 @@ $urlBase = Yii::$app->getUrlManager()->getBaseUrl();
                 <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
                 <p> 
-                    <?= Html::a('Crear Usuario', ['create'], ['class' => 'btn btn-success']) ?>
+                    <?= Html::a('Crear Usuario', ['crear'], ['class' => 'btn btn-success']) ?>
 
                 </p>
                 <?= GridView::widget([
@@ -53,21 +53,14 @@ $urlBase = Yii::$app->getUrlManager()->getBaseUrl();
                             'attribute' => '',
                             'format' => 'raw',
                             'value' => function ($model) {                      
-                                return '<a href="'. Yii::$app->getUrlManager()->getBaseUrl() . '/proveedores/usuario/view?id='. $model->numeroDocumento .'"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></a>';
+                                return '<a href="'. Yii::$app->getUrlManager()->getBaseUrl() . '/proveedores/usuario/ver?id='. $model->numeroDocumento .'"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></a>';
                             },
                         ],
                         [
                             'attribute' => '',
                             'format' => 'raw',
                             'value' => function ($model) {                      
-                                return '<a href="'. Yii::$app->getUrlManager()->getBaseUrl() . '/proveedores/usuario/update?id=' . $model->numeroDocumento .'"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>';
-                            },
-                        ],
-                        [
-                            'attribute' => '',
-                            'format' => 'raw',
-                            'value' => function ($model) {                      
-                                return '<a href="'. Yii::$app->getUrlManager()->getBaseUrl() . '/proveedores/usuario/permisos?id=' . $model->numeroDocumento .'"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>';
+                                return '<a href="'. Yii::$app->getUrlManager()->getBaseUrl() . '/proveedores/usuario/actualizar?id=' . $model->numeroDocumento .'"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>';
                             },
                         ],
                     ],

@@ -24,6 +24,7 @@ $this->params['breadcrumbs'][] = 'Actualizar';
             'model' => $model,
             'terceros' => $terceros,
             'unidadesNegocio' => $unidadesNegocio,
+            'ciudades' => $ciudades,
         ]) ?>
       </div>
     </div>

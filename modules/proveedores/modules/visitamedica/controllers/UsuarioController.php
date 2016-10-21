@@ -9,7 +9,9 @@ use app\modules\proveedores\modules\visitamedica\models\CorreoAdminForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use app\modules\intranet\models\Funciones;
+use app\modules\intranet\models\Ciudad;
 
 /**
  * UsuarioController implements the CRUD actions for Usuario model.
@@ -103,6 +105,7 @@ class UsuarioController extends Controller
     public function actionCrear()
     {
         $usuarioVimed = new UsuarioProveedor();
+        $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
         if ($usuarioVimed->load(Yii::$app->request->post())) {
 
             $usuarioVimed->modulo = \Yii::$app->controller->module->id;
@@ -118,7 +121,7 @@ class UsuarioController extends Controller
 
             $item_name = "";
 
-            if (Yii::$app->user->identity->tienePermiso("visitaMedica_admin")) {
+            if (Yii::$app->user->identity->tienePermiso("proveedores_admin")) {
                 $item_name = 'visitaMedica_proveedor';
             } elseif (Yii::$app->user->identity->tienePermiso("visitaMedica_proveedor")) {
                 $item_name = 'visitaMedica_visitador';
@@ -156,6 +159,7 @@ class UsuarioController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $usuarioVimed,
+                'ciudades' => $ciudades,
             ]);
         }
     }
@@ -169,12 +173,14 @@ class UsuarioController extends Controller
     public function actionActualizar($id)
     {
         $model = $this->findModel($id);
+        $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['ver', 'id' => $model->numeroDocumento]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'ciudades' => $ciudades,
             ]);
         }
     }

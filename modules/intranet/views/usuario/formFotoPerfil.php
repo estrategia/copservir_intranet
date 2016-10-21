@@ -36,9 +36,7 @@ echo $form->field($modelFoto, 'imagenPerfil')->widget(Cropbox::className(), [
     ]
   ]);
   ?>
-
-  <?= $form->field($modelFoto, "imagenFondo")->fileInput(['multiple' => false]) ?>
-
+  
   <?= Html::submitButton('Guardar cambios', ['class' => 'btn btn-success']) ?>
   <?php
 

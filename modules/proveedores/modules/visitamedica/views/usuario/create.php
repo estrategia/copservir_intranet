@@ -9,6 +9,7 @@ use yii\helpers\Html;
 $this->title = 'Crear Usuario';
 $this->params['breadcrumbs'][] = ['label' => 'Usuarios', 'url' => ['admin']];
 $this->params['breadcrumbs'][] = $this->title;
+// var_dump($ciudades);
 ?>
 <div class="row">
   <div class="col-md-10 col-md-offset-1">
@@ -21,6 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
       <div class="panel-body">
         <?= $this->render('_form', [
             'model' => $model,
+            'ciudades' => $ciudades,
         ]) ?>
       </div>
     </div>

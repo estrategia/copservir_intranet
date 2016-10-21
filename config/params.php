@@ -63,7 +63,8 @@ return [
           'puntosVenta' => 'http://localhost/copservir/puntoventa/sweb/puntoventa',
           'unidades' => 'http://localhost/copservir/tradeMarketing/wsTradeMarketing/unidades'
         ],
-        'lrv' => 'http://localhost/lrv/rest'
+        'lrv' => 'http://localhost/lrv/rest',
+        'detallePDV' => 'http://localhost/lrv/rest/producto/simular',
     ],
     'usuario' => [
       'tiempoRecuperarClave' => 1 // dias

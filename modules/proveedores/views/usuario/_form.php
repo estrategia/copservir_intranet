@@ -73,7 +73,15 @@ use kartik\select2\Select2;
                     <?= $form->field($model, 'celular')->textInput(['maxlength' => true]) ?>
                 </div>
                 <div class="col-md-6">
-                    <?= $form->field($model, 'Ciudad')->textInput(['maxlength' => true]) ?>
+                    <?php 
+                        echo $form->field($model, 'Ciudad')->widget(Select2::classname(), [
+                            'data' => $ciudades,
+                            'options' => ['placeholder' => 'Selecciona una ciudad'],
+                            'pluginOptions' => [
+                                'allowClear' => true
+                            ],
+                        ]);
+                    ?>
                 </div>
             </div>
             <div class="row">
