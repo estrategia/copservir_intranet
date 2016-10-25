@@ -26,18 +26,35 @@ use app\modules\intranet\models\FotoForm;
  */
 class UsuarioController extends Controller
 {
+	public $defaultAction = "admin";
     /**
      * @inheritdoc
      */
-    public function behaviors()
+	public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
+            [
+                'class' => \app\components\AccessFilter::className(),
+            	'only' => [
+            		'admin', 'ver', 'crear', 'actualizar', 'cambiar-foto-perfil'
+            	],
+                'redirectUri' => ['/proveedores/usuario/autenticar']
             ],
+
+            [
+                'class' => \app\components\AuthItemFilter::className(),
+                'only' => [
+                    'index', 'ver', 'crear', 'actualizar'
+                ],
+                'authsActions' => [
+                    'admin' => 'proveedores_usuario_admin',
+                    'ver' => 'proveedores_usuario_admin',
+                    'crear' => 'proveedores_usuario_admin',
+                    'actualizar' => 'proveedores_usuario_admin',
+                    'exportar-usuarios' => 'visitaMedica_usuario_exportar-usuarios'
+                ],
+           ],
+        
         ];
     }
 
@@ -76,7 +93,7 @@ class UsuarioController extends Controller
         $this->redirect(['autenticar', ['model' => $model]]);
     }
 
-    public function actionIndex()
+    public function actionAdmin()
     {
         $searchModel = new UsuarioProveedorSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams, '', false, \Yii::$app->controller->module->id);

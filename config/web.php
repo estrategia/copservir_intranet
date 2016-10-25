@@ -19,8 +19,7 @@ $config = [
             'class' => 'app\modules\proveedores\ProveedoresModule',
             'modules' => [
                 'visitamedica' => [
-                    'class' => 'app\modules\proveedores\modules\visitamedica\VisitaMedica',
-                    'layout' => 'visitaMedica',
+                    'class' => 'app\modules\proveedores\modules\visitamedica\VisitaMedicaModule',
                 ],
             ],
         ],

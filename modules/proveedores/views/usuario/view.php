@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
     <div class="row">
     <div class="col-md-10 col-md-offset-1">
-      <form  name="permisos" id="permisos" action=" <?= Yii::$app->getUrlManager()->getBaseUrl() . '/proveedores/usuario/view?id=' . $model->numeroDocumento ?> " method="POST" >
+      <form  name="permisos" id="permisos" action=" <?= Yii::$app->getUrlManager()->getBaseUrl() . '/proveedores/usuario/ver?id=' . $model->numeroDocumento ?> " method="POST" >
         <?php foreach ($permisos as $nombre => $permiso ): ?>
             <label>
               <input type="checkbox" name="<?= $permiso; ?>" value=" <?= $permiso; ?> " <?php if( preg_match('/"'.$permiso.'"/i' , json_encode($permisosAsignados)) ){ echo "checked";} ?> >

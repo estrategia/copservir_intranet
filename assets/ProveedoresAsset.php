@@ -32,7 +32,7 @@ class ProveedoresAsset extends AssetBundle {
         //genericas plantilla intranet
         'css/portales-style.css',
         'css/portales-main.css',
-        'css/portales-main_1.css',
+        //'css/portales-main_1.css',
         'css/common.css'
     ];
     public $js = [

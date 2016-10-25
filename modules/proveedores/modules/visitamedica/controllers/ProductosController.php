@@ -14,29 +14,29 @@
   */
   class ProductosController extends Controller
   {
-
+    
     public function behaviors()
     {
-      return [
-              [
-                'class' => \app\modules\proveedores\modules\visitamedica\components\AccessFilter::className(),
-                'only' => ['buscar', 'producto'],
-              ],
-              'verbs' => [
-                  'class' => VerbFilter::className(),
-                  'actions' => [
-                      'delete' => ['POST'],
-                  ],
-
-              ],
-              [
-                  'class' => \app\components\AccessFilter::className(),
-                  'only' => [
-                      'buscar', 'producto'
-                  ],
-                  'redirectUri' => ['/intranet/usuario/autenticar']
-              ],
-          ];
+    	return [
+    			[
+    					'class' => \app\components\AccessFilter::className(),
+    					'redirectUri' => ['/proveedores/usuario/autenticar']
+    			],
+    			[
+    					'class' => \app\components\AuthItemFilter::className(),
+    					'only' => [
+    							'buscar', 'producto',
+    					],
+    					'authsActions' => [
+    							'buscar' => 'visitaMedica_productos_buscar',
+    							'producto' => 'visitaMedica_productos_buscar',
+    					],
+    			],
+    			[
+    					'class' => \app\modules\proveedores\modules\visitamedica\components\AccessFilter::className(),
+    					'only' => ['buscar', 'producto'],
+    			],
+    	];
     }
 
     public function actionBuscar()
@@ -55,7 +55,7 @@
         ->setUrl($url)
         ->setData([''])
         ->setOptions([
-          'timeout' => 5, // set timeout to 5 seconds for the case server is not responding
+          'timeout' => 30, // set timeout to 5 seconds for the case server is not responding
         ])
         ->send();
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -87,7 +87,7 @@
       $codigoCiudad . '/sector/' . $codigoSector;
 
       // echo $urlDetalleProducto;
-      $urlDetallePdv = \Yii::$app->params['webServices']['detallePDV'];
+      $urlDetallePdv = \Yii::$app->params['webServices']['visitaMedica']['detallePDV'];
 
       $detalleProducto = $client->createRequest()
       ->setMethod('get')

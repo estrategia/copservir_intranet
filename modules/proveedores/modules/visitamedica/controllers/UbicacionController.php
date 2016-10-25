@@ -20,21 +20,20 @@ class UbicacionController extends Controller
   public function behaviors()
   {
     return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-
-            ],
-            [
+    		[
                 'class' => \app\components\AccessFilter::className(),
-                'only' => [
-                    'index', 'mapa', 'seleccionar'
-                ],
                 'redirectUri' => ['/proveedores/visitamedica']
             ],
-        ];
+    		[
+	    		'class' => \app\components\AuthItemFilter::className(),
+	    		'only' => [
+	    			'index',
+	    		],
+	    		'authsActions' => [
+	    			'index' => 'visitaMedica_productos_buscar',
+	    		],
+    		],
+    ];
   }
 
   public function actionIndex()
