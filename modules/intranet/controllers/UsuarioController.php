@@ -21,6 +21,7 @@ use app\modules\intranet\models\GrupoInteres;
 use app\modules\intranet\models\Ciudad;
 use yii\imagine\Image;
 use yii\helpers\Json;
+use yii\helpers\VarDumper;
 use Imagine\Image\Box;
 use Imagine\Image\Point;
 
@@ -314,14 +315,18 @@ class UsuarioController extends \yii\web\Controller {
     {
         if (Yii::$app->request->get()) {
             $documento = Yii::$app->request->get()['documento'];
-            $usuario = Usuario::find($documento)->one();
-            $usuario->generarDatos(false, false);
-            var_dump($usuario->getData());
+            $imagenPerfil = Yii::$app->homeUrl . 'img/fotosperfil/' . Usuario::findOne(['numeroDocumento' => $documento])->imagenPerfil;
+            // var_dump($imagenPerfil);
+            $usuario = new Usuario;
+            $usuario->numeroDocumento = $documento;
+            $usuario->generarDatos(true, false);
+            $datos = $usuario->getData();
+            // var_dump($usuario->imagenPerfil);
+            // VarDumper::dump($usuario, 10, true);
             $meGustan = MeGustaContenidos::find()->where(['numeroDocumento' => $usuario->numeroDocumento])->count();
             $contenidos = Contenido::find()->where(['numeroDocumentoPublicacion' => $usuario->numeroDocumento])->count();
             $gruposReferencia = GrupoInteres::find()->where('idGrupoInteres IN (' . implode(",", $usuario->getGruposCodigos()) . ')')->all();
-            // var_dump($usuarioIntranet);
-        return $this->render('perfilUsuario', ['contenidos' => $contenidos, 'meGustan' => $meGustan, 'gruposReferencia' => $gruposReferencia, 'usuario' => $usuario]);
+        return $this->render('perfilUsuario', ['contenidos' => $contenidos, 'meGustan' => $meGustan, 'gruposReferencia' => $gruposReferencia, 'usuario' => $datos, 'imagenPerfil' => $imagenPerfil]);
         }   
     }
 
@@ -332,7 +337,6 @@ class UsuarioController extends \yii\web\Controller {
         if ($modelFoto->load(Yii::$app->request->post())) {
             // llamar al webservice y mandar los datos
             {
-
                 $usuario = Usuario::findOne(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento, 'estado' => 1]);
                 $modelFoto->imagenPerfil = UploadedFile::getInstances($modelFoto, 'imagenPerfil');
                 try {
@@ -429,7 +433,7 @@ class UsuarioController extends \yii\web\Controller {
         $model->setValuesUserGuest();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            var_dump(\Yii::$app->user->identity->numeroDocumento);
+            // var_dump(\Yii::$app->user->identity->numeroDocumento);
             $usuario = Usuario::find()->where(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento])->one();
             $usuario->alias = Yii::$app->request->post()['PersonaForm']['alias'];
             

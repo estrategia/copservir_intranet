@@ -279,3 +279,16 @@ MENU DESPLEGABLE
 .datepicker {
     background-color: white !important;
 }
+
+
+.owl-custom-control-left {
+    position: absolute;
+    top: 45%;
+    left: 0;
+}
+
+.owl-custom-control-right {
+    position: absolute;
+    top: 45%;
+    right: 0;
+}

@@ -153,6 +153,17 @@ class MenuPortalesController extends Controller {
       }
     }
 
+    public function actionOrdenMenu($idPortal)
+    {   
+        $menus = MenuPortales::construirMenuModal($idPortal, true);
+        $response = [
+            'result' => 'ok',
+            'response' => $menus,
+        ];
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $response;
+    }
+
     /**
      * Ecuentra un modelo MenuPortales basado en su llave pimaria .
      * @param string $id

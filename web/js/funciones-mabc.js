@@ -1608,7 +1608,7 @@ $(document).on('click', "a[data-role='asignar-padre']", function() {
     var idPortal = $('#menuportales-idportal').val();
     var idMenuPortal = $(this).attr('data-menu-portal');
 
-    console.log(idMenuPortal);
+    // console.log(idMenuPortal);
 
     if ( idPortal != '') {
       construirModal(idPortal, idMenuPortal);
@@ -1616,6 +1616,48 @@ $(document).on('click', "a[data-role='asignar-padre']", function() {
         alert('Debes seleccionar un portal para poder asignar un padre al menu');
     }
     return false;
+
+});
+
+$(document).on('click', "a[data-role='ver-orden-menu']", function() {
+    var idPortal = $('#menuportales-idportal').val();
+    if ( idPortal != '') {
+      $.ajax({
+        type: 'GET',
+        async: true,
+        url: requestUrl + '/intranet/menu-portales/orden-menu?idPortal='+idPortal,
+        dataType: 'json',
+        beforeSend: function() {
+          $('body').showLoading();
+          // $('#listaContenidoEmergente').remove();
+        },
+        complete: function(data) {
+          $('body').hideLoading();
+        },
+        success: function(data) {
+            if (data.result == "ok") {
+              // $('#widget-submenu-portal').remove();
+              $('#modal-menu .modal-body > list-group list-group-root well').html(data.response);
+              console.log(data.response);
+
+
+              // $('#button'+idMenuPortal).remove();
+
+              // padre = $('#menuportales-idmenuportalpadre').val();
+              // $('#button'+padre).text('Asignado');
+
+              // $('#widget-submenu-portal').modal('show');
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          $('body').hideLoading();
+        }
+      });
+    }else{
+        alert('Debes seleccionar un portal para ver el menu');
+    }
+    return false;
+   
 });
 
 function construirModal(idPortal, idMenuPortal) {
@@ -1773,8 +1815,13 @@ $( document ).ready(function() {
     responsiveClass:true,
     loop:true,
     items: 5,
-    nav:false,
+    nav:true,
     dots: false,
+    controls: true,
+    navigationText: [
+      "<i class='icon-chevron-left icon-white'></i>",
+      "<i class='icon-chevron-right icon-white'></i>"
+      ],
   });
 
   // EVENTOS PARA MOVER EL CAROUSEL CUMPLEAÑOS

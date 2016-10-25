@@ -38,7 +38,7 @@ use yii\widgets\Pjax;
                     return $model->objCiudad->nombreCiudad;
                   }
                 ],
-                'fechaPublicacion',
+                'fechaCierre',
                 [
                   'class' => 'yii\grid\ActionColumn',
                   'template' => '{link}',

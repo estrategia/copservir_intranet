@@ -11,6 +11,25 @@ use app\modules\intranet\models\MenuPortales;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
+<div class="modal fade" id="modal-menu" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <div class="list-group list-group-root well">
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="menu-portales-form">
 
     <?php $form = ActiveForm::begin(['options' => ['id' => 'formMenuportales']]); ?>
@@ -18,6 +37,7 @@ use app\modules\intranet\models\MenuPortales;
     <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'icono')->textInput(['maxlength' => true]) ?>
+    
 
     <?php $model->estado = $model->isNewRecord ? 1 : $model->estado;  ?>
     <?= $form->field($model, 'estado')->dropDownList(['0' => 'Inactivo', '1' => 'Activo']); ?>
@@ -47,32 +67,18 @@ use app\modules\intranet\models\MenuPortales;
         <?=  html::textInput ( 'submenu', $value = $nombreSubmenu,
           $options = ['id' => 'submenu', 'class' => 'col-md-6 form-control ', 'disabled' => true] ) ?>
         <div class="input-group-addon">
-          <a href="#" data-toggle="modal"  data-role="asignar-padre" data-menu-portal = "<?= $model->idMenuPortales ?>">
+          <a href="#" data-toggle="modal" data-role="asignar-padre" data-menu-portal = "<?= $model->idMenuPortales ?>">
             asignar
           </a>
         </div>
       </div>
     </div>
+
+    <?= $form->field($model, 'ordenMenu')->textInput(['maxlength' => true]) ?>
+    <a href="#" data-toggle="modal" data-role="ver-orden-menu" data-target="#modal-menu">Ver orden</a>
+
     <?php $model->idMenuPortalPadre = $model->isNewRecord ? NULL : $model->idMenuPortalPadre;  ?>
     <?= $form->field($model, 'idMenuPortalPadre')->hiddenInput(['value'=> $model->idMenuPortalPadre, ])->label(false); ?>
-
-    <?=
-      $form->field($model, 'fechaInicio')->widget(DateTimePicker::classname(), [
-      'pluginOptions' => [
-        'autoclose' => true,
-        'format' => 'yyyy-mm-dd hh:mm'
-      ]
-    ]);
-    ?>
-
-    <?=
-      $form->field($model, 'fechaFin')->widget(DateTimePicker::classname(), [
-      'pluginOptions' => [
-        'autoclose' => true,
-        'format' => 'yyyy-mm-dd hh:mm'
-      ]
-    ]);
-    ?>
 
     <?php $model->fechaRegistro = $model->isNewRecord ? date("Y-m-d H:i:s") : $model->fechaRegistro;  ?>
     <?= $form->field($model, 'fechaRegistro')->hiddenInput(['value'=> $model->fechaRegistro])->label(false); ?>

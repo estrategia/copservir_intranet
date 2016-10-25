@@ -38,9 +38,10 @@ class MenuPortales extends \yii\db\ActiveRecord {
         return [
             [['idPortal', 'nombre', 'tipo', 'estado'], 'required'],
             [['idPortal', 'tipo', 'estado', 'idMenuPortalPadre'], 'integer'],
-            [['fechaInicio', 'fechaFin', 'fechaRegistro', 'fechaActualizacion'], 'safe'],
+            [['fechaRegistro', 'fechaActualizacion'], 'safe'],
             [['nombre'], 'string', 'max' => 50],
             [['urlMenu'], 'string', 'max' => 500],
+            [['ordenMenu'], 'integer', 'max' => 99, 'min'=>0],
             [['icono'], 'string', 'max' => 45],
             [['idPortal'], 'exist', 'skipOnError' => true, 'targetClass' => Portal::className(), 'targetAttribute' => ['idPortal' => 'idPortal']],
             ['idMenuPortalPadre', 'validateUrlPadre'],
@@ -57,12 +58,11 @@ class MenuPortales extends \yii\db\ActiveRecord {
             'urlMenu' => 'Url Menu',
             'tipo' => 'Tipo',
             'icono' => 'Icono',
-            'fechaInicio' => 'Fecha de Inicio',
-            'fechaFin' => 'Fecha de Fin',
             'estado' => 'Estado',
             'fechaRegistro' => 'Fecha Registro',
             'fechaActualizacion' => 'Fecha Actualizacion',
-            'idMenuPortalPadre' => 'Menu Padre'
+            'idMenuPortalPadre' => 'Menu Padre',
+            'ordenMenu' => 'Posicion'
         ];
     }
 
@@ -91,7 +91,7 @@ class MenuPortales extends \yii\db\ActiveRecord {
     }
 
     public function getObjMenuHijos() {
-        return $this->hasMany(self::className(), ['idMenuPortalPadre' => 'idMenuPortales']);
+        return $this->hasMany(self::className(), ['idMenuPortalPadre' => 'idMenuPortales'])->orderBy(['ordenMenu'=>SORT_ASC]);;
     }
 
     // CONSULTAS
@@ -113,6 +113,7 @@ class MenuPortales extends \yii\db\ActiveRecord {
      */
     public static function getPadres($idPortal) {
         return self::find()->where('idMenuPortalPadre is null and idPortal =:idPortal ') //and idMenuPortales !=:idMenuPortales
+                        ->orderBy(['ordenMenu' => SORT_ASC])
                         ->addParams([':idPortal' => $idPortal])
                         ->all();
     }
@@ -124,6 +125,7 @@ class MenuPortales extends \yii\db\ActiveRecord {
     public static function getHijos($idMenuPortales, $idPortal) {
         $query = self::find()
                 ->where("( idMenuPortalPadre =:idMenuPortales and idPortal =:idPortal)") //and idMenuPortales !=:idMenuPortales
+                ->orderBy(['ordenMenu' => SORT_ASC])
                 ->addParams([':idMenuPortales' => $idMenuPortales, ':idPortal' => $idPortal])
                 ->all();
 
@@ -215,46 +217,50 @@ class MenuPortales extends \yii\db\ActiveRecord {
         }
     }
 
-    public static function construirMenuModal($idPortal) {
+    public static function construirMenuModal($idPortal, $SoloVisualizar = false) {
         $padres = self::getPadres($idPortal);
-        $html = self::crearMenu($padres, ' ', $idPortal);
-
+        $html = self::crearMenu($padres, ' ', $idPortal, $SoloVisualizar);
         return $html;
     }
 
-    public static function crearMenu($padres, $html, $idPortal) {
+    public static function crearMenu($padres, $html, $idPortal, $SoloVisualizar = false) {
         if (empty($padres)) {
             $html = $html . '';
         } else {
             foreach ($padres as $item) {
                 $hijos = self::getHijos($item->idMenuPortales, $idPortal);
-                $html = self::RenderItemAdmin($item, $hijos, $html, $idPortal);
+                $html = self::RenderItemAdmin($item, $hijos, $html, $idPortal, $SoloVisualizar);
             }
         }
-
-
         return $html;
     }
 
-
-    public static function RenderItemAdmin($item, $hijos, $html, $idPortal)
+    public static function RenderItemAdmin($item, $hijos, $html, $idPortal, $SoloVisualizar= false)
     {
-      $htmlBotonAsignar = '';
-      if ($item->tipo == self::SIN_ENLACE) {
-        $htmlBotonAsignar = '<button href="#" data-role = "asignar-submenu-portal" data-menu = "'.$item->idMenuPortales.'"
-        data-texto = "'.$item->nombre.'" class="btn btn-mini btn-success pull-right" id="button'.$item->idMenuPortales.'">
-          asignar
-        </button>';
-      }
+        // $SoloVisualizar = true;
+        $htmlBotonAsignar = '';
+        $htmlBadgePosicion = '';
+        if (!$SoloVisualizar) {
+            
+          if ($item->tipo == self::SIN_ENLACE) {
+            $htmlBotonAsignar = '<button href="#" data-role = "asignar-submenu-portal" data-menu = "'.$item->idMenuPortales.'"
+            data-texto = "'.$item->nombre.'" class="btn btn-mini btn-success pull-right" id="button'.$item->idMenuPortales.'">
+              asignar
+            </button>';
+          }
+        }
+        if ($SoloVisualizar) {
+            $htmlBadgePosicion = '<span class="badge"> '.$item->ordenMenu.' </span>';
+        }  
 
       $html = $html .
                       '
                       <a href="#'.$item->idMenuPortales.'" class="list-group-item" data-toggle="collapse" id="item'.$item->idMenuPortales.'">
                         <i class="glyphicon glyphicon-chevron-right"></i>'.$item->nombre.'
-                        '.$htmlBotonAsignar.'
+                        '.$htmlBotonAsignar.' '.$htmlBadgePosicion.'
                       </a>
                       <div class="list-group collapse" id="' . $item->idMenuPortales . '">
-                        ' . self::crearMenu($hijos, '', $idPortal) . '
+                        ' . self::crearMenu($hijos, '', $idPortal, $SoloVisualizar) . '
                       </div>';
 
         return $html;

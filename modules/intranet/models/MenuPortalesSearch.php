@@ -13,7 +13,7 @@ class MenuPortalesSearch extends MenuPortales
     {
         return [
             [['idMenuPortales', 'idPortal', 'tipo', 'estado'], 'integer'],
-            [['nombre', 'urlMenu', 'icono', 'fechaInicio', 'fechaFin', 'fechaRegistro', 'fechaActualizacion'], 'safe'],
+            [['nombre', 'urlMenu', 'icono', 'fechaRegistro', 'fechaActualizacion'], 'safe'],
         ];
     }
 
@@ -45,8 +45,6 @@ class MenuPortalesSearch extends MenuPortales
             'idMenuPortales' => $this->idMenuPortales,
             'idPortal' => $this->idPortal,
             'tipo' => $this->tipo,
-            'fechaInicio' => $this->fechaInicio,
-            'fechaFin' => $this->fechaFin,
             'estado' => $this->estado,
             'fechaRegistro' => $this->fechaRegistro,
             'fechaActualizacion' => $this->fechaActualizacion,
