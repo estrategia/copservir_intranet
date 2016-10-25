@@ -12,6 +12,7 @@ use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use app\modules\intranet\models\Funciones;
 use app\modules\intranet\models\Ciudad;
+use app\models\Usuario;
 
 /**
  * UsuarioController implements the CRUD actions for Usuario model.
@@ -24,18 +25,8 @@ class UsuarioController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-
-            ],
             [
                 'class' => \app\components\AccessFilter::className(),
-                'only' => [
-                    'admin', 'ver', 'crear', 'actualizar', 'mi-cuenta', 'correo-admin', 'exportar-usuarios'
-                ],
                 'redirectUri' => ['/proveedores/usuario/autenticar']
             ],
 
@@ -45,7 +36,7 @@ class UsuarioController extends Controller
                     'admin', 'crear', 'actualizar', 'correo-admin', 'exportar-usuarios'
                 ],
                 'authsActions' => [
-                    'admin' => 'visitaMedica_usuario_index',
+                    'admin' => 'visitaMedica_usuario_admin',
                     // 'ver' => 'visitaMedica_usuario_ver',
                     'crear' => 'visitaMedica_usuario_crear',
                     'actualizar' => 'visitaMedica_usuario_actualizar',
@@ -56,7 +47,7 @@ class UsuarioController extends Controller
         
         ];
     }
-
+    
     /**
      * Lists all Usuario models.
      * @return mixed
@@ -147,11 +138,11 @@ class UsuarioController extends Controller
                     'usuario' => $usuarioIntranet->numeroDocumento,
                     'password' => $contrasena,
                 ];
-                // $contenidoCorreo = $this->renderPartial('_notificacionRegistro',['infoUsuario' => $infoUsuario]);
-                // $correoEnviar = $this->renderPartial('/common/correo', ['contenido' => $contenidoCorreo]);
-                // $correoEnviado = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
-                //                         ->setTo($usuarioVimed->email)->setSubject('Credencales Acceso Visita-Medica Copservir')
-                //                         ->setHtmlBody($correoEnviar)->send();
+                $contenidoCorreo = $this->renderPartial('_notificacionRegistro',['infoUsuario' => $infoUsuario]);
+                $correoEnviar = $this->renderPartial('/common/correo', ['contenido' => $contenidoCorreo]);
+                $correoEnviado = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
+                                        ->setTo($usuarioVimed->email)->setSubject('Credencales Acceso Visita-Medica Copservir')
+                                        ->setHtmlBody($correoEnviar)->send();
 
                 return $this->redirect(['ver', 'id' => $usuarioVimed->numeroDocumento]);
             }
@@ -215,7 +206,7 @@ class UsuarioController extends Controller
         $usuarioVimed = $usuarioIntranet->objUsuarioProveedor;
         $correoVisitador = $usuarioVimed->email;
         $laboratorio = $usuarioVimed->nitLaboratorio;
-        $proveedores = Usuario::getProveedores($laboratorio);
+        $proveedores = UsuarioProveedor::getProveedores($laboratorio);
 
         // foreach ($proveedores as $proveedor) {
         //     echo $proveedor['email'];

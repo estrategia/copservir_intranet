@@ -22,18 +22,8 @@ class ReportesController extends Controller
   public function behaviors()
   {
     return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-
-            ],
             [
                 'class' => \app\components\AccessFilter::className(),
-                'only' => [
-                    'index', 'acceso', 'producto'
-                ],
                 'redirectUri' => ['/proveedores/visitamedica']
             ],
             [

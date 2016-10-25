@@ -8,7 +8,6 @@ use yii\helpers\Url;
 
 ShowLoadingAsset::register($this);
 VisitaMedicaAsset::register($this);
-
 ?>
 
 <?php $this->beginPage() ?>
@@ -22,18 +21,13 @@ VisitaMedicaAsset::register($this);
       <?php $this->head() ?>
       <script> requestUrl = "<?= Yii::$app->getUrlManager()->getBaseUrl() ?>";</script>
       <script> gmapKey = "<?= Yii::$app->params['google']['llaveMapa'] ?>";</script>
-
   </head>
   <body>
     <?php $this->beginBody() ?>
     <?php $baseUrl = Yii::$app->getUrlManager()->getBaseUrl(); ?>
       <div class="page-container">
-
-
-
          <div class="page-sidebar">
             <!-- START X-NAVIGATION -->
-
             <ul class="x-navigation"> 
                 <li class="xn-logo">
                     <!-- <a href="index.php"><img src="imagenes/copservir.png" height="40"></a> -->
@@ -47,9 +41,11 @@ VisitaMedicaAsset::register($this);
                           <img src=" <?php echo Yii::$app->homeUrl . 'img/fotosperfil/' . \Yii::$app->user->identity->getImagenPerfil(); ?> " alt="">
                         </div>
                         <div class="profile-data">
-                            <div class="profile-data-name"> 
+                            <div class="profile-data-name">
+                            <?php if(Yii::$app->user->identity->objUsuarioProveedor):?>
                               <?= Yii::$app->user->identity->objUsuarioProveedor->nombre; ?> 
-                              <?= Yii::$app->user->identity->objUsuarioProveedor->primerApellido; ?> 
+                              <?= Yii::$app->user->identity->objUsuarioProveedor->primerApellido; ?>
+                              <?php endif;?>
                             </div>
                             <div class="profile-data-title"></div>
                         </div>
@@ -59,29 +55,44 @@ VisitaMedicaAsset::register($this);
                         </div>
                     </div>                                                                        
                 </li>
-                <li class="xn-title">Navegación</li>         
-                <li>
-                    <a href="<?= ($baseUrl . '/proveedores/visitamedica/productos/buscar')?>"><span class="fa fa-search"></span> <span class="xn-text">Consulta Productos</span></a>                        
-                </li> 
-                <li>
-                    <a href=" <?= ($baseUrl . '/proveedores/visitamedica/usuario/correo-admin') ?> "><span class="fa fa-phone"></span> <span class="xn-text">Contacto</span></a>                        
-                </li>     
-                <li>
-                    <a href="<?= ($baseUrl . '/proveedores/visitamedica/usuario/mi-cuenta')?>"><span class="fa fa-user"></span> <span class="xn-text">Mi Cuenta</span></a>                        
-                </li> 
-                <li>
-                    <a href="<?= ($baseUrl . '/proveedores/visitamedica/reportes')?>"><span class="fa fa-tags"></span> <span class="xn-text">Registro de Uso</span></a>                        
-                </li>  
-                <li>
-                    <a href="<?= ($baseUrl . '/proveedores/visitamedica/usuario/admin')?>"><span class="fa fa-users"></span> <span class="xn-text">Usuarios</span></a> 
-                </li> 
+                
+                <?php if(\Yii::$app->user->identity->tienePermiso('visitaMedica_productos_buscar')):?>
+	                <li>
+	                    <a href="<?= ($baseUrl . '/proveedores/visitamedica/productos/buscar')?>"><span class="fa fa-search"></span> <span class="xn-text">Consulta Productos</span></a>                        
+	                </li> 
+                <?php endif;?>
+                
+                <?php if(\Yii::$app->user->identity->tienePermiso('visitaMedica_usuario_correo-admin')):?>
+	                <li>
+	                    <a href=" <?= ($baseUrl . '/proveedores/visitamedica/usuario/correo-admin') ?> "><span class="fa fa-phone"></span> <span class="xn-text">Contacto</span></a>                        
+	                </li> 
+                <?php endif;?>
+                
+                <?php if(\Yii::$app->user->identity->tienePermiso('proveedores_usuario')):?>
+	                <li>
+	                    <a href="<?= ($baseUrl . '/proveedores/visitamedica/usuario/mi-cuenta')?>"><span class="fa fa-user"></span> <span class="xn-text">Mi Cuenta</span></a>                        
+	                </li> 
+                <?php endif;?>
+                
+                <?php if(\Yii::$app->user->identity->tienePermiso('visitaMedica_reportes_index')):?>
+	                <li>
+	                    <a href="<?= ($baseUrl . '/proveedores/visitamedica/reportes')?>"><span class="fa fa-tags"></span> <span class="xn-text">Registro de Uso</span></a>                        
+	                </li>  
+                <?php endif;?>
+                
+                <?php if(\Yii::$app->user->identity->tienePermiso('visitaMedica_usuario_admin')):?>
+	                <li>
+	                    <a href="<?= ($baseUrl . '/proveedores/visitamedica/usuario/admin')?>"><span class="fa fa-users"></span> <span class="xn-text">Usuarios</span></a> 
+	                </li>
+                <?php endif;?>
+                 
+                <!--  
                 <li>
                     <a href="logout.php?doLogout=true" class="mb-control" data-box="#mb-signout"><span class="fa fa-sign-out"></span> <span class="xn-text">Salir</span></a>                        
-                </li>                    
-
+                </li>
+                -->
             </ul>
             <!-- END X-NAVIGATION -->
-
           </div>
           
           <div class="page-content">
@@ -104,13 +115,14 @@ VisitaMedicaAsset::register($this);
                     <?php endif ?>
                 </a>
               </li>
+              <!-- 
               <li class="xn-icon-button pull-right">
                   <a href="logout.php?doLogout=true" class="mb-control" data-box="#mb-signout"><span class="fa fa-sign-out"></span></a>                        
               </li>
+               --> 
             </ul>
 
             <div class="page-content-wrap">
-
                   <div id="container">
                     <?php if(isset($this->params['breadcrumbs']) && !empty($this->params['breadcrumbs'])): ?>
                       <?=
@@ -129,9 +141,7 @@ VisitaMedicaAsset::register($this);
                     <?= $content ?>
                   </div>
             </div>
-
           </div>
-
         </div>
         
     <?php $this->endBody() ?>

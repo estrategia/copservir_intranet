@@ -62,10 +62,12 @@ return [
         //'persona' => 'http://sii.copservir.com/gestionhumana/wsMultiportal/persona',
         'tradeMarketing' => [
           'puntosVenta' => 'http://localhost/copservir/puntoventa/sweb/puntoventa',
-          'unidades' => 'http://localhost/copservir/tradeMarketing/wsTradeMarketing/unidades'
+          'unidades' => 'http://localhost/copservir/trademarketing/wsTradeMarketing/unidades'
         ],
         'lrv' => 'http://localhost/lrv/rest',
-        'detallePDV' => 'http://localhost/lrv/rest/producto/simular',
+    	'visitaMedica' => [
+    		'detallePDV' => 'http://localhost/lrv/rest/producto/simular',
+    	],
     ],
     'usuario' => [
       'tiempoRecuperarClave' => 1 // dias
