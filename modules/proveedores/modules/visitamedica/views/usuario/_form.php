@@ -27,20 +27,11 @@ use bootstrap\modal;
                 <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="col-md-4">
-                <?= $form->field($model, 'profesion')->textInput(['maxlength' => true]) ?>
+                <!-- <?= $form->field($model, 'profesion')->textInput(['maxlength' => true]) ?> -->
                 <?= $form->field($model, 'primerApellido')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="col-md-4">
                 <?= $form->field($model, 'segundoApellido')->textInput(['maxlength' => true]) ?>
-                <?= $form->field($model, 'fechaNacimiento')->widget(DatePicker::classname(), [
-                    'type' => DatePicker::TYPE_INPUT,
-                    'options' => ['placeholder' => ''],
-                        'pluginOptions' => [
-                        'autoclose'=>true,
-                        'format' => 'yyyy-mm-dd'
-                        ]
-                    ]); 
-                ?>
             </div>
         </div>
         <div class="page-header">
@@ -49,24 +40,6 @@ use bootstrap\modal;
         <div class="row">
             <div class="col-md-4">
                 <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
-                <?= $form->field($model, 'telefono')->textInput() ?>
-            </div>
-            <div class="col-md-4">
-                <?= $form->field($model, 'celular')->textInput() ?>
-                <?= $form->field($model, 'nitLaboratorio')->textInput(['maxlength' => true]) ?>
-            </div>
-            <div class="col-md-4">
-                <?php 
-                    echo $form->field($model, 'Ciudad')->widget(Select2::classname(), [
-                        'data' => $ciudades,
-                        'size' => Select2::SMALL,
-                        'options' => ['placeholder' => 'Selecciona una ciudad'],
-                        'pluginOptions' => [
-                            'allowClear' => true
-                        ],
-                    ]);
-                ?>
-                <?= $form->field($model, 'Direccion')->textInput(['maxlength' => true]) ?>
             </div>
         </div>
         <br>

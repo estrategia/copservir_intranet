@@ -43,7 +43,7 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
             [['numeroDocumento'], 'integer', 'min' => 5, 'max' => 999999999999],
             [['telefono', 'celular'], 'integer', 'min' => 5, 'max' => 9999999999],
             [['fechaNacimiento'], 'safe'],
-            [['nombre', 'primerApellido', 'segundoApellido', 'nitLaboratorio', 'profesion', 'Ciudad', 'Direccion'], 'string', 'max' => 45, 'min' => 3],
+            [['nombre', 'primerApellido', 'segundoApellido', 'nitLaboratorio', 'Ciudad', 'Direccion'], 'string', 'max' => 45, 'min' => 3],
             [['email'], 'string', 'max' => 256],
             [['numeroDocumento'], 'unique'],
         ];
@@ -67,6 +67,7 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
             'fechaNacimiento' => 'Fecha Nacimiento',
             'Ciudad' => 'Ciudad',
             'Direccion' => 'Direccion',
+            'idProfesion' => 'Profesion',
         ];
     }
 
@@ -144,6 +145,24 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
         $sql = "SELECT * FROM auth_assignment WHERE user_id= {$this->numeroDocumento};";
         $connection = \Yii::$app->db;
         return Yii::$app->db->createCommand($sql)->queryAll();
+    }
+
+    public function getObjUsuario()
+    {
+        return $this->hasOne(\app\models\Usuario::className(), ['numeroDocumento' => 'numeroDocumento']);
+    }
+
+    public static function getCorreosAdmin()
+    {
+        $sql = "SELECT correoElectronico 
+                FROM m_INTRA_Usuario
+                INNER JOIN auth_assignment
+                ON m_intra_usuario.numeroDocumento = auth_assignment.user_id
+                WHERE auth_assignment.item_name = " . '"intranet_admin"';
+        $connection = \Yii::$app->db;
+        $model = $connection->createCommand($sql);
+        $correos = $model->queryAll();
+        return $correos;
     }
 
 }

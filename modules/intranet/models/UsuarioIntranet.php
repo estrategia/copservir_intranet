@@ -32,7 +32,7 @@ class UsuarioIntranet extends \yii\db\ActiveRecord
         return [
             [['numeroDocumento'], 'required'],
             [['numeroDocumento'], 'integer'],
-            [['nombres', 'primerApellido', 'segundoApellido', 'idCargo', 'nombreCargo'], 'string', 'max' => 255],
+            [['nombres', 'primerApellido', 'segundoApellido', 'idCargo', 'nombreCargo', 'correoElectronico'], 'string', 'max' => 255],
         ];
     }
 
@@ -48,6 +48,7 @@ class UsuarioIntranet extends \yii\db\ActiveRecord
             'segundoApellido' => 'Segundo Apellido',
             'idCargo' => 'Id Cargo',
             'nombreCargo' => 'Nombre Cargo',
+            'correoElectronico' => 'Correo',
         ];
     }
 }

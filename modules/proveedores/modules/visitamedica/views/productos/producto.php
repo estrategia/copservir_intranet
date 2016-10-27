@@ -20,7 +20,7 @@
       <div class="panel-body panel-body-map">
         <div class="row">
           <div class="col-md-7 col-xs-12 col-sm-12">
-            <div id="map" style= "width: 100%;"></div>
+            <div id="map" class="mapa-producto" style= "width: 100%;"></div>
           </div>
           <div class="col-md-5 col-xs-12">
             <?php foreach ($infoSector as $pdv): ?>
@@ -36,8 +36,11 @@
                 </div>
                 <div class="col-md-6 col-xs-6">
                   <span href="#" class="tile tile-default">
+                    <span>
                     <?php echo $pdv['producto']['saldo'] ?> Und
+                    </span>
                     <p> Max: <?php echo $pdv['producto']['maximo'] ?> / Min: <?php echo $pdv['producto']['minimo'] ?> </p>
+                    <p> Rotación: <?php echo $pdv['producto']['rotacion'] ?> / Clase: <?php echo $pdv['producto']['clase']; ?> </p>
                   </span>
                 </div>
               </div>
