@@ -50,7 +50,7 @@ class UsuarioController extends Controller
                 'authsActions' => [
                     'admin' => 'proveedores_usuario_admin',
                     'ver' => 'proveedores_usuario_admin',
-                    'crear' => 'proveedores_usuario_usuario_admin',
+                    'crear' => 'proveedores_usuario_admin',
                     'actualizar' => 'proveedores_usuario_admin',
                     'exportar-usuarios' => 'visitaMedica_usuario_exportar-usuarios'
                 ],
