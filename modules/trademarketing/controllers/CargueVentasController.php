@@ -12,7 +12,7 @@ use yii\web\HttpException;
 
 class CargueVentasController extends Controller
 {
-    /*public function behaviors()
+    public function behaviors()
     {
         return [
             [
@@ -25,12 +25,11 @@ class CargueVentasController extends Controller
                    'index'
                  ],
                  'authsActions' => [
-                     //colocar los permisos
-                      'index' => 'tradeMarketing_asignaciones_supervisor',
+                      'index' => 'tradeMarketing_cargue-ventas_index',
                  ]
              ],
         ];
-    }*/
+    }
 
 	public function actionIndex(){
     	$model = new CargueVentasForm;
