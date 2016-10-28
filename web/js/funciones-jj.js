@@ -290,7 +290,9 @@ $(document).on('click', "a[data-role='me-gusta-contenido']", function () {
         },
         success: function (data) {
             if (data.result == "ok") {
-                $('#numero-megusta_' + idContenido).html(data.response);
+                $('#numero-megusta-ajax_' + idContenido).addClass('badge badge-info pull-right');
+                $('#numero-megusta-ajax_' + idContenido).html(data.response);
+                console.log(data.response);
                 if (val == 1) {
                     $("#megusta_" + idContenido).css('display', 'none');
                     $("#no_megusta_" + idContenido).css('display', '');

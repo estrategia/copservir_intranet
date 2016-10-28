@@ -37,9 +37,12 @@ $completo = isset($completo) ? $completo : false;
             <div class="">
 
                 <h5 class="inline semi-bold m-b-5"> 
-                  <?php $persona = $noticia->objUsuarioPublicacion->objUsuarioIntranet;
-                    echo $persona['nombres'] . ' ' . $persona['primerApellido'] . ' | ' .  $persona['nombreCargo'];
-                  ?>
+                  <?php $persona = $noticia->objUsuarioPublicacion->objUsuarioIntranet; ?>
+                  <a href=" <?php echo Yii::$app->getUrlManager()->getBaseUrl() . '/intranet/usuario/ver?documento=' . $noticia->objUsuarioPublicacion->numeroDocumento ?> ">
+                    <?php 
+                      echo $persona['nombres'] . ' ' . $persona['primerApellido'] . ' | ' .  $persona['nombreCargo'];
+                    ?>
+                  </a>
                 </h5>
                 <div class="muted">
 
@@ -66,7 +69,9 @@ $completo = isset($completo) ? $completo : false;
 
                   <!-- Contenido noticia -->
                   <div style="<?= $completo ? "": "max-height: 150px; text-overflow:ellipsis; overflow:hidden;margin-bottom: 25px;"?>">
+                    <p>
                       <?= $noticia->contenido ?>
+                    </p>
                   </div>
 
                   <!-- IMAGENES -->
@@ -141,6 +146,7 @@ $completo = isset($completo) ? $completo : false;
                         <?php endif; ?>
 
                         <!-- # de megusta  -->
+                          <span class=""  id='numero-megusta-ajax_<?= $noticia->idContenido ?>'>
                         <?php if (count($noticia->listMeGusta) > 0): ?>
                             <span class="badge badge-info pull-right"  id='numero-megusta_<?= $noticia->idContenido ?>'>
                                 <?=

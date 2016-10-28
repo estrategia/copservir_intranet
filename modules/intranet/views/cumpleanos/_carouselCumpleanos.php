@@ -27,9 +27,9 @@ use yii\helpers\Html;
 
       <?php endforeach; ?>
     </div>
-    <div class="owl-nav" style="text-align:center;padding: 20px;">
-      <div class="owl-prev-<?= $flag ?>" style="display:initial;background-color: #099a8c;color:#fff;padding: 5px; border-radius: 5px;">Anterior</div>
-      <div class="owl-next-<?= $flag ?>" style="display:initial;background-color: #099a8c;color:#fff;padding: 5px; border-radius: 5px;">Siguiente</div>
-    </div>
+    <!-- <div class="owl-nav" style="text-align:center;padding: 20px;"> -->
+      <div class="owl-custom-control-left owl-prev-<?= $flag ?>"> <span class="glyphicon glyphicon-chevron-left"></span> </div>
+      <div class="owl-custom-control-right owl-next-<?= $flag ?>"> <span class="glyphicon glyphicon-chevron-right"></span> </div>
+    <!-- </div> -->
   </div>
 </section>

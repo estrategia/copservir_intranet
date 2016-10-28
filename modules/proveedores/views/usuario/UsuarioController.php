@@ -11,7 +11,6 @@ use yii\helpers\Json;
 use yii\helpers\VarDumper;
 use yii\helpers\ArrayHelper;
 use yii\imagine\Image;
-use yii\httpclient\Client;
 use Imagine\Image\Box;
 use Imagine\Image\Point;
 use app\modules\proveedores\models\UsuarioProveedor;
@@ -50,7 +49,7 @@ class UsuarioController extends Controller
                 'authsActions' => [
                     'admin' => 'proveedores_usuario_admin',
                     'ver' => 'proveedores_usuario_admin',
-                    'crear' => 'proveedores_usuario_usuario_admin',
+                    'crear' => 'proveedores_usuario_admin',
                     'actualizar' => 'proveedores_usuario_admin',
                     'exportar-usuarios' => 'visitaMedica_usuario_exportar-usuarios'
                 ],
@@ -246,6 +245,7 @@ class UsuarioController extends Controller
                 $usuarioProveedor->nombreUnidadNegocio = $unidadesNegocio[$idAgrupacion];
             }
 
+
             if ($usuarioProveedor->save()) {
                 return $this->redirect(['ver', 'id' => $usuarioProveedor->numeroDocumento]);
             }
@@ -266,42 +266,16 @@ class UsuarioController extends Controller
         $usuarioVimed = UsuarioProveedor::findOne(['numeroDocumento' => $documento]);
         $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
 
-        $client = new Client();
-        $url = Yii::$app->params['webServices']['lrv'] . '/profesion';
-
-        $response = $client->createRequest()
-        ->setMethod('get')
-        ->setUrl($url)
-        ->setData([])
-        ->setOptions([
-            'timeout' => 5, // set timeout to 5 seconds for the case server is not responding
-        ])
-        ->send();
-        $profesiones = ArrayHelper::map($response->data['response'], 'idProfesion', 'nombreProfesion');
-
         // var_dump(Yii::$app->user->identity->numeroDocumento);
         // var_dump($usuarioVimed);
-        if ($usuarioVimed->load(Yii::$app->request->post())) {
-            $idProfesion = Yii::$app->request->post()['UsuarioProveedor']['idProfesion'];
-            $usuarioVimed->profesion = $profesiones[$idProfesion];
-            $usuarioVimed->idProfesion = $idProfesion;
-            if ($usuarioVimed->save()) {
-                return $this->redirect('mi-cuenta');
-            }
+        if ($usuarioVimed->load(Yii::$app->request->post()) && $usuarioVimed->save()) {
+            return $this->redirect('mi-cuenta');
         } else {
             return $this->render('actualizarMiCuenta', [
                 'model' => $usuarioVimed,
                 'ciudades' => $ciudades,
-                'profesiones' => $profesiones,
             ]);
         }
-    }
-
-    public function actionMiCuenta()
-    {
-        $intranetUser = \app\models\Usuario::findOne(Yii::$app->user->identity->idUsuario);
-        $proveedoresUser = UsuarioProveedor::findOne(['numeroDocumento', $intranetUser->numeroDocumento]);
-        return $this->render('miCuenta', ['model' => $proveedoresUser]);
     }
 
     public function actionCambiarFotoPerfil() {

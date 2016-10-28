@@ -9,6 +9,7 @@
   use yii\helpers\Json;
   use yii\helpers\VarDumper;
   use app\modules\proveedores\modules\visitamedica\models\RegistroAccesoDetalleProducto;
+  use app\modules\proveedores\models\UsuarioProveedor;
   /**
   * 
   */
@@ -47,9 +48,16 @@
         return $this->redirect( \Yii::$app->getUrlManager()->getBaseUrl() . '/proveedores/visitamedica/ubicacion');
       }
 
+      $documento = \Yii::$app->user->identity->numeroDocumento;
+      $idFabricante = UsuarioProveedor::findOne($documento)->idFabricante;
+      // var_dump($idFabricante);
+      if (is_null($idFabricante)) {
+        $idFabricante = -1;
+      }
+
       if (isset($_GET['term'])) {
         $client = new Client();
-        $url = \Yii::$app->params['webServices']['lrv'] . '/producto/buscar/' . $_GET['term'];
+        $url = \Yii::$app->params['webServices']['lrv'] . '/producto/buscar/' . $_GET['term'] . '/' . $idFabricante;
         $response = $client->createRequest()
         ->setMethod('get')
         ->setUrl($url)

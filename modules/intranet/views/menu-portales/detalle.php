@@ -45,8 +45,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Ver menú'];
                 'Enlace externo',
             ],
             'urlMenu:url',
-            'fechaInicio',
-            'fechaFin',
         ],
     ]) ?>
 

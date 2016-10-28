@@ -22,7 +22,7 @@ $this->title = 'Ofertas Laborales';
             ['class' => 'yii\grid\SerialColumn'],
 
             'tituloOferta',
-            'descripcionContactoOferta:ntext',
+            // 'descripcionContactoOferta:ntext',
             'urlElEmpleo:url',
             [
               'attribute' => 'idCiudad',

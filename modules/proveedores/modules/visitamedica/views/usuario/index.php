@@ -10,10 +10,26 @@ use yii\grid\GridView;
 $this->title = 'Usuarios';
 // $this->params['breadcrumbs'][] = ['label' => 'Usuarios', 'url' => ['/proveedores/visitamedica/usuario/admin']];
 $this->params['breadcrumbs'][] = $this->title;
-?>  
-<div class="row">
+?>
+<?php if (Yii::$app->session->hasFlash('error')): ?>
+<div class="alert alert-danger" role="alert">
+    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+    <strong>
+      <?= Yii::$app->session->getFlash('error') ?>
+    </strong>
+</div>
+<?php endif; ?>
 
-    <div class="col-md-10 col-md-offset-1">
+<?php if (Yii::$app->session->hasFlash('success')): ?>
+<div class="alert alert-info" role="alert">
+    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+    <strong>
+      <?= Yii::$app->session->getFlash('success') ?>
+    </strong>
+</div>
+<?php endif; ?>
+<div class="row">
+    <div class="col-md-12 ">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="panel-title">
@@ -37,6 +53,35 @@ $this->params['breadcrumbs'][] = $this->title;
                             'primerApellido',
                             'segundoApellido',
                             'email:email',
+                            [
+                                'attribute' => 'Estado',
+                                'value' => 
+                                    function ($model) {
+                                        $estado = '';
+                                        if ($model->objUsuario->estado == 1) {
+                                            $estado = 'Activo';
+                                        } else {
+                                            $estado = 'Inactivo';
+                                        }
+                                        return $estado;
+                                    },
+                            ],
+                            [
+                                'attribute' => 'Nit Laboratorio',
+                                'value' =>
+                                    function ($model) {
+                                        return $model->nitLaboratorio;
+                                    },
+                                'visible' => Yii::$app->user->identity->tienePermiso('proveedores_admin'),
+                            ],
+                            [
+                                'attribute' => 'Nombre Laboratorio',
+                                'value' =>
+                                    function ($model) {
+                                        return $model->nombreLaboratorio;
+                                    },
+                                'visible' => Yii::$app->user->identity->tienePermiso('proveedores_admin'),
+                            ],
                             // 'telefono',
                             // 'celular',
                             // 'nitLaboratorio',
@@ -58,7 +103,19 @@ $this->params['breadcrumbs'][] = $this->title;
                                     return '<a href="'. $url = 'actualizar?id=' . $model->numeroDocumento .'"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>';
                                 },
                             ],
-
+                            [
+                                'attribute' => '',
+                                'format' => 'raw',
+                                'value' => function ($model) {
+                                    $glyphicon = '';
+                                    if ($model->objUsuario->estado == 1) {
+                                            $glyphicon = 'glyphicon-remove';
+                                    } else {
+                                        $glyphicon = 'glyphicon-ok';
+                                    }
+                                    return '<a href="'. $url = 'cambiar-estado?id=' . $model->numeroDocumento .'"><span class="glyphicon '. $glyphicon .'" aria-hidden="true"></span></a>';
+                                },
+                            ],
                         ],
                     ]); ?>
                 </div>

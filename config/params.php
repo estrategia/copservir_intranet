@@ -28,7 +28,8 @@ return [
         'archivo' => [
             'tamanho' => 5,
             'formatosValidos' => 'jpg,jpeg,png,pdf'
-        ]
+        ],
+        
     ],
     'documentos' => [
         'rutaArchivo' => '/contenidos/documentos/',

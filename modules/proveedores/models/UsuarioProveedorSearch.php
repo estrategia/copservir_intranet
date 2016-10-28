@@ -42,7 +42,6 @@ class UsuarioProveedorSearch extends UsuarioProveedor
     public function search($params, $nitLaboratorio, $paginacion, $modulo)
     {
         $query = UsuarioProveedor::find();
-
         // add conditions that should always apply here
 
         if (!$paginacion) {
@@ -61,6 +60,8 @@ class UsuarioProveedorSearch extends UsuarioProveedor
         $this->load($params);
         $this->nitLaboratorio = $nitLaboratorio;
         $this->modulo = $modulo;
+        // $usuarioIntranet = \app\models\Usuario::findOne(['numeroDocumento' => $this->numeroDocumento]);
+        // $this->estado = $usuarioIntranet->estado;
 
         // grid filtering conditions
         $query->andFilterWhere([
@@ -79,7 +80,6 @@ class UsuarioProveedorSearch extends UsuarioProveedor
             ->andFilterWhere(['like', 'profesion', $this->profesion])
             ->andFilterWhere(['like', 'Ciudad', $this->Ciudad])
             ->andFilterWhere(['like', 'Direccion', $this->Direccion]);
-
         return $dataProvider;
     }
 }

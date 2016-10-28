@@ -20,8 +20,8 @@ use yii\helpers\ArrayHelper;
 * @property string $fechaPublicacion
 * @property string $fechaCierre
 * @property string $numeroDocumento
-* @property string $fechaInicioPublicacion
-* @property string $fechaFinPublicacion
+* @property string $fechaPublicacion
+* @property string $fechaCierre
 * @property string $tituloOferta
 * @property string $urlElEmpleo
 * @property integer $idCargo
@@ -41,9 +41,9 @@ class OfertasLaborales extends \yii\db\ActiveRecord
   public function rules()
   {
     return [
-      [[ 'idCiudad', 'fechaPublicacion', 'fechaCierre', 'estado', 'numeroDocumento', 'fechaInicioPublicacion', 'fechaFinPublicacion', 'tituloOferta', 'urlElEmpleo', 'nombreCargo', 'descripcionContactoOferta', 'idInformacionContacto'], 'required'],
+      [[ 'idCiudad', 'fechaPublicacion', 'fechaCierre', 'estado', 'numeroDocumento', 'tituloOferta', 'urlElEmpleo', 'nombreCargo', 'descripcionContactoOferta', 'idInformacionContacto'], 'required'],
       [[ 'idCiudad', 'numeroDocumento', 'idInformacionContacto'], 'integer'],
-      [['fechaPublicacion', 'fechaCierre', 'fechaInicioPublicacion', 'fechaFinPublicacion'], 'safe'],
+      [['fechaPublicacion', 'fechaCierre'], 'safe'],
       [['descripcionContactoOferta','nombreCargo'], 'string'],
       [['tituloOferta', 'urlElEmpleo'], 'string', 'max' => 45]
     ];
@@ -57,8 +57,6 @@ class OfertasLaborales extends \yii\db\ActiveRecord
       'fechaPublicacion' => 'Fecha Aplicar Desde',
       'fechaCierre' => 'Fecha Aplicar Hasta',
       'numeroDocumento' => 'Id Usuario Publicacion',
-      'fechaInicioPublicacion' => 'Fecha Publicacion Home Desde',
-      'fechaFinPublicacion' => 'Fecha Publicacion Home Hasta',
       'tituloOferta' => 'Titulo Oferta',
       'urlElEmpleo' => 'Url El Empleo',
       'nombreCargo' => 'Cargo',
@@ -99,8 +97,8 @@ class OfertasLaborales extends \yii\db\ActiveRecord
     $todosGrupo = \Yii::$app->params['grupo']['*'];
 
     $query = self::find()->joinWith(['ofertasDestino'])
-    ->where("( t_OfertasLaborales.estado=:estado AND fechaInicioPublicacion<=:fechaInicioPublicacion AND fechaFinPublicacion>=:fechaFinPublicacion AND ( (codigoCiudad =:codigoCiudad AND idGrupoInteres IN ($userGrupos)) OR (codigoCiudad =:codigoCiudad AND idGrupoInteres=:todosGrupo) OR (codigoCiudad =:todosCiudad AND idGrupoInteres IN ($userGrupos)) OR (codigoCiudad =:todosCiudad AND idGrupoInteres =:todosGrupo) )   )")
-    ->addParams([':estado' => InformacionContactoOferta::PLANTILLA_ACTIVA, ':fechaInicioPublicacion' => $fecha,':fechaFinPublicacion'=>$fecha, ':codigoCiudad'=> $userCiudad, ':todosCiudad'=>$todosCiudad, ':todosGrupo'=> $todosGrupo]);
+    ->where("( t_OfertasLaborales.estado=:estado AND fechaPublicacion<=:fechaPublicacion AND fechaCierre>=:fechaCierre AND ( (codigoCiudad =:codigoCiudad AND idGrupoInteres IN ($userGrupos)) OR (codigoCiudad =:codigoCiudad AND idGrupoInteres=:todosGrupo) OR (codigoCiudad =:todosCiudad AND idGrupoInteres IN ($userGrupos)) OR (codigoCiudad =:todosCiudad AND idGrupoInteres =:todosGrupo) )   )")
+    ->addParams([':estado' => InformacionContactoOferta::PLANTILLA_ACTIVA, ':fechaPublicacion' => $fecha,':fechaCierre'=>$fecha, ':codigoCiudad'=> $userCiudad, ':todosCiudad'=>$todosCiudad, ':todosGrupo'=> $todosGrupo]);
 
     //var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
 

@@ -42,6 +42,24 @@
   </div>
 </div>
 
+<div class="modal fade" id="modal-error" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="z-index: 9999">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="myModalLabel">Error</h3>
+      </div>
+      <div class="modal-body">
+          <h4>No tenemos cobertura para el lugar seleccionado. Por favor selecciona otra ubicacion</h4>
+          <div class="row">
+            <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 
   function cargarMapa()
@@ -152,7 +170,8 @@
                 $('input[name="codigoSector"]').val(json.response.codigoSector);
                 $('#modal-confirmacion').modal('show');
             } else {
-               alert('Error: ' + json.result);
+               // alert('Error: ' + json.response);
+              $('#modal-error').modal('show');
             }
             $('html').hideLoading;
         },
@@ -164,8 +183,63 @@
     return false;
   };
 
-  // function guar(argument) {
-  //   // body...
-  // }
+  window.onload = function () {
+    console.log($('#ciudad-selector').length);
+    $(document).on('change', 'select[data-role="ciudad-despacho-map"]', function () {
+      var val = $(this).val();
+      if (val.length > 0) {
+        var option = $('select[data-role="ciudad-despacho-map"] option[value="' + val + '"]').attr('selected', 'selected');
 
+        if (map) {
+          map.setCenter(new google.maps.LatLng(parseFloat(option.attr('data-latitud')), parseFloat(option.attr('data-longitud'))));
+
+          $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            async: true,
+            url: requestUrl + '/proveedores/visitamedica/ubicacion/get-sectores',
+            data: {codigoCiudad: val},
+            beforeSend: function() {
+                $('html').showLoading;
+            },
+            success: function(data) {
+                json = data.response;
+                if (json.result == 'ok') {
+                    if (json.response != 'Sin sectores') {
+                      var selectSectores = crearSelectSectores(json.sectores);
+                      $('#select-ubicacion-sector').show();
+                      $('#select-ubicacion-sector').html(selectSectores);
+                      $('#sector-selector').select2();
+                    }
+                } else {
+                   alert('Error: ' + json.result);
+                }
+                $('html').hideLoading;
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                $('html').hideLoading;
+                alert('Error: ' + errorThrown);
+            }
+          });
+        }
+      } 
+    });
+  };
+
+  function crearSelectSectores(sectores) {
+    var options = '<select style="width: 100%;" id="sector-selector" onchange="centrarMapaSector()">';
+    options += "<option value=''> Selecciona un sector </option>";
+    for (var i = sectores.length - 1; i >= 0; i--) {
+      sector = sectores[i];
+      options += "<option value="+ sector.codigoSector +" data-latitud-sector="+ sector.latitudGoogle +" data-longitud-sector="+ sector.longitudGoogle +"> " + sectores[i].nombreSector + " </option>";
+    }
+    options += '</select>';
+    return options;
+  }
+
+  function centrarMapaSector() {
+    var latitud = $('#sector-selector').find(':selected').data('latitud-sector');
+    var longitud = $('#sector-selector').find(':selected').data('longitud-sector');
+    map.setCenter(new google.maps.LatLng(parseFloat(latitud), parseFloat(longitud)));
+  }
 </script>

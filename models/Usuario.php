@@ -155,6 +155,7 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
                         $usuarioIntranet->segundoApellido = $infoPersona['SegundoApellido'];
                         $usuarioIntranet->idCargo = $infoPersona['CodigoCargo'];
                         $usuarioIntranet->nombreCargo = $infoPersona['Cargo'];
+                        $usuarioIntranet->correoElectronico = $infoPersona['Email'];
                         $usuarioIntranet->save();
                     } else {
                         $usuarioIntranet->nombres = $infoPersona['Nombres'];
@@ -162,6 +163,7 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
                         $usuarioIntranet->segundoApellido = $infoPersona['SegundoApellido'];
                         $usuarioIntranet->idCargo = $infoPersona['CodigoCargo'];
                         $usuarioIntranet->nombreCargo = $infoPersona['Cargo'];
+                        $usuarioIntranet->correoElectronico = $infoPersona['Email'];
                         $usuarioIntranet->update();
                     }
 
@@ -259,7 +261,6 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
     public function getObjUsuarioIntranet()
     {
         $consulta = $this->hasOne(UsuarioIntranet::className(), ['numeroDocumento' => 'numeroDocumento']);
-        // var_dump($consulta);
         return $consulta;
     }
 

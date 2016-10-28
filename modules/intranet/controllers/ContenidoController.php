@@ -98,6 +98,10 @@ class ContenidoController extends Controller {
             ]
         ];
     }
+    public function actionParam()
+    {
+      echo Yii::$app->params['contenido']['imagen']['formatosValidos'];
+    }
 
     public function actionListadoMeGustaContenido() {
         $request = \Yii::$app->request;
