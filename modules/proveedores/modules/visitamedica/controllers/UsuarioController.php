@@ -212,6 +212,7 @@ class UsuarioController extends Controller
             'timeout' => 5, // set timeout to 5 seconds for the case server is not responding
         ])
         ->send();
+        // var_dump($response->data);
         $profesiones = ArrayHelper::map($response->data['response'], 'idProfesion', 'nombreProfesion');
         if ($usuarioVimed->load(Yii::$app->request->post())) {
             $idProfesion = Yii::$app->request->post()['UsuarioProveedor']['idProfesion'];

@@ -33,7 +33,7 @@ class VisitaMedicaAsset extends AssetBundle {
 
         //Pantilla para visita medica
         'libs/visita-medica/css/theme-white.css',
-        'libs/bootstrap-select2/select2.css',
+        // 'libs/bootstrap-select2/select2.css',
 
         'libs/visita-medica/ad-gallery/jquery.ad-gallery.css',
 

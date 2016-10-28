@@ -4,6 +4,11 @@
     // $this->params['breadcrumbs'][] = ['label' => 'Reportes', 'url' => ['/proveedores/visitamedica/reportes']];
     $this->params['breadcrumbs'][] = ['label' => 'Seleccion de ubicacion'];
 ?>
+<?php 
+    $this->registerCssFile('@web/libs/bootstrap-select2/select2.css');
+
+    // 'libs/bootstrap-select2/select2.css',
+?>
 
 <?php if (Yii::$app->session->hasFlash('error')): ?>
 <div class="alert alert-info" role="alert">

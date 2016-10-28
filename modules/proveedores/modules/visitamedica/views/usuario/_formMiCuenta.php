@@ -15,7 +15,6 @@ use bootstrap\modal;
 
 <div class="row">
     <div class="col-md-12 col-xs-12 col-sm-12">
-        
 
     <?php $form = ActiveForm::begin(); ?>
         <div class="page-header">
@@ -23,7 +22,6 @@ use bootstrap\modal;
         </div>
         <div class="row">
             <div class="col-md-4">
-                <!-- <?= $form->field($model, 'profesion')->textInput(['maxlength' => true]) ?> -->
                 <?php 
                     echo $form->field($model, 'idProfesion')->widget(Select2::classname(), [
                         'data' => $profesiones,
