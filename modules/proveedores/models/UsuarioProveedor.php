@@ -30,7 +30,7 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'm_prov_usuario';
+        return 'm_PROV_Usuario';
     }
 
     /**
@@ -157,7 +157,7 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
         $sql = "SELECT correoElectronico 
                 FROM m_INTRA_Usuario
                 INNER JOIN auth_assignment
-                ON m_intra_usuario.numeroDocumento = auth_assignment.user_id
+                ON m_INTRA_Usuario.numeroDocumento = auth_assignment.user_id
                 WHERE auth_assignment.item_name = " . '"intranet_admin"';
         $connection = \Yii::$app->db;
         $model = $connection->createCommand($sql);

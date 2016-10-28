@@ -48,10 +48,14 @@ class UsuarioController extends Controller
                     'index', 'ver', 'crear', 'actualizar'
                 ],
                 'authsActions' => [
-                    'admin' => 'proveedores_admin',
-                    'ver' => 'proveedores_admin',
-                    'crear' => 'proveedores_admin',
-                    'actualizar' => 'proveedores_admin',
+                    // 'admin' => 'proveedores_admin',
+                    // 'ver' => 'proveedores_admin',
+                    // 'crear' => 'proveedores_admin',
+                    // 'actualizar' => 'proveedores_admin',
+                    'admin' => 'proveedores_usuario_admin',
+                    'ver' => 'proveedores_usuario_admin',
+                    'crear' => 'proveedores_usuario_admin',
+                    'actualizar' => 'proveedores_usuario_admin',
                     'exportar-usuarios' => 'visitaMedica_usuario_exportar-usuarios'
                 ],
            ],
