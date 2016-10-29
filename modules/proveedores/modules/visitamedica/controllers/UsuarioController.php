@@ -114,14 +114,10 @@ class UsuarioController extends Controller
 
             $nitLaboratorio = Yii::$app->user->identity->objUsuarioProveedor->nitLaboratorio;
             $nombreLaboratorio = Yii::$app->user->identity->objUsuarioProveedor->nombreLaboratorio;
-            $idTercero = Yii::$app->user->identity->objUsuarioProveedor->idTercero;
             $usuarioVimed->nitLaboratorio = $nitLaboratorio;
             $usuarioVimed->nombreLaboratorio = $nombreLaboratorio;
-            $usuarioVimed->idTercero = $idTercero;
-            // var_dump($nombreLaboratorio);
-            // var_dump($nitLaboratorio);
-            // var_dump($idTercero);
-
+            $usuarioVimed->idTercero = Yii::$app->user->identity->objUsuarioProveedor->idTercero;
+            $usuarioVimed->idFabricante = Yii::$app->user->identity->objUsuarioProveedor->idFabricante;
             $item_name = "";
 
             if (Yii::$app->user->identity->tienePermiso("proveedores_admin")) {
