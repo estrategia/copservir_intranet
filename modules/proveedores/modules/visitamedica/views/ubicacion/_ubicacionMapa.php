@@ -1,5 +1,5 @@
-<div class="modal animated bounceIn map" id="modal-ubicacion-map" class="modal-ubicacion-map">
-    <div class="modal-dialog">
+<div id="modal-ubicacion-map" class="modal map animated bounceIn" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title text-center">Ubica en el mapa el lugar donde deseas que entreguemos el pedido</h3>
@@ -29,7 +29,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    $('#ciudad-selector').select2();
-</script>

@@ -17,47 +17,48 @@
 <button id="mostrarMapa" onclick="cargarMapa()" class="btn btn-default">Mapa</button>
 <button id="gps" onclick="getLocation()" class="btn btn-default">GPS</button>
 
-<div class="modal fade" id="modal-confirmacion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h3 class="modal-title" id="myModalLabel">Confirmar ubicacion</h3>
-      </div>
-      <div class="modal-body">
-        <h4 id="ubicacion"></h4>
-        <form name="confirmacion" id="confirmacion" action=" <?= Yii::$app->getUrlManager()->getBaseUrl() . '/proveedores/visitamedica/ubicacion/confirmar' ?> " method="POST" >
-          <input type="hidden" name="nombreCiudad" value="">
-          <input type="hidden" name="nombreSector" value="">
-          <input type="hidden" name="codigoCiudad" value="">
-          <input type="hidden" name="codigoSector" value="">
-          <input type="hidden" name="_csrf" value="<?=Yii::$app->request->getCsrfToken()?>" />
-        </form>
-        <div class="row">
-          <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cerrar</button>
-          <button type="submit" class="btn btn-primary pull-right" onclick="document.forms['confirmacion'].submit();">Aceptar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="modal-error" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="z-index: 9999">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h3 class="modal-title" id="myModalLabel">Error</h3>
-      </div>
-      <div class="modal-body">
-          <h4>No tenemos cobertura para el lugar seleccionado. Por favor selecciona otra ubicacion</h4>
-          <div class="row">
-            <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cerrar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<div id="div-modal">
+	<div class="modal fade" id="modal-confirmacion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-focus-on="input:first">
+	  <div class="modal-dialog modal-sm" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h3 class="modal-title" id="myModalLabel">Confirmar ubicacion</h3>
+	      </div>
+	      <div class="modal-body">
+	        <h4 id="ubicacion"></h4>
+	        <form name="confirmacion" id="confirmacion" action=" <?= Yii::$app->getUrlManager()->getBaseUrl() . '/proveedores/visitamedica/ubicacion/confirmar' ?> " method="POST" >
+	          <input type="hidden" name="nombreCiudad" value="">
+	          <input type="hidden" name="nombreSector" value="">
+	          <input type="hidden" name="codigoCiudad" value="">
+	          <input type="hidden" name="codigoSector" value="">
+	          <input type="hidden" name="_csrf" value="<?=Yii::$app->request->getCsrfToken()?>" />
+	        </form>
+	        <div class="row">
+	          <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cerrar</button>
+	          <button type="submit" class="btn btn-primary pull-right" onclick="document.forms['confirmacion'].submit();">Aceptar</button>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	<div class="modal fade" id="modal-error" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="z-index: 9999">
+	  <div class="modal-dialog modal-sm" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h3 class="modal-title" id="myModalLabel">Error</h3>
+	      </div>
+	      <div class="modal-body">
+	          <h4>No tenemos cobertura para el lugar seleccionado. Por favor selecciona otra ubicacion</h4>
+	          <div class="row">
+	            <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cerrar</button>
+	          </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 </div>
 
 <script>
@@ -78,8 +79,8 @@
         success: function(data) {
             $.getScript("https://maps.googleapis.com/maps/api/js?client=" + gmapKey).done(function(script, textStatus) {
               $.getScript(requestUrl + "/js/ubicacion.js").done(function(script, textStatus) {
-                $('body').append(data);
-                // $('#select-ubicacion-psubsector .ciudades').select2();
+                $('#div-modal').prepend(data);
+                $('#ciudad-selector').select2();
                 inicializarMapa();
                 $('#modal-ubicacion-map').modal('show');
                 resizeMap();
@@ -88,11 +89,10 @@
                 $('html').hideLoading();
                 alert("Error al inicializar mapa: " + exception);
               });
-
             }).fail(function(jqxhr, settings, exception) {
                 $('html').hideLoading();
                 alert("Error al cargar mapa: " + exception);
-            });          
+            });      
         },
        error: function(jqXHR, textStatus, errorThrown) {
           $('html').hideLoading();
@@ -144,8 +144,6 @@
         lat = map.getCenter().lat();
         lon = map.getCenter().lng();
     }
-    console.log(lat); 
-    console.log(lon);
     $.ajax({
         type: 'POST',
         dataType: 'json',
@@ -161,8 +159,8 @@
         success: function(data) {
             json = JSON.parse(data);
             if (json.result == 'ok') {
-                console.log(json.response);
-                $('#modal-ubicacion-map').modal('hide');
+                //console.log(json.response);
+                //$('#modal-ubicacion-map').modal('hide');
                 $('#ubicacion').text(json.response.nombreCiudad + " " + json.response.nombreSector);
                 $('input[name="nombreCiudad"]').val(json.response.nombreCiudad);
                 $('input[name="nombreSector"]').val(json.response.nombreSector);
