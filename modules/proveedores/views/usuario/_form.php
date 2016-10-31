@@ -41,17 +41,17 @@ use kartik\select2\Select2;
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <?= $form->field($model, 'profesion')->textInput(['maxlength' => true]) ?>
+                    <?php //echo $form->field($model, 'profesion')->textInput(['maxlength' => true]) ?>
                 </div>
                 <div class="col-md-6">
-                    <?= $form->field($model, 'fechaNacimiento')->widget(DatePicker::classname(), [
+                    <?php /*echo $form->field($model, 'fechaNacimiento')->widget(DatePicker::classname(), [
                         'type' => DatePicker::TYPE_INPUT,
                         'options' => ['placeholder' => ''],
                             'pluginOptions' => [
                             'autoclose'=>true,
                             'format' => 'yyyy-mm-dd'
                             ]
-                        ]); 
+                        ]); */
                     ?>
                 </div>
             </div>
@@ -74,19 +74,19 @@ use kartik\select2\Select2;
                 </div>
                 <div class="col-md-6">
                     <?php 
-                        echo $form->field($model, 'Ciudad')->widget(Select2::classname(), [
+                        /*echo $form->field($model, 'Ciudad')->widget(Select2::classname(), [
                             'data' => $ciudades,
                             'options' => ['placeholder' => 'Selecciona una ciudad'],
                             'pluginOptions' => [
                                 'allowClear' => true
                             ],
-                        ]);
+                        ]);*/
                     ?>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <?= $form->field($model, 'Direccion')->textInput(['maxlength' => true]) ?>
+                    <?php //echo $form->field($model, 'Direccion')->textInput(['maxlength' => true]) ?>
                 </div>
                 <div class="col-md-6"></div>
             </div>
@@ -97,7 +97,7 @@ use kartik\select2\Select2;
             <div class="row">
                 <div class="col-md-6">
                     <?php
-                        echo '<label for="laboratorio" class="control-label">Laboratorio</label>';
+                       /* echo '<label for="laboratorio" class="control-label">Laboratorio</label>';
                         echo Select2::widget([
                             'model' => $model,
                             'name' => 'laboratorio',
@@ -105,12 +105,21 @@ use kartik\select2\Select2;
                             'value' => '',
                             'data' => $terceros,
                             'options' => ['multiple' => false, 'placeholder' => 'Selecciona laboratorio ...']
-                        ]);
+                        ]);*/
+                    	echo $form->field($model, 'nitLaboratorio')->widget(Select2::classname(), [
+                    		'data' => $terceros,
+                    		'options' => ['placeholder' => 'Selecciona laboratorio ...'],
+                    		'pluginOptions' => [
+                    				'allowClear' => true
+                    		],
+                    	]);
                     ?>
+                    <?php //echo $form->field($model, 'nitLaboratorio')->textInput(['maxlength' => true]) ?>
                 </div>
+                
                 <div class="col-md-6">
                     <?php
-                        echo '<label for="unidadNegocio" class="control-label">Unidad de negocio</label>';
+                        /*echo '<label for="unidadNegocio" class="control-label">Unidad de negocio</label>';
                         echo Select2::widget([
                             'model' => $model,
                             'name' => 'unidadNegocio',
@@ -118,7 +127,14 @@ use kartik\select2\Select2;
                             'value' => '',
                             'data' => $unidadesNegocio,
                             'options' => ['multiple' => false, 'placeholder' => 'Selecciona unidad de negocio ...']
-                        ]);
+                        ]);*/
+                    	echo $form->field($model, 'idAgrupacion')->widget(Select2::classname(), [
+                    		'data' => $terceros,
+                    		'options' => ['placeholder' => 'Selecciona unidad negocio ...'],
+                    		'pluginOptions' => [
+                    				'allowClear' => true
+                    		],
+                    	]);
                     ?>
                 </div>
             </div>

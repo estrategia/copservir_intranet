@@ -159,7 +159,7 @@ class UsuarioController extends Controller
         $tercerosSelect = ArrayHelper::map($terceros, 'NumeroDocumento', 'Nombre');
         $laboratorio = null;
 
-        if ($usuarioProveedor->load(Yii::$app->request->post())) {
+        if ($usuarioProveedor->load(Yii::$app->request->post()) && $usuarioProveedor->validate()) {
             $usuarioProveedor->modulo = \Yii::$app->controller->module->id;
             $documento = Yii::$app->request->post()['UsuarioProveedor']['numeroDocumento'];
             $documentoLaboratorio = Yii::$app->request->post()['UsuarioProveedor']['nitLaboratorio'];
@@ -202,14 +202,13 @@ class UsuarioController extends Controller
                 return $this->redirect(['ver', 'id' => $usuarioProveedor->numeroDocumento]);
             }
 
-        } else {
-            return $this->render('create', [
-                'model' => $usuarioProveedor,
-                'terceros' => $tercerosSelect,
-                'unidadesNegocio' => $unidadesNegocio,
-                'ciudades' => $ciudades,
-            ]);
         }
+        return $this->render('create', [
+            'model' => $usuarioProveedor,
+            'terceros' => $tercerosSelect,
+            'unidadesNegocio' => $unidadesNegocio,
+            'ciudades' => $ciudades,
+        ]);
     }
 
     /**

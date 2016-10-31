@@ -39,11 +39,12 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['numeroDocumento'], 'required'],
+            [['numeroDocumento', 'nombre', 'primerApellido', 'nitLaboratorio', 'email', 'celular'], 'required'],
             [['numeroDocumento'], 'integer', 'min' => 5, 'max' => 999999999999],
             [['telefono', 'celular'], 'integer', 'min' => 5, 'max' => 9999999999],
             [['fechaNacimiento'], 'safe'],
             [['nombre', 'primerApellido', 'segundoApellido', 'nitLaboratorio', 'Ciudad', 'Direccion'], 'string', 'max' => 45, 'min' => 3],
+        	[['email'], 'email'],
             [['email'], 'string', 'max' => 256],
             [['numeroDocumento'], 'unique'],
         ];

@@ -18,6 +18,7 @@ use bootstrap\modal;
         
 
     <?php $form = ActiveForm::begin(); ?>
+    <?= $form->errorSummary($model); ?>
         <div class="page-header">
             <h4>Informacion personal</h4>
         </div>
@@ -41,6 +42,13 @@ use bootstrap\modal;
             <div class="col-md-4">
                 <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
             </div>
+            <div class="col-md-4">
+                <?= $form->field($model, 'celular')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="col-md-4">
+                <?= $form->field($model, 'telefono')->textInput(['maxlength' => true]) ?>
+            </div>
+            
         </div>
         <br>
         <div class="form-group">
