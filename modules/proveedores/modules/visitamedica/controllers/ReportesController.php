@@ -17,8 +17,6 @@ use yii\helpers\VarDumper;
 class ReportesController extends Controller
 {
 
-  public $apiUrl = 'http://localhost/lrv/rest';
-
   public function behaviors()
   {
     return [

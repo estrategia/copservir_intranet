@@ -15,8 +15,6 @@ use yii\filters\VerbFilter;
 class UbicacionController extends Controller
 {
 
-  public $apiUrl = 'http://localhost/lrv/rest';
-
   public function behaviors()
   {
     return [
@@ -44,7 +42,7 @@ class UbicacionController extends Controller
   public function actionMapa()
   {
     $client = new Client();
-    $url = $this->apiUrl . '/ciudad';
+    $url = \Yii::$app->params['webServices']['lrv'] . '/ciudad';
 
     $response = $client->createRequest()
     ->setMethod('get')
@@ -62,8 +60,7 @@ class UbicacionController extends Controller
   public function actionSeleccionar()
   {
     $client = new Client();
-    // $url = $this->apiUrl . '/puntoventacercano/lat/'.$_POST['lat'].'/lon/'.$_POST['lon'];
-    $url = $this->apiUrl . '/puntoventacercano/lat/4.57260484961044/lon/-59.91441403124998';
+    $url = \Yii::$app->params['webServices']['lrv'] . '/puntoventacercano/lat/'.$_POST['lat'].'/lon/'.$_POST['lon'];
 
     $response = $client->createRequest()
     ->setMethod('get')
@@ -113,8 +110,7 @@ class UbicacionController extends Controller
   public function actionGetSectores()
   {
     $client = new Client();
-    $url = $this->apiUrl . '/ciudad/'.$_POST['codigoCiudad'].'/sectores/';
-    // $url = $this->apiUrl . '/puntoventacercano/lat/3.4659033727724675/lon/-76.52805958483886';
+    $url = \Yii::$app->params['webServices']['lrv'] . '/ciudad/'.$_POST['codigoCiudad'].'/sectores/';
 
     $response = $client->createRequest()
     ->setMethod('get')

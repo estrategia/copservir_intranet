@@ -14,6 +14,7 @@ use yii\httpclient\Client;
 use app\modules\intranet\models\Funciones;
 use app\modules\intranet\models\Ciudad;
 use app\models\Usuario;
+use yii\helpers\VarDumper;
 
 /**
  * UsuarioController implements the CRUD actions for Usuario model.
@@ -34,16 +35,18 @@ class UsuarioController extends Controller
             [
                 'class' => \app\components\AuthItemFilter::className(),
                 'only' => [
-                    'admin', 'crear', 'actualizar', 'correo-admin', 'exportar-usuarios'
+                    'admin', 'crear', 'actualizar', 'correo-admin', 'exportar-usuarios', 'mi-cuenta', 'actualizar-mi-cuenta',
                 ],
                 'authsActions' => [
                     'admin' => 'visitaMedica_usuario_admin',
                     // 'ver' => 'visitaMedica_usuario_ver',
-                    'crear' => 'visitaMedica_usuario_admin',
+                    'crear' => 'visitaMedica_usuario_crear',
                     'actualizar' => 'visitaMedica_usuario_admin',
                     'coreo-admin' => 'visitaMedica_usuario_correo-admin',
                     'exportar-usuarios' => 'visitaMedica_usuario_exportar-usuarios',
-                    'cambiar-estado' => 'visitaMedica_usuario_admin'
+                    'cambiar-estado' => 'visitaMedica_usuario_admin',
+                	'mi-cuenta' => 'visitaMedica_usuario_mi-cuenta',
+                	'actualizar-mi-cuenta' => 'visitaMedica_usuario_actualizar-mi-cuenta'
                 ],
            ],
         
@@ -99,29 +102,23 @@ class UsuarioController extends Controller
     {   
         $usuarioVimed = new UsuarioProveedor();
         $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
-        if ($usuarioVimed->load(Yii::$app->request->post())) {
-
+        $nitLaboratorio = Yii::$app->user->identity->objUsuarioProveedor->nitLaboratorio;
+        $usuarioVimed->nitLaboratorio = $nitLaboratorio;
+        
+        if ($usuarioVimed->load(Yii::$app->request->post()) && $usuarioVimed->validate()) {
             $usuarioVimed->modulo = \Yii::$app->controller->module->id;
             // var_dump($usuarioVimed);
             $documento = Yii::$app->request->post()['UsuarioProveedor']['numeroDocumento'];
-            
             $usuarioIntranet = new \app\models\Usuario();
             $usuarioIntranet->numeroDocumento = $documento;
             $contrasena = Funciones::generatePass(8);
             $usuarioIntranet->contrasena = md5($contrasena);
             $usuarioIntranet->codigoPerfil = (int) Yii::$app->params['PerfilesUsuario']['visitaMedica'];
-            $usuarioIntranet->estado = true;
-
-            $nitLaboratorio = Yii::$app->user->identity->objUsuarioProveedor->nitLaboratorio;
+            $usuarioIntranet->estado = true;            
             $nombreLaboratorio = Yii::$app->user->identity->objUsuarioProveedor->nombreLaboratorio;
-            $idTercero = Yii::$app->user->identity->objUsuarioProveedor->idTercero;
-            $usuarioVimed->nitLaboratorio = $nitLaboratorio;
             $usuarioVimed->nombreLaboratorio = $nombreLaboratorio;
-            $usuarioVimed->idTercero = $idTercero;
-            // var_dump($nombreLaboratorio);
-            // var_dump($nitLaboratorio);
-            // var_dump($idTercero);
-
+            $usuarioVimed->idTercero = Yii::$app->user->identity->objUsuarioProveedor->idTercero;
+            $usuarioVimed->idFabricante = Yii::$app->user->identity->objUsuarioProveedor->idFabricante;
             $item_name = "";
 
             if (Yii::$app->user->identity->tienePermiso("proveedores_admin")) {
@@ -166,12 +163,12 @@ class UsuarioController extends Controller
                 return $this->redirect(['ver', 'id' => $usuarioVimed->numeroDocumento]);
             }
 
-        } else {
-            return $this->render('create', [
-                'model' => $usuarioVimed,
-                'ciudades' => $ciudades,
-            ]);
         }
+        
+        return $this->render('create', [
+            'model' => $usuarioVimed,
+            'ciudades' => $ciudades,
+        ]);
     }
 
     /**
@@ -295,6 +292,8 @@ class UsuarioController extends Controller
 
     public function actionExportarUsuarios()
     {
+    	
+    	//VarDumper::dump(\Yii::$app->controller->module->id,10,true);exit();
 
         $searchModel = new UsuarioProveedorSearch();
         $objPHPExcel = new \PHPExcel();
@@ -315,13 +314,13 @@ class UsuarioController extends Controller
         $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Laboratorio');
 
         $params = \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['filtrosUsuario']);
-
-        $laboratorio = Yii::$app->user->identity->objUsuarioProveedor->nitLaboratorio;
-        if (Yii::$app->user->identity->tienePermiso("visitaMedica_admin")) {
-           $laboratorio = null;
+        $laboratorio = null;
+        
+        if (Yii::$app->user->identity->objUsuarioProveedor!==null) {
+           $laboratorio = Yii::$app->user->identity->objUsuarioProveedor->nitLaboratorio;
         }
 
-        $dataProvider = $searchModel->search($params, $laboratorio, false, \Yii::$app->controller->module->module);
+        $dataProvider = $searchModel->search($params, $laboratorio, false, \Yii::$app->controller->module->id);
 
         // var_dump($dataProvider);
 

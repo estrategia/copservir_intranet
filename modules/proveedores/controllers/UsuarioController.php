@@ -142,20 +142,6 @@ class UsuarioController extends Controller
         ]);
     }
 
-    // public function actionPermisos()
-    // {   
-    //     if (Yii::$app->request->post()) {
-    //         var_dump(Yii::$app->request->post());
-    //     }
-    //     if (Yii::$app->request->get()) {
-    //         $model = $this->findModel(Yii::$app->request->get()['id']);
-    //         return $this->render('permisos', [
-    //             'model' => $model,
-    //             'permisos' => $model->getPermisosAsignacion(),
-    //         ]);   
-    //     }
-    // }
-
     /**
      * Creates a new UsuarioProveedor model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -170,7 +156,7 @@ class UsuarioController extends Controller
         $tercerosSelect = ArrayHelper::map($terceros, 'NumeroDocumento', 'Nombre');
         $laboratorio = null;
 
-        if ($usuarioProveedor->load(Yii::$app->request->post())) {
+        if ($usuarioProveedor->load(Yii::$app->request->post()) && $usuarioProveedor->validate()) {
             $usuarioProveedor->modulo = \Yii::$app->controller->module->id;
             $documento = Yii::$app->request->post()['UsuarioProveedor']['numeroDocumento'];
             $documentoLaboratorio = Yii::$app->request->post()['UsuarioProveedor']['nitLaboratorio'];
@@ -220,8 +206,7 @@ class UsuarioController extends Controller
                 // 'unidadesNegocio' => $unidadesNegocio,
                 'ciudades' => $ciudades,
             ]);
-        }
-    }
+
 
     /**
      * Updates an existing UsuarioProveedor model.

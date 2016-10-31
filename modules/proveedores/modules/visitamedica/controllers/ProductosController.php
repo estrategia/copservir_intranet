@@ -48,11 +48,11 @@
         return $this->redirect( \Yii::$app->getUrlManager()->getBaseUrl() . '/proveedores/visitamedica/ubicacion');
       }
 
-      $documento = \Yii::$app->user->identity->numeroDocumento;
-      $idFabricante = UsuarioProveedor::findOne($documento)->idFabricante;
-      // var_dump($idFabricante);
-      if (is_null($idFabricante)) {
-        $idFabricante = -1;
+      $idFabricante = -1;
+      $objUsuarioProv = UsuarioProveedor::findOne(\Yii::$app->user->identity->numeroDocumento);
+      
+      if($objUsuarioProv!==null){
+      	$idFabricante = $objUsuarioProv->idFabricante;
       }
 
       if (isset($_GET['term'])) {
