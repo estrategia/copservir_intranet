@@ -22,7 +22,7 @@ use app\modules\intranet\models\CumpleanosLaboral;
 use app\modules\intranet\models\LoginForm;
 
 class TestController extends Controller {
-    
+    //tiempo
     public function actionTiempo(){
         $fecha_i = "2014-08-18";
         $fecha_f = "2016-08-17";

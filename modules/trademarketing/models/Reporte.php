@@ -280,16 +280,20 @@ class Reporte extends Model
 			 foreach ($this->categorias as $categoria) {
 
 				 foreach ($categoria->variablesMedicion as $variable){
-						 $modelo = Observaciones::find()->where(['idAsignacion' => $this->asignacion->idAsignacion, 'idVariable' => $variable->idVariable])->one();
-						 if ($modelo !== null) {
-							 array_push($modelosObservacion, $modelo);
-						 }else{
-							 array_push($modelosObservacion, new Observaciones);
+				 		if(!isset($modelosObservacion[$variable->idVariable])){
+				 			$modelosObservacion[$variable->idVariable] = [];
+				 		}
+				 		
+						$modelos = Observaciones::find()->where(['idAsignacion' => $this->asignacion->idAsignacion, 'idVariable' => $variable->idVariable])->all();
+						 if (!empty($modelos)) {
+							 $modelosObservacion[$variable->idVariable] = array_merge($modelosObservacion[$variable->idVariable], $modelos);
 						 }
 				 }
 			 }
 
 			 return $modelosObservacion;
+	 	
+		//return Observaciones::find()->where(['idAsignacion' => $this->asignacion->idAsignacion])->all();
 	 }
 }
 

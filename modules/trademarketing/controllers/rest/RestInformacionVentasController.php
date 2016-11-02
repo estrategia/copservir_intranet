@@ -29,10 +29,10 @@ class RestInformacionVentasController extends ActiveController
     * @param $mesInicio, $mesFin, $puntoVenta
     * @return informacion del modleo InformacionVentas
     */
-    public function actionInformacionReporteVentas($mesInicio, $mesFin, $puntoVenta)
+    public function actionInformacionReporteVentas($mesInicio, $puntoVenta)
     {
       
-        $info = new InformacionVentas($mesInicio, $mesFin, $puntoVenta);
+        $info = new InformacionVentas($mesInicio, $puntoVenta);
         return $info;
     }
 }

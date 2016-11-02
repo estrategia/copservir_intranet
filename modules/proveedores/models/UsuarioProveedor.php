@@ -69,6 +69,7 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
             'Ciudad' => 'Ciudad',
             'Direccion' => 'Direccion',
             'idProfesion' => 'Profesion',
+            'idAgrupacion' => 'Unidad de negocio',
         ];
     }
 

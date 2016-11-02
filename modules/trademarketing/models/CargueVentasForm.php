@@ -88,9 +88,11 @@ class CargueVentasForm extends Model {
   				if(isset($unidadesFlip[$concepto])){
   					$valor = trim($arrLine[1]);
   					$valor = Funciones::getNumeric($valor);
+  					$cantidad = trim($arrLine[2]);
+  					$cantidad = Funciones::getNumeric($cantidad);
   					$idAgrupacion = $unidadesFlip[$concepto];
   					
-  					$this->arrConsulta['insert'][] = [$idComercial,$idAgrupacion,$mes,$valor, $this->fecha];
+  					$this->arrConsulta['insert'][] = [$idComercial,$idAgrupacion,$mes,$valor,$cantidad,$this->fecha];
   					$this->arrConsulta['delete'][] = "('$idComercial','$idAgrupacion','$mes')";
   				}else{
   					fclose($file);
@@ -116,7 +118,7 @@ class CargueVentasForm extends Model {
   		try{
   			\Yii::$app->db->createCommand()->batchInsert(
   				InformacionVentasActual::tableName(),
-  				['idComercial', 'idAgrupacion', 'mes', 'valor', 'fechaRegistro'],
+  				['idComercial', 'idAgrupacion', 'mes', 'valor', 'unidades', 'fechaRegistro'],
   				$this->arrConsulta['insert']
   			)->execute();
   			

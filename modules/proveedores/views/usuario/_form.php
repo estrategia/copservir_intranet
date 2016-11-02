@@ -73,6 +73,7 @@ use kartik\select2\Select2;
                 <div class="col-md-6">
                     <?= $form->field($model, 'celular')->textInput(['maxlength' => true]) ?>
                 </div>
+
                 <div class="col-md-6">
                     <?php 
                         /*echo $form->field($model, 'Ciudad')->widget(Select2::classname(), [
@@ -90,6 +91,7 @@ use kartik\select2\Select2;
                     <?php //echo $form->field($model, 'Direccion')->textInput(['maxlength' => true]) ?>
                 </div>
                 <div class="col-md-6"></div>
+
             </div>
             
             <div class="form-header">
@@ -119,17 +121,7 @@ use kartik\select2\Select2;
                 </div>
                 
                 <div class="col-md-6">
-                    <!-- <?php
-                        // echo '<label for="unidadNegocio" class="control-label">Unidad de negocio</label>';
-                        // echo Select2::widget([
-                            // 'model' => $model,
-                            // 'name' => 'unidadNegocio',
-                            // 'attribute' => 'idAgrupacion',
-                            // 'value' => '',
-                            // 'data' => $unidadesNegocio,
-                            // 'options' => ['multiple' => false, 'placeholder' => 'Selecciona unidad de negocio ...']
-                        // ]);
-                    ?> -->
+
                     <?php
                         /*echo '<label for="unidadNegocio" class="control-label">Unidad de negocio</label>';
                         echo Select2::widget([
@@ -148,6 +140,7 @@ use kartik\select2\Select2;
                     		],
                     	]);
                     ?>
+
                 </div>
             </div>
             <br>

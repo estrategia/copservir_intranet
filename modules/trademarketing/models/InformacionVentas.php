@@ -22,10 +22,10 @@ class InformacionVentas extends Model
 
 
 
-    function __construct($mesInicio, $mesFin, $puntoVenta) {
+    function __construct($mesInicio, $puntoVenta) {
         
         $this->mesInicio = $mesInicio;
-        $this->mesFin = $mesFin;
+        //$this->mesFin = $mesFin;
         $this->puntoVenta = $puntoVenta;
 
         
@@ -39,8 +39,8 @@ class InformacionVentas extends Model
     public function consultarInformacionAnterior()
     {
         return InformacionVentasAnterior::find()
-        ->where('( mes >=:mesInicio AND mes <=:mesFin AND idComercial =:puntoVenta)')
-        ->addParams([':mesInicio' => $this->mesInicio, ':mesFin' => $this->mesFin, ':puntoVenta' => $this->puntoVenta])
+        ->where('( mes=:mesInicio AND idComercial =:puntoVenta)')
+        ->addParams([':mesInicio' => $this->mesInicio, ':puntoVenta' => $this->puntoVenta])
         ->all();
         
     }
@@ -48,8 +48,8 @@ class InformacionVentas extends Model
     public function consultarInformacionActual()
     {
         return InformacionVentasActual::find()
-        ->where('( mes >=:mesInicio AND mes <=:mesFin AND idComercial =:puntoVenta)')
-        ->addParams([':mesInicio' => $this->mesInicio, ':mesFin' => $this->mesFin, ':puntoVenta' => $this->puntoVenta])
+        ->where('( mes=:mesInicio AND idComercial =:puntoVenta)')
+        ->addParams([':mesInicio' => $this->mesInicio, ':puntoVenta' => $this->puntoVenta])
         ->all();;
         
     }
@@ -57,9 +57,9 @@ class InformacionVentas extends Model
     public function consultarMeses()
     {
         return InformacionVentasAnterior::find()
-        ->where('( mes >=:mesInicio AND mes <=:mesFin AND idComercial =:puntoVenta)')
+        ->where('( mes=:mesInicio AND idComercial =:puntoVenta)')
         ->groupBy(['mes'])
-        ->addParams([':mesInicio' => $this->mesInicio, ':mesFin' => $this->mesFin, ':puntoVenta' => $this->puntoVenta])
+        ->addParams([':mesInicio' => $this->mesInicio, ':puntoVenta' => $this->puntoVenta])
         ->all();
         
     }

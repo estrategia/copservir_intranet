@@ -28,11 +28,11 @@ class VariableMedicionController extends Controller
                  ],
                  'authsActions' => [
                      //colocar los permisos
-                      'admin' => 'tradeMarketing_variable_medicion_admin',
-                      'detalle' => 'tradeMarketing_variable_medicion_admin',
-                      'crear' => 'tradeMarketing_variable_medicion_admin',
-                      'actualizar' => 'tradeMarketing_variable_medicion_admin',
-                      'inactivar' => 'tradeMarketing_variable_medicion_admin'
+                      'admin' => 'tradeMarketing_variable-medicion_admin',
+                      'detalle' => 'tradeMarketing_variable-medicion_admin',
+                      'crear' => 'tradeMarketing_variable-medicion_admin',
+                      'actualizar' => 'tradeMarketing_variable-medicion_admin',
+                      'inactivar' => 'tradeMarketing_variable-medicion_admin'
                  ]
              ],
             'verbs' => [
