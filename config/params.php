@@ -29,6 +29,16 @@ return [
             'tamanho' => 5,
             'formatosValidos' => 'jpg,jpeg,png,pdf'
         ],
+        'imagenAdmin' => [
+            'ancho' => 1920,//pixeles
+            'alto' => 1280,//pixeles
+            'tamanho' => 3, //Megabytes
+            'formatosValidos' => 'jpg,jpeg,png'
+        ],
+        'archivoAdmin' => [
+            'tamanho' => 6,
+            'formatosValidos' => 'jpg,jpeg,png,pdf'
+        ],
         
     ],
     'documentos' => [

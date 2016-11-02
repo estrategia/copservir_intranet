@@ -80,10 +80,13 @@ class ContenidoController extends Controller {
                 'url' => Yii::getAlias('@web') . '/contenidos/imagenes/', //Yii::$app->realpath().'/imagenes', // Directory URL address, where files are stored.
                 'path' => '@app/web/contenidos/imagenes/', // Or absolute path to directory where files are stored.
                 'validatorOptions' => [
-                    'maxWidth' => Yii::$app->params['contenido']['imagen']['ancho'],
-                    'maxHeight' => Yii::$app->params['contenido']['imagen']['alto'],
-                    'maxSize' => Yii::$app->params['contenido']['imagen']['tamanho'] * 1024 * 1024,
-                    'extensions' => Yii::$app->params['contenido']['imagen']['formatosValidos']
+                    'extensions' => Yii::$app->params['contenido']['imagen']['formatosValidos'],
+                    
+                    'maxWidth' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? Yii::$app->params['contenido']['imagenAdmin']['ancho'] : Yii::$app->params['contenido']['imagen']['ancho'],
+
+                    'maxHeight' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? Yii::$app->params['contenido']['imagenAdmin']['alto'] : Yii::$app->params['contenido']['imagen']['alto'],
+                    
+                    'maxSize' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? Yii::$app->params['contenido']['imagenAdmin']['tamanho'] * 1024 * 1024 : Yii::$app->params['contenido']['imagen']['tamanho'] * 1024 * 1024
                 ]
             ],
             'cargar-archivo' => [
@@ -92,8 +95,8 @@ class ContenidoController extends Controller {
                 'path' => '@app/web/contenidos/archivos/',
                 'uploadOnlyImage' => false,
                 'validatorOptions' => [
-                    'maxSize' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? null :  Yii::$app->params['contenido']['archivo']['tamanho'] * 1024 * 1024,
-                    'extensions' => Yii::$app->params['contenido']['archivo']['formatosValidos']
+                    'extensions' => Yii::$app->params['contenido']['archivo']['formatosValidos'],
+                    'maxSize' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? Yii::$app->params['contenido']['archivo']['tamanho'] * 1024 * 1024 :  Yii::$app->params['contenido']['archivo']['tamanho'] * 1024 * 1024
                 ]
             ]
         ];

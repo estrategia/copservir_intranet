@@ -48,6 +48,10 @@ class UsuarioController extends Controller
                     'index', 'ver', 'crear', 'actualizar'
                 ],
                 'authsActions' => [
+                    // 'admin' => 'proveedores_admin',
+                    // 'ver' => 'proveedores_admin',
+                    // 'crear' => 'proveedores_admin',
+                    // 'actualizar' => 'proveedores_admin',
                     'admin' => 'proveedores_usuario_admin',
                     'ver' => 'proveedores_usuario_admin',
                     'crear' => 'proveedores_usuario_admin',
@@ -81,6 +85,13 @@ class UsuarioController extends Controller
         return $this->render('/sitio/login', [
           'model' => $model,
         ]);
+    }
+
+    public function actionPruebaUnidades()
+    {
+        $unidadesNegocio = SIICOP::wsGetUnidadesNegocio();
+        var_dump($unidadesNegocio);
+        
     }
 
     public function actionSalir() {
@@ -131,20 +142,6 @@ class UsuarioController extends Controller
         ]);
     }
 
-    // public function actionPermisos()
-    // {   
-    //     if (Yii::$app->request->post()) {
-    //         var_dump(Yii::$app->request->post());
-    //     }
-    //     if (Yii::$app->request->get()) {
-    //         $model = $this->findModel(Yii::$app->request->get()['id']);
-    //         return $this->render('permisos', [
-    //             'model' => $model,
-    //             'permisos' => $model->getPermisosAsignacion(),
-    //         ]);   
-    //     }
-    // }
-
     /**
      * Creates a new UsuarioProveedor model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -155,7 +152,7 @@ class UsuarioController extends Controller
         $usuarioProveedor = new UsuarioProveedor();
         $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
         $terceros = $this->getTerceros();
-        $unidadesNegocio = SIICOP::wsGetUnidadesNegocio(1);
+        // $unidadesNegocio = SIICOP::wsGetUnidadesNegocio();
         $tercerosSelect = ArrayHelper::map($terceros, 'NumeroDocumento', 'Nombre');
         $laboratorio = null;
 
@@ -202,14 +199,14 @@ class UsuarioController extends Controller
                 return $this->redirect(['ver', 'id' => $usuarioProveedor->numeroDocumento]);
             }
 
-        }
-        return $this->render('create', [
-            'model' => $usuarioProveedor,
-            'terceros' => $tercerosSelect,
-            'unidadesNegocio' => $unidadesNegocio,
-            'ciudades' => $ciudades,
-        ]);
-    }
+        } else {
+            return $this->render('create', [
+                'model' => $usuarioProveedor,
+                'terceros' => $tercerosSelect,
+                // 'unidadesNegocio' => $unidadesNegocio,
+                'ciudades' => $ciudades,
+            ]);
+
 
     /**
      * Updates an existing UsuarioProveedor model.
@@ -221,7 +218,7 @@ class UsuarioController extends Controller
     {
         $usuarioProveedor = $this->findModel($id);
         $terceros = $this->getTerceros();
-        $unidadesNegocio = SIICOP::wsGetUnidadesNegocio(1);
+        // $unidadesNegocio = SIICOP::wsGetUnidadesNegocio(1);
         $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
         // array_unshift($unidadesNegocio, '(no definido)');  // $unidadesNegocio
         $tercerosSelect = ArrayHelper::map($terceros, 'NumeroDocumento', 'Nombre');
@@ -252,7 +249,7 @@ class UsuarioController extends Controller
             return $this->render('update', [
                 'model' => $usuarioProveedor,
                 'terceros' => $tercerosSelect,
-                'unidadesNegocio' => $unidadesNegocio,
+                // 'unidadesNegocio' => $unidadesNegocio,
                 'ciudades' => $ciudades,
             ]);
         }

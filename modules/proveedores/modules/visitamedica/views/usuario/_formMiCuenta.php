@@ -15,7 +15,6 @@ use bootstrap\modal;
 
 <div class="row">
     <div class="col-md-12 col-xs-12 col-sm-12">
-        
 
     <?php $form = ActiveForm::begin(); ?>
         <div class="page-header">

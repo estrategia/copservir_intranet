@@ -50,11 +50,6 @@ use bootstrap\modal;
         </div>
         <div class="row">
             <div class="col-md-4">
-                <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
-                <?= $form->field($model, 'telefono')->textInput() ?>
-            </div>
-            <div class="col-md-4">
-                <?= $form->field($model, 'celular')->textInput() ?>
                 <!-- <?= $form->field($model, 'nitLaboratorio')->textInput(['maxlength' => true]) ?> -->
                 <?= $form->field($model, 'Direccion')->textInput(['maxlength' => true]) ?>
             </div>

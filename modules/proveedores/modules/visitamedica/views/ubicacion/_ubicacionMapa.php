@@ -29,3 +29,7 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('#ciudad-selector').select2();
+</script>
