@@ -3,6 +3,8 @@
     $this->title = 'Seleccion de ubicacion';
     // $this->params['breadcrumbs'][] = ['label' => 'Reportes', 'url' => ['/proveedores/visitamedica/reportes']];
     $this->params['breadcrumbs'][] = ['label' => 'Seleccion de ubicacion'];
+    $this->registerCssFile('@web/libs/bootstrap-select2/select2.css');
+    $this->registerJsFile('@web/libs/bootstrap-select2/select2.js', ['depends' => [app\assets\VisitaMedicaAsset::className()]]);
 ?>
 
 <?php if (Yii::$app->session->hasFlash('error')): ?>

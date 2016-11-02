@@ -1,4 +1,4 @@
-<div id="modal-ubicacion-map" class="modal map animated bounceIn" tabindex="-1" role="dialog">
+<div id="modal-ubicacion-map" class="modal map animated bounceIn" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
