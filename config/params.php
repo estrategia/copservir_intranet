@@ -16,6 +16,12 @@ return [
         'limiteVisualizar' => 5,
         'claseColor' => ['info', 'success', 'danger']
     ],
+    'cumpleanios' => [
+        'porPagina' => 6,
+    ],
+    'aniversarios' => [
+        'porPagina' => 8,
+    ],
     'contenido' => [
         'diasNoticias' => 7,
         'aniosBusqueda' => 5,
@@ -23,7 +29,9 @@ return [
             'ancho' => 1024,//pixeles
             'alto' => 800,//pixeles
             'tamanho' => 1, //Megabytes
-            'formatosValidos' => 'jpg,jpeg,png'
+            'formatosValidos' => 'jpg,jpeg,png',
+            'calidadJPG' => 90, // De 0 a 100, siendo 100 la mayor calidad pero tambien la imagen mas pesada, valido para jpg
+            'compresionPNG' => 5 // De 0 a 9, siendo 9 el archivo mas pequeño pero el que mas demora para comprimir, valido para png
         ],
         'archivo' => [
             'tamanho' => 5,

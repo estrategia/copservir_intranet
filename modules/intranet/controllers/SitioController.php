@@ -31,6 +31,7 @@ use app\models\Usuario;//use app\modules\intranet\models\Usuario;
 use app\modules\intranet\models\AuthAssignment;
 use yii\helpers\Html;
 use yii\web\Response;
+use yii\data\Pagination;
 use yii\widgets\ActiveForm;
 
 //Nuevos Modelos - By JPolanco
@@ -1024,9 +1025,14 @@ class SitioController extends \app\controllers\CController {
      * @return mixed
      */
     public function actionTodosCumpleanos() {
-        $models = CumpleanosPersona::getCumpleanosVerTodos();
+        $query = CumpleanosPersona::getCumpleanosVerTodos();
+        $countQuery = clone $query;
+        $paginas = new Pagination(['pageSize' => Yii::$app->params['cumpleanios']['porPagina'], 'totalCount'=>$countQuery->count()]);
+        // $paginas = new Pagination(['totalCount'=>$countQuery->count()]);
+        $models =  $query->offset($paginas->offset)->limit($paginas->limit)->all();
         return $this->render('/cumpleanos/todosCumpleanos', [
                     'models' => $models,
+                    'paginas' => $paginas,
         ]);
     }
 
@@ -1036,9 +1042,14 @@ class SitioController extends \app\controllers\CController {
      * @return mixed
      */
     public function actionTodosAniversarios() {
-        $models = CumpleanosLaboral::getAniversariosVerTodos();
+        $query = CumpleanosLaboral::getAniversariosVerTodos();
+        $countQuery = clone $query;
+        $paginas = new Pagination(['pageSize' => Yii::$app->params['aniversarios']['porPagina'], 'totalCount'=>$countQuery->count()]);
+        // $paginas = new Pagination(['totalCount'=>$countQuery->count()]);
+        $models =  $query->offset($paginas->offset)->limit($paginas->limit)->all();
         return $this->render('/cumpleanos/todosAniversarios', [
                     'models' => $models,
+                    'paginas' => $paginas,
         ]);
     }
 

@@ -52,7 +52,9 @@ if (!$contenidoModel->isNewRecord) {
       'lang' => 'es',
       'minHeight' => 100,
       'imageUpload' => Url::toRoute('contenido/cargar-imagen'),
+      // 'imageUploadParam' => 'name',
       'fileUpload' => Url::toRoute('contenido/cargar-archivo'),
+      // 'fileUploadParam' => 'nombre' . uniqid(),
       'plugins' => [
         'imagemanager',
       ],
@@ -75,7 +77,7 @@ if (!$contenidoModel->isNewRecord) {
       'uploadAsync'=>false,
       //'maxFileCount' => $maxFileCount,
       'validateInitialCount'=> true,
-      //'maxFileSize' => $maxFileSize,
+      // 'maxFileSize' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? Yii::$app->params['contenido']['imagenAdmin']['tamanho'] * 1024 * 1024 : Yii::$app->params['contenido']['imagen']['tamanho'] * 1024 * 1024
       'previewFileType' => 'image',
       'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
       'browseLabel' =>  '',

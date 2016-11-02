@@ -616,7 +616,8 @@ class Contenido extends \yii\db\ActiveRecord {
         if (!empty($this->imagenes)) {
 
             foreach ($this->imagenes['tmp_name'] as $key => $value) {
-
+                // var_dump($this->imagenes);
+                // var_dump($value);
                 if (is_uploaded_file($value)) {
 
                     //$rutaArchivo = Yii::getAlias('@webroot') . "/img/imagenesContenidos/".$this->imagenes['name'][$key];
@@ -627,10 +628,10 @@ class Contenido extends \yii\db\ActiveRecord {
                     $contenidoAdjunto->idContenido = $this->idContenido;
                     $contenidoAdjunto->tipo = ContenidoAdjunto::TIPO_IMAGEN;
                     $contenidoAdjunto->rutaArchivo = time().'_'.$numeroDocumento.'_'.$this->imagenes['name'][$key];
-
                     if (!is_file($rutaGuardarArchivo)) {
 
-                        move_uploaded_file($value, $rutaGuardarArchivo);
+                        // move_uploaded_file($value, $rutaGuardarArchivo);
+                        $this->reducirImagen($value, $rutaGuardarArchivo, pathinfo($contenidoAdjunto->rutaArchivo, PATHINFO_EXTENSION));
                     }
 
                     if (!$contenidoAdjunto->save()) {
@@ -640,6 +641,69 @@ class Contenido extends \yii\db\ActiveRecord {
                   throw new \Exception("Error al guardar las imagenes" , 100);
                 }
             }
+        }
+    }
+
+    public function reducirImagen($rtOriginal, $rtDestino, $extension)
+    {
+        $original = null;
+        $tipoImagen = null;
+        //Crear variable
+        if ($extension == "jpg" || $extension == "JPG" || $extension == "JPEG" || $extension == "jpeg") {
+            $tipoImagen = "jpg";
+        }
+
+        if ($extension == "png" || $extension == "PNG") {
+            $tipoImagen = "png";
+        }
+
+        if ($tipoImagen == "jpg") {
+            $original = imagecreatefromjpeg($rtOriginal);
+        } else if ($tipoImagen == "png") {
+            $original = imagecreatefrompng($rtOriginal);
+        }
+
+        //Ancho y alto máximo
+        $max_ancho = Yii::$app->params['contenido']['imagen']['ancho'];
+        $max_alto = Yii::$app->params['contenido']['imagen']['alto'];
+        $calidadJPG = Yii::$app->params['contenido']['imagen']['calidadJPG'];
+        $compresionPNG = Yii::$app->params['contenido']['imagen']['compresionPNG'];
+         
+        //Medir la imagen
+        list($ancho,$alto)=getimagesize($rtOriginal);
+
+        //Ratio
+        $x_ratio = $max_ancho / $ancho;
+        $y_ratio = $max_alto / $alto;
+
+        //Proporciones
+        if(($ancho <= $max_ancho) && ($alto <= $max_alto) ){
+            $ancho_final = $ancho;
+            $alto_final = $alto;
+        }
+        else if(($x_ratio * $alto) < $max_alto){
+            $alto_final = ceil($x_ratio * $alto);
+            $ancho_final = $max_ancho;
+        }
+        else {
+            $ancho_final = ceil($y_ratio * $ancho);
+            $alto_final = $max_alto;
+        }
+
+        //Crear un lienzo
+        $lienzo=imagecreatetruecolor($ancho_final,$alto_final); 
+
+        //Copiar original en lienzo
+        imagecopyresampled($lienzo,$original,0,0,0,0,$ancho_final, $alto_final,$ancho,$alto);
+         
+        //Destruir la original
+        imagedestroy($original);
+
+        //Crear la imagen y guardar en directorio upload/
+        if ($tipoImagen == "jpg") {
+            imagejpeg($lienzo, $rtDestino, $calidadJPG);
+        } else if ($tipoImagen == "png") {
+            imagepng($lienzo, $rtDestino, $compresionPNG);
         }
     }
 

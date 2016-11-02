@@ -22,6 +22,7 @@ use bootstrap\modal;
         </div>
         <div class="row">
             <div class="col-md-4">
+                <?php //echo $form->field($model, 'profesion')->textInput(['maxlength' => true]) ?>
                 <?php 
                     echo $form->field($model, 'idProfesion')->widget(Select2::classname(), [
                         'data' => $profesiones,
@@ -55,7 +56,8 @@ use bootstrap\modal;
             </div>
             <div class="col-md-4">
                 <?= $form->field($model, 'celular')->textInput() ?>
-                <!-- <?= $form->field($model, 'nitLaboratorio')->textInput(['maxlength' => true]) ?> -->
+                <?php //echo $form->field($model, 'nitLaboratorio')->textInput(['maxlength' => true]) ?>
+                
                 <?= $form->field($model, 'Direccion')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="col-md-4">

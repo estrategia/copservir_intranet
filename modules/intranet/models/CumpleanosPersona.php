@@ -100,7 +100,7 @@ class CumpleanosPersona extends \yii\db\ActiveRecord {
                         ->addParams([':fecha' => $fecha->format('Y-m-d')])
                         ->orderBy('t_CumpleanosPersona.fecha asc');
 
-        return $query->all();
+        return $query;
     }
 
     public static function encontrarModelo($id) {
