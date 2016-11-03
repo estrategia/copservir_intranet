@@ -29,3 +29,4 @@ phpunit.phar
 /web/assets/*
 /web/img/imagenesContenidos/*
 /web/img/gruposInteres/*
+/uploads/
