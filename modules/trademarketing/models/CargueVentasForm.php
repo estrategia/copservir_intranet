@@ -20,6 +20,7 @@ class CargueVentasForm extends Model {
   public $cargado = false;
   public $arrConsulta = [];
   public $fecha;
+  public $mes;
 
   /**
   * @return array the validation rules.
@@ -27,8 +28,9 @@ class CargueVentasForm extends Model {
   public function rules() {
     return [
       // username and password are both required
-      [['archivo'], 'required'],
+      [['archivo', 'mes'], 'required'],
       [['archivo'], 'file', 'skipOnEmpty' => false, 'extensions' => 'csv'],
+      [['mes'], 'integer', 'min'=>1, 'max'=>12]
     ];
   }
 
@@ -65,7 +67,7 @@ class CargueVentasForm extends Model {
   		$nfila = 1;
   		$objFecha = new \DateTime;
   		$this->fecha = $objFecha->format('Y-m-d H:i:s');
-  		$mes = $objFecha->format('n');
+  		$mes = $this->mes;
   		$idComercial = "-1";
   		$this->arrConsulta = [ 'insert' => [], 'delete' =>[] ];
   		

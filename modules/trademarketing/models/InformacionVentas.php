@@ -42,7 +42,6 @@ class InformacionVentas extends Model
         ->where('( mes=:mesInicio AND idComercial =:puntoVenta)')
         ->addParams([':mesInicio' => $this->mesInicio, ':puntoVenta' => $this->puntoVenta])
         ->all();
-        
     }
 
     public function consultarInformacionActual()
@@ -50,8 +49,16 @@ class InformacionVentas extends Model
         return InformacionVentasActual::find()
         ->where('( mes=:mesInicio AND idComercial =:puntoVenta)')
         ->addParams([':mesInicio' => $this->mesInicio, ':puntoVenta' => $this->puntoVenta])
-        ->all();;
-        
+        ->all();
+    }
+
+    public function consultarInformacionMesAnterior()
+    {   
+        $mesAnterior = ($this->mesInicio - 1 == 0 ? 12 : $this->mesInicio - 1);
+        return InformacionVentasActual::find()
+        ->where('( mes=:mesInicio AND idComercial =:puntoVenta)')
+        ->addParams([':mesInicio' => $mesAnterior , ':puntoVenta' => $this->puntoVenta])
+        ->all();
     }
 
     public function consultarMeses()
@@ -61,6 +68,52 @@ class InformacionVentas extends Model
         ->groupBy(['mes'])
         ->addParams([':mesInicio' => $this->mesInicio, ':puntoVenta' => $this->puntoVenta])
         ->all();
+    }
+
+    public function crecimientoMesAnterior()
+    {
+        $infoAnterior = $this->consultarInformacionMesAnterior();
+        $infoActual = $this->consultarInformacionActual();
+        $dataset = [];
+        foreach ($infoAnterior as $indice => $registro) {
+            $fila = [
+                        'unidadDeNegocio' => $registro->idAgrupacion,
+                        'mesAnterior' => $registro->mes,
+                        'mesActual' => $infoActual[$indice]->mes,
+                        'unidadesMesAnterior' => $registro->unidades,
+                        'unidadesMesActual' => $infoActual[$indice]->unidades,
+                        'valorMesAnterior' => $registro->valor,
+                        'valorMesAnterior' => $infoActual[$indice]->valor,
+                        'crecimiento' => ($infoActual[$indice]->valor - $registro->valor) / $registro->valor
+                    ];
+            $dataset[] = $fila;
+        }
+        return $dataset;
+    }
+
+    public function crecimientoAñoAnterior()
+    {
+        $infoAnterior = $this->consultarInformacionAnterior();
+        $infoActual = $this->consultarInformacionActual();
+        $dataset = [];
+        foreach ($infoAnterior as $indice => $registro) {
+            $fila = [
+                        'unidadDeNegocio' => $registro->idAgrupacion,
+                        'mesAnterior' => $registro->mes,
+                        'mesActual' => $infoActual[$indice]->mes,
+                        'unidadesMesAnterior' => $registro->unidades,
+                        'unidadesMesActual' => $infoActual[$indice]->unidades,
+                        'valorMesAnterior' => $registro->valor,
+                        'valorMesAnterior' => $infoActual[$indice]->valor,
+                        'crecimiento' => ($infoActual[$indice]->valor - $registro->valor) / $registro->valor
+                    ];
+            $dataset[] = $fila;
+        }
+        return $dataset;
+    }
+
+    public function crecimientoTotal()
+    {
         
     }
 

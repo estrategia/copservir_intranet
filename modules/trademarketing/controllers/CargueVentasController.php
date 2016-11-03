@@ -10,6 +10,7 @@ use yii\helpers\VarDumper;
 use yii\web\HttpException;
 use app\modules\trademarketing\models\InformacionVentasActual;
 use app\modules\trademarketing\models\InformacionVentasAnterior;
+use app\models\SIICOP;
 
 
 class CargueVentasController extends Controller

@@ -32,7 +32,8 @@ class RestInformacionVentasController extends ActiveController
     public function actionInformacionReporteVentas($mesInicio, $puntoVenta)
     {
       
-        $info = new InformacionVentas($mesInicio, $puntoVenta);
+        $model = new InformacionVentas($mesInicio, $puntoVenta);
+        $info = $model->crecimientoAñoAnterior();
         return $info;
     }
 }
