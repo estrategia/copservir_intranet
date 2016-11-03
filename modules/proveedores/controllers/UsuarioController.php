@@ -396,7 +396,7 @@ class UsuarioController extends Controller
         }
     }
 
-     protected function getTerceros() {
+    protected function getTerceros() {
 
         ini_set("soap.wsdl_cache_enabled", 0);
 

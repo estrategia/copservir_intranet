@@ -32,6 +32,15 @@ class SIICOP
 			 			$resulAux[$unidad['IdAgrupacion']]=$unidad['NombreUnidadNegocio'];
 			 		}
 			 		$result=$resulAux;
+			 	}
+
+			 	if($opcion==2){
+			 		$resulAux = array();
+			 		foreach ($result as $unidad){
+			 			$indice = $unidad['IdAgrupacion'];
+			 			$resulAux["{$indice}"]=$unidad['NombreUnidadNegocio'];
+			 		}
+			 		$result=$resulAux;
 			 	}	
 			 		
 				return $result;
