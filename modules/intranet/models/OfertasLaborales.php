@@ -15,6 +15,7 @@ use yii\helpers\ArrayHelper;
 *
 * @property string $idOfertaLaboral
 * @property string $cargo
+* @property string $idContenidoDestino
 * @property string $idCiudad
 * @property string $fechaPublicacion
 * @property string $fechaCierre

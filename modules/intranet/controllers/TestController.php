@@ -7,7 +7,7 @@ use yii\web\Controller;
 use app\modules\intranet\models\DataTableForm;
 use yii\web\UploadedFile;
 use \app\modules\intranet\models\MenuPortales;
-//use yii\rbac\Role;
+use yii\rbac\Role;
 use yii\helpers\VarDumper;
 use app\modules\intranet\models\AuthItem;
 use app\modules\intranet\models\AuthItemChild;
@@ -27,7 +27,7 @@ class TestController extends Controller {
         $fecha_i = "2014-08-18";
         $fecha_f = "2016-08-17";
         $result = \app\modules\intranet\models\Funciones::tiempoTranscurridos($fecha_i, $fecha_f);
-        //VarDumper::dump($result, 10, true);
+        VarDumper::dump($result, 10, true);
     }
     
     public function actionCumple($index=1){
