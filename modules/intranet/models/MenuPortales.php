@@ -102,6 +102,7 @@ class MenuPortales extends \yii\db\ActiveRecord {
                 ->joinWith(['objPortal'])
                 ->where('m_Portal.nombrePortal=:portal AND t_MenuPortales.estado=:estado AND t_MenuPortales.idMenuPortalPadre IS NULL ')
                 ->addParams([':estado' => self::APROBADO, ':portal' => $portal])
+                ->orderBy(['ordenMenu' => SORT_ASC])
                 ->all();
 
         return $query;
