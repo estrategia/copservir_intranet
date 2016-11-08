@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
           'class' => 'list-wrapper',
           'id' => 'list-wrapper',
         ],
-        'layout' => "{summary}\n{items}\n<center><div class='col-md-4 col-md-offset-8'>{pager}</div></center>",
+        'layout' => "{summary}\n{items}\n<center>{pager}</center>",
         'itemView' => function ($model, $var, $index, $widget) {
           return $this->render('_notificacionItem', ['objNotificacion' => $model, 'idx' => $index]);
         },

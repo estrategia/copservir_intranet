@@ -399,23 +399,21 @@ class UsuarioController extends \yii\web\Controller {
     {   
         $usuario = Usuario::findOne(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento, 'estado' => 1]);
         $modelFoto = FotoForm::find()->where(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento, 'estado' => 1])->one();
-        if ($modelFoto->load(Yii::$app->request->post())) {
-            $modelFoto->imagenFondo = UploadedFile::getInstances($modelFoto, 'imagenFondo');
-            if ($modelFoto->imagenFondo) {
-                foreach ($modelFoto->imagenFondo as $file) {
-                    $nombreImagen = Yii::$app->user->identity->numeroDocumento;
-                    $rutaImagen = "$nombreImagen.$file->extension";
-                    $rutaImagenAnterior = $usuario->imagenFondo;
-                    $file->saveAs(Yii::getAlias('@webroot') . '/img/imagenesFondo/' . $rutaImagen);
+        if ($modelFoto->load(Yii::$app->request->post()) && $modelFoto->validate()) {
+            $file = UploadedFile::getInstance($modelFoto, 'imagenFondo');
+            
+            if ($file) {
+                $nombreImagen = Yii::$app->user->identity->numeroDocumento;
+                $rutaImagen = "$nombreImagen.$file->extension";
+                $rutaImagenAnterior = $usuario->imagenFondo;
+                $file->saveAs(Yii::getAlias('@webroot') . '/img/imagenesFondo/' . $rutaImagen);
+                $usuario->imagenFondo = $rutaImagen;
+                $usuario->save();
+                Yii::$app->user->identity->imagenFondo = $rutaImagen;
+                Yii::$app->session->setFlash('success', "Fondo perfil se carg&oacute; con &eacute;xito");
 
-                    $usuario->imagenFondo = $rutaImagen;
-                    $usuario->save();
-                    Yii::$app->user->identity->imagenFondo = $rutaImagen;
-                    Yii::$app->session->setFlash('success', "Fondo perfil se carg&oacute; con &eacute;xito");
-
-                    if (!empty($rutaImagenAnterior) && $rutaImagen != $rutaImagenAnterior) {
-                        unlink(Yii::getAlias('@webroot') . "/img/imagenesFondo/" . $rutaImagenAnterior);
-                    }
+                if (!empty($rutaImagenAnterior) && $rutaImagen != $rutaImagenAnterior) {
+                    unlink(Yii::getAlias('@webroot') . "/img/imagenesFondo/" . $rutaImagenAnterior);
                 }
             }
         }

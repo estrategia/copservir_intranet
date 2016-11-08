@@ -16,15 +16,12 @@ use app\modules\intranet\models\MenuPortales;
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+        <h4 class="modal-title" id="myModalLabel">Orden men&uacute;s</h4>
       </div>
       <div class="modal-body">
-        <div class="list-group list-group-root well">
-
-        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
@@ -75,7 +72,7 @@ use app\modules\intranet\models\MenuPortales;
     </div>
 
     <?= $form->field($model, 'ordenMenu')->textInput(['maxlength' => true]) ?>
-    <a href="#" data-toggle="modal" data-role="ver-orden-menu" data-target="#modal-menu">Ver orden</a>
+    <a href="#" data-role="ver-orden-menu">Ver orden</a>
 
     <?php $model->idMenuPortalPadre = $model->isNewRecord ? NULL : $model->idMenuPortalPadre;  ?>
     <?= $form->field($model, 'idMenuPortalPadre')->hiddenInput(['value'=> $model->idMenuPortalPadre, ])->label(false); ?>
