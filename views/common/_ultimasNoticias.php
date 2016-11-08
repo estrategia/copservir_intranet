@@ -21,7 +21,7 @@ use yii\helpers\Html;
           <i></i>
           <h2><?= $noticia->titulo ?></h2>
           <div style="max-height: 90px; text-overflow:ellipsis; white-space:pre-line; overflow:hidden;">
-            <?= $noticia->contenido ?>
+            <?= $noticia->getVistaPrevia('', Yii::$app->params['longitudResumenNoticias']['portales']) ?>
           </div>
         </div>
         <div class="item item-last">

@@ -4,7 +4,6 @@ use vova07\imperavi\Widget;
 use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\Html;
-use yii\helpers\BaseStringHelper;
 use app\modules\intranet\models\LineaTiempo;
 
 
@@ -76,10 +75,44 @@ $completo = isset($completo) ? $completo : false;
                     </div>
                   <?php else: ?>
                     <div>
-                      <?php var_dump($noticia->vistaPrevia()); ?>
-                      <!-- <?php $link = Html::a('<h5 class=" title-notice inline m-b-5"><span class="text-success semi-bold">Leer más</h5>', ['contenido/detalle-contenido', 'idNoticia' => $noticia->idContenido], ['class' => '']) ?> -->
-                      <!-- <?php echo BaseStringHelper::truncate($noticia->contenido, 300, $link, null, true) ?> -->
+                      <?php $link = Html::a('<h5 class=" title-notice inline m-b-5"><span class="text-success semi-bold">Leer más</h5>', ['contenido/detalle-contenido', 'idNoticia' => $noticia->idContenido], ['class' => '']) ?>
+                      <?php echo $noticia->getVistaPrevia($link, Yii::$app->params['longitudResumenNoticias']['intranet']); ?>
                     </div>
+                  <?php endif; ?>
+                  <?php $imagenesEditor = $noticia->getImagenesContenido(); ?>
+                  <?php if (!empty($imagenesEditor)): ?>
+                    <?php $contador = 0; ?>
+                    <?php foreach($imagenesEditor as $imagen): ?>
+                        <?php
+                          $contador++;
+                          $style = '';
+                          $mensaje = '';
+                          if ($contador > \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) {
+                              $style = 'display:none';
+                          }
+
+                          if ($contador == \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) {
+                              if (($contador) != count($imagenesEditor)) {
+                                  $mensaje = (count($imagenesEditor) - \Yii::$app->params['imagenesNoticias']['limiteVisualizar']) . '+';
+                              }
+                          }
+                        ?>
+                        <div class="col-md-4 col-sm-4">
+                          <a class="lightbox gallery<?= $noticia->idContenido ?>" href="<?= $imagen ?>" style="<?= $style ?>">
+                                  <div class="slide-front ha slide">
+                                      <div class="overlayer bottom-left fullwidth">
+                                          <div class="overlayer-wrapper">
+                                              <div class="p-l-20 p-r-20 p-b-20 p-t-20" style="text-align:center;">
+                                                  <h1 style="color:#fff !important;line-height:37px;background-color: rgba(0, 0, 0, 0.17)"><span class="semi-bold"><?= $mensaje ?></span></h1>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <img src="<?= $imagen ?>">
+                                  </div>
+                          </a>
+                        </div>
+                    <?php endforeach; ?>
+                      <?php $this->registerJs("jQuery('.gallery$noticia->idContenido').lightbox();");?>
                   <?php endif; ?>
 
                   <!-- IMAGENES -->

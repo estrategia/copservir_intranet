@@ -8,6 +8,7 @@ use yii\db\Expression;
 use yii\web\UploadedFile;
 use yii\helpers\Json;
 use yii\helpers\ArrayHelper;
+use yii\helpers\BaseStringHelper;
 use app\modules\intranet\models\ContenidoDestino;
 use app\modules\intranet\models\ContenidoAdjunto;
 use app\modules\intranet\models\Portal;
@@ -707,15 +708,22 @@ class Contenido extends \yii\db\ActiveRecord {
         }
     }
 
-    public function vistaPrevia()
+    public function getVistaPrevia($link, $longitud)
     {
-      // $re_extractImages = '/<img.*src=["\']([^ ^"^\']*)["\']/ims';
       $re_cleanImages = '~<img[^>]*>~';
-      $vistaPrevia = $this->contenido;
-      // preg_match_all( $re_extractImages, $vistaPrevia, $matches);
-      // $images = $matches[1];
-      $vistaPrevia = preg_replace($re_cleanImages, '', $vistaPrevia);
+      $contenido = $this->contenido;
+      $contenidoSinImagenes = preg_replace($re_cleanImages, '', $contenido);
+      $vistaPrevia = BaseStringHelper::truncate($contenidoSinImagenes, $longitud, $link, null, true);
       return $vistaPrevia;
+    }
+
+    public function getImagenesContenido()
+    {
+      $matches = [];
+      $re_extractImages = '~<img[^>]+src="([^">]+)~';
+      preg_match_all( $re_extractImages, $this->contenido, $matches);
+      $images = $matches[1];
+      return $images;
     }
 
 }
