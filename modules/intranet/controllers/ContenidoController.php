@@ -350,6 +350,7 @@ class ContenidoController extends Controller {
         return $this->render('publicaciones', ['listDataProvider' => $dataProvider, 'todasArea' => 'mispublicaciones']);
     }
 
+
 /*------------------------------------------------------------------------------*/
     /**
      * buscardor de noticias

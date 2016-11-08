@@ -4,7 +4,9 @@ use vova07\imperavi\Widget;
 use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\Html;
+use yii\helpers\BaseStringHelper;
 use app\modules\intranet\models\LineaTiempo;
+
 
 $completo = isset($completo) ? $completo : false;
 ?>
@@ -68,11 +70,17 @@ $completo = isset($completo) ? $completo : false;
                     ['contenido/detalle-contenido', 'idNoticia' => $noticia->idContenido], ['class' => '']) ?>
 
                   <!-- Contenido noticia -->
-                  <div style="<?= $completo ? "": "max-height: 150px; text-overflow:ellipsis; overflow:hidden;margin-bottom: 25px;"?>">
-                    <p>
+                  <?php if ($completo): ?>
+                    <div>
                       <?= $noticia->contenido ?>
-                    </p>
-                  </div>
+                    </div>
+                  <?php else: ?>
+                    <div>
+                      <?php var_dump($noticia->vistaPrevia()); ?>
+                      <!-- <?php $link = Html::a('<h5 class=" title-notice inline m-b-5"><span class="text-success semi-bold">Leer más</h5>', ['contenido/detalle-contenido', 'idNoticia' => $noticia->idContenido], ['class' => '']) ?> -->
+                      <!-- <?php echo BaseStringHelper::truncate($noticia->contenido, 300, $link, null, true) ?> -->
+                    </div>
+                  <?php endif; ?>
 
                   <!-- IMAGENES -->
                   <?php if (!empty($noticia->objContenidoAdjuntoImagenes)): ?>

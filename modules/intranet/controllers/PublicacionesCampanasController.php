@@ -85,6 +85,7 @@ class PublicacionesCampanasController extends Controller {
         $model->scenario = PublicacionesCampanas::SCENARIO_CREAR;
 
         if ($model->load(Yii::$app->request->post())) {
+            // var_dump($model);
             $model->guardarImagen('');
 
             $transaction = PublicacionesCampanas::getDb()->beginTransaction();
@@ -123,6 +124,7 @@ class PublicacionesCampanasController extends Controller {
 
         if ($model->load(Yii::$app->request->post())) {
             $model->guardarImagen($atributoRutaImagen);
+            $model->guardarImagen($model->rutaImagenResponsive);
 
 
             $transaction = PublicacionesCampanas::getDb()->beginTransaction();

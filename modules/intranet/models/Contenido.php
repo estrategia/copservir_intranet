@@ -707,4 +707,15 @@ class Contenido extends \yii\db\ActiveRecord {
         }
     }
 
+    public function vistaPrevia()
+    {
+      // $re_extractImages = '/<img.*src=["\']([^ ^"^\']*)["\']/ims';
+      $re_cleanImages = '~<img[^>]*>~';
+      $vistaPrevia = $this->contenido;
+      // preg_match_all( $re_extractImages, $vistaPrevia, $matches);
+      // $images = $matches[1];
+      $vistaPrevia = preg_replace($re_cleanImages, '', $vistaPrevia);
+      return $vistaPrevia;
+    }
+
 }

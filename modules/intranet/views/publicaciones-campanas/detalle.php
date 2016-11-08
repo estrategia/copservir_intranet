@@ -34,6 +34,13 @@ $this->params['breadcrumbs'][] = ['label' => 'Ver publicidad'];
 
             ],
             [
+              'attribute' => 'rutaImagenResponsive',
+              'format'=>'raw',
+              'value' => '<img src="'.Yii::getAlias('@web').'/img/campanas/'. $model->rutaImagenResponsive.'" class="img-responsive"
+                style="width: 22%;"/>'
+
+            ],
+            [
               'label'=>'Enlace a noticia',
               'attribute'=>'urlEnlaceNoticia:url',
               'format'=>'raw',
