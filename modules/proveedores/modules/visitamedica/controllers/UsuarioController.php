@@ -39,7 +39,7 @@ class UsuarioController extends Controller
                 ],
                 'authsActions' => [
                     'admin' => 'visitaMedica_usuario_admin',
-                    // 'ver' => 'visitaMedica_usuario_ver',
+                    'ver' => 'visitaMedica_usuario_ver',
                     'crear' => 'visitaMedica_usuario_crear',
                     'actualizar' => 'visitaMedica_usuario_admin',
                     'coreo-admin' => 'visitaMedica_usuario_correo-admin',
@@ -212,9 +212,11 @@ class UsuarioController extends Controller
         // var_dump($response->data);
         $profesiones = ArrayHelper::map($response->data['response'], 'idProfesion', 'nombreProfesion');
         if ($usuarioVimed->load(Yii::$app->request->post())) {
-            $idProfesion = Yii::$app->request->post()['UsuarioProveedor']['idProfesion'];
-            $usuarioVimed->profesion = $profesiones[$idProfesion];
-            $usuarioVimed->idProfesion = $idProfesion;
+            if (!empty(Yii::$app->request->post()['UsuarioProveedor']['idProfesion'])) {
+                $idProfesion = Yii::$app->request->post()['UsuarioProveedor']['idProfesion'];
+                $usuarioVimed->profesion = $profesiones[$idProfesion];
+                $usuarioVimed->idProfesion = $idProfesion;
+            }
             if ( $usuarioVimed->save()) {
                 return $this->redirect('mi-cuenta');
             }
@@ -254,6 +256,7 @@ class UsuarioController extends Controller
 
     public function actionMiCuenta()
     {
+        // var_dump(Yii::$app->user->identity->tienePermiso("proveedores_admin")); exit();
         $intranetUser = \app\models\Usuario::findOne(Yii::$app->user->identity->idUsuario);
         $vimedUser = UsuarioProveedor::findOne(['numeroDocumento', $intranetUser->numeroDocumento]);
         return $this->render('miCuenta', ['model' => $vimedUser]);

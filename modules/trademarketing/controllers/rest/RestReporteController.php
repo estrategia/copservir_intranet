@@ -5,6 +5,7 @@ namespace app\modules\trademarketing\controllers\rest;
 use yii\rest\ActiveController;
 use app\modules\trademarketing\models\PorcentajeEspaciosPuntoVentaSearch;
 use app\modules\trademarketing\models\Reporte;
+use yii\helpers\VarDumper;
 
 /**
 * Controlador para api REST del modelo Reporte
@@ -33,9 +34,13 @@ class RestReporteController extends ActiveController
     */
     public function actionInformacionReporte($id)
     {
-      $reporte = new Reporte();
-      $reporte->cearReporte($id);
-      $reporte->generarValoresReporte();
-      return $reporte;
+      $reporte = new Reporte($id);
+      // $reporte->cearReporte($id);
+      // $reporte->generarDatos();
+      \Yii::$app->response->format = 'json';
+      return $reporte->generarDatos();
+      // VarDumper::dump($reporte->asignacion->calificaciones[0]->variable->categoria, 10,true);
+      // VarDumper::dump($reporte->generarDatos(), 10, true);
+      // return $reporte->generarTablaReporte();
     }
 }

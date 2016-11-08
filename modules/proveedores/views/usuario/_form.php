@@ -133,7 +133,7 @@ use kartik\select2\Select2;
                             'options' => ['multiple' => false, 'placeholder' => 'Selecciona unidad de negocio ...']
                         ]);*/
                     	echo $form->field($model, 'idAgrupacion')->widget(Select2::classname(), [
-                    		'data' => $terceros,
+                    		'data' => $unidadesNegocio,
                     		'options' => ['placeholder' => 'Selecciona unidad negocio ...'],
                     		'pluginOptions' => [
                     				'allowClear' => true
