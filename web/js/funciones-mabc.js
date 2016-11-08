@@ -1629,24 +1629,15 @@ $(document).on('click', "a[data-role='ver-orden-menu']", function() {
         dataType: 'json',
         beforeSend: function() {
           $('body').showLoading();
-          // $('#listaContenidoEmergente').remove();
+          $('#modal-menu .modal-content .modal-body').html("");
         },
         complete: function(data) {
           $('body').hideLoading();
         },
         success: function(data) {
             if (data.result == "ok") {
-              // $('#widget-submenu-portal').remove();
-              $('#modal-menu .modal-body > list-group list-group-root well').html(data.response);
-              console.log(data.response);
-
-
-              // $('#button'+idMenuPortal).remove();
-
-              // padre = $('#menuportales-idmenuportalpadre').val();
-              // $('#button'+padre).text('Asignado');
-
-              // $('#widget-submenu-portal').modal('show');
+              $('#modal-menu').modal("show");
+              $('#modal-menu .modal-content .modal-body').html(data.response);
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {

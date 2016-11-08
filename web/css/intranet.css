@@ -285,12 +285,14 @@ MENU DESPLEGABLE
     position: absolute;
     top: 45%;
     left: 0;
+    cursor: pointer;
 }
 
 .owl-custom-control-right {
     position: absolute;
     top: 45%;
     right: 0;
+    cursor: pointer;
 }
 
 #cumpleanios .grid-title {

@@ -11,6 +11,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 use yii\db\Query;
+use yii\helpers\VarDumper;
+use yii\web\UploadedFile;
 
 /**
  * GrupoInteresController implementa las acciones para el modelo GrupoInteres.
@@ -115,10 +117,8 @@ class GrupoInteresController extends Controller {
     public function actionActualizar($id) {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) ) { //&& $model->save()
-
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
           $model->asignarImagenGrupo();
-
           if ($model->save()) {
             return $this->redirect(['detalle', 'id' => $model->idGrupoInteres]);
           }

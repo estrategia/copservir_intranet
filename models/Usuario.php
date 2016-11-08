@@ -19,10 +19,14 @@ use app\modules\intranet\models\UsuarioIntranet;
  * This is the model class for table "m_usuario".
  *
  * @property string $idUsuario
- * @property string $numeroDocumento
+ * @property integer $numeroDocumento
  * @property string $alias
  * @property integer $estado
  * @property string $llaveAutenticacion
+ * @property string $imagenPerfil
+ * @property string $imagenFondo
+ * @property string $contrasena
+ * @property integer $codigoPerfil
  */
 class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
 
@@ -204,6 +208,7 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
             [['numeroDocumento', 'estado', 'codigoPerfil'], 'integer'],
             [['alias'], 'string', 'max' => 60],
             [['contrasena'], 'string', 'max' => 32],
+        	[['imagenPerfil','imagenFondo'], 'string', 'max' => 60],
             [['numeroDocumento'], 'unique'],
             [['llaveAutenticacion'], 'safe'],
         ];

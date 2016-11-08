@@ -133,8 +133,8 @@ class SitioController extends \app\controllers\CController {
 		$bannerArribaTwo[1] = array('idImagenCampana'=>'21', 'rutaImagen'=>'1470070086_16929837.jpg', 'urlEnlaceNoticia'=>'/intranet/sitio/contenido?modulo=108');
 
         //cumpleaños y aniversarios
-        $cumpleanos = CumpleanosPersona::getCumpleanosIndex($userCiudad, $userGrupos);
-        $aniversarios = CumpleanosLaboral::getAniversariosIndex($userCiudad, $userGrupos);
+        $cumpleanos = CumpleanosPersona::getCumpleanosIndex();
+        $aniversarios = CumpleanosLaboral::getAniversariosIndex();
 		
 		//calificacion caritas
 		//$calificacionCaritas = Yii::$app->db2->createCommand("SELECT * FROM t_calificacionDomicilios")->queryOne();

@@ -153,7 +153,7 @@ if (!Yii::$app->user->isGuest) {
                                     <li><?= Html::a('Mi pantalla de inicio', ['usuario/pantalla-inicio']) ?></li>
                                     <li class="divider"></li>
                                     <li>
-                                        <?= Html::beginForm(['usuario/salir'], 'post', ['id' => 'form-salir']); ?>
+                                        <?= Html::beginForm(['/intranet/usuario/salir'], 'post', ['id' => 'form-salir']); ?>
                                         <?= Html::submitButton('<i class="fa fa-power-off"></i> Salir', ['class' => 'btn btn-link']); ?>
                                         <?= Html::endForm(); ?>
                                     </li>

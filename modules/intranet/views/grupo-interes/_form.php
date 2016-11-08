@@ -12,7 +12,7 @@ use yii\widgets\ActiveForm;
   <?php $model->estado = $model->isNewRecord ? 1 : $model->estado;  ?>
   <?= $form->field($model, 'estado')->dropDownList(['0' => 'Inactivo', '1' => 'Activo']); ?>
 
-  <?= $form->field($model, "imagenGrupo")->fileInput(['multiple' => false ]) ?>
+  <?= $form->field($model, "imagenGrupo")->fileInput() ?>
   <div class="form-group">
     <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
   </div>

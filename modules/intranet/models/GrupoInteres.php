@@ -26,7 +26,8 @@ class GrupoInteres extends \yii\db\ActiveRecord
   {
     return [
       [['nombreGrupo', 'estado'], 'required'],
-      [['nombreGrupo','imagenGrupo'], 'string', 'max' => 45]
+      [['nombreGrupo','imagenGrupo'], 'string', 'max' => 45],
+      [['imagenGrupo'], 'file', 'extensions' => 'jpg, png, jpeg'],
     ];
   }
 
@@ -56,14 +57,12 @@ class GrupoInteres extends \yii\db\ActiveRecord
 
   public function asignarImagenGrupo()
   {
-    $this->imagenGrupo = UploadedFile::getInstances($this, 'imagenGrupo');
-
-    if (!empty($this->imagenGrupo)) {
-        foreach ($this->imagenGrupo as $file) {
-          $file->saveAs('img/gruposInteres/' . $file->baseName . '.' . $file->extension);
-          $this->imagenGrupo = $file->baseName . '.' . $file->extension;
-        }
-    }
+  	$file = UploadedFile::getInstance($this, 'imagenGrupo');
+  	 
+  	if (!empty($file)) {
+  		$file->saveAs('img/gruposInteres/' . $file->baseName . '.' . $file->extension);
+  		$this->imagenGrupo = $file->baseName . '.' . $file->extension;
+  	}
   }
 
 }
