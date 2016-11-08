@@ -85,7 +85,7 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
   public static function getCampana($userCiudad, $userGrupos, $posicion)
   {
     $db = Yii::$app->db;
-    $campana = $db->createCommand('select distinct pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia
+    $campana = $db->createCommand('select distinct pc.idImagenCampana, pc.rutaImagen, pc.rutaImagenResponsive, pc.urlEnlaceNoticia
     from t_CampanasDestino as pcc, t_PublicacionesCampanas as pc
     where (pcc.idImagenCampana = pc.idImagenCampana and pc.fechaInicio<=:fecha and pc.fechaFin >=:fecha and pc.estado=:estado and pc.posicion =:posicion
     and (( pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:userCiudad) or ( pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:userCiudad)  )  )
@@ -118,7 +118,7 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
       $imagenResponsive = UploadedFile::getInstance($this, 'rutaImagenResponsive'); // si no selecciona nada pone null
       // var_dump($imagenResponsive); exit();
       if (!is_null($imagenResponsive)) {
-        $nombre = time().'_'.$numeroDocumento.' . responsive .' . $imagen->extension;
+        $nombre = time().'_'.$numeroDocumento.' . responsive .' . $imagenResponsive->extension;
         $imagenResponsive->saveAs('img/campanas/'. $nombre);
         $this->rutaImagenResponsive = $nombre;
       }else{

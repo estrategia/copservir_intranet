@@ -2,21 +2,21 @@
 -------------------------------------------------- */
 /* Padding below the footer and lighter body text */
 body {overflow-x: hidden;}
-@font-face{ 
+@font-face{
 	font-family: 'FontAwesome';
 	src: url('../libs/fonts/FontAwesome/fonts/FontAwesome.eot');
 	src: url('../libs/fonts/FontAwesome/fonts/FontAwesome.woff') format('woff'),
 	     url('../libs/fonts/FontAwesome/fonts/FontAwesome.ttf') format('truetype');
 }
 
-@font-face{ 
+@font-face{
 	font-family: 'Questa sans';
 	src: url('../libs/fonts/questa_Sans/Questa_Sans_Regular-webfont.eot');
 	src: url('../libs/fonts/questa_Sans/Questa_Sans_Regular-webfont.woff') format('woff'),
 	     url('../libs/fonts/questa_Sans/Questa_Sans_Regular-webfont.ttf') format('truetype');
 }
 
-@font-face{ 
+@font-face{
 	font-family: 'Century gothic';
 	src: url('../libs/fonts/gothic/gothic.eot');
 	src: url('../libs/fonts/gothic/gothic.woff') format('woff'),
@@ -25,7 +25,7 @@ body {overflow-x: hidden;}
 
 body {
   color: #5a5a5a;
-  font-size:16px;  
+  font-size:16px;
 }
 h2 {
   font-size: 24px;
@@ -138,9 +138,9 @@ ul.list{ list-style-image: url("../img/multiportal/tarjetamas/check.png"); }
   border-bottom: 1px solid #ddd;
   font-family: Georgia;
 }
-.navbar-collapse.collapse.in {
+/*.navbar-collapse.collapse.in {
   background-color: rgba(0,0,0,0.5);
-}
+}*/
 .gray-sec {
   background-color: #efefef;
   padding: 40px;
@@ -725,7 +725,7 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
 }
 */
 
-      
+
 .nav li ul li ul {
   right: -250px;
   top: 0;
@@ -737,11 +737,11 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
 .submenu li a:hover {text-decoration:none;}
 
 .submenu.sub-tarjetamas li{
-   background-color: #C00000; 
+   background-color: #C00000;
    border-left:5px solid #fff;
 }
 .submenu.sub-tarjetamas li:hover{
-   background-color: #a50606; 
+   background-color: #a50606;
 }
 .tarjeta-mas .nav li a:hover {
    background-color: #a50606;
@@ -771,10 +771,10 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
     transition: all .4s;
 }
 .container.coop .navbar-nav > li > a {background-color: #3CB04B;}
-.container.coop .navbar-nav > li > a:hover {background-color: #146f02;} 
+.container.coop .navbar-nav > li > a:hover {background-color: #146f02;}
 
 .container.proveedor .navbar-nav > li > a {background-color: #C00000;}
-.container.proveedor .navbar-nav > li > a:hover {background-color: #E10A0A;} 
+.container.proveedor .navbar-nav > li > a:hover {background-color: #E10A0A;}
 
 
 
