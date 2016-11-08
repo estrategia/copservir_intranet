@@ -7,7 +7,7 @@ use yii\web\Controller;
 use app\modules\intranet\models\DataTableForm;
 use yii\web\UploadedFile;
 use \app\modules\intranet\models\MenuPortales;
-//use yii\rbac\Role;
+use yii\rbac\Role;
 use yii\helpers\VarDumper;
 use app\modules\intranet\models\AuthItem;
 use app\modules\intranet\models\AuthItemChild;
