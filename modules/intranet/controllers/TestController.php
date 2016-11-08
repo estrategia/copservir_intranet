@@ -27,7 +27,7 @@ class TestController extends Controller {
         $fecha_i = "2014-08-18";
         $fecha_f = "2016-08-17";
         $result = \app\modules\intranet\models\Funciones::tiempoTranscurridos($fecha_i, $fecha_f);
-        VarDumper::dump($result, 10, true);
+        //VarDumper::dump($result, 10, true);
     }
     
     public function actionCumple($index=1){
