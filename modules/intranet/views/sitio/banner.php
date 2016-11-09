@@ -35,16 +35,17 @@ if(($handle = fopen("$rutaArchivo", "r")) !== false)
 
 <div id="<?= $idItem ?>" class="carousel slide" data-ride="carousel">
 
-  <div class="carousel-inner" role="listbox">		
+  <div class="carousel-inner" role="listbox">
     <?php $contador = 0 ?>
     <?php foreach ($banners as $banner): ?>
       <div id="<?= $idItem.$contador  ?>" class="item">
-          <?php Funciones::getHtmlLink($banner['urlEnlaceNoticia'],"<img class='img-responsive' src='".Yii::$app->homeUrl . "img/campanas/".$banner['rutaImagen']."' alt=''>"); ?>
-		  <?php if($existe and $idItem == "bannerArriba" and $banner['idImagenCampana'] == 20): ?>	
+          <?php Funciones::getHtmlLink($banner['urlEnlaceNoticia'],"<img class='img-responsive visible-xs visible-sm' src='".Yii::$app->homeUrl . "img/campanas/".$banner['rutaImagenResponsive']."' alt=''>"); ?>
+          <?php Funciones::getHtmlLink($banner['urlEnlaceNoticia'],"<img class='img-responsive visible-md visible-lg ' src='".Yii::$app->homeUrl . "img/campanas/".$banner['rutaImagen']."' alt=''>"); ?>
+		  <?php if($existe and $idItem == "bannerArriba" and $banner['idImagenCampana'] == 20): ?>
 			  <div class="carousel-caption">
 				<h3>Hola <?= $userNombreCompleto ?></h3>
-			  </div>	  
-          <?php endif; ?>	
+			  </div>
+          <?php endif; ?>
 	  </div>
       <?php  $contador++; ?>
     <?php endforeach; ?>

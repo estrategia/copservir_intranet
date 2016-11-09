@@ -45,8 +45,9 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
       [['fechaInicio', 'fechaFin'], 'safe'],
       [['nombreImagen'], 'string', 'max' => 60],
       [['urlEnlaceNoticia'], 'string', 'max' => 45],
-      [['rutaImagen'], 'safe'],
+      [['rutaImagen', 'rutaImagenResponsive'], 'safe'],
       [['rutaImagen'], 'required', 'on' => self::SCENARIO_CREAR ],
+      [['rutaImagenResponsive'], 'required', 'on' => self::SCENARIO_CREAR ],
     ];
   }
 
@@ -56,6 +57,7 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
       'idImagenCampana' => 'Id Imagen Campana',
       'nombreImagen' => 'Nombre Imagen',
       'rutaImagen' => 'Ruta Imagen',
+      'rutaImagenResponsive' => 'Ruta Imagen Responsive',
       'numeroDocumento' => 'Numero Documento',
       'urlEnlaceNoticia' => 'Url Enlace Noticia',
       'fechaInicio' => 'Fecha Inicio',
@@ -83,7 +85,7 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
   public static function getCampana($userCiudad, $userGrupos, $posicion)
   {
     $db = Yii::$app->db;
-    $campana = $db->createCommand('select distinct pc.idImagenCampana, pc.rutaImagen, pc.urlEnlaceNoticia
+    $campana = $db->createCommand('select distinct pc.idImagenCampana, pc.rutaImagen, pc.rutaImagenResponsive, pc.urlEnlaceNoticia
     from t_CampanasDestino as pcc, t_PublicacionesCampanas as pc
     where (pcc.idImagenCampana = pc.idImagenCampana and pc.fechaInicio<=:fecha and pc.fechaFin >=:fecha and pc.estado=:estado and pc.posicion =:posicion
     and (( pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:userCiudad) or ( pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres IN(:userGrupos) and pcc.codigoCiudad =:todosCiudad) or (pcc.idGrupoInteres =:todosGrupos and pcc.codigoCiudad =:userCiudad)  )  )
@@ -103,15 +105,24 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
   // FUNCIONES
   public function guardarImagen($rutaAnterior)
   {
-    $file = UploadedFile::getInstance($this, 'rutaImagen'); // si no selecciona nada pone null
     $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+      $imagen = UploadedFile::getInstance($this, 'rutaImagen'); // si no selecciona nada pone null
+      if (!is_null($imagen)) {
+        $nombre = time().'_'.$numeroDocumento.'.' . $imagen->extension;
+        $imagen->saveAs('img/campanas/'. $nombre);
+        $this->rutaImagen = $nombre;
+      }else{
+        $this->rutaImagen = $rutaAnterior;
+      }
 
-    if (!is_null($file)) {
-      $file->saveAs('img/campanas/'.time().'_'.$numeroDocumento.'.' . $file->extension);
-      $this->rutaImagen = time().'_'.$numeroDocumento. '.' . $file->extension;
-    }else{
-      $this->rutaImagen = $rutaAnterior;
-    }
+      $imagenResponsive = UploadedFile::getInstance($this, 'rutaImagenResponsive'); // si no selecciona nada pone null
+      // var_dump($imagenResponsive); exit();
+      if (!is_null($imagenResponsive)) {
+        $nombre = time().'_'.$numeroDocumento.' . responsive .' . $imagenResponsive->extension;
+        $imagenResponsive->saveAs('img/campanas/'. $nombre);
+        $this->rutaImagenResponsive = $nombre;
+      }else{
+        $this->rutaImagenResponsive = $rutaAnterior;
+      }
   }
-
 }

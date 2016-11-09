@@ -27,7 +27,19 @@ use app\modules\intranet\models\CampanasDestino;
           ]
         ])->label('Imagen');
       ?>
-
+      <?=
+        $form->field($model, 'rutaImagenResponsive')->widget(FileInput::classname(), [
+          'options' => ['accept' => 'image/*'],
+          'pluginOptions' => [
+            'maxFileSize' => 5120,
+            'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
+            'showPreview' => true,
+            'showCaption' => true,
+            'showRemove' => true,
+            'showUpload' => false,
+          ]
+        ])->label('Imagen Responsive');
+      ?>
     <?php else: ?>
       <?=
         $form->field($model, 'rutaImagen')->widget(FileInput::classname(), [
@@ -48,6 +60,26 @@ use app\modules\intranet\models\CampanasDestino;
             'showUpload' => false,
           ]
         ])->label('Imagen');
+      ?>
+      <?=
+        $form->field($model, 'rutaImagenResponsive')->widget(FileInput::classname(), [
+          'options' => ['accept' => 'image/*'],
+          'pluginOptions' => [
+            'initialPreview'=>[
+
+              '<img src="'.Yii::getAlias('@web').'/img/campanas/'. $model->rutaImagenResponsive.'" class="img-responsive"
+                />'
+
+            ],
+            'initialPreviewAsData'=>false,
+            'maxFileSize' => 5120,
+            'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
+            'showPreview' => true,
+            'showCaption' => true,
+            'showRemove' => true,
+            'showUpload' => false,
+          ]
+        ])->label('Imagen Responsive');
       ?>
 
     <?php endif; ?>

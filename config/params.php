@@ -56,6 +56,10 @@ return [
     'imagenesNoticias' => [
         'limiteVisualizar' => 3
     ],
+    'longitudResumenNoticias' => [
+        'intranet' => 300,
+        'portales' => 120,
+    ],
     'lineasTiempo' => [
         'cumpleanios' => 5,
         'aniversario' => 6

@@ -30,7 +30,7 @@ if(($handle = fopen("$rutaArchivo", "r")) !== false)
 		<?= $this->render('banner', ['banners' => $bannerArribaTwo, 'location' => 0]) ?>
 	  <?php else:?>
 	    <?= $this->render('banner', ['banners' => $bannerArriba, 'location' => 0]) ?>
-	  <?php endif; ?>	
+	  <?php endif; ?>
     </div>
   </div>
 <?php endif;?>
@@ -146,8 +146,8 @@ if(($handle = fopen("$rutaArchivo", "r")) !== false)
       <?php echo $this->render('_indicador', ['indicador' => $indicador]); ?>
     <?php endforeach; ?>
   </div>
-  
-  <div class="col-md-12 col-sm-12">		   
+
+  <div class="col-md-12 col-sm-12">
 	<?php
 	//cantidad clientes
 	$ac2=$a2/5;
@@ -158,15 +158,15 @@ if(($handle = fopen("$rutaArchivo", "r")) !== false)
 	$suma_clientes2=$ac2+$bc2+$cc2+$dc2;//suma cantidad clientes
 	$suma_ponderado2=$a2+$b2+$c2+$d2;//suma ponderado
 	$calificacion2= floor(($suma_ponderado2/$suma_clientes2)*pow(10, 1))/pow(10,1);//calificacion resultado final
-	?>			
-		<div id="indicador_3"> 
+	?>
+		<div id="indicador_3">
 			<div class="tiles_lrv m-b-10">
-				<div class="tiles-body">				
+				<div class="tiles-body">
 					<div class="row">
 						<div class="col-xs-3"><img src="../../../archivos_intranet/caritas/logo_icono.png" width="45"></div>
 						<div class="col-xs-9"><h4 class="text-black no-margin semi-bold">Experiencia Compra LRV</h4></div>
 					</div>
-					<h1 class="semi-bold text-white"><?= $calificacion2 ?> 
+					<h1 class="semi-bold text-white"><?= $calificacion2 ?>
 						<?php if ($calificacion2 <= 3): ?>
 							<?= "<i class='icon-custom-down icon-custom-2x'></i>" ?>
 						<?php else:?>
@@ -179,9 +179,9 @@ if(($handle = fopen("$rutaArchivo", "r")) !== false)
 					<button class="btn btn-white btn-xs btn-mini" type="button" onclick="window.open('http://intranet2.copservir.com/intranet/docs/calificacion.php?mostrar=1', '_blank')">Más indicadores</button>
 				</div>
 			</div>
-	    </div>				
+	    </div>
   </div>
-<!-- END ESTADISTICAS --> 
+<!-- END ESTADISTICAS -->
 
 <!--publicidad derecha -->
   <?php //if(!in_array(\app\modules\intranet\models\UsuarioWidgetInactivo::WIDGET_BANNER_INF,Yii::$app->user->identity->getOcultosDashboard())): ?>

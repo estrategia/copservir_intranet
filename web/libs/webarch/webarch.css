@@ -1971,7 +1971,7 @@ you can use the generic selector below, but it's slower:
   .horizontal-menu .page-content .content {
     padding-top: 123px;
   }
-  
+
 }
 
 @media (max-width: 766px){
@@ -7940,7 +7940,6 @@ input[type="checkbox"] {
 [19. Timeline]
 */
 .cbp_tmtimeline {
-  margin: 30px 0 0 0;
   padding: 0;
   list-style: none;
   position: relative;
@@ -8111,9 +8110,38 @@ input[type="checkbox"] {
     position: relative;
     float: right;
     left: auto;
-    margin: -55px 5px 0 0px;
+    margin: 0px 5px 0 0px;
+    z-index: 10;
   }
+.cbp_tmtimeline {
+    margin: 30px 0 0 0;
+  }
+
 }
+
+@media screen and (max-width: 455px){
+  .cbp_tmtimeline > li .cbp_tmicon {
+    position: relative;
+    float: initial;
+    left: auto;
+    margin: 0 auto;
+    z-index: 10;
+    margin-bottom: 20px;
+  }
+
+}
+
+@media screen and (max-width: 600px){
+  .col-sm-12, .col-md-12 {padding:0px;}
+  .col-xs-12 {padding:0px;}
+  .cbp_tmtimeline > li .cbp_tmlabel {padding: 0px;}
+  .col-md-4   {padding:0px;}
+  #mostrarFormularioContenido {margin-top: 20px;}
+  ol , ul {padding: 0;}
+
+}
+
+
 /*------------------------------------------------------------------
 [20. Search Results]
 */
