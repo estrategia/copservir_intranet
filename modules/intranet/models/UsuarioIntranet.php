@@ -21,7 +21,7 @@ class UsuarioIntranet extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'm_intra_usuario';
+        return 'm_INTRA_Usuario';
     }
 
     /**

@@ -113,7 +113,7 @@ if (!Yii::$app->user->isGuest) {
                                         'id' => 'selectCiudadVisualizacion',
                                         'value' => '',
                                         'data' => ArrayHelper::map(Ciudad::find()->orderBy('nombreCiudad')->all(), 'codigoCiudad', 'nombreCiudad'),
-                                        'options' => ['placeholder' => 'Seleccione la ciudad para ver las publicaciones']
+                                        'options' => ['placeholder' => 'Seleccionar ciudad']
                                     ]);
                                 ?>
                             </li>

@@ -1805,7 +1805,7 @@ $( document ).ready(function() {
     autoplayHoverPause:true,
     responsiveClass:true,
     loop:true,
-    items: 5,
+    items: 6,
     nav:true,
     dots: false,
     controls: true,
@@ -1834,7 +1834,7 @@ $( document ).ready(function() {
     autoplayHoverPause:true,
     responsiveClass:true,
     loop:true,
-    items: 5,
+    items: 6,
     nav:false,
     dots: false,
   });
