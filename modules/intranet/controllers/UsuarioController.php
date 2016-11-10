@@ -311,23 +311,26 @@ class UsuarioController extends \yii\web\Controller {
         return $this->render('perfil', ['contenidos' => $contenidos, 'meGustan' => $meGustan, 'gruposReferencia' => $gruposReferencia]);
     }
 
-    public function actionVer()
+    public function actionVer($documento)
     {
-        if (Yii::$app->request->get()) {
-            $documento = Yii::$app->request->get()['documento'];
-            $imagenPerfil = Yii::$app->homeUrl . 'img/fotosperfil/' . Usuario::findOne(['numeroDocumento' => $documento])->imagenPerfil;
-            // var_dump($imagenPerfil);
-            $usuario = new Usuario;
-            $usuario->numeroDocumento = $documento;
-            $usuario->generarDatos(true, false);
-            $datos = $usuario->getData();
-            // var_dump($usuario->imagenPerfil);
-            // VarDumper::dump($usuario, 10, true);
-            $meGustan = MeGustaContenidos::find()->where(['numeroDocumento' => $usuario->numeroDocumento])->count();
-            $contenidos = Contenido::find()->where(['numeroDocumentoPublicacion' => $usuario->numeroDocumento])->count();
-            $gruposReferencia = GrupoInteres::find()->where('idGrupoInteres IN (' . implode(",", $usuario->getGruposCodigos()) . ')')->all();
-        return $this->render('perfilUsuario', ['contenidos' => $contenidos, 'meGustan' => $meGustan, 'gruposReferencia' => $gruposReferencia, 'usuario' => $datos, 'imagenPerfil' => $imagenPerfil]);
-        }   
+    	$objUsuario = Usuario::findOne(['numeroDocumento' => $documento]);
+        
+        if($objUsuario===null){
+        	throw new NotFoundHttpException('Usuario no existe en intranet.');
+        }
+        
+        $objUsuario->generarDatos(true, false);
+        $arrUsuario = $objUsuario->getData();
+        
+        $arrGruposCodigos = [Yii::$app->params['grupo']['*']];
+        if (!empty($arrUsuario['gruposInteres'])) {
+        	$arrGruposCodigos = $arrUsuario['gruposInteres'];
+        }
+        $listGrupoInteres = GrupoInteres::find()->where('idGrupoInteres IN (' . implode(",", $arrGruposCodigos) . ')')->all();
+        $nMeGustan = MeGustaContenidos::find()->where(['numeroDocumento' => $documento])->count();
+        $nContenidos = Contenido::find()->where(['numeroDocumentoPublicacion' => $documento])->count();
+            
+        return $this->render('perfilUsuario', ['nContenidos' => $nContenidos, 'nMeGustan' => $nMeGustan, 'listGrupoInteres' => $listGrupoInteres, 'arrUsuario' => $arrUsuario, 'objUsuario' => $objUsuario]);
     }
 
     public function actionCambiarFotoPerfil() {

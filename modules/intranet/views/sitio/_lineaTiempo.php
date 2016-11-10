@@ -9,7 +9,7 @@ use \app\modules\intranet\models\LineaTiempo;
     </div>
 <?php endif; ?>
 
-<?php if ($linea->tipo != LineaTiempo::TIPO_ANIVERSARIO): ?>
+<?php if ($linea->tipo != LineaTiempo::TIPO_ANIVERSARIO && $linea->idLineaTiempo!==1): ?>
     <div class="">
         <a href="#" id="mostrarFormularioContenido" class="btn btn-primary btn-small">
             crea una publicacion

@@ -6,7 +6,8 @@ use yii\helpers\Html;
     <div id="<?= 'owl-'.$flag ?>" class="owl-carousel">
       <?php foreach ($models as $model): ?>
         <div class="item orange center-block " style="text-align: center;">
-          <img class='img-circle img-responsive' src="<?= Yii::getAlias('@web').'/img/fotosperfil/'. $model->objUsuario->getImagenPerfil() ?>" alt="<?=$model->nombre?>" style="width: 30%; margin-left: auto; margin-right: auto;">
+          <div class="circle-avatar" style="background-image:url(<?= Yii::getAlias('@web').'/img/fotosperfil/'. $model->objUsuario->getImagenPerfil() ?>)"></div>
+          <!--  <img class='img-circle img-responsive' src="<?= Yii::getAlias('@web').'/img/fotosperfil/'. $model->objUsuario->getImagenPerfil() ?>" alt="<?=$model->nombre?>" style="width: 30%; margin-left: auto; margin-right: auto;"> -->
             <?php
             $fecha_dividida = explode("-", $model->fecha);
             $mes = \Yii::$app->params['calendario']['meses'][ (int)$fecha_dividida[1]];

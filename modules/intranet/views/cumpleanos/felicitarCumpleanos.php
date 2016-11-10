@@ -21,9 +21,7 @@
     <div class="grid-body center-block">
 
       <div class="col-md-4">
-        <img class='img-circle img-responsive' src="<?= Yii::getAlias('@web').'/img/fotosperfil/'. $modelCumpleanosPersona->objUsuario->getImagenPerfil() ?>" alt="Responsive">
-        <br>
-
+        <div class="circle-avatar" style="background-image:url(<?= Yii::getAlias('@web').'/img/fotosperfil/'. $modelCumpleanosPersona->objUsuario->getImagenPerfil() ?>)"></div>
       </div>
 
       <div class="col-md-6" style="border-left: 1px solid #eee;">

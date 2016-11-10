@@ -20,15 +20,25 @@ $this->title = 'Ofertas Laborales';
         'layout' => "{summary}\n{items}\n<center>{pager}</center>",
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'tituloOferta',
+        	'nombreCargo',
+        	[
+        		'attribute' => 'idCiudad',
+        		'value' => 'objCiudad.nombreCiudad',
+        	],
+        	'fechaCierre',
             // 'descripcionContactoOferta:ntext',
-            'urlElEmpleo:url',
-            [
-              'attribute' => 'idCiudad',
-              'value' => 'objCiudad.nombreCiudad',
-            ],
-            'nombreCargo',
+        	[
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{link}',
+                'buttons' => [
+                   'link' => function ($url, $model, $key) {
+                     return Html::a('Postularse', $model->urlElEmpleo, ['target' => '_blank', 'class' => 'btn btn-xs btn-primary ']);
+                  },
+                ],
+            ],	
+            
+            
         ],
     ]); ?>
     <?php Pjax::end(); ?>

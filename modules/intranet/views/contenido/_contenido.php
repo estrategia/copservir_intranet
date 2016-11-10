@@ -37,7 +37,12 @@ $completo = isset($completo) ? $completo : false;
         <div class="cbp_tmlabel">
             <div class="">
 
-                <h5 class="inline semi-bold m-b-5"> 
+				<?php if($noticia->idLineaTiempo==1): ?>
+				<h5 class="inline semi-bold m-b-5"> 
+                  <?= $noticia->objUsuarioPublicacion->alias ?>
+                </h5>
+				<?php else: ?>
+				<h5 class="inline semi-bold m-b-5"> 
                   <?php $persona = $noticia->objUsuarioPublicacion->objUsuarioIntranet; ?>
                   <a href=" <?php echo Yii::$app->getUrlManager()->getBaseUrl() . '/intranet/usuario/ver?documento=' . $noticia->objUsuarioPublicacion->numeroDocumento ?> ">
                     <?php 
@@ -45,6 +50,8 @@ $completo = isset($completo) ? $completo : false;
                     ?>
                   </a>
                 </h5>
+				<?php endif;?>
+                
                 <div class="muted">
 
                   <?php if (isset($noticia->fechaInicioPublicacion)): ?>
@@ -79,9 +86,11 @@ $completo = isset($completo) ? $completo : false;
                       <?php echo $noticia->getVistaPrevia($link, Yii::$app->params['longitudResumenNoticias']['intranet']); ?>
                     </div>
                   <?php endif; ?>
+                  <?php if(!$completo):?>
                   <?php $imagenesEditor = $noticia->getImagenesContenido(); ?>
                   <?php if (!empty($imagenesEditor)): ?>
                     <?php $contador = 0; ?>
+                    <div class="row">
                     <?php foreach($imagenesEditor as $imagen): ?>
                         <?php
                           $contador++;
@@ -98,7 +107,7 @@ $completo = isset($completo) ? $completo : false;
                           }
                         ?>
                         <div class="col-md-4 col-sm-4">
-                          <a class="lightbox gallery<?= $noticia->idContenido ?>" href="<?= $imagen ?>" style="<?= $style ?>">
+                          <a class="lightbox gallery_editor_<?= $noticia->idContenido ?>" href="<?= $imagen ?>" style="<?= $style ?>">
                                   <div class="slide-front ha slide">
                                       <div class="overlayer bottom-left fullwidth">
                                           <div class="overlayer-wrapper">
@@ -107,13 +116,15 @@ $completo = isset($completo) ? $completo : false;
                                               </div>
                                           </div>
                                       </div>
-                                      <img src="<?= $imagen ?>">
+                                      <img class="img-thumbnail" src="<?= $imagen ?>">
                                   </div>
                           </a>
                         </div>
                     <?php endforeach; ?>
-                      <?php $this->registerJs("jQuery('.gallery$noticia->idContenido').lightbox();");?>
+                    </div>
+                      <?php $this->registerJs("jQuery('.gallery_editor_$noticia->idContenido').lightbox();");?>
                   <?php endif; ?>
+                  <?php endif;?>
 
                   <!-- IMAGENES -->
                   <?php if (!empty($noticia->objContenidoAdjuntoImagenes)): ?>
@@ -218,10 +229,8 @@ $completo = isset($completo) ? $completo : false;
                     </li>
                 </ul>
 
-                    <div class="col-lg-2 col-md-2 col-xs-12">
-                        <img class="profile" src=<?= Yii::$app->homeUrl . 'img/fotosperfil/' . $noticia->objUsuarioPublicacion->getImagenPerfil() ?> alt="" data-src="" data-src-retina="">
-                    </div>
-                    <div class="col-lg-10 col-md-10 col-xs-12 ">
+            
+                    <div class="col-lg-12 col-md-12 col-xs-12 ">
                         <textarea class="input-group transparent" id="comentario_<?= $noticia->idContenido ?>" placeholder="Comentar Publicación..." class="form-control" rows="2">
                         </textarea>
                         <?php

@@ -21,10 +21,8 @@ $this->params['breadcrumbs'][] = $this->title
             </div>
             <div class="grid-body center-block">
               <div>
-              <a href="felicitar-cumpleanos?id=<?php echo $model->idCumpleanosPersona?>">
-                <!-- <img class='img-circle img-responsive' src="<?= Yii::getAlias('@web').'/img/fotosperfil/'. $model->objUsuario->getImagenPerfil() ?>" alt="Responsive"> -->
-                <div class="circle-avatar" style="background-image:url(<?= Yii::getAlias('@web').'/img/fotosperfil/'. $model->objUsuario->getImagenPerfil() ?>" alt="Responsive")"></div>
-              </a>
+              <a href="felicitar-aniversario?id=<?php echo $model->idCumpleanosLaboral?>" class="circle-avatar" style="background-image:url(<?= Yii::getAlias('@web').'/img/fotosperfil/'. $model->objUsuario->getImagenPerfil() ?>)"></a>
+              <!-- <img class='img-circle img-responsive' src="<?= Yii::getAlias('@web').'/img/fotosperfil/'. $model->objUsuario->getImagenPerfil() ?>" alt="Responsive"> -->
                 <p>
                   <?php
                   $fecha_dividida = explode("-", $model->fecha);

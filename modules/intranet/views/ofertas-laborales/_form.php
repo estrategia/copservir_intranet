@@ -26,17 +26,16 @@ use yii\helpers\Url;
     'options' => ['placeholder' => 'Seleccione el cargo de la oferta']
   ]);
   ?>
-
+  
   <?=
   $form->field($model, 'idCiudad')->widget(Select2::classname(), [
     'data' => $model->listaCiudad,
     'options' => ['placeholder' => 'Seleccione la ciudad de la oferta']
   ]);
   ?>
-  <br>
-  <?php
 
-  echo  $form->field($model, 'fechaPublicacion')->widget(DateTimePicker::classname(), [
+  <?=
+  $form->field($model, 'fechaPublicacion')->widget(DateTimePicker::classname(), [
     'options' => ['placeholder' => ''],
     'pluginOptions' => [
       'autoclose' => true,
@@ -45,9 +44,8 @@ use yii\helpers\Url;
   ]);
   ?>
 
-  <?php
-
-  echo  $form->field($model, 'fechaCierre')->widget(DateTimePicker::classname(), [
+  <?=
+   $form->field($model, 'fechaCierre')->widget(DateTimePicker::classname(), [
     'options' => ['placeholder' => ''],
     'pluginOptions' => [
       'autoclose' => true,
@@ -58,37 +56,15 @@ use yii\helpers\Url;
 
   <?= $form->field($model, 'numeroDocumento')->hiddenInput(['value'=> Yii::$app->user->identity->numeroDocumento])->label(false); ?>
 
-  <?php
-  echo  $form->field($model, 'fechaInicioPublicacion')->widget(DateTimePicker::classname(), [
-    'options' => ['placeholder' => ''],
-    'pluginOptions' => [
-      'autoclose' => true,
-      'format' => 'yyyy-m-d H:i:s'
-    ]
-  ]);
+  <?= 
+  $form->field($model, 'idInformacionContacto')->dropDownList(
+	  $model->listaPlantillas,
+	  [
+	  	'prompt'=>'Seleccione la plantilla',
+	    'onchange'=>'getPlantilla($(this).val());'
+	  ]
+  ); 
   ?>
-
-  <?php
-  echo  $form->field($model, 'fechaFinPublicacion')->widget(DateTimePicker::classname(), [
-    'options' => ['placeholder' => ''],
-    'pluginOptions' => [
-      'autoclose' => true,
-      'format' => 'yyyy-m-d H:i:s'
-    ]
-  ]);
-  ?>
-
-  <br>
-
-  <?= $form->field($model, 'idInformacionContacto')->dropDownList(
-  $model->listaPlantillas,
-  [
-    'prompt'=>'Seleccione la plantilla',
-    'onchange'=>'
-    getPlantilla($(this).val());
-    '
-  ]
-); ?>
 
 <br>
 
@@ -123,8 +99,6 @@ use yii\helpers\Url;
 <!-- para cargar la plantilla si va a actualizar -->
 <?php
 if (!$model->isNewRecord):
-  $this->registerJs("
-  getPlantilla($('#ofertaslaborales-idinformacioncontacto').val());
-  ");
+  $this->registerJs("getPlantilla($('#ofertaslaborales-idinformacioncontacto').val());");
   endif
   ?>

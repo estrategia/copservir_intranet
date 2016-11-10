@@ -36,8 +36,8 @@
                     '<i class="fa fa-times fa-stack-1x fa-inverse" data-dismiss="modal" aria-hidden="true"></i>'+
                     '</span>'+
                     '</div>'
-                var backwardButton = '<i class="fa fa-chevron-left"></i>';
-                var forwardButton = '<i class="fa fa-chevron-right"></i>';
+                var backwardButton = '<i class="fa fa-chevron-circle-left"></i>';
+                var forwardButton = '<i class="fa fa-chevron-circle-right"></i>';
             } else {
                 var closeButton = '<div id="bootstrap-media-lightbox-close">'+
                     '<i class="glyphicon glyphicon-remove-circle" data-dismiss="modal" aria-hidden="true"></i>'+
@@ -271,7 +271,7 @@
         var offsetHeight = this.caption?50:0;
 
         $element.css({"margin-top": (windowHeight - offsetHeight - this.contentHeight)/2});
-        $element.css({"margin-left": (windowWidth - this.contentWidth)/2});
+        $element.css({"margin-left": (windowWidth - this.contentWidth - 16)/2});
     }
 
     $.fn.lightbox = function(options)

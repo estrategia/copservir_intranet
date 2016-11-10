@@ -10,6 +10,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\VarDumper;
 
 /**
  * OfertasLaboralesController implements the CRUD actions for OfertasLaborales model.
@@ -65,8 +66,11 @@ class OfertasLaboralesController extends Controller {
      * @return mixed
      */
     public function actionListarOfertas() {
-
         $searchModel = new OfertasLaboralesSearch();
+        $searchModel->estado = 1;
+        
+        //VarDumper::dump(Yii::$app->request->queryParams,10,true);
+        
         $dataProvider = $searchModel->searchVertodos(Yii::$app->request->queryParams);
 
         return $this->render('listarOfertas', [
@@ -95,32 +99,15 @@ class OfertasLaboralesController extends Controller {
 
         $model = new OfertasLaborales();
 
-        if ($model->load(Yii::$app->request->post())) {
-
-            $transaction = OfertasLaborales::getDb()->beginTransaction();
-
-            try {
-
-                if ($model->save()) {
-                    $transaction->commit();
-                    return $this->redirect(['actualizar', 'id' => $model->idOfertaLaboral]);
-                } else {
-                    //ocurrio un error al guardar
-                    return $this->render('crear', [
-                                'model' => $model,
-                    ]);
-                }
-            } catch (\Exception $e) {
-
-                $transaction->rollBack();
-                throw $e;
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+        	if ($model->save()) {
+                return $this->redirect(['actualizar', 'id' => $model->idOfertaLaboral]);
             }
-        } else {
-
-            return $this->render('crear', [
-                        'model' => $model,
-            ]);
         }
+
+        return $this->render('crear', [
+            'model' => $model,
+        ]);
     }
 
     /**

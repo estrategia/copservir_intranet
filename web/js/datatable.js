@@ -130,7 +130,7 @@ $.extend($.fn.dataTableExt.oPagination, {
 });
 
 /* Table initialisation */
-$('table.table.data-table').dataTable( );
+$('table.table.data-table').dataTable({"scrollX": true});
 
 $(document).on('click','div[data-role="data-tables-busqueda"]',function(){
     dataTablesGroupSearch($(this).attr('data-modulo'));

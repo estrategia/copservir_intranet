@@ -1,7 +1,6 @@
 <?php
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use yii\helpers\ArrayHelper;
 use bupy7\cropbox\Cropbox;
 
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Perfil de usuario'), 'url'=>['/intranet/usuario/perfil']];

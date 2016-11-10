@@ -173,7 +173,7 @@ if (!Yii::$app->user->isGuest) {
                 <div class="page-sidebar-wrapper scrollbar-dynamic" id="main-menu-wrapper">
                     <!-- BEGIN MINI-PROFILE -->
                     <div class="user-info-wrapper">
-                        <div class="profile-wrapper"><img src=<?= "" . $srcPictureUser ?>  alt="" data-src="" data-src-retina="" width="65" /> </div>
+                        <div class="profile-wrapper"><img class="profile" src=<?= "" . $srcPictureUser ?>  alt="" data-src="" data-src-retina="" /> </div>
                         <div class="user-info">
                             <div class="greeting">Bienvenido</div>
                             <div class="username"> <span class="semi-bold"><?= $userName ?></span></div>

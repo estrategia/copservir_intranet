@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\modules\intranet\models\OfertasLaborales;
+use yii\helpers\VarDumper;
 
 /**
  * OfertasLaboralesSearch represents the model behind the search form about `app\modules\intranet\models\OfertasLaborales`.
@@ -98,10 +99,7 @@ class OfertasLaboralesSearch extends OfertasLaborales
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-              'pageSize' => 1,
-            ],
+            'query' => $query
         ]);
 
         $this->load($params);
@@ -111,30 +109,30 @@ class OfertasLaboralesSearch extends OfertasLaborales
             // $query->where('0=1');
             return $dataProvider;
         }
-
+        
         // grid filtering conditions
         $query->andFilterWhere([
             'idOfertaLaboral' => $this->idOfertaLaboral,
             'fechaPublicacion' => $this->fechaPublicacion,
             'fechaCierre' => $this->fechaCierre,
             'numeroDocumento' => $this->numeroDocumento,
-
-            'idInformacionContacto' => $this->idInformacionContacto,
+        	'estado' => $this->estado,
+            //'idInformacionContacto' => $this->idInformacionContacto,
         ]);
 
         $query->joinWith('objCiudad');
         //$query->joinWith('objCargo');
         //$query->joinWith('objArea');
-
+        
         $query->andFilterWhere(['like', 'nombreCiudad', $this->idCiudad]);
         $query->andFilterWhere(['like', 'nombreCargo', $this->nombreCargo]);
-        //$query->andFilterWhere(['like', 'nombreArea', $this->idArea]);
 
 
-        $query->andFilterWhere(['like', 'tituloOferta', $this->tituloOferta])
-            ->andFilterWhere(['like', 'urlElEmpleo', $this->urlElEmpleo])
-            ->andFilterWhere(['like', 'descripcionContactoOferta', $this->descripcionContactoOferta]);
+        $query->andFilterWhere(['like', 'tituloOferta', $this->tituloOferta]);
+            //->andFilterWhere(['like', 'urlElEmpleo', $this->urlElEmpleo])
+            //->andFilterWhere(['like', 'descripcionContactoOferta', $this->descripcionContactoOferta]);
 
         return $dataProvider;
     }
+    
 }

@@ -317,7 +317,7 @@ MENU DESPLEGABLE
 }
 
 
-div.circle-avatar{
+a.circle-avatar, div.circle-avatar{
 /* make it responsive */
     max-width: 100%;
     width:80%;
@@ -345,3 +345,13 @@ div.circle-avatar{
     bottom: 0;
     margin-top: 5px;
 }
+
+#bootstrap-media-lightbox-forward > .fa-chevron-circle-right::before , #bootstrap-media-lightbox-backward > .fa-chevron-circle-left::before  {
+    background-color: black;
+    border-radius: 5px;
+    color: white;
+    opacity: 0.6;
+    padding: 5px;
+}
+
+
