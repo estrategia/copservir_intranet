@@ -125,6 +125,7 @@ class AsignacionPuntoVentaController extends Controller
         $modelosObservaciones = $informacionCalificacion->observaciones;
         $modelosUnidadesNegocio = $informacionCalificacion->unidadesNegocio;
         $modelosCategoria = $informacionCalificacion->categorias;
+        $informacionReporte = $informacionCalificacion->generarDatos($id);
 
         if ($modeloAsignacion->estado === AsignacionPuntoVenta::ESTADO_CALIFICADO) {
             //throw new \Exception("El punto de venta ya ha sido calificado " , 100);
@@ -192,6 +193,7 @@ class AsignacionPuntoVentaController extends Controller
 
                 if( !is_null($finalizaAsignacion)) {
                   $modeloAsignacion->setEstadoFinalizado();
+                  // $modeloAsignacion->setEstadoPendiente(); // Solo para pruebas
                 }else{
                   $modeloAsignacion->setEstadoPendiente();
                 }
@@ -203,7 +205,7 @@ class AsignacionPuntoVentaController extends Controller
 
                   if( !is_null($finalizaAsignacion)) {
                     $transaction->commit();
-                    return $this->redirect(['reporte', 'id' => $modeloAsignacion->idAsignacion]);
+                    return $this->render('reporte', ['informacionReporte' => $informacionReporte]);
                   }else{
 
                     $transaction->commit();
@@ -228,7 +230,8 @@ class AsignacionPuntoVentaController extends Controller
             'modelosCategoria' => $modelosCategoria,
             'modelosCalificacion' => $modelosCalificacion,
             'modelosObservaciones' => $modelosObservaciones,
-            'modelosPorcentajeUnidad' => $modelosPorcentajeUnidad
+            'modelosPorcentajeUnidad' => $modelosPorcentajeUnidad,
+            'informacionReporte' => $informacionReporte
         ]);
 
     }
@@ -240,42 +243,37 @@ class AsignacionPuntoVentaController extends Controller
      */
     public function actionReporte($id)
     {
-        $informacionReporte = new Reporte();
-        $informacionReporte->cearReporte($id);
-        $informacionReporte->generarValoresReporte();
-        $modeloAsignacion =  $informacionReporte->asignacion;
-        $modelosPorcentajeUnidad = (array)$informacionReporte->porcentajeUnidades;
-        $modelosCalificacion = $informacionReporte->calificaciones;
-        $modelosObservaciones = $informacionReporte->observaciones;
-        $modelosUnidadesNegocio = $informacionReporte->unidadesNegocio;
-        $modelosEspacios = $informacionReporte->espacios;
-        $modelosCategoria = $informacionReporte->categorias;
-        $modelosRangoCalificaciones = $informacionReporte->rangoCalificaciones;
-        $modelosPorcentajeEspacio = (array)$informacionReporte->porcentajeEspacios;
-        $modelosVariables = (array)$informacionReporte->variables;
-        $valoresReporte = $informacionReporte->valoresReporte;
 
-        if ($modeloAsignacion->estado === AsignacionPuntoVenta::ESTADO_PENDIENTE) {
+        $modeloReportes = new Reporte();
+        $informacionReporte = $modeloReportes->generarDatos($id);
+
+        if ($informacionReporte['asignacion']['estado'] === AsignacionPuntoVenta::ESTADO_PENDIENTE) {
             throw new \Exception("El punto de venta  no ha sido calificado" , 100);
         }
 
-        if ($modeloAsignacion->estado === AsignacionPuntoVenta::ESTADO_INACTIVO) {
+        if ($informacionReporte['asignacion']['estado'] === AsignacionPuntoVenta::ESTADO_INACTIVO) {
             throw new \Exception("La asignacion se encuentra inactiva " , 100);
         }
 
         return $this->render('reporte', [
-          'modeloAsignacion' => $modeloAsignacion,
-          'modelosUnidadesNegocio' => $modelosUnidadesNegocio,
-          'modelosCalificacion' => $modelosCalificacion,
-          'modelosEspacios' => $modelosEspacios,
-          'modelosCategoria' => $modelosCategoria,
-          'modelosRangoCalificaciones' => $modelosRangoCalificaciones,
-          'modelosObservaciones' => $modelosObservaciones,
-          'modelosPorcentajeUnidad' => $modelosPorcentajeUnidad,
-          'modelosVariables' => $modelosVariables,
-          'modelosPorcentajeEspacio' => $modelosPorcentajeEspacio,
-          'valoresReporte' => $valoresReporte,
+          'informacionReporte' => $informacionReporte,
+          
         ]);
+    }
+
+    public function actionListarObservaciones()
+    {
+        $idAsignacion = $_POST['idAsignacion'];
+        $idVariable = $_POST['idVariable'];
+        // $idAsignacion = 1;
+        // $idVariable = 1;
+        $model = new Observaciones();
+        $observaciones = $model->find()
+            ->where(['idAsignacion' => $idAsignacion])
+            ->andWhere(['idVariable' => $idVariable])
+            ->all();
+        \Yii::$app->response->format = 'json';
+        return $observaciones;
     }
 
     /**
@@ -293,5 +291,4 @@ class AsignacionPuntoVentaController extends Controller
         }
     }
 
-    
 }

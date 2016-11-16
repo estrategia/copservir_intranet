@@ -67,6 +67,11 @@ class VariableMedicion extends \yii\db\ActiveRecord
         return $this->hasOne(Categoria::className(), ['idCategoria' => 'idCategoria']);
     }
 
+    public function getCalificaciones()
+    {
+        return $this->hasMany(CalificacionVariable::className(), ['idVariable' => 'idVariable']);
+    }
+
     //FUNCIONES
 
     public function getMapListaCategorias()

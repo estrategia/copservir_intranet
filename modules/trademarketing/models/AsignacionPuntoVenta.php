@@ -105,7 +105,7 @@ class AsignacionPuntoVenta extends \yii\db\ActiveRecord
         return $this->hasOne(Ciudad::className(), ['idCiudad' => 'idCiudad']);
     }
 
-    public function getUsuario() {
+    public function getUsuarioSupervisor() {
         return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumento']);
     }
 
@@ -113,7 +113,7 @@ class AsignacionPuntoVenta extends \yii\db\ActiveRecord
         return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumentoAdministradorPuntoVenta']);
     }
 
-    public function getUsuarioSubAminidtrador() {
+    public function getUsuarioSubAdministrador() {
         return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumentosubAdministradorpuntoVenta']);
     }
 

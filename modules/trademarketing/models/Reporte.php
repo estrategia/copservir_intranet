@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use app\models\SIICOP;
 use yii\helpers\VarDumper;
+use yii\helpers\Json;
 
 /**
 * modelo que agrupa las variables necesarias para generar el reporte y la calificacion
@@ -25,11 +26,204 @@ class Reporte extends Model
     public $unidadesNegocio;
     public $valoresReporte;
 
-    function __construct($idAsignacion) {
-       $this->asignacion = $this->consultarAsignacion($idAsignacion);
+    function __construct() {
+      // $this->asignacion = $this->consultarAsignacion($idAsignacion);
     }
 
-     /**
+    public function generarValoresCalificacion($idAsignacion)
+    {
+      $this->asignacion = $this->consultarAsignacion($idAsignacion);
+      $this->consultarCategoriasConVariables();
+      $this->unidadesNegocio = $this->callWSGetUnidadesNegocio();
+      $this->calificaciones = $this->consultarCalificaciones();
+      $this->observaciones = $this->consultarObservaciones();
+      $this->porcentajeUnidades = $this->consultarModelosPorcentajesUnidades();
+    }
+
+    public function cearReporte($idAsignacion)
+   {
+       $this->asignacion = $this->consultarAsignacion($idAsignacion);
+       $this->consultarCategoriasConVariables();
+       $this->unidadesNegocio = $this->callWSGetUnidadesNegocio();
+       $this->espacios = $this->consultarEspacios();
+       $this->porcentajeEspacios = $this->consultarPorcentajesEspacio();
+       $this->porcentajeUnidades = $this->consultarPorcentajesUnidades();
+       $this->calificaciones = $this->consultarCalificaciones();
+       $this->observaciones = $this->consultarObservaciones();
+       $this->rangoCalificaciones = $this->consultarRangosCalificacion();
+   }
+
+   public function generarValoresReporte()
+   {
+        $arrayCalificaciones = array();
+
+        foreach ($this->unidadesNegocio as $unidad) {
+          foreach ($this->espacios as $espacio) {
+          $calificacion = null;
+          if ($espacio->variable->calificaUnidadNegocio == VariableMedicion::CALIFICA_UNIDAD) {
+            $calificacion = CalificacionVariable::find()->where([
+              'idAsignacion' => $this->asignacion->idAsignacion,
+              'idVariable' => $espacio->variable->idVariable,
+              'IdAgrupacion' => $unidad['IdAgrupacion'],
+              ])->one();
+          }else{
+            $calificacion = CalificacionVariable::find()->where([
+              'idAsignacion' => $this->asignacion->idAsignacion,
+              'idVariable' => $espacio->variable->idVariable,
+              ])->one();
+          }
+
+          array_push($arrayCalificaciones, $calificacion);
+          }
+        }
+
+        $this->valoresReporte = $arrayCalificaciones;
+   }
+
+    public function generarDatos($idAsignacion)
+    {
+      $this->asignacion = $this->consultarAsignacion($idAsignacion);
+      $response = [];
+      $calificacionesAsignacion = $this->asignacion->calificaciones;
+      $asignacion = [
+        'idAsignacion' => $this->asignacion->idAsignacion,
+        'idComercial' => $this->asignacion->idComercial,
+        'estado' => $this->asignacion->estado,
+        'NombrePuntoDeVenta' => $this->asignacion->NombrePuntoDeVenta,
+        'nombreTipoNegocio' => $this->asignacion->nombreTipoNegocio,
+        'idCiudad' => $this->asignacion->idCiudad,
+        'idZona' => $this->asignacion->idZona,
+        'nombreZona' => $this->asignacion->nombreZona,
+        'idSede' => $this->asignacion->idSede,
+        'nombreSede' => $this->asignacion->nombreSede,
+        'numeroDocumento' => $this->asignacion->numeroDocumento,
+        'usuarioSupervisor' => $this->asignacion->usuarioSupervisor->data['personal']['nombres'],
+        'administrador' => [
+          'documento' => $this->asignacion->numeroDocumentoAdministradorPuntoVenta,
+          'nombres' => $this->asignacion->usuarioAdministrador->data['personal']['nombres'],
+          'primerApellido' => $this->asignacion->usuarioAdministrador->data['personal']['primerApellido'],
+          'segundoApellido' => $this->asignacion->usuarioAdministrador->data['personal']['segundoApellido'],
+        ],
+        'subAdministrador' => [
+          'documento' => $this->asignacion->numeroDocumentosubAdministradorpuntoVenta,
+          'nombres' => $this->asignacion->usuarioSubAdministrador->data['personal']['nombres'],
+          'primerApellido' => $this->asignacion->usuarioSubAdministrador->data['personal']['primerApellido'],
+          'segundoApellido' => $this->asignacion->usuarioSubAdministrador->data['personal']['segundoApellido'],
+        ],
+        'estado' => $this->asignacion->estado,
+        'fechaAsignacion' => $this->asignacion->fechaAsignacion
+      ];
+      $response['asignacion'] = $asignacion;
+      $categorias = [];
+
+      foreach ($calificacionesAsignacion as $i => $calificacionAsignacion) {
+          $idCategoria = $calificacionAsignacion->variable->categoria->idCategoria;
+          $idVariable = $calificacionAsignacion->variable->idVariable;
+
+          if(!isset($categorias[$idCategoria])){
+              $categorias[$idCategoria] = ['nombreCategoria' => $calificacionAsignacion->variable->categoria->nombre, 'variables' => [], 'totalesUnidadesNegocio' => []];
+          }
+
+          if(!isset($categorias[$idCategoria]['variables'][$idVariable])){
+              $categorias[$idCategoria]['variables'][$idVariable] = ['nombreVariable' => $calificacionAsignacion->variable->nombre, 'calificaciones' => []];
+          }
+
+          $categorias[$idCategoria]['variables'][$idVariable]['calificaciones'][$calificacionAsignacion->IdAgrupacion] = ['nombreUnidad'=>$calificacionAsignacion->nombreUnidadNegocio, 'calificacion' => $calificacionAsignacion->valor];
+
+          if (!isset($categorias[$idCategoria]['totalesVariables'][$idVariable])) {
+              $categorias[$idCategoria]['totalesVariables'][$idVariable] = 0;
+          }
+
+          $categorias[$idCategoria]['totalesVariables'][$idVariable] += $calificacionAsignacion->valor;
+
+          if (!isset($categorias[$idCategoria]['totalesUnidadesNegocio'][$calificacionAsignacion->IdAgrupacion])) {
+              $categorias[$idCategoria]['totalesUnidadesNegocio'][$calificacionAsignacion->IdAgrupacion] = 0;
+          }
+
+          $categorias[$idCategoria]['totalesUnidadesNegocio'][$calificacionAsignacion->IdAgrupacion] += $calificacionAsignacion->valor;
+      }
+      foreach ($categorias as $keyCategoria => $categoria) {
+        $cantidadUnidadesNegocio = count($categoria['totalesUnidadesNegocio']);
+        $cantidadVariables = count($categoria['totalesVariables']);
+        $promediosUnidadesNegocio = [];
+        $promediosVariables = [];
+        foreach ($categoria['totalesUnidadesNegocio'] as $keyUnidad => $totalUnidadNegocio) {
+          $promediosUnidadesNegocio[$keyUnidad] = $totalUnidadNegocio / $cantidadVariables;
+        }
+        foreach ($categoria['totalesVariables'] as $keyVariable => $totalVariable) {
+          $promediosVariables[$keyVariable] = $totalVariable / $cantidadUnidadesNegocio;
+        }
+        $categorias[$keyCategoria]['promediosUnidadesNegocio'] = $promediosUnidadesNegocio;
+        $categorias[$keyCategoria]['promediosVariables'] = $promediosVariables;
+      }
+      $response['categorias'] = $categorias;
+      $reporteEspacios = $this->generarDatosEspacios();
+      $response['reporteEspacios'] = $reporteEspacios['unidadesNegocio'];
+      $response['calificacionFinal'] = $reporteEspacios['calificacionFinal'];
+      return $response;
+    }
+
+    public function generarDatosEspacios()
+    {
+      $idAsignacion = $this->asignacion->idAsignacion;
+      $idComercial = $this->asignacion->idComercial;
+      $espacios = [];
+      $porcentajesUnidades = [];
+      $porcentajesReales = PorcentajeUnidad::find()
+        ->where(['idAsignacion' => $idAsignacion])
+        ->all();
+      foreach ($porcentajesReales as $porcentaje) {
+        $porcentajesUnidades[$porcentaje->idAgrupacion] = $porcentaje->porcentaje;
+      }
+      // VarDumper::dump($porcentajesUnidades, 10, true); exit();
+        
+      $datos = Espacio::find()
+        ->joinWith('porcentaje p')
+        ->joinWith('variable v')
+        ->joinWith('variable.calificaciones c')
+        ->joinWith('variable.calificaciones.asignacion a')
+        ->where(['c.idAsignacion' => $idAsignacion])
+        ->andWhere(['p.idComercial' => $idComercial])
+        ->all();
+
+      // VarDumper::dump($datos, 10, true); exit();
+      $unidadesNegocio = [];
+      $sumaCalificacionUnidad = 0;
+
+      foreach ($datos as $dato) {
+        $variable = $dato->variable;
+        $calificaciones = $variable->calificaciones;
+        $porcentaje = $dato->porcentaje;
+        foreach ($calificaciones as $calificacion) {
+          $espacio = [];
+          $idAgrupacion = $calificacion->IdAgrupacion;
+          $idVariable = $calificacion->idVariable;
+          $espacio['nombre'] = $variable->nombre;
+          $espacio['idCalificacion'] = $calificacion->idCalificacion;
+          $espacio['valor'] = $calificacion->valor;
+          $espacio['porcentaje'] = $porcentaje->valor;
+          if (!is_null($idAgrupacion)) {
+            if (!isset($unidadesNegocio[$idAgrupacion])) {
+              $unidadesNegocio[$idAgrupacion]['nombreUnidadNegocio'] = $calificacion->nombreUnidadNegocio;
+            }
+            if (!isset($unidadesNegocio[$idAgrupacion]['espacios'][$idVariable])) {
+              $unidadesNegocio[$idAgrupacion]['espacios'][$idVariable] = $espacio;
+            }
+            if (!isset($unidadesNegocio[$idAgrupacion]['resultadoUnidadNegocio'])) {
+              $unidadesNegocio[$idAgrupacion]['resultadoUnidadNegocio'] = 0;
+            }
+            $unidadesNegocio[$idAgrupacion]['resultadoUnidadNegocio'] += $calificacion->valor * ($porcentaje->valor / 100);
+            $unidadesNegocio[$idAgrupacion]['porcentajeUnidad'] = $porcentajesUnidades[$idAgrupacion];
+            $sumaCalificacionUnidad += ($calificacion->valor * ($porcentaje->valor / 100) * ($porcentajesUnidades[$idAgrupacion] / 100));
+          }
+        }
+      }
+      // $unidadesNegocio['calificacionFinal'] = $sumaCalificacionUnidad;
+      // var_dump($unidadesNegocio);
+      return ['unidadesNegocio' => $unidadesNegocio, 'calificacionFinal' => $sumaCalificacionUnidad];
+    }
+
+    /**
      * consulta un modelo AsignacionPuntoVenta segun el valor de su llave primaria
      * @return modelo AsignacionPuntoVenta
      */
@@ -45,34 +239,6 @@ class Reporte extends Model
         } else {
            throw new NotFoundHttpException('El recurso no existe.');
         }
-    }
-
-    public function generarDatos()
-    {
-        $calificacionesAsignacion = $this->asignacion->calificaciones;
-        $categorias = [];
-
-        foreach ($calificacionesAsignacion as $i => $calificacionAsignacion) {
-            $idCategoria = $calificacionAsignacion->variable->categoria->idCategoria;
-            $idVariable = $calificacionAsignacion->variable->idVariable;
-
-            if(!isset($categorias[$idCategoria])){
-                $categorias[$idCategoria] = ['nombreCategoria' => $calificacionAsignacion->variable->categoria->nombre, 'variables' => [], 'totalesUnidadesNegocio' => []];
-            }
-
-            if(!isset($categorias[$idCategoria]['variables'][$idVariable])){
-                $categorias[$idCategoria]['variables'][$idVariable] = ['nombreVariable' => $calificacionAsignacion->variable->nombre, 'calificaciones' => []];
-            }
-
-            $categorias[$idCategoria]['variables'][$idVariable]['calificaciones'][$calificacionAsignacion->IdAgrupacion] = ['nombreUnidad'=>$calificacionAsignacion->nombreUnidadNegocio, 'calificacion' => $calificacionAsignacion->valor];
-
-            if (!isset($categorias[$idCategoria]['totalesUnidadesNegocio'][$calificacionAsignacion->IdAgrupacion])) {
-                $categorias[$idCategoria]['totalesUnidadesNegocio'][$calificacionAsignacion->IdAgrupacion] = 0;
-            }
-
-            $categorias[$idCategoria]['totalesUnidadesNegocio'][$calificacionAsignacion->IdAgrupacion] += $calificacionAsignacion->valor;
-        }
-        return $categorias;
     }
 
      /**
@@ -229,28 +395,24 @@ class Reporte extends Model
      * crea un arreglo de modelos Observaciones consultados en base a si asignacion, variable
      * @return array
      */
-     protected function consultarObservaciones()
-     {
+    protected function consultarObservaciones()
+   {
        $modelosObservacion = array();
 
        foreach ($this->categorias as $categoria) {
 
-           foreach ($categoria->variablesMedicion as $variable){
-            if(!isset($modelosObservacion[$variable->idVariable])){
-                $modelosObservacion[$variable->idVariable] = [];
-            }
-
-            $modelos = Observaciones::find()->where(['idAsignacion' => $this->asignacion->idAsignacion, 'idVariable' => $variable->idVariable])->all();
-            if (!empty($modelos)) {
-               $modelosObservacion[$variable->idVariable] = array_merge($modelosObservacion[$variable->idVariable], $modelos);
-           }
+         foreach ($categoria->variablesMedicion as $variable){
+             $modelo = Observaciones::find()->where(['idAsignacion' => $this->asignacion->idAsignacion, 'idVariable' => $variable->idVariable])->one();
+             if ($modelo !== null) {
+               array_push($modelosObservacion, $modelo);
+             }else{
+               array_push($modelosObservacion, new Observaciones);
+             }
+         }
        }
+
+       return $modelosObservacion;
    }
-
-   return $modelosObservacion;
-
-        //return Observaciones::find()->where(['idAsignacion' => $this->asignacion->idAsignacion])->all();
-}
 }
 
 ?>

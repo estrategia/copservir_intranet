@@ -55,6 +55,11 @@ class Espacio extends \yii\db\ActiveRecord
         return $this->hasOne(VariableMedicion::className(), ['idVariable' => 'idVariable']);
     }
 
+    public function getPorcentaje()
+    {
+        return $this->hasOne(PorcentajeEspaciosPuntoVenta::className(), ['idEspacio' => 'idEspacio']);
+    }
+
     // CONSULTAS
 
     public static function getIdNameEspacios()
