@@ -20,7 +20,7 @@ class ProveedoresAsset extends AssetBundle {
     public $baseUrl = '@web';
     public $css = [
         'libs/boostrapv3/css/bootstrap.min.css',
-        'libs/boostrapv3/css/bootstrap-theme.min.css',
+        // 'libs/boostrapv3/css/bootstrap-theme.min.css',
 
         // carousel
         'libs/multiportal/owl-carousel/owl.carousel.css',
@@ -32,7 +32,7 @@ class ProveedoresAsset extends AssetBundle {
         //genericas plantilla intranet
         'css/portales-style.css',
         'css/portales-main.css',
-        //'css/portales-main_1.css',
+        'css/portales-main_1.css',
         'css/common.css'
     ];
     public $js = [
