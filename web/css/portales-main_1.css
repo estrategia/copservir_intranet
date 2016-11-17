@@ -825,3 +825,46 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
 .dropdown-submenu:hover>a:after {
     border-left-color: #fff;
 }
+
+.tiles .tiles-body {
+    padding: 19px 18px 15px 24px;
+}
+
+.fc-border-separate td {
+    border-width: 0px;
+    border-bottom: 1px solid #e5e9ec;
+}
+
+
+.fc-border-separate th {
+    border-width: 0px 0px 1px 0px;
+}
+
+.tiles.red {
+    background-color: #ececec;
+}
+.tiles {
+    background-color: #fff;
+    position: relative;
+}
+
+.full-calender-header {
+    margin-bottom: 25px;
+}
+
+.fc-border-separate th.fc-last {
+    border-right-width: 0px !important;
+}
+
+.fc-grid th {
+    text-align: center;
+    text-transform: uppercase;
+    color: #9F91A0;
+    font-size: 0.9em;
+}
+
+td.fc-last {
+    border-right-width: 0px !important;
+}
+
+.glyphicon {font-family: 'Glyphicons Halflings' !important;}
