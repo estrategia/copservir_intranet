@@ -24,6 +24,7 @@ VisitaMedicaAsset::register($this);
   </head>
   <body>
     <?php $this->beginBody() ?>
+    <?php if (!Yii::$app->user->isGuest): ?>
     <?php $baseUrl = Yii::$app->getUrlManager()->getBaseUrl(); ?>
       <div class="page-container">
          <div class="page-sidebar">
@@ -143,7 +144,7 @@ VisitaMedicaAsset::register($this);
             </div>
           </div>
         </div>
-        
+     <?php endif; ?> 
     <?php $this->endBody() ?>
   </body>
 </html>
