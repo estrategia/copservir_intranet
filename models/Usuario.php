@@ -204,9 +204,10 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
 
     public function rules() {
         return [
-            [['numeroDocumento', 'estado', 'codigoPerfil'], 'required'],
-            [['numeroDocumento', 'estado', 'codigoPerfil'], 'integer'],
+            [['numeroDocumento', 'estado'], 'required'],
+            [['numeroDocumento', 'estado'], 'integer'],
             [['alias'], 'string', 'max' => 60],
+            [['nombrePortal'], 'string', 'max' => 45],
             [['contrasena'], 'string', 'max' => 32],
         	[['imagenPerfil','imagenFondo'], 'string', 'max' => 60],
             [['numeroDocumento'], 'unique'],

@@ -42,6 +42,7 @@ class MenuPortales extends \yii\db\ActiveRecord {
             [['nombre'], 'string', 'max' => 50],
             [['urlMenu'], 'string', 'max' => 500],
             [['ordenMenu'], 'integer', 'max' => 99, 'min'=>0],
+            [['loginVisualizacion'], 'integer', 'max' => 2, 'min'=>0],
             [['icono'], 'string', 'max' => 45],
             [['idPortal'], 'exist', 'skipOnError' => true, 'targetClass' => Portal::className(), 'targetAttribute' => ['idPortal' => 'idPortal']],
             ['idMenuPortalPadre', 'validateUrlPadre'],
@@ -62,7 +63,8 @@ class MenuPortales extends \yii\db\ActiveRecord {
             'fechaRegistro' => 'Fecha Registro',
             'fechaActualizacion' => 'Fecha Actualizacion',
             'idMenuPortalPadre' => 'Menu Padre',
-            'ordenMenu' => 'Posicion'
+            'ordenMenu' => 'Posicion',
+            'loginVisualizacion' => 'Visualizacion Login'
         ];
     }
 

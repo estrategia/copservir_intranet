@@ -113,7 +113,8 @@ class UsuarioController extends Controller
             $usuarioIntranet->numeroDocumento = $documento;
             $contrasena = Funciones::generatePass(8);
             $usuarioIntranet->contrasena = md5($contrasena);
-            $usuarioIntranet->codigoPerfil = (int) Yii::$app->params['PerfilesUsuario']['visitaMedica'];
+            // $usuarioIntranet->codigoPerfil = 0;
+            $usuarioIntranet->nombrePortal = Yii::$app->controller->module->id;
             $usuarioIntranet->estado = true;            
             $nombreLaboratorio = Yii::$app->user->identity->objUsuarioProveedor->nombreLaboratorio;
             $usuarioVimed->nombreLaboratorio = $nombreLaboratorio;
