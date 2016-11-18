@@ -1,126 +1,119 @@
-<center>
-		<h2>LISTA DE CHEQUEO DE LA REVISIÓN EN PUNTOS DE VENTA PLUS</h2>
-</center>
-
-<?php $this->render('_cabeceraListaChequeo', array('modeloAsignacion'=>$modeloAsignacion)); ?>
-
+<?php
+  use yii\web\View;
+  $this->registerJsFile('@web/js/tradeMarketing/trademarketing.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+  // CVarDumper::dump($informacionReporte, 10 ,true); exit();
+  $asignacion = $informacionReporte['asignacion'];
+  $categorias = $informacionReporte['categorias'];
+?>
 <div class="col-md-12">
-	<center>
-		<table class="table table-condensed table-bordered" width="100%">
-				<thead>
-						<tr>
-							<th>UNIDADES DE NEGOCIO</th>
-							<th>VARIABLES</th>
-							<?php foreach ($modelosUnidadesNegocio as $unidadNegocio): ?>
-								<th>
-										<?= $unidadNegocio['NombreUnidadNegocio'] ?>
-								</th>
-							<?php endforeach; ?>
-								<th>TOTAL</th>
-								<th>OBSERVACIÓN</th>
-						</tr>
-				</thead>
-				<tbody>
-					<?php $contador = 0 ?>
-					<?php $contadorObservaciones = 0 ?>
-					<?php foreach ($modelosCategoria as $categoria): ?>
-							<tr>
-									<td rowspan="<?= count($modelosVariables[$categoria->nombre])+1 ?>">
-										<?= $categoria->nombre ?>
-									</td>
-
-									<?php foreach ($modelosVariables[$categoria->nombre] as $variable): ?>
-											<tr>
-												<td>
-													<?= $variable->nombre ?>
-												</td>
-												<?php if ($variable->calificaUnidadNegocio === 1): ?>
-
-													<?php foreach ($modelosUnidadesNegocio as $unidadNegocio): ?>
-														<td>
-															<button type="button" hidden="true" id="<?= 'calificacionvariable-'.$contador.'-valor' ?>" data-califica-unidad = 'si' data-index = "<?= $contador ?>" data-cantidad-variables = "<?= count($modelosVariables[$categoria->nombre]) ?>" value="<?= $modelosCalificacion[$contador]->valor ?>"></button>
-															<?= $modelosCalificacion[$contador]->valor  ?>
-
-														</td>
-														<?php $contador++ ?>
-													<?php endforeach; ?>
-												<?php else: ?>
-
-													<td colspan="<?= count($modelosUnidadesNegocio) ?>" >
-														<?= $modelosCalificacion[$contador]->valor  ?>
-														<button type="button" hidden="true" id="<?= 'calificacionvariable-'.$contador.'-valor' ?>" data-index = "<?= $contador ?>" data-cantidad-variables = "<?= count($modelosVariables[$categoria->nombre]) ?>" value="<?= $modelosCalificacion[$contador]->valor ?>"></button>
-													</td>
-
-													<?php $contador++ ?>
-
-												<?php endif; ?>
-
-												<td id = "total-<?= $contador-1 ?>"></td> <!-- total -->
-
-												<td> <!-- observacion -->
-													<?=  $modelosObservaciones[$contadorObservaciones]->descripcion ?>
-													<?php $contadorObservaciones++ ?>
-												</td>
-											</tr>
-									<?php endforeach; ?>
-
-							</tr>
-					<?php endforeach; ?>
-
-					<?php $contadorTotalUnidades = 0 ?>
-					<?php foreach ($modelosCategoria as $categoria): ?>
-						<tr>
-								<td colspan="2">
-									<?= $categoria->nombre ?>
-								</td>
-									<?php foreach ($modelosUnidadesNegocio as $unidadNegocio): ?>
-
-										<td id='total-unidad-<?= $contadorTotalUnidades ?>'>
-											0
-										</td>
-										<?php $contadorTotalUnidades++ ?>
-									<?php endforeach; ?>
-							</tr>
-					<?php endforeach; ?>
-
-					<tr>
-						<td colspan="2">
-							TOTAL
-						</td>
-							<?php foreach ($modelosUnidadesNegocio as $index => $unidadNegocio): ?>
-
-								<td id='total-definitivo-<?= $index ?>'>
-									0
-								</td>
-							<?php endforeach; ?>
-					</tr>
-
-				</tbody>
-		</table>
-	</center>
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover table-condensed">
+      <tbody>
+        <tr>
+          <th>Punto de venta:</th>
+          <td> <?php echo $asignacion['idComercial']; ?> </td>
+          <th>Fecha:</th>
+          <td> <?php echo date("d M Y", strtotime($asignacion['fechaAsignacion'])); ?> </td>
+        </tr>
+        <tr>
+          <th>Admin - SubAdmin</th>
+          <td> <?php echo $asignacion['administrador']['nombres'] . '-' . $asignacion['subAdministrador']['nombres']; ?> </td>
+          <th># De chequeo</th>
+          <td> <?php echo $asignacion['idAsignacion']; ?> </td>
+        </tr>
+        <tr>
+          <th>Supervisado por:</th>
+          <td> <?php echo $asignacion['usuarioSupervisor']; ?> </td>
+          <th>Formato:</th>
+          <td> <?php echo $asignacion['nombreTipoNegocio']; ?> </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="table table-bordered table-hover table-condensed ">
+      <thead>
+        <tr>
+          <th rowspan="2">Unidades de negocio</th>
+          <th rowspan="2">Variables</th>
+          <th>Unidad RX</th>
+          <th>OTC</th>
+          <th>Cuidado personal</th>
+          <th>Alimentos y bebidas</th>
+          <th>Aseo y hogar</th>
+          <th rowspan="2">Total</th>
+          <th rowspan="2">Observacion</th>
+        </tr>
+        <tr>
+          <th colspan="5">M:2 R:3 B:4 E:5</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <?php $cantidadVariables = 0 ?>
+        <?php foreach($categorias as $categoria): ?>
+          <?php $cantidadVariables = count($categoria['variables']) ?>
+            <tr>
+              <td rowspan=" <?php echo $cantidadVariables + 1; ?>" >
+                <?php echo $categoria['nombreCategoria']; ?>
+              </td>
+                
+              <?php foreach($categoria['variables'] as $indiceVariable => $variable): ?>
+                <tr>
+                  <td>
+                    <?php echo $variable['nombreVariable'] ?>
+                  </td>
+                  <?php foreach($variable['calificaciones'] as $key => $calificacion): ?>
+                    <?php if($key == ""): ?>
+                      <td colspan="5">
+                        <?php echo $calificacion['calificacion']; ?>
+                      </td>
+                    <?php else: ?>
+                      <td>
+                        <?php echo $calificacion['calificacion']; ?>
+                      </td>                
+                    <?php endif; ?>
+                  <?php endforeach; ?>
+                  <td>
+                    <?php echo $categoria['promediosVariables'][$indiceVariable]; ?>
+                  </td>
+                  <td>
+                    <button class="btn btn-default btn-xs" data-asignacion="<?php echo $asignacion['idAsignacion']; ?>" data-variable="<?php echo $indiceVariable; ?>" data-accion="ver-observaciones">Ver</button>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            </tr>
+        <?php endforeach; ?>
+    
+        <?php foreach($categorias as $categoria): ?>
+          <tr>
+            <th colspan="2">
+              <?php echo $categoria['nombreCategoria']; ?>
+            </th>
+            <?php foreach($categoria['promediosUnidadesNegocio'] as $key => $promedio): ?>
+              <?php if($key == ""): ?>
+                <td colspan="5">
+                  <?php echo Yii::$app->formatter->asDecimal($promedio, 3); ?>
+                </td>
+              <?php else: ?>
+                <td>
+                  <?php echo Yii::$app->formatter->asDecimal($promedio, 3); ?>
+                </td>
+              <?php endif; ?>
+            <?php endforeach; ?>
+          </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
 </div>
 
-<?php
-
-	$cantidadCampos = count($modelosCalificacion);
-	$cantidadUnidades = count($modelosUnidadesNegocio);
-	$cantidadCategorias = count($modelosCategoria);
-
-
-	$this->registerJs("
-		var cantidadCampos = $cantidadCampos;
-		var cantidadUnidades = $cantidadUnidades;
-		var cantidadCategorias = $cantidadCategorias;
-		var calculos = new CalificacionAsignacionView(cantidadCampos, cantidadUnidades, cantidadCategorias);
-		calculos.actualizarTotales();
-
-		$( document ).ready(function() {
-			calculos.calcularTotalPorVariables();
-			calculos.calcularTotalPorUnidades();
-			calculos.calcularTotales();
-		});
-
-	");
-
-
-?>
+<style>
+  table {
+    /*table-layout: fixed;*/
+  }
+  table * {
+    text-align: center;
+  }
+  th {
+    vertical-align: middle!important;
+  }
+</style>

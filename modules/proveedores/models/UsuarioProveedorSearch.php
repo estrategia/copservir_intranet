@@ -63,6 +63,8 @@ class UsuarioProveedorSearch extends UsuarioProveedor
         // $usuarioIntranet = \app\models\Usuario::findOne(['numeroDocumento' => $this->numeroDocumento]);
         // $this->estado = $usuarioIntranet->estado;
 
+        $query->innerJoin('auth_assignment', 'auth_assignment.user_id = numeroDocumento');
+        $query->andWhere("auth_assignment.item_name='proveedores_admin'");
         // grid filtering conditions
         $query->andFilterWhere([
             'numeroDocumento' => $this->numeroDocumento,

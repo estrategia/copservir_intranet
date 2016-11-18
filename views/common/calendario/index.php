@@ -9,7 +9,7 @@ $this->title = 'Calendario';
 <?php $this->registerJsFile("@web/js/calendario.js", ['depends' => [app\assets\CalendarAsset::className()]]); ?>
 
 <div class="portal-container">
-    <div class="row" style="max-height:600px;">
+    <div class="row" style="max-height:850px;">
         <div class="tiles row tiles-container red no-padding">
             <div class="col-md-4 tiles red no-padding">
                 <div class="tiles-body">

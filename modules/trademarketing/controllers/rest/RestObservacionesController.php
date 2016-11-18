@@ -2,6 +2,7 @@
 
 namespace app\modules\trademarketing\controllers\rest;
 
+use app\modules\trademarketing\models\Observaciones;
 use app\modules\trademarketing\models\ObservacionesSearch;
 use yii\rest\ActiveController;
 
@@ -30,4 +31,17 @@ class RestObservacionesController extends ActiveController
         return $searchModel->search(\Yii::$app->request->queryParams);
     }
 
+    public function actionListarObservaciones()
+    {
+        $idAsignacion = $_GET['idAsignacion'];
+        $idVariable = $_GET['idVariable'];
+        // $idAsignacion = 1;
+        // $idVariable = 1;
+        $model = new Observaciones();
+        $observaciones = $model->find()
+            ->where(['idAsignacion' => $idAsignacion])
+            ->andWhere(['idVariable' => $idVariable])
+            ->all();
+        return $observaciones;
+    }
 }

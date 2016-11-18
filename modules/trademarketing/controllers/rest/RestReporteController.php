@@ -34,11 +34,11 @@ class RestReporteController extends ActiveController
     */
     public function actionInformacionReporte($id)
     {
-      $reporte = new Reporte($id);
+      $reporte = new Reporte();
       // $reporte->cearReporte($id);
       // $reporte->generarDatos();
       \Yii::$app->response->format = 'json';
-      return $reporte->generarDatos();
+      return $reporte->generarDatos($id);
       // VarDumper::dump($reporte->asignacion->calificaciones[0]->variable->categoria, 10,true);
       // VarDumper::dump($reporte->generarDatos(), 10, true);
       // return $reporte->generarTablaReporte();

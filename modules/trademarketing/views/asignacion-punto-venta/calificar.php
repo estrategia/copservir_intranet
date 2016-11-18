@@ -151,8 +151,28 @@ $this->title = 'Califica un punto de venta';
 							</tr>
 
 						<?php endforeach; ?>
+						<?php $categorias = $informacionReporte['categorias']; ?>
+						<?php foreach($categorias as $categoria): ?>
+		          <tr>
+		            <th colspan="2">
+		              <?php echo $categoria['nombreCategoria']; ?>
+		            </th>
+		            <?php foreach($categoria['promediosUnidadesNegocio'] as $key => $promedio): ?>
+		              <?php if($key == ""): ?>
+		                <td colspan="5">
+		                  <?php echo Yii::$app->formatter->asDecimal($promedio, 3); ?>
+		                </td>
+		              <?php else: ?>
+		                <td>
+		                  <?php echo Yii::$app->formatter->asDecimal($promedio, 3); ?>
+		                </td>
+		              <?php endif; ?>
+		            <?php endforeach; ?>
+		          </tr>
+		        <?php endforeach; ?>
 
-						<?php $contadorTotalUnidades = 0 ?>
+
+						<!-- <?php $contadorTotalUnidades = 0 ?>
 						<?php foreach ($modelosCategoria as $categoria): ?>
 							<tr>
 								<td colspan="2">
@@ -179,7 +199,7 @@ $this->title = 'Califica un punto de venta';
 											0
 										</td>
 									<?php endforeach; ?>
-							</tr>
+							</tr> -->
 				  </tbody>
 				</table>
 			<center>

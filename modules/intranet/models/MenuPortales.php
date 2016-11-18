@@ -42,6 +42,7 @@ class MenuPortales extends \yii\db\ActiveRecord {
             [['nombre'], 'string', 'max' => 50],
             [['urlMenu'], 'string', 'max' => 500],
             [['ordenMenu'], 'integer', 'max' => 99, 'min'=>0],
+            [['loginVisualizacion'], 'integer', 'max' => 2, 'min'=>0],
             [['icono'], 'string', 'max' => 45],
             [['idPortal'], 'exist', 'skipOnError' => true, 'targetClass' => Portal::className(), 'targetAttribute' => ['idPortal' => 'idPortal']],
             ['idMenuPortalPadre', 'validateUrlPadre'],
@@ -62,7 +63,8 @@ class MenuPortales extends \yii\db\ActiveRecord {
             'fechaRegistro' => 'Fecha Registro',
             'fechaActualizacion' => 'Fecha Actualizacion',
             'idMenuPortalPadre' => 'Menu Padre',
-            'ordenMenu' => 'Posicion'
+            'ordenMenu' => 'Posicion',
+            'loginVisualizacion' => 'Visualizacion'
         ];
     }
 
@@ -97,13 +99,26 @@ class MenuPortales extends \yii\db\ActiveRecord {
     // CONSULTAS
 
     public static function traerMenuPortalesIndex($portal) {
-        $query = MenuPortales::find()
+        $query = null;
+        if (Yii::$app->user->isGuest) {
+            $query = MenuPortales::find()
                 ->select(['t_MenuPortales.idMenuPortales', 't_MenuPortales.nombre', 't_MenuPortales.icono', 't_MenuPortales.tipo', 't_MenuPortales.urlMenu'])
                 ->joinWith(['objPortal'])
                 ->where('m_Portal.nombrePortal=:portal AND t_MenuPortales.estado=:estado AND t_MenuPortales.idMenuPortalPadre IS NULL ')
+                ->andWhere(['t_MenuPortales.loginVisualizacion' => [0,2]])
                 ->addParams([':estado' => self::APROBADO, ':portal' => $portal])
                 ->orderBy(['ordenMenu' => SORT_ASC])
                 ->all();
+        } else {
+            $query = MenuPortales::find()
+                ->select(['t_MenuPortales.idMenuPortales', 't_MenuPortales.nombre', 't_MenuPortales.icono', 't_MenuPortales.tipo', 't_MenuPortales.urlMenu'])
+                ->joinWith(['objPortal'])
+                ->where('m_Portal.nombrePortal=:portal AND t_MenuPortales.estado=:estado AND t_MenuPortales.idMenuPortalPadre IS NULL ')
+                ->andWhere(['t_MenuPortales.loginVisualizacion' => [1,2]])
+                ->addParams([':estado' => self::APROBADO, ':portal' => $portal])
+                ->orderBy(['ordenMenu' => SORT_ASC])
+                ->all();
+        }
 
         return $query;
     }

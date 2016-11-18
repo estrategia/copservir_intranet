@@ -49,6 +49,8 @@ use app\modules\intranet\models\MenuPortales;
       ]);
     ?>
 
+    <?= $form->field($model, 'loginVisualizacion')->radioList(array(0 =>'Solo invitados', 1=>'Solo usuarios autenticados', 2=>'Mostrar siempre')); ?>
+
     <div class="form-group">
       <label for="">Menu Padre</label>
       <div class="input-group">

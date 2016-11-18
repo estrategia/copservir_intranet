@@ -1,98 +1,72 @@
-<?php
 
-$colspan = count($modelosEspacios) + 3;
+<?php 
+  $unidadesNegocio = $informacionReporte['reporteEspacios'];
+  $espacios = array_values($unidadesNegocio)[0]['espacios'];
+  // CVarDumper::dump($unidadesNegocio,10,true);exit();
 ?>
-<?php // var_dump($valoresReporte[0]->valor) ?>
 <div class="col-md-12">
-	<table class="table table-condensed table-bordered" width="100%">
-		<thead>
-			<tr>
-				<th colspan="<?= $colspan ?>">
-					EVALUACION POR DESEMPEÑO EN ADMINISTRACION POR CATEGORIAS. <?= $modeloAsignacion->NombrePuntoDeVenta ?>
-				</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td colspan="2"></td>
-				<!-- porcentajes -->
-				<?php foreach ($modelosEspacios as $index => $espacio): ?>
-
-					<td id="porcentaje-<?= $index ?>">
-									<?= $modelosPorcentajeEspacio[$espacio->nombre].'%' ?>
-					</td>
-
-				<?php endforeach; ?>
-
-				<td>100%</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td>% PART ESPACIO</td>
-
-				<?php foreach ($modelosEspacios as $espacio): ?>
-
-					<td>
-							<?= $espacio->nombre ?>
-					</td>
-
-				<?php endforeach; ?>
-
-				<td>RESULTADO POR UNIDAD DE NEGOCIO</td>
-			</tr>
-
-			<?php $contador = 0; ?>
-			<?php foreach ($modelosUnidadesNegocio as $index => $unidadNegocio): ?>
-				<tr>
-						<td>
-								<?= $unidadNegocio['NombreUnidadNegocio'] ?>
-						</td>
-						<td id="porcentaje-unidad-<?= $index ?>"><?=  $modelosPorcentajeUnidad[$unidadNegocio['NombreUnidadNegocio']].'%'  ?></td>
-						<?php foreach ($modelosEspacios as $espacio): ?>
-
-							<td id="calificacion-<?= $contador ?>">
-								<?= $valoresReporte[$contador]->valor  ?>
-							</td>
-							<?php $contador++; ?>
-						<?php endforeach; ?>
-
-						<td id="promedio-unidad-<?= $index ?>"></td> <!-- resultado por unidad de negocio -->
-
-				</tr>
-			<?php endforeach; ?>
-
-			<tr>
-				<td colspan="<?= $colspan-1 ?>">RANGO DE CALIFICACION</td>
-				<td id="total-rango"></td> <!-- total -->
-			</tr>
-		</tbody>
-	</table>
-
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover table-condensed ">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          <?php foreach($espacios as $espacio): ?>
+            <th>
+              <?php echo $espacio['porcentaje']; ?>%
+            </th>
+          <?php endforeach; ?>
+          <th>100%</th>
+        </tr>
+        <tr>
+          <th></th>
+          <th>PORCENTAJE ESPACIO</th>
+          <?php foreach($espacios as $espacio): ?>
+            <th>
+              <?php echo $espacio['nombre']; ?>
+            </th>
+          <?php endforeach; ?>
+          <th>RESULTADO POR UNIDAD DE NEGOCIO</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach($unidadesNegocio as $idUnidad => $unidadNegocio): ?>
+          <?php if($idUnidad != ""): ?>
+            <tr>
+              <td>
+                <?php echo $unidadNegocio['nombreUnidadNegocio']; ?>
+              </td>
+              <td>
+                <?php echo $unidadNegocio['porcentajeUnidad']; ?>%
+              </td>
+              <?php foreach((array)$unidadNegocio['espacios'] as $key => $espacio): ?>
+                <td>
+                  <?php echo $espacio['valor']; ?>
+                </td>
+              <?php endforeach; ?>
+              <td>
+                <?php echo $unidadNegocio['resultadoUnidadNegocio']; ?>
+              </td>
+            </tr>
+          <?php endif; ?>
+        <?php endforeach; ?>
+        <tr>
+          <td colspan="8"><strong>RANGO DE CALIFICACION DE 1 A 5</strong></td>
+          <td> <?php echo $informacionReporte['calificacionFinal']; ?> </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
-<div class="space-2"></div>
-	<?= $this->render('_rangoCalificaciones', [
-		'modelosRangoCalificaciones' => $modelosRangoCalificaciones
-	]) ?>
-
-<?php
-
-	$cantidadUnidades = count($modelosUnidadesNegocio);
-	$cantidadEspacios = count($modelosEspacios);
-
-
-	$this->registerJs("
-
-		var cantidadCampos2 = $contador;
-		var cantidadUnidades2 = $cantidadUnidades;
-		var cantidadEspacios2 = $cantidadEspacios;
-
-		var calculosReporte = new ReporteAsignacionView(cantidadCampos2, cantidadUnidades2, cantidadEspacios2);
-		$( document ).ready(function() {
-			calculosReporte.calcularTotalPorUnidades();
-			calculosReporte.calcularTotalRango();
-		});
-
-	");
-
-?>
+<style>
+  table {
+    /*table-layout: fixed;*/
+  }
+  table * {
+    text-align: center;
+  }
+  th, td {
+    vertical-align: middle!important;
+  }
+</style>

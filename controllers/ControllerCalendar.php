@@ -9,24 +9,25 @@ use app\modules\intranet\models\EventosCalendario;
 
 abstract class ControllerCalendar extends Controller {
 
-    public function behaviors() {
-        return [
-            [
-                'class' => \app\components\AccessFilter::className(),
-            ],
-            [
-                'class' => \app\components\AuthItemFilter::className(),
-                'only' => [
-                    'index', 'eventos', 'resumen'
-                ],
-                'authsActions' => [
-                    'index' => 'intranet_usuario',
-                    'eventos' => 'intranet_usuario',
-                    'resumen' => 'intranet_usuario',
-                ]
-            ],
-        ];
-    }
+/*  public function behaviors()
+  {
+      return [
+          [
+              'class' => \app\components\AccessFilter::className(),
+          ],
+          [
+               'class' => \app\components\AuthItemFilter::className(),
+               'only' => [
+                  'index', 'eventos', 'resumen'
+               ],
+               'authsActions' => [
+                   'index' => 'intranet_usuario',
+                   'eventos' => 'intranet_usuario',
+                   'resumen' => 'intranet_usuario',
+               ]
+           ],
+      ];
+  }*/
 
     public function actionIndex() {
         return $this->render('//common/calendario/index');
@@ -37,10 +38,10 @@ abstract class ControllerCalendar extends Controller {
         $destino = array();
 
         if ($portal == "intranet") {
-            if (Yii::$app->user->isGuest) {
+            if(Yii::$app->user->isGuest){
                 echo Json::encode(array('result' => 'error', 'response' => 'Solicitud inv&aacute;lida'));
                 Yii::$app->end();
-            } else {
+            }else{
                 $destino['grupos'] = implode(',', Yii::$app->user->identity->getGruposCodigos());
                 $destino['ciudad'] = Yii::$app->user->identity->getCiudadCodigo();
             }
@@ -51,7 +52,7 @@ abstract class ControllerCalendar extends Controller {
         $fInicio = \DateTime::createFromFormat('Y-m-d H:i:s', "$inicio 00:00:00");
         $fFin = \DateTime::createFromFormat('Y-m-d H:i:s', "$fin 23:59:00");
 
-        EventosCalendario::consultarEventos($fInicio->format('Y-m-d'), $fFin->format('Y-m-d'), $portal, $destino);
+        EventosCalendario::consultarEventos($fInicio->format('Y-m-d'),$fFin->format('Y-m-d'),$portal,$destino);
     }
 
     public function actionEventos() {
@@ -59,10 +60,10 @@ abstract class ControllerCalendar extends Controller {
         $destino = array();
 
         if ($portal == "intranet") {
-            if (Yii::$app->user->isGuest) {
+            if(Yii::$app->user->isGuest){
                 echo Json::encode(array('result' => 'error', 'response' => 'Solicitud inv&aacute;lida'));
                 Yii::$app->end();
-            } else {
+            }else{
                 $destino['grupos'] = implode(',', Yii::$app->user->identity->getGruposCodigos());
                 $destino['ciudad'] = Yii::$app->user->identity->getCiudadCodigo();
             }
@@ -83,7 +84,7 @@ abstract class ControllerCalendar extends Controller {
         $fend->setTimestamp($end);
 
         try {
-            $models = EventosCalendario::consultarEventos($fstart->format('Y-m-d'), $fend->format('Y-m-d'), $portal, $destino);
+            $models = EventosCalendario::consultarEventos($fstart->format('Y-m-d'),$fend->format('Y-m-d'),$portal, $destino);
             $eventos = [];
 
             foreach ($models as $model) {
@@ -104,10 +105,10 @@ abstract class ControllerCalendar extends Controller {
         $destino = array();
 
         if ($portal == "intranet") {
-            if (Yii::$app->user->isGuest) {
+            if(Yii::$app->user->isGuest){
                 echo Json::encode(array('result' => 'error', 'response' => 'Solicitud inv&aacute;lida'));
                 Yii::$app->end();
-            } else {
+            }else{
                 $destino['grupos'] = implode(',', Yii::$app->user->identity->getGruposCodigos());
                 $destino['ciudad'] = Yii::$app->user->identity->getCiudadCodigo();
             }
@@ -140,7 +141,7 @@ abstract class ControllerCalendar extends Controller {
         }
 
         try {
-            $listEventos = EventosCalendario::consultarEventos($fInicio->format('Y-m-d'), $fFin->format('Y-m-d'), $portal, $destino, true);
+            $listEventos = EventosCalendario::consultarEventos($fInicio->format('Y-m-d'),$fFin->format('Y-m-d'),$portal, $destino, true);
             $resumen = $this->renderAjax('//common/calendario/resumen', ['vista' => $vista, 'fInicio' => $fInicio, 'fFin' => $fFin, 'listEventos' => $listEventos]);
             echo Json::encode(array('result' => 'ok', 'module' => $this->module->id, 'response' => $resumen));
             Yii::$app->end();

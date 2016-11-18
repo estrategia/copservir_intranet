@@ -158,6 +158,7 @@ $config = [
                 'proveedores/visitamedica/productos/producto/<codigoProducto:\d+>' => 'proveedores/visitamedica/productos/producto',
                 'proveedores/visitamedica/reportes/acceso/<tiempo:\w+\-?\w+>' => 'proveedores/visitamedica/reportes/acceso',
                 'proveedores/visitamedica/reportes/producto/<tiempo:\w+\-?\w+>' => 'proveedores/visitamedica/reportes/producto',
+                'trademarketing/rest/observaciones/asignacion/<idAsignacion:\d+>/variable/<idVariable:\d+>' => 'trademarketing/rest/rest-observaciones/listar-observaciones',
 
                 // REST
                 [
