@@ -72,7 +72,7 @@ return [
     ],
     'PerfilesUsuario' => [
         'intranet' => ['codigo' => 1, 'permiso' => 'intranet_usuario'],
-        'tarjetaMas' => ['codigo' => 2, 'permiso' => 'tarjeta_mas_usuario'],
+        'tarjetaMas' => ['codigo' => 2, 'permiso' => 'tarjetamas_usuario'],
         'visitaMedica' => ['codigo' => 3, 'permiso' => ''],
 
     ],

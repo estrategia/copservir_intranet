@@ -24,6 +24,7 @@ VisitaMedicaAsset::register($this);
   </head>
   <body>
     <?php $this->beginBody() ?>
+    <?php if (!Yii::$app->user->isGuest): ?>
     <?php $baseUrl = Yii::$app->getUrlManager()->getBaseUrl(); ?>
       <div class="page-container">
          <div class="page-sidebar">
@@ -38,7 +39,7 @@ VisitaMedicaAsset::register($this);
                     </a>
                     <div class="profile">
                         <div class="profile-image">
-                          <img src=" <?php echo Yii::$app->homeUrl . 'img/fotosperfil/' . \Yii::$app->user->identity->getImagenPerfil(); ?> " alt="">
+                        	<img src=" <?php echo Yii::$app->homeUrl . 'img/fotosperfil/' . \Yii::$app->user->identity->getImagenPerfil(); ?> " alt="">
                         </div>
                         <div class="profile-data">
                             <div class="profile-data-name">
@@ -143,7 +144,7 @@ VisitaMedicaAsset::register($this);
             </div>
           </div>
         </div>
-        
+     <?php endif; ?> 
     <?php $this->endBody() ?>
   </body>
 </html>

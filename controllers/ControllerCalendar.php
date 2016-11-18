@@ -9,7 +9,7 @@ use app\modules\intranet\models\EventosCalendario;
 
 abstract class ControllerCalendar extends Controller {
 
-  public function behaviors()
+  /*public function behaviors()
   {
       return [
           [
@@ -27,7 +27,7 @@ abstract class ControllerCalendar extends Controller {
                ]
            ],
       ];
-  }
+  }*/
 
     public function actionIndex() {
         return $this->render('//common/calendario/index');

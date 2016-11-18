@@ -8,8 +8,8 @@ use yii\web\Controller;
 use app\modules\intranet\models\Portal;
 use app\modules\intranet\models\Contenido;
 
-class SitioController extends CController
-{
+class SitioController extends CController {
+    
 }
 
 ?>
