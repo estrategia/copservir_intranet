@@ -6,6 +6,9 @@ use yii\widgets\Pjax;
 
 $this->title = 'Ofertas Laborales';
 ?>
+<?php $time = new \DateTime('now');
+        $today = $time->format('Y-m-d h:m:s');
+        echo $today; ?>
 <div class="ofertas-laborales-index">
 
     <h1><?= Html::encode($this->title) ?></h1>

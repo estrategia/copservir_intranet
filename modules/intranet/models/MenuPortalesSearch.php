@@ -41,11 +41,11 @@ class MenuPortalesSearch extends MenuPortales
             return $dataProvider;
         }
 
-        if (Yii::$app->user->isGuest) {
-            $query->andFilterWhere(['loginVisualizacion' => [0,2]])
-        } else {
-            $query->andFilterWhere(['loginVisualizacion' => [1,2]])
-        }
+        // if (Yii::$app->user->isGuest) {
+        //     $query->andFilterWhere(['loginVisualizacion' => [0,2]]);
+        // } else {
+        //     $query->andFilterWhere(['loginVisualizacion' => [1,2]]);
+        // }
 
         $query->andFilterWhere([
             'idMenuPortales' => $this->idMenuPortales,

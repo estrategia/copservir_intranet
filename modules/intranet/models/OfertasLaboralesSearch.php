@@ -92,7 +92,9 @@ class OfertasLaboralesSearch extends OfertasLaborales
      */
     public function searchVertodos($params)
     {
-
+        $time = new \DateTime('now');
+        $today = $time->format('Y-m-d h:m:s');
+        // var_dump($today); exit();
         $query = OfertasLaborales::find()->orderby('idCiudad')
           ->with([ 'objCiudad', 'objInformacionContactoOferta']);
 
@@ -123,6 +125,8 @@ class OfertasLaboralesSearch extends OfertasLaborales
         $query->joinWith('objCiudad');
         //$query->joinWith('objCargo');
         //$query->joinWith('objArea');
+        $query->andFilterWhere(['>=', 'fechaCierre', $today]);
+
         
         $query->andFilterWhere(['like', 'nombreCiudad', $this->idCiudad]);
         $query->andFilterWhere(['like', 'nombreCargo', $this->nombreCargo]);
