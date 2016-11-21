@@ -191,6 +191,7 @@ class LoginForm extends Model {
         $this->_user->alias = $this->username;
         $this->_user->estado = Usuario::ESTADO_ACTIVO;
         //$this->_user->codigoPerfil = \Yii::$app->params['PerfilesUsuario']['intranet']['codigo'];
+        $this->_user->nombrePortal = \Yii::$app->getModule("intranet")->id;
     }
 
     /*

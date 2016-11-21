@@ -5,7 +5,6 @@
   use app\models\Usuario;
   use yii\base\Model;
 
-
   // use app\modules\proveedores\modules\visitamedica\models\Usuario as UsuarioProveedor
   /**
   * 
@@ -19,7 +18,8 @@
     public function rules()
     {
       return [
-        [['username', 'password'], 'required']
+      	[['username', 'password'], 'required'],
+      	['password', 'validatePassword'],
       ];
     }
 
@@ -34,6 +34,7 @@
     public function validatePassword($attribute, $params) {
       if (!$this->hasErrors()) {
         $user = $this->getUser();
+        
         if (!$user) {
             $this->addError($attribute, 'Usuario no existe');
         } else if (!$this->checkPassword($user->contrasena)) {
