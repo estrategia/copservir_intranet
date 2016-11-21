@@ -88,25 +88,24 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Perfil de usuario')]
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-
-
-<div class="col-md-4">
-  <br>
-  <div class="row">
-    <div class="col-md-12 no-padding">
-
-      <div class="overlayer-wrapper">
-        <div class="padding-10 hidden-xs">
-        </div>
       </div>
     </div>
-
   </div>
-</div>
+
+
+	<div class="col-md-4">
+	  <br>
+	  <div class="row">
+	    <div class="col-md-12 no-padding">
+	
+	      <div class="overlayer-wrapper">
+	        <div class="padding-10 hidden-xs">
+	        </div>
+	      </div>
+	    </div>
+	
+	  </div>
+	</div>
 <br>
 <br>
-</div>
 </div>

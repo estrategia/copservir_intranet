@@ -8,7 +8,7 @@ use kartik\select2\Select2;
 /* @var $model app\modules\trademarketing\models\PorcentajeEspaciosPuntoVenta */
 
 $this->title = 'Selecciona un punto de venta';
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'TradeMarketing-%Espacio PDV')];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'TradeMarketing - % Espacio PDV')];
 
 ?>
 

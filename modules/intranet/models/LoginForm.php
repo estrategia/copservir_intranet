@@ -141,6 +141,21 @@ class LoginForm extends Model {
                   } */
             }
             
+            $usuarioIntranet = UsuarioIntranet::findOne($this->_user->numeroDocumento);
+            
+            if (empty($usuarioIntranet)) {
+            	$usuarioIntranet = new UsuarioIntranet();
+            	$usuarioIntranet->numeroDocumento = $this->_user->numeroDocumento;
+            }
+            
+            $usuarioIntranet->nombres = $this->_user->getNombres();
+            $usuarioIntranet->primerApellido = $this->_user->getPrimerApellido();
+            $usuarioIntranet->segundoApellido = $this->_user->getSegundoApellido();
+            $usuarioIntranet->idCargo = $this->_user->getCargoCodigo();
+            $usuarioIntranet->nombreCargo = $this->_user->getCargoNombre();
+            $usuarioIntranet->correoElectronico = $this->_user->getEmail();
+            $usuarioIntranet->save();
+            
             $objAuthAssignment = AuthAssignment::find()
                     ->where("item_name=:rol AND user_id=:usuario", [':rol'=>\Yii::$app->params['PerfilesUsuario']['intranet']['permiso'],':usuario'=>$this->username])
                     ->one();

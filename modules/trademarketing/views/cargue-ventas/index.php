@@ -14,7 +14,9 @@ use kartik\select2\Select2;
 
 <?= $this->render('/common/errores', []) ?>
 
-<div class="documento-form">
+<div class="">
+
+	<div class="alert alert-info" role="alert">Descarga plantilla de ejemplo <a href="<?= Yii::$app->homeUrl . "plantillas-cargue/trademarketing/cargue-ventas.csv" ?>">Aqui</a></div>
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
