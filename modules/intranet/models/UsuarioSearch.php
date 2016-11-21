@@ -41,7 +41,7 @@ class UsuarioSearch extends Usuario
      */
     public function search($params)
     {
-        $query = Usuario::find()->where(['codigoPerfil' => \Yii::$app->params['PerfilesUsuario']['intranet']['codigo']])
+        $query = Usuario::find()->where(['nombrePortal' => \Yii::$app->getModule('intranet')->id])
           ->andWhere(['=', 'estado', 1]);
 
         // add conditions that should always apply here

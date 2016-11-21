@@ -259,7 +259,7 @@ class UsuarioController extends Controller {
                 $modelUsuario = new Usuario;
                 $modelUsuario->numeroDocumento = $model->numeroDocumento;
                 $modelUsuario->estado = Usuario::ESTADO_INACTIVO;
-                $modelUsuario->codigoPerfil = \Yii::$app->params['PerfilesUsuario']['tarjetaMas']['codigo'];
+                //$modelUsuario->codigoPerfil = \Yii::$app->params['PerfilesUsuario']['tarjetaMas']['codigo'];
                 $modelUsuario->contrasena = md5($model->password);
 
                 $model->codigoActivacion = $modelUsuario->generarCodigoRecuperacion();

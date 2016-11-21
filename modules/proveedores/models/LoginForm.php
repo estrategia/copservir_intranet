@@ -40,7 +40,10 @@
             $this->addError($attribute, 'Contraseña incorrecta por favor verifica de nuevo');
         } else if ($user->estado != 1) {
             $this->addError($attribute, 'El usuario se encuentra inactivo');
-        } // else if ($user->codigoPerfil != \Yii::$app->params['PerfilesUsuario']['tarjetaMas']['codigo']) {
+        }else if($user->nombrePortal != \Yii::$app->getModule('proveedores')->id){
+        	$this->addError($attribute, 'El usuario no es permitido');
+        }
+        // else if ($user->codigoPerfil != \Yii::$app->params['PerfilesUsuario']['tarjetaMas']['codigo']) {
         //     $this->addError($attribute, 'El usuario no tiene permiso para iniciar sesion');
         // }
       }
