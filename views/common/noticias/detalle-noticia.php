@@ -2,9 +2,6 @@
 $this->title = 'Detalle contenidoModel';
 ?>
 
-<div class="space-2"></div>
-<div class="space-2"></div>
-
 <div class="container internal text-left">
   <section>
       <div class="white-item">

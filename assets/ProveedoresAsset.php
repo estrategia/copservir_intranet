@@ -21,6 +21,10 @@ class ProveedoresAsset extends AssetBundle {
     public $css = [
         'libs/boostrapv3/css/bootstrap.min.css',
         // 'libs/boostrapv3/css/bootstrap-theme.min.css',
+        'libs/font-awesome/css/font-awesome.css',
+        
+        // 'libs/webarch/webarch.css',
+
 
         // carousel
         'libs/multiportal/owl-carousel/owl.carousel.css',

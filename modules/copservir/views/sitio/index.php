@@ -73,8 +73,7 @@ $srcSlide = Yii::$app->homeUrl . 'img/multiportal/copservir/';
       </div>-->
 
 <!--
-<div class="space-2"></div>
-<div class="space-2"></div>
+
 
 <div class="container marketing">
   <section>

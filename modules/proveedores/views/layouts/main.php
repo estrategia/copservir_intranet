@@ -8,6 +8,7 @@ ProveedoresAsset::register($this);
 
 // Rutas imagenes
 $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.png';
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -68,22 +69,30 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.pn
                             <li>
                                 <a data-toggle="dropdown" class="dropdown-toggle  pull-right " href="#" id="user-options">
                                     <div class="iconset top-settings-dark ">
-                                        <span class="glyphicon glyphicon-cog"></span>
+                                        <span class="glyphicon glyphicon-user"></span>
                                     </div>
                                 </a>
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="user-options" style="background-color: white;">
-                                    <li>
-                                        <?= Html::beginForm(['usuario/salir'], 'post', ['id' => 'form-salir']); ?>
-                                        <?= Html::submitButton('<i class="fa fa-power-off"></i> Salir', ['class' => 'btn btn-link']); ?>
-                                        <?= Html::endForm(); ?>
-                                    </li>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="user-options" style="background-color: white; a{color: black;}">
+                                    <?php if(Yii::$app->user->isGuest): ?>
+                                        <li>
+                                            <?php echo Html::a('Ingresar', ['/proveedores/usuario/autenticar'],['style'=>'color: black;']); ?>
+                                        </li>
+                                    <?php else:?>
+                                        <li>
+                                            <?php echo Html::a('Usuarios', ['/proveedores/usuario/admin'],['style'=>'color: black;']); ?>
+                                            <?php 
+                                                echo Html::beginForm(['usuario/salir'], 'post', ['id' => 'form-salir']);
+                                                echo Html::submitButton('<i class="fa fa-power-off"></i> Salir', ['class' => 'btn btn-link']);
+                                                echo Html::endForm();
+                                            ?>
+                                        </li>
+                                    <?php endif; ?>
                                 </ul>
                             </li>
                         </ul>
                     </div>
                 </div>
             </nav>
-
         </div>
 
         <!-- CONTAINER -->

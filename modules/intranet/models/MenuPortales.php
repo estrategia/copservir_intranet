@@ -36,7 +36,7 @@ class MenuPortales extends \yii\db\ActiveRecord {
 
     public function rules() {
         return [
-            [['idPortal', 'nombre', 'tipo', 'estado'], 'required'],
+            [['idPortal', 'nombre', 'tipo', 'estado', 'ordenMenu'], 'required'],
             [['idPortal', 'tipo', 'estado', 'idMenuPortalPadre'], 'integer'],
             [['fechaRegistro', 'fechaActualizacion'], 'safe'],
             [['nombre'], 'string', 'max' => 50],

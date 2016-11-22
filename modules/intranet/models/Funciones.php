@@ -2,6 +2,9 @@
 
 namespace app\modules\intranet\models;
 
+use Yii;
+use yii\helpers\VarDumper;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -113,4 +116,29 @@ class Funciones {
         return $pass;
     }
 
+    /**
+     * @param string module->id
+     * @return bool
+     * Chequea si un modulo es descediente de otro
+     */
+    public static function esSubmodulo($moduloHijo)
+    {   
+        $modulosDelPadre = Yii::$app->controller->module->modules;
+        return Funciones::findKey($modulosDelPadre, $moduloHijo);
+    }
+
+    public function findKey($array, $keySearch)
+    {
+        foreach ($array as $key => $item) {
+            if ($key == $keySearch) {
+                return true;
+            }
+            else {
+                if (is_array($item) && Funciones::findKey($item, $keySearch)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

@@ -80,8 +80,8 @@ $srcSlide = Yii::$app->homeUrl . 'img/multiportal/copservir/slide_1.jpg';
           </div>
         </div>
       </section> <!-- / full section -->
-      <div class="space-2"></div>
-      <div class="space-2"></div>
+     <!--  <div class="space-2"></div>
+      <div class="space-2"></div> -->
       <div class="container marketing">
         <section> <!-- / counter section -->
           <div class="row">
