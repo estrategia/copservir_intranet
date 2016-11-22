@@ -37,7 +37,8 @@ class ProveedoresAsset extends AssetBundle {
         'css/portales-style.css',
         'css/portales-main.css',
         'css/portales-main_1.css',
-        'css/common.css'
+        'css/common.css',
+    	'css/portales-common.css',
     ];
     public $js = [
         // boostrap

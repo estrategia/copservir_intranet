@@ -33,6 +33,7 @@ class TarjetaMasAsset extends AssetBundle {
         'css/portales-style.css',
         'css/portales-main.css',
         'css/common.css',
+    	'css/portales-common.css',
         
         //Animaciones
         'css/animate.css',
