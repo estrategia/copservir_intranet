@@ -32,7 +32,8 @@ class MultiportalAsset extends AssetBundle {
         //genericas plantilla intranet
         'css/portales-style_1.css',
         'css/portales-main_1.css',
-        'css/common.css'
+        'css/common.css',
+    	'css/portales-common.css',
     ];
     public $js = [
         // boostrap
