@@ -90,6 +90,9 @@ return [
     	'visitaMedica' => [
     		'detallePDV' => 'http://localhost/lrv/rest/producto/simular',
     	],
+        'productos' => [
+            'terceros' => 'http://localhost/copservir/productos/sweb/terceros',
+        ],
     ],
     'usuario' => [
       'tiempoRecuperarClave' => 1 // dias

@@ -63,13 +63,12 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.pn
                               </ul>
                             </li>-->
                             <?= MenuPortales::generarMenu(Yii::$app->controller->module->id) ?>
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
+                       
                                 
                             <li>
                                 <a data-toggle="dropdown" class="dropdown-toggle  pull-right " href="#" id="user-options">
                                     <div class="iconset top-settings-dark ">
-                                        <span class="glyphicon glyphicon-user"></span>
+                                        <span class="glyphicon glyphicon-user"></span> Usuario
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="user-options" style="background-color: white; a{color: black;}">
@@ -79,7 +78,9 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.pn
                                         </li>
                                     <?php else:?>
                                         <li>
-                                            <?php echo Html::a('Usuarios', ['/proveedores/usuario/admin'],['style'=>'color: black;']); ?>
+                                            <?php if(Yii::$app->user->identity->tienePermiso('proveedores-admin')): ?>
+                                                <?php echo Html::a('Usuarios', ['/proveedores/usuario/admin'],['style'=>'color: black;']); ?>
+                                            <?php endif; ?>
                                             <?php 
                                                 echo Html::beginForm(['usuario/salir'], 'post', ['id' => 'form-salir']);
                                                 echo Html::submitButton('<i class="fa fa-power-off"></i> Salir', ['class' => 'btn btn-link']);
@@ -161,3 +162,8 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.pn
     </body>
 </html>
 <?php $this->endPage() ?>
+<style>
+    .portal-container {
+        padding-top: 10px!important;
+    }
+</style>

@@ -7,8 +7,9 @@ ShowLoadingAsset::register($this);
 $this->title = 'Calendario';
 ?>
 <?php $this->registerJsFile("@web/js/calendario.js", ['depends' => [app\assets\CalendarAsset::className()]]); ?>
-
-<div class="portal-container">
+<div class="container">
+<h1>Calendario</h1>
+<div class="portal-container" style="padding-top: 10px!important;">
     <div class="row" style="max-height:850px;">
         <div class="tiles row tiles-container red no-padding">
             <div class="col-md-4 tiles red no-padding">
@@ -41,5 +42,6 @@ $this->title = 'Calendario';
             </div>
         </div>
     </div>
+</div>
 </div>
 <?php $this->registerJs("initCalendar(null,'" . \Yii::$app->controller->module->id . "');"); ?>

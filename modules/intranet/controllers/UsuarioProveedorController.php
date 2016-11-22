@@ -410,7 +410,7 @@ class UsuarioProveedorController extends Controller
         //$condiciones['nombreZona']['valor'] = 'cali';
         //$condiciones['nombreZona']['like'] = true;
 
-        $client = new \SoapClient('http://localhost/copservir/productos/sweb/terceros');
+        $client = new \SoapClient(Yii::$app->params['webServices']['productos']['terceros']);
         $arr = $client->getTerceros();
 
         if ($arr === null) {
