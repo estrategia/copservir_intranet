@@ -70,8 +70,12 @@ class PorcentajeEspaciosPuntoVenta extends \yii\db\ActiveRecord
         foreach ($WSResult as $key => $value) {
           array_push($opciones, $value);
         }
-
-        return ArrayHelper::map($opciones, 'IDComercial', 'NombrePuntoDeVenta');
+        
+        //return ArrayHelper::map($opciones, 'IDComercial', 'NombrePuntoDeVenta');
+        
+        return ArrayHelper::map($opciones, 'IDComercial', function($pdv){
+        	return $pdv['IDComercial'] . " - " . $pdv['NombrePuntoDeVenta'];
+        });
     }
 
     public function callWsPuntosVenta()

@@ -37,7 +37,6 @@ class CargueVentasController extends Controller
 	public function actionIndex(){
     	$model = new CargueVentasForm;
     	$objFecha = new \DateTime;
-    	echo "<br>Fecha 1: " . $objFecha->format('Y-m-d H:i:s') . "<br><br>";
     	
     	if ($model->load(Yii::$app->request->post())) {
     		ini_set('memory_limit', -1);

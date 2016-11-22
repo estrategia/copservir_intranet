@@ -121,7 +121,6 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
                     $this->data['ciudadVisualizacion']['codigo'] = $infoPersona['Codigo'];
                     $this->data['ciudadVisualizacion']['nombre'] = $infoPersona['Ciudad'];
 
-
                     //$this->data['academica']['profesion'] = "Ingeniero de sistemas y ciencias de la computación";
                     //$this->data['academica']['estudiosSuperiores'] = "Universidad del valle sede Melendez";
                     $this->data['academica']['profesion'] = "";
@@ -148,29 +147,7 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
                     if ($sesion) {
                         \Yii::$app->session->set('user.data', $this->data);
                     }
-
-                    $usuarioIntranet = UsuarioIntranet::findOne($this->numeroDocumento);
-
-                    if (empty($usuarioIntranet)) {
-                        $usuarioIntranet = new UsuarioIntranet();
-                        $usuarioIntranet->numeroDocumento = $this->numeroDocumento;
-                        $usuarioIntranet->nombres = $infoPersona['Nombres'];
-                        $usuarioIntranet->primerApellido = $infoPersona['PrimerApellido'];
-                        $usuarioIntranet->segundoApellido = $infoPersona['SegundoApellido'];
-                        $usuarioIntranet->idCargo = $infoPersona['CodigoCargo'];
-                        $usuarioIntranet->nombreCargo = $infoPersona['Cargo'];
-                        $usuarioIntranet->correoElectronico = $infoPersona['Email'];
-                        $usuarioIntranet->save();
-                    } else {
-                        $usuarioIntranet->nombres = $infoPersona['Nombres'];
-                        $usuarioIntranet->primerApellido = $infoPersona['PrimerApellido'];
-                        $usuarioIntranet->segundoApellido = $infoPersona['SegundoApellido'];
-                        $usuarioIntranet->idCargo = $infoPersona['CodigoCargo'];
-                        $usuarioIntranet->nombreCargo = $infoPersona['Cargo'];
-                        $usuarioIntranet->correoElectronico = $infoPersona['Email'];
-                        $usuarioIntranet->update();
-                    }
-
+                    
                     return true;
                 }
             } catch (SoapFault $exc) {
