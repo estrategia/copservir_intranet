@@ -121,7 +121,7 @@ class Funciones {
      * @return bool
      * Chequea si un modulo es descediente de otro
      */
-    public static function esSubmodulo($moduloHijo)
+    public static function esSubModulo($moduloHijo)
     {   
         $modulosDelPadre = Yii::$app->controller->module->modules;
         return Funciones::findKey($modulosDelPadre, $moduloHijo);
