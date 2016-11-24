@@ -9,7 +9,7 @@ class RegistroAccesoDetalleProducto extends \yii\db\ActiveRecord
   
   public static function tableName()
   {
-      return 't_vimed_registroaccesodetalleproducto';
+      return 't_VIMED_RegistroAccesoDetalleProducto';
   }
 
 

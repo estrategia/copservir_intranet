@@ -14,14 +14,13 @@ use bootstrap\modal;
 ?>
 
 <div class="row">
-    <div class="col-md-12 col-xs-12 col-sm-12">
 
     <?php $form = ActiveForm::begin(); ?>
         <div class="form-header">
             <h4>Informacion personal</h4>
         </div>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <!-- <?= $form->field($model, 'profesion')->textInput(['maxlength' => true]) ?> -->
                 <?php 
                     echo $form->field($model, 'idProfesion')->widget(Select2::classname(), [
@@ -33,7 +32,7 @@ use bootstrap\modal;
                     ]);
                 ?>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <?= $form->field($model, 'fechaNacimiento')->widget(DatePicker::classname(), [
                     'type' => DatePicker::TYPE_INPUT,
                     'options' => ['placeholder' => ''],
@@ -49,11 +48,11 @@ use bootstrap\modal;
             <h4>Informacion de contacto</h4>
         </div>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <!-- <?= $form->field($model, 'nitLaboratorio')->textInput(['maxlength' => true]) ?> -->
                 <?= $form->field($model, 'Direccion')->textInput(['maxlength' => true]) ?>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <?php 
                     echo $form->field($model, 'Ciudad')->widget(Select2::classname(), [
                         'data' => $ciudades,
@@ -73,5 +72,4 @@ use bootstrap\modal;
 
     <?php ActiveForm::end(); ?>
 
-    </div>
 </div>

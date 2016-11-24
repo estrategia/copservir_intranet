@@ -273,4 +273,11 @@
     color: #1caf9a !important;
 }
 
+.salir a{
+    color: #343434 !important;
+}
+
+.salir:hover {
+    color: #1caf9a !important;
+}
 svg { width: 100%; }

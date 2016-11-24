@@ -9,7 +9,7 @@ use yii\helpers\Url;
 ShowLoadingAsset::register($this);
 VisitaMedicaAsset::register($this);
 ?>
-
+<!-- <?php var_dump( Yii::$app->authManager->getRolesByUser(90909)); ?> -->
 <?php $this->beginPage() ?>
 
 <!DOCTYPE html>
@@ -116,11 +116,16 @@ VisitaMedicaAsset::register($this);
                     <?php endif ?>
                 </a>
               </li>
-              <!-- 
               <li class="xn-icon-button pull-right">
-                  <a href="logout.php?doLogout=true" class="mb-control" data-box="#mb-signout"><span class="fa fa-sign-out"></span></a>                        
+                  <?= Html::a('<i class="fa fa-power-off"></i>Salir', ['/proveedores/usuario/salir'], ['data'=>[
+                              'method' => 'post',
+                              'params'=>['id'=>'form-salir'],
+                            ],
+                    'class'=>'salir',
+                    ]) 
+                  ?>
               </li>
-               --> 
+               
             </ul>
 
             <div class="page-content-wrap">

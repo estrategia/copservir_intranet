@@ -13,7 +13,7 @@ class Reportes extends \yii\base\Model
 
     public function getRegistrosAcceso($tiempo)
     {
-      $sql = 'SELECT * FROM t_conexionesusuarios 
+      $sql = 'SELECT * FROM t_ConexionesUsuarios 
               WHERE 
                 DAY(fechaConexion) = DAY(CURDATE()) AND 
                 MONTH(fechaConexion) = MONTH(CURDATE()) AND 
@@ -21,23 +21,23 @@ class Reportes extends \yii\base\Model
 
       switch ($tiempo) {
         case 'ayer':
-          $sql = 'SELECT * FROM t_conexionesusuarios WHERE DAY(fechaConexion) = DAY(CURDATE()) -1 AND MONTH(fechaConexion) = MONTH(CURDATE())';
+          $sql = 'SELECT * FROM t_ConexionesUsuarios WHERE DAY(fechaConexion) = DAY(CURDATE()) -1 AND MONTH(fechaConexion) = MONTH(CURDATE())';
           break;
 
         case 'semana':
-          $sql = 'SELECT * FROM t_conexionesusuarios WHERE  YEARWEEK(fechaConexion, 1) = YEARWEEK(CURDATE(), 1) AND YEAR(fechaConexion) = YEAR(CURDATE())';
+          $sql = 'SELECT * FROM t_ConexionesUsuarios WHERE  YEARWEEK(fechaConexion, 1) = YEARWEEK(CURDATE(), 1) AND YEAR(fechaConexion) = YEAR(CURDATE())';
           break;
 
         case 'semana-anterior':
-          $sql = 'SELECT * FROM t_conexionesusuarios WHERE fechaConexion >= curdate() - INTERVAL DAYOFWEEK(curdate())+6 DAY AND fechaConexion < curdate() - INTERVAL DAYOFWEEK(curdate())-1 DAY AND YEAR(fechaConexion) = YEAR(CURDATE())';
+          $sql = 'SELECT * FROM t_ConexionesUsuarios WHERE fechaConexion >= curdate() - INTERVAL DAYOFWEEK(curdate())+6 DAY AND fechaConexion < curdate() - INTERVAL DAYOFWEEK(curdate())-1 DAY AND YEAR(fechaConexion) = YEAR(CURDATE())';
           break;
 
         case 'mes':
-          $sql = 'SELECT * FROM t_conexionesusuarios WHERE MONTH(fechaConexion) = MONTH(CURDATE()) AND YEAR(fechaConexion) = YEAR(CURDATE())';
+          $sql = 'SELECT * FROM t_ConexionesUsuarios WHERE MONTH(fechaConexion) = MONTH(CURDATE()) AND YEAR(fechaConexion) = YEAR(CURDATE())';
           break;
 
         case 'mes-anterior':
-          $sql = 'SELECT * FROM t_conexionesusuarios WHERE YEAR(fechaConexion) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH) AND MONTH(fechaConexion) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)';
+          $sql = 'SELECT * FROM t_ConexionesUsuarios WHERE YEAR(fechaConexion) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH) AND MONTH(fechaConexion) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)';
           break;
       }
       $connection = \Yii::$app->db;
@@ -137,7 +137,7 @@ class Reportes extends \yii\base\Model
 
     public function getRegistrosConsultaProductos($tiempo)
     {
-      $sql = 'SELECT * FROM t_vimed_registroaccesodetalleproducto 
+      $sql = 'SELECT * FROM t_VIMED_RegistroAccesoDetalleProducto 
               WHERE 
                 DAY(fechaConsulta) = DAY(CURDATE()) AND 
                 MONTH(fechaConsulta) = MONTH(CURDATE()) AND 
@@ -145,23 +145,23 @@ class Reportes extends \yii\base\Model
 
       switch ($tiempo) {
         case 'ayer':
-          $sql = 'SELECT * FROM t_vimed_registroaccesodetalleproducto WHERE DAY(fechaConsulta) = DAY(CURDATE()) -1 AND MONTH(fechaConsulta) = MONTH(CURDATE())';
+          $sql = 'SELECT * FROM t_VIMED_RegistroAccesoDetalleProducto WHERE DAY(fechaConsulta) = DAY(CURDATE()) -1 AND MONTH(fechaConsulta) = MONTH(CURDATE())';
           break;
 
         case 'semana':
-          $sql = 'SELECT * FROM t_vimed_registroaccesodetalleproducto WHERE  YEARWEEK(fechaConsulta, 1) = YEARWEEK(CURDATE(), 1) AND YEAR(fechaConsulta) = YEAR(CURDATE())';
+          $sql = 'SELECT * FROM t_VIMED_RegistroAccesoDetalleProducto WHERE  YEARWEEK(fechaConsulta, 1) = YEARWEEK(CURDATE(), 1) AND YEAR(fechaConsulta) = YEAR(CURDATE())';
           break;
 
         case 'semana-anterior':
-          $sql = 'SELECT * FROM t_vimed_registroaccesodetalleproducto WHERE fechaConsulta >= curdate() - INTERVAL DAYOFWEEK(curdate())+6 DAY AND fechaConsulta < curdate() - INTERVAL DAYOFWEEK(curdate())-1 DAY AND YEAR(fechaConsulta) = YEAR(CURDATE())';
+          $sql = 'SELECT * FROM t_VIMED_RegistroAccesoDetalleProducto WHERE fechaConsulta >= curdate() - INTERVAL DAYOFWEEK(curdate())+6 DAY AND fechaConsulta < curdate() - INTERVAL DAYOFWEEK(curdate())-1 DAY AND YEAR(fechaConsulta) = YEAR(CURDATE())';
           break;
 
         case 'mes':
-          $sql = 'SELECT * FROM t_vimed_registroaccesodetalleproducto WHERE MONTH(fechaConsulta) = MONTH(CURDATE()) AND YEAR(fechaConsulta) = YEAR(CURDATE())';
+          $sql = 'SELECT * FROM t_VIMED_RegistroAccesoDetalleProducto WHERE MONTH(fechaConsulta) = MONTH(CURDATE()) AND YEAR(fechaConsulta) = YEAR(CURDATE())';
           break;
 
         case 'mes-anterior':
-          $sql = 'SELECT * FROM t_vimed_registroaccesodetalleproducto WHERE YEAR(fechaConsulta) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH) AND MONTH(fechaConsulta) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)';
+          $sql = 'SELECT * FROM t_VIMED_RegistroAccesoDetalleProducto WHERE YEAR(fechaConsulta) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH) AND MONTH(fechaConsulta) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)';
           break;
       }
       $connection = \Yii::$app->db;

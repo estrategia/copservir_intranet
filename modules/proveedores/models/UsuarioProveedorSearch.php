@@ -63,8 +63,19 @@ class UsuarioProveedorSearch extends UsuarioProveedor
         // $usuarioIntranet = \app\models\Usuario::findOne(['numeroDocumento' => $this->numeroDocumento]);
         // $this->estado = $usuarioIntranet->estado;
 
+        $usuarioLogueado = Yii::$app->user->identity;
         $query->innerJoin('auth_assignment', 'auth_assignment.user_id = numeroDocumento');
-        $query->andWhere("auth_assignment.item_name='proveedores_admin'");
+        if ($usuarioLogueado->tienePermiso('intranet_admin-proveedores')) {
+            $query->andWhere("auth_assignment.item_name='proveedores_admin'");
+        }
+        if ($usuarioLogueado->tienePermiso('proveedores-admin')) {
+            $query->andWhere("auth_assignment.item_name<>'proveedores_admin'");
+            $query->andWhere("nitLaboratorio='{$nitLaboratorio}'");
+        }
+        if ($usuarioLogueado->tienePermiso('visitaMedica_proveedor')) {
+            $query->andWhere("auth_assignment.item_name='visitaMedica_visitador'");
+            $query->andWhere("nitLaboratorio='{$nitLaboratorio}'");
+        }
         // grid filtering conditions
         $query->andFilterWhere([
             'numeroDocumento' => $this->numeroDocumento,

@@ -52,11 +52,10 @@ class UsuarioProveedorController extends Controller
                     // 'ver' => 'proveedores_admin',
                     // 'crear' => 'proveedores_admin',
                     // 'actualizar' => 'proveedores_admin',
-                    'admin' => 'proveedores_usuario_admin',
-                    'ver' => 'proveedores_usuario_admin',
-                    'crear' => 'proveedores_usuario_admin',
-                    'actualizar' => 'proveedores_usuario_admin',
-                    'exportar-usuarios' => 'visitaMedica_usuario_exportar-usuarios'
+                    'admin' => 'intranet_admin-proveedores',
+                    'ver' => 'intranet_admin-proveedores',
+                    'crear' => 'intranet_admin-proveedores',
+                    'actualizar' => 'intranet_admin-proveedores',
                 ],
            ],
         
@@ -160,7 +159,7 @@ class UsuarioProveedorController extends Controller
             $usuarioProveedor->modulo = \Yii::$app->controller->module->id;
             $documento = Yii::$app->request->post()['UsuarioProveedor']['numeroDocumento'];
             $documentoLaboratorio = Yii::$app->request->post()['UsuarioProveedor']['nitLaboratorio'];
-            $idAgrupacion = Yii::$app->request->post()['UsuarioProveedor']['idAgrupacion'];
+            // $idAgrupacion = Yii::$app->request->post()['UsuarioProveedor']['idAgrupacion'];
             foreach($terceros as $tercero) {
                 if ($documentoLaboratorio == $tercero['NumeroDocumento']) {
                     $laboratorio = $tercero;
@@ -171,10 +170,10 @@ class UsuarioProveedorController extends Controller
             $usuarioProveedor->idFabricante = $laboratorio['IdFabricante'];
             $usuarioProveedor->nombreLaboratorio = $laboratorio['Nombre'];
             $usuarioProveedor->nitLaboratorio = $laboratorio['NumeroDocumento'];
-            $usuarioProveedor->idAgrupacion = $idAgrupacion;
-            if(array_key_exists($idAgrupacion, $unidadesNegocio)) {
-                $usuarioProveedor->nombreUnidadNegocio = $unidadesNegocio[$idAgrupacion];
-            }
+            // $usuarioProveedor->idAgrupacion = $idAgrupacion;
+            // if(array_key_exists($idAgrupacion, $unidadesNegocio)) {
+            //     $usuarioProveedor->nombreUnidadNegocio = $unidadesNegocio[$idAgrupacion];
+            // }
 
             $usuarioIntranet = new \app\models\Usuario();
             $usuarioIntranet->numeroDocumento = $documento;
@@ -229,7 +228,7 @@ class UsuarioProveedorController extends Controller
 
         if ($usuarioProveedor->load(Yii::$app->request->post())) {
             $documentoLaboratorio = Yii::$app->request->post()['UsuarioProveedor']['nitLaboratorio'];
-            $idAgrupacion = Yii::$app->request->post()['UsuarioProveedor']['idAgrupacion'];
+            // $idAgrupacion = Yii::$app->request->post()['UsuarioProveedor']['idAgrupacion'];
             foreach($terceros as $tercero) {
                 if ($documentoLaboratorio == $tercero['NumeroDocumento']) {
                     $laboratorio = $tercero;
@@ -240,10 +239,10 @@ class UsuarioProveedorController extends Controller
             $usuarioProveedor->idFabricante = $laboratorio['IdFabricante'];
             $usuarioProveedor->nombreLaboratorio = $laboratorio['Nombre'];
             $usuarioProveedor->nitLaboratorio = $laboratorio['NumeroDocumento'];
-            $usuarioProveedor->idAgrupacion = $idAgrupacion;
-            if(array_key_exists($idAgrupacion, $unidadesNegocio)) {
-                $usuarioProveedor->nombreUnidadNegocio = $unidadesNegocio[$idAgrupacion];
-            }
+            // $usuarioProveedor->idAgrupacion = $idAgrupacion;
+            // if(array_key_exists($idAgrupacion, $unidadesNegocio)) {
+            //     $usuarioProveedor->nombreUnidadNegocio = $unidadesNegocio[$idAgrupacion];
+            // }
 
             if ($usuarioProveedor->save()) {
                 return $this->redirect(['ver', 'id' => $usuarioProveedor->numeroDocumento]);
@@ -258,50 +257,50 @@ class UsuarioProveedorController extends Controller
         }
     }
 
-    public function actionActualizarMiCuenta()
-    {
-        $documento =  Yii::$app->user->identity->numeroDocumento;
-        // var_dump($documento);
-        $usuarioVimed = UsuarioProveedor::findOne(['numeroDocumento' => $documento]);
-        $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
+    // public function actionActualizarMiCuenta()
+    // {
+    //     $documento =  Yii::$app->user->identity->numeroDocumento;
+    //     // var_dump($documento);
+    //     $usuarioVimed = UsuarioProveedor::findOne(['numeroDocumento' => $documento]);
+    //     $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
 
-        $client = new Client();
-        $url = Yii::$app->params['webServices']['lrv'] . '/profesion';
+    //     $client = new Client();
+    //     $url = Yii::$app->params['webServices']['lrv'] . '/profesion';
 
-        $response = $client->createRequest()
-        ->setMethod('get')
-        ->setUrl($url)
-        ->setData([])
-        ->setOptions([
-            'timeout' => 5, // set timeout to 5 seconds for the case server is not responding
-        ])
-        ->send();
-        $profesiones = ArrayHelper::map($response->data['response'], 'idProfesion', 'nombreProfesion');
+    //     $response = $client->createRequest()
+    //     ->setMethod('get')
+    //     ->setUrl($url)
+    //     ->setData([])
+    //     ->setOptions([
+    //         'timeout' => 5, // set timeout to 5 seconds for the case server is not responding
+    //     ])
+    //     ->send();
+    //     $profesiones = ArrayHelper::map($response->data['response'], 'idProfesion', 'nombreProfesion');
 
-        // var_dump(Yii::$app->user->identity->numeroDocumento);
-        // var_dump($usuarioVimed);
-        if ($usuarioVimed->load(Yii::$app->request->post())) {
-            $idProfesion = Yii::$app->request->post()['UsuarioProveedor']['idProfesion'];
-            $usuarioVimed->profesion = $profesiones[$idProfesion];
-            $usuarioVimed->idProfesion = $idProfesion;
-            if ($usuarioVimed->save()) {
-                return $this->redirect('mi-cuenta');
-            }
-        } else {
-            return $this->render('actualizarMiCuenta', [
-                'model' => $usuarioVimed,
-                'ciudades' => $ciudades,
-                'profesiones' => $profesiones,
-            ]);
-        }
-    }
+    //     // var_dump(Yii::$app->user->identity->numeroDocumento);
+    //     // var_dump($usuarioVimed);
+    //     if ($usuarioVimed->load(Yii::$app->request->post())) {
+    //         $idProfesion = Yii::$app->request->post()['UsuarioProveedor']['idProfesion'];
+    //         $usuarioVimed->profesion = $profesiones[$idProfesion];
+    //         $usuarioVimed->idProfesion = $idProfesion;
+    //         if ($usuarioVimed->save()) {
+    //             return $this->redirect('mi-cuenta');
+    //         }
+    //     } else {
+    //         return $this->render('actualizarMiCuenta', [
+    //             'model' => $usuarioVimed,
+    //             'ciudades' => $ciudades,
+    //             'profesiones' => $profesiones,
+    //         ]);
+    //     }
+    // }
 
-    public function actionMiCuenta()
-    {
-        $intranetUser = \app\models\Usuario::findOne(Yii::$app->user->identity->idUsuario);
-        $proveedoresUser = UsuarioProveedor::findOne(['numeroDocumento', $intranetUser->numeroDocumento]);
-        return $this->render('miCuenta', ['model' => $proveedoresUser]);
-    }
+    // public function actionMiCuenta()
+    // {
+    //     $intranetUser = \app\models\Usuario::findOne(Yii::$app->user->identity->idUsuario);
+    //     $proveedoresUser = UsuarioProveedor::findOne(['numeroDocumento', $intranetUser->numeroDocumento]);
+    //     return $this->render('miCuenta', ['model' => $proveedoresUser]);
+    // }
 
     public function actionCambiarFotoPerfil() {
         $modelFoto = FotoForm::find()->where(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento, 'estado' => 1])->one();

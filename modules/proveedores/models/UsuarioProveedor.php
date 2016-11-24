@@ -44,6 +44,7 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
             [['telefono', 'celular'], 'integer', 'min' => 5, 'max' => 9999999999],
             [['fechaNacimiento'], 'safe'],
             [['nombre', 'primerApellido', 'segundoApellido', 'nitLaboratorio', 'Ciudad', 'Direccion'], 'string', 'max' => 45, 'min' => 3],
+            [['nombre', 'primerApellido', 'segundoApellido', 'Direccion'], 'filter', 'filter' => 'strtoupper'],
         	[['email'], 'email'],
             [['email'], 'string', 'max' => 256],
             [['numeroDocumento'], 'unique'],

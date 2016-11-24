@@ -48,15 +48,15 @@ class UsuarioController extends Controller
                     'index', 'ver', 'crear', 'actualizar'
                 ],
                 'authsActions' => [
-                    // 'admin' => 'proveedores_admin',
-                    // 'ver' => 'proveedores_admin',
-                    // 'crear' => 'proveedores_admin',
-                    // 'actualizar' => 'proveedores_admin',
-                    'admin' => 'proveedores_usuario_admin',
-                    'ver' => 'proveedores_usuario_admin',
-                    'crear' => 'proveedores_usuario_admin',
-                    'actualizar' => 'proveedores_usuario_admin',
-                    'exportar-usuarios' => 'visitaMedica_usuario_exportar-usuarios'
+                    'admin' => 'proveedores_admin',
+                    'ver' => 'proveedores_admin',
+                    'crear' => 'proveedores_admin',
+                    'actualizar' => 'proveedores_admin',
+                    // 'admin' => 'proveedores_usuario_admin',
+                    // 'ver' => 'proveedores_usuario_admin',
+                    // 'crear' => 'proveedores_usuario_admin',
+                    // 'actualizar' => 'proveedores_usuario_admin',
+                    // 'exportar-usuarios' => 'visitaMedica_usuario_exportar-usuarios'
                 ],
            ],
         
@@ -79,7 +79,7 @@ class UsuarioController extends Controller
             $objConexionesUsuario->fechaConexion = date('YmdHis');
             $objConexionesUsuario->ip = $objConexionesUsuario->getRealIp(); //Yii::$app->getRequest()->getUserIP() ;
             $objConexionesUsuario->save();
-          return $this->redirect(['/proveedores/visitamedica/productos/buscar']);
+          return $this->redirect(['/proveedores']);
         }
 
         return $this->render('/sitio/login', [
@@ -108,7 +108,7 @@ class UsuarioController extends Controller
     public function actionAdmin()
     {
         $searchModel = new UsuarioProveedorSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, '', false, \Yii::$app->controller->module->id);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, Yii::$app->user->identity->objUsuarioProveedor->nitLaboratorio, false, \Yii::$app->controller->module->id);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -159,7 +159,7 @@ class UsuarioController extends Controller
         if ($usuarioProveedor->load(Yii::$app->request->post()) && $usuarioProveedor->validate()) {
             $usuarioProveedor->modulo = \Yii::$app->controller->module->id;
             $documento = Yii::$app->request->post()['UsuarioProveedor']['numeroDocumento'];
-            $documentoLaboratorio = Yii::$app->request->post()['UsuarioProveedor']['nitLaboratorio'];
+            $documentoLaboratorio = Yii::$app->user->identity->objUsuarioProveedor->nitLaboratorio;
             $idAgrupacion = Yii::$app->request->post()['UsuarioProveedor']['idAgrupacion'];
             foreach($terceros as $tercero) {
                 if ($documentoLaboratorio == $tercero['NumeroDocumento']) {
@@ -227,7 +227,7 @@ class UsuarioController extends Controller
         $laboratorio = null;
 
         if ($usuarioProveedor->load(Yii::$app->request->post())) {
-            $documentoLaboratorio = Yii::$app->request->post()['UsuarioProveedor']['nitLaboratorio'];
+            $documentoLaboratorio = Yii::$app->user->identity->objUsuarioProveedor->nitLaboratorio;;
             $idAgrupacion = Yii::$app->request->post()['UsuarioProveedor']['idAgrupacion'];
             foreach($terceros as $tercero) {
                 if ($documentoLaboratorio == $tercero['NumeroDocumento']) {
@@ -409,7 +409,7 @@ class UsuarioController extends Controller
         //$condiciones['nombreZona']['valor'] = 'cali';
         //$condiciones['nombreZona']['like'] = true;
 
-        $client = new \SoapClient('http://localhost/copservir/productos/sweb/terceros');
+        $client = new \SoapClient(Yii::$app->params['webServices']['productos']['terceros']);
         $arr = $client->getTerceros();
 
         if ($arr === null) {

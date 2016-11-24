@@ -854,3 +854,7 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
     background-color: #EF4637 !important;
     color: #fff !important;
 }
+
+.navbar-proveedores .dropdown-menu {
+  background-color: #C00000 !important;
+}

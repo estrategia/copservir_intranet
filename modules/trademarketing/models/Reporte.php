@@ -185,7 +185,9 @@ class Reporte extends Model
         ->where(['c.idAsignacion' => $idAsignacion])
         ->andWhere(['p.idComercial' => $idComercial])
         ->all();
+         // var_dump($datos->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
 
+      // \yii\helpers\VarDumper::dump($datos,10,true); exit();
       // VarDumper::dump($datos, 10, true); exit();
       $unidadesNegocio = [];
       $sumaCalificacionUnidad = 0;
@@ -219,7 +221,6 @@ class Reporte extends Model
         }
       }
       // $unidadesNegocio['calificacionFinal'] = $sumaCalificacionUnidad;
-      // var_dump($unidadesNegocio);
       return ['unidadesNegocio' => $unidadesNegocio, 'calificacionFinal' => $sumaCalificacionUnidad];
     }
 
@@ -229,7 +230,8 @@ class Reporte extends Model
      */
     private function consultarAsignacion($idAsignacion)
     {
-        $this->asignacion = AsignacionPuntoVenta::find($idAsignacion)
+        $this->asignacion = AsignacionPuntoVenta::find()->alias('t')
+            ->where('t.idAsignacion=:asignacion', [':asignacion' => $idAsignacion])
             ->joinWith('calificaciones')
             ->joinWith('calificaciones.variable')
             ->joinWith('calificaciones.variable.categoria')

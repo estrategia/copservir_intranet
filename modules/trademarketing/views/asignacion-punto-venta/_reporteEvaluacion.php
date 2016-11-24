@@ -1,8 +1,8 @@
 
 <?php 
   $unidadesNegocio = $informacionReporte['reporteEspacios'];
+  // \yii\helpers\VarDumper::dump($unidadesNegocio,10,true);exit();
   $espacios = array_values($unidadesNegocio)[0]['espacios'];
-  // CVarDumper::dump($unidadesNegocio,10,true);exit();
 ?>
 <div class="col-md-12">
   <div class="table-responsive">

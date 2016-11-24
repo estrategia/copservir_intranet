@@ -23,7 +23,7 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.pn
     </head>
     <body>
         <?php $this->beginBody() ?>
-
+        
         <!-- NAVBAR -->
         <div class="navbar-wrapper">
 
@@ -41,9 +41,9 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.pn
                         <?= Html::a("<img src='$srcLogo'>", ['/proveedores/sitio/index'], ['class' => 'navbar-brand copservir']) ?>
                     </div>
 
-                    <div id="navbar" class="navbar-collapse collapse">
+                    <div id="navbar" class="navbar-collapse collapse navbar-proveedores">
                         <ul class="nav navbar-nav">
-                            <li class=""> <?=  Html::a('Calendario', ['/proveedores/calendario']) ?></li>
+                            <!-- <li class=""> <?=  Html::a('Calendario', ['/proveedores/calendario']) ?></li> -->
                             <!--<li><?= Html::a('Page 2', ['#']) ?></li>
                             <li><?= Html::a('page 3', ['#']) ?></li>
                             <li><?= Html::a('Page 4', ['#']) ?></li>
@@ -74,18 +74,21 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.pn
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="user-options" style="background-color: white; a{color: black;}">
                                     <?php if(Yii::$app->user->isGuest): ?>
                                         <li>
-                                            <?php echo Html::a('Ingresar', ['/proveedores/usuario/autenticar'],['style'=>'color: black;']); ?>
+                                            <?php echo Html::a('Ingresar', ['/proveedores/usuario/autenticar']); ?>
                                         </li>
                                     <?php else:?>
                                         <li>
-                                            <?php if(Yii::$app->user->identity->tienePermiso('proveedores-admin')): ?>
-                                                <?php echo Html::a('Usuarios', ['/proveedores/usuario/admin'],['style'=>'color: black;']); ?>
+                                            <?php echo Html::a('Visita medica', ['/proveedores/visitamedica']); ?>
+                                            <?php if( Yii::$app->user->identity->tienePermiso('proveedores_usuario_admin')): ?>
+                                                <?php echo Html::a('Gestion de usuarios', ['/proveedores/usuario/admin']); ?>
                                             <?php endif; ?>
-                                            <?php 
-                                                echo Html::beginForm(['usuario/salir'], 'post', ['id' => 'form-salir']);
-                                                echo Html::submitButton('<i class="fa fa-power-off"></i> Salir', ['class' => 'btn btn-link']);
-                                                echo Html::endForm();
-                                            ?>
+                                            <?php echo Html::a('Mi cuenta', ['/proveedores/usuario/mi-cuenta']); ?>
+                                            <?= Html::a('<i class="fa fa-power-off"></i> Salir', ['usuario/salir'], [
+                                                'data'=>[
+                                                        'method' => 'post',
+                                                        'params'=>['id'=>'form-salir'],
+                                                    ]
+                                                ]) ?>
                                         </li>
                                     <?php endif; ?>
                                 </ul>
@@ -96,11 +99,13 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.pn
             </nav>
         </div>
 
+
         <!-- CONTAINER -->
         <div id="container" class="content">
             <?= $content ?>
         </div>
-
+                                <!-- <?php \yii\helpers\VarDumper::dump(Yii::$app->user->identity, 10,true); ?> -->
+    
         <!-- FOOTER -->
         <footer>
             <div class="footer-top company-bgcolor-1">

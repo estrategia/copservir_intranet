@@ -51,7 +51,7 @@ $urlBase = Yii::$app->getUrlManager()->getBaseUrl();
                                 function ($model) {
                                     return $model->nitLaboratorio;
                                 },
-                            'visible' => Yii::$app->user->identity->tienePermiso('proveedores_admin'),
+                            'visible' => Yii::$app->user->identity->tienePermiso('intranet_admin-proveedores'),
                         ],
                         [
                             'attribute' => 'Nombre Laboratorio',
@@ -59,20 +59,20 @@ $urlBase = Yii::$app->getUrlManager()->getBaseUrl();
                                 function ($model) {
                                     return $model->nombreLaboratorio;
                                 },
-                            'visible' => Yii::$app->user->identity->tienePermiso('proveedores_admin'),
+                            'visible' => Yii::$app->user->identity->tienePermiso('intranet_admin-proveedores'),
                         ],
                         [
                             'attribute' => '',
                             'format' => 'raw',
                             'value' => function ($model) {                      
-                                return '<a href="'. Yii::$app->getUrlManager()->getBaseUrl() . '/proveedores/usuario/ver?id='. $model->numeroDocumento .'"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></a>';
+                                return '<a href="'. Yii::$app->getUrlManager()->getBaseUrl() . '/intranet/usuario-proveedor/ver?id='. $model->numeroDocumento .'"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></a>';
                             },
                         ],
                         [
                             'attribute' => '',
                             'format' => 'raw',
                             'value' => function ($model) {                      
-                                return '<a href="'. Yii::$app->getUrlManager()->getBaseUrl() . '/proveedores/usuario/actualizar?id=' . $model->numeroDocumento .'"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>';
+                                return '<a href="'. Yii::$app->getUrlManager()->getBaseUrl() . '/intranet/usuario-proveedor/actualizar?id=' . $model->numeroDocumento .'"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>';
                             },
                         ],
                     ],

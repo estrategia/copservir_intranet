@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\modules\proveedores\models\UsuarioProveedor */
 
-$this->title = $model->numeroDocumento;
+$this->title = $model->nombre . ' ' . $model->primerApellido;
 $this->params['breadcrumbs'][] = ['label' => 'Usuario Proveedor', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -39,7 +39,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'idFabricante',
             'idAgrupacion',
             'nombreUnidadNegocio',
-            
         ],
     ]) ?>
     </div>
