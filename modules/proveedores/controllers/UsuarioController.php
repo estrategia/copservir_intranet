@@ -165,7 +165,7 @@ class UsuarioController extends Controller
         $usuarioProveedor = new UsuarioProveedor();
         $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
         $terceros = $this->getTerceros();
-        $unidadesNegocio = SIICOP::wsGetUnidadesNegocio(1);
+        // $unidadesNegocio = SIICOP::wsGetUnidadesNegocio(1);
         $tercerosSelect = ArrayHelper::map($terceros, 'NumeroDocumento', 'Nombre');
         $laboratorio = null;
 
@@ -173,7 +173,7 @@ class UsuarioController extends Controller
             $usuarioProveedor->modulo = \Yii::$app->controller->module->id;
             $documento = Yii::$app->request->post()['UsuarioProveedor']['numeroDocumento'];
             $documentoLaboratorio = Yii::$app->user->identity->objUsuarioProveedor->nitLaboratorio;
-            $idAgrupacion = Yii::$app->request->post()['UsuarioProveedor']['idAgrupacion'];
+            // $idAgrupacion = Yii::$app->request->post()['UsuarioProveedor']['idAgrupacion'];
             foreach($terceros as $tercero) {
                 if ($documentoLaboratorio == $tercero['NumeroDocumento']) {
                     $laboratorio = $tercero;
@@ -184,10 +184,10 @@ class UsuarioController extends Controller
             $usuarioProveedor->idFabricante = $laboratorio['IdFabricante'];
             $usuarioProveedor->nombreLaboratorio = $laboratorio['Nombre'];
             $usuarioProveedor->nitLaboratorio = $laboratorio['NumeroDocumento'];
-            $usuarioProveedor->idAgrupacion = $idAgrupacion;
-            if(array_key_exists($idAgrupacion, $unidadesNegocio)) {
-                $usuarioProveedor->nombreUnidadNegocio = $unidadesNegocio[$idAgrupacion];
-            }
+            // $usuarioProveedor->idAgrupacion = $idAgrupacion;
+            // if(array_key_exists($idAgrupacion, $unidadesNegocio)) {
+            //     $usuarioProveedor->nombreUnidadNegocio = $unidadesNegocio[$idAgrupacion];
+            // }
 
             $usuarioIntranet = new \app\models\Usuario();
             $usuarioIntranet->numeroDocumento = $documento;
@@ -200,6 +200,8 @@ class UsuarioController extends Controller
             // var_dump($usuarioProveedor);
 
             if ($usuarioIntranet->save() && $usuarioProveedor->save()) {
+                $connection = \Yii::$app->db;
+                $transaction = $connection->beginTransaction();
                 try {
                     $connection->createCommand()
                     ->insert('auth_assignment', [
@@ -230,7 +232,6 @@ class UsuarioController extends Controller
             return $this->render('create', [
                 'model' => $usuarioProveedor,
                 'terceros' => $tercerosSelect,
-                'unidadesNegocio' => $unidadesNegocio,
                 'ciudades' => $ciudades,
             ]);
         }
