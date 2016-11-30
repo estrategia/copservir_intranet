@@ -186,15 +186,29 @@ class UsuarioProveedorController extends Controller
             // var_dump($usuarioProveedor);
 
             if ($usuarioIntranet->save() && $usuarioProveedor->save()) {
+                $connection = \Yii::$app->db;
+                $transaction = $connection->beginTransaction();
+                try {
+                    $connection->createCommand()
+                    ->insert('auth_assignment', [
+                        'user_id' => $documento,
+                        'item_name' => 'proveedores_admin',
+                    ])->execute();  
+                    $transaction->commit();
+
+                } catch (Exception $e) {
+
+                    $transaction->rollBack();
+                    throw $e;
+                }
                 $infoUsuario = [
                     'usuario' => $usuarioIntranet->numeroDocumento,
                     'password' => $contrasena,
                 ];
-                $usuarioProveedor->asignarPermisos(['proveedores_admin']);
-                $contenidoCorreo = $this->renderPartial('_notificacionRegistro',['infoUsuario' => $infoUsuario]);
+                $contenidoCorreo = $this->renderPartial('_notificacionRegistro',['infoUsuario' => $infoUsuario, 'laboratorio' => $laboratorio['Nombre'], 'nombreUsuario' => $usuarioProveedor->nombre]);
                 $correoEnviar = $this->renderPartial('/common/correo', ['contenido' => $contenidoCorreo]);
                 $correoEnviado = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
-                                        ->setTo($usuarioProveedor->email)->setSubject('Credenciales Acceso Proveedores Copservir')
+                                        ->setTo($usuarioProveedor->email)->setSubject('Acceso Portal Colaborativo Copservir')
                                         ->setHtmlBody($correoEnviar)->send();
 
                 return $this->redirect(['ver', 'id' => $usuarioProveedor->numeroDocumento]);

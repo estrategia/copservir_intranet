@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model app\modules\proveedores\models\UsuarioProveedor */
 
 $this->title = 'Crear Usuario';
-$this->params['breadcrumbs'][] = ['label' => 'Usuario Proveedors', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Gestion de Usuarios', 'url' => ['admin']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">

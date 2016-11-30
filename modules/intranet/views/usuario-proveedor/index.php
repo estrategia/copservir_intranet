@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\modules\proveedores\models\UsuarioProveedorSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Usuarios';
+$this->title = 'Gestion de Usuarios';
 $this->params['breadcrumbs'][] = $this->title;
 $urlBase = Yii::$app->getUrlManager()->getBaseUrl();
 ?>

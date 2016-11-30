@@ -85,6 +85,8 @@ class Reporte extends Model
       $this->asignacion = $this->consultarAsignacion($idAsignacion);
       $response = [];
       $calificacionesAsignacion = $this->asignacion->calificaciones;
+      // echo "string";
+      // \yii\helpers\VarDumper::dump($calificacionesAsignacion);exit();
       $asignacion = [
         'idAsignacion' => $this->asignacion->idAsignacion,
         'idComercial' => $this->asignacion->idComercial,
@@ -356,40 +358,40 @@ class Reporte extends Model
      * @return array
      */
      protected function consultarCalificaciones()
-     {
-       $modelosCalificacion = array();
+   {
+     $modelosCalificacion = array();
 
-       foreach ($this->categorias as $categoria) {
+     foreach ($this->categorias as $categoria) {
 
-           foreach ($categoria->variablesMedicion as $variable){
+       foreach ($categoria->variablesMedicion as $variable){
 
-               if ($variable->calificaUnidadNegocio === 1) {
+         if ($variable->calificaUnidadNegocio === 1) {
 
-                   foreach ($this->unidadesNegocio as $unidad) {
+           foreach ($this->unidadesNegocio as $unidad) {
 
-                       $modelo = CalificacionVariable::find()->where(['idAsignacion' => $this->asignacion->idAsignacion, 'idVariable' => $variable->idVariable, 'IdAgrupacion' => $unidad['IdAgrupacion']])->one();
+             $modelo = CalificacionVariable::find()->where(['idAsignacion' => $this->asignacion->idAsignacion, 'idVariable' => $variable->idVariable, 'IdAgrupacion' => $unidad['IdAgrupacion']])->one();
 
-                       if ($modelo !== null) {
-                           array_push($modelosCalificacion, $modelo);
-                       }else{
-                           array_push($modelosCalificacion, new CalificacionVariable());
-                       }
-                   }
-
-               }else{
-
-                   $modelo = CalificacionVariable::find()->where(['idAsignacion' => $this->asignacion->idAsignacion, 'idVariable' => $variable->idVariable])->one();
-
-                   if ($modelo !== null) {
-                       array_push($modelosCalificacion, $modelo);
-                   }else{
-                       array_push($modelosCalificacion, new CalificacionVariable());
-                   }
-               }
+             if ($modelo !== null) {
+               array_push($modelosCalificacion, $modelo);
+             }else{
+               array_push($modelosCalificacion, new CalificacionVariable());
+             }
            }
-       }
 
-       return $modelosCalificacion;
+         }else{
+
+           $modelo = CalificacionVariable::find()->where(['idAsignacion' => $this->asignacion->idAsignacion, 'idVariable' => $variable->idVariable])->one();
+
+           if ($modelo !== null) {
+             array_push($modelosCalificacion, $modelo);
+           }else{
+             array_push($modelosCalificacion, new CalificacionVariable());
+           }
+         }
+       }
+     }
+
+     return $modelosCalificacion;
    }
 
 

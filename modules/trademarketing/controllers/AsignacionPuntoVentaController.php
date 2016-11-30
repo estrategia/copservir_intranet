@@ -127,6 +127,9 @@ class AsignacionPuntoVentaController extends Controller
         $modelosCategoria = $informacionCalificacion->categorias;
         $informacionReporte = $informacionCalificacion->generarDatos($id);
 
+        // \yii\helpers\VarDumper::dump($informacionReporte, 10, true);exit();
+        // \yii\helpers\VarDumper::dump($modelosCategoria, 10, exit);exit();
+
         if ($modeloAsignacion->estado === AsignacionPuntoVenta::ESTADO_CALIFICADO) {
             //throw new \Exception("El punto de venta ya ha sido calificado " , 100);
             throw new \yii\web\HttpException(404, 'El punto de venta ya ha sido calificado ');
@@ -202,6 +205,7 @@ class AsignacionPuntoVentaController extends Controller
                     throw new \Exception("Error asignacion:" .json_encode($modeloAsignacion->getErrors()) , 100);
                     //Yii::$app->session->setFlash('error asignacion', 'error al guardar la informacion'.json_encode($modeloAsignacion->getErrors()));
                 }else{
+                  $informacionReporte = $informacionCalificacion->generarDatos($id);
 
                   if( !is_null($finalizaAsignacion)) {
                     $transaction->commit();

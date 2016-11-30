@@ -39,7 +39,7 @@ VisitaMedicaAsset::register($this);
                     </a>
                     <div class="profile">
                         <div class="profile-image">
-                          <img src=" <?php echo Yii::$app->homeUrl . 'img/fotosperfil/' . \Yii::$app->user->identity->getImagenPerfil(); ?> " alt="">
+                          <img src=" <?php echo Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-vimed.png' ?> " alt="">
                         </div>
                         <div class="profile-data">
                             <div class="profile-data-name">
@@ -80,12 +80,7 @@ VisitaMedicaAsset::register($this);
 	                    <a href="<?= ($baseUrl . '/proveedores/visitamedica/reportes')?>"><span class="fa fa-tags"></span> <span class="xn-text">Registro de Uso</span></a>                        
 	                </li>  
                 <?php endif;?>
-                
-                <?php if(\Yii::$app->user->identity->tienePermiso('visitaMedica_usuario_admin')):?>
-	                <li>
-	                    <a href="<?= ($baseUrl . '/proveedores/visitamedica/usuario/admin')?>"><span class="fa fa-users"></span> <span class="xn-text">Usuarios</span></a> 
-	                </li>
-                <?php endif;?>
+              
                  
                 <!--  
                 <li>

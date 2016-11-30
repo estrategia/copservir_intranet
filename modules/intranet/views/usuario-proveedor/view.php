@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\modules\proveedores\models\UsuarioProveedor */
 
 $this->title = $model->nombre . ' ' . $model->primerApellido;
-$this->params['breadcrumbs'][] = ['label' => 'Usuario Proveedor', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Gestion de Usuarios', 'url' => ['admin']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">

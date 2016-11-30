@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\widgets\Breadcrumbs;
 use app\assets\ProveedoresAsset;
 use app\modules\intranet\models\MenuPortales;
 
@@ -102,6 +103,10 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.pn
 
         <!-- CONTAINER -->
         <div id="container" class="content">
+            <?php echo Breadcrumbs::widget([
+                'homeLink' => ['label' => 'Inicio', 'url' => ['sitio/index']],
+                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            ]); ?>
             <?= $content ?>
         </div>
                                 <!-- <?php \yii\helpers\VarDumper::dump(Yii::$app->user->identity, 10,true); ?> -->

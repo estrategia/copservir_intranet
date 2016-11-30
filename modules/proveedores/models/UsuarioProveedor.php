@@ -39,9 +39,9 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['numeroDocumento', 'nombre', 'primerApellido', 'nitLaboratorio', 'email', 'celular'], 'required'],
+            [['numeroDocumento', 'nombre', 'primerApellido', 'nitLaboratorio', 'email'], 'required'],
             [['numeroDocumento'], 'integer', 'min' => 5, 'max' => 999999999999],
-            [['telefono', 'celular'], 'integer', 'min' => 5, 'max' => 9999999999],
+            [['celular'], 'integer', 'min' => 5, 'max' => 9999999999],
             [['fechaNacimiento'], 'safe'],
             [['nombre', 'primerApellido', 'segundoApellido', 'nitLaboratorio', 'Ciudad', 'Direccion'], 'string', 'max' => 45, 'min' => 3],
             [['nombre', 'primerApellido', 'segundoApellido', 'Direccion'], 'filter', 'filter' => 'strtoupper'],
@@ -83,7 +83,7 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
             ON t1.numeroDocumento = t2.numeroDocumento
             LEFT OUTER JOIN intranet.auth_assignment t3
             ON t1.numeroDocumento = t3.user_id
-            WHERE t2.estado = 1 AND t1.nitLaboratorio = "' . $laboratorio . '" AND t3.item_name = "visitaMedica_proveedor"'
+            WHERE t2.estado = 1 AND t1.nitLaboratorio = "' . $laboratorio . '" AND t3.item_name = "proveedores_admin"'
         );
         $proveedores = $model->queryAll();
         return $proveedores;
@@ -94,7 +94,7 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
     {
         $permisos = [
             'Modulo proveedores' => 'proveedores_usuario',
-            'Modulo visita medica' => 'visitaMedica_proveedor',
+            'Modulo visita medica' => 'visitaMedica_visitador',
         ];
         return $permisos;
     }
@@ -123,7 +123,7 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
             $value = preg_replace('/\s+/', '', $value);
             $sql .= $value;
         }
-        $sql = trim(substr($sql, 0, -1) . "ON DUPLICATE KEY UPDATE user_id = user_id;");
+        $sql = trim(substr($sql, 0, -1) . " ON DUPLICATE KEY UPDATE user_id = user_id;");
         $connection = \Yii::$app->db;
         Yii::$app->db->createCommand($sql)->execute();
     }
@@ -161,7 +161,7 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
                 FROM m_INTRA_Usuario
                 INNER JOIN auth_assignment
                 ON m_INTRA_Usuario.numeroDocumento = auth_assignment.user_id
-                WHERE auth_assignment.item_name = " . '"intranet_admin"';
+                WHERE auth_assignment.item_name = " . '"intranet_admin-proveedores"';
         $connection = \Yii::$app->db;
         $model = $connection->createCommand($sql);
         $correos = $model->queryAll();

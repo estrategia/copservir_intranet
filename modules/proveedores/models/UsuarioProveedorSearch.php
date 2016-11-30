@@ -67,29 +67,29 @@ class UsuarioProveedorSearch extends UsuarioProveedor
         $query->innerJoin('auth_assignment', 'auth_assignment.user_id = numeroDocumento');
         if ($usuarioLogueado->tienePermiso('intranet_admin-proveedores')) {
             $query->andWhere("auth_assignment.item_name='proveedores_admin'");
-        }
-        if ($usuarioLogueado->tienePermiso('proveedores-admin')) {
-            $query->andWhere("auth_assignment.item_name<>'proveedores_admin'");
+        } else
+        if ($usuarioLogueado->tienePermiso('proveedores_admin')) {
+            $query->andWhere("auth_assignment.item_name!='proveedores_admin'");
             $query->andWhere("nitLaboratorio='{$nitLaboratorio}'");
         }
-        if ($usuarioLogueado->tienePermiso('visitaMedica_proveedor')) {
-            $query->andWhere("auth_assignment.item_name='visitaMedica_visitador'");
-            $query->andWhere("nitLaboratorio='{$nitLaboratorio}'");
-        }
+        // if ($usuarioLogueado->tienePermiso('visitaMedica_proveedor')) {
+        //     $query->andWhere("auth_assignment.item_name='visitaMedica_visitador'");
+        //     $query->andWhere("nitLaboratorio='{$nitLaboratorio}'");
+        // }
         // grid filtering conditions
         $query->andFilterWhere([
             'numeroDocumento' => $this->numeroDocumento,
             'telefono' => $this->telefono,
             'celular' => $this->celular,
             'fechaNacimiento' => $this->fechaNacimiento,
-            'modulo' => $this->modulo,
+            // 'modulo' => $this->modulo,
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre])
             ->andFilterWhere(['like', 'primerApellido', $this->primerApellido])
             ->andFilterWhere(['like', 'segundoApellido', $this->segundoApellido])
             ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'nitLaboratorio', $this->nitLaboratorio])
+            // ->andFilterWhere(['like', 'nitLaboratorio', $this->nitLaboratorio])
             ->andFilterWhere(['like', 'profesion', $this->profesion])
             ->andFilterWhere(['like', 'Ciudad', $this->Ciudad])
             ->andFilterWhere(['like', 'Direccion', $this->Direccion]);

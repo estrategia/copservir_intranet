@@ -1,7 +1,7 @@
 <?php
   use yii\web\View;
   $this->registerJsFile('@web/js/tradeMarketing/trademarketing.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-  // CVarDumper::dump($informacionReporte, 10 ,true); exit();
+  // \yii\helpers\VarDumper::dump($informacionReporte, 10 ,true);
   $asignacion = $informacionReporte['asignacion'];
   $categorias = $informacionReporte['categorias'];
 ?>

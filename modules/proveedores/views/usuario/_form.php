@@ -59,38 +59,16 @@ use kartik\select2\Select2;
             <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col-md-6">
-            <?= $form->field($model, 'telefono')->textInput(['maxlength' => true]) ?>
-        </div>
-    </div>
-
-    
-    <div class="row">
-        <div class="col-md-6">
             <?= $form->field($model, 'celular')->textInput(['maxlength' => true]) ?>
         </div>
-
-        <div class="col-md-6">
-            <?php 
-                /*echo $form->field($model, 'Ciudad')->widget(Select2::classname(), [
-                    'data' => $ciudades,
-                    'options' => ['placeholder' => 'Selecciona una ciudad'],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ]);*/
-            ?>
-        </div>
     </div>
+
     <div class="row">
         <div class="col-md-6">
             <?php //echo $form->field($model, 'Direccion')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col-md-6"></div>
 
-    </div>
-    
-    <div class="form-header">
-        <h4>Informacion de proveedor</h4>
     </div>
     <div class="row">
             <?php
@@ -105,29 +83,6 @@ use kartik\select2\Select2;
                 ]);*/
             	echo $form->field($model, 'nitLaboratorio')->hiddenInput(['value' => 'nit'])->label(false);
             ?>
-        
-        <div class="col-md-6">
-
-            <?php
-                /*echo '<label for="unidadNegocio" class="control-label">Unidad de negocio</label>';
-                echo Select2::widget([
-                    'model' => $model,
-                    'name' => 'unidadNegocio',
-                    'attribute' => 'idAgrupacion',
-                    'value' => '',
-                    'data' => $unidadesNegocio,
-                    'options' => ['multiple' => false, 'placeholder' => 'Selecciona unidad de negocio ...']
-                ]);*/
-            	echo $form->field($model, 'idAgrupacion')->widget(Select2::classname(), [
-            		'data' => $unidadesNegocio,
-            		'options' => ['placeholder' => 'Selecciona unidad negocio ...'],
-            		'pluginOptions' => [
-            				'allowClear' => true
-            		],
-            	]);
-            ?>
-
-        </div>
     </div>
     <br>
     <div class="form-group">

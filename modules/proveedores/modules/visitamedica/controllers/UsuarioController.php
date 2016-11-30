@@ -38,13 +38,13 @@ class UsuarioController extends Controller
                     'admin', 'crear', 'actualizar', 'correo-admin', 'exportar-usuarios', 'mi-cuenta', 'actualizar-mi-cuenta',
                 ],
                 'authsActions' => [
-                    'admin' => 'visitaMedica_usuario_admin',
-                    'ver' => 'visitaMedica_usuario_ver',
-                    'crear' => 'visitaMedica_usuario_crear',
-                    'actualizar' => 'visitaMedica_usuario_admin',
+                    // 'admin' => 'visitaMedica_usuario_admin',
+                    // 'ver' => 'visitaMedica_usuario_ver',
+                    // 'crear' => 'visitaMedica_usuario_crear',
+                    // 'actualizar' => 'visitaMedica_usuario_admin',
                     'coreo-admin' => 'visitaMedica_usuario_correo-admin',
                     'exportar-usuarios' => 'visitaMedica_usuario_exportar-usuarios',
-                    'cambiar-estado' => 'visitaMedica_usuario_admin',
+                    // 'cambiar-estado' => 'visitaMedica_usuario_admin',
                 	'mi-cuenta' => 'visitaMedica_usuario_mi-cuenta',
                 	'actualizar-mi-cuenta' => 'visitaMedica_usuario_actualizar-mi-cuenta'
                 ],
@@ -57,120 +57,120 @@ class UsuarioController extends Controller
      * Lists all Usuario models.
      * @return mixed
      */
-    public function actionAdmin()
-    {
-        $searchModel = new UsuarioProveedorSearch();
-        $params = Yii::$app->request->queryParams;
-        $laboratorio = null;
-        // var_dump(Yii::$app->user->identity->objUsuarioProveedor);
+    // public function actionAdmin()
+    // {
+    //     $searchModel = new UsuarioProveedorSearch();
+    //     $params = Yii::$app->request->queryParams;
+    //     $laboratorio = null;
+    //     // var_dump(Yii::$app->user->identity->objUsuarioProveedor);
 
-        // var_dump(Yii::$app->user->identity);
-        // Usuario::findOne(Yii::$app->user->identity->numeroDocumento)
-        if (Yii::$app->user->identity->tienePermiso("visitaMedica_proveedor")) {
-            $laboratorio = Yii::$app->user->identity->objUsuarioProveedor->nitLaboratorio;
-        }
-        $filtrosUsuario = \Yii::$app->session->set(\Yii::$app->params['visitamedica']['session']['filtrosUsuario'], $params);
-        // var_dump($filtrosUsuario = \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['filtrosUsuario']));
-        $dataProvider = $searchModel->search($params, $laboratorio, true, \Yii::$app->controller->module->id);
-        // var_dump($params);
-        // var_dump($searchModel->attributes);
+    //     // var_dump(Yii::$app->user->identity);
+    //     // Usuario::findOne(Yii::$app->user->identity->numeroDocumento)
+    //     if (Yii::$app->user->identity->tienePermiso("proveedores_admin")) {
+    //         $laboratorio = Yii::$app->user->identity->objUsuarioProveedor->nitLaboratorio;
+    //     }
+    //     $filtrosUsuario = \Yii::$app->session->set(\Yii::$app->params['visitamedica']['session']['filtrosUsuario'], $params);
+    //     // var_dump($filtrosUsuario = \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['filtrosUsuario']));
+    //     $dataProvider = $searchModel->search($params, $laboratorio, true, \Yii::$app->controller->module->id);
+    //     // var_dump($params);
+    //     // var_dump($searchModel->attributes);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
+    //     return $this->render('index', [
+    //         'searchModel' => $searchModel,
+    //         'dataProvider' => $dataProvider,
+    //     ]);
+    // }
 
     /**
      * Displays a single Usuario model.
      * @param string $id
      * @return mixed
      */
-    public function actionVer($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
+    // public function actionVer($id)
+    // {
+    //     return $this->render('view', [
+    //         'model' => $this->findModel($id),
+    //     ]);
+    // }
 
     /**
      * Creates a new Usuario model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCrear()
-    {   
-        $usuarioVimed = new UsuarioProveedor();
-        $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
-        $nitLaboratorio = Yii::$app->user->identity->objUsuarioProveedor->nitLaboratorio;
-        $usuarioVimed->nitLaboratorio = $nitLaboratorio;
+    // public function actionCrear()
+    // {   
+    //     $usuarioVimed = new UsuarioProveedor();
+    //     $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
+    //     $nitLaboratorio = Yii::$app->user->identity->objUsuarioProveedor->nitLaboratorio;
+    //     $usuarioVimed->nitLaboratorio = $nitLaboratorio;
         
-        if ($usuarioVimed->load(Yii::$app->request->post()) && $usuarioVimed->validate()) {
-            $usuarioVimed->modulo = \Yii::$app->controller->module->id;
-            // var_dump($usuarioVimed);
-            $documento = Yii::$app->request->post()['UsuarioProveedor']['numeroDocumento'];
-            $usuarioIntranet = new \app\models\Usuario();
-            $usuarioIntranet->numeroDocumento = $documento;
-            $contrasena = Funciones::generatePass(8);
-            $usuarioIntranet->contrasena = md5($contrasena);
-            // $usuarioIntranet->codigoPerfil = 0;
-            $usuarioIntranet->nombrePortal = Yii::$app->controller->module->id;
-            $usuarioIntranet->estado = true;            
-            $nombreLaboratorio = Yii::$app->user->identity->objUsuarioProveedor->nombreLaboratorio;
-            $usuarioVimed->nombreLaboratorio = $nombreLaboratorio;
-            $usuarioVimed->idTercero = Yii::$app->user->identity->objUsuarioProveedor->idTercero;
-            $usuarioVimed->idFabricante = Yii::$app->user->identity->objUsuarioProveedor->idFabricante;
-            $item_name = "";
+    //     if ($usuarioVimed->load(Yii::$app->request->post()) && $usuarioVimed->validate()) {
+    //         $usuarioVimed->modulo = \Yii::$app->controller->module->id;
+    //         // var_dump($usuarioVimed);
+    //         $documento = Yii::$app->request->post()['UsuarioProveedor']['numeroDocumento'];
+    //         $usuarioIntranet = new \app\models\Usuario();
+    //         $usuarioIntranet->numeroDocumento = $documento;
+    //         $contrasena = Funciones::generatePass(8);
+    //         $usuarioIntranet->contrasena = md5($contrasena);
+    //         // $usuarioIntranet->codigoPerfil = 0;
+    //         $usuarioIntranet->nombrePortal = Yii::$app->controller->module->id;
+    //         $usuarioIntranet->estado = true;            
+    //         $nombreLaboratorio = Yii::$app->user->identity->objUsuarioProveedor->nombreLaboratorio;
+    //         $usuarioVimed->nombreLaboratorio = $nombreLaboratorio;
+    //         $usuarioVimed->idTercero = Yii::$app->user->identity->objUsuarioProveedor->idTercero;
+    //         $usuarioVimed->idFabricante = Yii::$app->user->identity->objUsuarioProveedor->idFabricante;
+    //         $item_name = "";
 
-            if (Yii::$app->user->identity->tienePermiso("proveedores_admin")) {
-                $item_name = 'visitaMedica_proveedor';
-            } elseif (Yii::$app->user->identity->tienePermiso("visitaMedica_proveedor")) {
-                $item_name = 'visitaMedica_visitador';
-            }
+    //         if (Yii::$app->user->identity->tienePermiso("proveedores_admin")) {
+    //             $item_name = 'visitaMedica_visitador';
+    //         // } elseif (Yii::$app->user->identity->tienePermiso("visitaMedica_proveedor")) {
+    //         //     $item_name = 'visitaMedica_visitador';
+    //         }
 
-            if ($usuarioIntranet->save() && $usuarioVimed->save()) {
-                $connection = \Yii::$app->db;
-                $transaction = $connection->beginTransaction();
-                try {
-                    $connection->createCommand()
-                    ->insert('auth_assignment', [
-                        'user_id' => $documento,
-                        'item_name' => $item_name,
-                    ])->execute();  
-                    $transaction->commit();
+    //         if ($usuarioIntranet->save() && $usuarioVimed->save()) {
+    //             $connection = \Yii::$app->db;
+    //             $transaction = $connection->beginTransaction();
+    //             try {
+    //                 $connection->createCommand()
+    //                 ->insert('auth_assignment', [
+    //                     'user_id' => $documento,
+    //                     'item_name' => $item_name,
+    //                 ])->execute();  
+    //                 $transaction->commit();
 
-                } catch (Exception $e) {
+    //             } catch (Exception $e) {
 
-                    $transaction->rollBack();
-                    throw $e;
-                }
-                $infoUsuario = [
-                    'usuario' => $usuarioIntranet->numeroDocumento,
-                    'password' => $contrasena,
-                ];
-                $contenidoCorreo = $this->renderPartial('_notificacionRegistro',['infoUsuario' => $infoUsuario]);
-                $correoEnviar = $this->renderPartial('/common/correo', ['contenido' => $contenidoCorreo]);
-                $correoEnviado = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
-                                        ->setTo($usuarioVimed->email)->setSubject('Credenciales Acceso Visita-Medica Copservir')
-                                        ->setHtmlBody($correoEnviar)->send();
+    //                 $transaction->rollBack();
+    //                 throw $e;
+    //             }
+    //             $infoUsuario = [
+    //                 'usuario' => $usuarioIntranet->numeroDocumento,
+    //                 'password' => $contrasena,
+    //             ];
+    //             $contenidoCorreo = $this->renderPartial('_notificacionRegistro',['infoUsuario' => $infoUsuario]);
+    //             $correoEnviar = $this->renderPartial('/common/correo', ['contenido' => $contenidoCorreo]);
+    //             $correoEnviado = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
+    //                                     ->setTo($usuarioVimed->email)->setSubject('Credenciales Acceso Visita-Medica Copservir')
+    //                                     ->setHtmlBody($correoEnviar)->send();
 
-                $correosAdmin = UsuarioProveedor::getCorreosAdmin();
-                foreach ($correosAdmin as $correo) {
-                    $correoEnviado = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
-                                        ->setTo($usuarioVimed->email)->setSubject('Notificacion de registro en Visita-Medica Copservir')
-                                        ->setHtmlBody($correoEnviar)->send();
-                }
+    //             $correosAdmin = UsuarioProveedor::getCorreosAdmin();
+    //             foreach ($correosAdmin as $correo) {
+    //                 $correoEnviado = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
+    //                                     ->setTo($usuarioVimed->email)->setSubject('Notificacion de registro en Visita-Medica Copservir')
+    //                                     ->setHtmlBody($correoEnviar)->send();
+    //             }
 
-                return $this->redirect(['ver', 'id' => $usuarioVimed->numeroDocumento]);
-            }
+    //             return $this->redirect(['ver', 'id' => $usuarioVimed->numeroDocumento]);
+    //         }
 
-        }
+    //     }
         
-        return $this->render('create', [
-            'model' => $usuarioVimed,
-            'ciudades' => $ciudades,
-        ]);
-    }
+    //     return $this->render('create', [
+    //         'model' => $usuarioVimed,
+    //         'ciudades' => $ciudades,
+    //     ]);
+    // }
 
     /**
      * Updates an existing Usuario model.
@@ -178,20 +178,20 @@ class UsuarioController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionActualizar($id)
-    {
-        $model = $this->findModel($id);
-        // $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
+    // public function actionActualizar($id)
+    // {
+    //     $model = $this->findModel($id);
+    //     // $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['ver', 'id' => $model->numeroDocumento]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-                // 'ciudades' => $ciudades,
-            ]);
-        }
-    }
+    //     if ($model->load(Yii::$app->request->post()) && $model->save()) {
+    //         return $this->redirect(['ver', 'id' => $model->numeroDocumento]);
+    //     } else {
+    //         return $this->render('update', [
+    //             'model' => $model,
+    //             // 'ciudades' => $ciudades,
+    //         ]);
+    //     }
+    // }
 
     public function actionActualizarMiCuenta()
     {
@@ -230,23 +230,23 @@ class UsuarioController extends Controller
         }
     }
 
-    public function actionCambiarEstado($id)
-    {
-        $usuario = Usuario::findOne(['numeroDocumento' => $id]);
-        // var_dump($usuario);
-        if ($usuario->estado == 1) {
-            $usuario->estado = 0;
-        } else {
-            $usuario->estado = 1;
-        }
-        if ($usuario->save()) {
-            Yii::$app->session->setFlash('success', 'Se ha cambiado el estado del usuario');
-        } else {
-            Yii::$app->session->setFlash('error', 'No se ha cambiad el estado del usuario');
-        }
+    // public function actionCambiarEstado($id)
+    // {
+    //     $usuario = Usuario::findOne(['numeroDocumento' => $id]);
+    //     // var_dump($usuario);
+    //     if ($usuario->estado == 1) {
+    //         $usuario->estado = 0;
+    //     } else {
+    //         $usuario->estado = 1;
+    //     }
+    //     if ($usuario->save()) {
+    //         Yii::$app->session->setFlash('success', 'Se ha cambiado el estado del usuario');
+    //     } else {
+    //         Yii::$app->session->setFlash('error', 'No se ha cambiad el estado del usuario');
+    //     }
           
-        return $this->redirect(['admin']);
-    }
+    //     return $this->redirect(['admin']);
+    // }
 
     /**
      * Deletes an existing Usuario model.

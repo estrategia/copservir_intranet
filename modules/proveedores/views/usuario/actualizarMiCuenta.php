@@ -6,8 +6,7 @@ use yii\helpers\Html;
 /* @var $model app\modules\proveedores\modules\visitamedica\models\Usuario */
 
 $this->title = 'Actualizar mi Cuenta';
-// $this->params['breadcrumbs'][] = ['label' => 'Usuarios', 'url' => ['admin']];
-// $this->params['breadcrumbs'][] = ['label' => $model->numeroDocumento, 'url' => ['mi-cuenta']];
+$this->params['breadcrumbs'][] = ['label' => 'Mi Cuenta', 'url' => ['mi-cuenta']];
 $this->params['breadcrumbs'][] = 'Actualizar mi cuenta';
 ?>
 <div class="container">

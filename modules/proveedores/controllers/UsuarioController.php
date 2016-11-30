@@ -19,9 +19,12 @@ use app\modules\proveedores\models\UsuarioProveedorSearch;
 use app\modules\proveedores\models\LoginForm;
 use app\modules\intranet\models\ConexionesUsuarios;
 use app\modules\intranet\models\Funciones;
-use app\models\SIICOP;
 use app\modules\intranet\models\Ciudad;
 use app\modules\intranet\models\FotoForm;
+use app\modules\intranet\models\RecuperacionClave;
+use app\models\SIICOP;
+use app\models\Usuario;
+
 /**
  * UsuarioController implements the CRUD actions for UsuarioProveedor model.
  */
@@ -60,6 +63,15 @@ class UsuarioController extends Controller
                 ],
            ],
         
+        ];
+    }
+
+    public function actions()
+    {
+        return [
+            'captcha' => [
+                'class' => 'yii\captcha\CaptchaAction',
+            ],
         ];
     }
 
@@ -129,9 +141,10 @@ class UsuarioController extends Controller
             unset($permisosUsuario['_csrf']);
            
             $diff = $model->permisosFaltantes($model->getPermisosAsignacion(), $permisosUsuario);
-            VarDumper::dump($diff,10,true);
-
-            $model->asignarPermisos($permisosUsuario);
+            // VarDumper::dump($permisosUsuario,10,true);exit();
+            if (!empty($permisosUsuario)) {
+                $model->asignarPermisos($permisosUsuario);
+            }
             $model->removerPermisos($diff);
 
         }
@@ -187,14 +200,27 @@ class UsuarioController extends Controller
             // var_dump($usuarioProveedor);
 
             if ($usuarioIntranet->save() && $usuarioProveedor->save()) {
+                try {
+                    $connection->createCommand()
+                    ->insert('auth_assignment', [
+                        'user_id' => $documento,
+                        'item_name' => 'proveedores_usuario',
+                    ])->execute();  
+                    $transaction->commit();
+
+                } catch (Exception $e) {
+
+                    $transaction->rollBack();
+                    throw $e;
+                }
                 $infoUsuario = [
                     'usuario' => $usuarioIntranet->numeroDocumento,
                     'password' => $contrasena,
                 ];
-                $contenidoCorreo = $this->renderPartial('_notificacionRegistro',['infoUsuario' => $infoUsuario]);
+                $contenidoCorreo = $this->renderPartial('_notificacionRegistro',['infoUsuario' => $infoUsuario, 'laboratorio' => $laboratorio['Nombre'], 'nombreUsuario' => $usuarioProveedor->nombre]);
                 $correoEnviar = $this->renderPartial('/common/correo', ['contenido' => $contenidoCorreo]);
                 $correoEnviado = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
-                                        ->setTo($usuarioProveedor->email)->setSubject('Credencales Acceso Proveedores Copservir')
+                                        ->setTo($usuarioProveedor->email)->setSubject('Acceso Portal Colaborativo Copservir')
                                         ->setHtmlBody($correoEnviar)->send();
 
                 return $this->redirect(['ver', 'id' => $usuarioProveedor->numeroDocumento]);
@@ -367,6 +393,142 @@ class UsuarioController extends Controller
 
         return $this->render('formFotoPerfil', ['modelFoto' => $modelFoto,]);
     }
+
+
+    /*
+      Accion para enviar un email con un enlace donde puede reestablecer su clave
+     */
+
+    public function actionRecordarClave() {
+
+        $correoUsuario = '';
+        if (!\Yii::$app->user->isGuest) {
+            return $this->redirect(['/proveedores']);
+        }
+
+        $model = new LoginForm();
+        $model->scenario = 'recuperar';
+        $fechaRecuperacion = new \DateTime();
+
+        if ($model->load(Yii::$app->request->post())) {
+            $infoUsuario = UsuarioProveedor::find()->where(['numeroDocumento' => $model->username])->one();
+            // var_dump($infoUsuario);exit();
+            if (!isset($infoUsuario)) {
+                $model->addError('username', 'Usuario inactivo/no existe');
+            } else {
+                if (isset($infoUsuario->email)) {
+                    $correoUsuario = trim($infoUsuario->email);
+                }
+                if (empty($correoUsuario)) {
+                    $model->addError('username', 'Usuario no tiene correo registrado');
+                } else {
+                    // se genera el codigo de recuperacion
+                    $fecha = new \DateTime();
+                    $fecha->modify('+ 1 day');
+                    $codigoRecuperacion = md5($model->username . '~' . $fecha->format('YmdHis'));
+
+                    //se guarda el codigo y la fecha de recuperacion
+                    $objRecuperacionClave = new RecuperacionClave();
+                    $objRecuperacionClave->numeroDocumento = $model->username;
+                    $objRecuperacionClave->recuperacionCodigo = $codigoRecuperacion;
+                    $objRecuperacionClave->recuperacionFecha = $fechaRecuperacion->format('Y-m-d H:i:s');
+
+                    if ($objRecuperacionClave->save()) {
+                        //se crea el enlace para restablecer la contraseña y el contenido del email
+                        $enlace = yii::$app->urlManager->createAbsoluteUrl(['proveedores/usuario/reestablecer-clave', 'codigo' => $codigoRecuperacion]);
+                        $contenido_mail = $this->renderPartial('_correoRecordar', ['enlace' => $enlace, 'infoUsuario' => $infoUsuario]);
+                        $contenido_enviar = $this->renderPartial('/common/correo', ['contenido' => $contenido_mail]);
+
+                        // envia correo
+                        $value = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
+                                        ->setTo($correoUsuario)->setSubject('Recuperacion Contraseña Portal proveedores')
+                                        ->setHtmlBody($contenido_enviar)->send();
+
+                        if ($value) {
+                            return $this->render('mensajeRecuperacion', ['correo' => $correoUsuario]);
+                        } else {
+                            $model->addError('username', 'Error al enviar el correo');
+                        }
+                    } else {
+                        $model->addError('username', 'Ocurrio un error por favor vuelve a intentarlo');
+                    }
+                }
+            }
+        }
+
+        return $this->render('recordarClave', [
+                    'model' => $model,
+        ]);
+    }
+
+    public function actionReestablecerClave($codigo) {
+
+        // $this->layout = 'loginLayout';
+        $model = new LoginForm();
+        $model->scenario = 'cambiarClave';
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            $fecha = new \DateTime;
+            $fecha->modify('+' . \Yii::$app->params['usuario']['tiempoRecuperarClave'] . ' days');
+
+            $objRecuperacionClave = RecuperacionClave::find()->where(['recuperacionCodigo' => $codigo])
+                            ->andWhere(['<=', 'recuperacionFecha', $fecha->format('Y-m-d H:i:s')])
+                            ->orderBy('recuperacionFecha DESC')->one();
+
+            if ($objRecuperacionClave === null) {
+                $model->addError('password2', 'Usuario sin codigo de recuperacion');
+            } else {
+
+                $infoUsuario = Usuario::find()->where(['numeroDocumento' => $objRecuperacionClave->numeroDocumento])->one();
+
+                $infoUsuario->contrasena = md5($model->password);
+
+                // $response = self::callWSCambiarClave($objRecuperacionClave->numeroDocumento, sha1($model->password));
+                // if ($response) {
+                if ($infoUsuario->save()) {
+                    return $this->render('mensajeReestablecer');
+                    /*
+                      Yii::$app->session->setFlash('success', 'contraseña reestablecida con exito');
+                      $model = new LoginForm();
+                     */
+                } else {
+                    Yii::$app->session->setFlash('error', 'Ocurrio un error, No se pudo reestablecer la contraseña');
+                }
+            }
+        }
+
+        return $this->render('reestablecerClave', [
+                    'model' => $model,
+        ]);
+    }
+
+    public function actionCambiarClave() {
+
+        $model = new LoginForm();
+        $model->username = \Yii::$app->user->identity->numeroDocumento;
+        $model->scenario = 'cambiarClave';
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
+            // $response = self::callWSCambiarClave($model->username, sha1($model->password));
+            $documento = Yii::$app->user->identity->numeroDocumento;
+            $infoUsuario = Usuario::find()->where(['numeroDocumento' => $documento])->one();
+            $infoUsuario->contrasena = md5($model->password);
+
+            if ($infoUsuario->save()) {
+                Yii::$app->session->setFlash('success', 'La contrase&ntilde;a se cambi&oacute; con &eacute;xito');
+                return $this->redirect(['mi-cuenta']);
+            } else {
+                Yii::$app->session->setFlash('error', 'Error al cambiar la contrase&ntilde;a');
+            }
+        }
+
+        return $this->render('cambiarClave', [
+                    'model' => $model,
+        ]);
+    }
+
 
     /**
      * Deletes an existing UsuarioProveedor model.

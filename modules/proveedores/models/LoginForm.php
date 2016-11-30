@@ -14,13 +14,23 @@
   {
     public $username;
     public $password;
+    public $password2;
+    public $captcha;
     private $_user = false;
 
     public function rules()
     {
       return [
+        ['captcha', 'captcha', 'captchaAction' => 'proveedores/usuario/captcha', 'on' => ['recuperar']],
+        ['captcha', 'captcha', 'captchaAction' => 'proveedores/usuario/captcha', 'on' => ['cambiarClave']],
       	[['username', 'password'], 'required'],
-      	['password', 'validatePassword'],
+        ['password2', 'required', 'on' => ['recuperar']],
+        ['password2', 'required', 'on' => ['cambiarClave']],
+        //['captcha', 'captcha', 'on' => ['recuperar','cambiarClave']],
+        ['password2', 'compare', 'compareAttribute' => 'password', 'message' => 'Las contraseñas deben ser iguales'],
+        ['password', 'validatePassword', 'on' => ['login']],
+        // ['password', 'validateUser', 'on' => ['login']],
+
       ];
     }
 
@@ -28,7 +38,9 @@
     {
       return [
         'username' => 'Cédula',
+        'captcha' => 'Captcha',
         'password' => 'Contraseña',
+        'password2' => 'Confirmar contraseña',
       ];
     }
 

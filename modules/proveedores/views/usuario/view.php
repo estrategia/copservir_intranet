@@ -7,44 +7,18 @@ use yii\widgets\DetailView;
 /* @var $model app\modules\proveedores\models\UsuarioProveedor */
 
 $this->title = $model->nombre . ' ' . $model->primerApellido;
-$this->params['breadcrumbs'][] = ['label' => 'Usuario Proveedor', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Gestion de Usuarios', 'url' => ['admin']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
         
         <h1><?= Html::encode($this->title) ?></h1>
-
-        <p>
-            <?= Html::a('Actualizar', ['actualizar', 'id' => $model->numeroDocumento], ['class' => 'btn btn-primary']) ?>
-        </p>
-
-        <?= DetailView::widget([
-            'model' => $model,
-            'attributes' => [
-                'numeroDocumento',
-                'nombre',
-                'primerApellido',
-                'segundoApellido',
-                'email:email',
-                'telefono',
-                'celular',
-                'nitLaboratorio',
-                'profesion',
-                'fechaNacimiento',
-                'Ciudad',
-                'Direccion',
-                'nombreLaboratorio',
-                'idTercero',
-                'idFabricante',
-                'idAgrupacion',
-                'nombreUnidadNegocio',
-                
-            ],
-        ]) ?>
+        <div class="form-header">
+        </div>
         <div class="row">
             <div class="col-md-12">
-            <h1>Acceso a portales</h1>
+            <h1>Servicios del portal colaborativo</h1>
               <form  name="permisos" id="permisos" action=" <?= Yii::$app->getUrlManager()->getBaseUrl() . '/proveedores/usuario/ver?id=' . $model->numeroDocumento ?> " method="POST" >
                 <table class="table table-striped table-bordered">
                     <!-- <thead>
@@ -73,6 +47,34 @@ $this->params['breadcrumbs'][] = $this->title;
               </form>
             </div>
         </div>
+        <div class="space-1"></div>
+
+        <?= DetailView::widget([
+            'model' => $model,
+            'attributes' => [
+                'numeroDocumento',
+                'nombre',
+                'primerApellido',
+                'segundoApellido',
+                'email:email',
+                'telefono',
+                'celular',
+                'nitLaboratorio',
+                'profesion',
+                'fechaNacimiento',
+                'Ciudad',
+                'Direccion',
+                'nombreLaboratorio',
+                'idTercero',
+                'idFabricante',
+                'idAgrupacion',
+                'nombreUnidadNegocio',
+                
+            ],
+        ]) ?>
+        <p>
+            <?= Html::a('Actualizar', ['actualizar', 'id' => $model->numeroDocumento], ['class' => 'btn btn-primary']) ?>
+        </p>
         <div class="space-1"></div>
     </div>
 </div>

@@ -34,12 +34,22 @@ class Reporte extends Model
 	*/
 	public function generarValoresCalificacion($idAsignacion)
 	{
+			// $this->asignacion = $this->consultarAsignacion($idAsignacion);
+			// $this->consultarCategoriasConVariables();
+			// $this->unidadesNegocio = SIICOP::wsGetUnidadesNegocio();
+			// $this->calificaciones = $this->consultarCalificaciones();
+			// $this->observaciones = $this->consultarObservaciones();
+			// $this->porcentajeUnidades = $this->consultarModelosPorcentajesUnidades();
+
 			$this->asignacion = $this->consultarAsignacion($idAsignacion);
-			$this->consultarCategoriasConVariables();
-			$this->unidadesNegocio = SIICOP::wsGetUnidadesNegocio();
-			$this->calificaciones = $this->consultarCalificaciones();
-			$this->observaciones = $this->consultarObservaciones();
-			$this->porcentajeUnidades = $this->consultarModelosPorcentajesUnidades();
+			 $this->consultarCategoriasConVariables();
+			 $this->unidadesNegocio = SIICOP::wsGetUnidadesNegocio();
+			 $this->espacios = $this->consultarEspacios();
+			 $this->porcentajeEspacios = $this->consultarPorcentajesEspacio();
+			 $this->porcentajeUnidades = $this->consultarPorcentajesUnidades();
+			 $this->calificaciones = $this->consultarCalificaciones();
+			 $this->observaciones = $this->consultarObservaciones();
+			 $this->rangoCalificaciones = $this->consultarRangosCalificacion();
 	}
 
 	/**

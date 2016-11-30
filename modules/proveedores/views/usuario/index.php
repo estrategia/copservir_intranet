@@ -7,13 +7,13 @@ use yii\grid\GridView;
 /* @var $searchModel app\modules\proveedores\models\UsuarioProveedorSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Usuarios';
+$this->title = 'Gestion de Usuarios';
 $this->params['breadcrumbs'][] = $this->title;
-$urlBase = Yii::$app->getUrlManager()->getBaseUrl();
+// $urlBase = Yii::$app->getUrlManager()->getBaseUrl();
 ?>
 <div class="container">
     <div class="row">
-        <h1><?= Html::encode($this->title) ?></h1>
+        <h1><?= Html::encode($this->title) ?> <small><?= Yii::$app->user->identity->objUsuarioProveedor->nombreLaboratorio ?></small></h1>
         <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
         <p> 
@@ -42,22 +42,6 @@ $urlBase = Yii::$app->getUrlManager()->getBaseUrl();
                     // 'idFabricante',
                     // 'idAgrupacion',
                     // 'nombreUnidadNegocio',
-                    [
-                        'attribute' => 'Nit Laboratorio',
-                        'value' =>
-                            function ($model) {
-                                return $model->nitLaboratorio;
-                            },
-                        'visible' => Yii::$app->user->identity->tienePermiso('proveedores_admin'),
-                    ],
-                    [
-                        'attribute' => 'Nombre Laboratorio',
-                        'value' =>
-                            function ($model) {
-                                return $model->nombreLaboratorio;
-                            },
-                        'visible' => Yii::$app->user->identity->tienePermiso('proveedores_admin'),
-                    ],
                     [
                         'attribute' => '',
                         'format' => 'raw',

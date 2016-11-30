@@ -6,8 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\modules\proveedores\modules\visitamedica\models\Usuario */
 
-$this->title = 'Mi cuenta';
-// $this->params['breadcrumbs'][] = ['label' => 'Mi cuenta'];
+$this->title = 'Mi Cuenta';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container">
@@ -16,6 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <p>
             <?= Html::a('Actualizar', ['actualizar-mi-cuenta'], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('Cambiar contraseña', ['cambiar-clave'], ['class' => 'btn btn-primary']) ?>
         </p>
 
         <?= DetailView::widget([
@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'telefono',
                 'celular',
                 'nitLaboratorio',
+                'nombreLaboratorio',
                 'profesion',
                 'fechaNacimiento',
                 'Ciudad',

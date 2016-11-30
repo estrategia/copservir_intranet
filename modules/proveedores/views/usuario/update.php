@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $model app\modules\proveedores\models\UsuarioProveedor */
 
 $this->title = 'Actualizar Usuario: ' . $model->nombre . ' ' . $model->primerApellido;
-$this->params['breadcrumbs'][] = ['label' => 'Usuario', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->nombre . ' ' . $model->primerApellido, 'url' => ['view', 'id' => $model->numeroDocumento]];
+$this->params['breadcrumbs'][] = ['label' => 'Gestion de Usuarios', 'url' => ['admin']];
+$this->params['breadcrumbs'][] = ['label' => $model->nombre . ' ' . $model->primerApellido, 'url' => ['ver', 'id' => $model->numeroDocumento]];
 $this->params['breadcrumbs'][] = 'Actualizar';
 ?>
 <div class="container">
