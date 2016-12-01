@@ -8,7 +8,12 @@
   $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-
+<?php if($result == 0): ?>
+<div class="alert alert-warning alert-dismissible">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <strong>Error!</strong> No se encontro informacion de este producto en este sector.
+</div>
+<?php elseif ($result == 1): ?>
 <div class="row">
   <div class="col-md-12">
     <div class="panel panel-default">
@@ -27,8 +32,8 @@
               <div class="row">
                 <div class="col-md-6 col-xs-6">
                   <addres>
-                    <strong> <?php echo $pdv['nombrePVD'] ?> </strong> <br>
-                    <?php echo $pdv['direccionPVD'] ?> <br>
+                    <strong> <?php echo $pdv['nombrePDV'] ?> </strong> <br>
+                    <?php echo $pdv['direccionPDV'] ?> <br>
                     <?php echo $pdv['nombreCiudad'] ?> <br>
                     <?php echo $pdv['nombreBarrio'] ?> <br>
                     <abbr title="Phone"> P: </abbr> <?php echo $pdv['telefono'] ?> <br>
@@ -39,7 +44,7 @@
                     <span>
                     <?php echo $pdv['producto']['saldo'] ?> Und
                     </span>
-                    <p> Max: <?php echo $pdv['producto']['maximo'] ?> / Min: <?php echo $pdv['producto']['minimo'] ?> </p>
+                    <p> Max: <?php echo $pdv['producto']['maximo'] ?> / Min: <?php //echo $pdv['producto']['minimo'] ?> </p>
                     <p> Rotación: <?php echo $pdv['producto']['rotacion'] ?> / Clase: <?php echo $pdv['producto']['clase']; ?> </p>
                   </span>
                 </div>
@@ -159,6 +164,7 @@
     </div>
   </div>
 </div>
+<?php endif; ?>
 
 
 <script>

@@ -4,7 +4,7 @@ use nirvana\showloading\ShowLoadingAsset;
 
 ShowLoadingAsset::register($this);
 if (Yii::$app->controller->module->id == 'proveedores') {
-    $this->title = 'Actividades comerciales';
+    $this->title = 'Actividades Comerciales';
 } else {
     $this->title = 'Calendario';
 }

@@ -830,14 +830,14 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
 .footer-tarjeta-mas {background-color: #D7D7D7;}
 .footer-tarjeta-mas p  {color: #5a5a5a;}
 .footer-tarjeta-mas a {color: #5a5a5a;}
-
+/*
 .contenedor-redes{
   background-color: rgba(15, 107, 39, 0.67);
   border-radius: 15px;
   padding: 25px 50px;
   text-align: center;
 }
-
+^*/
 .list-cop{list-style-image: url('../img/multiportal/copservir/icono.PNG');}
 
 .navbar-nav > li > .dropdown-menu.tarjetaMas {
@@ -861,4 +861,15 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
 
 .calender-options-wrapper a{
   color:#3A87AD !important;
+}
+
+.iconos-home{
+  font-size: 3em;
+  color: white;
+  text-align: center;
+  position: relative;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
 }

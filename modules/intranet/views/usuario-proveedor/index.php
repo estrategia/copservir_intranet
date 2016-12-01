@@ -20,7 +20,7 @@ $urlBase = Yii::$app->getUrlManager()->getBaseUrl();
 
                 <p> 
                     <?= Html::a('Crear Usuario', ['crear'], ['class' => 'btn btn-success']) ?>
-
+                    <a class="btn btn-default" href=" <?= Yii::$app->getUrlManager()->getBaseUrl() . '/intranet/usuario-proveedor/exportar-usuarios' ?> ">Exportar Usuarios</a>
                 </p>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,

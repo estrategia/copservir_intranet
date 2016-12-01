@@ -95,8 +95,8 @@
       $codigoCiudad . '/sector/' . $codigoSector;
 
       // echo $urlDetalleProducto;
-      $urlDetallePdv = \Yii::$app->params['webServices']['visitaMedica']['detallePDV'];
-      // $urlDetallePdv = 'http://siidesarrollo.copservir.com:8080/WebSaldosVisitaMedica/webresources/service/saldos?refe=12722&codciu=11001&sector=17&sha1=95dabdca3b584651eccd1bdf3c9ad3c8606a1e7a';
+      // $urlDetallePdv = \Yii::$app->params['webServices']['visitaMedica']['detallePDV'] . "?refe={$codigoProducto}&codciu={$codigoCiudad}&sector={$codigoSector}&sha1=95dabdca3b584651eccd1bdf3c9ad3c8606a1e7a";
+      $urlDetallePdv = 'http://siidesarrollo.copservir.com:8080/WebSaldosVisitaMedica/webresources/service/saldos?refe=12722&codciu=11001&sector=17&sha1=95dabdca3b584651eccd1bdf3c9ad3c8606a1e7a';
 
       $detalleProducto = $client->createRequest()
       ->setMethod('get')
@@ -121,19 +121,19 @@
       // var_dump($infoSector);
       $producto = JSON::decode($detalleProducto->content);
 
-      $registroAcceso = new RegistroAccesoDetalleProducto();
-      $registroAcceso->codigoProducto = $codigoProducto;
-      $registroAcceso->descripcionProducto = $producto['descripcionProducto'];
-      $registroAcceso->presentacionProducto = $producto['presentacionProducto'];
-      $registroAcceso->codigoCiudad = $codigoCiudad;
-      $registroAcceso->nombreCiudad = $nombreCiudad;
-      $registroAcceso->codigoSector = $codigoSector;
-      $registroAcceso->nombreSector = $nombreSector;
-      $registroAcceso->fechaConsulta = date('YmdHis');
-      $registroAcceso->ip = $registroAcceso->getRealIp(); //Yii::$app->getRequest()->getUserIP() ;
-      $registroAcceso->save();
-
-      echo $this->render('producto', ['producto' => $producto, 'infoSector' => $infoSector['response']]);
+      // $registroAcceso = new RegistroAccesoDetalleProducto();
+      // $registroAcceso->codigoProducto = $codigoProducto;
+      // $registroAcceso->descripcionProducto = $producto['descripcionProducto'];
+      // $registroAcceso->presentacionProducto = $producto['presentacionProducto'];
+      // $registroAcceso->codigoCiudad = $codigoCiudad;
+      // $registroAcceso->nombreCiudad = $nombreCiudad;
+      // $registroAcceso->codigoSector = $codigoSector;
+      // $registroAcceso->nombreSector = $nombreSector;
+      // $registroAcceso->fechaConsulta = date('YmdHis');
+      // $registroAcceso->ip = $registroAcceso->getRealIp(); //Yii::$app->getRequest()->getUserIP() ;
+      // $registroAcceso->save();
+      // \yii\helpers\VarDumper::dump($infoSector, 10, true); exit();
+      echo $this->render('producto', ['producto' => $producto, 'infoSector' => $infoSector[0]['response'], 'result' => $infoSector[0]['result']]);
 
     }
   }

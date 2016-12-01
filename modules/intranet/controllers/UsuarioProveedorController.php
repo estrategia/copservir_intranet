@@ -108,11 +108,79 @@ class UsuarioProveedorController extends Controller
     {
         $searchModel = new UsuarioProveedorSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams, '', false, '');
+        $params = Yii::$app->request->queryParams;
+        $filtrosUsuario = \Yii::$app->session->set(\Yii::$app->params['visitamedica']['session']['filtrosUsuario'], $params);
+    //     // var_dump($filtrosUsuario = \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['filtrosUsuario']));
+    //     $dataProvider = $searchModel->search($params, $laboratorio, true, \Yii::$app->controller->module->id);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionExportarUsuarios()
+    {
+        
+        //VarDumper::dump(\Yii::$app->controller->module->id,10,true);exit();
+
+        $searchModel = new UsuarioProveedorSearch();
+        $objPHPExcel = new \PHPExcel();
+        $objPHPExcel->getProperties()->setTitle("Usuarios Portal Proveedores");
+
+        $objPHPExcel->setActiveSheetIndex(0);
+        $objPHPExcel->getSheet(0)->setTitle('Usuarios');
+
+        $objWorksheet = $objPHPExcel->getSheet(0);
+        $objWorksheet->setTitle('Usuarios');
+
+        $col = 0;
+        $objWorksheet->setCellValueByColumnAndRow($col++, 1, '# Documento');
+        $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Nombre');
+        $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Primer Apellido');
+        $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Segundo Apellido');
+        $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Email');
+        $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Laboratorio');
+
+        $params = \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['filtrosUsuario']);
+        $laboratorio = null;
+        
+        if (Yii::$app->user->identity->objUsuarioProveedor!==null) {
+           $laboratorio = Yii::$app->user->identity->objUsuarioProveedor->nitLaboratorio;
+        }
+
+        $dataProvider = $searchModel->search($params, $laboratorio, false, \Yii::$app->controller->module->id);
+
+        // var_dump($dataProvider);
+
+        // var_dump($dataProvider->getModels());
+
+        foreach ($dataProvider->getModels() as $indice => $usuario ) {
+            $col = 0;
+            $fila = $indice + 2;
+            $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->numeroDocumento );
+            $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->nombre );
+            $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->primerApellido );
+            $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->segundoApellido );
+            $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->email );
+            $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->nitLaboratorio );
+        }
+
+        $objPHPExcel->setActiveSheetIndex(0);
+
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="usuarios_prov_' . date('YmdHis') . '.xls"');
+        header('Cache-Control: max-age=0');
+        // If you're serving to IE 9, then the following may be needed
+        header('Cache-Control: max-age=1');
+        // If you're serving to IE over SSL, then the following may be needed
+        //header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+        header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        header('Pragma: public'); // HTTP/1.0
+
+        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        $objWriter->save('php://output');
     }
 
     /**
