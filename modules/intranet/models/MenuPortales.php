@@ -4,6 +4,7 @@ namespace app\modules\intranet\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "t_MenuPortales".
@@ -196,9 +197,15 @@ class MenuPortales extends \yii\db\ActiveRecord {
         if (empty($objMenu->objMenuHijos)) {
             if ($objMenu->tipo == self::ENLACE_EXTERNO) {
                 $urlMenu = Funciones::reemplazarPatronDocumentoUsuario($objMenu->urlMenu);
-                echo "<li><a href='$urlMenu'
-                target='_blank'> <i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span> </a>
-                </li>";
+                if (parse_url($urlMenu, PHP_URL_SCHEME) == "http") {
+                    echo "<li><a href='$urlMenu'
+                    target='_blank'> <i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span> </a>
+                    </li>";
+                } else {
+                    $urlAbsoluta = Url::to([$urlMenu], true);
+                    echo "<li><a href='$urlMenu'> <i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span> </a>
+                    </li>";
+                }
             } else if ($objMenu->tipo == self::ENLACE_INTERNO) {
                 echo "<li>";
                 echo \yii\helpers\Html::a("<i class='$objMenu->icono'></i> <span class='title'>$objMenu->nombre</span>",

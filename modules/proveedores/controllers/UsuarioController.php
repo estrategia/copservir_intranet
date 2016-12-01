@@ -55,6 +55,7 @@ class UsuarioController extends Controller
                     'ver' => 'proveedores_admin',
                     'crear' => 'proveedores_admin',
                     'actualizar' => 'proveedores_admin',
+                    'cambiar-estado' => 'proveedores_admin',
                     // 'admin' => 'proveedores_usuario_admin',
                     // 'ver' => 'proveedores_usuario_admin',
                     // 'crear' => 'proveedores_usuario_admin',
@@ -83,7 +84,7 @@ class UsuarioController extends Controller
     public function actionAutenticar() {
 
         $model = new LoginForm();
-        // $model->scenario = 'login';
+        $model->scenario = 'login';
 
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             $objConexionesUsuario = new ConexionesUsuarios();
@@ -282,6 +283,24 @@ class UsuarioController extends Controller
                 'ciudades' => $ciudades,
             ]);
         }
+    }
+
+    public function actionCambiarEstado($id)
+    {
+        $usuario = Usuario::findOne(['numeroDocumento' => $id]);
+        // var_dump($usuario);
+        if ($usuario->estado == 1) {
+            $usuario->estado = 0;
+        } else {
+            $usuario->estado = 1;
+        }
+        if ($usuario->save()) {
+            Yii::$app->session->setFlash('success', 'Se ha cambiado el estado del usuario');
+        } else {
+            Yii::$app->session->setFlash('error', 'No se ha cambiad el estado del usuario');
+        }
+          
+        return $this->redirect(['admin']);
     }
 
     public function actionActualizarMiCuenta()

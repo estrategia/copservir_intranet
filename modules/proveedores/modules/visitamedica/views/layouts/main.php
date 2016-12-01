@@ -128,9 +128,9 @@ VisitaMedicaAsset::register($this);
                     <?php if(isset($this->params['breadcrumbs']) && !empty($this->params['breadcrumbs'])): ?>
                       <?=
                       Breadcrumbs::widget([
-                          'itemTemplate' => "<li>{link}</li>\n",
+                          'itemTemplate' => "<li>{link}</li><li>Visita medica</li>\n",
                           'homeLink' => [
-                              'label' => 'Inicio',
+                              'label' => 'Proveedores',
                               'url' => ['/proveedores/'],
                           ],
                           'links' => $this->params['breadcrumbs'],

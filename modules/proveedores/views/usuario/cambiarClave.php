@@ -6,11 +6,17 @@ use yii\captcha\Captcha;
 $this->params['breadcrumbs'][] = ['label' =>  'Mi Cuenta', 'url'=>['mi-cuenta']];
 $this->params['breadcrumbs'][] = ['label' => 'Cambiar contraseña'];
 ?>
-<div class="container">
+<div class="container internal">
   <div class="row">
-    
-    <h1> Actualiza tu contraseña</h1>
+    <div class="col-md-12">
 
+      <div class="space-1"></div>
+
+      <h4>Cambiar contraseña</h4>
+
+      <div class="col-md-offset-4 col-md-4 autenticacion">
+
+        <div class="space-1"></div>
   <?= $this->render('/common/errores', []) ?>
 
   <?php
@@ -30,5 +36,13 @@ $this->params['breadcrumbs'][] = ['label' => 'Cambiar contraseña'];
   </div>
   <?php ActiveForm::end(); ?>
 
+ </div>
+
+ </div>
+     
+
+    </div>
   </div>
+
+  <div class="space-2"></div>
 </div>

@@ -3,12 +3,15 @@
 use nirvana\showloading\ShowLoadingAsset;
 
 ShowLoadingAsset::register($this);
-
-$this->title = 'Calendario';
+if (Yii::$app->controller->module->id == 'proveedores') {
+    $this->title = 'Actividades comerciales';
+} else {
+    $this->title = 'Calendario';
+}
 ?>
 <?php $this->registerJsFile("@web/js/calendario.js", ['depends' => [app\assets\CalendarAsset::className()]]); ?>
 <div class="container">
-<h1>Calendario</h1>
+<h1><?php echo $this->title; ?></h1>
 <div class="portal-container" style="padding-top: 10px!important;">
     <div class="row" style="max-height:850px;">
         <div class="tiles row tiles-container red no-padding">

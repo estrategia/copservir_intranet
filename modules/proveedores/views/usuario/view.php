@@ -65,10 +65,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'Ciudad',
                 'Direccion',
                 'nombreLaboratorio',
-                'idTercero',
-                'idFabricante',
-                'idAgrupacion',
-                'nombreUnidadNegocio',
+                // 'idTercero',
+                // 'idFabricante',
+                // 'idAgrupacion',
+                // 'nombreUnidadNegocio',
                 
             ],
         ]) ?>

@@ -84,7 +84,7 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.pn
                                                 <?php echo Html::a('Gestion de usuarios', ['/proveedores/usuario/admin']); ?>
                                             <?php endif; ?>
                                             <?php echo Html::a('Mi cuenta', ['/proveedores/usuario/mi-cuenta']); ?>
-                                            <?= Html::a('<i class="fa fa-power-off"></i> Salir', ['usuario/salir'], [
+                                            <?= Html::a('<span class="glyphicon glyphicon-off"></span> Salir', ['usuario/salir'], [
                                                 'data'=>[
                                                         'method' => 'post',
                                                         'params'=>['id'=>'form-salir'],
