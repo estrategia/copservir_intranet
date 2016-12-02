@@ -15,7 +15,7 @@ use kartik\select2\Select2;
 ?>
 <?php $form = ActiveForm::begin(); ?>
     <div class="form-header">
-        <h4>Informacion personal</h4>
+        <h4>Información Personal</h4>
     </div>
     <div class="row">
         <div class="col-md-6">
@@ -52,7 +52,7 @@ use kartik\select2\Select2;
         </div>
     </div>
     <div class="form-header">
-        <h4>Informacion de contacto</h4>
+        <h4>Información de Contacto</h4>
     </div>
     <div class="row">
         <div class="col-md-6">

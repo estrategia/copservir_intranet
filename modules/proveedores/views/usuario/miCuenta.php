@@ -11,6 +11,23 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container">
     <div class="row">
+        <?php if (Yii::$app->session->hasFlash('error')): ?>
+            <div class="alert alert-danger" role="alert">
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <strong>
+                  <?= Yii::$app->session->getFlash('error') ?>
+                </strong>
+            </div>
+        <?php endif; ?>
+
+        <?php if (Yii::$app->session->hasFlash('success')): ?>
+            <div class="alert alert-info" role="alert">
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <strong>
+                  <?= Yii::$app->session->getFlash('success') ?>
+                </strong>
+            </div>
+        <?php endif; ?>
         <h1><?= Html::encode($this->title) ?></h1>
 
         <p>

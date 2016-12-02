@@ -57,7 +57,7 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'numeroDocumento' => 'Numero Documento',
+            'numeroDocumento' => 'Número Documento',
             'nombre' => 'Nombre',
             'primerApellido' => 'Primer Apellido',
             'segundoApellido' => 'Segundo Apellido',
@@ -68,9 +68,9 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
             'profesion' => 'Profesion',
             'fechaNacimiento' => 'Fecha Nacimiento',
             'Ciudad' => 'Ciudad',
-            'Direccion' => 'Direccion',
+            'Direccion' => 'Dirección',
             'idProfesion' => 'Profesion',
-            'idAgrupacion' => 'Unidad de negocio',
+            'idAgrupacion' => 'Unidad de Negocio',
             'nombreLaboratorio' => 'Nombre Laboratorio',
         ];
     }
@@ -94,8 +94,13 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
     public function getPermisosAsignacion()
     {
         $permisos = [
-            'Modulo proveedores' => 'proveedores_usuario',
-            'Modulo visita medica' => 'visitaMedica_visitador',
+            'Información General' => 'proveedores_usuario',
+            'Visita Médica' => 'visitaMedica_visitador',
+            'Actividades Comerciales' => 'proveedores_actividades-comerciales',
+            'Certificados Tributarios' => 'proveedores_certificados-tributarios',
+            'Mis Productos' => 'proveedores_mis-productos',
+            'Informe de Ventas' => 'proveedores_informe-ventas',
+            'Cita Entrega de Mercancia' => 'proveedores_citas-mercancia',
         ];
         return $permisos;
     }

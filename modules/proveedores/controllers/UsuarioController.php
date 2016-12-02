@@ -147,7 +147,7 @@ class UsuarioController extends Controller
                 $model->asignarPermisos($permisosUsuario);
             }
             $model->removerPermisos($diff);
-
+            Yii::$app->session->setFlash('success', "Se han asignado los permisos al usuario");
         }
         return $this->render('view', [
             'model' => $model,

@@ -2,7 +2,7 @@
 <div class="container">
   <div class="row">
     <h2 class="normal">
-      Revisa tu correo
+      Revisa tu Correo
     </h2>
     <p>
       Se te ha enviado un mensaje con las instrucciones para la recuperación de la contraseña, por favor revisa tu correo <?= $correo ?>.

@@ -7,18 +7,34 @@ use yii\widgets\DetailView;
 /* @var $model app\modules\proveedores\models\UsuarioProveedor */
 
 $this->title = $model->nombre . ' ' . $model->primerApellido;
-$this->params['breadcrumbs'][] = ['label' => 'Gestion de Usuarios', 'url' => ['admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Gestión de Usuarios', 'url' => ['admin']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
-        
+        <?php if (Yii::$app->session->hasFlash('error')): ?>
+            <div class="alert alert-danger" role="alert">
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <strong>
+                  <?= Yii::$app->session->getFlash('error') ?>
+                </strong>
+            </div>
+        <?php endif; ?>
+
+        <?php if (Yii::$app->session->hasFlash('success')): ?>
+            <div class="alert alert-info" role="alert">
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <strong>
+                  <?= Yii::$app->session->getFlash('success') ?>
+                </strong>
+            </div>
+        <?php endif; ?>
         <h1><?= Html::encode($this->title) ?></h1>
         <div class="form-header">
         </div>
         <div class="row">
             <div class="col-md-12">
-            <h1>Servicios del portal colaborativo</h1>
+            <h1>Servicios del Portal Colaborativo</h1>
               <form  name="permisos" id="permisos" action=" <?= Yii::$app->getUrlManager()->getBaseUrl() . '/proveedores/usuario/ver?id=' . $model->numeroDocumento ?> " method="POST" >
                 <table class="table table-striped table-bordered">
                     <!-- <thead>
@@ -27,8 +43,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         </tr>
                     </thead> -->
                     <tbody>
+                        <?php $indice = 0 ?>
                         <?php foreach ($permisos as $nombre => $permiso ): ?>
+                          <?php $indice++; ?>
                             <tr>
+                              <td>
+                                <?php echo $indice; ?>
+                              </td>
                               <td>
                                 <strong>
                                     <?= $nombre; ?>
@@ -43,12 +64,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     </tbody>
                 </table>
                 <input type="hidden" name="_csrf" value="<?=Yii::$app->request->getCsrfToken()?>" />
-                <input type="submit" value="Guardar permisos" class="btn btn-primary">
+                <input type="submit" value="Guardar Permisos" class="btn btn-primary">
               </form>
             </div>
         </div>
         <div class="space-1"></div>
-
+        <h1>Información del Usuario</h1>
         <?= DetailView::widget([
             'model' => $model,
             'attributes' => [

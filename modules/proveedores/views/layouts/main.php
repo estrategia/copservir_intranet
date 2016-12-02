@@ -9,6 +9,10 @@ ProveedoresAsset::register($this);
 
 // Rutas imagenes
 $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.png';
+$srcLogoFooter = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores-footer.png';
+$srcFb =  Yii::$app->homeUrl . 'img/multiportal/copservir/fb.png';
+$srcTw =  Yii::$app->homeUrl . 'img/multiportal/copservir/tw.png';
+$srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
 
 ?>
 <?php $this->beginPage() ?>
@@ -79,7 +83,6 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.pn
                                         </li>
                                     <?php else:?>
                                         <li>
-                                            <?php echo Html::a('Visita medica', ['/proveedores/visitamedica']); ?>
                                             <?php if( Yii::$app->user->identity->tienePermiso('proveedores_usuario_admin')): ?>
                                                 <?php echo Html::a('Gestion de usuarios', ['/proveedores/usuario/admin']); ?>
                                             <?php endif; ?>
@@ -103,7 +106,7 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.pn
 
         <!-- CONTAINER -->
         <div id="container" class="content">
-            <?php echo Breadcrumbs::widget([
+			<?php echo Breadcrumbs::widget([
                 'homeLink' => ['label' => 'Inicio', 'url' => ['sitio/index']],
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]); ?>
@@ -114,50 +117,35 @@ $srcLogo = Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.pn
         <!-- FOOTER -->
         <footer>
             <div class="footer-top company-bgcolor-1">
-                <div class="container marketing">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <div class="space-1"></div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare commodo sagittis. Lorem ipsum dolor sit amet, consectetur.</p>
-                            <ul>
-                                <li>contacto@copservir.co</li>
-                                <li>(57) 1234567123</li>
-                                <li>Dirección</li>
-                            </ul>
-                        </div>
-                        <div class="col-sm-3">
-                            <h3>Menú</h3>
-                            <ul>
-                                <li>Quienes somos</li>
-                                <li>Proveedores</li>
-                                <li>Convenios empresariales</li>
-                                <li>Puntos de venta</li>
-                                <li>Contacto</li>
-                            </ul>
-                        </div>
-                        <div class="col-sm-3">
-                            <h3>Suscríbete</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare commodo sagittis. Lorem ipsum dolor sit amet, consectetur.</p>
-                            <form action="#" class="subscribe">
-                                <div class="form-group">
-                                    <div class="row not-marg">
-                                        <div class="col-sm-7 not-pad">
-                                            <input placeholder="Correo electrónico" id="correo" type="text">
-                                        </div>
-                                        <div class="col-sm-5 not-pad">
-                                            <button type="submit">Suscríbete</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="logo-bottom">
-                                <img src=<?= "" . $srcLogo ?> alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="container">
+            <div class="col-md-3">
+              <img src=<?= "" . $srcLogoFooter ?> alt="">
+              <div class="space-1"></div>
+            </div>
+            <div class="col-md-3">
+              <strong style="color:#fff;">Sede Copservir Barranquilla</strong>
+              <p>Calle 110 Av. Circunvalar No. 6R - 400 Teléfono (5) 328 8156</p>
+
+              <strong style="color:#fff;">Sede Copservir Bogotá</strong>
+              <p>Calle 13 No. 42 - 10 Teléfono (1) 3351700</p> 
+            </div>
+            
+            <div class="col-md-3">
+              <strong style="color:#fff;">Sede Copservir Bucaramanga</strong>
+              <p>Carrera 16 No. 47 - 82 Teléfono (7) 6309450 Fax: 6309490</p>
+              <strong style="color:#fff;">Sede Copservir Cali</strong>
+              <p>Calle 18 No. 121 - 130 Pance Teléfono (2) 3218000</p> 
+            </div>
+            <div class="col-md-3">                
+               <div class="contenedor-redes">
+                    <strong style="color:#fff;">Nuestras</strong>
+                    <p>Redes sociales</p> 
+                    <p><i class="fa fa-facebook-official"></i> copservir</p>
+                    <p><i class="fa fa-twitter"></i> @copservir</p>
+                    <p><i class="fa fa-youtube-play"></i> copservirltda</p>
+               </div>
+            </div>
+          </div>
             </div>
             <div class="footer-bottom">
                 <div class="container marketing">
