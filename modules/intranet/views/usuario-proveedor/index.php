@@ -35,32 +35,35 @@ $urlBase = Yii::$app->getUrlManager()->getBaseUrl();
                         'email:email',
                         // 'telefono',
                         // 'celular',
-                        // 'nitLaboratorio',
+                        'nitLaboratorio',
+                        'nombreLaboratorio',
                         // 'profesion',
                         // 'fechaNacimiento',
                         // 'Ciudad',
                         // 'Direccion',
-                        // 'nombreLaboratorio',
                         // 'idTercero',
                         // 'idFabricante',
                         // 'idAgrupacion',
                         // 'nombreUnidadNegocio',
                         [
-                            'attribute' => 'Nit Laboratorio',
-                            'value' =>
-                                function ($model) {
-                                    return $model->nitLaboratorio;
-                                },
-                            'visible' => Yii::$app->user->identity->tienePermiso('intranet_admin-proveedores'),
+                            'label' => 'Rol'
                         ],
-                        [
-                            'attribute' => 'Nombre Laboratorio',
-                            'value' =>
-                                function ($model) {
-                                    return $model->nombreLaboratorio;
-                                },
-                            'visible' => Yii::$app->user->identity->tienePermiso('intranet_admin-proveedores'),
-                        ],
+                        // [
+                        //     'attribute' => 'Nit Laboratorio',
+                        //     'value' =>
+                        //         function ($model) {
+                        //             return $model->nitLaboratorio;
+                        //         },
+                        //     'visible' => Yii::$app->user->identity->tienePermiso('intranet_admin-proveedores'),
+                        // ],
+                        // [
+                        //     'attribute' => 'Nombre Laboratorio',
+                        //     'value' =>
+                        //         function ($model) {
+                        //             return $model->nombreLaboratorio;
+                        //         },
+                        //     'visible' => Yii::$app->user->identity->tienePermiso('intranet_admin-proveedores'),
+                        // ],
                         [
                             'attribute' => '',
                             'format' => 'raw',

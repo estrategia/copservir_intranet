@@ -71,6 +71,7 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
             'Direccion' => 'Direccion',
             'idProfesion' => 'Profesion',
             'idAgrupacion' => 'Unidad de negocio',
+            'nombreLaboratorio' => 'Nombre Laboratorio',
         ];
     }
 
@@ -78,8 +79,8 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
     {
         $connection = \Yii::$app->db;
         $model = $connection->createCommand(
-            'SELECT * FROM intranet.m_prov_usuario t1
-            LEFT OUTER JOIN intranet.m_usuario t2
+            'SELECT * FROM intranet.m_PROV_Usuario t1
+            LEFT OUTER JOIN intranet.m_Usuario t2
             ON t1.numeroDocumento = t2.numeroDocumento
             LEFT OUTER JOIN intranet.auth_assignment t3
             ON t1.numeroDocumento = t3.user_id

@@ -19,7 +19,7 @@ class UsuarioProveedorSearch extends UsuarioProveedor
     {
         return [
             [['numeroDocumento', 'telefono', 'celular'], 'integer'],
-            [['nombre', 'primerApellido', 'segundoApellido', 'email', 'nitLaboratorio', 'profesion', 'fechaNacimiento', 'Ciudad', 'Direccion'], 'safe'],
+            [['nombre', 'primerApellido', 'segundoApellido', 'email', 'nitLaboratorio', 'nombreLaboratorio', 'profesion', 'fechaNacimiento', 'Ciudad', 'Direccion', 'Rol'], 'safe'],
         ];
     }
 
