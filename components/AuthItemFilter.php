@@ -33,7 +33,7 @@ class AuthItemFilter extends ActionFilter {
                 ]);
                 \Yii::$app->end();
             } else {
-                throw new \yii\web\ForbiddenHttpException('Acceso no permitdo.', 403);
+                throw new \yii\web\ForbiddenHttpException('Acceso no permitido.', 403);
             }
         }
 

@@ -8,3 +8,13 @@ $('.ad-gallery').adGallery({
         displayDescription: function(image) {}
     }
 });
+
+$('[data-toggle="tooltip"]').tooltip();
+
+// $(document).ready(function(){
+$('#help-ubicacion').Chocolat();
+$('#help-consulta').Chocolat();
+$('#help-reportes').Chocolat();
+$('#help-mi-cuenta').Chocolat();
+$('#help-contacto').Chocolat();
+// });

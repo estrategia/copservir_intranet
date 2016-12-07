@@ -263,6 +263,10 @@ class UsuarioController extends Controller
         return $this->render('miCuenta', ['model' => $vimedUser]);
     }
 
+    public function actionAyuda()
+    {
+        return $this->render('ayuda');
+    }
 
     public function actionCorreoAdmin()
     {

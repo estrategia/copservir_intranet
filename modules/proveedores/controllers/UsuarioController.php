@@ -63,6 +63,13 @@ class UsuarioController extends Controller
                     // 'exportar-usuarios' => 'visitaMedica_usuario_exportar-usuarios'
                 ],
            ],
+
+           [
+                'class' => \app\components\TerminosFilter::className(),
+                'except' => [
+                    'autenticar', 'mi-cuenta', 'salir', 'aceptar-terminos'
+                ],
+           ],
         
         ];
     }
@@ -105,6 +112,18 @@ class UsuarioController extends Controller
         $unidadesNegocio = SIICOP::wsGetUnidadesNegocio();
         var_dump($unidadesNegocio);
         
+    }
+
+    public function actionAceptarTerminos()
+    {
+        $usuario = \app\models\Usuario::find()->where(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento])->one();
+        // var_dump($usuario);
+        $usuario->confirmarDatosPersonales = Yii::$app->request->post('confirmarDatosPersonales');
+        // \yii\helpers\VarDumper::dump(Yii::$app->request->post('confirmarDatosPersonales'), 10, true);exit();
+        if ($usuario->save()) {
+            Yii::$app->session->setFlash('success', 'Ha aceptado los términos y condiciones, ahora puede hacer uso de los servicios del portal colaborativo');
+            return $this->redirect('mi-cuenta');
+        }
     }
 
     public function actionSalir() {
@@ -199,7 +218,7 @@ class UsuarioController extends Controller
             $usuarioIntranet->estado = true;
 
             // var_dump($usuarioProveedor);
-
+            // var_dump($usuarioProveedor);exit();
             if ($usuarioIntranet->save() && $usuarioProveedor->save()) {
                 $connection = \Yii::$app->db;
                 $transaction = $connection->beginTransaction();
@@ -220,7 +239,7 @@ class UsuarioController extends Controller
                     'usuario' => $usuarioIntranet->numeroDocumento,
                     'password' => $contrasena,
                 ];
-                $contenidoCorreo = $this->renderPartial('_notificacionRegistro',['infoUsuario' => $infoUsuario, 'laboratorio' => $laboratorio['Nombre'], 'nombreUsuario' => $usuarioProveedor->nombre]);
+                $contenidoCorreo = $this->renderPartial('_notificacionRegistro',['infoUsuario' => $infoUsuario, 'laboratorio' => $laboratorio['Nombre'], 'usuarioProveedor' => $usuarioProveedor]);
                 $correoEnviar = $this->renderPartial('/common/correo', ['contenido' => $contenidoCorreo]);
                 $correoEnviado = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
                                         ->setTo($usuarioProveedor->email)->setSubject('Acceso Portal Colaborativo Copservir')
@@ -256,7 +275,7 @@ class UsuarioController extends Controller
 
         if ($usuarioProveedor->load(Yii::$app->request->post())) {
             $documentoLaboratorio = Yii::$app->user->identity->objUsuarioProveedor->nitLaboratorio;;
-            $idAgrupacion = Yii::$app->request->post()['UsuarioProveedor']['idAgrupacion'];
+            // $idAgrupacion = Yii::$app->request->post()['UsuarioProveedor']['idAgrupacion'];
             foreach($terceros as $tercero) {
                 if ($documentoLaboratorio == $tercero['NumeroDocumento']) {
                     $laboratorio = $tercero;
@@ -267,10 +286,10 @@ class UsuarioController extends Controller
             $usuarioProveedor->idFabricante = $laboratorio['IdFabricante'];
             $usuarioProveedor->nombreLaboratorio = $laboratorio['Nombre'];
             $usuarioProveedor->nitLaboratorio = $laboratorio['NumeroDocumento'];
-            $usuarioProveedor->idAgrupacion = $idAgrupacion;
-            if(array_key_exists($idAgrupacion, $unidadesNegocio)) {
-                $usuarioProveedor->nombreUnidadNegocio = $unidadesNegocio[$idAgrupacion];
-            }
+            // $usuarioProveedor->idAgrupacion = $idAgrupacion;
+            // if(array_key_exists($idAgrupacion, $unidadesNegocio)) {
+            //     $usuarioProveedor->nombreUnidadNegocio = $unidadesNegocio[$idAgrupacion];
+            // }
 
             if ($usuarioProveedor->save()) {
                 return $this->redirect(['ver', 'id' => $usuarioProveedor->numeroDocumento]);
@@ -345,6 +364,9 @@ class UsuarioController extends Controller
     {
         $intranetUser = \app\models\Usuario::findOne(Yii::$app->user->identity->idUsuario);
         $proveedoresUser = UsuarioProveedor::findOne(['numeroDocumento', $intranetUser->numeroDocumento]);
+        if ($intranetUser->confirmarDatosPersonales == 0) {
+            Yii::$app->session->setFlash('error', 'Debe aceptar los términos y condiciones para poder hacer uso de los servicios del portal colaborativo');
+        }
         return $this->render('miCuenta', ['model' => $proveedoresUser]);
     }
 

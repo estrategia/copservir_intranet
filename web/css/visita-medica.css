@@ -281,3 +281,27 @@
     color: #1caf9a !important;
 }
 svg { width: 100%; }
+
+.profile-controls a:hover {
+  border-color: #1caf9a!important;
+  color: #1caf9a!important;
+}
+/*
+.blueimp-gallery-controls > .close {
+  color: black !important;
+}*/
+
+.chocolat-overlay {
+    background-color: #999!important;
+}
+
+.separator {
+    border-bottom: solid 1px #bac8ce;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.chocolat-image img {
+    padding: 3px;
+    margin: 3px 0px 3px 0px;
+}

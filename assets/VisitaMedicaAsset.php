@@ -36,7 +36,8 @@ class VisitaMedicaAsset extends AssetBundle {
         //'libs/bootstrap-select2/select2.css',
 
         'libs/visita-medica/ad-gallery/jquery.ad-gallery.css',
-
+        'libs/visita-medica/chocolat/css/chocolat.css',
+        // 'libs/visita-medica/css/blueimp/blueimp-gallery.min.css',
         //genericas plantilla intranet
        /* 'css/portales-style.css',
         'css/portales-main.css',
@@ -68,6 +69,8 @@ class VisitaMedicaAsset extends AssetBundle {
         'libs/visita-medica/js/plugins/bootstrap/bootstrap.min.js',
 
         'libs/visita-medica/js/plugins/icheck/icheck.min.js',
+        // 'libs/visita-medica/js/plugins/blueimp/jquery.blueimp-gallery.min.js',
+
         'libs/visita-medica/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js',
         'libs/visita-medica/js/plugins/scrolltotop/scrolltopcontrol.js',
         'libs/visita-medica/js/plugins/morris/raphael-min.js',
@@ -91,6 +94,8 @@ class VisitaMedicaAsset extends AssetBundle {
         // 'libs/visita-medica/js/demo_maps.js',
 
         'libs/visita-medica/ad-gallery/jquery.ad-gallery.min.js',
+        'libs/visita-medica/chocolat/js/jquery.chocolat.min.js',
+
 
         'js/visitamedica/visitamedica.js',
 

@@ -44,7 +44,7 @@
                     <span>
                     <?php echo $pdv['producto']['saldo'] ?> Und
                     </span>
-                    <p> Max: <?php echo $pdv['producto']['maximo'] ?> / Min: <?php //echo $pdv['producto']['minimo'] ?> </p>
+                    <p> Max: <?php echo $pdv['producto']['maximo'] ?> / Min: <?php echo $pdv['producto']['minimo'] ?> </p>
                     <p> Rotación: <?php echo $pdv['producto']['rotacion'] ?> / Clase: <?php echo $pdv['producto']['clase']; ?> </p>
                   </span>
                 </div>

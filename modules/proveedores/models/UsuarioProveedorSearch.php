@@ -12,6 +12,7 @@ use app\modules\proveedores\models\UsuarioProveedor;
  */
 class UsuarioProveedorSearch extends UsuarioProveedor
 {
+    public $rol;
     /**
      * @inheritdoc
      */
@@ -19,7 +20,7 @@ class UsuarioProveedorSearch extends UsuarioProveedor
     {
         return [
             [['numeroDocumento', 'telefono', 'celular'], 'integer'],
-            [['nombre', 'primerApellido', 'segundoApellido', 'email', 'nitLaboratorio', 'nombreLaboratorio', 'profesion', 'fechaNacimiento', 'Ciudad', 'Direccion', 'Rol'], 'safe'],
+            [['nombre', 'primerApellido', 'segundoApellido', 'email', 'nitLaboratorio', 'nombreLaboratorio', 'profesion', 'fechaNacimiento', 'Ciudad', 'Direccion', 'rol'], 'safe'],
         ];
     }
 
@@ -59,7 +60,7 @@ class UsuarioProveedorSearch extends UsuarioProveedor
 
         $this->load($params);
         $this->nitLaboratorio = $nitLaboratorio;
-        $this->modulo = $modulo;
+        // $this->modulo = $modulo;
         // $usuarioIntranet = \app\models\Usuario::findOne(['numeroDocumento' => $this->numeroDocumento]);
         // $this->estado = $usuarioIntranet->estado;
 
@@ -67,7 +68,12 @@ class UsuarioProveedorSearch extends UsuarioProveedor
         $query->innerJoin('auth_assignment', 'auth_assignment.user_id = numeroDocumento');
         if ($usuarioLogueado->tienePermiso('intranet_admin-proveedores')) {
             // $query->andWhere("auth_assignment.item_name='proveedores_admin'");
-            $query->where(['and', ['auth_assignment.item_name' => ['proveedores_admin', 'visitaMedica_visitador']]]);
+            // var_dump($this->rol);exit();
+            if ($this->rol != "") {
+                $query->where(['and', ['auth_assignment.item_name' => [$this->rol]]]);
+            } else {
+                $query->where(['and', ['auth_assignment.item_name' => ['proveedores_admin', 'visitaMedica_visitador']]]);
+            }
         } else
         if ($usuarioLogueado->tienePermiso('proveedores_admin')) {
             $query->andWhere("auth_assignment.item_name!='proveedores_admin'");
@@ -83,6 +89,7 @@ class UsuarioProveedorSearch extends UsuarioProveedor
             'telefono' => $this->telefono,
             'celular' => $this->celular,
             'fechaNacimiento' => $this->fechaNacimiento,
+            'nitLaboratorio' => $this->nitLaboratorio,
             // 'modulo' => $this->modulo,
         ]);
 
@@ -90,6 +97,7 @@ class UsuarioProveedorSearch extends UsuarioProveedor
             ->andFilterWhere(['like', 'primerApellido', $this->primerApellido])
             ->andFilterWhere(['like', 'segundoApellido', $this->segundoApellido])
             ->andFilterWhere(['like', 'email', $this->email])
+            ->andFilterWhere(['like', 'nombreLaboratorio', $this->nombreLaboratorio])
             // ->andFilterWhere(['like', 'nitLaboratorio', $this->nitLaboratorio])
             ->andFilterWhere(['like', 'profesion', $this->profesion])
             ->andFilterWhere(['like', 'Ciudad', $this->Ciudad])

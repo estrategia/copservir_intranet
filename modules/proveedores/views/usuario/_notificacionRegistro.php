@@ -1,6 +1,6 @@
 <?php use yii\helpers\Html; ?>
 <pre style="font-family: Arial; font-color:black!important;">
-Señor <?php echo $nombreUsuario; ?>
+Señor <?php echo $usuarioProveedor->nombre . ' ' . $usuarioProveedor->primerApellido . ' ' . $usuarioProveedor->segundoApellido; ?>
 
 <?php echo $laboratorio; ?>
 
@@ -8,6 +8,7 @@ Señor <?php echo $nombreUsuario; ?>
 Desde este momento su compañía <strong><?php echo $laboratorio; ?></strong> ha gestionado un usuario el cual le permitirá acceder al Portal Colaborativo de Copservir Ltda. En donde tendrá información importante, actualizada y disponible las 24 horas sobre su compañía y los convenios comerciales con Copservir Ltda.
 
 <strong>Los servicios que tenemos disponibles por el momento son:</strong>
+
   1. Información general 
   2. Visita médica
   3. Actividades Comerciales

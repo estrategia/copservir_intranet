@@ -75,6 +75,20 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getRol()
+    {
+        $roles = \Yii::$app->authManager->getRolesByUser($this->numeroDocumento);
+
+        $role = '';
+
+        foreach($roles as $key => $value)
+        {
+            $role = $key;
+        }
+
+        return $role;
+    }
+
     public static function getProveedores($laboratorio)
     {
         $connection = \Yii::$app->db;
@@ -161,6 +175,11 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
         return $this->hasOne(\app\models\Usuario::className(), ['numeroDocumento' => 'numeroDocumento']);
     }
 
+    public function getObjCiudad()
+    {
+        return $this->hasOne(\app\modules\intranet\models\Ciudad::className(), ['codigoCiudad' => 'Ciudad']);
+    }
+
     public static function getCorreosAdmin()
     {
         $sql = "SELECT correoElectronico 
@@ -172,6 +191,20 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
         $model = $connection->createCommand($sql);
         $correos = $model->queryAll();
         return $correos;
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {   
+        // $tiempo = time();
+        // Yii::trace('Entra al metodo');
+        // if (parent::afterSave($insert, $changedAttributes)) {
+            // Yii::trace('Entra al if');
+            Yii::$app->db->createCommand("UPDATE m_Usuario SET fechaActualizacion=now() WHERE numeroDocumento={$this->numeroDocumento}")->execute();
+            // return true;
+        // } else {
+            // return false;
+        // }
+        return parent::afterSave($insert, $changedAttributes);
     }
 
 }

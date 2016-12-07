@@ -2,7 +2,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title text-center">Ubica en el mapa el lugar donde deseas que entreguemos el pedido</h3>
+                <h3 class="modal-title text-center">Ubica en el mapa el lugar donde deseas consultar los productos</h3>
                 <div class="selects">
                     <div style="margin-right: 1px; width: 50%" id="select-ubicacion-psubsector">
                         <select class="" id='ciudad-selector' data-role="ciudad-despacho-map" style="width: 100%">

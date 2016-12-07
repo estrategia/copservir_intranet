@@ -1,6 +1,6 @@
 <?php use yii\helpers\Html; ?>
 <pre style="font-family: Arial; font-color:black!important;">
-Señor <?php echo $nombreUsuario; ?>
+Señor <?php echo $usuarioProveedor->nombre . ' ' . $usuarioProveedor->primerApellido . ' ' . $usuarioProveedor->segundoApellido; ?>
 
 <?php echo $laboratorio; ?>
 
@@ -12,6 +12,7 @@ Esta calidad le permite crear nuevos accesos al personal que tiene relación con
 Los usuarios creados en su cuenta tendrán la facultad de visualizar servicios  los cuales podrán ser habilitados o deshabilitados por su cuenta de administrador, además también podrá activar o inactivar usuarios, ejemplo si el usuario ya no trabaja en la compañía usted podrá inactivarlo.
 
 <strong>Los servicios que tenemos disponibles por el momento son:</strong>
+
   1. Información general 
   2. Visita médica
   3. Actividades Comerciales

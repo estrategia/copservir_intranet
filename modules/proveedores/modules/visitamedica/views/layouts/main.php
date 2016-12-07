@@ -111,13 +111,17 @@ VisitaMedicaAsset::register($this);
                     <?php endif ?>
                 </a>
               </li>
-              <li class="xn-icon-button pull-right">
-                  <?= Html::a('<i class="fa fa-power-off"></i>Salir', ['/proveedores/usuario/salir'], ['data'=>[
-                              'method' => 'post',
-                              'params'=>['id'=>'form-salir'],
+              <li class="xn-icon-button pull-right" data-toggle="tooltip" data-placement="bottom" title="Salir">
+                  <?= Html::a('<span class="glyphicon glyphicon-off"></span>', ['/proveedores/usuario/salir'], ['data'=>[
+                      'method' => 'post',
+                      'params'=>['id'=>'form-salir'],
                             ],
                     'class'=>'salir',
                     ]) 
+                  ?>
+              </li>
+              <li class="xn-icon-button pull-right" data-toggle="tooltip" data-placement="bottom" title="Ayuda">
+                  <?= Html::a('<span class="glyphicon glyphicon-question-sign"></span>', ['/proveedores/visitamedica/usuario/ayuda']) 
                   ?>
               </li>
                

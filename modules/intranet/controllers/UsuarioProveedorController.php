@@ -139,6 +139,8 @@ class UsuarioProveedorController extends Controller
         $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Nombre');
         $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Primer Apellido');
         $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Segundo Apellido');
+        $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Fecha de Nacimiento');
+        $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Profesion');
         $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Email');
         $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Laboratorio');
 
@@ -162,8 +164,10 @@ class UsuarioProveedorController extends Controller
             $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->nombre );
             $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->primerApellido );
             $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->segundoApellido );
+            $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->fechaNacimiento);
+            $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->profesion);
             $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->email );
-            $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->nitLaboratorio );
+            $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->nombreLaboratorio);
         }
 
         $objPHPExcel->setActiveSheetIndex(0);
@@ -273,7 +277,7 @@ class UsuarioProveedorController extends Controller
                     'usuario' => $usuarioIntranet->numeroDocumento,
                     'password' => $contrasena,
                 ];
-                $contenidoCorreo = $this->renderPartial('_notificacionRegistro',['infoUsuario' => $infoUsuario, 'laboratorio' => $laboratorio['Nombre'], 'nombreUsuario' => $usuarioProveedor->nombre]);
+                $contenidoCorreo = $this->renderPartial('_notificacionRegistro',['infoUsuario' => $infoUsuario, 'laboratorio' => $laboratorio['Nombre'], 'usuarioProveedor' => $usuarioProveedor]);
                 $correoEnviar = $this->renderPartial('/common/correo', ['contenido' => $contenidoCorreo]);
                 $correoEnviado = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
                                         ->setTo($usuarioProveedor->email)->setSubject('Acceso Portal Colaborativo Copservir')

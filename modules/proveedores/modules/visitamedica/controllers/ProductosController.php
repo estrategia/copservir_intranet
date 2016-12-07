@@ -95,6 +95,7 @@
       $codigoCiudad . '/sector/' . $codigoSector;
 
       // echo $urlDetalleProducto;
+      // $urlDetallePdv = \Yii::$app->params['webServices']['visitaMedica']['detallePDV'];
       $urlDetallePdv = \Yii::$app->params['webServices']['visitaMedica']['detallePDV'] . "?refe={$codigoProducto}&codciu={$codigoCiudad}&sector={$codigoSector}&sha1=95dabdca3b584651eccd1bdf3c9ad3c8606a1e7a";
       // $urlDetallePdv = 'http://siidesarrollo.copservir.com:8080/WebSaldosVisitaMedica/webresources/service/saldos?refe=12722&codciu=11001&sector=17&sha1=95dabdca3b584651eccd1bdf3c9ad3c8606a1e7a';
 

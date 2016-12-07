@@ -31,7 +31,7 @@ $urlBase = Yii::$app->getUrlManager()->getBaseUrl();
                         'numeroDocumento',
                         'nombre',
                         'primerApellido',
-                        'segundoApellido',
+                        // 'segundoApellido',
                         'email:email',
                         // 'telefono',
                         // 'celular',
@@ -45,8 +45,11 @@ $urlBase = Yii::$app->getUrlManager()->getBaseUrl();
                         // 'idFabricante',
                         // 'idAgrupacion',
                         // 'nombreUnidadNegocio',
+                        // 'rol',
                         [
-                            'label' => 'Rol'
+                            'label' => 'Rol',
+                            'attribute' => 'rol',
+                            'value' => 'rol',
                         ],
                         // [
                         //     'attribute' => 'Nit Laboratorio',

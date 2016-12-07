@@ -34,9 +34,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         'telefono',
                         'celular',
                         'nitLaboratorio',
+                        'nombreLaboratorio',
                         'profesion',
                         'fechaNacimiento',
-                        'Ciudad',
+                        [
+                            'attribute' => 'Ciudad',
+                            'value' => isset($model->objCiudad->nombreCiudad) ? $model->objCiudad->nombreCiudad : '(no definido)',
+                        ],
+                        // 'Ciudad',
                         'Direccion',
                     ],
                 ]) ?>
