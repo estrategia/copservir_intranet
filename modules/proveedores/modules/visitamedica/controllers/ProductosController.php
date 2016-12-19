@@ -97,7 +97,7 @@
       // echo $urlDetalleProducto;
       // $urlDetallePdv = \Yii::$app->params['webServices']['visitaMedica']['detallePDV'];
       $urlDetallePdv = \Yii::$app->params['webServices']['visitaMedica']['detallePDV'] . "?refe={$codigoProducto}&codciu={$codigoCiudad}&sector={$codigoSector}&sha1=95dabdca3b584651eccd1bdf3c9ad3c8606a1e7a";
-      // $urlDetallePdv = 'http://siidesarrollo.copservir.com:8080/WebSaldosVisitaMedica/webresources/service/saldos?refe=12722&codciu=11001&sector=17&sha1=95dabdca3b584651eccd1bdf3c9ad3c8606a1e7a';
+      // $urlDetallePdv = 'http://siidesarrollo.copservir.com:8080/WebSaldosVisitaMedica/webresources/service/saldos?refe=38045&codciu=76001&sector=26&sha1=95dabdca3b584651eccd1bdf3c9ad3c8606a1e7a';
 
       $detalleProducto = $client->createRequest()
       ->setMethod('get')
@@ -118,7 +118,7 @@
       ->send();
 
       $infoSector = JSON::decode($detallePdv->content);
-      // VarDumper::dump($infoSector['response'], 10, true);
+      // VarDumper::dump($infoSector[0]['response'], 10, true);
       // var_dump($infoSector);
       $producto = JSON::decode($detalleProducto->content);
 

@@ -110,7 +110,7 @@ $srcSlide = Yii::$app->homeUrl . 'img/multiportal/proveedores/';
   {
 	echo $this->render('//common/_ultimasNoticias', [
 		'contenidoModels' => $contenidoModels,
-		'flagVerMas' => $flagVerMas,
+		'flagVerMas' => true,
 	]);	
   }
 ?>

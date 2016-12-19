@@ -44,11 +44,35 @@ class UsuarioProveedorSearch extends UsuarioProveedor
     {
         $query = UsuarioProveedor::find();
         // add conditions that should always apply here
+        $this->load($params);
+        $this->nitLaboratorio = $nitLaboratorio;
+        // $this->modulo = $modulo;
+        // $usuarioIntranet = \app\models\Usuario::findOne(['numeroDocumento' => $this->numeroDocumento]);
+        // $this->estado = $usuarioIntranet->estado;
+
+        $usuarioLogueado = Yii::$app->user->identity;
+        $query->leftJoin('auth_assignment', 'auth_assignment.user_id = numeroDocumento');
+        if ($usuarioLogueado->tienePermiso('intranet_admin-proveedores')) {
+            // $query->andWhere("auth_assignment.item_name='proveedores_admin'");
+            // var_dump($this->rol);exit();
+            if ($this->rol != "") {
+                $query->where(['and', ['auth_assignment.item_name' => [$this->rol]]]);
+            }
+        } else
+        if ($usuarioLogueado->tienePermiso('proveedores_admin')) {
+            $query->andWhere("auth_assignment.item_name!='proveedores_admin'");
+            $query->andWhere("nitLaboratorio='{$nitLaboratorio}'");
+        }
+
+        // grid filtering conditions
+        // $query->andFilterWhere([
+        //     'nitLaboratorio' => $this->nitLaboratorio,
+        // ]);
 
         if (!$paginacion) {
             $dataProvider = new ActiveDataProvider([
                 'query' => $query,
-                'pagination' => false,
+                'pagination' => ['pageSize' => 10],
             ]);
         } else {
             $dataProvider = new ActiveDataProvider([
@@ -57,48 +81,13 @@ class UsuarioProveedorSearch extends UsuarioProveedor
             ]);
         }
 
-
-        $this->load($params);
-        $this->nitLaboratorio = $nitLaboratorio;
-        // $this->modulo = $modulo;
-        // $usuarioIntranet = \app\models\Usuario::findOne(['numeroDocumento' => $this->numeroDocumento]);
-        // $this->estado = $usuarioIntranet->estado;
-
-        $usuarioLogueado = Yii::$app->user->identity;
-        $query->innerJoin('auth_assignment', 'auth_assignment.user_id = numeroDocumento');
-        if ($usuarioLogueado->tienePermiso('intranet_admin-proveedores')) {
-            // $query->andWhere("auth_assignment.item_name='proveedores_admin'");
-            // var_dump($this->rol);exit();
-            if ($this->rol != "") {
-                $query->where(['and', ['auth_assignment.item_name' => [$this->rol]]]);
-            } else {
-                $query->where(['and', ['auth_assignment.item_name' => ['proveedores_admin', 'visitaMedica_visitador']]]);
-            }
-        } else
-        if ($usuarioLogueado->tienePermiso('proveedores_admin')) {
-            $query->andWhere("auth_assignment.item_name!='proveedores_admin'");
-            $query->andWhere("nitLaboratorio='{$nitLaboratorio}'");
-        }
-        // if ($usuarioLogueado->tienePermiso('visitaMedica_proveedor')) {
-        //     $query->andWhere("auth_assignment.item_name='visitaMedica_visitador'");
-        //     $query->andWhere("nitLaboratorio='{$nitLaboratorio}'");
-        // }
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'numeroDocumento' => $this->numeroDocumento,
-            'telefono' => $this->telefono,
-            'celular' => $this->celular,
-            'fechaNacimiento' => $this->fechaNacimiento,
-            'nitLaboratorio' => $this->nitLaboratorio,
-            // 'modulo' => $this->modulo,
-        ]);
-
         $query->andFilterWhere(['like', 'nombre', $this->nombre])
+            ->andFilterWhere(['like', 'numeroDocumento', $this->numeroDocumento])
             ->andFilterWhere(['like', 'primerApellido', $this->primerApellido])
             ->andFilterWhere(['like', 'segundoApellido', $this->segundoApellido])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'nombreLaboratorio', $this->nombreLaboratorio])
-            // ->andFilterWhere(['like', 'nitLaboratorio', $this->nitLaboratorio])
+            ->andFilterWhere(['like', 'nitLaboratorio', $this->nitLaboratorio])
             ->andFilterWhere(['like', 'profesion', $this->profesion])
             ->andFilterWhere(['like', 'Ciudad', $this->Ciudad])
             ->andFilterWhere(['like', 'Direccion', $this->Direccion]);

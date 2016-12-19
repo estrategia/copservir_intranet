@@ -47,13 +47,22 @@ class AuthAssignment extends \yii\db\ActiveRecord
         return $this->hasOne(AuthItem::className(), ['name' => 'item_name']);
     }
 
-    public function getListaRoles($numeroDocumento)
+    public function getListaRoles($numeroDocumento, $modulo=null)
     {
-      $opciones = AuthItem::find()
-      ->where('(  type=:tipo and name not in (select item_name from auth_assignment where user_id =:numeroDocumento) )')
-      ->addParams([':tipo' => AuthItem::TIPO_ROL, ':numeroDocumento' => $numeroDocumento])
-      ->asArray()
-      ->all();
+        // var_dump($modulo);exit();
+        if (!($modulo == null || $modulo == '')) {
+            $opciones = AuthItem::find()
+            ->where('(  type=:tipo and name not in (select item_name from auth_assignment where user_id =:numeroDocumento) AND moduloPadre=:moduloPadre)')
+            ->addParams([':tipo' => AuthItem::TIPO_ROL, ':numeroDocumento' => $numeroDocumento, ':moduloPadre' => $modulo])
+            ->asArray()
+            ->all();
+        } else {
+            $opciones = AuthItem::find()
+            ->where('(  type=:tipo and name not in (select item_name from auth_assignment where user_id =:numeroDocumento) )')
+            ->addParams([':tipo' => AuthItem::TIPO_ROL, ':numeroDocumento' => $numeroDocumento])
+            ->asArray()
+            ->all();            
+        }
 
       return ArrayHelper::map($opciones, 'name', 'name');
     }

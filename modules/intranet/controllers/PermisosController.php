@@ -7,6 +7,7 @@ use yii\web\Controller;
 use app\models\Usuario;//use app\modules\intranet\models\Usuario;
 use app\modules\intranet\models\AuthAssignment;
 use app\modules\intranet\models\UsuarioSearch;
+use app\modules\intranet\models\Funciones;
 
 class PermisosController extends Controller {
   public $defaultAction = 'admin';
@@ -42,30 +43,53 @@ class PermisosController extends Controller {
   }
 
   public function actionAdmin() {
+    if (Yii::$app->user->identity->tienePermiso('intranet_admin-proveedores')) {
+      throw new \yii\web\ForbiddenHttpException('Acceso no permitido.', 403);
+    } else {
+      $searchModel = new UsuarioSearch();
+      $dataProviderUsuarios = $searchModel->search(Yii::$app->request->queryParams);
 
-    $searchModel = new UsuarioSearch();
-    $dataProviderUsuarios = $searchModel->search(Yii::$app->request->queryParams);
-
-    return $this->render('lista-usuarios', [
-      'dataProviderUsuarios' => $dataProviderUsuarios,
-      'searchModel' => $searchModel
-    ]);
+      return $this->render('lista-usuarios', [
+        'dataProviderUsuarios' => $dataProviderUsuarios,
+        'searchModel' => $searchModel
+      ]);
+    }
   }
 
   public function actionUsuario($id) {
     $autAssignment = new AuthAssignment;
     $usuario = Usuario::findByUsername($id);
-    $roles = Yii::$app->authManager->getRolesByUser($id);
+    if (Yii::$app->user->identity->tienePermiso('intranet_permisos_admin')) {
+      $roles = Yii::$app->authManager->getRolesByUser($id);
 
-    if ($autAssignment->load(Yii::$app->request->post()) && $autAssignment->save()) {
-      return $this->redirect(['usuario', 'id' => $id]);
+      if ($autAssignment->load(Yii::$app->request->post()) && $autAssignment->save()) {
+        return $this->redirect(['usuario', 'id' => $id]);
+      }
+
+      return $this->render('permisos-usuario', [
+        'autAssignment' => $autAssignment,
+        'usuario' => $usuario,
+        'roles' => $roles,
+      ]);
     }
 
-    return $this->render('permisos-usuario', [
-      'autAssignment' => $autAssignment,
-      'usuario' => $usuario,
-      'roles' => $roles,
-    ]);
+    if (Yii::$app->user->identity->tienePermiso('intranet_admin-proveedores')) {
+      if ($usuario->nombrePortal != 'proveedores' || !(Funciones::esSubModulo($usuario->nombrePortal, 'proveedores'))) {
+        throw new \yii\web\ForbiddenHttpException('Acceso no permitido.', 403);
+      } else {
+        $roles = Yii::$app->authManager->getRolesByUser($id);
+
+        if ($autAssignment->load(Yii::$app->request->post()) && $autAssignment->save()) {
+          return $this->redirect(['usuario', 'id' => $id]);
+        }
+
+        return $this->render('permisos-usuario', [
+          'autAssignment' => $autAssignment,
+          'usuario' => $usuario,
+          'roles' => $roles,
+        ]);
+      }
+    }
   }
 
   public function actionRenderLista($nombreRol) {

@@ -88,8 +88,8 @@ return [
         ],
         'lrv' => 'http://localhost/lrv/rest',
     	'visitaMedica' => [
-            // 'detallePDV' => 'http://localhost/lrv/rest/producto/simular',
-    		'detallePDV' => 'http://siidesarrollo.copservir.com:8080/WebSaldosVisitaMedica/webresources/service/saldos',
+            'detallePDV' => 'http://localhost/lrv/rest/producto/simular',
+    		// 'detallePDV' => 'http://siidesarrollo.copservir.com:8080/WebSaldosVisitaMedica/webresources/service/saldos',
     	],
         'productos' => [
             'terceros' => 'http://localhost/copservir/productos/sweb/terceros',

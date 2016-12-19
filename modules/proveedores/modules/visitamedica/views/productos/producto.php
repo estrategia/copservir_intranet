@@ -6,7 +6,6 @@
   $this->title = $producto['descripcionProducto'];
   $this->params['breadcrumbs'][] = ['label' => 'Busqueda de productos', 'url' => ['productos/buscar']];
   $this->params['breadcrumbs'][] = $this->title;
-
 ?>
 <?php if($result == 0): ?>
 <div class="alert alert-warning alert-dismissible">
@@ -166,12 +165,12 @@
 </div>
 <?php endif; ?>
 
-
+<?php $marks = json_encode($infoSector); ?>
 <script>
   window.onload = function (){
-    var pdvs = <?php echo json_encode($infoSector); ?>;
+    var pdvs = <?php echo $marks; ?> ;
     pdvs.forEach(function (pdv) {
-      addMark(pdv.coordenadas.latitud, pdv.coordenadas.longitud, pdv.nombrePVD);
+      addMark(pdv.cordenadas.lat, pdv.cordenadas.lon, pdv.nombrePDV);
     });
   };
 </script>

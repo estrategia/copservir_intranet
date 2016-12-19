@@ -56,7 +56,6 @@ use bootstrap\modal;
                 <?php 
                     echo $form->field($model, 'Ciudad')->widget(Select2::classname(), [
                         'data' => $ciudades,
-                        'size' => Select2::SMALL,
                         'options' => ['placeholder' => 'Selecciona una ciudad'],
                         'pluginOptions' => [
                             'allowClear' => true

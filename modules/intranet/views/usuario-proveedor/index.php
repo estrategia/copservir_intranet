@@ -25,48 +25,24 @@ $urlBase = Yii::$app->getUrlManager()->getBaseUrl();
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
+                    'pager' => [
+                      'maxButtonCount' => 5,    // Set maximum number of page buttons that can be displayed
+                    ],
+                    'layout' => "{summary}\n{items}\n<center>{pager}</center>",
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
 
                         'numeroDocumento',
                         'nombre',
                         'primerApellido',
-                        // 'segundoApellido',
                         'email:email',
-                        // 'telefono',
-                        // 'celular',
                         'nitLaboratorio',
                         'nombreLaboratorio',
-                        // 'profesion',
-                        // 'fechaNacimiento',
-                        // 'Ciudad',
-                        // 'Direccion',
-                        // 'idTercero',
-                        // 'idFabricante',
-                        // 'idAgrupacion',
-                        // 'nombreUnidadNegocio',
-                        // 'rol',
                         [
                             'label' => 'Rol',
                             'attribute' => 'rol',
                             'value' => 'rol',
                         ],
-                        // [
-                        //     'attribute' => 'Nit Laboratorio',
-                        //     'value' =>
-                        //         function ($model) {
-                        //             return $model->nitLaboratorio;
-                        //         },
-                        //     'visible' => Yii::$app->user->identity->tienePermiso('intranet_admin-proveedores'),
-                        // ],
-                        // [
-                        //     'attribute' => 'Nombre Laboratorio',
-                        //     'value' =>
-                        //         function ($model) {
-                        //             return $model->nombreLaboratorio;
-                        //         },
-                        //     'visible' => Yii::$app->user->identity->tienePermiso('intranet_admin-proveedores'),
-                        // ],
                         [
                             'attribute' => '',
                             'format' => 'raw',
@@ -81,6 +57,13 @@ $urlBase = Yii::$app->getUrlManager()->getBaseUrl();
                                 return '<a href="'. Yii::$app->getUrlManager()->getBaseUrl() . '/intranet/usuario-proveedor/actualizar?id=' . $model->numeroDocumento .'"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>';
                             },
                         ],
+                        [
+                            'attribute' => '',
+                            'format' => 'raw',
+                            'value' => function ($model) {
+                                return Html::a('Asignar permisos', Yii::$app->getUrlManager()->getBaseUrl() .'/intranet/permisos/usuario?id='. $model->numeroDocumento);
+                            }
+                        ]
                     ],
                 ]); ?>
 

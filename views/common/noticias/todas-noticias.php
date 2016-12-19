@@ -19,7 +19,7 @@ $this->title = 'Todas las noticias';
       <div id="w0-filters" class="filters">
         <?php $form = ActiveForm::begin(); ?>
 
-        <?=
+        <!-- <?=
         $form->field($searchModel, 'fechaInicioPublicacion')->widget(DateTimePicker::classname(), [
           'options' => ['placeholder' => 'busque una noticia por fecha'],
           'pluginOptions' => [
@@ -27,7 +27,7 @@ $this->title = 'Todas las noticias';
             'format' => 'yyyy-mm-dd'
           ]
           ])->label(false);
-          ?>
+        ?> -->
 
         <!--<div class="form-group">
           <?php //Html::submitButton('Buscar', ['class' => 'btn btn-success']) ?>
@@ -47,7 +47,7 @@ $this->title = 'Todas las noticias';
                 'class' => 'list-wrapper',
                 'id' => 'list-wrapper',
               ],
-              'layout' => "{summary}\n{items}\n<div class='col-md-4 col-md-offset-8'>{pager}</div>",
+              // 'layout' => "{summary}\n{items}\n<div class='col-md-4 col-md-offset-8'>{pager}</div>",
               'itemView' => function ($model, $var, $index, $widget) {
                 return $this->render('_plantillaNoticia', ['modelContenido' => $model]);
               },
@@ -55,8 +55,6 @@ $this->title = 'Todas las noticias';
                 'tag' => false,
               ],
               'pager' => [
-                'firstPageLabel' => 'Inicio',
-                'lastPageLabel' => 'Fin',
                 'nextPageLabel' => 'Siguiente',
                 'prevPageLabel' => 'Anterior',
                 'maxButtonCount' => 5,

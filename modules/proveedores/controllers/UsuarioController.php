@@ -67,7 +67,7 @@ class UsuarioController extends Controller
            [
                 'class' => \app\components\TerminosFilter::className(),
                 'except' => [
-                    'autenticar', 'mi-cuenta', 'salir', 'aceptar-terminos'
+                    'autenticar', 'actualizar-mi-cuenta', 'salir', 'aceptar-terminos', 'reestablecer-clave', 'recordar-clave', 'captcha'
                 ],
            ],
         
@@ -117,11 +117,16 @@ class UsuarioController extends Controller
     public function actionAceptarTerminos()
     {
         $usuario = \app\models\Usuario::find()->where(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento])->one();
-        // var_dump($usuario);
-        $usuario->confirmarDatosPersonales = Yii::$app->request->post('confirmarDatosPersonales');
-        // \yii\helpers\VarDumper::dump(Yii::$app->request->post('confirmarDatosPersonales'), 10, true);exit();
-        if ($usuario->save()) {
-            Yii::$app->session->setFlash('success', 'Ha aceptado los términos y condiciones, ahora puede hacer uso de los servicios del portal colaborativo');
+        $datos = Yii::$app->request->post('confirmarDatosPersonales');
+        // var_dump($datos);exit();
+        if (!is_null($datos)) {
+            $usuario->confirmarDatosPersonales = 1;
+            // Yii::$app->session->setFlash('success', 'Ha aceptado los términos y condiciones, ahora puede hacer uso de los servicios del portal colaborativo');
+            if ($usuario->save()) {
+               Yii::$app->session->setFlash('success', 'Ha aceptado los términos y condiciones, ahora puede hacer uso de los servicios del portal colaborativo');
+                return $this->redirect('mi-cuenta');
+            }
+        } else {
             return $this->redirect('mi-cuenta');
         }
     }

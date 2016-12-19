@@ -229,22 +229,4 @@
       } 
     });
   };
-
-  function crearSelectSectores(sectores) {
-    var options = '<select style="width: 100%;" id="sector-selector" onchange="centrarMapaSector()">';
-    options += "<option value=''> Selecciona un sector </option>";
-    for (var i = sectores.length - 1; i >= 0; i--) {
-      sector = sectores[i];
-      options += "<option value="+ sector.codigoSector +" data-latitud-sector="+ sector.latitudGoogle +" data-longitud-sector="+ sector.longitudGoogle +"> " + sectores[i].nombreSector + " </option>";
-    }
-    options += '</select>';
-    return options;
-  }
-
-  function centrarMapaSector() {
-    var latitud = $('#sector-selector').find(':selected').data('latitud-sector');
-    var longitud = $('#sector-selector').find(':selected').data('longitud-sector');
-    map.setCenter(new google.maps.LatLng(parseFloat(latitud), parseFloat(longitud)));
-    map.setZoom(12);
-  }
 </script>

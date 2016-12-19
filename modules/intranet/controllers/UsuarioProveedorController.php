@@ -224,7 +224,11 @@ class UsuarioProveedorController extends Controller
         $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
         $terceros = $this->getTerceros();
         $unidadesNegocio = SIICOP::wsGetUnidadesNegocio(1);
-        $tercerosSelect = ArrayHelper::map($terceros, 'NumeroDocumento', 'Nombre');
+        $tercerosSelect = ArrayHelper::map($terceros, 'NumeroDocumento', 'RazonSocial');
+
+        // VarDumper::dump($terceros, 10, true); echo "<br>";
+        // VarDumper::dump($tercerosSelect, 10, true);
+        // exit();
         $laboratorio = null;
 
         if ($usuarioProveedor->load(Yii::$app->request->post()) && $usuarioProveedor->validate()) {
@@ -309,7 +313,7 @@ class UsuarioProveedorController extends Controller
         $unidadesNegocio = SIICOP::wsGetUnidadesNegocio(1);
         $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
         // array_unshift($unidadesNegocio, '(no definido)');  // $unidadesNegocio
-        $tercerosSelect = ArrayHelper::map($terceros, 'NumeroDocumento', 'Nombre');
+        $tercerosSelect = ArrayHelper::map($terceros, 'NumeroDocumento', 'RazonSocial');
         $laboratorio = null;
 
         if ($usuarioProveedor->load(Yii::$app->request->post())) {

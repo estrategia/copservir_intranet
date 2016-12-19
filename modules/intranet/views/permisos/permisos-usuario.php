@@ -3,25 +3,40 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use kartik\select2\Select2;
+use app\modules\intranet\models\Funciones;
 
+$esIntranet = true;
+
+if ($usuario->nombrePortal == 'proveedores' || Funciones::esSubModulo($usuario->nombrePortal, 'proveedores')) {
+  $esIntranet = false;
+}
 $this->title = 'Roles y permisos de un usuario';
-$this->params['breadcrumbs'][] = ['label' => 'Permisos de usuarios', 'url'=>['/intranet/permisos/admin']];
-$this->params['breadcrumbs'][] = ['label' => 'Administrar permisos'];
+if ($esIntranet) {
+  $this->params['breadcrumbs'][] = ['label' => 'Permisos de usuarios', 'url'=>['/intranet/permisos/admin']];
+  $this->params['breadcrumbs'][] = ['label' => 'Administrar permisos'];
+} else {
+  $this->params['breadcrumbs'][] = ['label' => 'Gestion de usuarios', 'url'=>['/intranet/usuario-proveedor/admin']];
+  $this->params['breadcrumbs'][] = ['label' => 'Administrar permisos'];
+  $this->params['breadcrumbs'][] = ['label' => $usuario->numeroDocumento];
+}
 ?>
-<div class="row">
-<div class="col-md-4">
-  <!--foto usuario -->
-  <img src="<?= Yii::getAlias('@web').'/img/fotosperfil/'. $usuario->getImagenPerfil() ?>" class="img-circle img-responsive" style="width: 20%;"/>
-</div>
-<div class="col-md-8">
-  <h4>
-    <?= Html::encode($usuario->alias) ?>
-  </h4>
-</div>
-</div>
+<?php if ($esIntranet): ?>
+  
+  <div class="row">
+    <div class="col-md-4">
+      <!--foto usuario -->
+      <img src="<?= Yii::getAlias('@web').'/img/fotosperfil/'. $usuario->getImagenPerfil() ?>" class="img-circle img-responsive" style="width: 20%;"/>
+    </div>
+    <div class="col-md-8">
+      <h4>
+        <?= Html::encode($usuario->alias) ?>
+      </h4>
+    </div>
+  </div>
   <br>
   <br>
   <br>
+<?php endif ?>
 <div class="row">
   <div class="col-md-12">
     <h4>asigne un nuevo rol</h4>
@@ -30,7 +45,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Administrar permisos'];
     <div class="col-md-6">
       <?php
         echo $form->field($autAssignment, 'item_name')->widget(Select2::classname(), [
-          'data' => $autAssignment->getListaRoles($usuario->numeroDocumento),
+          'data' => $autAssignment->getListaRoles($usuario->numeroDocumento, $usuario->nombrePortal),
           'options' => ['placeholder' => 'Seleccione un rol', 'onchange' => ' $( "#lista-permisos" ).empty(); getListaPermisos($(this).val())'],
           'pluginEvents' => [
                             ],

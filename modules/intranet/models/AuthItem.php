@@ -78,20 +78,18 @@ class AuthItem extends \yii\db\ActiveRecord {
         return $this->hasMany(AuthItem::className(), ['name' => 'parent'])->viaTable('auth_item_child', ['child' => 'name']);
     }
 
-    public static function consultarPermisos($usuario) {
+    public static function consultarPermisos($usuario, $modulo) {
         $listPermisos = AuthItem::find()
                 ->alias('permiso')
                 ->joinWith(['parents as rol', 'parents.authAssignments as rolasignacion'])
-                ->where("permiso.type=:tipoPermiso AND rolasignacion.user_id=:usuario")
-                ->addParams([':tipoPermiso' => 2, ':usuario' => $usuario])
+                ->where("permiso.type=:tipoPermiso AND rolasignacion.user_id=:usuario AND permiso.visualizacionMenus=1 AND permiso.moduloDestino=:modulo")
+                ->addParams([':tipoPermiso' => 2, ':usuario' => $usuario, ':modulo' => $modulo])
                 ->all();
 
         return $listPermisos;
         //var_dump($listPermisos->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
         //exit();
     }
-
-
 
     public function getListaPermisos() {
       $query = self::find()

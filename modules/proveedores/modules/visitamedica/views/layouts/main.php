@@ -1,10 +1,12 @@
 <?php
 
-use app\assets\VisitaMedicaAsset;
 use nirvana\showloading\ShowLoadingAsset;
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 use yii\helpers\Url;
+use app\assets\VisitaMedicaAsset;
+use app\modules\intranet\models\AuthItem;
+
 
 ShowLoadingAsset::register($this);
 VisitaMedicaAsset::register($this);
@@ -56,8 +58,17 @@ VisitaMedicaAsset::register($this);
                         </div>
                     </div>                                                                        
                 </li>
+
+                <?php $listPermisos =  AuthItem::consultarPermisos(Yii::$app->user->identity->numeroDocumento, Yii::$app->controller->module->id)?>
+                    <?php if(!empty($listPermisos)): ?>
+                      <?php foreach ($listPermisos as $objPermiso): ?>
+                          <li>
+                          <?= Html::a('<i class="glyphicon glyphicon-arrow-right"></i> <span class="title">' . $objPermiso->title . '</span> <span class="selected"></span>', [$objPermiso->url], []) ?>
+                          </li>
+                      <?php endforeach; ?>
+                    <?php endif; ?>
                 
-                <?php if(\Yii::$app->user->identity->tienePermiso('visitaMedica_productos_buscar')):?>
+                <!-- <?php if(\Yii::$app->user->identity->tienePermiso('visitaMedica_productos_buscar')):?>
 	                <li>
 	                    <a href="<?= ($baseUrl . '/proveedores/visitamedica/productos/buscar')?>"><span class="fa fa-search"></span> <span class="xn-text">Consulta Productos</span></a>                        
 	                </li> 
@@ -79,7 +90,7 @@ VisitaMedicaAsset::register($this);
 	                <li>
 	                    <a href="<?= ($baseUrl . '/proveedores/visitamedica/reportes')?>"><span class="fa fa-tags"></span> <span class="xn-text">Registro de Uso</span></a>                        
 	                </li>  
-                <?php endif;?>
+                <?php endif;?> -->
               
                  
                 <!--  
