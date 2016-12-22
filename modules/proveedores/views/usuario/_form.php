@@ -18,12 +18,13 @@ use kartik\select2\Select2;
         <h4>Información Personal</h4>
     </div>
     <div class="row">
-        <div class="col-md-6">
-            <?= $form->field($model, 'numeroDocumento')->textInput(['maxlength' => true]) ?>
-        </div>
+        <?php if ($model->isNewRecord): ?>
+            <div class="col-md-6">
+                <?= $form->field($model, 'numeroDocumento')->textInput(['maxlength' => true]) ?>
+            </div>
+        <?php endif ?>
         <div class="col-md-6">
             <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
-            
         </div>
     </div>
     <div class="row">

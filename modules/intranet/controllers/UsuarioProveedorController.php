@@ -52,10 +52,10 @@ class UsuarioProveedorController extends Controller
                     // 'ver' => 'proveedores_admin',
                     // 'crear' => 'proveedores_admin',
                     // 'actualizar' => 'proveedores_admin',
-                    'admin' => 'intranet_admin-proveedores',
-                    'ver' => 'intranet_admin-proveedores',
-                    'crear' => 'intranet_admin-proveedores',
-                    'actualizar' => 'intranet_admin-proveedores',
+                    'admin' => 'intranet_usuario-proveedor_admin',
+                    'ver' => 'intranet_usuario-proveedor_ver',
+                    'crear' => 'intranet_usuario-proveedor_crear',
+                    'actualizar' => 'intranet_usuario-proveedor_actualizar',
                 ],
            ],
         
@@ -244,7 +244,7 @@ class UsuarioProveedorController extends Controller
             }
             $usuarioProveedor->idTercero = $laboratorio['IdTercero'];
             $usuarioProveedor->idFabricante = $laboratorio['IdFabricante'];
-            $usuarioProveedor->nombreLaboratorio = $laboratorio['Nombre'];
+            $usuarioProveedor->nombreLaboratorio = $laboratorio['RazonSocial'];
             $usuarioProveedor->nitLaboratorio = $laboratorio['NumeroDocumento'];
             // $usuarioProveedor->idAgrupacion = $idAgrupacion;
             // if(array_key_exists($idAgrupacion, $unidadesNegocio)) {
@@ -281,7 +281,7 @@ class UsuarioProveedorController extends Controller
                     'usuario' => $usuarioIntranet->numeroDocumento,
                     'password' => $contrasena,
                 ];
-                $contenidoCorreo = $this->renderPartial('_notificacionRegistro',['infoUsuario' => $infoUsuario, 'laboratorio' => $laboratorio['Nombre'], 'usuarioProveedor' => $usuarioProveedor]);
+                $contenidoCorreo = $this->renderPartial('_notificacionRegistro',['infoUsuario' => $infoUsuario, 'laboratorio' => $laboratorio['RazonSocial'], 'usuarioProveedor' => $usuarioProveedor]);
                 $correoEnviar = $this->renderPartial('/common/correo', ['contenido' => $contenidoCorreo]);
                 $correoEnviado = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
                                         ->setTo($usuarioProveedor->email)->setSubject('Acceso Portal Colaborativo Copservir')
@@ -316,6 +316,7 @@ class UsuarioProveedorController extends Controller
         $tercerosSelect = ArrayHelper::map($terceros, 'NumeroDocumento', 'RazonSocial');
         $laboratorio = null;
 
+        // VarDumper::dump($terceros,10,true); echo "<br>";
         if ($usuarioProveedor->load(Yii::$app->request->post())) {
             $documentoLaboratorio = Yii::$app->request->post()['UsuarioProveedor']['nitLaboratorio'];
             // $idAgrupacion = Yii::$app->request->post()['UsuarioProveedor']['idAgrupacion'];
@@ -325,9 +326,10 @@ class UsuarioProveedorController extends Controller
                     break;
                 }
             }
+            // VarDumper::dump($laboratorio,10,true); echo "<br>";
             $usuarioProveedor->idTercero = $laboratorio['IdTercero'];
             $usuarioProveedor->idFabricante = $laboratorio['IdFabricante'];
-            $usuarioProveedor->nombreLaboratorio = $laboratorio['Nombre'];
+            $usuarioProveedor->nombreLaboratorio = $laboratorio['RazonSocial'];
             $usuarioProveedor->nitLaboratorio = $laboratorio['NumeroDocumento'];
             // $usuarioProveedor->idAgrupacion = $idAgrupacion;
             // if(array_key_exists($idAgrupacion, $unidadesNegocio)) {
@@ -507,13 +509,5 @@ class UsuarioProveedorController extends Controller
         } else {
             return $arr;
         }
-
-        // CVarDumper::dump($arr, 100, true);
-        // print_r($var);
-        // foreach ($arr as $zona) {
-        //     echo $zona['IDZona'] . " - " . $zona['NombreZona'] . " - " . $zona['IDSede'];
-        //     echo "<br>";
-        // }
-        print_r($arr);
     }
 }

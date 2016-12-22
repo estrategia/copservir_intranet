@@ -48,7 +48,7 @@ class UsuarioController extends Controller
             [
                 'class' => \app\components\AuthItemFilter::className(),
                 'only' => [
-                    'index', 'ver', 'crear', 'actualizar'
+                    'admin', 'ver', 'crear', 'actualizar', 'cambiar-foto-perfil'
                 ],
                 'authsActions' => [
                     'admin' => 'proveedores_admin',
@@ -207,7 +207,7 @@ class UsuarioController extends Controller
             }
             $usuarioProveedor->idTercero = $laboratorio['IdTercero'];
             $usuarioProveedor->idFabricante = $laboratorio['IdFabricante'];
-            $usuarioProveedor->nombreLaboratorio = $laboratorio['Nombre'];
+            $usuarioProveedor->nombreLaboratorio = $laboratorio['RazonSocial'];
             $usuarioProveedor->nitLaboratorio = $laboratorio['NumeroDocumento'];
             // $usuarioProveedor->idAgrupacion = $idAgrupacion;
             // if(array_key_exists($idAgrupacion, $unidadesNegocio)) {
@@ -244,7 +244,7 @@ class UsuarioController extends Controller
                     'usuario' => $usuarioIntranet->numeroDocumento,
                     'password' => $contrasena,
                 ];
-                $contenidoCorreo = $this->renderPartial('_notificacionRegistro',['infoUsuario' => $infoUsuario, 'laboratorio' => $laboratorio['Nombre'], 'usuarioProveedor' => $usuarioProveedor]);
+                $contenidoCorreo = $this->renderPartial('_notificacionRegistro',['infoUsuario' => $infoUsuario, 'laboratorio' => $laboratorio['RazonSocial'], 'usuarioProveedor' => $usuarioProveedor]);
                 $correoEnviar = $this->renderPartial('/common/correo', ['contenido' => $contenidoCorreo]);
                 $correoEnviado = yii::$app->mailer->compose()->setFrom(\Yii::$app->params['adminEmail'])
                                         ->setTo($usuarioProveedor->email)->setSubject('Acceso Portal Colaborativo Copservir')
@@ -289,7 +289,7 @@ class UsuarioController extends Controller
             }
             $usuarioProveedor->idTercero = $laboratorio['IdTercero'];
             $usuarioProveedor->idFabricante = $laboratorio['IdFabricante'];
-            $usuarioProveedor->nombreLaboratorio = $laboratorio['Nombre'];
+            $usuarioProveedor->nombreLaboratorio = $laboratorio['RazonSocial'];
             $usuarioProveedor->nitLaboratorio = $laboratorio['NumeroDocumento'];
             // $usuarioProveedor->idAgrupacion = $idAgrupacion;
             // if(array_key_exists($idAgrupacion, $unidadesNegocio)) {
@@ -331,8 +331,9 @@ class UsuarioController extends Controller
     {
         $documento =  Yii::$app->user->identity->numeroDocumento;
         // var_dump($documento);
-        $usuarioVimed = UsuarioProveedor::findOne(['numeroDocumento' => $documento]);
+        $usuarioProveedor = UsuarioProveedor::find()->where(['numeroDocumento' => $documento])->one();
         $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
+        $usuarioProveedor->scenario = 'actualizar-mi-cuenta-proveedores';
 
         $client = new Client();
         $url = Yii::$app->params['webServices']['lrv'] . '/profesion';
@@ -348,17 +349,28 @@ class UsuarioController extends Controller
         $profesiones = ArrayHelper::map($response->data['response'], 'idProfesion', 'nombreProfesion');
 
         // var_dump(Yii::$app->user->identity->numeroDocumento);
-        // var_dump($usuarioVimed);
-        if ($usuarioVimed->load(Yii::$app->request->post())) {
-            $idProfesion = Yii::$app->request->post()['UsuarioProveedor']['idProfesion'];
-            $usuarioVimed->profesion = $profesiones[$idProfesion];
-            $usuarioVimed->idProfesion = $idProfesion;
-            if ($usuarioVimed->save()) {
+        // var_dump($usuarioProveedor);
+        if ($usuarioProveedor->load(Yii::$app->request->post())) {
+            if (isset($usuarioProveedor->confirmarDatosPersonales) && $usuarioProveedor->confirmarDatosPersonales == 1 ) {
+                $usuarioM = \app\models\Usuario::find()->where(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento])->one();
+                $usuarioM->confirmarDatosPersonales = 1;
+                if ($usuarioM->save()) {
+                   Yii::$app->session->setFlash('success', 'Ha aceptado los términos y condiciones, ahora puede hacer uso de los servicios del portal colaborativo');
+                    return $this->redirect('mi-cuenta');
+                }
+            }
+            // var_dump($usuarioProveedor->confirmarDatosPersonales);
+            if (isset(Yii::$app->request->post()['UsuarioProveedor']['idProfesion'])) {
+                $idProfesion = Yii::$app->request->post()['UsuarioProveedor']['idProfesion'];
+                $usuarioProveedor->profesion = $profesiones[$idProfesion];
+                $usuarioProveedor->idProfesion = $idProfesion;
+            }
+            if ($usuarioProveedor->save()) {
                 return $this->redirect('mi-cuenta');
             }
         } else {
             return $this->render('actualizarMiCuenta', [
-                'model' => $usuarioVimed,
+                'model' => $usuarioProveedor,
                 'ciudades' => $ciudades,
                 'profesiones' => $profesiones,
             ]);
@@ -368,7 +380,7 @@ class UsuarioController extends Controller
     public function actionMiCuenta()
     {
         $intranetUser = \app\models\Usuario::findOne(Yii::$app->user->identity->idUsuario);
-        $proveedoresUser = UsuarioProveedor::findOne(['numeroDocumento', $intranetUser->numeroDocumento]);
+        $proveedoresUser = UsuarioProveedor::find()->where(['numeroDocumento' => $intranetUser->numeroDocumento])->one();
         if ($intranetUser->confirmarDatosPersonales == 0) {
             Yii::$app->session->setFlash('error', 'Debe aceptar los términos y condiciones para poder hacer uso de los servicios del portal colaborativo');
         }

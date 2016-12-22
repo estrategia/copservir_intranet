@@ -15,10 +15,14 @@ use kartik\select2\Select2;
 ?>
 
 <div class="row">       
+<div class="col-md-12">
+    
 
         <?php $form = ActiveForm::begin(); ?>
             <div class="row">
-                <?= $form->field($model, 'numeroDocumento')->textInput(['maxlength' => true, 'class' => 'form-control']) ?>
+                <?php if ($model->isNewRecord): ?>
+                    <?= $form->field($model, 'numeroDocumento')->textInput(['maxlength' => true, 'class' => 'form-control']) ?>
+                <?php endif ?>
                 <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="row">
@@ -40,13 +44,13 @@ use kartik\select2\Select2;
                             'data' => $terceros,
                             'options' => ['multiple' => false, 'placeholder' => 'Selecciona laboratorio ...']
                         ]);*/
-                    	echo $form->field($model, 'nitLaboratorio')->widget(Select2::classname(), [
-                    		'data' => $terceros,
-                    		'options' => ['placeholder' => 'Selecciona laboratorio ...'],
-                    		'pluginOptions' => [
-                    				'allowClear' => true
-                    		],
-                    	]);
+                        echo $form->field($model, 'nitLaboratorio')->widget(Select2::classname(), [
+                            'data' => $terceros,
+                            'options' => ['placeholder' => 'Selecciona laboratorio ...'],
+                            'pluginOptions' => [
+                                    'allowClear' => true
+                            ],
+                        ]);
                     ?>
                     <?php //echo $form->field($model, 'nitLaboratorio')->textInput(['maxlength' => true]) ?>
                     <?php
@@ -59,13 +63,13 @@ use kartik\select2\Select2;
                             'data' => $unidadesNegocio,
                             'options' => ['multiple' => false, 'placeholder' => 'Selecciona unidad de negocio ...']
                         ]);*/
-                    	// echo $form->field($model, 'idAgrupacion')->widget(Select2::classname(), [
-                    	// 	'data' => $unidadesNegocio,
-                    	// 	'options' => ['placeholder' => 'Selecciona unidad negocio ...'],
-                    	// 	'pluginOptions' => [
-                    	// 			'allowClear' => true
-                    	// 	],
-                    	// ]);
+                        // echo $form->field($model, 'idAgrupacion')->widget(Select2::classname(), [
+                        //  'data' => $unidadesNegocio,
+                        //  'options' => ['placeholder' => 'Selecciona unidad negocio ...'],
+                        //  'pluginOptions' => [
+                        //          'allowClear' => true
+                        //  ],
+                        // ]);
                     ?>
             </div>
             <br>
@@ -74,4 +78,6 @@ use kartik\select2\Select2;
             </div>
 
         <?php ActiveForm::end(); ?>
+</div>
+
 </div>

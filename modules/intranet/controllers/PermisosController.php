@@ -114,7 +114,8 @@ class PermisosController extends Controller {
   }
 
   protected function findModelAuthAssignment($nombreRol, $numeroDocumento) {
-      if (($model = AuthAssignment::findOne([$nombreRol, $numeroDocumento])) !== null) {
+      $model = AuthAssignment::find()->where(['item_name' => $nombreRol, 'user_id' => $numeroDocumento])->one();
+      if ($model !== null) {
         return $model;
       } else {
         throw new NotFoundHttpException('Rol no asignado a usuario.');

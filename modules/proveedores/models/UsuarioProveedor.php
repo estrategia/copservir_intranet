@@ -25,6 +25,7 @@ use yii\helpers\VarDumper;
  */
 class UsuarioProveedor extends \yii\db\ActiveRecord
 {
+    public $confirmarDatosPersonales;
     /**
      * @inheritdoc
      */
@@ -40,8 +41,10 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
     {
         return [
             [['numeroDocumento', 'nombre', 'primerApellido', 'nitLaboratorio', 'email'], 'required'],
+            [['fechaNacimiento', 'idProfesion', 'Direccion', 'Ciudad'], 'required', 'on' => 'actualizar-mi-cuenta-proveedores'],
             [['numeroDocumento'], 'integer', 'min' => 5, 'max' => 999999999999],
             [['celular'], 'integer', 'min' => 5, 'max' => 9999999999],
+            [['confirmarDatosPersonales'], 'integer', 'min' => 0, 'max' => 1],
             [['fechaNacimiento'], 'safe'],
             [['nombre', 'primerApellido', 'segundoApellido', 'nitLaboratorio', 'Ciudad', 'Direccion'], 'string', 'max' => 45, 'min' => 3],
             [['nombre', 'primerApellido', 'segundoApellido', 'Direccion'], 'filter', 'filter' => 'strtoupper'],
@@ -49,6 +52,12 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
             [['email'], 'string', 'max' => 256],
             [['numeroDocumento'], 'unique'],
         ];
+    }
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        return $scenarios;
     }
 
     /**
@@ -62,16 +71,17 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
             'primerApellido' => 'Primer Apellido',
             'segundoApellido' => 'Segundo Apellido',
             'email' => 'Email',
-            'telefono' => 'Telefono',
+            'telefono' => 'Teléfono',
             'celular' => 'Celular',
-            'nitLaboratorio' => 'Nit Laboratorio',
-            'profesion' => 'Profesion',
-            'fechaNacimiento' => 'Fecha Nacimiento',
+            'nitLaboratorio' => 'NIT del Laboratorio',
+            'profesion' => 'Profesión',
+            'fechaNacimiento' => 'Fecha de Nacimiento',
             'Ciudad' => 'Ciudad',
-            'Direccion' => 'Dirección',
-            'idProfesion' => 'Profesion',
+            'Direccion' => 'Dirección Correspondencia',
+            'idProfesion' => 'Profesión',
             'idAgrupacion' => 'Unidad de Negocio',
             'nombreLaboratorio' => 'Nombre Laboratorio',
+            'confirmarDatosPersonales' => 'Confirmación Política de Privacidad y Uso de Datos.',
         ];
     }
 

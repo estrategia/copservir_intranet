@@ -64,6 +64,17 @@ use bootstrap\modal;
                 ?>
             </div>
         </div>
+        <?php if(Yii::$app->user->identity->confirmarDatosPersonales == 0): ?>
+            <div class="form-header">
+                <h4>Politica de Tratamiento de Datos</h4>
+            </div>
+            <div class="row">
+                <div class="col-md-12" style="display: inline-flex;">
+                    <?= $form->field($model, 'confirmarDatosPersonales')->checkbox() ?>
+                    <a style="margin-left: 5px;" class="pull-left" href=" <?php echo Yii::$app->getUrlManager()->getBaseUrl() . Yii::$app->params['habeasDataLink']; ?> ">Ver términos.</a>
+                </div>
+            </div>
+        <?php endif; ?>
         <br>
         <div class="form-group">
             <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
