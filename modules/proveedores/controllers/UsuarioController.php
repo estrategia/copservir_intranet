@@ -333,7 +333,13 @@ class UsuarioController extends Controller
         // var_dump($documento);
         $usuarioProveedor = UsuarioProveedor::find()->where(['numeroDocumento' => $documento])->one();
         $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
+        $usuarioM = \app\models\Usuario::find()->where(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento])->one();
         $usuarioProveedor->scenario = 'actualizar-mi-cuenta-proveedores';
+        if ($usuarioM->confirmarDatosPersonales == 0) {
+            $usuarioProveedor->scenario = 'actualizar-mi-cuenta-proveedores-terminos';
+        } else {
+            $usuarioProveedor->scenario = 'actualizar-mi-cuenta-proveedores';
+        }
 
         $client = new Client();
         $url = Yii::$app->params['webServices']['lrv'] . '/profesion';
@@ -352,7 +358,6 @@ class UsuarioController extends Controller
         // var_dump($usuarioProveedor);
         if ($usuarioProveedor->load(Yii::$app->request->post())) {
             if (isset($usuarioProveedor->confirmarDatosPersonales) && $usuarioProveedor->confirmarDatosPersonales == 1 ) {
-                $usuarioM = \app\models\Usuario::find()->where(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento])->one();
                 $usuarioM->confirmarDatosPersonales = 1;
                 if ($usuarioM->save()) {
                    Yii::$app->session->setFlash('success', 'Ha aceptado los términos y condiciones, ahora puede hacer uso de los servicios del portal colaborativo');

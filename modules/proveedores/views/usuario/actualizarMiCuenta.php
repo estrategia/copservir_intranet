@@ -28,26 +28,7 @@ $this->params['breadcrumbs'][] = 'Actualizar mi cuenta';
             </strong>
         </div>
     <?php endif; ?>
-
-   <!--  <?php if(Yii::$app->user->identity->confirmarDatosPersonales == 0): ?>
-      <div class="row">
-        <div class="form-header">
-          <h4>Términos y condiciones <small>(Recuerde que para hacer uso del portal colaborativo debe aceptar los términos y condiciones)</small></h4>
-        </div>
-          <form class="text-center" name="terminos" id="terminos" action=" <?= Yii::$app->getUrlManager()->getBaseUrl() . '/proveedores/usuario/aceptar-terminos'?> " method="POST" >
-              <div class="form-group">
-                <label class="pull-left" for="confirmarDatosPersonales">Acepto los términos y condiciones</label>
-                <input type="checkbox" name="confirmarDatosPersonales" id="confirmarDatosPersonales">
-              </div>
-              <input type="hidden" name="_csrf" value="<?=Yii::$app->request->getCsrfToken()?>" />
-              <input type="submit" value="Aceptar términos
-              " class="btn btn-primary pull-right">
-            <a class="pull-left" href=" <?php echo Yii::$app->getUrlManager()->getBaseUrl() . Yii::$app->params['habeasDataLink']; ?> ">Ver términos</a>
-          </form>
-      </div>
-    <?php endif; ?> -->
-
-
+    
     <h1><?= Html::encode($this->title) ?></h1>
     <p>Recuerde actualizar la información personal, información de contacto y la política de tratamiento de datos para acceder a los servicios del Portal Colaborativo de Copservir Ltda.<p>
     <?= $this->render('_formMiCuenta', [
