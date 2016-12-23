@@ -1,6 +1,7 @@
 $.extend(true, $.fn.dataTable.defaults, {
     //"sDom": "<'row'<'col-md-6'l T><'col-md-6'f>r>t<'row'<'col-md-12'p i>>",
     "sPaginationType": "bootstrap",
+    "bAutoWidth": false,
     //searching: false,
     //"aaSorting": [[0, "asc"]],
     ordering:  false,
@@ -131,6 +132,8 @@ $.extend($.fn.dataTableExt.oPagination, {
 
 /* Table initialisation */
 $('table.table.data-table').dataTable({"scrollX": true});
+$('table.table.data-table').css("width","");
+$('div.dataTables_scrollHeadInner').css("width","");
 
 $(document).on('click','div[data-role="data-tables-busqueda"]',function(){
     dataTablesGroupSearch($(this).attr('data-modulo'));
