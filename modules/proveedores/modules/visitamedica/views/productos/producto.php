@@ -9,8 +9,7 @@
 ?>
 <?php if($result == 0): ?>
 <div class="alert alert-warning alert-dismissible">
-  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-  <strong>Error!</strong> No se encontro informacion de este producto en este sector.
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> No se encontro informacion de este producto en este sector.
 </div>
 <?php elseif ($result == 1): ?>
 <div class="row">

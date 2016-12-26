@@ -151,7 +151,7 @@ class UsuarioProveedorController extends Controller
            $laboratorio = Yii::$app->user->identity->objUsuarioProveedor->nitLaboratorio;
         }
 
-        $dataProvider = $searchModel->search($params, $laboratorio, false, \Yii::$app->controller->module->id);
+        $dataProvider = $searchModel->search($params, $laboratorio, true, \Yii::$app->controller->module->id);
 
         // var_dump($dataProvider);
 
