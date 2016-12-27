@@ -87,7 +87,7 @@ class Reportes extends \yii\base\Model
 
       $r = $registroAcceso;
 
-      for ($i= $inicioSemana; $i <= $finSemana ; $i++) { 
+      for ($i= $inicioSemana; $i <= $finSemana ; $i = date('Y-m-d', strtotime($i . ' +1 day'))) { 
         $registroAcceso = $r;
         $registroAcceso['fechaConexion'] = $i;
         
@@ -121,7 +121,7 @@ class Reportes extends \yii\base\Model
 
       $r = $registroAcceso;
 
-      for ($i= $inicioMes; $i <= $finMes ; $i++) { 
+      for ($i= $inicioMes; $i <= $finMes ; $i = date('Y-m-d', strtotime($i . ' +1 day'))) { 
         $registroAcceso = $r;
         $registroAcceso['fechaConexion'] = $i;
         
@@ -204,16 +204,17 @@ class Reportes extends \yii\base\Model
 
       $registroAcceso = [];
       $datosGrafica = [];
-
+      
       for ($j=0; $j < sizeof($registros) ; $j++) { 
           $registroAcceso[$registros[$j]['codigoProducto']] = 0;
       }
 
       $r = $registroAcceso;
 
-      for ($i= $inicioSemana; $i <= $finSemana ; $i++) { 
+      for ($i= $inicioSemana; $i <= $finSemana ; $i = date('Y-m-d', strtotime($i . ' +1 day'))) { 
         $registroAcceso = $r;
         $registroAcceso['fechaConsulta'] = $i;
+      // \yii\helpers\VarDumper::dump($registroAcceso, 10, true);
         
         for ($j=0; $j < sizeof($registros) ; $j++) {
           if (date('Y-m-d', strtotime($registros[$j]['fechaConsulta'])) == $i ) {
@@ -232,7 +233,6 @@ class Reportes extends \yii\base\Model
       } else {
         $fecha = $registros[0]['fechaConsulta'];
       }
-      // VarDumper::dump($registros, 10, true);
       $inicioMes = date( 'Y-m-01', strtotime( $fecha ));
       $finMes = date( 'Y-m-t', strtotime( $fecha ));
 
@@ -245,7 +245,7 @@ class Reportes extends \yii\base\Model
 
       $r = $registroAcceso;
 
-      for ($i= $inicioMes; $i <= $finMes ; $i++) { 
+      for ($i= $inicioMes; $i <= $finMes ; $i = date('Y-m-d', strtotime($i . ' +1 day'))) { 
         $registroAcceso = $r;
         $registroAcceso['fechaConsulta'] = $i;
         

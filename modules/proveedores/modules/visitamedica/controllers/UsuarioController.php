@@ -35,7 +35,7 @@ class UsuarioController extends Controller
             [
                 'class' => \app\components\AuthItemFilter::className(),
                 'only' => [
-                    'admin', 'crear', 'actualizar', 'correo-admin', 'exportar-usuarios', 'mi-cuenta', 'actualizar-mi-cuenta',
+                    'correo-admin',
                 ],
                 'authsActions' => [
                     // 'admin' => 'visitaMedica_usuario_admin',
@@ -43,10 +43,10 @@ class UsuarioController extends Controller
                     // 'crear' => 'visitaMedica_usuario_crear',
                     // 'actualizar' => 'visitaMedica_usuario_admin',
                     'coreo-admin' => 'visitaMedica_usuario_correo-admin',
-                    'exportar-usuarios' => 'visitaMedica_usuario_exportar-usuarios',
+                    // 'exportar-usuarios' => 'visitaMedica_usuario_exportar-usuarios',
                     // 'cambiar-estado' => 'visitaMedica_usuario_admin',
-                	'mi-cuenta' => 'visitaMedica_usuario_mi-cuenta',
-                	'actualizar-mi-cuenta' => 'visitaMedica_usuario_actualizar-mi-cuenta'
+                	// 'mi-cuenta' => 'visitaMedica_usuario_mi-cuenta',
+                	// 'actualizar-mi-cuenta' => 'visitaMedica_usuario_actualizar-mi-cuenta'
                 ],
            ],
         
@@ -193,42 +193,42 @@ class UsuarioController extends Controller
     //     }
     // }
 
-    public function actionActualizarMiCuenta()
-    {
-        $documento =  Yii::$app->user->identity->numeroDocumento;
-        $usuarioVimed = UsuarioProveedor::findOne(['numeroDocumento' => $documento]);
-        $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
+    // public function actionActualizarMiCuenta()
+    // {
+    //     $documento =  Yii::$app->user->identity->numeroDocumento;
+    //     $usuarioVimed = UsuarioProveedor::findOne(['numeroDocumento' => $documento]);
+    //     $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
 
-        $client = new Client();
-        $url = Yii::$app->params['webServices']['lrv'] . '/profesion';
+    //     $client = new Client();
+    //     $url = Yii::$app->params['webServices']['lrv'] . '/profesion';
 
-        $response = $client->createRequest()
-        ->setMethod('get')
-        ->setUrl($url)
-        ->setData([])
-        ->setOptions([
-            'timeout' => 5, // set timeout to 5 seconds for the case server is not responding
-        ])
-        ->send();
-        // var_dump($response->data);
-        $profesiones = ArrayHelper::map($response->data['response'], 'idProfesion', 'nombreProfesion');
-        if ($usuarioVimed->load(Yii::$app->request->post())) {
-            if (!empty(Yii::$app->request->post()['UsuarioProveedor']['idProfesion'])) {
-                $idProfesion = Yii::$app->request->post()['UsuarioProveedor']['idProfesion'];
-                $usuarioVimed->profesion = $profesiones[$idProfesion];
-                $usuarioVimed->idProfesion = $idProfesion;
-            }
-            if ( $usuarioVimed->save()) {
-                return $this->redirect('mi-cuenta');
-            }
-        } else {
-            return $this->render('actualizarMiCuenta', [
-                'model' => $usuarioVimed,
-                'ciudades' => $ciudades,
-                'profesiones' => $profesiones,
-            ]);
-        }
-    }
+    //     $response = $client->createRequest()
+    //     ->setMethod('get')
+    //     ->setUrl($url)
+    //     ->setData([])
+    //     ->setOptions([
+    //         'timeout' => 5, // set timeout to 5 seconds for the case server is not responding
+    //     ])
+    //     ->send();
+    //     // var_dump($response->data);
+    //     $profesiones = ArrayHelper::map($response->data['response'], 'idProfesion', 'nombreProfesion');
+    //     if ($usuarioVimed->load(Yii::$app->request->post())) {
+    //         if (!empty(Yii::$app->request->post()['UsuarioProveedor']['idProfesion'])) {
+    //             $idProfesion = Yii::$app->request->post()['UsuarioProveedor']['idProfesion'];
+    //             $usuarioVimed->profesion = $profesiones[$idProfesion];
+    //             $usuarioVimed->idProfesion = $idProfesion;
+    //         }
+    //         if ( $usuarioVimed->save()) {
+    //             return $this->redirect('mi-cuenta');
+    //         }
+    //     } else {
+    //         return $this->render('actualizarMiCuenta', [
+    //             'model' => $usuarioVimed,
+    //             'ciudades' => $ciudades,
+    //             'profesiones' => $profesiones,
+    //         ]);
+    //     }
+    // }
 
     // public function actionCambiarEstado($id)
     // {
@@ -255,13 +255,13 @@ class UsuarioController extends Controller
      * @return mixed
      */
 
-    public function actionMiCuenta()
-    {
-        // var_dump(Yii::$app->user->identity->tienePermiso("proveedores_admin")); exit();
-        $intranetUser = \app\models\Usuario::findOne(Yii::$app->user->identity->idUsuario);
-        $vimedUser = UsuarioProveedor::findOne(['numeroDocumento', $intranetUser->numeroDocumento]);
-        return $this->render('miCuenta', ['model' => $vimedUser]);
-    }
+    // public function actionMiCuenta()
+    // {
+    //     // var_dump(Yii::$app->user->identity->tienePermiso("proveedores_admin")); exit();
+    //     $intranetUser = \app\models\Usuario::findOne(Yii::$app->user->identity->idUsuario);
+    //     $vimedUser = UsuarioProveedor::findOne(['numeroDocumento', $intranetUser->numeroDocumento]);
+    //     return $this->render('miCuenta', ['model' => $vimedUser]);
+    // }
 
     public function actionAyuda()
     {
@@ -298,69 +298,69 @@ class UsuarioController extends Controller
         // var_dump($usuarioVimed);
     }
 
-    public function actionExportarUsuarios()
-    {
+    // public function actionExportarUsuarios()
+    // {
     	
-    	//VarDumper::dump(\Yii::$app->controller->module->id,10,true);exit();
+    // 	//VarDumper::dump(\Yii::$app->controller->module->id,10,true);exit();
 
-        $searchModel = new UsuarioProveedorSearch();
-        $objPHPExcel = new \PHPExcel();
-        $objPHPExcel->getProperties()->setTitle("Reporte Bonos");
+    //     $searchModel = new UsuarioProveedorSearch();
+    //     $objPHPExcel = new \PHPExcel();
+    //     $objPHPExcel->getProperties()->setTitle("Reporte Bonos");
 
-        $objPHPExcel->setActiveSheetIndex(0);
-        $objPHPExcel->getSheet(0)->setTitle('Bonos');
+    //     $objPHPExcel->setActiveSheetIndex(0);
+    //     $objPHPExcel->getSheet(0)->setTitle('Bonos');
 
-        $objWorksheet = $objPHPExcel->getSheet(0);
-        $objWorksheet->setTitle('Bonos');
+    //     $objWorksheet = $objPHPExcel->getSheet(0);
+    //     $objWorksheet->setTitle('Bonos');
 
-        $col = 0;
-        $objWorksheet->setCellValueByColumnAndRow($col++, 1, '# Documento');
-        $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Nombre');
-        $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Primer Apellido');
-        $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Segundo Apellido');
-        $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Email');
-        $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Laboratorio');
+    //     $col = 0;
+    //     $objWorksheet->setCellValueByColumnAndRow($col++, 1, '# Documento');
+    //     $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Nombre');
+    //     $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Primer Apellido');
+    //     $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Segundo Apellido');
+    //     $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Email');
+    //     $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Laboratorio');
 
-        $params = \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['filtrosUsuario']);
-        $laboratorio = null;
+    //     $params = \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['filtrosUsuario']);
+    //     $laboratorio = null;
         
-        if (Yii::$app->user->identity->objUsuarioProveedor!==null) {
-           $laboratorio = Yii::$app->user->identity->objUsuarioProveedor->nitLaboratorio;
-        }
+    //     if (Yii::$app->user->identity->objUsuarioProveedor!==null) {
+    //        $laboratorio = Yii::$app->user->identity->objUsuarioProveedor->nitLaboratorio;
+    //     }
 
-        $dataProvider = $searchModel->search($params, $laboratorio, false, \Yii::$app->controller->module->id);
+    //     $dataProvider = $searchModel->search($params, $laboratorio, false, \Yii::$app->controller->module->id);
 
-        // var_dump($dataProvider);
+    //     // var_dump($dataProvider);
 
-        // var_dump($dataProvider->getModels());
+    //     // var_dump($dataProvider->getModels());
 
-        foreach ($dataProvider->getModels() as $indice => $usuario ) {
-            $col = 0;
-            $fila = $indice + 2;
-            $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->numeroDocumento );
-            $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->nombre );
-            $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->primerApellido );
-            $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->segundoApellido );
-            $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->email );
-            $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->nitLaboratorio );
-        }
+    //     foreach ($dataProvider->getModels() as $indice => $usuario ) {
+    //         $col = 0;
+    //         $fila = $indice + 2;
+    //         $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->numeroDocumento );
+    //         $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->nombre );
+    //         $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->primerApellido );
+    //         $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->segundoApellido );
+    //         $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->email );
+    //         $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->nitLaboratorio );
+    //     }
 
-        $objPHPExcel->setActiveSheetIndex(0);
+    //     $objPHPExcel->setActiveSheetIndex(0);
 
-        header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="usuarios_vimed_' . date('YmdHis') . '.xls"');
-        header('Cache-Control: max-age=0');
-        // If you're serving to IE 9, then the following may be needed
-        header('Cache-Control: max-age=1');
-        // If you're serving to IE over SSL, then the following may be needed
-        //header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
-        header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
-        header('Pragma: public'); // HTTP/1.0
+    //     header('Content-Type: application/vnd.ms-excel');
+    //     header('Content-Disposition: attachment;filename="usuarios_vimed_' . date('YmdHis') . '.xls"');
+    //     header('Cache-Control: max-age=0');
+    //     // If you're serving to IE 9, then the following may be needed
+    //     header('Cache-Control: max-age=1');
+    //     // If you're serving to IE over SSL, then the following may be needed
+    //     //header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+    //     header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+    //     header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+    //     header('Pragma: public'); // HTTP/1.0
 
-        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-        $objWriter->save('php://output');
-    }
+    //     $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+    //     $objWriter->save('php://output');
+    // }
 
     /**
      * Finds the Usuario model based on its primary key value.

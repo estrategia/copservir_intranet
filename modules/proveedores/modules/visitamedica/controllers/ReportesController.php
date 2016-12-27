@@ -38,6 +38,11 @@ class ReportesController extends Controller
         ];
   }
 
+  // public function actionPrueba()
+  // {
+  //   Yii::$app->user->identity->tienePermiso()
+  // }
+
   public function actionIndex()
   {
     return $this->render('reportes');
@@ -45,6 +50,7 @@ class ReportesController extends Controller
 
   public function actionProducto()
   {
+    // ini_set('memory_limit','-1');
     $modelo = new Reportes();
     if (isset($_GET['tiempo'])) {
       $tiempo = $_GET['tiempo'];

@@ -52,10 +52,6 @@ VisitaMedicaAsset::register($this);
                             </div>
                             <div class="profile-data-title"></div>
                         </div>
-                        <div class="profile-controls">
-                            <a href="<?= ($baseUrl . '/proveedores/visitamedica/usuario/mi-cuenta')?>" class="profile-control-left"><span class="fa fa-info"></span></a>
-                            <a href=" <?= ($baseUrl . '/proveedores/visitamedica/usuario/correo-admin') ?> " class="profile-control-right"><span class="fa fa-envelope"></span></a>
-                        </div>
                     </div>                                                                        
                 </li>
 
