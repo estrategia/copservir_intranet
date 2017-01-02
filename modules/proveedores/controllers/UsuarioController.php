@@ -353,15 +353,17 @@ class UsuarioController extends Controller
         ])
         ->send();
         $profesiones = ArrayHelper::map($response->data['response'], 'idProfesion', 'nombreProfesion');
-
+        
         // var_dump(Yii::$app->user->identity->numeroDocumento);
         // var_dump($usuarioProveedor);
         if ($usuarioProveedor->load(Yii::$app->request->post())) {
+            // VarDumper::dump(Yii::$app->request->post(),10,true);
+            // VarDumper::dump($usuarioProveedor,10,true);exit();
             if (isset($usuarioProveedor->confirmarDatosPersonales) && $usuarioProveedor->confirmarDatosPersonales == 1 ) {
                 $usuarioM->confirmarDatosPersonales = 1;
                 if ($usuarioM->save()) {
                    Yii::$app->session->setFlash('success', 'Ha aceptado los términos y condiciones, ahora puede hacer uso de los servicios del portal colaborativo');
-                    return $this->redirect('mi-cuenta');
+                    // return $this->redirect('mi-cuenta');
                 }
             }
             // var_dump($usuarioProveedor->confirmarDatosPersonales);

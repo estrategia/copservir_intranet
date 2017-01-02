@@ -61,7 +61,7 @@ $urlBase = Yii::$app->getUrlManager()->getBaseUrl();
                             'attribute' => '',
                             'format' => 'raw',
                             'value' => function ($model) {
-                                return Html::a('Asignar permisos', Yii::$app->getUrlManager()->getBaseUrl() .'/intranet/permisos/usuario?id='. $model->numeroDocumento);
+                                return Html::a('Asignar permisos', Yii::$app->getUrlManager()->getBaseUrl() .'/intranet/permisos/usuario?id='. $model->numeroDocumento, ['class' => 'btn btn-primary']);
                             }
                         ]
                     ],

@@ -52,6 +52,7 @@ class UsuarioProveedorSearch extends UsuarioProveedor
 
         $usuarioLogueado = Yii::$app->user->identity;
         $query->leftJoin('auth_assignment', 'auth_assignment.user_id = numeroDocumento');
+        $query->distinct();
         if ($usuarioLogueado->tienePermiso('intranet_admin-proveedores')) {
             // $query->andWhere("auth_assignment.item_name='proveedores_admin'");
             // var_dump($this->rol);exit();
