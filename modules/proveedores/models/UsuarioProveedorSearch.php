@@ -63,6 +63,7 @@ class UsuarioProveedorSearch extends UsuarioProveedor
         if ($usuarioLogueado->tienePermiso('proveedores_admin')) {
             $query->andWhere("auth_assignment.item_name!='proveedores_admin'");
             $query->andWhere("nitLaboratorio='{$nitLaboratorio}'");
+            $query->andWhere("numeroDocumento!='{$usuarioLogueado->numeroDocumento}'");
         }
 
         // grid filtering conditions
