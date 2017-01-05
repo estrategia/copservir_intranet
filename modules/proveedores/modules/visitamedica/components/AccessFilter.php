@@ -16,8 +16,6 @@ class AccessFilter extends ActionFilter {
         $ciudad = \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['ciudad']);
         $url = Yii::$app->getUrlManager()->getBaseUrl() . '/proveedores/visitamedica/ubicacion';
         if(is_null($ciudad)){
-            // return $this->redirect('/proveedores/visitamedica/ubicacion');
-            // return Yii::$app->response->redirect(Url::to(['/proveedores/visitamedica/ubicacion']));
             Yii::$app->getResponse()->redirect($url)->send();
         }
 

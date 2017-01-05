@@ -10,6 +10,7 @@
   use yii\helpers\VarDumper;
   use app\modules\proveedores\modules\visitamedica\models\RegistroAccesoDetalleProducto;
   use app\modules\proveedores\models\UsuarioProveedor;
+
   /**
   * 
   */
@@ -33,10 +34,13 @@
     							'producto' => 'visitaMedica_productos_buscar',
     					],
     			],
-    			[
-    					'class' => \app\modules\proveedores\modules\visitamedica\components\AccessFilter::className(),
-    					'only' => ['buscar', 'producto'],
-    			],
+          [
+              'class' => \app\modules\proveedores\modules\visitamedica\components\AccessFilter::className(),
+              'only' => ['buscar', 'producto'],
+          ],
+          [
+              'class' => \app\components\TerminosFilter::className(),
+          ],
     	];
     }
 

@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = 'Actualizar mi cuenta';
     <?php endif; ?>
     
     <h1><?= Html::encode($this->title) ?></h1>
-    <p>Recuerde actualizar la información personal, información de contacto y la política de tratamiento de datos para acceder a los servicios del Portal Colaborativo de Copservir Ltda.<p>
+    <p>Recuerde actualizar su <strong>información personal, información de contacto y confirma que acepta la política de tratamiento de datos</strong> para acceder a los servicios del Portal Colaborativo de Copservir Ltda.<p>
     <?= $this->render('_formMiCuenta', [
         'model' => $model,
         'ciudades' => $ciudades,

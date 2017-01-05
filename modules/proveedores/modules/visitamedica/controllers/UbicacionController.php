@@ -7,6 +7,7 @@ use yii\httpclient\Client;
 use yii\web\Session;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\components\TerminosFilter;
 
 
 /**
@@ -18,19 +19,22 @@ class UbicacionController extends Controller
   public function behaviors()
   {
     return [
-    		[
-                'class' => \app\components\AccessFilter::className(),
-                'redirectUri' => ['/proveedores/visitamedica']
-            ],
-    		[
-	    		'class' => \app\components\AuthItemFilter::className(),
-	    		'only' => [
-	    			'index',
-	    		],
-	    		'authsActions' => [
-	    			'index' => 'visitaMedica_productos_buscar',
-	    		],
+  		  [
+            'class' => \app\components\AccessFilter::className(),
+            'redirectUri' => ['/proveedores/visitamedica']
+        ],
+  		  [
+	    		 'class' => \app\components\AuthItemFilter::className(),
+	    		 'only' => [
+    			    'index',
+        		],
+                'authsActions' => [
+        			  'index' => 'visitaMedica_productos_buscar',
+        		],
     		],
+        [
+            'class' => \app\components\TerminosFilter::className(),
+        ],
     ];
   }
 

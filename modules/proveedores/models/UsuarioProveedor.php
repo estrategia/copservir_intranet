@@ -41,10 +41,11 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
     {
         return [
             [['numeroDocumento', 'nombre', 'primerApellido', 'nitLaboratorio', 'email'], 'required'],
-            [['fechaNacimiento', 'idProfesion', 'Direccion', 'Ciudad'], 'required', 'on' => ['actualizar-mi-cuenta-proveedores', 'actualizar-mi-cuenta-proveedores-terminos']],
+            [['fechaNacimiento', 'idProfesion', 'Direccion', 'Ciudad', 'telefono', 'celular'], 'required', 'on' => ['actualizar-mi-cuenta-proveedores', 'actualizar-mi-cuenta-proveedores-terminos']],
             [['confirmarDatosPersonales'], 'required', 'on' => 'actualizar-mi-cuenta-proveedores-terminos', 'requiredValue' => 1, 'message' => 'Debe aceptar la política de tratamiento de datos.'],
             [['numeroDocumento'], 'integer', 'min' => 5, 'max' => 999999999999],
-            [['celular'], 'integer', 'min' => 5, 'max' => 9999999999],
+            [['telefono'], 'integer', 'min' => 5, 'max' => 9999999999],
+			[['celular'], 'integer', 'min' => 5, 'max' => 9999999999],
             // [['confirmarDatosPersonales'], 'integer', 'min' => 0, 'max' => 1],
             [['fechaNacimiento'], 'safe'],
             [['nombre', 'primerApellido', 'segundoApellido', 'nitLaboratorio', 'Ciudad', 'Direccion'], 'string', 'max' => 45, 'min' => 3],
@@ -72,7 +73,7 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
             'primerApellido' => 'Primer Apellido',
             'segundoApellido' => 'Segundo Apellido',
             'email' => 'Email',
-            'telefono' => 'Teléfono',
+            'telefono' => 'Teléfono Fijo',
             'celular' => 'Celular',
             'nitLaboratorio' => 'NIT del Laboratorio',
             'profesion' => 'Profesión',

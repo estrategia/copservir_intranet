@@ -14,6 +14,7 @@ use yii\httpclient\Client;
 use app\modules\intranet\models\Funciones;
 use app\modules\intranet\models\Ciudad;
 use app\models\Usuario;
+use app\components\TerminosFilter;
 use yii\helpers\VarDumper;
 
 /**

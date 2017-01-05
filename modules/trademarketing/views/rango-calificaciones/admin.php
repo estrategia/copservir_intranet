@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'TradeMarketing-Rango
     <?= $this->render('/common/errores', []) ?>
 
     <p>
-        <?= Html::a('Crea un rango de calificaciones', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crea un rango de calificaciones', ['crear'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

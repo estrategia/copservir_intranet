@@ -17,7 +17,7 @@ use bootstrap\modal;
 
     <?php $form = ActiveForm::begin(); ?>
         <div class="form-header">
-            <h4>Informacion personal</h4>
+            <h4>Información Personal</h4>
         </div>
         <div class="row">
             <div class="col-md-6">
@@ -45,7 +45,7 @@ use bootstrap\modal;
             </div>
         </div>
         <div class="form-header">
-            <h4>Informacion de contacto</h4>
+            <h4>Información de Contacto</h4>
         </div>
         <div class="row">
             <div class="col-md-6">
@@ -63,10 +63,16 @@ use bootstrap\modal;
                     ]);
                 ?>
             </div>
+            <div class="col-md-6">
+				<?= $form->field($model, 'telefono')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="col-md-6">
+				<?= $form->field($model, 'celular')->textInput(['maxlength' => true]) ?>
+            </div>				
         </div>
         <?php if(Yii::$app->user->identity->confirmarDatosPersonales == 0): ?>
             <div class="form-header">
-                <h4>Politica de Tratamiento de Datos</h4>
+                <h4>Política de Tratamiento de Datos</h4>
             </div>
             <div class="row">
                 <div class="col-md-12" style="display: inline-flex;">

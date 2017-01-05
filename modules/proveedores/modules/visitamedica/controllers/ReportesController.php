@@ -9,6 +9,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\proveedores\modules\visitamedica\models\Reportes;
 use yii\helpers\VarDumper;
+use app\components\TerminosFilter;
+
 
 
 /**
@@ -35,6 +37,9 @@ class ReportesController extends Controller
                     'producto' => 'visitaMedica_reportes_producto',
                 ],
            ],
+           [
+              'class' => \app\components\TerminosFilter::className(),
+            ],
         ];
   }
 
