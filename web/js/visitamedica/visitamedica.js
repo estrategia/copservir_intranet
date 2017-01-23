@@ -39,3 +39,18 @@ function centrarMapaSector() {
   map.setCenter(new google.maps.LatLng(parseFloat(latitud), parseFloat(longitud)));
   map.setZoom(12);
 }
+$(document).ready(function () {
+  $('#busqueda-results').dataTable({
+    searching: false,
+    info: true,
+    lengthChange: true,
+    language: {
+      lengthMenu: "Mostrando _MENU_ elementos",
+      info: "Mostrando _START_ a _END_ de _TOTAL_ elementos",
+      paginate : {
+        previous: "Anterior",
+        next : "Siguiente"
+      }
+    }
+  });
+});

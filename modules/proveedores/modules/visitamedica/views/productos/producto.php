@@ -9,7 +9,13 @@
 ?>
 <?php if($result == 0): ?>
 <div class="alert alert-warning alert-dismissible">
-  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> No se encontro informacion de este producto en este sector.
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> 
+  El producto seleccionado, no se encontro en el sector 
+  <?php if (\Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreCiudad'])): ?> 
+    <?= \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreCiudad']); ?>
+    -
+    <?= \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreSector']); ?>
+  <?php endif ?>, por favor comuniquese con la persona encargada de su laboratorio que atiende la cuenta de Copservir Ltda. para la revisión de inventarios y maximos y minimos.
 </div>
 <?php elseif ($result == 1): ?>
 <div class="row">
@@ -34,7 +40,7 @@
                     <?php echo $pdv['direccionPDV'] ?> <br>
                     <?php echo $pdv['nombreCiudad'] ?> <br>
                     <?php echo $pdv['nombreBarrio'] ?> <br>
-                    <abbr title="Phone"> P: </abbr> <?php echo $pdv['telefono'] ?> <br>
+                    Teléfono: <?php echo $pdv['telefono'] ?> <br>
                   </addres>
                 </div>
                 <div class="col-md-6 col-xs-6">
@@ -65,28 +71,34 @@
       <div class="panel-body panel-body-map">
         <div class="row">
           <div class="col-md-6 col-sm-12 col-xs-12 galeria-producto">
-            <?php if (sizeof($producto['imagenesProducto']) == 1): ?>
-              <img src=" <?php echo $producto['imagenesProducto'][0]['rutaImagen'] ?> " alt=" <?php echo $producto['imagenesProducto'][0]['rutaImagen'] ?> " class="img-responsive" title="<?php echo $producto['imagenesProducto'][0]['tituloImagen'] ?>">
+            <?php if (sizeof($producto['imagenesProducto']) == 0): ?>
+              <div class="col-md-6 col-md-offset-4">
+                <img class="img-responsive" src=" <?php echo Yii::$app->getUrlManager()->getBaseUrl() . '/img/multiportal/proveedores/no-image.png' ?> " alt="">
+              </div>
             <?php else: ?>
-              <div id="gallery" class="ad-gallery">
-                <div class="ad-image-wrapper">
-                </div>
-                <div class="ad-controls">
-                </div>
-                <div class="ad-nav">
-                  <div class="ad-thumbs">
-                    <ul class="ad-thumb-list">
-                      <?php foreach ($producto['imagenesProducto'] as $imagen): ?>
-                        <li>
-                          <a href=" <?php echo $imagen['rutaImagen'] ?> ">
-                            <img class="ad-thumb width-thumb-owl product-prom"src="<?php echo $imagen['rutaImagen'] ?>" alt="<?php echo $imagen['nombreImagen'] ?>" title="<?php echo $imagen['tituloImagen'] ?>">
-                          </a>
-                        </li>
-                      <?php endforeach; ?>
-                    </ul>
+              <?php if (sizeof($producto['imagenesProducto']) == 1): ?>
+                <img src=" <?php echo $producto['imagenesProducto'][0]['rutaImagen'] ?> " alt=" <?php echo $producto['imagenesProducto'][0]['rutaImagen'] ?> " class="img-responsive" title="<?php echo $producto['imagenesProducto'][0]['tituloImagen'] ?>">
+              <?php else: ?>
+                <div id="gallery" class="ad-gallery">
+                  <div class="ad-image-wrapper">
+                  </div>
+                  <div class="ad-controls">
+                  </div>
+                  <div class="ad-nav">
+                    <div class="ad-thumbs">
+                      <ul class="ad-thumb-list">
+                        <?php foreach ($producto['imagenesProducto'] as $imagen): ?>
+                          <li>
+                            <a href=" <?php echo $imagen['rutaImagen'] ?> ">
+                              <img class="ad-thumb width-thumb-owl product-prom"src="<?php echo $imagen['rutaImagen'] ?>" alt="<?php echo $imagen['nombreImagen'] ?>" title="<?php echo $imagen['tituloImagen'] ?>">
+                            </a>
+                          </li>
+                        <?php endforeach; ?>
+                      </ul>
+                    </div>
                   </div>
                 </div>
-              </div>
+              <?php endif ?>
             <?php endif ?>
           </div>
 
@@ -112,13 +124,13 @@
                   <br>
                   <br>
                   <br>
-                  <h5 class="presentacion-unitario"> <?php echo $producto['presentacionProducto']; ?> </h5>
+                  <h5 class="presentacion-unitario"> <?php echo Yii::$app->formatter->asDecimal($producto['presentacionProducto'], 3); ?> </h5>
                   <hr>
-                  <h4 class="precio-base"> $ <?php echo $producto['precioUnidad']['precioBase'] ?> </h4>
+                  <h4 class="precio-base"> $ <?php echo Yii::$app->formatter->asDecimal($producto['precioUnidad']['precioBase'],3); ?> </h4>
                   <hr>
-                  <h5 class="ahorro"> Ahorro: $ <?php echo $producto['precioUnidad']['ahorro']; ?> </h5>
+                  <h5 class="ahorro"> Ahorro: $ <?php echo Yii::$app->formatter->asDecimal($producto['precioUnidad']['ahorro'],3); ?> </h5>
                   <hr>
-                  <h4 class="precio-real"> $ <?php echo $producto['precioUnidad']['precioReal']; ?> </h4>
+                  <h4 class="precio-real"> $ <?php echo Yii::$app->formatter->asDecimal($producto['precioUnidad']['precioReal'],3); ?> </h4>
                   <hr>
                 </div>
                 <div class="col-md-6 col-sm-6 info-fraccionado">
@@ -130,11 +142,11 @@
                     <?php echo $producto['fraccion']['unidadFraccionamiento']; ?> 
                   </h5>
                   <hr>
-                  <h4 class="precio-base"> $ <?php echo $producto['precioFraccion']['precioBase']; ?> </h4>
+                  <h4 class="precio-base"> $ <?php echo Yii::$app->formatter->asDecimal($producto['precioFraccion']['precioBase'],3); ?> </h4>
                   <hr>
-                  <h5 class="ahorro"> Ahorro: $ <?php echo $producto['precioFraccion']['ahorro']; ?> </h5>
+                  <h5 class="ahorro"> Ahorro: $ <?php echo Yii::$app->formatter->asDecimal($producto['precioFraccion']['ahorro'],3); ?> </h5>
                   <hr>
-                  <h4 class="precio-real"> $ <?php echo $producto['precioFraccion']['precioReal']; ?> </h4>
+                  <h4 class="precio-real"> $ <?php echo Yii::$app->formatter->asDecimal($producto['precioFraccion']['precioReal'],3); ?> </h4>
                   <hr>
                 </div>
               <?php else : ?>
@@ -143,8 +155,8 @@
                     <tbody>
                       <tr>
                         <td valign="middle">
-                          <p class="antes"> Antes: <span class="tachado"> $ <?php echo $producto['precioUnidad']['precioBase'] ?></span></p>
-                          <p class="ahorro"> Ahorro: $ <?php echo $producto['precioUnidad']['ahorro']; ?> </p>
+                          <p class="antes"> Antes: <span class="tachado"> $ <?php echo Yii::$app->formatter->asDecimal($producto['precioUnidad']['precioBase'], 3); ?></span></p>
+                          <p class="ahorro"> Ahorro: $ <?php echo Yii::$app->formatter->asDecimal($producto['precioUnidad']['ahorro'], 3); ?> </p>
                         </td>
                         <td>
                           <h4 class="ahora"> $ <?php echo $producto['precioUnidad']['precioReal']; ?> </h4>
@@ -155,6 +167,7 @@
                   <hr>
                 </div>
               <?php endif; ?>
+              <p class="precio base" align="justify">Nota: El precio indicado a continuación hace referencia a los precios de <a href="larebajavirtual.com" style="color: red">www.larebajavirtual.com</a>, y puede variar con relación al del sector con el que se este haciendo la busqueda.</p>
             </div>
           </div>
         </div>

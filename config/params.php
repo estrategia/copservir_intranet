@@ -86,7 +86,9 @@ return [
           'puntosVenta' => 'http://localhost/copservir/puntoventa/sweb/puntoventa',
           'unidades' => 'http://localhost/copservir/trademarketing/wsTradeMarketing/unidades'
         ],
+        // 'lrv' => 'http://192.168.1.24/lrv/rest',
         'lrv' => 'http://localhost/lrv/rest',
+
     	'visitaMedica' => [
             // 'detallePDV' => 'http://localhost/lrv/rest/producto/simular',
     		'detallePDV' => 'http://siidesarrollo.copservir.com:8080/WebSaldosVisitaMedica/webresources/service/saldos',

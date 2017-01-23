@@ -30,13 +30,12 @@
         <div class="row">
           <?php if (isset($productos)): ?>
             <div class="table-responsive">
-              <table class="table table-bordered datatable">
+              <table class="table table-bordered" id="busqueda-results">
                 <thead>
                   <tr class="tableizer-firstrow">
                     <th>Codigo</th>
                     <th>Producto</th>
                     <th>Presentacion</th>
-                    <th>Categoria</th>
                     <th>Mapa</th>
                   </tr>
                 </thead>
@@ -52,9 +51,6 @@
                       <td>
                         <?php echo $producto['presentacionProducto'] ?>
                       </td>       
-                      <td>
-                        <?php echo $producto['descripcionProducto'] ?>
-                      </td> 
                       <td>
                         <a href=" <?php echo (Yii::$app->getUrlManager()->getBaseUrl() . '/proveedores/visitamedica/productos/producto/' . $producto['codigoProducto']); ?> ">
                           <i class="glyphicon glyphicon-map-marker"></i>

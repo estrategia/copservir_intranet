@@ -37,10 +37,10 @@
     public function attributeLabels()
     {
       return [
-        'username' => 'Cédula',
+        'username' => 'Usuario',
         'captcha' => 'Captcha',
         'password' => 'Contraseña',
-        'password2' => 'Confirmar contraseña',
+        'password2' => 'Confirmar Contraseña',
       ];
     }
 

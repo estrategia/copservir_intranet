@@ -140,9 +140,9 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
                <div class="contenedor-redes">
                     <strong style="color:#fff;">Nuestras</strong>
                     <p>Redes sociales</p> 
-                    <p><i class="fa fa-facebook-official"></i> copservir</p>
-                    <p><i class="fa fa-twitter"></i> @copservir</p>
-                    <p><i class="fa fa-youtube-play"></i> copservirltda</p>
+                    <p><i class="fa fa-facebook-official"></i> <a href="https://www.facebook.com/LaRebaja" target="_blank">la rebaja</a></p>
+                    <p><i class="fa fa-twitter"></i> <a href="https://twitter.com/larebaja" target="_blank">@larebaja</a></p>
+                    <p><i class="fa fa-youtube-play"></i> <a href="https://www.youtube.com/channel/UCOwMFeZofUf1a17f2hkmamA" target="_blank">la rebaja</a></p>
                </div>
             </div>
           </div>

@@ -13,7 +13,7 @@ use yii\helpers\Html;
 <p><?= $enlace ?></p>
 
 <p>
-    Ten en cuenta que este vínculo solo estará activo durante <?= \Yii::$app->params['usuario']['tiempoRecuperarClave']*24 ?> horas desde el momento de su creación.
-    Una vez que este límite de tiempo finalice, el enlace caducará y deberás volver a enviar la solicitud de cambio de contraseña desde el
+    Este vínculo solo estará activo durante <?= \Yii::$app->params['usuario']['tiempoRecuperarClave']*24 ?> horas desde el momento de su creación.
+    Una vez este límite de tiempo finalice, el enlace caducará y deberá volver a enviar la solicitud de recuperación de contraseña desde 
     <?= Html::a('Portal colaborativo', yii::$app->urlManager->createAbsoluteUrl('proveedores/usuario/autenticar'), array('target' => '_blank', 'style' => "font-size:13px; color:#BDBDBD"));?>.
 </p>

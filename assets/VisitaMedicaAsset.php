@@ -84,6 +84,7 @@ class VisitaMedicaAsset extends AssetBundle {
         // 'libs/visita-medica/js/plugins/nvd3/lib/d3.v3.js',
         // 'libs/visita-medica/js/plugins/nvd3/nv.d3.min.js',
         // 'libs/visita-medica/js/demo_charts_nvd3.js',
+        'libs/jquery-datatable/js/jquery.dataTables.min.js',
         'libs/visita-medica/js/plugins/moment.min.js',
         'libs/visita-medica/js/plugins/daterangepicker/daterangepicker.js',
         'libs/visita-medica/js/plugins/datatables/jquery.dataTables.min.js',

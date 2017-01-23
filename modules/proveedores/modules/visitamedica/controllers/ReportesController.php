@@ -2,6 +2,7 @@
 
 namespace app\modules\proveedores\modules\visitamedica\controllers;
 
+use Yii;
 use yii\web\Controller;
 use yii\httpclient\Client;
 use yii\web\Session;
@@ -10,7 +11,6 @@ use yii\filters\VerbFilter;
 use app\modules\proveedores\modules\visitamedica\models\Reportes;
 use yii\helpers\VarDumper;
 use app\components\TerminosFilter;
-
 
 
 /**
@@ -59,8 +59,10 @@ class ReportesController extends Controller
     $modelo = new Reportes();
     if (isset($_GET['tiempo'])) {
       $tiempo = $_GET['tiempo'];
+      $usuarioProveedor = \app\modules\proveedores\models\UsuarioProveedor::find()->where(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento])->one();
+      $nitLaboratorio = $usuarioProveedor->nitLaboratorio;
       $datosGrafica = [];
-      $registros = $modelo->getRegistrosConsultaProductos($tiempo);
+      $registros = $modelo->getRegistrosConsultaProductos($tiempo, $nitLaboratorio);
 
       if ($tiempo == 'hoy' || $tiempo == 'ayer') {
         $datosGrafica = $modelo->productosDia($registros);
@@ -69,9 +71,11 @@ class ReportesController extends Controller
       if ($tiempo == 'semana' || $tiempo == 'semana-anterior') {
         $datosGrafica = $modelo->productosSemana($registros);
       }
+
       if ($tiempo == 'mes' || $tiempo == 'mes-anterior') {
         $datosGrafica = $modelo->productosMes($registros);
       }
+
       return $this->render('_reporteProducto', ['registros' => $registros, 'datosGrafica' => $datosGrafica, 'tiempo' => $tiempo]);
     }
   }
@@ -81,20 +85,23 @@ class ReportesController extends Controller
     $modelo = new Reportes();
     if (isset($_GET['tiempo'])) {
       $tiempo = $_GET['tiempo'];
+      $usuarioProveedor = \app\modules\proveedores\models\UsuarioProveedor::find()->where(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento])->one();
+      $nitLaboratorio = $usuarioProveedor->nitLaboratorio;
       $datosGrafica = [];
-      $registros = $modelo->getRegistrosAcceso($tiempo);
+      $registros = $modelo->getRegistrosAcceso($tiempo, $nitLaboratorio);
 
       if ($tiempo == 'hoy' || $tiempo == 'ayer') {
         $datosGrafica = $modelo->accesosDia($registros);
       }
-
       if ($tiempo == 'semana' || $tiempo == 'semana-anterior') {
         $datosGrafica = $modelo->accesosSemana($registros);
       }
       if ($tiempo == 'mes' || $tiempo == 'mes-anterior') {
         $datosGrafica = $modelo->accesosMes($registros);
       }
-      return $this->render('_reporteAcceso', ['registros' => $registros, 'datosGrafica' => $datosGrafica, 'tiempo' => $tiempo]);
+
+      $resumen = $modelo->getResumenAcceso($registros);
+      return $this->render('_reporteAcceso', ['registros' => $registros, 'datosGrafica' => $datosGrafica, 'tiempo' => $tiempo, 'resumen' => $resumen]);
     }
   }
 }

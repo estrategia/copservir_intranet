@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 
-$this->title = 'Proveedores';
+$this->title = 'Portal Colaborativo Copservir Ltda.';
 
 // Rutas imagenes
 $srcSlide = Yii::$app->homeUrl . 'img/multiportal/proveedores/';

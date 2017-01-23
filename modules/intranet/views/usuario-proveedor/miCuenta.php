@@ -36,7 +36,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         'nitLaboratorio',
                         'profesion',
                         'fechaNacimiento',
-                        'Ciudad',
+                        [
+                            'attribute' => 'Ciudad',
+                            'format' => 'raw',
+                            'value' => (isset($model->objCiudad) ? $model->objCiudad->nombreCiudad : null),
+                        ],
                         'Direccion',
                     ],
                 ]) ?>
