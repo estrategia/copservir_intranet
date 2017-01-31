@@ -38,11 +38,11 @@ VisitaMedicaAsset::register($this);
                     <?php if (\Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreCiudad'])): ?>
                       
                       <?= \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreCiudad']); ?>
-                      -
-                      <?= \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreSector']); ?>
-                      (Cambiar ubicacion)
+                      
+                      <!-- <?= \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreSector']); ?>  -->
+                      [Cambiar ubicacion]
                     <?php else: ?>
-                      (Seleccionar ubicacion)
+                      Selecciona una Ubicación y Sector en el Mapa
                     <?php endif ?>
                 </a>
                     <!-- <a href="index.php" class="visible-sm visible-md visible-xs"><img src=" <?php echo Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.png' ?> "></a> -->
@@ -132,9 +132,9 @@ VisitaMedicaAsset::register($this);
                       <?= \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreCiudad']); ?>
                       -
                       <?= \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreSector']); ?>
-                      (Cambiar ubicacion)
+                      [Cambiar Ubicación]
                     <?php else: ?>
-                      (Seleccionar ubicacion)
+                      Selecciona una Ubicación y Sector en el Mapa
                     <?php endif ?>
                 </a>
               </li>
@@ -153,7 +153,7 @@ VisitaMedicaAsset::register($this);
                       Breadcrumbs::widget([
                           'itemTemplate' => "<li>{link}</li>\n",
                           'homeLink' => [
-                              'label' => 'Visita medica',
+                              'label' => 'Inicio',
                               'url' => ['/proveedores/visitamedica/'],
                           ],
                           'links' => $this->params['breadcrumbs'],

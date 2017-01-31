@@ -4,28 +4,25 @@
   // $this->registerJsFile("https://maps.googleapis.com/maps/api/js?v=3.11&sensor=false");
 
   $this->title = $producto['descripcionProducto'];
-  $this->params['breadcrumbs'][] = ['label' => 'Busqueda de productos', 'url' => ['productos/buscar']];
+  $this->params['breadcrumbs'][] = ['label' => 'Buscar Productos', 'url' => ['productos/buscar']];
   $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?php if($result == 0): ?>
 <div class="alert alert-warning alert-dismissible">
-  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> 
-  El producto seleccionado, no se encontro en el sector 
-  <?php if (\Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreCiudad'])): ?> 
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> 
+    <span class="glyphicon glyphicon-exclamation-sign"></span> <strong>Importante</strong>
+    <hr class="message-inner-separator">
+    <p>El producto seleccionado no está disponible en el sector: 
+    <?php if (\Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreCiudad'])): ?> 
     <?= \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreCiudad']); ?>
-    -
+     - 
     <?= \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreSector']); ?>
-  <?php endif ?>, por favor comuniquese con la persona encargada de su laboratorio que atiende la cuenta de Copservir Ltda. para la revisión de inventarios y maximos y minimos.
-</div>
+    <?php endif ?>, por favor comuníquese con la persona encargada de su laboratorio que atiende la cuenta de Copservir Ltda. Para la revisión de inventarios, máximos y mínimos.</p>
+  </div>
 <?php elseif ($result == 1): ?>
 <div class="row">
   <div class="col-md-12">
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          Ubicacion del Producto: <?php echo $producto['descripcionProducto'] ?>
-        </h3>
-      </div>
       <div class="panel-body panel-body-map">
         <div class="row">
           <div class="col-md-7 col-xs-12 col-sm-12">
@@ -40,7 +37,7 @@
                     <?php echo $pdv['direccionPDV'] ?> <br>
                     <?php echo $pdv['nombreCiudad'] ?> <br>
                     <?php echo $pdv['nombreBarrio'] ?> <br>
-                    Teléfono: <?php echo $pdv['telefono'] ?> <br>
+                    <!-- Teléfono: <?php echo $pdv['telefono'] ?> <br> -->
                   </addres>
                 </div>
                 <div class="col-md-6 col-xs-6">
@@ -49,7 +46,7 @@
                     <?php echo $pdv['producto']['saldo'] ?> Und
                     </span>
                     <p> Max: <?php echo $pdv['producto']['maximo'] ?> / Min: <?php echo $pdv['producto']['minimo'] ?> </p>
-                    <p> Rotación: <?php echo $pdv['producto']['rotacion'] ?> / Clase: <?php echo $pdv['producto']['clase']; ?> </p>
+                    <p> Rotación: <?php echo $pdv['producto']['rotacion'] ?> / Clasificación: <?php echo $pdv['producto']['clase']; ?> </p>
                   </span>
                 </div>
               </div>
@@ -64,10 +61,6 @@
 <div class="row">
   <div class="col-md-12">
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title"></h3>
-      </div>
-
       <div class="panel-body panel-body-map">
         <div class="row">
           <div class="col-md-6 col-sm-12 col-xs-12 galeria-producto">
@@ -124,13 +117,13 @@
                   <br>
                   <br>
                   <br>
-                  <h5 class="presentacion-unitario"> <?php echo Yii::$app->formatter->asDecimal($producto['presentacionProducto'], 3); ?> </h5>
+                  <h5 class="presentacion-unitario"> <?php echo Yii::$app->formatter->asDecimal($producto['presentacionProducto'], 2); ?> </h5>
                   <hr>
-                  <h4 class="precio-base"> $ <?php echo Yii::$app->formatter->asDecimal($producto['precioUnidad']['precioBase'],3); ?> </h4>
+                  <h4 class="precio-base"> $ <?php echo Yii::$app->formatter->asDecimal($producto['precioUnidad']['precioBase'],2); ?> </h4>
                   <hr>
-                  <h5 class="ahorro"> Ahorro: $ <?php echo Yii::$app->formatter->asDecimal($producto['precioUnidad']['ahorro'],3); ?> </h5>
+                  <h5 class="ahorro"> Ahorro: $ <?php echo Yii::$app->formatter->asDecimal($producto['precioUnidad']['ahorro'],2); ?> </h5>
                   <hr>
-                  <h4 class="precio-real"> $ <?php echo Yii::$app->formatter->asDecimal($producto['precioUnidad']['precioReal'],3); ?> </h4>
+                  <h4 class="precio-real"> $ <?php echo Yii::$app->formatter->asDecimal($producto['precioUnidad']['precioReal'],2); ?> </h4>
                   <hr>
                 </div>
                 <div class="col-md-6 col-sm-6 info-fraccionado">
@@ -142,11 +135,11 @@
                     <?php echo $producto['fraccion']['unidadFraccionamiento']; ?> 
                   </h5>
                   <hr>
-                  <h4 class="precio-base"> $ <?php echo Yii::$app->formatter->asDecimal($producto['precioFraccion']['precioBase'],3); ?> </h4>
+                  <h4 class="precio-base"> $ <?php echo Yii::$app->formatter->asDecimal($producto['precioFraccion']['precioBase'],2); ?> </h4>
                   <hr>
-                  <h5 class="ahorro"> Ahorro: $ <?php echo Yii::$app->formatter->asDecimal($producto['precioFraccion']['ahorro'],3); ?> </h5>
+                  <h5 class="ahorro"> Ahorro: $ <?php echo Yii::$app->formatter->asDecimal($producto['precioFraccion']['ahorro'],2); ?> </h5>
                   <hr>
-                  <h4 class="precio-real"> $ <?php echo Yii::$app->formatter->asDecimal($producto['precioFraccion']['precioReal'],3); ?> </h4>
+                  <h4 class="precio-real"> $ <?php echo Yii::$app->formatter->asDecimal($producto['precioFraccion']['precioReal'],2); ?> </h4>
                   <hr>
                 </div>
               <?php else : ?>
@@ -155,8 +148,8 @@
                     <tbody>
                       <tr>
                         <td valign="middle">
-                          <p class="antes"> Antes: <span class="tachado"> $ <?php echo Yii::$app->formatter->asDecimal($producto['precioUnidad']['precioBase'], 3); ?></span></p>
-                          <p class="ahorro"> Ahorro: $ <?php echo Yii::$app->formatter->asDecimal($producto['precioUnidad']['ahorro'], 3); ?> </p>
+                          <p class="antes"> Antes: <span class="tachado"> $ <?php echo Yii::$app->formatter->asDecimal($producto['precioUnidad']['precioBase'], 2); ?></span></p>
+                          <p class="ahorro"> Ahorro: $ <?php echo Yii::$app->formatter->asDecimal($producto['precioUnidad']['ahorro'], 2); ?> </p>
                         </td>
                         <td>
                           <h4 class="ahora"> $ <?php echo $producto['precioUnidad']['precioReal']; ?> </h4>

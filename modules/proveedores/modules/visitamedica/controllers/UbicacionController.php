@@ -41,13 +41,24 @@ class UbicacionController extends Controller
   public function actionIndex()
   {
     return $this->render('index');
+    $client = new Client();
+    $url = \Yii::$app->params['webServices']['lrv'] . '/ciudad';
+    $response = $client->createRequest()
+    ->setMethod('get')
+    ->setUrl($url)
+    ->setData([])
+    ->setOptions([
+        'timeout' => 5, // set timeout to 5 seconds for the case server is not responding
+    ])
+    ->send();
+    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+    $ciudades = json_decode($response->content);
   }
   
   public function actionMapa()
   {
     $client = new Client();
     $url = \Yii::$app->params['webServices']['lrv'] . '/ciudad';
-
     $response = $client->createRequest()
     ->setMethod('get')
     ->setUrl($url)

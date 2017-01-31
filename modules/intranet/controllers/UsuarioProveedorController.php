@@ -225,8 +225,6 @@ class UsuarioProveedorController extends Controller
         $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
         $terceros = $this->getTerceros();
 
-        // VarDumper::dump($terceros,10,true);exit();
-
         $unidadesNegocio = SIICOP::wsGetUnidadesNegocio(1);
         $tercerosSelect = ArrayHelper::map($terceros, 'NumeroDocumento', 'RazonSocial');
 

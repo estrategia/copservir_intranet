@@ -6,22 +6,26 @@
 <div class="row">
   <div class="col-md-10 col-md-offset-1">
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <div class="panel-title">
-          <h3>Consulta de productos</h3>
-        </div>
-      </div>
       <div class="panel-body">
         <div class="row">
+          <div align="center">
+            <h3>
+              <strong>SECTOR:</strong>
+              <?php if (\Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreCiudad'])): ?>
+              <?= \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreCiudad']); ?>
+              - 
+              <?= \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreSector']); ?>
+              <?php endif ?>
+              </div>
+            </h3>
           <form action="<?= (Yii::$app->getUrlManager()->getBaseUrl() . '/proveedores/visitamedica/productos/buscar') ?>" method="GET" id="busqueda">
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <div class="form-group">
                  <input type="text" name="term" class="form-control">
+                 <?= Yii::$app->session->getFlash('error') ?>
                 </div>
-              </div>
-              <div class="col-md-6">
-                <input type="submit" class="btn btn-default" value="Buscar">
+                <input type="submit" class="btn btn-primary btn-block" value="Buscar">
               </div>
             </div>
           </form>
@@ -29,7 +33,6 @@
         <br>
         <div class="row">
           <?php if (isset($productos)): ?>
-            <div class="table-responsive">
               <table class="table table-bordered" id="busqueda-results">
                 <thead>
                   <tr class="tableizer-firstrow">
@@ -60,7 +63,6 @@
                   <?php endforeach; ?>
                 </tbody>
               </table>
-            </div>
           <?php endif; ?>
         </div>
       </div>

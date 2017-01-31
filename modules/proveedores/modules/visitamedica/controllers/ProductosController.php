@@ -60,7 +60,7 @@
       	$idFabricante = $objUsuarioProv->idFabricante;
       }
 
-      if (isset($_GET['term'])) {
+      if (isset($_GET['term']) && ($_GET['term'] != '')) {
         $client = new Client();
         $url = \Yii::$app->params['webServices']['lrv'] . '/producto/buscar/' . $_GET['term'] . '/' . $idFabricante;
         $url = str_replace(' ', '%20', $url);
@@ -76,6 +76,8 @@
         $productos = json_decode( preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $response->content), true );
         echo $this->render('busqueda', ['productos' => $productos]);
       } else {
+        if (array_key_exists('term', $_GET))
+          Yii::$app->session->setFlash('error', 'Ingresa un producto a buscar');
         echo $this->render('busqueda');
       }
     }
@@ -107,8 +109,8 @@
 
       $detalleProducto = $client->createRequest()
       ->setMethod('get')
-      ->setUrl('http://192.168.1.24/lrv/rest/producto/10002/ciudad/76001/sector/17')
-      // ->setUrl($urlDetalleProducto)
+      // ->setUrl('http://192.168.1.24/lrv/rest/producto/10002/ciudad/76001/sector/17')
+      ->setUrl($urlDetalleProducto)
       ->setData([''])
       ->setOptions([
         'timeout' => 5, // set timeout to 5 seconds for the case server is not responding
@@ -145,40 +147,6 @@
       echo $this->render('producto', ['producto' => $producto, 'infoSector' => $infoSector[0]['response'], 'result' => $infoSector[0]['result']]);
 
     }
-    // public function actionPrueba() {
-    //   $client = new Client();
-    //   $detalleProducto = $client->createRequest()
-    //   ->setMethod('get')
-    //   ->setUrl('http://192.168.1.24/lrv/rest/producto/10002/ciudad/76001/sector/17')
-    //   // ->setUrl($urlDetalleProducto)
-    //   ->setData([''])
-    //   ->setOptions([
-    //     'timeout' => 5, // set timeout to 5 seconds for the case server is not responding
-    //   ])
-    //   ->send();
-    //   $producto = JSON::decode($detalleProducto->content);
-    //   // var_dump($producto);exit();
-
-    //   $codigoCiudad = 76001;
-    //   $nombreCiudad = 'Medellin';
-    //   $codigoSector = 17;
-    //   $nombreSector = 'hOLA';
-    //   $codigoProducto = 10002;
-
-    //   $registroAcceso = new RegistroAccesoDetalleProducto();
-    //   $registroAcceso->codigoProducto = $producto['codigoProducto'];
-    //   $registroAcceso->descripcionProducto = $producto['descripcionProducto'];
-    //   $registroAcceso->presentacionProducto = $producto['presentacionProducto'];
-    //   $registroAcceso->codigoCiudad = $codigoCiudad;
-    //   $registroAcceso->nombreCiudad = $nombreCiudad;
-    //   $registroAcceso->codigoSector = $codigoSector;
-    //   $registroAcceso->nombreSector = $nombreSector;
-    //   $registroAcceso->codigoProveedor = $producto['codigoProveedor'];
-    //   $registroAcceso->nitLaboratorio = $this->searchNit($producto['codigoProveedor']);
-    //   $registroAcceso->fechaConsulta = date('YmdHis');
-    //   $registroAcceso->ip = $registroAcceso->getRealIp(); //Yii::$app->getRequest()->getUserIP() ;
-    //   $registroAcceso->save();
-    // }
 
     protected function getTerceros() {
 

@@ -70,7 +70,7 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
                             <?= MenuPortales::generarMenu(Yii::$app->controller->module->id) ?>
                        
                                 
-                            <li>
+                            <li id=dropdown-usuario>
                                 <a data-toggle="dropdown" class="dropdown-toggle  pull-right " href="#" id="user-options">
                                     <div class="iconset top-settings-dark ">
                                         <span class="glyphicon glyphicon-user"></span> Usuario
