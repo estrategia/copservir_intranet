@@ -26,4 +26,7 @@ return [
   'treemanager' => [
       'class' => '\kartik\tree\Module',
   ],
+  'newportal' => [
+    'class' => 'app\modules\newportal\NewPortalModule',
+  ],                  
 ];
