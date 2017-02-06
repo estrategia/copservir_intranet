@@ -217,7 +217,6 @@ if (!Yii::$app->user->isGuest) {
             <!-- BEGIN PAGE CONTAINER-->
             <div class="page-content"><!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
                 <div class="content ">
-                    
                     <div id="container" class="">
                         <?php if(isset($this->params['breadcrumbs']) && !empty($this->params['breadcrumbs'])): ?>
                             <?=
@@ -237,6 +236,7 @@ if (!Yii::$app->user->isGuest) {
                 </div>
             </div>
             <!-- END PAGE CONTAINER -->
+
 
 
 <!-- BEGIN CHAT -->
