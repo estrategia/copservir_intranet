@@ -52,25 +52,6 @@ use kartik\select2\Select2;
                             ],
                         ]);
                     ?>
-                    <?php //echo $form->field($model, 'nitLaboratorio')->textInput(['maxlength' => true]) ?>
-                    <?php
-                        /*echo '<label for="unidadNegocio" class="control-label">Unidad de negocio</label>';
-                        echo Select2::widget([
-                            'model' => $model,
-                            'name' => 'unidadNegocio',
-                            'attribute' => 'idAgrupacion',
-                            'value' => '',
-                            'data' => $unidadesNegocio,
-                            'options' => ['multiple' => false, 'placeholder' => 'Selecciona unidad de negocio ...']
-                        ]);*/
-                        // echo $form->field($model, 'idAgrupacion')->widget(Select2::classname(), [
-                        //  'data' => $unidadesNegocio,
-                        //  'options' => ['placeholder' => 'Selecciona unidad negocio ...'],
-                        //  'pluginOptions' => [
-                        //          'allowClear' => true
-                        //  ],
-                        // ]);
-                    ?>
             </div>
             <br>
             <div class="form-group">

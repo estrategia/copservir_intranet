@@ -64,6 +64,7 @@
         $client = new Client();
         $url = \Yii::$app->params['webServices']['lrv'] . '/producto/buscar/' . $_GET['term'] . '/' . $idFabricante;
         $url = str_replace(' ', '%20', $url);
+        var_dump($url);
         $response = $client->createRequest()
         ->setMethod('get')
         ->setUrl($url)

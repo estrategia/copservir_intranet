@@ -15,6 +15,7 @@ use yii\gii\CodeFile;
 /* @var $answers array */
 
 $this->title = $generator->getName();
+$this->params['breadcrumbs'][] = ['label' => 'Generador de portales', 'url' => ['index']];
 $templates = [];
 foreach ($generator->templates as $name => $path) {
     $templates[$name] = "$name ($path)";
@@ -22,12 +23,13 @@ foreach ($generator->templates as $name => $path) {
 ?>
 <h1><?= Html::encode($this->title) ?></h1>
 
-<?php $form = ActiveForm::begin([
-    'id' => "$id-generator",
-    'successCssClass' => '',
-    'fieldConfig' => ['class' => ActiveField::className()],
-]); ?>
-    <div class="row">
+<?php if (!isset($files)): ?>
+    <?php $form = ActiveForm::begin([
+        'id' => "$id-generator",
+        'successCssClass' => '',
+        'fieldConfig' => ['class' => ActiveField::className()],
+    ]); ?>
+        <div class="row">
             <?= $this->renderFile($generator->formView(), [
                 'generator' => $generator,
                 'form' => $form,
@@ -38,29 +40,28 @@ foreach ($generator->templates as $name => $path) {
                    Seleccione la plantilla con la que se creará el nuevo portal.
             ') ?>
             <div class="form-group">
-                <?= Html::submitButton('Vista previa', ['name' => 'preview', 'class' => 'btn btn-primary']) ?>
+                <!-- <?= Html::submitButton('Vista previa', ['name' => 'preview', 'class' => 'btn btn-primary']) ?> -->
 
-                <?php if (isset($files)): ?>
                     <?= Html::submitButton('Generate', ['name' => 'generate', 'class' => 'btn btn-success']) ?>
-                <?php endif; ?>
             </div>
-    </div>
+        </div>
 
-    <?php
-    if (isset($results)) {
-        echo $this->render('view/results', [
-            'generator' => $generator,
-            'results' => $results,
-            'hasError' => $hasError,
-        ]);
-    } elseif (isset($files)) {
-        echo $this->render('view/files', [
-            'id' => $id,
-            'generator' => $generator,
-            'files' => $files,
-            'answers' => $answers,
-        ]);
-    }
-    ?>
-<?php ActiveForm::end(); ?>
+    <?php ActiveForm::end(); ?>
+<?php endif; ?>
+<?php
+if (isset($results)) {
+    echo $this->render('view/results', [
+        'generator' => $generator,
+        'results' => $results,
+        'hasError' => $hasError,
+    ]);
+} elseif (isset($files)) {
+    echo $this->render('view/files', [
+        'id' => $id,
+        'generator' => $generator,
+        'files' => $files,
+        'answers' => $answers,
+    ]);
+}
+?>
 

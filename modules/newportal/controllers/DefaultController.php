@@ -56,23 +56,41 @@ class DefaultController extends Controller
 
         $preview = Yii::$app->request->post('preview');
         $generate = Yii::$app->request->post('generate');
-        $answers = Yii::$app->request->post('answers');
-
-        if ($preview !== null || $generate !== null) {
+        // $answers = Yii::$app->request->post('answers');
+        // if ($preview !== null || $generate !== null) {
+        //     if ($generator->validate()) {
+        //         $generator->saveStickyAttributes();
+        //         $files = $generator->generate();
+        //         if ($generate !== null && !empty($answers)) {
+        //             $params['hasError'] = !$generator->save($files, (array) $answers, $results);
+        //             $params['results'] = $results;
+        //             $generator->setModuleConfig();
+        //             var_dump($answers);
+        //         } else {
+        //             $params['files'] = $files;
+        //             $params['answers'] = $answers;
+        //             var_dump($answers);
+        //             var_dump($files);
+        //         }
+        //     }
+        // }
+        if ($generate !== null) {
             if ($generator->validate()) {
                 $generator->saveStickyAttributes();
                 $files = $generator->generate();
+                $params['files'] = $files;
+                $answers = [];
+                foreach ($files as $key => $file) {
+                    $answers[$file->id] = "1";
+                }
+                $params['answers'] = $answers;
                 if ($generate !== null && !empty($answers)) {
                     $params['hasError'] = !$generator->save($files, (array) $answers, $results);
                     $params['results'] = $results;
                     $generator->setModuleConfig();
-                } else {
-                    $params['files'] = $files;
-                    $params['answers'] = $answers;
                 }
             }
         }
-
         return $this->render('view', $params);
     }
 
@@ -82,7 +100,6 @@ class DefaultController extends Controller
             $this->generator = $this->module->generators[$id];
             $this->generator->loadStickyAttributes();
             $this->generator->load(Yii::$app->request->post());
-
             return $this->generator;
         } else {
             throw new NotFoundHttpException("Code generator not found: $id");

@@ -147,6 +147,7 @@ class Generator extends \yii\gii\Generator
             $modulePath . '/views/default/index.php',
             $this->render("view.php")
         );
+        // $preview = Yii::$app->request->post('preview');
         $this->uploadLogo();
         $this->saveImagePlaceholders();
         $this->saveModuleOnDB();
@@ -200,10 +201,11 @@ EOD;
     public function uploadLogo()
     {
         $file = UploadedFile::getInstance($this, 'portalLogo');
-        
         if ($file) {
-            $nombreImagen = $this->moduleID;
-            $rutaImagen = "$nombreImagen.$file->extension";
+            Yii::$app->session->set('portalLogo', $_FILES);
+        }
+        if ($file) {
+            $rutaImagen = "logo_header.$file->extension";
             $folder = Yii::getAlias('@webroot') . '/img/multiportal/' . "{$this->moduleID}";
             if (!is_dir($folder)) {
                 mkdir($folder, 0777);         

@@ -107,13 +107,6 @@ class UsuarioController extends Controller
         ]);
     }
 
-    public function actionPruebaUnidades()
-    {
-        $unidadesNegocio = SIICOP::wsGetUnidadesNegocio();
-        var_dump($unidadesNegocio);
-        
-    }
-
     public function actionAceptarTerminos()
     {
         $usuario = \app\models\Usuario::find()->where(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento])->one();
@@ -272,7 +265,6 @@ class UsuarioController extends Controller
     {
         $usuarioProveedor = $this->findModel($id);
         $terceros = $this->getTerceros();
-        $unidadesNegocio = SIICOP::wsGetUnidadesNegocio(1);
         $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
         // array_unshift($unidadesNegocio, '(no definido)');  // $unidadesNegocio
         $tercerosSelect = ArrayHelper::map($terceros, 'NumeroDocumento', 'Nombre');
@@ -303,7 +295,6 @@ class UsuarioController extends Controller
             return $this->render('update', [
                 'model' => $usuarioProveedor,
                 'terceros' => $tercerosSelect,
-                'unidadesNegocio' => $unidadesNegocio,
                 'ciudades' => $ciudades,
             ]);
         }

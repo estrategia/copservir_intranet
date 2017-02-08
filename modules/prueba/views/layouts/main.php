@@ -1,5 +1,4 @@
-<?= "<?php " ?>
-
+<?php 
 use yii\helpers\Html;
 use app\assets\MultiportalAsset;
 use app\modules\intranet\models\MenuPortales;
@@ -14,20 +13,20 @@ $srcFb = Yii::$app->homeUrl . 'img/multiportal/copservir/fb.png';
 $srcTw = Yii::$app->homeUrl . 'img/multiportal/copservir/tw.png';
 $srcYt = Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
 ?>
-<?= "<?php" ?> $this->beginPage() ?>
+<?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="<?= "<?=" ?> Yii::$app->charset ?>">
+        <meta charset="<?= Yii::$app->charset ?>">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <?= "<?=" ?> Html::csrfMetaTags() ?>
-        <title><?= "<?=" ?> Html::encode($this->title) ?></title>
-        <?= "<?php" ?> $this->head() ?>
-        <script> requestUrl = "<?= "<?=" ?> Yii::$app->getUrlManager()->getBaseUrl() ?>";</script>
-        <link rel="stylesheet" href="<?= "<?=" ?> Yii::$app->homeUrl . 'libs/font-awesome/css/font-awesome.min.css'; ?>">
+        <?= Html::csrfMetaTags() ?>
+        <title><?= Html::encode($this->title) ?></title>
+        <?php $this->head() ?>
+        <script> requestUrl = "<?= Yii::$app->getUrlManager()->getBaseUrl() ?>";</script>
+        <link rel="stylesheet" href="<?= Yii::$app->homeUrl . 'libs/font-awesome/css/font-awesome.min.css'; ?>">
     </head>
     <body>
-        <?= "<?php" ?> $this->beginBody() ?>
+        <?php $this->beginBody() ?>
         <!-- NAVBAR -->
         <div class="navbar-wrapper">
 
@@ -41,12 +40,12 @@ $srcYt = Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <?= "<?=" ?> Html::a("<img src='$srcLogo'>", [$home], ['class' => 'navbar-brand copservir']) ?>
+                        <?= Html::a("<img src='$srcLogo'>", [$home], ['class' => 'navbar-brand copservir']) ?>
                     </div>
 
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                            <?= "<?=" ?> MenuPortales::generarMenu(Yii::$app->controller->module->id) ?>
+                            <?= MenuPortales::generarMenu(Yii::$app->controller->module->id) ?>
                         </ul>
                     </div>
                 </div>
@@ -57,7 +56,7 @@ $srcYt = Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
 
         <!-- CONTAINER -->
         <div id="container">
-          <?= "<?= " ?>$content ?>
+          <?= $content ?>
         </div>
 
         <!-- FOOTER -->
@@ -65,7 +64,7 @@ $srcYt = Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
             <div class="footer-top footer-copservir color-primario">
                 <div class="container">
                     <div class="col-md-3">
-                        <?= "<?=" ?> Html::a("<img src='$srcLogoFooter' class='img-responsive'>", [$home]) ?>
+                        <?= Html::a("<img src='$srcLogoFooter' class='img-responsive'>", [$home]) ?>
                         <div class="space-1"></div>
                     </div>
                     <div class="col-md-3">
@@ -102,13 +101,13 @@ $srcYt = Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
     </footer>
 
     <!-- JavaScript de las plantillas-->
-    <script>window.jQuery || document.write('<script src="<?= Yii::getAlias('@web') ?>/js/multiportal/vendor/jquery.min.js"><\/script>')</script>
+    <script>window.jQuery || document.write('<script src="/copservir_intranet/web/js/multiportal/vendor/jquery.min.js"><\/script>')</script>
     <style>
         .color-primario {
-            background-color: <?= $generator->portalColor ?> !important
+            background-color: #000000 !important
         }
     </style>
-    <?= "<?php" ?> $this->endBody() ?>
+    <?php $this->endBody() ?>
 </body>
 </html>
-<?= "<?php" ?> $this->endPage() ?>
+<?php $this->endPage() ?>

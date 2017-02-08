@@ -29,4 +29,16 @@ return [
   'newportal' => [
     'class' => 'app\modules\newportal\NewPortalModule',
   ],                  
+  'prueba' => [
+    'class' => 'app\modules\prueba\PruebaModule',
+  ],
+  'prueba' => [
+    'class' => 'app\modules\prueba\PruebaModule',
+  ],
+  'prueba' => [
+    'class' => 'app\modules\prueba\PruebaModule',
+  ],
+  'prueba' => [
+    'class' => 'app\modules\prueba\PruebaModule',
+  ],
 ];

@@ -87,13 +87,6 @@ class UsuarioProveedorController extends Controller
         ]);
     }
 
-    public function actionPruebaUnidades()
-    {
-        $unidadesNegocio = SIICOP::wsGetUnidadesNegocio();
-        var_dump($unidadesNegocio);
-        
-    }
-
     public function actionSalir() {
 
         if (Yii::$app->user->isGuest) {
@@ -224,8 +217,6 @@ class UsuarioProveedorController extends Controller
         $usuarioProveedor = new UsuarioProveedor();
         $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
         $terceros = $this->getTerceros();
-
-        $unidadesNegocio = SIICOP::wsGetUnidadesNegocio(1);
         $tercerosSelect = ArrayHelper::map($terceros, 'NumeroDocumento', 'RazonSocial');
 
         // VarDumper::dump($terceros, 10, true); echo "<br>";
@@ -296,7 +287,6 @@ class UsuarioProveedorController extends Controller
             return $this->render('create', [
                 'model' => $usuarioProveedor,
                 'terceros' => $tercerosSelect,
-                'unidadesNegocio' => $unidadesNegocio,
                 'ciudades' => $ciudades,
             ]);
         }
@@ -312,7 +302,6 @@ class UsuarioProveedorController extends Controller
     {
         $usuarioProveedor = $this->findModel($id);
         $terceros = $this->getTerceros();
-        $unidadesNegocio = SIICOP::wsGetUnidadesNegocio(1);
         $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
         // array_unshift($unidadesNegocio, '(no definido)');  // $unidadesNegocio
         $tercerosSelect = ArrayHelper::map($terceros, 'NumeroDocumento', 'RazonSocial');
@@ -345,7 +334,6 @@ class UsuarioProveedorController extends Controller
             return $this->render('update', [
                 'model' => $usuarioProveedor,
                 'terceros' => $tercerosSelect,
-                'unidadesNegocio' => $unidadesNegocio,
                 'ciudades' => $ciudades,
             ]);
         }
