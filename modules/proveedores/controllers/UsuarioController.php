@@ -107,13 +107,6 @@ class UsuarioController extends Controller
         ]);
     }
 
-    public function actionPruebaUnidades()
-    {
-        $unidadesNegocio = SIICOP::wsGetUnidadesNegocio();
-        var_dump($unidadesNegocio);
-        
-    }
-
     public function actionAceptarTerminos()
     {
         $usuario = \app\models\Usuario::find()->where(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento])->one();
@@ -272,7 +265,6 @@ class UsuarioController extends Controller
     {
         $usuarioProveedor = $this->findModel($id);
         $terceros = $this->getTerceros();
-        $unidadesNegocio = SIICOP::wsGetUnidadesNegocio(1);
         $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
         // array_unshift($unidadesNegocio, '(no definido)');  // $unidadesNegocio
         $tercerosSelect = ArrayHelper::map($terceros, 'NumeroDocumento', 'Nombre');
@@ -303,7 +295,6 @@ class UsuarioController extends Controller
             return $this->render('update', [
                 'model' => $usuarioProveedor,
                 'terceros' => $tercerosSelect,
-                'unidadesNegocio' => $unidadesNegocio,
                 'ciudades' => $ciudades,
             ]);
         }
@@ -353,15 +344,17 @@ class UsuarioController extends Controller
         ])
         ->send();
         $profesiones = ArrayHelper::map($response->data['response'], 'idProfesion', 'nombreProfesion');
-
+        
         // var_dump(Yii::$app->user->identity->numeroDocumento);
         // var_dump($usuarioProveedor);
         if ($usuarioProveedor->load(Yii::$app->request->post())) {
+            // VarDumper::dump(Yii::$app->request->post(),10,true);
+            // VarDumper::dump($usuarioProveedor,10,true);exit();
             if (isset($usuarioProveedor->confirmarDatosPersonales) && $usuarioProveedor->confirmarDatosPersonales == 1 ) {
                 $usuarioM->confirmarDatosPersonales = 1;
                 if ($usuarioM->save()) {
                    Yii::$app->session->setFlash('success', 'Ha aceptado los términos y condiciones, ahora puede hacer uso de los servicios del portal colaborativo');
-                    return $this->redirect('mi-cuenta');
+                    // return $this->redirect('mi-cuenta');
                 }
             }
             // var_dump($usuarioProveedor->confirmarDatosPersonales);

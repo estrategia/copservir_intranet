@@ -879,3 +879,9 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
     margin: 0;
   }
 }
+
+@media only screen and (max-width: 425px) {
+  #dropdown-usuario a {
+    width: 100% !important;
+  }
+}

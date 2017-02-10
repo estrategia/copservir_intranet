@@ -80,22 +80,6 @@ $carpeta = Url::to('@web/img/multiportal/proveedores/ayuda-vimed', true);
 
 <div class="row">
   <div class="col-md-10 col-md-offset-1">
-    <h3>Mi cuenta</h3>
-      <div id="help-mi-cuenta" data-chocolat-title="Mi cuenta">
-        <a class="chocolat-image" href="<?= $carpeta.'/mi-cuenta1.png' ?>" title="Se muestra toda la información referente a la persona que esta autenticada en la aplicación" >
-            <img class="img-thumbnail col-md-6" src="<?= $carpeta.'/mi-cuenta1.png' ?>" alt="mi-cuenta1">
-        </a>
-        <a class="chocolat-image" href="<?= $carpeta.'/mi-cuenta2.png' ?>" title="Se permite la edicion de algunos campos de informacion personal" >
-            <img class="img-thumbnail col-md-6" src="<?= $carpeta.'/mi-cuenta2.png' ?>" alt="reportes2">
-        </a>
-      </div>
-    </div>
-</div>
-<br>
-<div class="separator col-md-10 col-md-offset-1"></div>
-
-<div class="row">
-  <div class="col-md-10 col-md-offset-1">
     <h3>Contacto</h3>
       <div id="help-contacto" data-chocolat-title="Contacto">
         <a class="chocolat-image" href="<?= $carpeta.'/contacto.png' ?>" title="En este apartado se permite al usuario logueado enviar un correo directamente al usuario administrador del laboratorio" >

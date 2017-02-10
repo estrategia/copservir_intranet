@@ -37,8 +37,8 @@ class AuthItem extends \yii\db\ActiveRecord {
             [['name', 'type'], 'required'],
             [['type', 'created_at', 'updated_at'], 'integer'],
             [['description', 'data'], 'string'],
-            [['name', 'rule_name'], 'string', 'max' => 64],
-            [['rule_name'], 'exist', 'skipOnError' => true, 'targetClass' => AuthRule::className(), 'targetAttribute' => ['rule_name' => 'name']],
+            [['name', 'rule_name'], 'safe'],
+            // [['rule_name'], 'exist', 'skipOnError' => true, 'targetClass' => AuthRule::className(), 'targetAttribute' => ['rule_name' => 'name']],
         ];
     }
 
@@ -78,17 +78,26 @@ class AuthItem extends \yii\db\ActiveRecord {
         return $this->hasMany(AuthItem::className(), ['name' => 'parent'])->viaTable('auth_item_child', ['child' => 'name']);
     }
 
-    public static function consultarPermisos($usuario, $modulo) {
-        $listPermisos = AuthItem::find()
+    public static function consultarPermisos($usuario, $modulo, $tipoConsulta = 'modelo') {
+        $listPermisos = null;
+        $consulta = AuthItem::find()
                 ->alias('permiso')
                 ->joinWith(['parents as rol', 'parents.authAssignments as rolasignacion'])
                 ->where("permiso.type=:tipoPermiso AND rolasignacion.user_id=:usuario AND permiso.visualizacionMenus=1 AND permiso.moduloDestino=:modulo")
                 ->addParams([':tipoPermiso' => 2, ':usuario' => $usuario, ':modulo' => $modulo])
-                ->all();
-
+                ->distinct();
+                // ->all();
+        // if ($tipoConsulta != 'modelo') {
+        //     // $rawSql = $consulta->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql;
+        //     $rawSql = "SELECT DISTINCT `permiso`.* FROM `auth_item` `permiso` LEFT JOIN `auth_item_child` ON `permiso`.`name` = `auth_item_child`.`child` LEFT JOIN `auth_item` `rol` ON `auth_item_child`.`parent` = `rol`.`name` LEFT JOIN `auth_assignment` `rolasignacion` ON `rol`.`name` = `rolasignacion`.`item_name` WHERE permiso.type=2 AND rolasignacion.user_id='1113618983' AND permiso.visualizacionMenus=1 AND permiso.moduloDestino='intranet'";
+        //     $listPermisos = Yii::$app->db->createCommand($rawSql)->queryAll();
+        // } else {
+            $listPermisos = $consulta->all();
+        // }
         return $listPermisos;
-        //var_dump($listPermisos->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
-        //exit();
+        // var_dump(sizeof($listPermisos));
+                // \yii\helpers\VarDumper::dump($listPermisos, 10, true);
+        // exit();
     }
 
     public function getListaPermisos() {

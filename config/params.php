@@ -86,7 +86,9 @@ return [
           'puntosVenta' => 'http://localhost/copservir/puntoventa/sweb/puntoventa',
           'unidades' => 'http://localhost/copservir/trademarketing/wsTradeMarketing/unidades'
         ],
-        'lrv' => 'http://localhost/lrv/rest',
+        'lrv' => 'http://192.168.1.22/lrv/rest',
+        // 'lrv' => 'http://localhost/lrv/rest',
+
     	'visitaMedica' => [
             // 'detallePDV' => 'http://localhost/lrv/rest/producto/simular',
     		'detallePDV' => 'http://siidesarrollo.copservir.com:8080/WebSaldosVisitaMedica/webresources/service/saldos',
@@ -136,14 +138,37 @@ return [
                 'nombreCiudad' => 'visitamedica.ubicacion.nombreCiudad',
                 'sector' => 'visitamedica.ubicacion.sector',
                 'nombreSector' => 'visitamedica.ubicacion.nombreSector',
-                ''
             ],
             'filtrosUsuario' => 'visitamedica.filtrosUsuario',
+            'nitLaboratorio' => 'visitamedica.reportes.nitLaboratorio'
         ],
     ],
-    'google' => array(
+    'google' => [
         'llaveMapa' => 'gme-copservir'
-    ),
+    ],
     'habeasDataLink' => 'hola',
+    'portales' => [
+        'proveedores' => [
+            'servicios-publicos' => [
+                'Información General' => 'proveedores_usuario',
+                'Actividades Comerciales' => 'proveedores_actividades-comerciales',
+                'Certificados Tributarios' => 'proveedores_certificados-tributarios',
+                'Mis Productos' => 'proveedores_mis-productos',
+                'Informe de Ventas' => 'proveedores_informe-ventas',
+                'Cita Entrega de Mercancia' => 'proveedores_citas-mercancia',
+            ],
+            'servicios-privados' => [
+                'Visita Médica' => 'visitaMedica_visitador',
+            ],
+            // Lista de servicios privados, que pueden ser autorizados para acceso por algun rol
+            'servicios-permisos' => [
+                'visitaMedica_admin' => [
+                    'visitaMedica_visitador',
+                ],
+                
+            ]
+        ]
+    ]
+
 
 ];

@@ -1,6 +1,7 @@
 var map;
 var marker;
 var infowindow = new google.maps.InfoWindow();
+var bounds = new google.maps.LatLngBounds();
 
 function initMap() {
   var uluru = {lat: 4.704009, lng: -74.042832};
@@ -26,5 +27,16 @@ function addMark(lat, lon, name) {
   })(marker, name));
   infowindow.open(map, marker);
   infowindow.setContent(name);
+  bounds.extend(new google.maps.LatLng(lat, lon));
+  // return marker;
+  map.fitBounds(bounds);
 }
+
+// function drawMarks(pdvs) {
+//   var bounds = new google.maps.LatLngBounds();
+//   pdvs.forEach(function (pdv) {
+//     bounds.extend(addMark(pdv.cordenadas.lat, pdv.cordenadas.lon, pdv.nombrePDV));
+//   });
+//   map.fitBounds(bounds);
+// }
 

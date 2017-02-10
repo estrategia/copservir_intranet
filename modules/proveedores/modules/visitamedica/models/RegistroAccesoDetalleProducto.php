@@ -17,7 +17,7 @@ class RegistroAccesoDetalleProducto extends \yii\db\ActiveRecord
   {
     return [
       [['codigoProducto', 'descripcionProducto', 'presentacionProducto', 'codigoCiudad', 'codigoSector', 'ip' ], 'required'],
-      [['codigoProducto'], 'integer'],
+      [['codigoProducto', 'codigoProveedor'], 'integer'],
       [['fechaConsulta'], 'safe'],
       [['ip'], 'string', 'max' => 45]
     ];
@@ -33,6 +33,8 @@ class RegistroAccesoDetalleProducto extends \yii\db\ActiveRecord
       'codigoSector' => 'Codigo sector',
       'fechaConsulta' => 'Fecha Consulta',
       'ip' => 'Ip',
+      'codigoProveedor' => 'Codigo Proveedor',
+      'nitLaboratorio' => 'Nit Laboratorio',
     ];
   }
 

@@ -24,9 +24,8 @@ class TerminosFilter extends ActionFilter {
 
     public function beforeAction($action) {
         if (Yii::$app->user->identity->confirmarDatosPersonales == 0) {
-            // $this->redirect('/proveedores/usuario/mi-cuenta');
-            // Yii::$app->request->redirect('');
             Yii::$app->getResponse()->redirect(Yii::$app->getUrlManager()->getBaseUrl().'/proveedores/usuario/actualizar-mi-cuenta')->send();
+            exit(0);
         }
         return parent::beforeAction($action);
     }

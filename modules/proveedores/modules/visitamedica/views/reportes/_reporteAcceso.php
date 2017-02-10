@@ -30,11 +30,48 @@
 <div class="row">
   <div class="col-md-12">
     <div class="panel">
-      <div class="panel-header"></div>
+      <div class="panel-heading">
+        <h1 class="panel-title-boxed">
+          Resumen
+        </h1>
+      </div>
       <div class="panel-body">
         <table class="table">
           <thead>
             <tr>
+              <th>Nombre</th>
+              <th>Numero de documento</th>
+              <th>Cantidad de accesos</th> 
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($resumen as $key => $filaResumen): ?>
+              <tr> 
+                <td> <?php echo $filaResumen['nombre']; ?> </td>
+                <td> <?php echo $key; ?> </td>
+                <td> <?php echo $filaResumen['conexiones']; ?> </td>
+              </tr>
+            <?php endforeach ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel">
+      <div class="panel-heading">
+        <h1 class="panel-title-boxed">
+          Detalle
+        </h1>
+      </div>
+      <div class="panel-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
               <th>Numero de Documento</th> 
               <th>Ip</th> 
               <th>Fecha de conexion</th> 
@@ -43,6 +80,7 @@
           <tbody>
             <?php foreach ($registros as $registro): ?>
               <tr>
+                <td><?php echo $registro['nombre'] . " " . $registro['primerApellido'] . " " . $registro['segundoApellido']?></td>
                 <td><?php echo $registro['numeroDocumento']; ?> </td>
                 <td><?php echo $registro['ip']; ?> </td>
                 <td><?php echo $registro['fechaConexion']; ?> </td>
@@ -62,22 +100,20 @@
     if (tiempo == 'hoy' || tiempo == 'ayer') {
       Morris.Donut({
         element: 'graficaAcceso',
-        data: datosGrafica,
+        data: datosGrafica[0],
         resize: true
-
       });
     } else {
-      var ykeys = Object.keys(datosGrafica[0]).slice(0, -1);
-
+      var puntos = datosGrafica[1];
+      var ykeys = Object.keys(puntos[0]).slice(0, -1);
       var grafica = new Morris.Line({
           element: 'graficaAcceso',
-          data: datosGrafica ,
+          data: puntos,
           xkey: 'fechaConexion',
           ykeys: ykeys,
           labels: ykeys,
           resize: true,
           // behaveLikeLine: true
-
         });
       // grafica.setData = datos; 
     }

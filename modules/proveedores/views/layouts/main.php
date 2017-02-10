@@ -70,7 +70,7 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
                             <?= MenuPortales::generarMenu(Yii::$app->controller->module->id) ?>
                        
                                 
-                            <li>
+                            <li id=dropdown-usuario>
                                 <a data-toggle="dropdown" class="dropdown-toggle  pull-right " href="#" id="user-options">
                                     <div class="iconset top-settings-dark ">
                                         <span class="glyphicon glyphicon-user"></span> Usuario
@@ -84,9 +84,9 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
                                     <?php else:?>
                                         <li>
                                             <?php if( Yii::$app->user->identity->tienePermiso('proveedores_usuario_admin')): ?>
-                                                <?php echo Html::a('Gestion de usuarios', ['/proveedores/usuario/admin']); ?>
+                                                <?php echo Html::a('Gestión de Usuarios', ['/proveedores/usuario/admin']); ?>
                                             <?php endif; ?>
-                                            <?php echo Html::a('Mi cuenta', ['/proveedores/usuario/mi-cuenta']); ?>
+                                            <?php echo Html::a('Mi Cuenta', ['/proveedores/usuario/mi-cuenta']); ?>
                                             <?= Html::a('<span class="glyphicon glyphicon-off"></span> Salir', ['usuario/salir'], [
                                                 'data'=>[
                                                         'method' => 'post',
@@ -140,9 +140,9 @@ $srcYt =  Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
                <div class="contenedor-redes">
                     <strong style="color:#fff;">Nuestras</strong>
                     <p>Redes sociales</p> 
-                    <p><i class="fa fa-facebook-official"></i> copservir</p>
-                    <p><i class="fa fa-twitter"></i> @copservir</p>
-                    <p><i class="fa fa-youtube-play"></i> copservirltda</p>
+                    <p><i class="fa fa-facebook-official"></i> <a href="https://www.facebook.com/LaRebaja" target="_blank">la rebaja</a></p>
+                    <p><i class="fa fa-twitter"></i> <a href="https://twitter.com/larebaja" target="_blank">@larebaja</a></p>
+                    <p><i class="fa fa-youtube-play"></i> <a href="https://www.youtube.com/channel/UCOwMFeZofUf1a17f2hkmamA" target="_blank">la rebaja</a></p>
                </div>
             </div>
           </div>

@@ -1,0 +1,16 @@
+<?php
+/* @var $this yii\web\View */
+/* @var $form yii\widgets\ActiveForm */
+/* @var $generator yii\gii\generators\module\Generator */
+
+?>
+<div class="module-form">
+<?php
+    echo $form->field($generator, 'moduleClass');
+    echo $form->field($generator, 'moduleID');
+    echo $form->field($generator, 'portalColor', [
+      'template' => "<label> Color principal del portal </label>{input}"
+    ])->input('color',['class'=>"input_class"]);
+    echo $form->field($generator, 'portalLogo')->fileInput(['multiple' => false]);
+?>
+</div>

@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\modules\proveedores\models\UsuarioProveedor;
+use yii\db\Query;
 
 /**
  * UsuarioProveedorSearch represents the model behind the search form about `app\modules\proveedores\models\UsuarioProveedor`.
@@ -52,6 +53,7 @@ class UsuarioProveedorSearch extends UsuarioProveedor
 
         $usuarioLogueado = Yii::$app->user->identity;
         $query->leftJoin('auth_assignment', 'auth_assignment.user_id = numeroDocumento');
+        $query->distinct();
         if ($usuarioLogueado->tienePermiso('intranet_admin-proveedores')) {
             // $query->andWhere("auth_assignment.item_name='proveedores_admin'");
             // var_dump($this->rol);exit();
@@ -60,8 +62,15 @@ class UsuarioProveedorSearch extends UsuarioProveedor
             }
         } else
         if ($usuarioLogueado->tienePermiso('proveedores_admin')) {
-            $query->andWhere("auth_assignment.item_name!='proveedores_admin'");
+            // UsuarioProveedor::findBySql('SELECT numeroDocumento FROM m_PROV_Usuario LEFT JOIN auth_assignment ON m_PROV_Usuario.numeroDocumento = auth_assignment.user_id')->all();
+
+            $connection = \Yii::$app->db;
+            $admins = $connection->createCommand("SELECT DISTINCT numeroDocumento FROM m_PROV_Usuario JOIN auth_assignment ON m_PROV_Usuario.numeroDocumento = auth_assignment.user_id WHERE auth_assignment.item_name = 'proveedores_admin' AND m_PROV_Usuario.nitLaboratorio = {$nitLaboratorio}")->queryAll();
+
+            // $query->andWhere("auth_assignment.item_name!='proveedores_admin'");
+            $query->andWhere(["not in", "numeroDocumento", $admins]);
             $query->andWhere("nitLaboratorio='{$nitLaboratorio}'");
+            // $query->andWhere("numeroDocumento!='{$usuarioLogueado->numeroDocumento}'");
         }
 
         // grid filtering conditions

@@ -18,7 +18,7 @@ $this->title = 'Restablecer contraseña';
 
       <div class="space-1"></div>
 
-      <h4>Registra una nueva contraseña</h4>
+      <h4>Registra Nueva Contraseña</h4>
 
       <div class="col-md-offset-4 col-md-4 autenticacion">
 

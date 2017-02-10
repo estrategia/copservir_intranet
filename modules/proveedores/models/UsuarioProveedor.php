@@ -41,10 +41,11 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
     {
         return [
             [['numeroDocumento', 'nombre', 'primerApellido', 'nitLaboratorio', 'email'], 'required'],
-            [['fechaNacimiento', 'idProfesion', 'Direccion', 'Ciudad'], 'required', 'on' => ['actualizar-mi-cuenta-proveedores', 'actualizar-mi-cuenta-proveedores-terminos']],
+            [['fechaNacimiento', 'idProfesion', 'Direccion', 'Ciudad', 'telefono', 'celular'], 'required', 'on' => ['actualizar-mi-cuenta-proveedores', 'actualizar-mi-cuenta-proveedores-terminos']],
             [['confirmarDatosPersonales'], 'required', 'on' => 'actualizar-mi-cuenta-proveedores-terminos', 'requiredValue' => 1, 'message' => 'Debe aceptar la política de tratamiento de datos.'],
             [['numeroDocumento'], 'integer', 'min' => 5, 'max' => 999999999999],
-            [['celular'], 'integer', 'min' => 5, 'max' => 9999999999],
+            [['telefono'], 'integer', 'min' => 5, 'max' => 9999999999],
+			[['celular'], 'integer', 'min' => 5, 'max' => 9999999999],
             // [['confirmarDatosPersonales'], 'integer', 'min' => 0, 'max' => 1],
             [['fechaNacimiento'], 'safe'],
             [['nombre', 'primerApellido', 'segundoApellido', 'nitLaboratorio', 'Ciudad', 'Direccion'], 'string', 'max' => 45, 'min' => 3],
@@ -72,7 +73,7 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
             'primerApellido' => 'Primer Apellido',
             'segundoApellido' => 'Segundo Apellido',
             'email' => 'Email',
-            'telefono' => 'Teléfono',
+            'telefono' => 'Teléfono Fijo',
             'celular' => 'Celular',
             'nitLaboratorio' => 'NIT del Laboratorio',
             'profesion' => 'Profesión',
@@ -118,16 +119,48 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
     // Retorna la lista de permisos paara asignar a los usuarios
     public function getPermisosAsignacion()
     {
-        $permisos = [
-            'Información General' => 'proveedores_usuario',
-            'Visita Médica' => 'visitaMedica_visitador',
-            'Actividades Comerciales' => 'proveedores_actividades-comerciales',
-            'Certificados Tributarios' => 'proveedores_certificados-tributarios',
-            'Mis Productos' => 'proveedores_mis-productos',
-            'Informe de Ventas' => 'proveedores_informe-ventas',
-            'Cita Entrega de Mercancia' => 'proveedores_citas-mercancia',
-        ];
-        return $permisos;
+        // $serviciosPublicos = Yii::$app->params['portales']['proveedores']['servicios-publicos'];
+        // $serviciosPrivados = Yii::$app->params['portales']['proveedores']['servicios-privados'];
+        // $rolesUsuario = \Yii::$app->authManager->getRolesByUser(\Yii::$app->user->identity->numeroDocumento);
+        // $serviciosPermitidos = [];
+
+        // foreach ($serviciosPrivados as $key => $value) {
+            
+        // }
+
+        // $serviciosUsuario = array_merge($serviciosPublicos,$serviciosPermitidos);
+        // $permisos = [
+        //     'Información General' => 'proveedores_usuario',
+        //     'Visita Médica' => 'visitaMedica_visitador',
+        //     'Actividades Comerciales' => 'proveedores_actividades-comerciales',
+        //     'Certificados Tributarios' => 'proveedores_certificados-tributarios',
+        //     'Mis Productos' => 'proveedores_mis-productos',
+        //     'Informe de Ventas' => 'proveedores_informe-ventas',
+        //     'Cita Entrega de Mercancia' => 'proveedores_citas-mercancia',
+        // ];
+        $serviciosPublicos = Yii::$app->params['portales']['proveedores']['servicios-publicos'];
+        $serviciosPrivados = Yii::$app->params['portales']['proveedores']['servicios-privados'];
+        $serviciosPermisos = Yii::$app->params['portales']['proveedores']['servicios-permisos'];
+        $rolesUsuario = array_keys(\Yii::$app->authManager->getRolesByUser(\Yii::$app->user->identity->numeroDocumento));
+
+        // Obtenemos la lista de permisos que se pueden asignar al usuario
+        $serviciosPermitidos = [];
+        foreach ($rolesUsuario as $rol) {
+            if (isset($serviciosPermisos[$rol])) {
+                $serviciosPermitidos[] = $serviciosPermisos[$rol];
+            }
+        }
+
+        // Flaten al array para hacer mas facil la busqueda de permisos
+        // En caso de que puedan existir duplicados, usar array_unique() sobre el array
+        $serviciosPermitidosFlat = [];
+        array_walk_recursive($serviciosPermitidos, function($value) use (&$serviciosPermitidosFlat) { 
+            $serviciosPermitidosFlat[] = $value;
+        });
+
+        $permisosAsignables = array_intersect($serviciosPrivados, $serviciosPermitidosFlat);
+        $serviciosUsuario = array_merge($serviciosPublicos,$permisosAsignables);
+        return $serviciosUsuario;
     }
 
     // Retorna los roles que no tiene el usuario para ser eliminados

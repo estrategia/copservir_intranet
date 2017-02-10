@@ -1,7 +1,7 @@
 <?php
 
 $params = require(__DIR__ . '/params.php');
-$modulos = require(__DIR__ . '/modulos.php');
+$modules = require(__DIR__ . '/modules.php');
 
 $config = [
     'id' => 'basic',
@@ -11,39 +11,40 @@ $config = [
     'on beforeAction' => function ($event) {
         date_default_timezone_set('America/Bogota');
     },
-    'modules' => [
-        'intranet' => [
-            'class' => 'app\modules\intranet\IntranetModule',
-        ],
-        'proveedores' => [
-            'class' => 'app\modules\proveedores\ProveedoresModule',
-            'modules' => [
-                'visitamedica' => [
-                    'class' => 'app\modules\proveedores\modules\visitamedica\VisitaMedicaModule',
-                ],
-            ],
-        ],
-        'convenios' => [
-            'class' => 'app\modules\convenios\ConveniosModule',
-        ],
-        'copservir' => [
-            'class' => 'app\modules\copservir\CopservirModule',
-        ],
-        'tarjetamas' => [
-            'class' => 'app\modules\tarjetamas\TarjetaMasModule',
-        ],
-        'trademarketing' => [
-            'class' => 'app\modules\trademarketing\TradeMarketingModule',
-        ],
-        'treemanager' => [
-            'class' => '\kartik\tree\Module',
-        // other module settings, refer detailed documentation
-        ],
-    /* 'gridview' => [
-      //'class' => '\kartik\grid\Module',
-      //'downloadAction' => '',
-      ] */
-    ],
+    // 'modules' => [
+    //     'intranet' => [
+    //         'class' => 'app\modules\intranet\IntranetModule',
+    //     ],
+    //     'proveedores' => [
+    //         'class' => 'app\modules\proveedores\ProveedoresModule',
+    //         'modules' => [
+    //             'visitamedica' => [
+    //                 'class' => 'app\modules\proveedores\modules\visitamedica\VisitaMedicaModule',
+    //             ],
+    //         ],
+    //     ],
+    //     'convenios' => [
+    //         'class' => 'app\modules\convenios\ConveniosModule',
+    //     ],
+    //     'copservir' => [
+    //         'class' => 'app\modules\copservir\CopservirModule',
+    //     ],
+    //     'tarjetamas' => [
+    //         'class' => 'app\modules\tarjetamas\TarjetaMasModule',
+    //     ],
+    //     'trademarketing' => [
+    //         'class' => 'app\modules\trademarketing\TradeMarketingModule',
+    //     ],
+    //     'treemanager' => [
+    //         'class' => '\kartik\tree\Module',
+    //     ],
+    //     // other module settings, refer detailed documentation
+    // /* 'gridview' => [
+    //   //'class' => '\kartik\grid\Module',
+    //   //'downloadAction' => '',
+    //   ] */
+    // ],
+    'modules' => $modules,
     'components' => [
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
@@ -155,9 +156,15 @@ $config = [
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+
                 'proveedores/visitamedica/productos/producto/<codigoProducto:\d+>' => 'proveedores/visitamedica/productos/producto',
                 'proveedores/visitamedica/reportes/acceso/<tiempo:\w+\-?\w+>' => 'proveedores/visitamedica/reportes/acceso',
                 'proveedores/visitamedica/reportes/producto/<tiempo:\w+\-?\w+>' => 'proveedores/visitamedica/reportes/producto',
+
+                'intranet/visitamedica/reportes' => 'intranet/visita-medica-reportes',
+                'intranet/visitamedica/reportes/acceso/<tiempo:\w+\-?\w+>' => 'intranet/visita-medica-reportes/acceso',
+                'intranet/visitamedica/reportes/producto/<tiempo:\w+\-?\w+>' => 'intranet/visita-medica-reportes/producto',
+
                 'trademarketing/rest/observaciones/asignacion/<idAsignacion:\d+>/variable/<idVariable:\d+>' => 'trademarketing/rest/rest-observaciones/listar-observaciones',
 
                 // REST

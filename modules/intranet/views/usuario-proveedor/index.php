@@ -61,9 +61,25 @@ $urlBase = Yii::$app->getUrlManager()->getBaseUrl();
                             'attribute' => '',
                             'format' => 'raw',
                             'value' => function ($model) {
-                                return Html::a('Asignar permisos', Yii::$app->getUrlManager()->getBaseUrl() .'/intranet/permisos/usuario?id='. $model->numeroDocumento);
+                                return Html::a('Asignar permisos', Yii::$app->getUrlManager()->getBaseUrl() .'/intranet/permisos/usuario?id='. $model->numeroDocumento, ['class' => 'btn btn-primary']);
                             }
-                        ]
+                        ],
+                        [
+                            'attribute' => '',
+                            'format' => 'raw',
+                            'value' => function ($model) {
+                                $clase = '';
+                                $texto = '';
+                                if ($model->objUsuario->estado == 1) {
+                                    $clase = 'btn btn-danger';
+                                    $texto = 'Desactivar';
+                                } else {
+                                    $clase = 'btn btn-success';
+                                    $texto = 'Activar';
+                                }
+                                return '<a class="'. $clase .'" href="'. $url = 'cambiar-estado?id=' . $model->numeroDocumento .'"> ' . $texto . ' </a>';
+                            },
+                        ],
                     ],
                 ]); ?>
 

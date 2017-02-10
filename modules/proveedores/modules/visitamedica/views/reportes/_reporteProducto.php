@@ -76,15 +76,15 @@
     if (tiempo == 'hoy' || tiempo == 'ayer') {
       Morris.Donut({
         element: 'graficaAcceso',
-        data: datosGrafica,
+        data: datosGrafica[0],
         resize: true
       });
     } else {
-      var ykeys = Object.keys(datosGrafica[0]).slice(0, -1);
-
+      var puntos = datosGrafica[1];
+      var ykeys = Object.keys(puntos[0]).slice(0, -1);
       var grafica = new Morris.Line({
           element: 'graficaAcceso',
-          data: datosGrafica ,
+          data: puntos,
           xkey: 'fechaConsulta',
           ykeys: ykeys,
           labels: ykeys,

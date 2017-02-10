@@ -14,11 +14,8 @@ $this->title = 'Recuperación de contraseña';
 
       <div class="space-1"></div>
 
-      <h4>Recuperacion de contraseña</h4>
-      <p>
-        Diligencia el formulario y se te enviara un correo para recuperar tu contraseña<br>
-      </p>
-      <div class="col-md-offset-4 col-md-4 autenticacion">
+      <h4>Recuperar Contraseña</h4>
+	  <div class="col-md-offset-4 col-md-4 autenticacion">
 
 <!-- <div class="tiles grey p-t-20 p-b-20 no-margin text-black tab-content">
   <div role="tabpanel" class="tab-pane active" id="tab_login">
@@ -40,12 +37,12 @@ $this->title = 'Recuperación de contraseña';
         ],
         ])->label(false); ?>
 
-        <?= $form->field($model, 'captcha')->widget(Captcha::className(), ['captchaAction'=>'usuario/captcha'])->label("Ingresa el codigo") ?>
+        <?= $form->field($model, 'captcha')->widget(Captcha::className(), ['captchaAction'=>'usuario/captcha'])->label("Código:") ?>
         <br>
 
         <div class="form-group">
           <div class=" col-lg-12">
-            <?= Html::submitButton('Enviar Correo', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+            <?= Html::submitButton('Aceptar', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
           </div>
         </div>
         <?php ActiveForm::end(); ?>

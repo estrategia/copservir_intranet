@@ -56,6 +56,7 @@ class UsuarioProveedorController extends Controller
                     'ver' => 'intranet_usuario-proveedor_ver',
                     'crear' => 'intranet_usuario-proveedor_crear',
                     'actualizar' => 'intranet_usuario-proveedor_actualizar',
+                    'cambiar-estado' => 'intranet_usuario-proveedor_admin',
                 ],
            ],
         
@@ -84,13 +85,6 @@ class UsuarioProveedorController extends Controller
         return $this->render('/sitio/login', [
           'model' => $model,
         ]);
-    }
-
-    public function actionPruebaUnidades()
-    {
-        $unidadesNegocio = SIICOP::wsGetUnidadesNegocio();
-        var_dump($unidadesNegocio);
-        
     }
 
     public function actionSalir() {
@@ -151,7 +145,7 @@ class UsuarioProveedorController extends Controller
            $laboratorio = Yii::$app->user->identity->objUsuarioProveedor->nitLaboratorio;
         }
 
-        $dataProvider = $searchModel->search($params, $laboratorio, false, \Yii::$app->controller->module->id);
+        $dataProvider = $searchModel->search($params, $laboratorio, true, \Yii::$app->controller->module->id);
 
         // var_dump($dataProvider);
 
@@ -223,7 +217,6 @@ class UsuarioProveedorController extends Controller
         $usuarioProveedor = new UsuarioProveedor();
         $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
         $terceros = $this->getTerceros();
-        $unidadesNegocio = SIICOP::wsGetUnidadesNegocio(1);
         $tercerosSelect = ArrayHelper::map($terceros, 'NumeroDocumento', 'RazonSocial');
 
         // VarDumper::dump($terceros, 10, true); echo "<br>";
@@ -294,7 +287,6 @@ class UsuarioProveedorController extends Controller
             return $this->render('create', [
                 'model' => $usuarioProveedor,
                 'terceros' => $tercerosSelect,
-                'unidadesNegocio' => $unidadesNegocio,
                 'ciudades' => $ciudades,
             ]);
         }
@@ -310,7 +302,6 @@ class UsuarioProveedorController extends Controller
     {
         $usuarioProveedor = $this->findModel($id);
         $terceros = $this->getTerceros();
-        $unidadesNegocio = SIICOP::wsGetUnidadesNegocio(1);
         $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
         // array_unshift($unidadesNegocio, '(no definido)');  // $unidadesNegocio
         $tercerosSelect = ArrayHelper::map($terceros, 'NumeroDocumento', 'RazonSocial');
@@ -343,56 +334,28 @@ class UsuarioProveedorController extends Controller
             return $this->render('update', [
                 'model' => $usuarioProveedor,
                 'terceros' => $tercerosSelect,
-                'unidadesNegocio' => $unidadesNegocio,
                 'ciudades' => $ciudades,
             ]);
         }
     }
 
-    // public function actionActualizarMiCuenta()
-    // {
-    //     $documento =  Yii::$app->user->identity->numeroDocumento;
-    //     // var_dump($documento);
-    //     $usuarioVimed = UsuarioProveedor::findOne(['numeroDocumento' => $documento]);
-    //     $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
-
-    //     $client = new Client();
-    //     $url = Yii::$app->params['webServices']['lrv'] . '/profesion';
-
-    //     $response = $client->createRequest()
-    //     ->setMethod('get')
-    //     ->setUrl($url)
-    //     ->setData([])
-    //     ->setOptions([
-    //         'timeout' => 5, // set timeout to 5 seconds for the case server is not responding
-    //     ])
-    //     ->send();
-    //     $profesiones = ArrayHelper::map($response->data['response'], 'idProfesion', 'nombreProfesion');
-
-    //     // var_dump(Yii::$app->user->identity->numeroDocumento);
-    //     // var_dump($usuarioVimed);
-    //     if ($usuarioVimed->load(Yii::$app->request->post())) {
-    //         $idProfesion = Yii::$app->request->post()['UsuarioProveedor']['idProfesion'];
-    //         $usuarioVimed->profesion = $profesiones[$idProfesion];
-    //         $usuarioVimed->idProfesion = $idProfesion;
-    //         if ($usuarioVimed->save()) {
-    //             return $this->redirect('mi-cuenta');
-    //         }
-    //     } else {
-    //         return $this->render('actualizarMiCuenta', [
-    //             'model' => $usuarioVimed,
-    //             'ciudades' => $ciudades,
-    //             'profesiones' => $profesiones,
-    //         ]);
-    //     }
-    // }
-
-    // public function actionMiCuenta()
-    // {
-    //     $intranetUser = \app\models\Usuario::findOne(Yii::$app->user->identity->idUsuario);
-    //     $proveedoresUser = UsuarioProveedor::findOne(['numeroDocumento', $intranetUser->numeroDocumento]);
-    //     return $this->render('miCuenta', ['model' => $proveedoresUser]);
-    // }
+    public function actionCambiarEstado($id)
+    {
+        $usuario = \app\models\Usuario::findOne(['numeroDocumento' => $id]);
+        // var_dump($usuario);exit();
+        if ($usuario->estado == 1) {
+            $usuario->estado = 0;
+        } else {
+            $usuario->estado = 1;
+        }
+        if ($usuario->save()) {
+            Yii::$app->session->setFlash('success', 'Se ha cambiado el estado del usuario');
+        } else {
+            Yii::$app->session->setFlash('error', 'No se ha cambiad el estado del usuario');
+        }
+          
+        return $this->redirect(['admin']);
+    }
 
     public function actionCambiarFotoPerfil() {
         $modelFoto = FotoForm::find()->where(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento, 'estado' => 1])->one();

@@ -18,12 +18,13 @@ Desde este momento su compañía <strong><?php echo $laboratorio; ?></strong> ha
   7. Citas Entrega de Mercancía
 
 Si alguno de estos servicios no esta disponible al momento de ingresar, es necesario que se ponga en contacto con el representante legal de su compañía <strong><?php echo $laboratorio; ?></strong> para que le asigne los permisos a los servicios, ya que el es la persona encargada de crear usuarios para acceder al Portal Colaborativo de Copservir Ltda. Y a los servicios de este.
+
 Recuerde ingresar al portal y cambiar su contraseña si lo desea, además de gestionar la información de su perfil.
 
-<strong>Información de acceso:</strong> <br>
+<strong>Información de Acceso:</strong> <br>
 <strong>Usuario:</strong> <?php echo $infoUsuario['usuario']; ?>
 
 <strong>Contraseña:</strong> <?php echo $infoUsuario['password']; ?>
 
-<strong>Link de acceso: </strong> <?= Html::a('Portal colaborativo', yii::$app->urlManager->createAbsoluteUrl('proveedores/usuario/autenticar'), array('target' => '_blank'));?>.
+<strong>Link de acceso: </strong> <?= Html::a('Portal Colaborativo', yii::$app->urlManager->createAbsoluteUrl('proveedores/usuario/autenticar'), array('target' => '_blank'));?>.
 </pre>

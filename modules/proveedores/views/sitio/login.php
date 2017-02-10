@@ -37,10 +37,10 @@
       ],
     ])->label(false)->passwordInput();
   ?>
-  <?= Html::submitButton('Iniciar sesión', ['class' => 'btn btn-primary btn-sm btn-block', 'name' => 'login-button']) ?>
+  <?= Html::submitButton('Iniciar Sesión', ['class' => 'btn btn-primary btn-sm btn-block', 'name' => 'login-button']) ?>
 
 <?php ActiveForm::end(); ?>
-  <?= Html::a('¿Restablecer contrase&ntilde;a?', 'recordar-clave', []); ?>
+  <?= Html::a('¿Restablecer Contrase&ntilde;a?', 'recordar-clave', []); ?>
   </div>
 
  </div>

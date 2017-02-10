@@ -1,9 +1,9 @@
 <?php
     use yii\helpers\Html;
     use app\modules\intranet\models\Funciones;
-    $this->title = 'Seleccion de ubicacion';
+    $this->title = 'Ubicación';
     // $this->params['breadcrumbs'][] = ['label' => 'Reportes', 'url' => ['/proveedores/visitamedica/reportes']];
-    $this->params['breadcrumbs'][] = ['label' => 'Seleccion de ubicacion'];
+    $this->params['breadcrumbs'][] = ['label' => 'Selección de ubicación'];
     $this->registerCssFile('@web/libs/bootstrap-select2/select2.css');
     $this->registerJsFile('@web/libs/bootstrap-select2/select2.js', ['depends' => [app\assets\VisitaMedicaAsset::className()]]);
 ?>
@@ -19,9 +19,24 @@
     </strong>
 </div>
 <?php endif; ?>
-
-<button id="mostrarMapa" onclick="cargarMapa()" class="btn btn-default">Mapa</button>
-<button id="gps" onclick="getLocation()" class="btn btn-default">GPS</button>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2 col-md-offset-4">
+      <button onclick="cargarMapa()" class="tile tile-primary indigo-hover">
+          <span class="glyphicon glyphicon-globe"></span>
+          <p>Seleccionar ubicación en el mapa</p>                            
+          <div class="informer informer-default dir-tr"></span></div>
+      </button>
+    </div>
+    <div class="col-md-2">
+      <button onclick="getLocation()" class="tile tile-primary indigo-hover">
+          <span class="glyphicon glyphicon-map-marker"></span>
+          <p>Seleccionar ubicación con el GPS</p>                            
+          <div class="informer informer-default dir-tr"></span></div>
+      </button>
+    </div>
+  </div>
+</div>
 
 <div id="div-modal">
 	<div class="modal fade" id="modal-confirmacion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-focus-on="input:first">
@@ -57,7 +72,7 @@
 	        <h3 class="modal-title" id="myModalLabel">Error</h3>
 	      </div>
 	      <div class="modal-body">
-	          <h4>No tenemos cobertura para el lugar seleccionado. Por favor selecciona otra ubicacion</h4>
+            <h4>Sin cobertura en el sector. Por favor seleccione otra ubicación.</h4>
 	          <div class="row">
 	            <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cerrar</button>
 	          </div>

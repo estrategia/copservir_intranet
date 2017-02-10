@@ -33,14 +33,26 @@ VisitaMedicaAsset::register($this);
             <!-- START X-NAVIGATION -->
             <ul class="x-navigation"> 
                 <li class="xn-logo">
-                    <!-- <a href="index.php"><img src="imagenes/copservir.png" height="40"></a> -->
-                    <a href="#" class="x-navigation-control"></a>
+                <a href=" <?= $baseUrl . '/proveedores/visitamedica/ubicacion' ?> " class="cambio-ubicacion-small">
+                    <span class="fa fa-map-marker"></span>
+                    <?php if (\Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreCiudad'])): ?>
+                      
+                      <?= \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreCiudad']); ?>
+                      
+                      <!-- <?= \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreSector']); ?>  -->
+                      [Cambiar ubicacion]
+                    <?php else: ?>
+                      Selecciona una Ubicación y Sector en el Mapa
+                    <?php endif ?>
+                </a>
+                    <!-- <a href="index.php" class="visible-sm visible-md visible-xs"><img src=" <?php echo Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-proveedores.png' ?> "></a> -->
+                    <a href="#" class="x-navigation-control" style="color: black"></a>
                 </li>
                 <li class="xn-profile">
                     <a href="#" class="profile-mini">
                     </a>
                     <div class="profile">
-                        <div class="profile-image">
+                        <div class="profile-image hidden-xs hidden-sm">
                           <img src=" <?php echo Yii::$app->homeUrl . 'img/multiportal/proveedores/logo-vimed.png' ?> " alt="">
                         </div>
                         <div class="profile-data">
@@ -51,10 +63,6 @@ VisitaMedicaAsset::register($this);
                               <?php endif;?>
                             </div>
                             <div class="profile-data-title"></div>
-                        </div>
-                        <div class="profile-controls">
-                            <a href="<?= ($baseUrl . '/proveedores/visitamedica/usuario/mi-cuenta')?>" class="profile-control-left"><span class="fa fa-info"></span></a>
-                            <a href=" <?= ($baseUrl . '/proveedores/visitamedica/usuario/correo-admin') ?> " class="profile-control-right"><span class="fa fa-envelope"></span></a>
                         </div>
                     </div>                                                                        
                 </li>
@@ -91,7 +99,15 @@ VisitaMedicaAsset::register($this);
 	                    <a href="<?= ($baseUrl . '/proveedores/visitamedica/reportes')?>"><span class="fa fa-tags"></span> <span class="xn-text">Registro de Uso</span></a>                        
 	                </li>  
                 <?php endif;?> -->
-              
+                <li data-toggle="tooltip" data-placement="bottom" title="Salir">
+                  <?= Html::a('<span class="glyphicon glyphicon-off"></span><span class="title">Salir</span>', ['/proveedores/usuario/salir'], ['data'=>[
+                      'method' => 'post',
+                      'params'=>['id'=>'form-salir'],
+                            ],
+                    'class'=>'salir',
+                    ])
+                  ?>
+              </li>
                  
                 <!--  
                 <li>
@@ -116,25 +132,17 @@ VisitaMedicaAsset::register($this);
                       <?= \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreCiudad']); ?>
                       -
                       <?= \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['ubicacion']['nombreSector']); ?>
-                      (Cambiar ubicacion)
+                      [Cambiar Ubicación]
                     <?php else: ?>
-                      (Seleccionar ubicacion)
+                      Selecciona una Ubicación y Sector en el Mapa
                     <?php endif ?>
                 </a>
               </li>
-              <li class="xn-icon-button pull-right" data-toggle="tooltip" data-placement="bottom" title="Salir">
-                  <?= Html::a('<span class="glyphicon glyphicon-off"></span>', ['/proveedores/usuario/salir'], ['data'=>[
-                      'method' => 'post',
-                      'params'=>['id'=>'form-salir'],
-                            ],
-                    'class'=>'salir',
-                    ]) 
-                  ?>
-              </li>
-              <li class="xn-icon-button pull-right" data-toggle="tooltip" data-placement="bottom" title="Ayuda">
+              
+              <!-- <li class="xn-icon-button pull-right" data-toggle="tooltip" data-placement="bottom" title="Ayuda">
                   <?= Html::a('<span class="glyphicon glyphicon-question-sign"></span>', ['/proveedores/visitamedica/usuario/ayuda']) 
                   ?>
-              </li>
+              </li> -->
                
             </ul>
 
@@ -143,10 +151,10 @@ VisitaMedicaAsset::register($this);
                     <?php if(isset($this->params['breadcrumbs']) && !empty($this->params['breadcrumbs'])): ?>
                       <?=
                       Breadcrumbs::widget([
-                          'itemTemplate' => "<li>{link}</li><li>Visita medica</li>\n",
+                          'itemTemplate' => "<li>{link}</li>\n",
                           'homeLink' => [
-                              'label' => 'Proveedores',
-                              'url' => ['/proveedores/'],
+                              'label' => 'Inicio',
+                              'url' => ['/proveedores/visitamedica/'],
                           ],
                           'links' => $this->params['breadcrumbs'],
                       ]);

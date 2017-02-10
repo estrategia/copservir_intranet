@@ -7,6 +7,7 @@ use yii\httpclient\Client;
 use yii\web\Session;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\components\TerminosFilter;
 
 
 /**
@@ -18,32 +19,46 @@ class UbicacionController extends Controller
   public function behaviors()
   {
     return [
-    		[
-                'class' => \app\components\AccessFilter::className(),
-                'redirectUri' => ['/proveedores/visitamedica']
-            ],
-    		[
-	    		'class' => \app\components\AuthItemFilter::className(),
-	    		'only' => [
-	    			'index',
-	    		],
-	    		'authsActions' => [
-	    			'index' => 'visitaMedica_productos_buscar',
-	    		],
+  		  [
+            'class' => \app\components\AccessFilter::className(),
+            'redirectUri' => ['/proveedores/visitamedica']
+        ],
+  		  [
+	    		 'class' => \app\components\AuthItemFilter::className(),
+	    		 'only' => [
+    			    'index',
+        		],
+                'authsActions' => [
+        			  'index' => 'visitaMedica_productos_buscar',
+        		],
     		],
+        [
+            'class' => \app\components\TerminosFilter::className(),
+        ],
     ];
   }
 
   public function actionIndex()
   {
     return $this->render('index');
+    $client = new Client();
+    $url = \Yii::$app->params['webServices']['lrv'] . '/ciudad';
+    $response = $client->createRequest()
+    ->setMethod('get')
+    ->setUrl($url)
+    ->setData([])
+    ->setOptions([
+        'timeout' => 5, // set timeout to 5 seconds for the case server is not responding
+    ])
+    ->send();
+    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+    $ciudades = json_decode($response->content);
   }
   
   public function actionMapa()
   {
     $client = new Client();
     $url = \Yii::$app->params['webServices']['lrv'] . '/ciudad';
-
     $response = $client->createRequest()
     ->setMethod('get')
     ->setUrl($url)

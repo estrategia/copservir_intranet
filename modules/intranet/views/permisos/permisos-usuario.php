@@ -44,15 +44,26 @@ if ($esIntranet) {
     <?php $form = ActiveForm::begin(); ?>
     <div class="col-md-6">
       <?php
-        echo $form->field($autAssignment, 'item_name')->widget(Select2::classname(), [
-          'data' => $autAssignment->getListaRoles($usuario->numeroDocumento, $usuario->nombrePortal),
-          'options' => ['placeholder' => 'Seleccione un rol', 'onchange' => ' $( "#lista-permisos" ).empty(); getListaPermisos($(this).val())'],
-          'pluginEvents' => [
-                            ],
-          'pluginOptions' => [
-              'allowClear' => true,
-          ],
-        ])->label(false);
+        if ($esIntranet) {
+          echo $form->field($autAssignment, 'item_name')->widget(Select2::classname(), [
+            'data' => $autAssignment->getListaRoles($usuario->numeroDocumento, ''),
+            'options' => ['placeholder' => 'Seleccione un rol', 'onchange' => ' $( "#lista-permisos" ).empty(); getListaPermisos($(this).val())'],
+            'pluginEvents' => [],
+            'pluginOptions' => [
+                'allowClear' => true,
+            ],
+          ])->label(false);
+        } else {
+          echo $form->field($autAssignment, 'item_name')->widget(Select2::classname(), [
+            'data' => $autAssignment->getListaRoles($usuario->numeroDocumento, $usuario->nombrePortal),
+            'options' => ['placeholder' => 'Seleccione un rol', 'onchange' => ' $( "#lista-permisos" ).empty(); getListaPermisos($(this).val())'],
+            'pluginEvents' => [
+                              ],
+            'pluginOptions' => [
+                'allowClear' => true,
+            ],
+          ])->label(false);
+        }
       ?>
 
       <?= $form->field($autAssignment, 'user_id')->hiddenInput(['value'=> $usuario->numeroDocumento])->label(false); ?>

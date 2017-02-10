@@ -377,3 +377,13 @@ input[type="checkbox"] {
 .pagination ul > .active > span {
   background-color: #e8edf3;
 }
+
+.navbar-brand > img {
+  width: 190px !important;
+}
+
+@media only screen and (max-width: 768px) {
+  .white-piece {
+    border: none !important;
+  }
+}

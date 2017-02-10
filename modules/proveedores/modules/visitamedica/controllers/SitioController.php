@@ -7,6 +7,15 @@ use yii\web\Controller;
 /**
  */
 class SitioController extends Controller {
+	public function behaviors()
+	{
+		return [
+			[
+				'class' => \app\components\TerminosFilter::className(),
+			],
+		];
+	}
+	
 	public function actions() {
         return [
             'error' => [

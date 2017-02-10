@@ -33,6 +33,10 @@ $this->title = 'Califica un punto de venta';
 				<table class="table table-condensed table-bordered" width="100%">
 					<thead>
 						<tr>
+
+							<th colspan="9" class="text-center">M:2 R:3 B:4 E:5</th>		
+						</tr>
+						<tr>
 								<th rowspan="2">UNIDADES DE NEGOCIO</th>
 								<th rowspan="2">VARIABLES</th>
 
@@ -44,6 +48,7 @@ $this->title = 'Califica un punto de venta';
 									<th rowspan="2">TOTAL</th>
 									<th rowspan="2">OBSERVACIÓN</th>
 						</tr>
+						
 						<tr>
 
 							<?php foreach ($modelosUnidadesNegocio as $index => $unidadNegocio): ?>
@@ -89,7 +94,7 @@ $this->title = 'Califica un punto de venta';
 													<?php $modelosCalificacion[$contador]->valor = $modelosCalificacion[$contador]->isNewRecord ?
 								                0 : $modelosCalificacion[$contador]->valor ?>
 
-													<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']valor')->textInput(['maxlength' => true, 'data-califica-unidad' => 'si', 'data-index' => $contador,  'data-cantidad-variables' => count($categoria->variablesMedicion)])->label(false) ?>
+													<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']valor')->textInput(['maxlength' => true, 'type' => 'number', 'min' => 2, 'max' => 5, 'data-califica-unidad' => 'si', 'data-index' => $contador,  'data-cantidad-variables' => count($categoria->variablesMedicion)])->label(false) ?>
 
 													<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']idAsignacion')->hiddenInput(
 								                ['value'=> $modeloAsignacion->idAsignacion])->label(false); ?>
@@ -112,7 +117,7 @@ $this->title = 'Califica un punto de venta';
 												<?php $modelosCalificacion[$contador]->valor = $modelosCalificacion[$contador]->isNewRecord ?
 															0 : $modelosCalificacion[$contador]->valor ?>
 
-												 <?=  $form->field($modelosCalificacion[$contador], '['.$contador.']valor')->textInput(['maxlength' => true, 'data-index' => $contador,  'data-cantidad-variables' => count($categoria->variablesMedicion)])->label(false) ?>
+												 <?=  $form->field($modelosCalificacion[$contador], '['.$contador.']valor')->textInput(['maxlength' => true, 'type' => 'number', 'min' => 2, 'max' => 5, 'data-index' => $contador,  'data-cantidad-variables' => count($categoria->variablesMedicion)])->label(false) ?>
 
 												<?=  $form->field($modelosCalificacion[$contador], '['.$contador.']idAsignacion')->hiddenInput(
 							                ['value'=> $modeloAsignacion->idAsignacion])->label(false); ?>
