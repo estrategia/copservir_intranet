@@ -437,16 +437,15 @@ class UsuarioController extends \yii\web\Controller {
             // var_dump(\Yii::$app->user->identity->numeroDocumento);
             $usuario = Usuario::find()->where(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento])->one();
             $usuario->alias = Yii::$app->request->post()['PersonaForm']['alias'];
-            
             $response = self::callWSActualizarPersona($model->attributes);
-            if ($response && $usuario->update()) {
+            if ($response && $usuario->save()) {
                 \Yii::$app->user->identity->generarDatos(true);
                 return $this->redirect(['perfil']);
             } else {
                 Yii::$app->session->setFlash('error', 'Error al actualizar la información');
             }
         } else {
-            //var_dump($model->getErrors());
+            // var_dump($model->getErrors());
         }
 
         return $this->render('actualizarDatos', [

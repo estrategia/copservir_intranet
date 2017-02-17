@@ -21,7 +21,16 @@ $this->title = "Detalle evento";
             ],
         ]) ?>
     </p>
-
+    <?php 
+      $portales = implode(", ",
+        array_map(
+          function ($portal) { 
+            return $portal->nombrePortal; 
+          }, 
+          $model->eventosPortalesDestino
+        )
+      );
+    ?>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -32,10 +41,6 @@ $this->title = "Detalle evento";
           'horaInicioEvento',
           'fechaInicioVisible',
           [
-            'attribute' => 'idPortal',
-            'value' =>  $model->objPortal->nombrePortal
-          ],
-          [
             'attribute' => 'numeroDocumento',
             'label' => 'creado por',
             'value' =>  $model->objUsuario->alias
@@ -44,6 +49,10 @@ $this->title = "Detalle evento";
             'attribute' => 'estado',
             'value' =>  $model->estado == EventosCalendario::ACTIVO ? 'Activo' : 'Inactivo',
           ],
+          [
+            'attribute' => 'portales',
+            'value' => $portales,
+          ]
         ],
     ]) ?>
 

@@ -31,14 +31,16 @@ class EventosCalendario extends \yii\db\ActiveRecord {
   const ENLACE_INTERNO = 1;
   const ENLACE_EXTERNO = 2;
 
+  public $portales;
+
     public static function tableName() {
         return 't_EventosCalendario';
     }
 
     public function rules() {
         return [
-            [[ 'numeroDocumento', 'estado', 'idPortal'], 'integer'],
-            [['tituloEvento', 'numeroDocumento', 'fechaRegistro', 'fechaInicioEvento', 'fechaFinEvento', 'fechaInicioVisible', 'idPortal'], 'required'],
+            [[ 'numeroDocumento', 'estado'], 'integer'],
+            [['tituloEvento', 'numeroDocumento', 'fechaRegistro', 'fechaInicioEvento', 'fechaFinEvento', 'fechaInicioVisible', 'portales'], 'required'],
             [['fechaRegistro', 'fechaInicioEvento', 'horaInicioEvento', 'fechaFinEvento', 'horaFinEvento', 'fechaInicioVisible'], 'safe'],
             [['tituloEvento'], 'string', 'max' => 45],
             [['url'], 'string', 'max' => 200]
@@ -58,7 +60,8 @@ class EventosCalendario extends \yii\db\ActiveRecord {
             'horaFinEvento' => 'Hora Fin Evento',
             'fechaInicioVisible' => 'Fecha Inicio Visible',
             'estado' => 'Estado',
-            'idPortal' => 'Portal',
+            'portales' => 'Portales'
+            // 'idPortal' => 'Portal',
         ];
     }
 
@@ -67,7 +70,6 @@ class EventosCalendario extends \yii\db\ActiveRecord {
         //$fechaFin = "t.fechaFinVisible";
         $fechaInicio = "t.fechaInicioEvento";
         $fechaFin = "t.fechaFinEvento";
-
         /*if ($resumen) {
             $fechaInicio = "t.fechaInicioEvento";
             $fechaFin = "t.fechaFinEvento";
@@ -93,8 +95,8 @@ class EventosCalendario extends \yii\db\ActiveRecord {
             return $query;
         }
 
-        var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
-        exit();
+        //var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
+        //exit();
     }
 
     public function convertirEvento($portal) {
@@ -125,6 +127,36 @@ class EventosCalendario extends \yii\db\ActiveRecord {
         return $evento;
     }
 
+    public function actualizarPortales($portalesForm)
+    {
+        $portalesAsignados = $this->eventosPortalesDestino;
+        $idPortalesAsignados = ArrayHelper::getColumn($portalesAsignados, 'idPortal');
+        $paraInsertar = array_diff($portalesForm, $idPortalesAsignados);
+        $paraEliminar = array_diff($idPortalesAsignados, $portalesForm);
+        if (!empty($paraInsertar)) {
+            $this->guardarEventosPortalesDestino($paraInsertar);
+        }
+        if (!empty($paraEliminar)) {
+            $connection = Yii::$app->getDb();
+            $connection
+            ->createCommand()
+            ->delete('t_EventosCalendarioPortalesDestino', ['idPortal' => $paraEliminar])
+            ->execute();
+        }
+    }
+
+    public function guardarEventosPortalesDestino($portales)
+    {
+        $nombresPortales = $this->getListaPortales();
+        foreach ($portales as $key => $portal) {
+            $portalEvento = new EventosCalendarioPortalesDestino;
+            $portalEvento->idEventoCalendario = $this->idEventoCalendario;
+            $portalEvento->nombrePortal = $nombresPortales[$portal];
+            $portalEvento->idPortal = $portal;
+            $portalEvento->save();
+        }
+    }
+
     public function getListEventosDestinos() {
         return $this->hasMany(EventosCalendarioDestino::className(), ['idEventoCalendario' => 'idEventoCalendario']);
     }
@@ -135,6 +167,10 @@ class EventosCalendario extends \yii\db\ActiveRecord {
 
     public function getObjUsuario() {
         return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumento']);
+    }
+
+    public function getEventosPortalesDestino() {
+        return $this->hasMany(EventosCalendarioPortalesDestino::className(), ['idEventoCalendario' => 'idEventoCalendario']);
     }
 
     /**

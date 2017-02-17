@@ -6,6 +6,8 @@ use Yii;
 use yii\web\Controller;
 use yii\helpers\Json;
 use app\modules\intranet\models\EventosCalendario;
+use app\modules\intranet\models\Portal;
+use app\modules\intranet\models\EventosCalendarioPortalesDestino;
 
 abstract class ControllerCalendar extends Controller {
 
@@ -34,25 +36,29 @@ abstract class ControllerCalendar extends Controller {
     }
 
     public function actionTest() {
-        $portal = $this->module->id;
-        $destino = array();
+        $portales = Portal::find()->where(['estado' => 1])->all();
+        $response = \yii\helpers\ArrayHelper::map($portales, 'idPortal', 'nombrePortal');
+        return JSON::encode($response);
+        // $portal = $this->module->id;
+        // $destino = array();
 
-        if ($portal == "intranet") {
-            if(Yii::$app->user->isGuest){
-                echo Json::encode(array('result' => 'error', 'response' => 'Solicitud inv&aacute;lida'));
-                Yii::$app->end();
-            }else{
-                $destino['grupos'] = implode(',', Yii::$app->user->identity->getGruposCodigos());
-                $destino['ciudad'] = Yii::$app->user->identity->getCiudadCodigo();
-            }
-        }
+        // if ($portal == "intranet") {
+        //     if(Yii::$app->user->isGuest){
+        //         echo Json::encode(array('result' => 'error', 'response' => 'Solicitud inv&aacute;lida'));
+        //         Yii::$app->end();
+        //     }else{
+        //         $destino['grupos'] = implode(',', Yii::$app->user->identity->getGruposCodigos());
+        //         $destino['ciudad'] = Yii::$app->user->identity->getCiudadCodigo();
+        //     }
+        // }
 
-        $fin = "2016-06-12";
-        $inicio = "2016-03-01";
-        $fInicio = \DateTime::createFromFormat('Y-m-d H:i:s', "$inicio 00:00:00");
-        $fFin = \DateTime::createFromFormat('Y-m-d H:i:s', "$fin 23:59:00");
+        // $fin = "2016-06-12";
+        // $inicio = "2016-03-01";
+        // $fInicio = \DateTime::createFromFormat('Y-m-d H:i:s', "$inicio 00:00:00");
+        // $fFin = \DateTime::createFromFormat('Y-m-d H:i:s', "$fin 23:59:00");
 
-        EventosCalendario::consultarEventos($fInicio->format('Y-m-d'),$fFin->format('Y-m-d'),$portal,$destino);
+        // \yii\helpers\VarDumper::dump(EventosCalendario::consultarEventos($fInicio->format('Y-m-d'),$fFin->format('Y-m-d'),$portal,$destino), 10, true);
+
     }
 
     public function actionEventos() {

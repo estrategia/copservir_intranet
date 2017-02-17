@@ -51,7 +51,7 @@ class VisitaMedicaReportesController extends Controller
   public function actionProducto()
   {
     $modelo = new Reportes();
-    if (!isset($ciudad)) {
+    if (!isset(Yii::$app->session[Yii::$app->params['visitamedica']['session']['nitLaboratorio']])) {
         \Yii::$app->session->setFlash('error', "Por favor selecciona un proveedor para visualizar los reportes");
         return $this->redirect( \Yii::$app->getUrlManager()->getBaseUrl() . '/intranet/visitamedica/reportes');
       }
@@ -82,7 +82,7 @@ class VisitaMedicaReportesController extends Controller
   public function actionAcceso()
   { 
     $modelo = new Reportes();
-    if (!isset($ciudad)) {
+    if (!isset(Yii::$app->session[Yii::$app->params['visitamedica']['session']['nitLaboratorio']])) {
         \Yii::$app->session->setFlash('error', "Por favor selecciona un proveedor para visualizar los reportes");
         return $this->redirect( \Yii::$app->getUrlManager()->getBaseUrl() . '/intranet/visitamedica/reportes');
       }

@@ -547,7 +547,7 @@ class Contenido extends \yii\db\ActiveRecord {
     public function aprobarPublicacion() {
         $this->estado = Contenido::APROBADO;
         $this->fechaAprobacion = date("Y-m-d H:i:s");
-        $this->fechaInicioPublicacion = date("Y-m-d H:i:s");
+        // $this->fechaInicioPublicacion = date("Y-m-d H:i:s");
     }
 
     /**

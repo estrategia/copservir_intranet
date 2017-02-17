@@ -77,16 +77,19 @@ use app\modules\intranet\models\EventosCalendario;
         ]
       ]);
       ?>
-
+      
       <?php
-        echo $form->field($model, 'idPortal')->widget(Select2::classname(), [
+        echo $form->field($model, 'portales')->widget(Select2::classname(), [
           'data' => $model->getListaPortales(),
           'options' => ['placeholder' => 'Seleccione el portal'],
           'pluginEvents' => [
-                              "select2:selecting" => "function(e) { setInputTimeLine(e.params.args.data.text); }",
+                              "select2:select" => "function(e) { setInputTimeLine(); }",
+                              "select2:unselect" => "function(e) { setInputTimeLine(); }",
                             ],
           'pluginOptions' => [
               'allowClear' => true,
+              'multiple' => true,
+              // 'tags' => true,
           ],
         ]);
       ?>
@@ -121,24 +124,50 @@ use app\modules\intranet\models\EventosCalendario;
       $inputUrlHidden = $form->field($model, 'url')->hiddenInput(['value'=> ''])->label(false);
       $inputUrlHidden = str_replace("\n", "", $inputUrlHidden);
 
-      $this->registerJs("
-        function setInputTimeLine(selectedOption) {
-          if(selectedOption === 'intranet' && ".$bandera."){
-            $('#divDestinos').show();
-          }else{
-            $('#divDestinos').hide();
+      if ($model->isNewRecord) {
+        $this->registerJs("
+          function setInputTimeLine() {
+            valores = $('#eventoscalendario-portales').select2('val');
+            if ($.inArray('1', valores) != -1 && ".$bandera.") {
+              $('#divDestinos').show();
+            } else {
+              $('#divDestinos').hide();
+            }
           }
-        }
-      ");
+        ");
+      }
+      if (!$model->isNewRecord) {
+        $this->registerJs("
+          $(document).ready(function() {
+            valores = $('#eventoscalendario-portales').select2('val');
+            if ($.inArray('1', valores) != -1) {
+              $('#destinosEventos').show();
+            } else {
+              console.log('hide');
+              $('#destinosEventos').hide();
+            }
+          });
+          function setInputTimeLine()
+          {
+            valores = $('#eventoscalendario-portales').select2('val');
+            if ($.inArray('1', valores) != -1) {
+              $('#destinosEventos').show();
+            } else {
+              $('#destinosEventos').hide();
+            }
+          }
+        ");
+      }
     ?>
 
     <?php ActiveForm::end(); ?>
 
 </div>
 
-<div class="col-md-12"> <hr> </div>
+<!-- <div class="col-md-12">  </div> -->
 
 <div class="col-md-12">
+  <hr>
   <?php if (!$model->isNewRecord): ?>
       <div id="destinosEventos">
         <?= $this->render('_destinoEventos', ['model' => $model, 'destinoEventosCalendario' => $destinoEventosCalendario, 'modelDestinoEventos' => $modelDestinoEventos]) ?>

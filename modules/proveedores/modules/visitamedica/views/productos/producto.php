@@ -8,7 +8,7 @@
   $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?php if($result == 0): ?>
-<div class="alert alert-warning alert-dismissible">
+  <div class="alert alert-warning alert-dismissible">
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> 
     <span class="glyphicon glyphicon-exclamation-sign"></span> <strong>Importante</strong>
     <hr class="message-inner-separator">

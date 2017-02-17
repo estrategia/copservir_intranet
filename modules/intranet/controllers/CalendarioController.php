@@ -6,7 +6,9 @@ use Yii;
 use app\controllers\ControllerCalendar;
 use app\modules\intranet\models\EventosCalendario;
 use app\modules\intranet\models\EventosCalendarioDestino;
+use app\modules\intranet\models\EventosCalendarioPortalesDestino;
 use app\modules\intranet\models\EventosCalendarioSearch;
+use app\modules\intranet\models\Portal;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\intranet\models\ContenidoSearch;
@@ -83,13 +85,14 @@ class CalendarioController extends ControllerCalendar {
       $model = new EventosCalendario();
       if ($model->load(Yii::$app->request->post())) {
           $destinos = Yii::$app->request->post('EventosCalendarioDestino');
+          $portales = Yii::$app->request->post('EventosCalendario')['portales'];
           $transaction = EventosCalendario::getDb()->beginTransaction();
           try {
               if ($model->save()) {
                 if (!empty($destinos['codigoCiudad']) && !empty($destinos['idGrupoInteres']) && $model->idPortal == 1) { // 1 es el numero de intranet
                   $this->guardarEventoDestino($destinos, $model->idEventoCalendario);
                 }
-
+                $model->guardarEventosPortalesDestino($portales);
                 $transaction->commit();
                 return $this->redirect(['detalle', 'id' => $model->idEventoCalendario]);
               }
@@ -129,6 +132,15 @@ class CalendarioController extends ControllerCalendar {
     }
   }
 
+  protected function getNombresPortales()
+  {
+    return  \yii\helpers\ArrayHelper::map(
+              Portal::find()->where(['estado' => 1])->all(),
+              'idPortal',
+              'nombrePortal'
+          );
+  }
+
 
   /**
    * Actualiza un modelo EventosCalendario existente.
@@ -141,15 +153,29 @@ class CalendarioController extends ControllerCalendar {
       $destinoEventosCalendario = EventosCalendarioDestino::listaOfertas($id);
       $modelDestinoEventos = new EventosCalendarioDestino;
 
+          // \yii\helpers\VarDumper::dump(Yii::$app->request->post('EventosCalendario')['portales'],10,true);
+          // exit();
       if ($model->load(Yii::$app->request->post()) && $model->save()) {
+          $portales = Yii::$app->request->post('EventosCalendario')['portales'];
+          $model->actualizarPortales($portales);
+          if (!in_array('1', $portales)) {
+            $this->eliminarEventosCalendarioDestino($id);
+          } 
+          // exit();
           return $this->redirect(['detalle', 'id' => $model->idEventoCalendario]);
       } else {
+          $model->portales = \yii\helpers\ArrayHelper::getColumn(EventosCalendarioPortalesDestino::find()->where(['idEventoCalendario' => $id])->all(), 'idPortal');
           return $this->render('actualizar', [
               'model' => $model,
               'destinoEventosCalendario' => $destinoEventosCalendario,
               'modelDestinoEventos' => $modelDestinoEventos
           ]);
       }
+  }
+
+  protected function eliminarEventosCalendarioDestino($idEventoCalendario)
+  {
+      EventosCalendarioDestino::deleteAll('idEventoCalendario = :id',[':id' => $idEventoCalendario]);
   }
 
   /**

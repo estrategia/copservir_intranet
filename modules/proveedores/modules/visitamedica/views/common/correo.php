@@ -18,7 +18,7 @@
                         <?= $contenido ?>
                         <div style="height: 20px;"></div>
                         <p style="font-size:13.5pt;color:rgb(102,102,102)">
-                            <strong>Cordialmente</strong>
+                            <strong>Cordialmente,</strong>
                             <br/>
                             <span style="color: #888888;"><strong>Copservir LTDA</strong></span>
                         </p>

@@ -26,6 +26,8 @@ function eventClick(calEvent, jsEvent, view) {
 }
 
 function viewRender(view, element, module) {
+    // console.log(module);
+    
     var viewType = 1;
     if (view.name === 'basicWeek' || view.name === 'agendaWeek')
         viewType = 2;

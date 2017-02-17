@@ -21,7 +21,6 @@ $ruta = Yii::getAlias('@web')."/libs/fileinput/fileinput_locale_es.js";
     'options'=>['encytype'=>'multipart/form-data']
   ]);
   ?>
-
   <?php echo $form->field($objContenido, 'titulo')->input(['value' => 1]); ?>
   <?php
   echo $form->field($objContenido, 'contenido')->widget(Widget::className(), [

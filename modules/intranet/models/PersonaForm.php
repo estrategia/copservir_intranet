@@ -29,7 +29,7 @@ class PersonaForm extends Model {
       [['IdCiudad', 'NumeroDocumento'], 'integer' ],
       [['Nombres', 'PrimerApellido', 'SegundoApellido'], 'string', 'max' => 255],
       [['Direccion'], 'string', 'min' =>8],
-      [['alias'], 'string', 'min' =>4, 'max' => '60' ],
+      [['alias'], 'string', 'min' => 4, 'max' => '60' ],
       [['FechaNacimiento'], 'safe'],
     ];
   }

@@ -32,13 +32,4 @@ return [
   'prueba' => [
     'class' => 'app\modules\prueba\PruebaModule',
   ],
-  'prueba' => [
-    'class' => 'app\modules\prueba\PruebaModule',
-  ],
-  'prueba' => [
-    'class' => 'app\modules\prueba\PruebaModule',
-  ],
-  'prueba' => [
-    'class' => 'app\modules\prueba\PruebaModule',
-  ],
 ];

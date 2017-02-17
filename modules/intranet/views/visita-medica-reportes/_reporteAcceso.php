@@ -1,6 +1,6 @@
 <?php 
   $baseUrl = Yii::$app->getUrlManager()->getBaseUrl();
-    use app\assets\VisitaMedicaReportesAsset;
+  use app\assets\VisitaMedicaReportesAsset;
   VisitaMedicaReportesAsset::register($this);
   $this->title = 'Consultas de productos';
   $this->params['breadcrumbs'][] = ['label' => 'Reportes', 'url' => ['/intranet/visitamedica/reportes']];

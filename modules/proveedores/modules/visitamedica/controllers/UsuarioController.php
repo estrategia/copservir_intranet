@@ -293,6 +293,7 @@ class UsuarioController extends Controller
                                 ->setTo($proveedor['email'])->setSubject('Mensaje de' . $usuarioVimed->nombre)
                                 ->setHtmlBody($correoEnviar)->send();
             }
+            Yii::$app->session->setFlash('success', "Se ha enviado correctamente el mensaje a los administradores de la cuenta creada en el Portal Colaborativo de Copservir Ltda.");
         }
         return $this->render('correoAdminForm', ['model' => $model]);
 

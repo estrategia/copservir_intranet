@@ -8,6 +8,7 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use kartik\file\FileInput;
+use kartik\date\DatePicker;
 
 //$maxFileCount = Parametros::obtenerValorParametro('contenido_maxFileCount');
 //$maxFileSize = Parametros::obtenerValorParametro('contenido_maxFileSize');
@@ -43,7 +44,14 @@ if (!$contenidoModel->isNewRecord) {
 <?php
   echo $form->field($contenidoModel, 'titulo')->input(['value' => 1]);
 ?>
-
+  <?php
+    echo  $form->field($contenidoModel, 'fechaInicioPublicacion')->widget(DatePicker::classname(), [
+      'pluginOptions' => [
+        'autoclose' => true,
+        'format' => 'yyyy-mm-dd'
+      ]
+    ]);
+    ?>
 <?php
   echo $form->field($contenidoModel, 'contenido')->widget(Widget::className(), [
 
