@@ -70,4 +70,3 @@ $this->title = 'Login';
 
   <div class="space-2"></div>
   <div class="space-2"></div>
-</div>
