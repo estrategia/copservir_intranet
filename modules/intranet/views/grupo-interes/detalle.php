@@ -36,6 +36,10 @@ $this->params['breadcrumbs'][] = ['label' => 'Ver grupo'];
                   '<img src="'.Yii::getAlias('@web').'/img/gruposInteres/'. $grupo->imagenGrupo.'"
                   class="img-circle img-responsive" style="width: 15%;"/>',
               ],
+              [
+                'attribute' => 'padre',
+                'value' => $grupo->padre->nombreGrupo
+              ]
           ],
       ]) ?>
 

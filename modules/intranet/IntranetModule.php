@@ -13,9 +13,6 @@ class IntranetModule extends \yii\base\Module {
         parent::init();
 
         Yii::$app->errorHandler->errorAction = 'intranet/sitio/error';
-
-
-        // custom initialization code goes here
     }
 
 }

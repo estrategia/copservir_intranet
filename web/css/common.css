@@ -7,3 +7,21 @@
 .space-2 {
   height: 50px;
 }
+
+.flexbox-row {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.flexbox-col {
+  max-width: 300px;
+  max-height: 300px;
+  margin: 5px;
+  position: relative;
+}
+
+.overlayer {
+  position: absolute;
+  width: 100%;
+}

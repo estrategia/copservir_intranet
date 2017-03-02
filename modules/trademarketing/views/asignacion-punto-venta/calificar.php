@@ -157,6 +157,7 @@ $this->title = 'Califica un punto de venta';
 
 						<?php endforeach; ?>
 						<?php $categorias = $informacionReporte['categorias']; ?>
+						<!-- <?php // \yii\helpers\VarDumper::dump($categorias, 10, true) ?> -->
 						<?php foreach($categorias as $categoria): ?>
 		          <tr>
 		            <th colspan="2">

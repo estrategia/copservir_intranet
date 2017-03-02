@@ -13,7 +13,12 @@ use app\modules\intranet\models\ModuloContenido;
     <div class="space-1"></div>
 <?php endif; ?>
 
+<?php if ($objModulo->tipo == ModuloContenido::TIPO_GALERIA): ?>
+  <?= $this->render('//common/contenido/_galeria', array('objModulo' => $objModulo,'tituloGrupo'=>$tituloGrupo)) ?>
+<?php endif ?>
+
 <?php if ($objModulo->tipo == ModuloContenido::TIPO_DATATABLE_CEDULA): ?>
+
 
 <?php
   $numeroDocumento = Yii::$app->user->identity->numeroDocumento;

@@ -1857,3 +1857,88 @@ $( document ).ready(function() {
   });
 
 });
+
+$(document).on('click', 'button[data-role="eliminar-imagen-modulo-galeria"]', function () {
+  var idImagen = $(this).attr('data-imagen');
+  var idModulo = $(this).attr('data-modulo');
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/modulos-administrables/eliminar-imagen',
+    data: {idImagen: idImagen, idModulo: idModulo},
+    beforeSend: function() {
+      $('body').showLoading();
+    },
+    success: function(data) {
+        var data = $.parseJSON(data);
+        if (data.result == "ok") {
+          $("#lista-imagenes-modulo-galeria").html(data.response);
+        } else if (data.result == "error") {
+          console.log('error');
+        }
+    },
+    complete: function() {
+      $('body').hideLoading();
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+    }
+  });
+})
+
+$(document).on('click', 'button[data-role="editar-imagen-modulo-galeria"]', function () {
+  var idImagen = $(this).attr('data-imagen');
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/modulos-administrables/editar-imagen',
+    data: {idImagen: idImagen},
+    beforeSend: function() {
+      $('body').showLoading();
+    },
+    success: function(data) {
+        var data = $.parseJSON(data);
+        if (data.result == "ok") {
+          $("#div-editar-imagen").html(data.response);
+          $("#modal-editar-imagen").modal('show');
+        } else if (data.result == "error") {
+          console.log('error');
+        }
+    },
+    complete: function() {
+      $('body').hideLoading();
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+    }
+  });
+})
+
+$(document).on('click', 'button[data-role="guardar-cambios-imagen"]', function () {
+  // var idImagen = $(this).attr('data-imagen');
+  var data = $("#form-editar-imagen").serialize();
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/modulos-administrables/guardar-cambios-imagen',
+    data: data,
+    beforeSend: function() {
+      $('body').showLoading();
+    },
+    success: function(data) {
+        var data = $.parseJSON(data);
+        if (data.result == "ok") {
+          $("#lista-imagenes-modulo-galeria").html(data.response);
+          $("#modal-editar-imagen").modal('hide');
+        } else if (data.result == "error") {
+          console.log('error');
+        }
+    },
+    complete: function() {
+      $('body').hideLoading();
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+    }
+  });
+})

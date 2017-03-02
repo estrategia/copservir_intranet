@@ -101,9 +101,10 @@ class GrupoInteresController extends Controller {
             }
 
         }
-
+        $padres = GrupoInteres::getNombresGruposPadres();
         return $this->render('crear', [
                     'model' => $model,
+                    'padres' => $padres
         ]);
 
     }
@@ -123,9 +124,10 @@ class GrupoInteresController extends Controller {
             return $this->redirect(['detalle', 'id' => $model->idGrupoInteres]);
           }
         }
-
+        $padres = GrupoInteres::getNombresGruposPadres();
         return $this->render('actualizar', [
                     'model' => $model,
+                    'padres' => $padres
         ]);
 
     }

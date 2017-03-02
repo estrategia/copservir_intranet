@@ -9,5 +9,4 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Menú documentos org
   <div class="list-group list-group-root well">
       <?php echo $menu ?>
   </div>
-
 </div>

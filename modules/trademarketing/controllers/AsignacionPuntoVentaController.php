@@ -126,7 +126,7 @@ class AsignacionPuntoVentaController extends Controller
         $modelosUnidadesNegocio = $informacionCalificacion->unidadesNegocio;
         $modelosCategoria = $informacionCalificacion->categorias;
         $informacionReporte = $informacionCalificacion->generarDatos($id);
-
+        // \yii\helpers\VarDumper::dump($informacionCalificacion, 10, true);
         // \yii\helpers\VarDumper::dump($informacionReporte, 10, true);exit();
         // \yii\helpers\VarDumper::dump($modelosCategoria, 10, exit);exit();
 

@@ -6,6 +6,7 @@ use Yii;
 use app\modules\intranet\models\GrupoInteresCargo;
 use yii\web\UploadedFile;
 
+
 /**
 * This is the model class for table "m_GrupoInteres".
 *
@@ -28,6 +29,7 @@ class GrupoInteres extends \yii\db\ActiveRecord
       [['nombreGrupo', 'estado'], 'required'],
       [['nombreGrupo','imagenGrupo'], 'string', 'max' => 45],
       [['imagenGrupo'], 'file', 'extensions' => 'jpg, png, jpeg'],
+      [['idGrupoInteresPadre'], 'integer']
     ];
   }
 
@@ -37,15 +39,38 @@ class GrupoInteres extends \yii\db\ActiveRecord
       'idGrupoInteres' => 'Id Grupo Interes',
       'nombreGrupo' => 'Nombre Grupo',
       'imagenGrupo' => 'Imagen Grupo',
-      'estado' => 'Estado'
+      'estado' => 'Estado',
+      'idGrupoInteresPadre' => 'Grupo padre'
     ];
   }
-
 
   // RELACIONES
 
   public function getObjGrupoInteresCargo(){
     return $this->hasMany(GrupoInteresCargo::className(), ['idGrupoInteres' => 'idGrupoInteres']);
+  }
+
+  public function getGruposHijos()
+  {
+    return $this->hasMany(GrupoInteres::className(), ['idGrupoInteres' => 'idGrupoInteresPadre']);
+  }
+
+  public function getPadre()
+  {
+    return $this->hasOne(GrupoInteres::className(), ['idGrupoInteres' => 'idGrupoInteresPadre']);
+  }
+
+  public static function getNombresGruposPadres()
+  {
+    $gruposPadres = self::find()
+      ->where(['idGrupoInteresPadre' => null])
+      ->andWhere(['!=', 'estado', '0'])
+      ->all();
+    $nombresPadres = [];
+    foreach ($gruposPadres as $grupo) {
+      $nombresPadres[$grupo->idGrupoInteres] = $grupo->nombreGrupo;
+    }
+    return $nombresPadres;
   }
 
   // FUNCIONES

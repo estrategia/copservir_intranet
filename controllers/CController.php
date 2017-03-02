@@ -88,7 +88,6 @@ abstract class CController extends Controller {
     private function verModulo($idModulo){
         $objModulo = \app\modules\intranet\models\ModuloContenido::getModulo($idModulo);
         $tituloGrupo = null;
-        
         if ($objModulo==null) {
             throw new \yii\web\HttpException(404, 'Contenido no disponible');
         }

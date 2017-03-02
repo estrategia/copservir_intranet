@@ -137,6 +137,7 @@ class UsuarioProveedorController extends Controller
         $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Profesion');
         $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Email');
         $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Laboratorio');
+        $objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Roles');
 
         $params = \Yii::$app->session->get(\Yii::$app->params['visitamedica']['session']['filtrosUsuario']);
         $laboratorio = null;
@@ -162,6 +163,7 @@ class UsuarioProveedorController extends Controller
             $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->profesion);
             $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->email );
             $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->nombreLaboratorio);
+            $objWorksheet->setCellValueByColumnAndRow($col++, $fila, $usuario->getNombresRoles());
         }
 
         $objPHPExcel->setActiveSheetIndex(0);

@@ -15,12 +15,12 @@ class ProveedoresModule extends \yii\base\Module {
         Yii::$app->errorHandler->errorAction = 'proveedores/sitio/error';
 
 
-        $this->modules = [
-            'visitaMedica' => [
-                // you should consider using a shorter namespace here!
-                'class' => 'app\modules\proveedores\modules\visitamedica\visitamedica\visitaMedica',
-            ],
-        ];
+        // $this->modules = [
+        //     'visitaMedica' => [
+        //         // you should consider using a shorter namespace here!
+        //         'class' => 'app\modules\proveedores\modules\visitamedica\visitaMedica',
+        //     ],
+        // ];
     }
 
 }

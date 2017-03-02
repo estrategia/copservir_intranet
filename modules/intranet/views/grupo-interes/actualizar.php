@@ -12,6 +12,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Actualizar grupo'];
 
     <?= $this->render('_form', [
       'model' => $model,
+      'padres' => $padres
       ]) ?>
 
   </div>

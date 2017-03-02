@@ -10,7 +10,10 @@ namespace app\modules\intranet\controllers;
 
 use Yii;
 use yii\web\Controller;
+use yii\helpers\Json;
 use \app\modules\intranet\models\ModuloContenido;
+use \app\modules\intranet\models\ImagenesModuloGaleria;
+use app\modules\intranet\models\ImagenesModuloGaleriaSearch;
 use \yii\data\ActiveDataProvider;
 use app\modules\intranet\models\GruposModulos;
 use app\modules\intranet\models\DataTableForm;
@@ -102,7 +105,6 @@ class ModulosAdministrablesController extends Controller {
 
         if ($id != null) {
             $model = ModuloContenido::find()->where(['idModulo' => $id])->one();
-
             $model->fechaActualizacion = Date("Y-m-d H:i:s");
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 return $this->redirect(['actualizar', 'id' => $model->idModulo]);
@@ -121,6 +123,7 @@ class ModulosAdministrablesController extends Controller {
 
         if ($id != null) {
             $model = ModuloContenido::find()->where(['idModulo' => $id])->one();
+            // var_dump($model);exit();
 
             $modelExisten = ModuloContenido::find()->joinWith(['listGruposModulos'])
                     ->where("t_GruposModulos.idGruposModulos =:grupo");
@@ -209,14 +212,101 @@ class ModulosAdministrablesController extends Controller {
 
                 $params['vista'] = '_gruposModulos';
                 $params['opcion'] = 'contenido';
+            } else if ($model->tipo == ModuloContenido::TIPO_GALERIA) {
+                $params['vista'] = '_galeriaImagenes';
+                $params['opcion'] = 'contenido';
+                $params['modeloImagen'] = new ImagenesModuloGaleria;
+                if (Yii::$app->request->isPost) {
+                    $request = Yii::$app->request->post()['ImagenesModuloGaleria'];
+                    $modeloImagen = new ImagenesModuloGaleria;
+                    $modeloImagen->nombreImagen = $request['nombreImagen'];
+                    $modeloImagen->orden = $request['orden'];
+                    $modeloImagen->idModulo = $model->idModulo;
+                    $imagen = UploadedFile::getInstance($modeloImagen, 'imagen');
+                    $modeloImagen->imagen = $imagen;
+                    $modeloImagen->rutaImagen = $imagen->baseName . '.' . $imagen->extension;
+                    if ($modeloImagen->guardarImagen()) {
+                        $modeloImagen->save(false);
+                        Yii::$app->session->setFlash('success', 'Se cargo la imagen correctamente');
+                    }                    
+                }
+                $searchModel = new ImagenesModuloGaleriaSearch();
+                $params['searchModelImagen'] = $searchModel;
+                $params['dataProviderImagen'] = $searchModel->search(Yii::$app->request->queryParams, $model->idModulo);
             }
-
-
-
             $params['model'] = $model;
             return $this->render('actualizar', [
                         'params' => $params,
             ]);
+        }
+    }
+
+    public function actionGuardarCambiosImagen()
+    {
+        if (Yii::$app->request->isPost) {
+            $request = Yii::$app->request->post()['ImagenesModuloGaleria'];
+            $imagen = ImagenesModuloGaleria::find()->where(['idImagenModuloGaleria' => $request['idImagenModuloGaleria']])->one();
+            if ($imagen) {
+                $imagen->nombreImagen = $request['nombreImagen'];
+                $imagen->orden = $request['orden'];
+                $imagen->save(false);
+                $searchModelImagen = new ImagenesModuloGaleriaSearch();
+                $dataProviderImagen = $searchModelImagen->search(Yii::$app->request->queryParams, $imagen->idModulo);
+                return JSON::encode([
+                    'result' => 'ok',
+                    'response' => 
+                        $this->renderPartial('_listaImagenes', ['idModulo' => $imagen->idModulo, 'dataProvider' => $dataProviderImagen, 'searchModel' => $searchModelImagen])
+                ]);
+            } else {
+                return JSON::encode([
+                    'result' => 'error',
+                    'response' => 'No se pudo editar la imagen'
+                ]);
+            }
+        }
+    }
+
+    public function actionEditarImagen()
+    {
+        if (Yii::$app->request->isPost) {
+            $request = Yii::$app->request->post();
+            $idImagen = $request['idImagen'];
+            $imagen = ImagenesModuloGaleria::find()->where(['idImagenModuloGaleria' => $idImagen])->one();
+            if ($imagen != null) {
+                return JSON::encode([
+                    'result' => 'ok',
+                    'response' => 
+                        $this->render('_editarImagen', ['model' => $imagen])
+                ]);
+            } else {
+                return JSON::encode([
+                    'result' => 'error',
+                    'response' => 'No se pudo encontrar la imagen'
+                ]);
+            }
+        }
+    }
+
+    public function actionEliminarImagen() {
+        if (Yii::$app->request->isPost) {
+            $request = Yii::$app->request->post();
+            $idModulo = $request['idModulo'];
+            $idImagen = $request['idImagen'];
+            $imagen = ImagenesModuloGaleria::find()->where(['idImagenModuloGaleria' => $idImagen])->one();
+            if ($imagen->delete() !== false) {
+                $searchModelImagen = new ImagenesModuloGaleriaSearch();
+                $dataProviderImagen = $searchModelImagen->search(Yii::$app->request->queryParams, $idModulo);
+                return JSON::encode([
+                    'result' => 'ok',
+                    'response' => 
+                        $this->renderPartial('_listaImagenes', ['idModulo' => $idModulo, 'dataProvider' => $dataProviderImagen, 'searchModel' => $searchModelImagen])
+                ]);
+            } else {
+                return JSON::encode([
+                    'result' => 'error',
+                    'response' => 'No se pudo eliminar la imagen'
+                ]);
+            }
         }
     }
 

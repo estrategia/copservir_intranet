@@ -2,6 +2,11 @@
 return [
   'intranet' => [
       'class' => 'app\modules\intranet\IntranetModule',
+      'modules' => [
+        'formacioncomunicaciones' => [
+            'class' => 'app\modules\intranet\modules\formacioncomunicaciones\FormacionComunicacionesModule',
+        ],
+      ],
   ],
   'proveedores' => [
       'class' => 'app\modules\proveedores\ProveedoresModule',

@@ -101,6 +101,16 @@ class UsuarioProveedor extends \yii\db\ActiveRecord
         return $role;
     }
 
+    public function getNombresRoles()
+    {
+        $roles = \Yii::$app->authManager->getRolesByUser($this->numeroDocumento);
+        $nombres = [];
+        foreach ($roles as $key => $rol) {
+            $nombres[] = $rol->name;
+        }
+        return implode(', ', $nombres);
+    }
+
     public static function getProveedores($laboratorio)
     {
         $connection = \Yii::$app->db;

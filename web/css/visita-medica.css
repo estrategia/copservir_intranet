@@ -64,15 +64,15 @@
 }
 
 .modal.map .modal-dialog {
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     margin: 0!important;
     padding: 0!important;
 }
 
 .modal.map .modal-content {
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
 }
 
 .modal-footer {

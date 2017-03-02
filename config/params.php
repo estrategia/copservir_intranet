@@ -56,6 +56,9 @@ return [
     'imagenesNoticias' => [
         'limiteVisualizar' => 3
     ],
+    'imagenesModuloGaleria' => [
+        'limiteVisualizar' => 3
+    ],
     'longitudResumenNoticias' => [
         'intranet' => 300,
         'portales' => 120,
@@ -68,7 +71,8 @@ return [
         '1' => 'Html',
         '2' => 'DataTable',
         '3' => 'Grupos Módulos',
-        '4' => 'DataTable Cedula'
+        '4' => 'DataTable Cedula',
+        '5' => 'Galeria Imágenes',
     ],
     'PerfilesUsuario' => [
         'intranet' => ['codigo' => 1, 'permiso' => 'intranet_usuario'],
@@ -86,8 +90,8 @@ return [
           'puntosVenta' => 'http://localhost/copservir/puntoventa/sweb/puntoventa',
           'unidades' => 'http://localhost/copservir/trademarketing/wsTradeMarketing/unidades'
         ],
-        'lrv' => 'http://192.168.1.22/lrv/rest',
-        // 'lrv' => 'http://localhost/lrv/rest',
+        // 'lrv' => 'http://192.168.1.22/lrv/rest',
+        'lrv' => 'http://localhost/lrv/rest',
 
     	'visitaMedica' => [
             // 'detallePDV' => 'http://localhost/lrv/rest/producto/simular',

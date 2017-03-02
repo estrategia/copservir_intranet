@@ -741,11 +741,6 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
   }
 }
 
-
-
-
-
-
 .portal-container {
     height: 100%;
     left: 0;
@@ -880,8 +875,55 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
   }
 }
 
-@media only screen and (max-width: 425px) {
+@media only screen and (max-width: 975px) {
   #dropdown-usuario a {
     width: 100% !important;
   }
+}
+
+@media (max-width: 975px) {
+    .navbar-header {
+        float: none;
+    }
+    .navbar-left,.navbar-right {
+        float: none !important;
+    }
+    .navbar-toggle {
+        display: block;
+    }
+    .navbar-collapse {
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    .navbar-fixed-top {
+        top: 0;
+        border-width: 0 0 1px;
+    }
+    .navbar-collapse.collapse {
+        display: none!important;
+    }
+    .navbar-nav {
+        float: none!important;
+        margin-top: 7.5px;
+    }
+    .navbar-nav>li {
+        float: none;
+    }
+    .navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .collapse.in{
+        display:block !important;
+    }
+   .navbar-nav .open .dropdown-menu {
+       position: static;
+       float: none;
+       width: auto;
+       margin-top: 0;
+       background-color: transparent;
+       border: 0;
+       -webkit-box-shadow: none;
+       box-shadow: none;
+    }
 }
