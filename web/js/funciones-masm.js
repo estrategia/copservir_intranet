@@ -107,3 +107,7 @@ $(document).on('mouseout','[data-toggle="poptooltip"]',function() {
 
 
 $('.nav-tabs.timeline').scrollingTabs();
+
+$(document).on('click', '#reset-formulario-buscador-contenido', function () {
+  $('.select2-selection__clear').trigger('mousedown');
+});

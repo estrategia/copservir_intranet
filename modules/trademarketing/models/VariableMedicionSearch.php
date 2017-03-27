@@ -54,16 +54,15 @@ class VariableMedicionSearch extends VariableMedicion
         // grid filtering conditions
         $query->andFilterWhere([
             'idVariable' => $this->idVariable,
-            'estado' => $this->estado,
+            VariableMedicion::tableName().'.estado' => $this->estado,
             'calificaUnidadNegocio' => $this->calificaUnidadNegocio,
         ]);
 
         $query->joinWith('categoria');
 
-        $query->andFilterWhere(['like', 'nombre', $this->nombre])
-            ->andFilterWhere(['like', 'm_TRMA_Categoria.nombre', $this->idCategoria])
-            ->andFilterWhere(['like', 'descripcion', $this->descripcion]);
-
+        $query->andFilterWhere(['like', VariableMedicion::tableName().'.nombre', $this->nombre])
+            ->andFilterWhere(['like', Categoria::tableName().'.nombre', $this->idCategoria])
+            ->andFilterWhere(['like', VariableMedicion::tableName().'.descripcion', $this->descripcion]);
 
         return $dataProvider;
     }

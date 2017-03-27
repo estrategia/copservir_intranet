@@ -53,11 +53,11 @@ class EspacioSearch extends Espacio
         // grid filtering conditions
         $query->andFilterWhere([
             'idEspacio' => $this->idEspacio,
-            'estado' => $this->estado,
+            Espacio::tablename().'.estado' => $this->estado,
         ]);
 
-        $query->andFilterWhere(['like', 'nombre', $this->nombre])
-              ->andFilterWhere(['like', 'm_TRMA_Variablemedicion.nombre', $this->idVariable]);
+        $query->andFilterWhere(['like', Espacio::tablename().'.nombre', $this->nombre])
+              ->andFilterWhere(['like', VariableMedicion::tablename().'.nombre', $this->idVariable]);
 
         return $dataProvider;
     }

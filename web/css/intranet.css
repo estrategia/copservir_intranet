@@ -354,4 +354,55 @@ a.circle-avatar, div.circle-avatar{
     padding: 5px;
 }
 
+.buscador-fila {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    border: 1px solid #e5e9ec;
+    border-radius: 2px;
+    margin-bottom: 5px;
 
+}
+
+.buscador-fila-seccion-izquierda {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    margin-left: 10px;
+}
+
+.buscador-fila-seccion-izquierda h1 {
+    margin-top: 0;
+}
+
+.buscador-fila-seccion-izquierda p {
+    margin-bottom: 0;
+}
+
+.buscador-descripcion-contenido {
+    overflow: hidden;
+    text-overflow: ellipsis !important;
+}
+
+.buscador-fila-seccion-derecha {
+    margin: 5px 10px 5px auto;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+}
+
+.buscador-fila-seccion-derecha p {
+    /*margin: none;*/
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+
+.buscador-descripcion-contenido {
+    font-family: 'Open Sans';
+    font-size: 1.5rem;
+    font-weight: 100;
+}
+
+.botones-buscador {
+    
+}

@@ -64,6 +64,58 @@ class ContenidoDestino extends \yii\db\ActiveRecord
 
   }
 
+  public function getDatosSelectGruposInteres($bandera)
+  {
+    $data = [];
+    $options = [];
+    if ($bandera) {
+      $padres = GrupoInteres::find()->where(['estado'=>1])->andWhere(['idGrupoInteresPadre' => NULL])->orderBy('nombreGrupo')->all();
+      $grupos = $this->getDataSelectGrupos($padres);
+      $data = ArrayHelper::map($grupos, 'idGrupoInteres', 'nombreGrupo');
+      $options = $this->getEstilosSelectGrupos($grupos);
+    }else{
+      $userGrupos = Yii::$app->user->identity->getGruposCodigos();
+      $userGrupos = implode(',',$userGrupos);
+      $padres = GrupoInteres::find()->where(" ( idGrupoInteres IN ($userGrupos)) AND estado = 1 AND idGrupoInteresPadre = ''")
+      ->orderBy('nombreGrupo')
+      // ->asArray()
+      ->all();
+      $grupos = $this->getDataSelectGrupos($padres);
+      $data = ArrayHelper::map($grupos, 'idGrupoInteres', 'nombreGrupo');
+      $options = $this->getEstilosSelectGrupos($grupos);
+    }
+    return ['data' => $data, 'options' => $options];
+  }
+
+  private function getEstilosSelectGrupos($grupos)
+  {
+    $options = [];
+    foreach ($grupos as $indice => $grupo) {
+      if ($grupo->idGrupoInteresPadre == '') {
+        $options[$grupo->idGrupoInteres] = ['style' => 'font-weight: bold;font-style: italic;'];
+      } else {
+        $options[$grupo->idGrupoInteres] = ['style' => 'padding-left: 15px;'];
+      }
+    }
+    return $options;
+  }
+
+  private function getDataSelectGrupos($padres)
+  {
+    $data = [];
+    $hijos = [];
+    foreach ($padres as $indice => $padre) {
+      $data[] = $padre;
+      $hijos = $padre->gruposHijos;
+      if (!empty($hijos)) {
+        foreach ($hijos as $hijo) {
+          $data[] = $hijo;
+        }
+      }
+    }
+    return $data;
+  }
+
   /**
    * @return array con modelos Portal mapeados por idPortal y nombrePortal
    */

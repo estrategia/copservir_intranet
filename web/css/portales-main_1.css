@@ -770,8 +770,8 @@ button.company-bgcolor-2:hover, a.company-bgcolor-2:hover {
     transform: rotate(15deg);
     transition: all .4s;
 }
-.container.coop .navbar-nav > li > a {background-color: #3CB04B;}
-.container.coop .navbar-nav > li > a:hover {background-color: #146f02;}
+.container.coop .navbar-nav > li > a {background-color: rgba(0, 0, 0, 0);}
+.container.coop .navbar-nav > li > a:hover {background-color: rgba(0, 0, 0, 0.3);}
 
 .container.proveedor .navbar-nav > li > a {background-color: #C00000;}
 .container.proveedor .navbar-nav > li > a:hover {background-color: #E10A0A;}

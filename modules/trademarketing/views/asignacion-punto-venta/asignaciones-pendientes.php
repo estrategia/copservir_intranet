@@ -41,7 +41,7 @@ $this->title = 'Puntos de venta asignados';
               'filter' => DatePicker::widget([
                             'model' => $searchModel,
                             'attribute' => 'fechaAsignacion',
-                            'options' => ['placeholder' => 'Enter birth date ...'],
+                            'options' => ['placeholder' => 'Ingrese una Fecha ...'],
                             'pluginOptions' => [
                                 'autoclose'=>true,
                                 'format' => 'yyyy-mm-dd'
