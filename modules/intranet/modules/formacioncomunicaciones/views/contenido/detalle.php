@@ -16,13 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Actualizar', ['actualizar', 'id' => $model->idContenido], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['eliminar', 'id' => $model->idContenido], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Esta seguro de querer eliminar este item?',
-                'method' => 'post',
-            ],
-        ]) ?>
     </p>
 
     <?= DetailView::widget([
@@ -35,25 +28,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Estado',
                 'value' => $model->estadoContenido == 1 ? 'Activo' : 'Inactivo'
             ],
-            [
-                'label' => 'Área de Conocimiento',
-                'value' => $model->areaConocimiento->nombreArea
-            ],
-            [
-                'label' => 'Módulo',
-                'value' => $model->modulo->nombreModulo
-            ],
+            
             [
                 'label' => 'Capítulo',
                 'value' => $model->capitulo->nombreCapitulo
             ],
-            [
-                'label' => 'Tipo de Contenido',
-                'value' => $model->tipoContenido->nombreTipoContenido
-            ],
             'idContenidoCopia',
-            'fechaInicio',
-            'fechaFin',
             'frecuenciaMes',
         ],
     ]) ?>

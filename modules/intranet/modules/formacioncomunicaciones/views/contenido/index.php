@@ -23,20 +23,30 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'idContenido',
-            'contenido:ntext',
-            'estadoContenido',
-            'idAreaConocimiento',
-            'idModulo',
-            // 'idCapitulo',
-            // 'idTipoContenido',
-            // 'idContenidoCopia',
-            // 'fechaInicio',
-            // 'fechaFin',
-            // 'frecuenciaMes',
-            // 'fechaCreacion',
-            // 'fechaActualizacion',
+            [
+                'label' => 'Estado',
+                'value' => function ($model) {
+                    return $model->estadoContenido == 1 ? 'Activo' : 'Inactivo';
+                }
+            ],
+            // [
+            //     'label' => 'Área de Conocimiento',
+            //     'value' => function($model) {
+            //     return $model->areaConocimiento->nombreArea;
+            //     },
+            // ],
+            [
+                'label' => 'Capítulo',
+                'value' => function($model) {
+                return $model->capitulo->nombreCapitulo;
+                },
+            ],
+            // [
+            //     'label' => 'Módulo',
+            //     'value' => function($model) {
+            //     return $model->modulo->nombreModulo;
+            //     },
+            // ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

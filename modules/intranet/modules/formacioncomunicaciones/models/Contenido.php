@@ -34,6 +34,8 @@ class Contenido extends \yii\db\ActiveRecord
     const ESTADO_INACTIVO = 0;
     const FRECUENCIA_SEMESTRAL = 1;
     const FRECUENCIA_ANUAL = 2;
+
+    public $contenidoGruposInteres;
     /**
      * @inheritdoc
      */
@@ -48,10 +50,11 @@ class Contenido extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['contenido', 'idAreaConocimiento', 'tituloContenido', 'descripcionContenido', 'idModulo', 'idCapitulo', 'idTipoContenido', 'fechaInicio', 'fechaFin'], 'required'],
+            [['tituloContenido', 'descripcionContenido', 'idCapitulo'], 'required'],
+            [['contenido'], 'required', 'on' => 'contenido'],
             [['tituloContenido', 'descripcionContenido', 'contenido'], 'string'],
-            [['estadoContenido', 'idAreaConocimiento', 'idModulo', 'idCapitulo', 'idTipoContenido', 'idContenidoCopia', 'frecuenciaMes'], 'integer'],
-            [['fechaInicio', 'fechaFin', 'fechaCreacion', 'fechaActualizacion'], 'safe'],
+            [['estadoContenido', 'idCapitulo', 'idContenidoCopia', 'frecuenciaMes'], 'integer'],
+            [['fechaCreacion', 'fechaActualizacion'], 'safe'],
             // [['idAreaConocimiento'], 'exist', 'skipOnError' => true, 'targetClass' => Area::className(), 'targetAttribute' => ['idAreaConocimiento' => 'idAreaConocimiento']],
             // [['idModulo'], 'exist', 'skipOnError' => true, 'targetClass' => Modulo::className(), 'targetAttribute' => ['idModulo' => 'idModulo']],
             // [['idCapitulo'], 'exist', 'skipOnError' => true, 'targetClass' => Capitulo::className(), 'targetAttribute' => ['idCapitulo' => 'idCapitulo']],
@@ -70,33 +73,24 @@ class Contenido extends \yii\db\ActiveRecord
             'descripcionContenido' => 'Descripción',
             'contenido' => 'Contenido',
             'estadoContenido' => 'Estado',
-            'idAreaConocimiento' => 'Área de Conocimiento',
-            'idModulo' => 'Módulo',
             'idCapitulo' => 'Capítulo',
-            'idTipoContenido' => 'Tipo Contenido',
             'idContenidoCopia' => 'Contenido Copia',
-            'fechaInicio' => 'Fecha Inicio',
-            'fechaFin' => 'Fecha Fin',
             'frecuenciaMes' => 'Frecuencia Mes',
             'fechaCreacion' => 'Fecha Creación',
             'fechaActualizacion' => 'Fecha Actualización',
+            'contenidoGruposInteres' => 'Grupos de Interes'
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAreaConocimiento()
-    {
-        return $this->hasOne(Area::className(), ['idAreaConocimiento' => 'idAreaConocimiento']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getModulo()
-    {
-        return $this->hasOne(Modulo::className(), ['idModulo' => 'idModulo']);
+    public function beforeSave($insert) {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->fechaCreacion = date("Y-m-d H:i:s");
+            } 
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -110,17 +104,14 @@ class Contenido extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTipoContenido()
-    {
-        return $this->hasOne(TipoContenido::className(), ['idTipoContenido' => 'idTipoContenido']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getContenidoCopia()
     {
         return $this->hasOne(Contenido::className(), ['idContenido' => 'idContenidoCopia']);
+    }
+
+    public function getContenidoCalificaciones()
+    {
+        return $this->hasMany(ContenidoCalificacion::className(), ['idContenido' => 'idContenido']);
     }
 
     /**
@@ -129,5 +120,53 @@ class Contenido extends \yii\db\ActiveRecord
     public function getContenidos()
     {
         return $this->hasMany(Contenido::className(), ['idContenidoCopia' => 'idContenido']);
+    }
+
+    public function resumenCalificaciones()
+    {
+        $datos = [
+            '1' => '', 
+            '2' => '', 
+            '3' => '', 
+            '4' => '', 
+            '5' => '', 
+            'total' => '', 
+            'promedio' => ''
+        ];
+        $total = 0;
+        $suma = 0;
+        $calificaciones = $this->contenidoCalificaciones;
+        foreach ($calificaciones as $calificacion) {
+            switch ($calificacion->calificacion) {
+                case 1:
+                    $datos['1'] ++;
+                    break;
+                case 2:
+                    $datos['2'] ++;
+                    break;
+                case 3:
+                    $datos['3'] ++;
+                    break;
+                case 4:
+                    $datos['4'] ++;
+                    break;
+                case 5:
+                    $datos['5'] ++;
+                    break;
+            }
+            $suma += $calificacion->calificacion;
+            $total ++;
+        }
+        
+        if ($total == 0) {
+            $promedio = 0;
+            $datos['total'] = 1;
+        } else {
+            $promedio = $suma / $total;
+            $datos['total'] = $total;
+        }
+
+        $datos['promedio'] = $promedio;
+        return $datos;
     }
 }

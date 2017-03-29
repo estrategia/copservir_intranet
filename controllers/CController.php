@@ -9,7 +9,7 @@ use app\modules\intranet\models\Portal;
 use app\modules\intranet\models\Contenido;
 use app\modules\intranet\models\ContenidoSearch;
 
-abstract class CController extends Controller {
+abstract class CController extends PortalController {
 
     public function actions() {
         return [
@@ -22,7 +22,8 @@ abstract class CController extends Controller {
     public function actionIndex() {
         $flagVerMas = false;
         $contenidoModels = Contenido::traerNoticiasIndexPortal($this->module->id, $flagVerMas);
-
+        $this->logoPortal = $this->getLogoPortal();
+        $this->colorPortal = $this->getColorPortal();
         return $this->render('index', [
                     'contenidoModels' => $contenidoModels,
                     'flagVerMas' => $flagVerMas,

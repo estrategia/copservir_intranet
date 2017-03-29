@@ -5,6 +5,7 @@ namespace app\modules\newportal\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use app\modules\intranet\models\Portal;
 
 
 /**

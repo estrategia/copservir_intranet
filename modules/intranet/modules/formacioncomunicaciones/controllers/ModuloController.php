@@ -20,12 +20,24 @@ class ModuloController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
+            [
+                'class' => \app\components\AccessFilter::className(),
+                'redirectUri' => ['/intranet/usuario/autenticar']
             ],
+
+            [
+                'class' => \app\components\AuthItemFilter::className(),
+                'only' => [
+                    'index', 'detalle', 'crear', 'actualizar'
+                ],
+                'authsActions' => [
+                    'index' => 'formacionComunicaciones_modulo_admin',
+                    'detalle' => 'formacionComunicaciones_modulo_admin',
+                    'crear' => 'formacionComunicaciones_modulo_admin',
+                    'actualizar' => 'formacionComunicaciones_modulo_admin',                    
+                ],
+           ],
+
         ];
     }
 
@@ -91,19 +103,6 @@ class ModuloController extends Controller
                 'model' => $model,
             ]);
         }
-    }
-
-    /**
-     * Deletes an existing Modulo model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionEliminar($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**

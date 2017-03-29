@@ -1,11 +1,15 @@
 <?php 
  use yii\helpers\BaseStringHelper;
+ use yii\helpers\Url;
 
 ?>
 <div class="buscador-fila">
+    
   <div class="buscador-fila-seccion-izquierda">
     <h1 class="buscador-titulo">
-      <?= $model->tituloContenido; ?>
+      <a href="<?=  Url::toRoute(['contenido/visualizar-contenido', 'id' => $model->idContenido]); ?>" >
+        <?= $model->tituloContenido; ?>
+      </a>
     </h1>
     <p class="buscador-descripcion-contenido">
       <?= BaseStringHelper::truncate($model->descripcionContenido, 50, '...', null, false);?>

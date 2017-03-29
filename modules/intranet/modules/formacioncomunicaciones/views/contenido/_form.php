@@ -27,70 +27,6 @@ use vova07\imperavi\Widget;
   
     <div class="row">
       <div class="col-md-6">
-        <?= $form->field($model, 'idAreaConocimiento')->widget(Select2::classname(), [
-          'data' => $areas,
-          'options' => ['placeholder' => 'Selecciona un Área de conocimiento ...'],
-          'pluginOptions' => [
-            'allowClear' => true
-          ],
-        ]); ?>
-      </div>
-      <div class="col-md-6">
-        <?= $form->field($model, 'idModulo')->widget(Select2::classname(), [
-          'data' => $modulos,
-          'options' => ['placeholder' => 'Selecciona un Modulo ...'],
-          'pluginOptions' => [
-            'allowClear' => true
-          ],
-        ]); ?>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <?= $form->field($model, 'idCapitulo')->widget(Select2::classname(), [
-          'data' => $capitulos,
-          'options' => ['placeholder' => 'Selecciona un Capítulo ...'],
-          'pluginOptions' => [
-            'allowClear' => true
-          ],
-        ]); ?>
-      </div>
-      <div class="col-md-6">
-        <?= $form->field($model, 'idTipoContenido')->widget(Select2::classname(), [
-          'data' => $tipos,
-          'options' => ['placeholder' => 'Selecciona un Tipo de Contenido ...'],
-          'pluginOptions' => [
-            'allowClear' => true
-          ],
-        ]); ?>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <?= $form->field($model, 'fechaInicio')->widget(DatePicker::classname(), [
-            'type' => DatePicker::TYPE_INPUT,
-            'options' => ['placeholder' => ''],
-                'pluginOptions' => [
-                  'autoclose'=>true,
-                  'format' => 'yyyy-mm-dd'
-                ]
-            ]); 
-        ?>
-      </div>
-      <div class="col-md-6">
-        <?= $form->field($model, 'fechaFin')->widget(DatePicker::classname(), [
-            'type' => DatePicker::TYPE_INPUT,
-            'options' => ['placeholder' => ''],
-                'pluginOptions' => [
-                  'autoclose'=>true,
-                  'format' => 'yyyy-mm-dd'
-                ]
-            ]); 
-        ?>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
         <?= $form->field($model, 'frecuenciaMes')->widget(Select2::classname(), [
           'data' => ['1' => 'Semestral', '2' => 'Anual'],
           'options' => ['placeholder' => 'Selecciona estado ...'],
@@ -128,7 +64,7 @@ use vova07\imperavi\Widget;
         ]); ?>
       </div>
     </div>
-    
+        
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

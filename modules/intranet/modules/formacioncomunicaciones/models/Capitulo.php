@@ -32,8 +32,8 @@ class Capitulo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombreCapitulo', 'descripcionCapitulo', 'estadoCapitulo'], 'required'],
-            [['estadoCapitulo'], 'integer'],
+            [['nombreCapitulo', 'descripcionCapitulo', 'estadoCapitulo', 'idModulo'], 'required'],
+            [['estadoCapitulo', 'idModulo'], 'integer'],
             [['fechaCreacion', 'fechaActualizacion'], 'safe'],
             [['nombreCapitulo'], 'string', 'max' => 45],
             [['descripcionCapitulo'], 'string', 'max' => 250],
@@ -50,8 +50,25 @@ class Capitulo extends \yii\db\ActiveRecord
             'nombreCapitulo' => 'Nombre',
             'descripcionCapitulo' => 'Descripción',
             'estadoCapitulo' => 'Estado',
+            'idModulo' => 'Id Modulo',
             'fechaCreacion' => 'Fecha Creación',
             'fechaActualizacion' => 'Fecha Actualización',
         ];
+    }
+
+    public function beforeSave($insert) {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->fechaCreacion = date("Y-m-d H:i:s");
+            } 
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getContenidos()
+    {
+        return $this->hasMany(Contenido::className(), ['idCapitulo' => 'idCapitulo']);
     }
 }

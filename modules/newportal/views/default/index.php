@@ -18,7 +18,8 @@ $this->title = 'New Portal';
         <div class="generator col-lg-4">
             <h3><?= Html::encode($generator->getName()) ?></h3>
             <p><?= $generator->getDescription() ?></p>
-            <p><?= Html::a('Iniciar &raquo;', ['default/view', 'id' => $id], ['class' => 'btn btn-default']) ?></p>
+            <p><?= Html::a('Crear portal &raquo;', ['default/view', 'id' => $id], ['class' => 'btn btn-default']) ?></p>
+            <p><?= Html::a('Administrar portales &raquo;', ['portal/index'], ['class' => 'btn btn-default']) ?></p>
         </div>
         <?php endforeach; ?>
     </div>

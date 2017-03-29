@@ -51,4 +51,20 @@ class TipoContenido extends \yii\db\ActiveRecord
             'fechaActualizacion' => 'Fecha Actualización',
         ];
     }
+
+    public function beforeSave($insert) {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->fechaCreacion = date("Y-m-d H:i:s");
+            } 
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getCursos()
+    {
+        return $this->hasMany(Curso::className(), ['idTipoContenido' => 'idTipoContenido']);
+    }
 }

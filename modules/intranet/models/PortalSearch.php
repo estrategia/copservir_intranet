@@ -1,16 +1,16 @@
 <?php
 
-namespace app\modules\intranet\modules\formacioncomunicaciones\models;
+namespace app\modules\intranet\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\intranet\modules\formacioncomunicaciones\models\Area;
+use app\modules\intranet\models\Portal;
 
 /**
- * AreaContenidoSearch represents the model behind the search form about `app\modules\intranet\modules\formacioncomunicaciones\models\Area`.
+ * PortalSearch represents the model behind the search form about `app\modules\intranet\models\Portal`.
  */
-class AreaSearch extends Area
+class PortalSearch extends Portal
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class AreaSearch extends Area
     public function rules()
     {
         return [
-            [['idAreaConocimiento', 'estadoArea'], 'integer'],
-            [['nombreArea', 'descripcionArea', 'fechaCreacion', 'fechaActualizacion'], 'safe'],
+            [['idPortal', 'estado'], 'integer'],
+            [['nombrePortal', 'colorPortal', 'logoPortal'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class AreaSearch extends Area
      */
     public function search($params)
     {
-        $query = Area::find();
+        $query = Portal::find();
 
         // add conditions that should always apply here
 
@@ -59,14 +59,13 @@ class AreaSearch extends Area
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'idAreaConocimiento' => $this->idAreaConocimiento,
-            'estadoArea' => $this->estadoArea,
-            'fechaCreacion' => $this->fechaCreacion,
-            'fechaActualizacion' => $this->fechaActualizacion,
+            'idPortal' => $this->idPortal,
+            'estado' => $this->estado,
         ]);
 
-        $query->andFilterWhere(['like', 'nombreArea', $this->nombreArea])
-            ->andFilterWhere(['like', 'descripcionArea', $this->descripcionArea]);
+        $query->andFilterWhere(['like', 'nombrePortal', $this->nombrePortal])
+            ->andFilterWhere(['like', 'colorPortal', $this->colorPortal])
+            ->andFilterWhere(['like', 'logoPortal', $this->logoPortal]);
 
         return $dataProvider;
     }

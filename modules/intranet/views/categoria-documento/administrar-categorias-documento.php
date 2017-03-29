@@ -8,6 +8,11 @@ $this->params['breadcrumbs'][] = $this->title
 
 <div class="col-md-12" id="menu-categoria-documento">
   <h1><?= Html::encode($this->title) ?></h1>
+  <?php if (Yii::$app->session->hasFlash('success')): ?>
+    <div class="alert alert-success">
+      <?= Yii::$app->session->getFlash('success'); ?>
+    </div>
+  <?php endif ?>
   <p>
     <button type="button" name="button" class="btn btn-success" data-role="categoria-crear" >Crear categoria</button>
   </p>

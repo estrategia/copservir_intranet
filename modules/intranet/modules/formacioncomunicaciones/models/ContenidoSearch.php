@@ -18,8 +18,8 @@ class ContenidoSearch extends Contenido
     public function rules()
     {
         return [
-            [['idContenido', 'estadoContenido', 'idAreaConocimiento', 'idModulo', 'idCapitulo', 'idTipoContenido', 'idContenidoCopia', 'frecuenciaMes'], 'integer'],
-            [['contenido', 'fechaInicio', 'fechaFin', 'fechaCreacion', 'fechaActualizacion'], 'safe'],
+            [['idContenido', 'estadoContenido', 'idCapitulo', 'idContenidoCopia', 'frecuenciaMes'], 'integer'],
+            [['contenido', 'fechaCreacion', 'fechaActualizacion'], 'safe'],
         ];
     }
 
@@ -44,6 +44,10 @@ class ContenidoSearch extends Contenido
         $query = Contenido::find();
 
         // add conditions that should always apply here
+        // if (isset($params['gruposInteresUsuario'])) {
+        //     $query->leftJoin('t_FORCO_ContenidoGruposInteres', 't_FORCO_ContenidoGruposInteres.idContenido = m_FORCO_Contenido.idContenido');
+        //     $query->andFilterWhere(['in', 't_FORCO_ContenidoGruposInteres.idGrupoInteres', array_values($params['gruposInteresUsuario'])]);
+        // }
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -56,25 +60,20 @@ class ContenidoSearch extends Contenido
             // $query->where('0=1');
             return $dataProvider;
         }
-
+        // \yii\helpers\VarDumper::dump($params, 10, true);
         // grid filtering conditions
         $query->andFilterWhere([
             'idContenido' => $this->idContenido,
             'estadoContenido' => $this->estadoContenido,
-            'idAreaConocimiento' => $this->idAreaConocimiento,
-            'idModulo' => $this->idModulo,
             'idCapitulo' => $this->idCapitulo,
-            'idTipoContenido' => $this->idTipoContenido,
             'idContenidoCopia' => $this->idContenidoCopia,
-            'fechaInicio' => $this->fechaInicio,
-            'fechaFin' => $this->fechaFin,
             'frecuenciaMes' => $this->frecuenciaMes,
             'fechaCreacion' => $this->fechaCreacion,
             'fechaActualizacion' => $this->fechaActualizacion,
         ]);
 
         $query->andFilterWhere(['like', 'contenido', $this->contenido]);
-
+        // var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
         return $dataProvider;
     }
 }

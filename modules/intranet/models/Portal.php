@@ -28,6 +28,8 @@ class Portal extends \yii\db\ActiveRecord {
             [['nombrePortal', 'estado'], 'required'],
             [['estado'], 'integer'],
             [['nombrePortal'], 'string', 'max' => 45],
+            [['logoPortal'], 'string', 'max' => 250],
+            [['colorPortal'], 'string', 'max' => 10]
         ];
     }
 
@@ -39,6 +41,8 @@ class Portal extends \yii\db\ActiveRecord {
             'idPortal' => 'Id Portal',
             'nombrePortal' => 'Nombre Portal',
             'estado' => 'Estado',
+            'logoPortal' => 'Logo',
+            'colorPortal' => 'Color principal'
         ];
     }
 

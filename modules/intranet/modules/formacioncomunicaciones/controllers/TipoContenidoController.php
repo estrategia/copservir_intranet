@@ -20,12 +20,24 @@ class TipoContenidoController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
+            [
+                'class' => \app\components\AccessFilter::className(),
+                'redirectUri' => ['/intranet/usuario/autenticar']
             ],
+
+            [
+                'class' => \app\components\AuthItemFilter::className(),
+                'only' => [
+                    'index', 'detalle', 'crear', 'actualizar'
+                ],
+                'authsActions' => [
+                    'index' => 'formacionComunicaciones_tipoContenido_admin',
+                    'detalle' => 'formacionComunicaciones_tipoContenido_admin',
+                    'crear' => 'formacionComunicaciones_tipoContenido_admin',
+                    'actualizar' => 'formacionComunicaciones_tipoContenido_admin',
+                ],
+           ],
+
         ];
     }
 
@@ -91,19 +103,6 @@ class TipoContenidoController extends Controller
                 'model' => $model,
             ]);
         }
-    }
-
-    /**
-     * Deletes an existing TipoContenido model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**

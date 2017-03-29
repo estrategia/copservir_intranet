@@ -117,7 +117,7 @@
                   <br>
                   <br>
                   <br>
-                  <h5 class="presentacion-unitario"> <?php echo Yii::$app->formatter->asDecimal($producto['presentacionProducto'], 2); ?> </h5>
+                  <h5 class="presentacion-unitario"> <?php echo $producto['presentacionProducto'] ?> </h5>
                   <hr>
                   <h4 class="precio-base"> $ <?php echo Yii::$app->formatter->asDecimal($producto['precioUnidad']['precioBase'],2); ?> </h4>
                   <hr>

@@ -21,9 +21,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'estadoContenido') ?>
 
-    <?= $form->field($model, 'idAreaConocimiento') ?>
+    <?= // $form->field($model, 'idAreaConocimiento') ?>
 
-    <?= $form->field($model, 'idModulo') ?>
+    <?= // $form->field($model, 'idModulo') ?>
 
     <?php // echo $form->field($model, 'idCapitulo') ?>
 

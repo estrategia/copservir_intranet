@@ -7,7 +7,7 @@ use yii\widgets\ListView;
 /* @var $searchModel app\modules\intranet\modules\formacioncomunicaciones\models\ContenidoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Contenidos';
+$this->title = 'Buscar Contenidos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="buscador-index">

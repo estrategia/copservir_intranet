@@ -1942,3 +1942,333 @@ $(document).on('click', 'button[data-role="guardar-cambios-imagen"]', function (
     }
   });
 })
+
+$(document).on('click', "button[data-role='modulo-crear']", function() {
+
+  var idCurso = $(this).attr('data-curso');
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/formacioncomunicaciones/curso/render-modal-crear-modulo?idCurso=' + idCurso,
+    dataType: 'json',
+    beforeSend: function() {
+      $("#widget-modulo").remove();
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $('body').append(data.response);
+        $("#widget-modulo").modal("show");
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
+
+$(document).on('click', "a[data-role='modulo-editar']", function() {
+
+  var idModulo = $(this).attr('data-modulo-id');
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/formacioncomunicaciones/curso/render-modal-editar-modulo?idModulo=' + idModulo,
+    dataType: 'json',
+    beforeSend: function() {
+      $("#widget-modulo").remove();
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $('body').append(data.response);
+        $("#widget-modulo").modal("show");
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
+
+$(document).on('click', "button[data-role='crear-modulo']", function() {
+
+  var form = $("#form-modulo");
+  var idCurso = $("#contenido-curso").attr('data-curso-id');
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/formacioncomunicaciones/curso/crear-modulo?idCurso=' + idCurso,
+    data: form.serialize(),
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $("#contenido-curso").remove();
+        $('#container').append(data.response);
+        $("#widget-modulo").modal("hide");
+      }else{
+        $("#widget-modulo").modal("hide");
+        $('#widget-modulo').on('hidden.bs.modal', function (e) {
+          $('#widget-modulo').remove();
+          $("body").append(data.response);
+          $("#widget-modulo").modal("show");
+        })
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
+
+$(document).on('click', "button[data-role='actualizar-modulo']", function() {
+
+  var idModulo = $(this).attr('data-modulo');
+  var idCurso = $("#contenido-curso").attr('data-curso-id');
+  var form = $("#form-modulo");
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/formacioncomunicaciones/curso/actualizar-modulo?idModulo=' + idModulo + '&' + 'idCurso=' + idCurso,
+    data: form.serialize(),
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $('#contenido-curso').remove();
+        $('#container').append(data.response);
+        $("#widget-modulo").modal("hide");
+      }else{
+        $("#widget-modulo").modal("hide");
+        $('#widget-modulo').on('hidden.bs.modal', function (e) {
+          $('#widget-modulo').remove();
+          $("body").append(data.response);
+          $("#widget-modulo").modal("show");
+        })
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
+
+$(document).on('click', "a[data-role='agregar-capitulo']", function() {
+
+  var idModulo = $(this).attr('data-modulo-id');
+  var idCurso = $("#contenido-curso").attr('data-curso-id');
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/formacioncomunicaciones/curso/render-modal-crear-capitulo?idModulo=' + idModulo + '&' + 'idCurso=' + idCurso,
+    dataType: 'json',
+    beforeSend: function() {
+      $("#widget-capitulo").remove();
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $('body').append(data.response);
+        $("#widget-capitulo").modal("show");
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
+
+$(document).on('click', "button[data-role='crear-capitulo']", function() {
+
+  var form = $("#form-capitulo");
+  var idCurso = $("#contenido-curso").attr('data-curso-id');
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/formacioncomunicaciones/curso/crear-capitulo?idCurso=' + idCurso,
+    data: form.serialize(),
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $("#contenido-curso").remove();
+        $('#container').append(data.response);
+        $("#widget-capitulo").modal("hide");
+      }else{
+        $("#widget-capitulo").modal("hide");
+        $('#widget-capitulo').on('hidden.bs.modal', function (e) {
+          $('#widget-capitulo').remove();
+          $("body").append(data.response);
+          $("#widget-capitulo").modal("show");
+        })
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
+
+$(document).on('click', "a[data-role='capitulo-editar']", function() {
+
+  var idCapitulo = $(this).attr('data-capitulo-id');
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/formacioncomunicaciones/curso/render-modal-editar-capitulo?idCapitulo=' + idCapitulo,
+    dataType: 'json',
+    beforeSend: function() {
+      $("#widget-capitulo").remove();
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $('body').append(data.response);
+        $("#widget-capitulo").modal("show");
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
+
+$(document).on('click', "button[data-role='actualizar-capitulo']", function() {
+
+  var idCapitulo = $(this).attr('data-capitulo');
+  var idCurso = $("#contenido-curso").attr('data-curso-id');
+  var form = $("#form-capitulo");
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/formacioncomunicaciones/curso/actualizar-capitulo?idCapitulo=' + idCapitulo + '&' + 'idCurso=' + idCurso,
+    data: form.serialize(),
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $('#contenido-curso').remove();
+        $('#container').append(data.response);
+        $("#widget-capitulo").modal("hide");
+      }else{
+        $("#widget-capitulo").modal("hide");
+        $('#widget-capitulo').on('hidden.bs.modal', function (e) {
+          $('#widget-capitulo').remove();
+          $("body").append(data.response);
+          $("#widget-capitulo").modal("show");
+        })
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
+
+$(document).on('click', "a[data-role='agregar-contenido']", function() {
+
+  var idCapitulo = $(this).attr('data-capitulo-id');
+  var idCurso = $("#contenido-curso").attr('data-curso-id');
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/formacioncomunicaciones/curso/render-modal-crear-contenido?idCapitulo=' + idCapitulo + '&' + 'idCurso=' + idCurso,
+    dataType: 'json',
+    beforeSend: function() {
+      $("#widget-contenido").remove();
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $('body').append(data.response);
+        $("#widget-contenido").modal("show");
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
+
+$(document).on('click', "button[data-role='crear-contenido']", function() {
+
+  var form = $("#form-contenido");
+  var idCurso = $("#contenido-curso").attr('data-curso-id');
+  var idCapitulo = $(this).attr('data-capitulo-id');
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/formacioncomunicaciones/curso/crear-contenido?idCurso=' + idCurso + '&' + 'idCapitulo=' + idCapitulo,
+    data: form.serialize(),
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $("#contenido-curso").remove();
+        $('#container').append(data.response);
+        $("#widget-contenido").modal("hide");
+      }else{
+        $("#widget-contenido").modal("hide");
+        $('#widget-contenido').on('hidden.bs.modal', function (e) {
+          $('#widget-contenido').remove();
+          $("body").append(data.response);
+          $("#widget-contenido").modal("show");
+        })
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});

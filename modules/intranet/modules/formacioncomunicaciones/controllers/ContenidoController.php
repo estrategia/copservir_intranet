@@ -3,9 +3,12 @@
 namespace app\modules\intranet\modules\formacioncomunicaciones\controllers;
 
 use Yii;
+use app\modules\intranet\models\GrupoInteres;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Area;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Capitulo;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Contenido;
+use app\modules\intranet\modules\formacioncomunicaciones\models\ContenidoCalificacion;
+use app\modules\intranet\modules\formacioncomunicaciones\models\ContenidoCalificacionSearch;
 use app\modules\intranet\modules\formacioncomunicaciones\models\ContenidoSearch;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Modulo;
 use app\modules\intranet\modules\formacioncomunicaciones\models\TipoContenido;
@@ -25,12 +28,25 @@ class ContenidoController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
+            [
+                'class' => \app\components\AccessFilter::className(),
+                'redirectUri' => ['/intranet/usuario/autenticar']
             ],
+
+            [
+                'class' => \app\components\AuthItemFilter::className(),
+                'only' => [
+                    'index', 'detalle', 'crear', 'actualizar', 'visualizar-contenido'
+                ],
+                'authsActions' => [
+                    'index' => 'formacionComunicaciones_contenido_admin',
+                    'detalle' => 'formacionComunicaciones_contenido_admin',
+                    'crear' => 'formacionComunicaciones_contenido_admin',
+                    'actualizar' => 'formacionComunicaciones_contenido_admin',                    
+                    'visualizar-contenido' => 'intranet_usuario',
+                ],
+           ],
+
         ];
     }
 
@@ -79,25 +95,6 @@ class ContenidoController extends Controller
         ]);
     }
 
-    public function actionBuscador()
-    {
-        $searchModel = new ContenidoSearch();
-        $areas = ArrayHelper::Map(Area::find()->where(['estadoArea' => 1])->asArray()->all(),'idAreaConocimiento', 'nombreArea');
-        $modulos = ArrayHelper::Map(Modulo::find()->where(['estadoModulo' => 1])->asArray()->all(),'idModulo', 'nombreModulo');
-        $capitulos = ArrayHelper::Map(Capitulo::find()->where(['estadoCapitulo' => 1])->asArray()->all(),'idCapitulo', 'nombreCapitulo');
-        $tipos = ArrayHelper::Map(TipoContenido::find()->where(['estadoTipoContenido' => 1])->asArray()->all(),'idTipoContenido', 'nombreTipoContenido');
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('buscador', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'areas' => $areas,
-            'modulos' => $modulos,
-            'capitulos' => $capitulos,
-            'tipos' => $tipos
-        ]);
-    }
-
     /**
      * Displays a single Contenido model.
      * @param integer $id
@@ -118,19 +115,13 @@ class ContenidoController extends Controller
     public function actionCrear()
     {
         $model = new Contenido();
-        $areas = ArrayHelper::Map(Area::find()->where(['estadoArea' => 1])->asArray()->all(),'idAreaConocimiento', 'nombreArea');
-        $modulos = ArrayHelper::Map(Modulo::find()->where(['estadoModulo' => 1])->asArray()->all(),'idModulo', 'nombreModulo');
         $capitulos = ArrayHelper::Map(Capitulo::find()->where(['estadoCapitulo' => 1])->asArray()->all(),'idCapitulo', 'nombreCapitulo');
-        $tipos = ArrayHelper::Map(TipoContenido::find()->where(['estadoTipoContenido' => 1])->asArray()->all(),'idTipoContenido', 'nombreTipoContenido');
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
             return $this->redirect(['detalle', 'id' => $model->idContenido]);
         } else {
             return $this->render('crear', [
                 'model' => $model,
-                'areas' => $areas,
-                'modulos' => $modulos,
                 'capitulos' => $capitulos,
-                'tipos' => $tipos
             ]);
         }
     }
@@ -144,34 +135,42 @@ class ContenidoController extends Controller
     public function actionActualizar($id)
     {
         $model = $this->findModel($id);
-        $areas = ArrayHelper::Map(Area::find()->where(['estadoArea' => 1])->asArray()->all(),'idAreaConocimiento', 'nombreArea');
-        $modulos = ArrayHelper::Map(Modulo::find()->where(['estadoModulo' => 1])->asArray()->all(),'idModulo', 'nombreModulo');
         $capitulos = ArrayHelper::Map(Capitulo::find()->where(['estadoCapitulo' => 1])->asArray()->all(),'idCapitulo', 'nombreCapitulo');
-        $tipos = ArrayHelper::Map(TipoContenido::find()->where(['estadoTipoContenido' => 1])->asArray()->all(),'idTipoContenido', 'nombreTipoContenido');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['detalle', 'id' => $model->idContenido]);
         } else {
             return $this->render('actualizar', [
                 'model' => $model,
-                'areas' => $areas,
-                'modulos' => $modulos,
                 'capitulos' => $capitulos,
-                'tipos' => $tipos
             ]);
         }
     }
 
-    /**
-     * Deletes an existing Contenido model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionEliminar($id)
+    public function actionVisualizarContenido($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        $model = $this->findModel($id);
+        $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        $calificacionModel = ContenidoCalificacion::find()->where(['numeroDocumento' => $numeroDocumento, 'idContenido' => $model->idContenido])->one();
+        $datos = $model->resumenCalificaciones();
+        if ($calificacionModel == null) {
+            $calificacionModel = new ContenidoCalificacion;
+        }
+        $searchModelCalificacion = new ContenidoCalificacionSearch;
+        $params = Yii::$app->request->queryParams;
+        $params['contenido'] = $model->idContenido;
+        $dataProviderCalificacion = $searchModelCalificacion->search($params);
+        if (Yii::$app->request->isPost) {
+            if ($calificacionModel->load(Yii::$app->request->post())) {
+                $calificacionModel->numeroDocumento = $numeroDocumento;
+                $calificacionModel->idContenido = $model->idContenido;
+                if ($calificacionModel->save()) {
+                    Yii::$app->session->setFlash('success', 'Se ha guardado su reseña.');
+                } else {
+                    Yii::$app->session->setFlash('error', 'Ocurrio un error al guardar su reseña.');
+                }
+            }
+        }
+        return $this->render('contenido', ['model' => $model, 'calificacionModel' => $calificacionModel, 'searchModelCalificacion' => $searchModelCalificacion, 'dataProviderCalificacion' => $dataProviderCalificacion, 'datos' => $datos]);
     }
 
     /**

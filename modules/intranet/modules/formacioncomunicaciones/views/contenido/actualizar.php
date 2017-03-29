@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 $this->title = 'Actualizar Contenido';
 $this->params['breadcrumbs'][] = ['label' => 'Contenidos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->idContenido, 'url' => ['detalle', 'id' => $model->idContenido]];
+$this->params['breadcrumbs'][] = ['label' => $model->tituloContenido, 'url' => ['detalle', 'id' => $model->idContenido]];
 $this->params['breadcrumbs'][] = 'Actualizar';
 ?>
 <div class="contenido-update">
@@ -16,10 +16,7 @@ $this->params['breadcrumbs'][] = 'Actualizar';
 
     <?= $this->render('_form', [
         'model' => $model,
-        'areas' => $areas,
-        'modulos' => $modulos,
-        'capitulos' => $capitulos,
-        'tipos' => $tipos
+        'capitulos' => $capitulos
     ]) ?>
 
 </div>
