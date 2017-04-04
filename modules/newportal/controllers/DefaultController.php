@@ -5,6 +5,7 @@ namespace app\modules\newportal\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use app\modules\intranet\models\Portal;
 
 
 /**
@@ -23,16 +24,16 @@ class DefaultController extends Controller
                 'redirectUri' => ['/intranet/usuario/autenticar']
             ],
 
-            [
-                'class' => \app\components\AuthItemFilter::className(),
-                'only' => [
-                    'index', 'view'
-                ],
-                'authsActions' => [
-                    'index' => 'newPortal_admin',
-                    'view' => 'newPortal_admin',
-                ],
-           ]
+           //  [
+           //      'class' => \app\components\AuthItemFilter::className(),
+           //      'only' => [
+           //          'index', 'view'
+           //      ],
+           //      'authsActions' => [
+           //          'index' => 'newPortal_admin',
+           //          'view' => 'newPortal_admin',
+           //      ],
+           // ]
         ];
     }
     /**

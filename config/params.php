@@ -147,6 +147,12 @@ return [
             'nitLaboratorio' => 'visitamedica.reportes.nitLaboratorio'
         ],
     ],
+    'portales' => [
+        'session' => [
+            'logoPortal',
+            'colorPortal'
+        ]
+    ],
     'google' => [
         'llaveMapa' => 'gme-copservir'
     ],

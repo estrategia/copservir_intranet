@@ -52,7 +52,7 @@ class GrupoInteres extends \yii\db\ActiveRecord
 
   public function getGruposHijos()
   {
-    return $this->hasMany(GrupoInteres::className(), ['idGrupoInteres' => 'idGrupoInteresPadre']);
+    return $this->hasMany(GrupoInteres::className(), ['idGrupoInteresPadre' => 'idGrupoInteres']);
   }
 
   public function getPadre()
@@ -72,6 +72,20 @@ class GrupoInteres extends \yii\db\ActiveRecord
     }
     return $nombresPadres;
   }
+
+  // public static function getIdsHijos($idGrupoInteres)
+  // {
+  //   $hijos = self::find()
+  //     ->where(['idGrupoInteresPadre' => $idGrupoInteres])
+  //     ->andWhere(['!=', 'estado', '0'])
+  //     ->all();
+  //   $idsHijos = [];
+  //   foreach ($hijos as $hijo) {
+  //     $idsHijos[] = $hijo->idGrupoInteres;
+  //   }
+  //   $idsHijos[] = $idGrupoInteres;
+  //   return implode(", ", $idsHijos);
+  // }
 
   // FUNCIONES
 

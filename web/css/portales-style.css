@@ -463,11 +463,11 @@ PROVEEDORES
   background-color: white !important;
 }
 
-/*@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 768px) {
   .content {
     margin-top: 80px!important;
   }
-}*/
+}
 
 /*------------------------------
 

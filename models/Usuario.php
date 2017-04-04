@@ -9,6 +9,7 @@ use yii\base\Event;
 use yii\web\ForbiddenHttpException;
 use yii\web\Session;
 use yii\data\ActiveDataProvider;
+use app\modules\intranet\models\GrupoInteres;
 use app\modules\intranet\models\GrupoInteresCargo;
 use app\modules\intranet\models\UsuarioWidgetInactivo;
 use app\modules\tarjetamas\models\UsuarioTarjetaMas;
@@ -73,7 +74,8 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
             'extension' => null,
             'correoElectronico' => null,
         ],
-        'gruposInteres' => []
+        'gruposInteres' => [],
+        'gruposSubGruposInteres' => []
     ];
 
     public static function tableName() {
@@ -143,7 +145,16 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
                     foreach ($listGrupoInteresCargo as $objGrupoInteresCargo) {
                         $this->data['gruposInteres'][] = $objGrupoInteresCargo->idGrupoInteres;
                     }
-
+                    if (!empty($this->data['gruposInteres'])) {
+                        $gruposHijos = [];
+                        $padres = GrupoInteres::find()->where(['idGrupoInteres' => $this->data['gruposInteres']])->all();
+                            foreach ($padres as $padre) {
+                                foreach ($padre->gruposHijos as $hijo) {
+                                    $gruposHijos[] = $hijo->idGrupoInteres;
+                                }
+                            }
+                            $this->data['gruposSubGruposInteres'] = array_merge($gruposHijos, $this->data['gruposInteres']);
+                        }
                     if ($sesion) {
                         \Yii::$app->session->set('user.data', $this->data);
                     }
@@ -458,12 +469,12 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
         return $anhos . $meses;
     }
 
-    public function getGruposCodigos() {
+    public function getGruposCodigos($conSubGrupos = true) {
         $this->restaurarSesion();
         if (empty($this->data['gruposInteres'])) {
             return [Yii::$app->params['grupo']['*']];
         }
-        return $this->data['gruposInteres'];
+        return $conSubGrupos ? $this->data['gruposSubGruposInteres'] : $this->data['gruposInteres'];
     }
 
     public function getOcultosDashboard() {

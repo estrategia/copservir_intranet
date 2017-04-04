@@ -4,9 +4,9 @@ use app\assets\MultiportalAsset;
 use app\modules\intranet\models\MenuPortales;
 
 MultiportalAsset::register($this);
-
 // Rutas imagenes
-$srcLogo = Yii::$app->homeUrl . 'img/multiportal/'. $this->context->module->id . '/' . 'logo_header.png';
+$srcLogo = Yii::$app->homeUrl . 'img/multiportal/'. $this->context->module->id . '/' . $this->context->logoPortal;
+// $colorPortal = $this->context-colorPortal;
 $srcLogoFooter = $srcLogo;
 $home = "/{$this->context->module->id}";
 $srcFb = Yii::$app->homeUrl . 'img/multiportal/copservir/fb.png';
@@ -104,7 +104,7 @@ $srcYt = Yii::$app->homeUrl . 'img/multiportal/copservir/yt.png';
     <script>window.jQuery || document.write('<script src="/copservir_intranet/web/js/multiportal/vendor/jquery.min.js"><\/script>')</script>
     <style>
         .color-primario {
-            background-color: #000000 !important
+            background-color: <?php echo $this->context->colorPortal ?> !important
         }
     </style>
     <?php $this->endBody() ?>

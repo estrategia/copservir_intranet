@@ -282,14 +282,8 @@ class CategoriaDocumentoController extends \yii\web\Controller {
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-            $padres = CategoriaDocumento::getPadres();
-            $html = $this->crearMenuDocumentos($padres, ' ', true);
-            $categorias = [
-                'result' => 'ok',
-                'response' => $this->renderAjax('administrar-categorias-documento', [
-                    'menu' => $html
-                ])
-            ];
+            Yii::$app->session->setFlash('success', 'Categoria creada correctamente');
+            return $this->redirect('admin');
         } else {
             $categorias = [
                 'result' => 'error',
@@ -315,14 +309,8 @@ class CategoriaDocumentoController extends \yii\web\Controller {
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-            $padres = CategoriaDocumento::getPadres();
-            $html = $this->crearMenuDocumentos($padres, ' ', true);
-            $categorias = [
-                'result' => 'ok',
-                'response' => $this->renderAjax('administrar-categorias-documento', [
-                    'menu' => $html
-                ])
-            ];
+            Yii::$app->session->setFlash('success', 'Categoria actualizada correctamente');
+            return $this->redirect('admin');
         } else {
 
             $categorias = [
@@ -354,14 +342,8 @@ class CategoriaDocumentoController extends \yii\web\Controller {
 
         if ($categoriaDocumentoDetalle->delete()) {
 
-            $padres = CategoriaDocumento::getPadres();
-            $html = $this->crearMenuDocumentos($padres, ' ', true);
-            $categorias = [
-                'result' => 'ok',
-                'response' => $this->renderAjax('administrar-categorias-documento', [
-                    'menu' => $html
-                ])
-            ];
+            Yii::$app->session->setFlash('success', 'Relación eliminada correctamente');
+            return $this->redirect('admin');
         } else {
 
             $padres = CategoriaDocumento::getPadres();
@@ -415,14 +397,8 @@ class CategoriaDocumentoController extends \yii\web\Controller {
 
             if ($model->save()) {
 
-                $padres = CategoriaDocumento::getPadres();
-                $html = $this->crearMenuDocumentos($padres, ' ', true);
-                $categorias = [
-                    'result' => 'ok',
-                    'response' => $this->renderAjax('administrar-categorias-documento', [
-                        'menu' => $html
-                    ])
-                ];
+                Yii::$app->session->setFlash('success', 'Relación creada correctamente');
+                return $this->redirect('admin');
             } else {
                 $listaDocumentos = ArrayHelper::map(Documento::getTodosDocumento(), 'idDocumento', 'titulo');
                 $categorias = [
