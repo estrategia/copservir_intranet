@@ -746,3 +746,274 @@ $('#selectCiudadVisualizacion').change(function() {
    });
 console.log($(this).val());
 });
+
+$(document).on('click', 'button[data-role="guardarRespuesta"]', function () {
+
+    var form = $("#formOpciones");
+   
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        async: true,
+        url: requestUrl + '/intranet/formacioncomunicaciones/cuestionario/guardar-opcion-respuesta',
+        data: form.serialize(),
+        beforeSend: function () {
+            $('html').showLoading()
+        },
+        complete: function () {
+            $('html').hideLoading();
+        },
+        success: function (data) {
+            if (data.result == 'ok') {
+                $("#opciones-agregadas").yiiGridView("applyFilter");
+            }else{
+            	alert(data.response);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('html').hideLoading();
+            alert('Error: ' + errorThrown);
+        }
+    });
+    return false;
+});
+
+$(document).on('click', 'button[data-role="guardarRespuestaFalsoVerdadero"]', function () {
+
+    var form = $("#formOpciones");
+   
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        async: true,
+        url: requestUrl + '/intranet/formacioncomunicaciones/cuestionario/guardar-opcion-respuesta',
+        data: form.serialize(),
+        beforeSend: function () {
+            $('html').showLoading()
+        },
+        complete: function () {
+            $('html').hideLoading();
+        },
+        success: function (data) {
+            if (data.result == 'ok') {
+                $("#opciones-agregadas").yiiGridView("applyFilter");
+            }else{
+            	alert(data.response);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('html').hideLoading();
+            alert('Error: ' + errorThrown);
+        }
+    });
+    return false;
+});
+
+$(document).on('click', 'button[data-role="guardarPreguntaCompletar"]', function () {
+
+    var form = $("#formOpciones");
+   
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        async: true,
+        url: requestUrl + '/intranet/formacioncomunicaciones/cuestionario/guardar-pregunta-completar',
+        data: form.serialize(),
+        beforeSend: function () {
+            $('html').showLoading()
+        },
+        complete: function () {
+            $('html').hideLoading();
+        },
+        success: function (data) {
+            if (data.result == 'ok') {
+                $("#preguntas-agregadas").yiiGridView("applyFilter");
+            }else{
+            	alert(data.response);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('html').hideLoading();
+            alert('Error: ' + errorThrown);
+        }
+    });
+    return false;
+});
+
+$(document).on('click', 'a[data-role="eliminar-opcion"]', function () {
+
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        async: true,
+        url: requestUrl + '/intranet/formacioncomunicaciones/cuestionario/eliminar-opcion',
+        data: {idOpcionRespuesta:$(this).attr('data-opcion-respuesta')},
+        beforeSend: function () {
+            $('html').showLoading()
+        },
+        complete: function () {
+            $('html').hideLoading();
+        },
+        success: function (data) {
+            if (data.result == 'ok') {
+                $("#opciones-agregadas").yiiGridView("applyFilter");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('html').hideLoading();
+            alert('Error: ' + errorThrown);
+        }
+    });
+    return false;
+});
+
+$(document).on('click', 'a[data-role="agregar-opciones-completar"]', function () {
+
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        async: true,
+        url: requestUrl + '/intranet/formacioncomunicaciones/cuestionario/agregar-opciones-completar',
+        data: {idPregunta:$(this).attr('data-pregunta')},
+        beforeSend: function () {
+        	$('html').showLoading();
+        	$("#modal-opciones-completar").remove();
+        },
+        complete: function () {
+            $('html').hideLoading();
+        },
+        success: function (data) {
+        	$('body').append(data.response);
+        	$("#modal-opciones-completar").modal("show");
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('html').hideLoading();
+            alert('Error: ' + errorThrown);
+        }
+    });
+    return false;
+});
+
+$(document).on('click', 'button[data-role="guardar-respuesta-completar"]', function () {
+
+	  var form = $("#form-opciones-completar");
+
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        async: true,
+        url: requestUrl + '/intranet/formacioncomunicaciones/cuestionario/guardar-opcion-completar',
+        data: form.serialize(),
+        beforeSend: function () {
+        	$('html').showLoading();
+        },
+        complete: function () {
+            $('html').hideLoading();
+        },
+        success: function (data) {
+        	if(data.result == 'ok'){
+        		$("#tabla-opciones").html(data.response);
+        	}else{
+        		alert(data.response);
+        	}
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('html').hideLoading();
+            alert('Error: ' + errorThrown);
+        }
+    });
+    return false;
+});
+
+$(document).on('click', 'a[data-role="editar-opcion"]', function () {
+
+  $.ajax({
+      type: 'POST',
+      dataType: 'json',
+      async: true,
+      url: requestUrl + '/intranet/formacioncomunicaciones/cuestionario/editar-opcion-modal',
+      data: {idOpcionRespuesta: $(this).attr('data-opcion-respuesta')},
+      beforeSend: function () {
+    		$('html').showLoading();
+        	$("#modal-editar-opciones").remove();
+      },
+      complete: function () {
+          $('html').hideLoading();
+      },
+      success: function (data) {
+      	if(data.result == 'ok'){
+      		$('body').append(data.response);
+        	$("#modal-editar-opciones").modal("show");
+      	}else{
+      		alert(data.response);
+      	}
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+          $('html').hideLoading();
+          alert('Error: ' + errorThrown);
+      }
+  });
+  return false;
+});
+
+$(document).on('click', 'button[data-role="actualizar-opcion-respuesta"]', function () {
+
+	  $.ajax({
+	      type: 'POST',
+	      dataType: 'json',
+	      async: true,
+	      url: requestUrl + '/intranet/formacioncomunicaciones/cuestionario/guardar-opcion-editar',
+	      data: $("#form-opciones-editar").serialize(),
+	      beforeSend: function () {
+	    		$('html').showLoading();
+	      },
+	      complete: function () {
+	          $('html').hideLoading();
+	      },
+	      success: function (data) {
+	      	if(data.result == 'ok'){
+	      		$("#modal-editar-opciones").remove();
+	      		$("#opciones-agregadas").yiiGridView("applyFilter");
+	      	}else{
+	      		alert(data.response);
+	      	}
+	      },
+	      error: function (jqXHR, textStatus, errorThrown) {
+	          $('html').hideLoading();
+	          alert('Error: ' + errorThrown);
+	      }
+	  });
+	  return false;
+	});
+
+
+$(document).on('click', 'a[data-role="visualizar-pregunta"]', function () {
+
+	  $.ajax({
+	      type: 'POST',
+	      dataType: 'json',
+	      async: true,
+	      url: requestUrl + '/intranet/formacioncomunicaciones/cuestionario/visualizar-pregunta-demo',
+	      data: {idPregunta: $(this).attr('data-pregunta')},
+	      beforeSend: function () {
+	    		$('html').showLoading();
+	    		$("#modal-visualizacion-pregunta").remove();
+	      },
+	      complete: function () {
+	          $('html').hideLoading();
+	      },
+	      success: function (data) {
+	      	if(data.result == 'ok'){
+	      		$('body').append(data.response);
+	      		$("#modal-visualizacion-pregunta").modal('show');
+	      	}else{
+	      		alert(data.response);
+	      	}
+	      },
+	      error: function (jqXHR, textStatus, errorThrown) {
+	          $('html').hideLoading();
+	          alert('Error: ' + errorThrown);
+	      }
+	  });
+	  return false;
+	});
