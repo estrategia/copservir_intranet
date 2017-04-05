@@ -65,6 +65,7 @@ class LoginForm extends Model {
         $resultWebServicesLogin = self::callWSLogin($this->username, $this->password);
 
         if ($resultWebServicesLogin['result'] == 3) {
+            //print_r($resultWebServicesLogin);exit();
             //$user = $this->getUser();
         } else {
             $this->addError($attribute, 'Tu usuario o contraseña no son correctos. Si no recuerdas la contraseña, restablécela.');
@@ -107,6 +108,7 @@ class LoginForm extends Model {
         try {
 
             $result = $client->getLogin($username, sha1($password));
+            
             return $result;
         } catch (SoapFault $exc) {
             $this->addError('password', 'ha ocurrido un error');

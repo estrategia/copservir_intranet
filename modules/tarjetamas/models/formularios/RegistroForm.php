@@ -5,7 +5,7 @@ namespace app\modules\tarjetamas\models\formularios;
 use Yii;
 use yii\base\Model;
 use app\models\Usuario;
-
+use app\modules\tarjetamas\models\UsuarioTarjetaMas;
 
 class RegistroForm extends Model {
 
@@ -34,8 +34,8 @@ class RegistroForm extends Model {
   */
   public function validateUser($attribute, $params) {
     if (!$this->hasErrors()) {
-      $user = $this->getUser();
-
+     // $user = $this->getUser();
+      $user = UsuarioTarjetaMas::findOne(['numeroDocumento' => $this->username]);
       if ($user) {
         $this->addError($attribute, 'El Usuario ya se encuentra registrado');
       }
