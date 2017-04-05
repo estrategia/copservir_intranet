@@ -28,32 +28,15 @@ class ModuloController extends Controller
             [
                 'class' => \app\components\AuthItemFilter::className(),
                 'only' => [
-                    'index', 'detalle', 'crear', 'actualizar'
+                    'actualizar'
                 ],
                 'authsActions' => [
-                    'index' => 'formacionComunicaciones_modulo_admin',
                     'detalle' => 'formacionComunicaciones_modulo_admin',
-                    'crear' => 'formacionComunicaciones_modulo_admin',
                     'actualizar' => 'formacionComunicaciones_modulo_admin',                    
                 ],
            ],
 
         ];
-    }
-
-    /**
-     * Lists all Modulo models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $searchModel = new ModuloSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
     }
 
     /**
@@ -66,24 +49,6 @@ class ModuloController extends Controller
         return $this->render('detalle', [
             'model' => $this->findModel($id),
         ]);
-    }
-
-    /**
-     * Creates a new Modulo model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCrear()
-    {
-        $model = new Modulo();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['detalle', 'id' => $model->idModulo]);
-        } else {
-            return $this->render('crear', [
-                'model' => $model,
-            ]);
-        }
     }
 
     /**

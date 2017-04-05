@@ -2,7 +2,6 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use kartik\select2\Select2;
 
 ?>
 <div class="modal fade" id="widget-modulo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -27,15 +26,10 @@ use kartik\select2\Select2;
         <?= $form->field($model, 'nombreModulo')->textInput(['maxlength' => true]) ?>
 
         <?= $form->field($model, 'descripcionModulo')->textInput(['maxlength' => true]) ?>
+        
+        <?= $form->field($model, 'duracionDias')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'estadoModulo')->widget(Select2::classname(), [
-          'data' => ['1' => 'Activo', '0' => 'Inactivo'],
-          'options' => ['placeholder' => 'Selecciona estado ...'],
-          'hideSearch' => true,
-          'pluginOptions' => [
-            'allowClear' => true
-          ],
-        ]); ?>
+        <?= $form->field($model, 'estadoModulo')->hiddenInput(['value' => 0])->label(false) ?>
 
         <?php ActiveForm::end(); ?>
 

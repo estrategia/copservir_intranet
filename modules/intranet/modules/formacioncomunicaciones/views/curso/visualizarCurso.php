@@ -22,3 +22,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render('_detalleContenidoCurso',['model' => $model]); ?>
 
 </div>
+<?php 
+$model->leido();
+ ?>

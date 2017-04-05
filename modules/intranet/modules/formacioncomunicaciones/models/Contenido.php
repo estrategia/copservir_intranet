@@ -32,6 +32,8 @@ class Contenido extends \yii\db\ActiveRecord
 {
     const ESTADO_ACTIVO = 1;
     const ESTADO_INACTIVO = 0;
+    const ESTADO_LEIDO = 1;
+    const ESTADO_NO_LEIDO = 0;
     const FRECUENCIA_SEMESTRAL = 1;
     const FRECUENCIA_ANUAL = 2;
 
@@ -91,6 +93,17 @@ class Contenido extends \yii\db\ActiveRecord
         } else {
             return false;
         }
+    }
+
+    public function getContenidoLeidoUsuario()
+    {
+        $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        return $this->hasOne(ContenidoLeidoUsuario::className(), ['idContenido' => 'idContenido'])->andWhere(['numeroDocumento' => $numeroDocumento])->one();
+    }
+
+    public function getContenidosLeidosUsuario()
+    {
+        return $this->hasMany(ContenidoLeidoUsuario::className(), ['idContenido' => 'idContenido']);
     }
 
     /**

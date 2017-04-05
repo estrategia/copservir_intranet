@@ -45,6 +45,18 @@ class CursoSearch extends Curso
 
         // add conditions that should always apply here
 
+        if (isset($params['gruposInteresUsuario'])) {
+            $query->leftJoin('t_FORCO_CursoGruposInteres', 't_FORCO_CursoGruposInteres.idCurso = m_FORCO_Curso.idCurso');
+            $query->andFilterWhere(['in', 't_FORCO_CursoGruposInteres.idGrupoInteres', array_values($params['gruposInteresUsuario'])]);
+        }
+
+        if (isset($params['activos'])) {
+            $query->andFilterWhere(['estadoCurso' => Curso::ESTADO_ACTIVO]);
+            $query->andFilterWhere(['<=', 'fechaInicio', date("Y-m-d H:i:s")]);
+            $query->andFilterWhere(['>=', 'fechaFin', date("Y-m-d H:i:s")]);
+        }
+        // var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
