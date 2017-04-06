@@ -16,13 +16,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h3>
         <?= $model->presentacionCurso ?>
     </h3>
+    <?php if ($model->leido() != false && $model->cuestionario != null): ?>
+      <?= Html::a('Tomar cuestionario', ['cuestionario/aplicar-cuestionario', 'id' => $model->cuestionario->idCuestionario], ['class' => 'btn btn-primary']) ?>
+    <?php endif ?>
 
     <h1>Contenido</h1>
-
     <?= $this->render('_detalleContenidoCurso',['model' => $model]); ?>
 
 </div>
-<?php 
-$model->leido();
-$model->marcarLeido();
- ?>

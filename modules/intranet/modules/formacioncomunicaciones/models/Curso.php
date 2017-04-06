@@ -216,4 +216,14 @@ class Curso extends \yii\db\ActiveRecord
             $nuevoGrupo->save();
         }
     }
+
+    public function asignarPuntos()
+    {
+        
+    }
+
+    public function getCuestionario()
+    {
+        return $this->hasOne(Cuestionario::className(), ['idCurso' => 'idCurso']);
+    }
 }
