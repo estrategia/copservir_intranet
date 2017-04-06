@@ -87,24 +87,24 @@ class Curso extends \yii\db\ActiveRecord
             $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
             $connection = Yii::$app->db;
             $query = "
-                SELECT SUM(xxxx.leido) FROM
+                SELECT SUM(xxxx.leido) as porLeer FROM
                     (SELECT (
-                        case  t_FORCO_ContenidoLeidoUsuario.numeroDocumento 
-                            when {$numeroDocumento}
-                            then 0 
-                            else 1 
-                            end) 
-                    as leido
+                        CASE  t_FORCO_ContenidoLeidoUsuario.numeroDocumento 
+                            WHEN {$numeroDocumento}
+                            THEN 0 
+                            ELSE 1 
+                            END) 
+                    AS leido
                     FROM m_FORCO_Contenido 
                     LEFT JOIN t_FORCO_ContenidoLeidoUsuario
                     ON t_FORCO_ContenidoLeidoUsuario.idContenido = m_FORCO_Contenido.idContenido
                     WHERE m_FORCO_Contenido.idCurso = $this->idCurso
-                    AND t_FORCO_ContenidoLeidoUsuario.numeroDocumento = {$numeroDocumento} 
-                    OR t_FORCO_ContenidoLeidoUsuario.numeroDocumento IS NULL) xxxx
+                    AND (t_FORCO_ContenidoLeidoUsuario.numeroDocumento = {$numeroDocumento} 
+                    OR t_FORCO_ContenidoLeidoUsuario.numeroDocumento IS NULL)) xxxx
             ";
             $command = $connection->createCommand($query);
-            $leido = $command->queryScalar();
-            if ($leido == 0) {
+            $leido = $command->queryOne()['porLeer'];
+            if ($leido == '0') {
                 $connection->createCommand()
                     ->insert('t_FORCO_CursosUsuario', [
                             'idCurso' => $this->idCurso,
@@ -112,7 +112,9 @@ class Curso extends \yii\db\ActiveRecord
                             'fechaCreacion' => date("Y-m-d H:i:s")
                         ])
                     ->execute();
+                $this->asignarPuntos();
             }
+            return $leido;
         }
     }
 
@@ -219,7 +221,21 @@ class Curso extends \yii\db\ActiveRecord
 
     public function asignarPuntos()
     {
-        
+        $tipoContenido = $this->tipoContenido;
+        $parametroPunto = ParametrosPuntos::find()
+            ->where(['idTipoContenido' => $tipoContenido->idTipoContenido])
+            ->andWhere(['tipoParametro' => ParametrosPuntos::PARAMETRO_TIPO_CONTENIDO])
+            ->andWhere(['estado' => ParametrosPuntos::ESTADO_ACTIVO])
+            ->one();
+        $puntos = new Puntos();
+        $puntos->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        $puntos->valorPuntos = $parametroPunto->valorPuntosExtra;
+        $puntos->descripcionPunto = "CURSO LEIDO";
+        $puntos->idParametroPunto = $parametroPunto->idParametroPunto;
+        $puntos->tipoParametro = ParametrosPuntos::PARAMETRO_TIPO_CONTENIDO;
+        $puntos->idTipoContenido = $tipoContenido->idTipoContenido;
+        $puntos->idCurso = $this->idCurso;
+        $puntos->save();
     }
 
     public function getCuestionario()

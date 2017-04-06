@@ -22,6 +22,9 @@ use Yii;
 class ParametrosPuntos extends \yii\db\ActiveRecord
 {
 	const ESTADO_ACTIVO = 1;
+    const PARAMETRO_TIPO_CONTENIDO = 1;
+    const PARAMETRO_CUMPLEANIOS = 2;
+    const PARAMETRO_ANIVERSARIO = 3;
     /**
      * @inheritdoc
      */

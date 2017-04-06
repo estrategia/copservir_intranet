@@ -70,6 +70,17 @@ class Puntos extends \yii\db\ActiveRecord
         ];
     }
 
+    public function beforeSave($insert) {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->fechaCreacion = date("Y-m-d H:i:s");
+            } 
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */

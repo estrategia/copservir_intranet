@@ -151,8 +151,9 @@ class ContenidoController extends Controller
             $model->numeroDocumento = $numeroDocumento;
             $model->idContenido = $id;
             $model->idCurso = $curso->idCurso;
-            $curso->marcarLeido();
+            
             if ($model->save()) {
+                $curso->marcarLeido();
                 $response = ['result' => 'ok', 'response' => 'El contenido ha sido marcado como leido'];
             } else {
                 $response = ['result' => 'error', 'response' => 'Error al marcar el contenido como leido'];

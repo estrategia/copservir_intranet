@@ -22,5 +22,4 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1>Contenido</h1>
     <?= $this->render('_detalleContenidoCurso',['model' => $model]); ?>
-
 </div>
