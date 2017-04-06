@@ -154,4 +154,13 @@ class Pregunta extends \yii\db\ActiveRecord
 
         return $dataProvider;
     }
+    
+    public function validarRespuesta($respuesta){
+    	$respuesta = OpcionRespuesta::find(['esCorrecta' => 1, 'idPregunta' => $this->idPregunta, 'trim(lower(respuesta))' => trim(strtolower($respuesta))]);
+    	
+    	if($respuesta)
+    		return true;
+    	else 
+    		return false;
+    }
 }

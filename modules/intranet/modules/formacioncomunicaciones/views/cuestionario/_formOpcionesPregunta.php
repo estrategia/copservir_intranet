@@ -10,9 +10,10 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\OpcionRespuesta;
 <div class="cuestionario-form">
 	<strong><label> Enunciado: </label></strong>
 	<label><span><?php echo $model->pregunta?></span></label>
-    <?php $form = ActiveForm::begin(['options' => ['id' => 'formOpciones']]); ?>
     
     <?php if($model->idTipoPregunta != Pregunta::PREGUNTA_COMPLETAR):?>
+    	<?php $form = ActiveForm::begin(['options' => ['id' => 'formOpciones']]); ?>
+    
 	    <div class='row'>
 	    	<?= $form->field($modelOpcionRespuesta, 'idPregunta')->hiddenInput(['value' => $model->idPregunta])->label(false); ?>
 	    	<?php if($model->idTipoPregunta == Pregunta::PREGUNTA_SELECCION_UNICA || $model->idTipoPregunta == Pregunta::PREGUNTA_SELECCION_MULTIPLE):?>
@@ -86,9 +87,6 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\OpcionRespuesta;
 		    	<?= $form->field($modelPreguntaHija, 'pregunta')->textInput(['maxlength' => true]) ?>
 		    </div>
 		    <div class='col-sm-2'>
-		    	<?= $form->field($modelPreguntaHija, 'numeroPregunta')->textInput(['maxlength' => true]); ?>
-		    </div>
-		    <div class='col-sm-2'>
 		    	<?= $form->field($model, 'estado')->dropDownList(['0' => 'Inactivo', '1' => 'Activo']); ?>
 		    </div>
 		    <div class='col-sm-2'>
@@ -110,7 +108,6 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\OpcionRespuesta;
 	        'layout' => "{summary}\n{items}\n<center>{pager}</center>",
 	        'columns' => [
 	            ['class' => 'yii\grid\SerialColumn'],
-	            'numeroPregunta',
 	        	'pregunta',
 	            [
 	              'class' => 'yii\grid\ActionColumn',

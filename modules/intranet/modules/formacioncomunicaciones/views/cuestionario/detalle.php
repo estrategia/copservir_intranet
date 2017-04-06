@@ -1,8 +1,6 @@
 <?php
 use yii\helpers\Html;
 
-
-
 $this->params['breadcrumbs'][] = ['label' => 'Cuestionario', 'url' => ['/intranet/formacioncomunicaciones/cuestionario']];
 $this->params['breadcrumbs'][] = ['label' => 'Ver cuestionario'];
 ?>

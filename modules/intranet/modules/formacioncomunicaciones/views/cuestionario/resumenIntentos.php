@@ -17,24 +17,30 @@ $this->title = 'Resolver Cuestionario';
 			<th>Preguntas correctas</th>
 			<th>Puntaje</th>
 		</tr>
-		<?php $i = 0;?>
+		<?php $i = 0;
+		$calificacion = 0;?>
 		<?php if(count($cuestionariosPrevios) > 0):?>
 			<?php foreach($cuestionariosPrevios as $intento):?>
+			<?php $calificacion = $intento->porcentajeObtenido>$calificacion?$intento->porcentajeObtenido:$calificacion?>
 				<tr>
 					<td><?php echo ++$i;?></td>
 					<td><?php echo $intento->fechaCreacion?></td>
 					<td><?php echo $intento->fechaActualizacion?></td>
-					<td><?php echo $intento->numeroPreguntasRespondidas?></td>
-					<td><?php echo $intento->porcentajeObtenido?></td>
+					<td><?php echo round($intento->numeroPreguntasRespondidas,2)?></td>
+					<td><?php echo round($intento->porcentajeObtenido,2)?></td>
 				</tr>
 			<?php endforeach;?>
 		<?php else:?>
 		<tr> <td colspan='5' >No tiene intentos previos</td></tr>	
 		<?php endif;?>
 	</table>
-		<?php if($modelCuestionario->numeroIntentos != 0 && count($cuestionariosPrevios) < $modelCuestionario->numeroIntentos):
+		<h1> Calificaci&oacute;n m&aacute;s alta: <?php echo round($calificacion,2)?>%</h1>
+		<?php if((($modelCuestionario->numeroIntentos != 0 && count($cuestionariosPrevios) < $modelCuestionario->numeroIntentos) || $modelCuestionario->numeroIntentos == 0) && $calificacion < $modelCuestionario->porcentajeMinimo):
 			 echo Html::a('Nuevo intento', ['visualizar-cuestionario', 'id' => $modelCuestionario->idCuestionario] ,['class' => 'btn btn-success'] );
-		else:?>
+		elseif($calificacion >= $modelCuestionario->porcentajeMinimo):?>
+			
+			<div class='alert alert-success'>Has aprobado este cuestionario  </div>
+		<?php else:?>	
 			<div class='alert alert-danger'>No se permiten m&aacute;s intentos.</div>
 		<?php endif;?>
 		

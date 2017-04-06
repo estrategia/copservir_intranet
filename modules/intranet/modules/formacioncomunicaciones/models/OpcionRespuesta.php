@@ -95,4 +95,6 @@ class OpcionRespuesta extends \yii\db\ActiveRecord
     }
     
     
+    
+    
 }
