@@ -21,7 +21,14 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'duracionDias')->textInput(['maxlength' => true]) ?>    
 
-    <?= $form->field($model, 'estadoModulo')->hiddenInput(['value' => 0])->label(false) ?>
+    <?= $form->field($model, 'estadoModulo')->widget(Select2::classname(), [
+          'data' => ['1' => 'Activo', '0' => 'Inactivo'],
+          'options' => ['placeholder' => 'Selecciona estado ...'],
+          'hideSearch' => true,
+          'pluginOptions' => [
+            'allowClear' => true
+          ],
+        ]); ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

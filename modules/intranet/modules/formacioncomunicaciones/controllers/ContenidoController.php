@@ -116,7 +116,7 @@ class ContenidoController extends Controller
         $model = $this->findModel($id);
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
         $calificacionModel = ContenidoCalificacion::find()->where(['numeroDocumento' => $numeroDocumento, 'idContenido' => $model->idContenido])->one();
-        $datos = $model->resumenCalificaciones();
+        // $datos = $model->resumenCalificaciones();
         if ($calificacionModel == null) {
             $calificacionModel = new ContenidoCalificacion;
         }
@@ -135,7 +135,7 @@ class ContenidoController extends Controller
                 }
             }
         }
-        return $this->render('contenido', ['model' => $model, 'calificacionModel' => $calificacionModel, 'searchModelCalificacion' => $searchModelCalificacion, 'dataProviderCalificacion' => $dataProviderCalificacion, 'datos' => $datos]);
+        return $this->render('contenido', ['model' => $model, 'calificacionModel' => $calificacionModel, 'searchModelCalificacion' => $searchModelCalificacion, 'dataProviderCalificacion' => $dataProviderCalificacion, 'datos' => $model->resumenCalificaciones()]);
     }
 
     public function actionMarcarLeido($id)

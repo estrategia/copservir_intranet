@@ -33,15 +33,16 @@ class PuntosController extends Controller
       ])
       ->send();
     $puntos = JSON::decode($puntosRequest->content);
-    $columnas = ['numeroDocumento', 'valorPuntos', 'descripcionPunto', 'idPuntoSincronizado'];
+    $columnas = ['numeroDocumento', 'valorPuntos', 'descripcionPunto', 'idPuntoSincronizado', 'fechaCreacion'];
     $filas = [];
-
+    $fechaCreacion = date('Y-m-d H:i:s');
     foreach ($puntos as $key => $punto) {
       $filas[] = [
         $punto['numeroDocumento'],
         $punto['valorPuntos'],
         $punto['descripcionPunto'],
         $punto['idPunto'],
+        $fechaCreacion
       ];
     }
 

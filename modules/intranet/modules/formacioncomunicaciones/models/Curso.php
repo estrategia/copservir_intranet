@@ -119,7 +119,7 @@ class Curso extends \yii\db\ActiveRecord
     public function activar()
     {
         $fechaInicioCurso = $this->fechaInicio;
-        $modulos = $this->modulos;
+        $modulos = $this->modulosActivos;
         $fechaAcumulada = $fechaInicioCurso;
         foreach ($modulos as $key => $modulo) {
             $modulo->fechaInicio = $fechaAcumulada;
