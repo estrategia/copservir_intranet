@@ -83,7 +83,37 @@ class Curso extends \yii\db\ActiveRecord
 
     public function marcarLeido()
     {
-        $curso = Curso::find()->with('')
+        if ($this->leido() == false) {
+            $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+            $connection = Yii::$app->db;
+            $query = "
+                SELECT SUM(xxxx.leido) FROM
+                    (SELECT (
+                        case  t_FORCO_ContenidoLeidoUsuario.numeroDocumento 
+                            when {$numeroDocumento}
+                            then 0 
+                            else 1 
+                            end) 
+                    as leido
+                    FROM m_FORCO_Contenido 
+                    LEFT JOIN t_FORCO_ContenidoLeidoUsuario
+                    ON t_FORCO_ContenidoLeidoUsuario.idContenido = m_FORCO_Contenido.idContenido
+                    WHERE m_FORCO_Contenido.idCurso = $this->idCurso
+                    AND t_FORCO_ContenidoLeidoUsuario.numeroDocumento = {$numeroDocumento} 
+                    OR t_FORCO_ContenidoLeidoUsuario.numeroDocumento IS NULL) xxxx
+            ";
+            $command = $connection->createCommand($query);
+            $leido = $command->queryScalar();
+            if ($leido == 0) {
+                $connection->createCommand()
+                    ->insert('t_FORCO_CursosUsuario', [
+                            'idCurso' => $this->idCurso,
+                            'numeroDocumento' => $numeroDocumento,
+                            'fechaCreacion' => date("Y-m-d H:i:s")
+                        ])
+                    ->execute();
+            }
+        }
     }
 
     public function activar()

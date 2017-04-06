@@ -24,4 +24,5 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <?php 
 $model->leido();
+$model->marcarLeido();
  ?>

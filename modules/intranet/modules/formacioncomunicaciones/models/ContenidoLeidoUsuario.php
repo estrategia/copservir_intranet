@@ -30,8 +30,8 @@ class ContenidoLeidoUsuario extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['numeroDocumento', 'idContenido'], 'required'],
-            [['numeroDocumento', 'idContenido'], 'integer'],
+            [['numeroDocumento', 'idContenido', 'idCurso'], 'required'],
+            [['numeroDocumento', 'idContenido', 'idCurso'], 'integer'],
             [['fechaCreacion'], 'safe'],
         ];
     }
@@ -45,6 +45,7 @@ class ContenidoLeidoUsuario extends \yii\db\ActiveRecord
             'numeroDocumento' => 'Numero Documento',
             'idContenido' => 'Id Contenido',
             'fechaCreacion' => 'Fecha Creacion',
+            'idCurso' => 'Id Curso'
         ];
     }
 
@@ -59,19 +60,13 @@ class ContenidoLeidoUsuario extends \yii\db\ActiveRecord
         }
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getNumeroDocumento0()
+    public function getContenido()
     {
-        return $this->hasOne(MUsuario::className(), ['numeroDocumento' => 'numeroDocumento']);
+        return $this->hasOne(Contenido::className(), ['idContenido' => 'idContenido']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getIdContenido0()
+    public function getUsuario()
     {
-        return $this->hasOne(MFORCOContenido::className(), ['idContenido' => 'idContenido']);
+        return $this->hasOne(\app\models\Usuario::className(), ['numeroDocumento' => 'numeroDocumento']);
     }
 }

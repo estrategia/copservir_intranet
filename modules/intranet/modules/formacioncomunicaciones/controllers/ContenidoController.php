@@ -146,9 +146,12 @@ class ContenidoController extends Controller
             ->one();
         $response = [];
         if (is_null($model)) {
+            $curso = Contenido::findOne($id)->capitulo->modulo->curso;
             $model = new ContenidoLeidoUsuario();
             $model->numeroDocumento = $numeroDocumento;
             $model->idContenido = $id;
+            $model->idCurso = $curso->idCurso;
+            $curso->marcarLeido();
             if ($model->save()) {
                 $response = ['result' => 'ok', 'response' => 'El contenido ha sido marcado como leido'];
             } else {

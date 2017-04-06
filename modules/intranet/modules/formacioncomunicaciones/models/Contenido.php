@@ -55,7 +55,7 @@ class Contenido extends \yii\db\ActiveRecord
             [['tituloContenido', 'descripcionContenido', 'idCapitulo'], 'required'],
             [['contenido'], 'required', 'on' => 'contenido'],
             [['tituloContenido', 'descripcionContenido', 'contenido'], 'string'],
-            [['estadoContenido', 'idCapitulo', 'idContenidoCopia', 'frecuenciaMes'], 'integer'],
+            [['estadoContenido', 'idCapitulo', 'idContenidoCopia', 'frecuenciaMes', 'idCurso'], 'integer'],
             [['fechaCreacion', 'fechaActualizacion'], 'safe'],
             // [['idAreaConocimiento'], 'exist', 'skipOnError' => true, 'targetClass' => Area::className(), 'targetAttribute' => ['idAreaConocimiento' => 'idAreaConocimiento']],
             // [['idModulo'], 'exist', 'skipOnError' => true, 'targetClass' => Modulo::className(), 'targetAttribute' => ['idModulo' => 'idModulo']],
@@ -80,7 +80,8 @@ class Contenido extends \yii\db\ActiveRecord
             'frecuenciaMes' => 'Frecuencia Mes',
             'fechaCreacion' => 'Fecha Creación',
             'fechaActualizacion' => 'Fecha Actualización',
-            'contenidoGruposInteres' => 'Grupos de Interes'
+            'contenidoGruposInteres' => 'Grupos de Interes',
+            'idCurso' => 'Id Curso'
         ];
     }
 
@@ -88,6 +89,7 @@ class Contenido extends \yii\db\ActiveRecord
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
                 $this->fechaCreacion = date("Y-m-d H:i:s");
+                $this->idCurso = $this->capitulo->modulo->curso->idCurso;
             } 
             return true;
         } else {
