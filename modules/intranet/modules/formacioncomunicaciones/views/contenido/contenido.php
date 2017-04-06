@@ -22,6 +22,7 @@ use kartik\rating\StarRating;
     <?= $model->contenido; ?>
   </div>
 </div>
+<div id="marcador-leido" style="background-color: red; width: 10px; height: 10px;" data-contenido-id="<?= $model->idContenido ?>"></div>
 <div class="row-eq-height" id="resumen-resenas-contenido">
   <div class="col-md-6">
     <div>

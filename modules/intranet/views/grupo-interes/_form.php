@@ -17,7 +17,7 @@ use kartik\select2\Select2;
 
   <?= $form->field($model, 'idGrupoInteresPadre')->widget(Select2::classname(), [
       'data' => $padres,
-      'options' => ['placeholder' => 'Selecciona laboratorio ...'],
+      'options' => ['placeholder' => 'Selecciona grupo padre...'],
       'pluginOptions' => [
         'allowClear' => true
       ],

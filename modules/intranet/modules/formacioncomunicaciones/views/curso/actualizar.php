@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 $this->title = 'Actualizar Curso: ' . $model->nombreCurso;
 $this->params['breadcrumbs'][] = ['label' => 'Cursos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->nombreCurso, 'url' => ['view', 'id' => $model->idCurso]];
+$this->params['breadcrumbs'][] = ['label' => $model->nombreCurso, 'url' => ['detalle', 'id' => $model->idCurso]];
 $this->params['breadcrumbs'][] = 'Actualizar';
 ?>
 <div class="curso-update">
@@ -25,7 +25,8 @@ $this->params['breadcrumbs'][] = 'Actualizar';
       <?= $this->render('_form', [
           'model' => $model,
           'gruposInteres' => $gruposInteres,
-          'tiposContenido' => $tiposContenido
+          'tiposContenido' => $tiposContenido,
+          'objCursoGruposInteres' => $objCursoGruposInteres
       ]) ?>
     </div>
     <div role="tabpanel" class="tab-pane" id="contenidos">

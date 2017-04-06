@@ -28,7 +28,7 @@
                 - <?= $contenido->tituloContenido ?>
               </span>
               <?= Html::a('&bull;  Editar contenido', ['contenido/actualizar', 'id' => $contenido->idContenido], ['class' => 'collapse-accion']) ?>
-              <?= Html::a('&bull;  Ver contenido', ['contenido/detalle', 'id' => $contenido->idContenido], ['class' => 'collapse-accion']) ?>
+              <?= Html::a('&bull;  Ver contenido', ['contenido/visualizar-contenido', 'id' => $contenido->idContenido], ['class' => 'collapse-accion']) ?>
             </div>
           <?php endforeach ?>
         </div>

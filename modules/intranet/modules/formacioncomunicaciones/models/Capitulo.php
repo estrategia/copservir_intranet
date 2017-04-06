@@ -67,8 +67,18 @@ class Capitulo extends \yii\db\ActiveRecord
         }
     }
 
+    public function getModulo()
+    {
+        return $this->hasOne(Modulo::className(), ['idModulo' => 'idModulo']);
+    }
+
     public function getContenidos()
     {
         return $this->hasMany(Contenido::className(), ['idCapitulo' => 'idCapitulo']);
+    }
+
+    public function getContenidosActivos()
+    {
+        return $this->hasMany(Contenido::className(), ['idCapitulo' => 'idCapitulo'])->andWhere(['estadoContenido' => Contenido::ESTADO_ACTIVO])->all();
     }
 }

@@ -9,6 +9,7 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\Capitulo;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Contenido;
 use app\modules\intranet\modules\formacioncomunicaciones\models\ContenidoCalificacion;
 use app\modules\intranet\modules\formacioncomunicaciones\models\ContenidoCalificacionSearch;
+use app\modules\intranet\modules\formacioncomunicaciones\models\ContenidoLeidoUsuario;
 use app\modules\intranet\modules\formacioncomunicaciones\models\ContenidoSearch;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Modulo;
 use app\modules\intranet\modules\formacioncomunicaciones\models\TipoContenido;
@@ -36,12 +37,10 @@ class ContenidoController extends Controller
             [
                 'class' => \app\components\AuthItemFilter::className(),
                 'only' => [
-                    'index', 'detalle', 'crear', 'actualizar', 'visualizar-contenido'
+                    'detalle', 'actualizar', 'visualizar-contenido'
                 ],
                 'authsActions' => [
-                    'index' => 'formacionComunicaciones_contenido_admin',
                     'detalle' => 'formacionComunicaciones_contenido_admin',
-                    'crear' => 'formacionComunicaciones_contenido_admin',
                     'actualizar' => 'formacionComunicaciones_contenido_admin',                    
                     'visualizar-contenido' => 'intranet_usuario',
                 ],
@@ -81,21 +80,6 @@ class ContenidoController extends Controller
     }
 
     /**
-     * Lists all Contenido models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $searchModel = new ContenidoSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
      * Displays a single Contenido model.
      * @param integer $id
      * @return mixed
@@ -105,25 +89,6 @@ class ContenidoController extends Controller
         return $this->render('detalle', [
             'model' => $this->findModel($id),
         ]);
-    }
-
-    /**
-     * Creates a new Contenido model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCrear()
-    {
-        $model = new Contenido();
-        $capitulos = ArrayHelper::Map(Capitulo::find()->where(['estadoCapitulo' => 1])->asArray()->all(),'idCapitulo', 'nombreCapitulo');
-        if ($model->load(Yii::$app->request->post())) {
-            return $this->redirect(['detalle', 'id' => $model->idContenido]);
-        } else {
-            return $this->render('crear', [
-                'model' => $model,
-                'capitulos' => $capitulos,
-            ]);
-        }
     }
 
     /**
@@ -151,7 +116,7 @@ class ContenidoController extends Controller
         $model = $this->findModel($id);
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
         $calificacionModel = ContenidoCalificacion::find()->where(['numeroDocumento' => $numeroDocumento, 'idContenido' => $model->idContenido])->one();
-        $datos = $model->resumenCalificaciones();
+        // $datos = $model->resumenCalificaciones();
         if ($calificacionModel == null) {
             $calificacionModel = new ContenidoCalificacion;
         }
@@ -170,7 +135,33 @@ class ContenidoController extends Controller
                 }
             }
         }
-        return $this->render('contenido', ['model' => $model, 'calificacionModel' => $calificacionModel, 'searchModelCalificacion' => $searchModelCalificacion, 'dataProviderCalificacion' => $dataProviderCalificacion, 'datos' => $datos]);
+        return $this->render('contenido', ['model' => $model, 'calificacionModel' => $calificacionModel, 'searchModelCalificacion' => $searchModelCalificacion, 'dataProviderCalificacion' => $dataProviderCalificacion, 'datos' => $model->resumenCalificaciones()]);
+    }
+
+    public function actionMarcarLeido($id)
+    {
+        $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        $model = ContenidoLeidoUsuario::find()
+            ->where(['numeroDocumento' => $numeroDocumento, 'idContenido' => $id])
+            ->one();
+        $response = [];
+        if (is_null($model)) {
+            $curso = Contenido::findOne($id)->capitulo->modulo->curso;
+            $model = new ContenidoLeidoUsuario();
+            $model->numeroDocumento = $numeroDocumento;
+            $model->idContenido = $id;
+            $model->idCurso = $curso->idCurso;
+            $curso->marcarLeido();
+            if ($model->save()) {
+                $response = ['result' => 'ok', 'response' => 'El contenido ha sido marcado como leido'];
+            } else {
+                $response = ['result' => 'error', 'response' => 'Error al marcar el contenido como leido'];
+            }
+        } else {
+            $response = ['result' => 'ok', 'response' => 'El contenido ya ha sido marcado como leido'];
+        }
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $response;
     }
 
     /**

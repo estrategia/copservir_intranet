@@ -2272,3 +2272,33 @@ $(document).on('click', "button[data-role='crear-contenido']", function() {
   });
   return false;
 });
+
+$(document).ready(function () {
+  $("#marcador-leido").one('inview', function () {
+    var idContenido = $(this).attr('data-contenido-id')
+    $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/formacioncomunicaciones/contenido/marcar-leido?id=' + idContenido,
+      dataType: 'json',
+      beforeSend: function() {
+        $('body').showLoading()
+      },
+      complete: function(data) {
+        $('body').hideLoading();
+      },
+      success: function(data) {
+        if (data.result == "ok") {
+          console.log('Leido')
+        }else{
+          console.log('No Leido')
+        }
+        console.log(data.response);
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        $('body').hideLoading();
+      }
+    });
+  // return false;
+  });
+});

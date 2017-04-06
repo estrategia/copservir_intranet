@@ -18,6 +18,7 @@ class Curso extends \yii\db\ActiveRecord
 {
     const ESTADO_ACTIVO = 1;
     const ESTADO_INACTIVO = 0;
+    const CRUD_SCENARIO = 'crud';
     public $cursoGruposInteres;
     /**
      * @inheritdoc
@@ -37,7 +38,8 @@ class Curso extends \yii\db\ActiveRecord
             [['fechaCreacion', 'fechaActualizacion', 'fechaInicio', 'fechaFin'], 'safe'],
             [['nombreCurso'], 'string', 'max' => 45],
             [['presentacionCurso'], 'string', 'max' => 250],
-            [['estadoCurso', 'idTipoContenido', 'nombreCurso', 'presentacionCurso', 'cursoGruposInteres', 'fechaInicio'], 'required']
+            [['estadoCurso', 'idTipoContenido', 'nombreCurso', 'presentacionCurso', 'fechaInicio'], 'required'],
+            [['cursoGruposInteres'], 'required', 'on' => 'crud']
         ];
     }
 
@@ -51,6 +53,7 @@ class Curso extends \yii\db\ActiveRecord
             'nombreCurso' => 'Nombre Curso',
             'presentacionCurso' => 'Presentacion Curso',
             'estadoCurso' => 'Estado Curso',
+            'cursoGruposInteres' => 'Grupos de Interes',
             'idTipoContenido' => 'Tipo Contenido',
             'fechaInicio' => 'Fecha Inicio',
             'fechaFin' => 'Fecha Fin',
@@ -69,13 +72,69 @@ class Curso extends \yii\db\ActiveRecord
             return false;
         }
     }
-
-    public function activarCurso()
+    // Retorna false si no existe el registro, de lo contrario retorna el registro.
+    public function leido()
     {
-        $modulos = $this->modulos;
-        foreach ($modulos as $key => $modulo) {
-            # code...
+        $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        $connection = Yii::$app->db;
+        $cursoUsuario = $connection->createCommand("SELECT * FROM t_FORCO_CursosUsuario WHERE numeroDocumento={$numeroDocumento} AND idCurso={$this->idCurso}")->queryOne();
+        return $cursoUsuario;
+    }
+
+    public function marcarLeido()
+    {
+        if ($this->leido() == false) {
+            $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+            $connection = Yii::$app->db;
+            $query = "
+                SELECT SUM(xxxx.leido) FROM
+                    (SELECT (
+                        case  t_FORCO_ContenidoLeidoUsuario.numeroDocumento 
+                            when {$numeroDocumento}
+                            then 0 
+                            else 1 
+                            end) 
+                    as leido
+                    FROM m_FORCO_Contenido 
+                    LEFT JOIN t_FORCO_ContenidoLeidoUsuario
+                    ON t_FORCO_ContenidoLeidoUsuario.idContenido = m_FORCO_Contenido.idContenido
+                    WHERE m_FORCO_Contenido.idCurso = $this->idCurso
+                    AND t_FORCO_ContenidoLeidoUsuario.numeroDocumento = {$numeroDocumento} 
+                    OR t_FORCO_ContenidoLeidoUsuario.numeroDocumento IS NULL) xxxx
+            ";
+            $command = $connection->createCommand($query);
+            $leido = $command->queryScalar();
+            if ($leido == 0) {
+                $connection->createCommand()
+                    ->insert('t_FORCO_CursosUsuario', [
+                            'idCurso' => $this->idCurso,
+                            'numeroDocumento' => $numeroDocumento,
+                            'fechaCreacion' => date("Y-m-d H:i:s")
+                        ])
+                    ->execute();
+            }
         }
+    }
+
+    public function activar()
+    {
+        $fechaInicioCurso = $this->fechaInicio;
+        $modulos = $this->modulosActivos;
+        $fechaAcumulada = $fechaInicioCurso;
+        foreach ($modulos as $key => $modulo) {
+            $modulo->fechaInicio = $fechaAcumulada;
+            $fechaAcumulada = date('Y-m-d H:i:s', strtotime($fechaAcumulada . "+ {$modulo->duracionDias} days"));
+            $modulo->fechaFin = $fechaAcumulada;
+            $modulo->save();
+        }
+        $this->fechaFin = $fechaAcumulada;
+        $this->estadoCurso = self::ESTADO_ACTIVO;
+        // $this->validate();
+        // \yii\helpers\VarDumper::dump($this->errors,10,true);
+        if ($this->save()) {
+            return true;
+        }
+        return false;
     }
 
     public function guardarGruposInteres($gruposInteres)
@@ -97,6 +156,11 @@ class Curso extends \yii\db\ActiveRecord
     public function getModulos()
     {
         return $this->hasMany(Modulo::className(), ['idCurso' => 'idCurso']);
+    }
+
+    public function getModulosActivos()
+    {
+        return $this->hasMany(Modulo::className(), ['idCurso' => 'idCurso'])->andWhere(['estadoModulo' => Modulo::ESTADO_ACTIVO])->all();
     }
 
     public function getObjCursoGruposInteres()
