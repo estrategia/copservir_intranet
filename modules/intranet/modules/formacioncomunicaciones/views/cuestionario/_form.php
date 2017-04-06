@@ -3,6 +3,9 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\datetime\DateTimePicker;
 use yii\helpers\Url;
+use app\modules\intranet\modules\formacioncomunicaciones\models\Curso;
+use yii\helpers\ArrayHelper;
+use kartik\select2\Select2;
 ?>
 
 <div class="cuestionario-form">
@@ -29,11 +32,16 @@ use yii\helpers\Url;
         ]
     ]);
     ?>
-
+	<?php $cursos = Curso::findAll(['estadoCurso' => Curso::ESTADO_ACTIVO]);?>
     <?php $model->estado = $model->isNewRecord ? 1 : $model->estado;  ?>
     <?= $form->field($model, 'estado')->dropDownList(['0' => 'Inactivo', '1' => 'Activo']); ?>
-    <?= $form->field($model, 'idContenido')->dropDownList(['0' => 'Inactivo', '1' => 'Activo']); ?>
-   
+    <?php echo $form->field($model, 'idCurso')->widget(Select2::classname(), [
+          'data' => ArrayHelper::map($cursos, 'idCurso','nombreCurso'),
+          'options' => ['placeholder' => 'Selecione ...'],
+          'pluginOptions' => [
+              'allowClear' => true
+          ],
+        ]);?>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

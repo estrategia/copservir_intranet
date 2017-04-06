@@ -1,10 +1,10 @@
 <?php
 use yii\helpers\Html;
 use yii\grid\GridView;
-use app\modules\intranet\modules\formacioncomunicaciones\models\Cuestionario;
+use app\modules\intranet\modules\formacioncomunicaciones\models\ParametrosPuntos;
 
 $this->title = 'Formacion comunicacion';
-$this->params['breadcrumbs'][] = ['label' => 'Cuestionario'];
+$this->params['breadcrumbs'][] = ['label' => 'Puntos'];
 ?>
 <div class="">
 
@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Cuestionario'];
         <?= Html::a('Crear cuestionario', ['crear'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= GridView::widget([
+    <?php echo  GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'pager' => [
@@ -23,20 +23,25 @@ $this->params['breadcrumbs'][] = ['label' => 'Cuestionario'];
         'layout' => "{summary}\n{items}\n<center>{pager}</center>",
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'tituloCuestionario',
-            [
-            		'attribute' => 'descripcionCuestionario',
-            		'value' => function($model) {return strip_tags ($model->descripcionCuestionario);},
-            ],
-            'tituloCuestionario',
+        	[
+        		'attribute' => 'idTipoContenido',
+        		'filter' =>
+        		Html::activeDropDownList($searchModel, 'idTipoContenido', ArrayHelper::map($tiposContenidos, 'idTipoContenido','nombreTipoContenido'),
+        				['class'=>'form-control','prompt' => 'Seleccione']),
+        				'value' => function($model) {
+        				return $model->objTipoContenido->nombreTipoContenido;
+        		}
+        	],
+            'valorPuntos',
+        	'valorPuntosExtra',
+            'condicion',
             [
               'attribute' => 'estado',
               'filter' =>
                 Html::activeDropDownList($searchModel, 'estado', ['0' => 'Inactivo', '1' => 'Activo'],
                   ['class'=>'form-control','prompt' => 'Seleccione']),
               'value' => function($model) {
-                if ($model->estado == Cuestionario::ESTADO_ACTIVO ) {
+                if ($model->estado == ParametrosPuntos::ESTADO_ACTIVO ) {
                   return 'Activo';
                 }else{
                   return 'Inactivo';

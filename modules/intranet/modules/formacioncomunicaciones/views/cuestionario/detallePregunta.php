@@ -11,7 +11,7 @@ $this->title = 'Detalle de cuestionario';
 		'model' => $model,
 		'attributes' => [
 				'tituloCuestionario',
-				'descripcionCuestionario',
+				
 				[
 						'attribute' => 'estado',
 						'value' =>  $model->estado == Cuestionario::ESTADO_ACTIVO ? 'Activo' : 'Inactivo',
@@ -20,3 +20,5 @@ $this->title = 'Detalle de cuestionario';
 				'fechaActualizacion',
 		],
 ]) ?>
+		
+		<?php echo $model->descripcionCuestionario?>

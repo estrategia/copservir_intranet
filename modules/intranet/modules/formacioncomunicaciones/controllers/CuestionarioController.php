@@ -355,45 +355,54 @@ class CuestionarioController extends Controller{
 	
 	public function actionVisualizarCuestionario($id){
 		$params =[];
+		$transaction = Cuestionario::getDb()->beginTransaction();
 		
-		$cuestionariosPrevios = CuestionarioUsuario::findAll(['idCuestionario' => $id, 'numeroDocumento' => Yii::$app->user->identity->numeroDocumento]);
-		
-		$model = Cuestionario::find()->where('m_FORCO_Cuestionario.idCuestionario = '. $id)->one();
-		
-		if($model == null){
-			// El cuestionario no existe
-			exit();
-		}
-		
-		if($model->numeroIntentos != 0 && count($cuestionariosPrevios) >= $model->numeroIntentos){
-			// numero de intentos por encima
-			return $this->redirect(['aplicar-cuestionario' , 'id' => $id]);
-			exit();
-		}
-		
-		if(Yii::$app->request->post()){
-			$idCuestionarioUsuario = Yii::$app->request->post('idCuestionarioUsuario');
-			$cuestionarioUsuario = CuestionarioUsuario::find()->where(['idCuestionario' => $id, 'idCuestionarioUsuario' => $idCuestionarioUsuario, 'numeroDocumento' => Yii::$app->user->identity->numeroDocumento])->orderBy(new Expression("idCuestionarioUsuario DESC "))->one();
-			$opciones = Yii::$app->request->post('opcionRespuesta');
-			$objCuestionario = new Cuestionario();
-			$preguntas = $objCuestionario->calificarCuestionario($opciones, $model,$id, $cuestionarioUsuario, $idCuestionarioUsuario);
-			$params['preguntas'] = Pregunta::find()->where('idPregunta in ('.implode(",",$preguntas).")")->all();
-			$params['cuestionarioUsuario'] = $cuestionarioUsuario;
-			$params['respuestasUsuario'] =  Yii::$app->request->post('opcionRespuesta');
+		try{
+			$cuestionariosPrevios = CuestionarioUsuario::findAll(['idCuestionario' => $id, 'numeroDocumento' => Yii::$app->user->identity->numeroDocumento]);
 			
-		}else{
 			$model = Cuestionario::find()->where('m_FORCO_Cuestionario.idCuestionario = '. $id)->one();
-			$cuestionarioUsuario = new CuestionarioUsuario();
-			$cuestionarioUsuario->idCuestionario = $id;
-			$cuestionarioUsuario->estadoCuestionario = Cuestionario::CUESTIONARIO_INICIADO;
-			$cuestionarioUsuario->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-			$cuestionarioUsuario->fechaCreacion = \Date("Y-m-d h:i:s");
-			$cuestionarioUsuario->save();
-			$params['preguntas'] = $model->listPreguntas;
-			$params['cuestionarioUsuario'] = $cuestionarioUsuario;
+			
+			if($model == null){
+				// El cuestionario no existe
+				exit();
+			}
+			
+			if(Yii::$app->request->post()){
+				$idCuestionarioUsuario = Yii::$app->request->post('idCuestionarioUsuario');
+				$cuestionarioUsuario = CuestionarioUsuario::find()->where(['idCuestionario' => $id, 'idCuestionarioUsuario' => $idCuestionarioUsuario, 'numeroDocumento' => Yii::$app->user->identity->numeroDocumento])->orderBy(new Expression("idCuestionarioUsuario DESC "))->one();
+				$opciones = Yii::$app->request->post('opcionRespuesta');
+				$objCuestionario = new Cuestionario();
+				$preguntas = $objCuestionario->calificarCuestionario($opciones, $model,$id, $cuestionarioUsuario, $idCuestionarioUsuario);
+				$params['preguntas'] = Pregunta::find()->where('idPregunta in ('.implode(",",$preguntas).")")->all();
+				$params['cuestionarioUsuario'] = $cuestionarioUsuario;
+				$params['respuestasUsuario'] =  Yii::$app->request->post('opcionRespuesta');
+			}else{
+				if($model->numeroIntentos != 0 && count($cuestionariosPrevios) >= $model->numeroIntentos){
+					// numero de intentos por encima
+					return $this->redirect(['aplicar-cuestionario' , 'id' => $id]);
+					exit();
+				}
+				$model = Cuestionario::find()->where('m_FORCO_Cuestionario.idCuestionario = '. $id)->one();
+				$cuestionarioUsuario = new CuestionarioUsuario();
+				$cuestionarioUsuario->idCuestionario = $id;
+				$cuestionarioUsuario->estadoCuestionario = Cuestionario::CUESTIONARIO_INICIADO;
+				$cuestionarioUsuario->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+				$cuestionarioUsuario->fechaCreacion = \Date("Y-m-d h:i:s");
+				if(!$cuestionarioUsuario->save()){
+					throw new \Exception("No se pudo guardar el inicio del intento",502);;
+				}
+				$params['preguntas'] = $model->listPreguntas;
+				$params['cuestionarioUsuario'] = $cuestionarioUsuario;
+			}
+			$params['model'] = $model;
+			
+			$transaction->commit();
+			 
+		}catch(\Exception $e){
+			$transaction->rollBack();
+			Yii::$app->session->setFlash('error', $e->getMessage());
+			throw  $e;
 		}
-		$params['model'] = $model;
-		
 		return $this->render('visualizarCuestionario', $params);
 	}
 

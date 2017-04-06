@@ -16,6 +16,17 @@ $this->title = 'Resolver Cuestionario';
     <h1><?= Html::encode($this->title) ?></h1>
     <?php $disabled="";?>
     
+    <?php if (Yii::$app->session->has('success')): ?>
+	  <div class="alert alert-success" role="alert">
+	    <?= Yii::$app->session->getFlash('success') ?>
+	  </div>
+	<?php endif ?>
+	<?php if (Yii::$app->session->has('error')): ?>
+	  <div class="alert alert-danger" role="alert">
+	    <?= Yii::$app->session->getFlash('error') ?>
+	  </div>
+	<?php endif ?>
+	    
     <?php if($cuestionarioUsuario->estadoCuestionario == Cuestionario::CUESTIONARIO_CERRADO):?>
     		<table class='table table-striped table-bordered'>
     			<tr> <td colspan="2">Resumen del cuestionario</td></tr>
@@ -87,16 +98,22 @@ $this->title = 'Resolver Cuestionario';
 	   		<?php else: /*Pregunta de completar*/?>
 	   			<?php foreach($pregunta->listPreguntasHijas as $preguntaHija):?>
 	   			<?php // echo $value = (isset($preguntaHija->objRespuestaUsuario)? $preguntaHija->objRespuestaUsuario->respuestaTextual:"")?>
-	   			<?php $value = "";
-	   			
+	   			<?php $value = ""; $icon = "";
+	   				
 	   					if(isset($respuestasUsuario[$pregunta->idPregunta])):
 		   					if(isset($respuestasUsuario[$pregunta->idPregunta][$preguntaHija->idPregunta])):
 		   						$value = $respuestasUsuario[$pregunta->idPregunta][$preguntaHija->idPregunta];
+		   						if($preguntaHija->validarRespuesta($value)):
+		   							$icon = "<img style='margin:0 auto;' src='".$src."correct.png'/>";
+		   						else:
+		   							$icon = "<img style='margin:0 auto;' src='".$src."mistake.png'/>";
+		   						endif;
 		   					endif;
 	   					endif;?>
 	   				<?php echo $preguntaHija =  str_replace("@pregunta", 
 	   						" <input type='text'  $disabled class='input-sm' name='opcionRespuesta[$pregunta->idPregunta][$preguntaHija->idPregunta]' 
 	   						value='$value'/> ", $preguntaHija->pregunta)?>
+	   						<?php echo $icon?>
 	   			<?php endforeach;?>
 	   		<?php endif;?> 			
 	    	<?php $i++;?>
@@ -105,8 +122,7 @@ $this->title = 'Resolver Cuestionario';
     <?php endforeach;?>
     <?php if($cuestionarioUsuario->estadoCuestionario != Cuestionario::CUESTIONARIO_CERRADO):?>
     <div class="form-group">
-    	<?= Html::submitButton('Guardar Respuestas', ['class' => 'btn btn-success', 'name' => 'boton', 'value' => Cuestionario::CUESTIONARIO_INICIADO ]) ?>
-        <?= Html::submitButton('Finalizar Cuestionario', ['class' => 'btn btn-success','name' => 'boton', 'value' => Cuestionario::CUESTIONARIO_CERRADO]) ?>
+    	<?= Html::submitButton('Terminar cuestionario', ['class' => 'btn btn-success', 'name' => 'boton', 'value' => Cuestionario::CUESTIONARIO_INICIADO ]) ?>
     </div>
     <?php endif;?>
     <?php $form = ActiveForm::end(); ?>
