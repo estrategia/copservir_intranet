@@ -1,6 +1,6 @@
 <?php
 use yii\helpers\Html;
-$this->title = 'Resolver Cuestionario';
+$this->title = 'Resumen Cuestionario';
 ?>
 
 <h1><?php echo $this->title?></h1>
@@ -34,14 +34,29 @@ $this->title = 'Resolver Cuestionario';
 		<tr> <td colspan='5' >No tiene intentos previos</td></tr>	
 		<?php endif;?>
 	</table>
-		<h1> Calificaci&oacute;n m&aacute;s alta: <?php echo round($calificacion,2)?>%</h1>
-		<?php if((($modelCuestionario->numeroIntentos != 0 && count($cuestionariosPrevios) < $modelCuestionario->numeroIntentos) || $modelCuestionario->numeroIntentos == 0) && $calificacion < $modelCuestionario->porcentajeMinimo):
-			 echo Html::a('Nuevo intento', ['visualizar-cuestionario', 'id' => $modelCuestionario->idCuestionario] ,['class' => 'btn btn-success'] );
-		elseif($calificacion >= $modelCuestionario->porcentajeMinimo):?>
-			
-			<div class='alert alert-success'>Has aprobado este cuestionario  </div>
-		<?php else:?>	
-			<div class='alert alert-danger'>No se permiten m&aacute;s intentos.</div>
+		<?php if($calificacion > 0):?>
+			<h1> Calificaci&oacute;n m&aacute;s alta: <?php echo round($calificacion,2)?>%</h1>
 		<?php endif;?>
-		
+		<?php if(!$resumen):?>
+			<?php if((($modelCuestionario->numeroIntentos != 0 && 
+					count($cuestionariosPrevios) < $modelCuestionario->numeroIntentos) || $modelCuestionario->numeroIntentos == 0) && 
+					$calificacion < $modelCuestionario->porcentajeMinimo &&
+					($modelCuestionario->objCurso->leido())):
+				 echo Html::a('Nuevo intento', ['visualizar-cuestionario', 'id' => $modelCuestionario->idCuestionario] ,['class' => 'btn btn-success'] );
+			
+				 elseif(!$modelCuestionario->objCurso->leido()):?>
+				 <div class='alert alert-danger'>Debes primero leer el curso antes de hacer el cuestionario  </div>
+				<?php elseif($calificacion >= $modelCuestionario->porcentajeMinimo):?>
+			
+				<div class='alert alert-success'>Has aprobado este cuestionario  </div>
+			<?php else:?>	
+				<div class='alert alert-danger'>No se permiten m&aacute;s intentos.</div>
+			<?php endif;?>
+		<?php else:?>
+				<?php if($calificacion >= $modelCuestionario->porcentajeMinimo):?>
+				<div class='alert alert-success'>Cuestionario aprobado </div>
+				<?php else:?>
+				<div class='alert alert-danger'>Cuestionario reprobado.</div>
+				<?php endif;?>
+		<?php endif;?>
 </div>

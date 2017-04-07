@@ -260,9 +260,12 @@ class Cuestionario extends \yii\db\ActiveRecord
 		    		}
 	    		}
 	    	}
-	    	
-	   	
 	    	return $preguntasCuestionario;
-    	
+    }
+    
+    public function cuestionarioAprobado($numeroDocumento){
+    	$cuestionarioUsuario = CuestionarioUsuario::find()->where(new Expression("porcentajeObtenido >= $this->porcentajeMinimo"))->andFilterWhere(['idCuestionario' => $this->idCuestionario, 'numeroDocumento' => $numeroDocumento])->one();
+    
+    	return $cuestionarioUsuario ? true:false;
     }
 }
