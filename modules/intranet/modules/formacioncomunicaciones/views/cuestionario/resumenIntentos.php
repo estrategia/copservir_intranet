@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			<th>Intento </th>
 			<th>Fecha Inicializado </th>
 			<th>Fecha Finalizado </th>
+			<th>Tiempo empleado </th>
 			<th>Preguntas correctas</th>
 			<th>Puntaje</th>
 		</tr>
@@ -30,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					<td><?php echo ++$i;?></td>
 					<td><?php echo $intento->fechaCreacion?></td>
 					<td><?php echo $intento->fechaActualizacion?></td>
+					<td><?php echo $intento->getTiempoEmpleado()?></td>
 					<td><?php echo round($intento->numeroPreguntasRespondidas,2)?></td>
 					<td><?php echo round($intento->porcentajeObtenido,2)?></td>
 				</tr>

@@ -75,4 +75,13 @@ class CuestionarioUsuario extends \yii\db\ActiveRecord
     {
         return $this->hasOne(MUsuario::className(), ['numeroDocumento' => 'numeroDocumento']);
     }
+    
+    public function getTiempoEmpleado(){
+    	$fecha1 = new \DateTime($this->fechaCreacion);
+    	$fecha2 = new \DateTime($this->fechaActualizacion);
+    	
+    	$diff = $fecha1->diff($fecha2);
+    	
+    	return $diff->format("%h horas %I minutos %s segundos");
+    }
 }

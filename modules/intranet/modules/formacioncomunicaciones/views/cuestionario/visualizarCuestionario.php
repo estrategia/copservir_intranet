@@ -38,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
     			<tr> <td colspan="2">Resumen del cuestionario</td></tr>
     			<tr> <td>Iniciado</td><td><?=  $cuestionarioUsuario->fechaCreacion?></td></tr>
     			<tr> <td>Finalizado</td><td><?=  $cuestionarioUsuario->fechaActualizacion?></td></tr>
+    			<tr> <td>Tiempo empleado</td><td><?=  $cuestionarioUsuario->getTiempoEmpleado()?></td></tr>
     			<tr> <td>Preguntas correctas</td><td><?=  $cuestionarioUsuario->numeroPreguntasRespondidas?></td></tr>
     			<tr> <td>Puntaje</td><td><?=  round($cuestionarioUsuario->porcentajeObtenido,2)?>%/100%</td></tr>
     		</table>
@@ -118,8 +119,8 @@ $this->params['breadcrumbs'][] = $this->title;
 	   					endif;?>
 	   				<?php echo $preguntaHija =  str_replace("@pregunta", 
 	   						" <input type='text'  $disabled class='input-sm' name='opcionRespuesta[$pregunta->idPregunta][$preguntaHija->idPregunta]' 
-	   						value='$value'/> ", $preguntaHija->pregunta)?>
-	   						<?php echo $icon?>
+	   						value='$value'/> $icon", $preguntaHija->pregunta)?>
+	   						
 	   			<?php endforeach;?>
 	   		<?php endif;?> 			
 	    	<?php $i++;?>

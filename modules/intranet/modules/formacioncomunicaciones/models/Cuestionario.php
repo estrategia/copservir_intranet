@@ -46,6 +46,7 @@ class Cuestionario extends \yii\db\ActiveRecord
             [['fechaCreacion', 'fechaActualizacion'], 'safe'],
             [['tituloCuestionario'], 'string', 'max' => 100],
             [['descripcionCuestionario'], 'string', 'max' => 250],
+        	['porcentajeMinimo', 'compare', 'compareValue' => 100, 'operator' => '<='],
         ];
     }
 
@@ -268,4 +269,10 @@ class Cuestionario extends \yii\db\ActiveRecord
     
     	return $cuestionarioUsuario ? true:false;
     }
+    
+    public function getCalificacion($numeroDocumento){
+    	return round(CuestionarioUsuario::find()->where(['idCuestionario' => $this->idCuestionario, 'numeroDocumento' => $numeroDocumento])->select('max(porcentajeObtenido)')->scalar(),2);
+    	
+    }
+    
 }
