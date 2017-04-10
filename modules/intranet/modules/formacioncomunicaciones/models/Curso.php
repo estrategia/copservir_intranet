@@ -105,11 +105,16 @@ class Curso extends \yii\db\ActiveRecord
             $command = $connection->createCommand($query);
             $leido = $command->queryOne()['porLeer'];
             if ($leido == '0') {
+                $fechaInicioLectura = ContenidoLeidoUsuario::find()
+                    ->where(['numeroDocumento' => $numeroDocumento, 'idCurso' => $this->idCurso])
+                    ->orderBy("fechaCreacion ASC")
+                    ->one()->fechaCreacion;
                 $connection->createCommand()
                     ->insert('t_FORCO_CursosUsuario', [
                             'idCurso' => $this->idCurso,
                             'numeroDocumento' => $numeroDocumento,
-                            'fechaCreacion' => date("Y-m-d H:i:s")
+                            'fechaCreacion' => date("Y-m-d H:i:s"),
+                            'fechaInicioLectura' => $fechaInicioLectura
                         ])
                     ->execute();
                 $this->asignarPuntos();
@@ -121,10 +126,11 @@ class Curso extends \yii\db\ActiveRecord
     public function activar()
     {
         $fechaInicioCurso = $this->fechaInicio;
-        $modulos = $this->modulosActivos;
+        $modulos = $this->modulos;
         $fechaAcumulada = $fechaInicioCurso;
         foreach ($modulos as $key => $modulo) {
             $modulo->fechaInicio = $fechaAcumulada;
+            $modulo->estadoModulo = Modulo::ESTADO_ACTIVO;
             $fechaAcumulada = date('Y-m-d H:i:s', strtotime($fechaAcumulada . "+ {$modulo->duracionDias} days"));
             $modulo->fechaFin = $fechaAcumulada;
             $modulo->save();
@@ -242,4 +248,5 @@ class Curso extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Cuestionario::className(), ['idCurso' => 'idCurso']);
     }
+
 }

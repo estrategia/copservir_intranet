@@ -102,7 +102,7 @@ class ContenidoController extends Controller
         $model = $this->findModel($id);
         $capitulos = ArrayHelper::Map(Capitulo::find()->where(['estadoCapitulo' => 1])->asArray()->all(),'idCapitulo', 'nombreCapitulo');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['detalle', 'id' => $model->idContenido]);
+            return $this->redirect(['visualizar-contenido', 'id' => $model->idContenido]);
         } else {
             return $this->render('actualizar', [
                 'model' => $model,
