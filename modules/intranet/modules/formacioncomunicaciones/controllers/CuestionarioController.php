@@ -13,6 +13,9 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\Respuestas;
 use app\modules\intranet\modules\formacioncomunicaciones\models\CuestionarioUsuario;
 use yii\base\Model;
 use yii\db\Expression;
+use app\models\Usuario;
+use app\modules\intranet\models\CuestionarioUsuarioForm;
+use yii\helpers\ArrayHelper;
 
 class CuestionarioController extends Controller{ 
 
@@ -349,7 +352,8 @@ class CuestionarioController extends Controller{
 		$modelCuestionario = Cuestionario::find()->where('m_FORCO_Cuestionario.idCuestionario = '. $id)->one();
 		return $this->render('resumenIntentos',[
 				'cuestionariosPrevios' => $cuestionariosPrevios,
-				'modelCuestionario' => $modelCuestionario
+				'modelCuestionario' => $modelCuestionario,
+				'resumen' => false,
 		]);
 	}
 	
@@ -377,11 +381,13 @@ class CuestionarioController extends Controller{
 				$params['cuestionarioUsuario'] = $cuestionarioUsuario;
 				$params['respuestasUsuario'] =  Yii::$app->request->post('opcionRespuesta');
 			}else{
-				if($model->numeroIntentos != 0 && count($cuestionariosPrevios) >= $model->numeroIntentos){
+				if(($model->numeroIntentos != 0 && count($cuestionariosPrevios) >= $model->numeroIntentos) || 
+						$model->cuestionarioAprobado(Yii::$app->user->identity->numeroDocumento) || !$model->objCurso->leido()){
 					// numero de intentos por encima
 					return $this->redirect(['aplicar-cuestionario' , 'id' => $id]);
 					exit();
 				}
+				
 				$model = Cuestionario::find()->where('m_FORCO_Cuestionario.idCuestionario = '. $id)->one();
 				$cuestionarioUsuario = new CuestionarioUsuario();
 				$cuestionarioUsuario->idCuestionario = $id;
@@ -419,4 +425,32 @@ class CuestionarioController extends Controller{
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    
+    
+    public function actionCuestionarioUsuarios(){
+    	$model = new CuestionarioUsuarioForm();
+    	
+    	$usuarios = ArrayHelper::map(Usuario::findAll(['estado' => Usuario::ESTADO_ACTIVO]), 'numeroDocumento',function($user){return $user->numeroDocumento." - ".$user->alias;});
+    	$cuestionarios = [];
+    	if($model->load(Yii::$app->request->post())){
+    		$cuestionarios= CuestionarioUsuario::find()->where(['numeroDocumento' => $model->numeroDocumento])->select(['distinct(idCuestionario)','numeroDocumento'])->all();
+    		
+    	}
+    	return $this->render('estadoCuestionariousuario',[
+    			'model' => $model,
+    			'usuarios' => $usuarios,
+    			'cuestionarios' => $cuestionarios
+    	]);
+    }
+    
+    public function actionDetalleCuestionario($numeroDocumento, $idCuestionario){
+    	$cuestionariosPrevios = CuestionarioUsuario::findAll(['idCuestionario' => $idCuestionario, 'numeroDocumento' => $numeroDocumento]);
+    	$modelCuestionario = Cuestionario::find()->where('m_FORCO_Cuestionario.idCuestionario = '. $idCuestionario)->one();
+    	return $this->render('resumenIntentos',[
+    			'cuestionariosPrevios' => $cuestionariosPrevios,
+    			'modelCuestionario' => $modelCuestionario,
+    			'resumen' => true
+    	]);
+    }
+    
 }

@@ -103,7 +103,7 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface {
         if (!$this->data['sesionRestaurada'] || $forzar) {
             try {
                 $infoPersona = self::callWSInfoPersona($this->numeroDocumento);
-
+				
                 if (empty($infoPersona)) {
                     return false;
                 } else {

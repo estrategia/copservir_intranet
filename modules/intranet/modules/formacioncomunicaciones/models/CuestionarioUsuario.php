@@ -63,9 +63,9 @@ class CuestionarioUsuario extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIdCuestionario0()
+    public function getObjCuestionario()
     {
-        return $this->hasOne(MFORCOCuestionario::className(), ['idCuestionario' => 'idCuestionario']);
+        return $this->hasOne(Cuestionario::className(), ['idCuestionario' => 'idCuestionario']);
     }
 
     /**

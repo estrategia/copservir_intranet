@@ -109,6 +109,7 @@ class LoginForm extends Model {
 
             $result = $client->getLogin($username, sha1($password));
             
+          
             return $result;
         } catch (SoapFault $exc) {
             $this->addError('password', 'ha ocurrido un error');

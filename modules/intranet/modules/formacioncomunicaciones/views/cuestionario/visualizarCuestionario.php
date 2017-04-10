@@ -7,7 +7,13 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\Cuestionario;
 $src = Yii::$app->homeUrl . 'img/formacioncomunicaciones/';
 
 
+
 $this->title = 'Resolver Cuestionario';
+
+$this->params['breadcrumbs'][] = ['label' => 'Mis Cursos', 'url' => ['mis-cursos']];
+$this->params['breadcrumbs'][] = ['label' => $model->objCurso->nombreCurso, 'url' => ['/curso/visualizar-curso','id' => $model->idCurso]];
+$this->params['breadcrumbs'][] = ['label' => 'Resumen cuestionario', 'url' => ['aplicar-cuestionario','id' => $model->idCuestionario]];
+$this->params['breadcrumbs'][] = $this->title;
 //$this->params['breadcrumbs'][] = ['label' => 'Cuestionarios', 'url' => ['/intranet/formacioncomunicaciones/cuestionario']];
 ?>
 <style> .cuestionario table, th, td{border:solid 1px; padding: 2px 2px 2px 2px} .cuestionario input[type="checkbox"]{opacity:1}</style>
