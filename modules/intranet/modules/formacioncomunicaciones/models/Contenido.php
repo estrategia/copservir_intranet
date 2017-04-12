@@ -32,6 +32,8 @@ class Contenido extends \yii\db\ActiveRecord
 {
     const ESTADO_ACTIVO = 1;
     const ESTADO_INACTIVO = 0;
+    const ESTADO_LEIDO = 1;
+    const ESTADO_NO_LEIDO = 0;
     const FRECUENCIA_SEMESTRAL = 1;
     const FRECUENCIA_ANUAL = 2;
 
@@ -53,7 +55,7 @@ class Contenido extends \yii\db\ActiveRecord
             [['tituloContenido', 'descripcionContenido', 'idCapitulo'], 'required'],
             [['contenido'], 'required', 'on' => 'contenido'],
             [['tituloContenido', 'descripcionContenido', 'contenido'], 'string'],
-            [['estadoContenido', 'idCapitulo', 'idContenidoCopia', 'frecuenciaMes'], 'integer'],
+            [['estadoContenido', 'idCapitulo', 'idContenidoCopia', 'frecuenciaMes', 'idCurso'], 'integer'],
             [['fechaCreacion', 'fechaActualizacion'], 'safe'],
             // [['idAreaConocimiento'], 'exist', 'skipOnError' => true, 'targetClass' => Area::className(), 'targetAttribute' => ['idAreaConocimiento' => 'idAreaConocimiento']],
             // [['idModulo'], 'exist', 'skipOnError' => true, 'targetClass' => Modulo::className(), 'targetAttribute' => ['idModulo' => 'idModulo']],
@@ -78,7 +80,8 @@ class Contenido extends \yii\db\ActiveRecord
             'frecuenciaMes' => 'Frecuencia Mes',
             'fechaCreacion' => 'Fecha Creación',
             'fechaActualizacion' => 'Fecha Actualización',
-            'contenidoGruposInteres' => 'Grupos de Interes'
+            'contenidoGruposInteres' => 'Grupos de Interes',
+            'idCurso' => 'Id Curso'
         ];
     }
 
@@ -86,11 +89,23 @@ class Contenido extends \yii\db\ActiveRecord
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
                 $this->fechaCreacion = date("Y-m-d H:i:s");
+                $this->idCurso = $this->capitulo->modulo->curso->idCurso;
             } 
             return true;
         } else {
             return false;
         }
+    }
+
+    public function getContenidoLeidoUsuario()
+    {
+        $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        return $this->hasOne(ContenidoLeidoUsuario::className(), ['idContenido' => 'idContenido'])->andWhere(['numeroDocumento' => $numeroDocumento])->one();
+    }
+
+    public function getContenidosLeidosUsuario()
+    {
+        return $this->hasMany(ContenidoLeidoUsuario::className(), ['idContenido' => 'idContenido']);
     }
 
     /**
