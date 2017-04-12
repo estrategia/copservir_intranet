@@ -61,9 +61,9 @@ class TestController extends Controller {
 		$hash = '$2y$13$CzkJuZ8YkhrntWsRM7fTkuGRMYJ2g66cPPwLj8PCyDXdoM9HXbhU2';
 		
 		if (Yii::$app->getSecurity()->validatePassword($pass, $hash)) {
-			echo "validado OK";
+			echo "validado OK.";
 		} else {
-			echo "validado ERROR";
+			echo "validado ERROR.";
 		}
 	}
 }
