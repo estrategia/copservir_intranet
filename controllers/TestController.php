@@ -46,4 +46,24 @@ class TestController extends Controller {
 	    	VarDumper::dump($model2, 10, true);
     
 	}
+	
+	public function actionPass($pass){
+		$cost = Yii::$app->security->passwordHashCost;
+		$cifrado = Yii::$app->security->generatePasswordHash($pass);
+		
+		echo "cost: $cost";
+		echo "<br>Pass: $pass";
+		echo "<br>Cifr: $cifrado";
+	}
+	
+	public function actionPassvalid(){
+		$pass = "luf9jiw35t";
+		$hash = '$2y$13$CzkJuZ8YkhrntWsRM7fTkuGRMYJ2g66cPPwLj8PCyDXdoM9HXbhU2';
+		
+		if (Yii::$app->getSecurity()->validatePassword($pass, $hash)) {
+			echo "validado OK";
+		} else {
+			echo "validado ERROR";
+		}
+	}
 }
