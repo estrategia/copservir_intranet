@@ -2,9 +2,14 @@
 use yii\helpers\Html;
 $this->title = 'Resumen Cuestionario';
 
-$this->params['breadcrumbs'][] = ['label' => 'Mis Cursos', 'url' => ['mis-cursos']];
-$this->params['breadcrumbs'][] = ['label' => $modelCuestionario->objCurso->nombreCurso, 'url' => ['curso/visualizar-curso','id' => $modelCuestionario->idCurso]];
-$this->params['breadcrumbs'][] = $this->title;
+if($resumen):
+	$this->params['breadcrumbs'][] = ['label' => 'Cuestionario Usuarios', 'url' => ['cuestionario-usuarios']];
+	$this->params['breadcrumbs'][] = $this->title;
+else:
+	$this->params['breadcrumbs'][] = ['label' => 'Mis Cursos', 'url' => ['mis-cursos']];
+	$this->params['breadcrumbs'][] = ['label' => $modelCuestionario->objCurso->nombreCurso, 'url' => ['curso/visualizar-curso','id' => $modelCuestionario->idCurso]];
+	$this->params['breadcrumbs'][] = $this->title;
+endif;
 ?>
 
 <h1><?php echo $this->title?></h1>

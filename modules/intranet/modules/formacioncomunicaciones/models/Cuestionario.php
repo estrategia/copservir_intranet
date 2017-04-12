@@ -119,13 +119,16 @@ class Cuestionario extends \yii\db\ActiveRecord
     public function calificarCuestionario($opciones, $model, $idCuestionario, &$cuestionarioUsuario){
     	$puntaje = 0;
     	$preguntasCuestionario = [];
-    	$cuestionarioUsuario->fechaActualizacion = \Date ("Y-m-d h:i:s");
+    	
+    	if($cuestionarioUsuario->fechaActualizacion == ""){
+    		$cuestionarioUsuario->fechaActualizacion = \Date ("Y-m-d h:i:s");
+    	}
     	$numeroPreguntas = 0;
     	
-    /*	Respuestas::deleteAll('idCuestionario = :id AND numeroDocumento = :numerodocumento',
-    			[':id' => $idCuestionario, 
+    	Respuestas::deleteAll('idCuestionarioUsuario = :idcuestionariousuario AND numeroDocumento = :numerodocumento',
+    			[':idcuestionariousuario' => $cuestionarioUsuario->idCuestionarioUsuario, 
     			 ':numerodocumento' => Yii::$app->user->identity->numeroDocumento,
-    			]);*/
+    			]);
     	foreach($opciones as $idPregunta => $opcion){
 	    		$pregunta = Pregunta::find()->where(['idPregunta' => $idPregunta])->one();
 	    		$preguntasCuestionario[]= $idPregunta;

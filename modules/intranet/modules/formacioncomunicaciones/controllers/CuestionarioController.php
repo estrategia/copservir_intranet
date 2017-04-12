@@ -40,6 +40,7 @@ class CuestionarioController extends Controller{
 								'crear-modulo' => 'formacionComunicaciones_modulo_admin',
 								
 								'visualizar-cuestionario' => 'intranet_usuario',
+								'aplicar-cuestionario' => 'intranet_usuario',
 								
 						],
 				],

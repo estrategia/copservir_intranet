@@ -88,7 +88,7 @@ class UsuarioTarjetaMas extends \yii\db\ActiveRecord
     public static function callWSConsultarTarjetasAbonado($numeroDocumento)
     {
       
-/*      $client = new \SoapClient(\Yii::$app->params['webServices']['tarjetaMas'], array(
+      $client = new \SoapClient(\Yii::$app->params['webServices']['tarjetaMas'], array(
           "trace" => 1,
           "exceptions" => 0,
           'connection_timeout' => 5,
@@ -104,11 +104,11 @@ class UsuarioTarjetaMas extends \yii\db\ActiveRecord
         Yii::error($ex->getMessage());
       } catch (Exception $ex) {
         Yii::error($ex->getMessage());
-      }*/
-      
+      }
+      /*
       return [['CODIGO' => 1, 'MENSAJE' => 'OK', 'CEDULA' => 123456789, 'NOMBRE' => 'MIGUEL',
        'NUMEROTARJETA' => 123456, 'FECHA' => Date("Y-m-d"), 'TRANSACCION' => 'TRANSACCION', 'VALOR' => 10,
-        'CODPDV' => 123456, 'NOMBREPDV' => 'NOMBREPDV', 'FACTURA' => 'FACTURA', 'CAJA' => 'CAJA']];
+        'CODPDV' => 123456, 'NOMBREPDV' => 'NOMBREPDV', 'FACTURA' => 'FACTURA', 'CAJA' => 'CAJA']];*/
     }
     
     public static function callWSConsultarMovimientos($numeroTarjeta)

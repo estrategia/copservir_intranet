@@ -4,10 +4,11 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 
 $src = Yii::$app->homeUrl . 'img/formacioncomunicaciones/';
-
+$this->title = "Cuestionarios por usuario";
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
-Cuestionarios por usuario
+<h1>Cuestionarios por usuario</h1>
 <?php $form = ActiveForm::begin(); ?>
 
 <?php echo $form->field($model, 'numeroDocumento')->widget(Select2::classname(), [
