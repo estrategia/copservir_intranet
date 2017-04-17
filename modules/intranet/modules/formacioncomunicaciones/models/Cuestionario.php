@@ -225,7 +225,11 @@ class Cuestionario extends \yii\db\ActiveRecord
 	    					$incorrectas++;
 	    				}
 	    			}
-	    			$puntaje += ($correctas)/($correctas+$incorrectas);
+	    			
+	    			// $puntaje += ($correctas)/($correctas+$incorrectas);
+	    			if($incorrectas == 0){
+	    				$puntaje++;
+	    			}
 	    		}
 	    		$numeroPreguntas++;
 	    	}
