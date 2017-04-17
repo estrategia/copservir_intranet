@@ -6,7 +6,6 @@ use Yii;
 use app\modules\intranet\models\GrupoInteres;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Capitulo;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Curso;
-use app\modules\intranet\modules\formacioncomunicaciones\models\CursoGruposInteres;
 use app\modules\intranet\modules\formacioncomunicaciones\models\CursoSearch;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Contenido;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Modulo;
@@ -16,7 +15,6 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\helpers\BaseUrl;
-use yii\helpers\Url;
 
 /**
  * CursoController implements the CRUD actions for Curso model.
@@ -37,13 +35,13 @@ class CursoController extends Controller
             [
                 'class' => \app\components\AuthItemFilter::className(),
                 'only' => [
-                    'index', 'crear', 'actualizar', 'crear-modulo', 'detalle','actualizar-modulo', 'crear-capitulo', 'actualizar-capitulo', 'crear-contenido', 'visualizar-contenido', 'mis-contenidos', 'buscador'
+                    'index', 'create', 'update', 'crear-modulo', 'view','actualizar-modulo', 'crear-capitulo', 'actualizar-capitulo', 'crear-contenido', 'visualizar-contenido', 'mis-contenidos', 'buscador'
                 ],
                 'authsActions' => [
                     'index' => 'formacionComunicaciones_curso_admin',
-                    'detalle' => 'formacionComunicaciones_curso_admin',
-                    'crear' => 'formacionComunicaciones_curso_admin',
-                    'actualizar' => 'formacionComunicaciones_curso_admin',
+                    'view' => 'formacionComunicaciones_curso_admin',
+                    'create' => 'formacionComunicaciones_curso_admin',
+                    'update' => 'formacionComunicaciones_curso_admin',
                     'crear-modulo' => 'formacionComunicaciones_modulo_admin',
                     'actualizar-modulo' => 'formacionComunicaciones_modulo_admin',
                     'crear-capitulo' => 'formacionComunicaciones_capitulo_admin',
@@ -78,9 +76,9 @@ class CursoController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDetalle($id)
+    public function actionView($id)
     {
-        return $this->render('detalle', [
+        return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -90,13 +88,14 @@ class CursoController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCrear()
+    public function actionCreate()
     {
         $model = new Curso();
-        $model->scenario = Curso::CRUD_SCENARIO;
         $gruposInteres = ArrayHelper::Map(GrupoInteres::find()->where(['estado' => 1])->asArray()->all(), 'idGrupoInteres', 'nombreGrupo');
         $tiposContenido = ArrayHelper::Map(TipoContenido::find()->where(['estadoTipoContenido' => 1])->asArray()->all(), 'idTipoContenido', 'nombreTipoContenido');
         if ($model->load(Yii::$app->request->post())) {
+            // $model->validate()
+            // return $this->redirect(['detalle', 'id' => $model->idContenido]);
             $transaction = Curso::getDb()->beginTransaction();
             try {
               if ($model->save()) {
@@ -105,7 +104,7 @@ class CursoController extends Controller
                 }
                 // exit();
                 $transaction->commit();
-                return $this->redirect(['detalle', 'id' => $model->idCurso]);
+                return $this->redirect(['view', 'id' => $model->idCurso]);
               }
             } catch (\Exception $e) {
 
@@ -114,11 +113,10 @@ class CursoController extends Controller
             throw $e;
             }
         } else {
-            return $this->render('crear', [
+            return $this->render('create', [
                 'model' => $model,
                 'gruposInteres' => $gruposInteres,
-                'tiposContenido' => $tiposContenido,
-                'objCursoGruposInteres' => new CursoGruposInteres()
+                'tiposContenido' => $tiposContenido
             ]);
         }
     }
@@ -129,22 +127,21 @@ class CursoController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionActualizar($id)
+    public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $model->scenario = Curso::CRUD_SCENARIO;
+
         $gruposInteres = ArrayHelper::Map(GrupoInteres::find()->where(['estado' => 1])->asArray()->all(), 'idGrupoInteres', 'nombreGrupo');
         $tiposContenido = ArrayHelper::Map(TipoContenido::find()->where(['estadoTipoContenido' => 1])->asArray()->all(), 'idTipoContenido', 'nombreTipoContenido');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $model->actualizarGrupos(Yii::$app->request->post()['Curso']['cursoGruposInteres']);            
-            return $this->redirect(['detalle', 'id' => $model->idCurso]);
+            return $this->redirect(['view', 'id' => $model->idCurso]);
         } else {
             $model->setCursoGruposInteres();
-            return $this->render('actualizar', [
+            return $this->render('update', [
                 'model' => $model,
                 'gruposInteres' => $gruposInteres,
-                'tiposContenido' => $tiposContenido,
-                'objCursoGruposInteres' => new CursoGruposInteres()
+                'tiposContenido' => $tiposContenido
             ]);
         }
     }
@@ -190,21 +187,6 @@ class CursoController extends Controller
 
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $modulos;
-    }
-
-    public function actionActivar($id)
-    {
-        $model = Curso::find()->where(['idCurso' => $id])->one();
-        if (sizeof($model->modulos) > 0) {
-            if ($model->activar()) {
-                Yii::$app->session->setFlash('success', 'Se ha activado el curso correctamente');
-            } else {
-                Yii::$app->session->setFlash('error', 'Ha ocurrido un error al activar el curso');
-            }
-        } else {
-            Yii::$app->session->setFlash('error', 'El curso debe contener modulos para poder ser activado');
-        }
-        return $this->redirect(['index']);
     }
 
     public function actionActualizarModulo($idModulo, $idCurso) {
@@ -344,33 +326,11 @@ class CursoController extends Controller
         $queryParams = Yii::$app->request->queryParams;
         $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();
         $queryParams['gruposInteresUsuario'] = $gruposInteres;
-        $queryParams['activos'] = true;
         $dataProvider = $searchModel->search($queryParams);
         return $this->render('misCursos', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider
         ]);
-    }
-
-    public function actionNotificaciones()
-    {
-        $searchModel = new CursoSearch();
-        $queryParams = Yii::$app->request->queryParams;
-        $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();
-        $queryParams['gruposInteresUsuario'] = $gruposInteres;
-        $queryParams['activos'] = true;
-        $dataProvider = $searchModel->search($queryParams);
-        $cursos = $dataProvider->getModels();
-        // \yii\helpers\VarDumper::dump($cursos,10,true);
-        $notificaciones = [];
-        foreach ($cursos as $indice => $curso) {
-            $notificaciones[] = [
-                'nombreCurso' => $curso->nombreCurso,
-                'urlCurso' => Url::to(['visualizar-curso', 'id' => $curso->idCurso], true)
-            ];
-        }
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return $notificaciones;
     }
 
     public function actionVisualizarCurso($id)

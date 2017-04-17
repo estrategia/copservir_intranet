@@ -28,15 +28,32 @@ class CapituloController extends Controller
             [
                 'class' => \app\components\AuthItemFilter::className(),
                 'only' => [
-                    'detalle', 'actualizar'
+                    'index', 'detalle', 'crear', 'actualizar', 'visualizar-contenido'
                 ],
                 'authsActions' => [
+                    'index' => 'formacionComunicaciones_capitulo_admin',
                     'detalle' => 'formacionComunicaciones_capitulo_admin',
+                    'crear' => 'formacionComunicaciones_capitulo_admin',
                     'actualizar' => 'formacionComunicaciones_capitulo_admin',                    
                 ],
            ],
 
         ];
+    }
+
+    /**
+     * Lists all Capitulo models.
+     * @return mixed
+     */
+    public function actionIndex()
+    {
+        $searchModel = new CapituloSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**
@@ -50,7 +67,25 @@ class CapituloController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
-    
+
+    /**
+     * Creates a new Capitulo model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCrear()
+    {
+        $model = new Capitulo();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['detalle', 'id' => $model->idCapitulo]);
+        } else {
+            return $this->render('crear', [
+                'model' => $model,
+            ]);
+        }
+    }
+
     /**
      * Updates an existing Capitulo model.
      * If update is successful, the browser will be redirected to the 'view' page.

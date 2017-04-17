@@ -27,15 +27,13 @@ $this->title = 'Registro de Datos';
             <div class="col-md-offset-3 col-md-6">
                 <?php $form = ActiveForm::begin(['options' => ['id' => 'formMenuportales']]); ?>
 
-                <?= $form->field($model, 'numeroDocumento')->textInput(['maxlength' => true, 'readonly' => true]) ?>
-
                 <?= $form->field($model, 'nombres')->textInput(['maxlength' => true]) ?>
 
                 <?= $form->field($model, 'primerApellido')->textInput(['maxlength' => true]) ?>
 
                 <?= $form->field($model, 'segundoApellido')->textInput(['maxlength' => true]) ?>
 
-               
+                <?= $form->field($model, 'numeroDocumento')->textInput(['maxlength' => true]) ?>
 
                 <?=
                 $form->field($model, 'codigoCiudad')->widget(Select2::classname(), [
@@ -50,9 +48,7 @@ $this->title = 'Registro de Datos';
 
                 <?= $form->field($model, 'telefonoFijo')->textInput(['maxlength' => true]) ?>
 
-                <?php if($model->scenario == 'registroDatos'):?>
-                    <?= $form->field($model, 'password', [])->passwordInput(); ?>
-                <?php endif;?>
+                <?= $form->field($model, 'password', [])->passwordInput(); ?>
 
                 <?= $form->field($model, 'aceptaTerminos', [])->checkbox(); ?>
 

@@ -18,7 +18,6 @@ class Curso extends \yii\db\ActiveRecord
 {
     const ESTADO_ACTIVO = 1;
     const ESTADO_INACTIVO = 0;
-    const CRUD_SCENARIO = 'crud';
     public $cursoGruposInteres;
     /**
      * @inheritdoc
@@ -38,8 +37,7 @@ class Curso extends \yii\db\ActiveRecord
             [['fechaCreacion', 'fechaActualizacion', 'fechaInicio', 'fechaFin'], 'safe'],
             [['nombreCurso'], 'string', 'max' => 45],
             [['presentacionCurso'], 'string', 'max' => 250],
-            [['estadoCurso', 'idTipoContenido', 'nombreCurso', 'presentacionCurso', 'fechaInicio'], 'required'],
-            [['cursoGruposInteres'], 'required', 'on' => 'crud']
+            [['estadoCurso', 'idTipoContenido', 'nombreCurso', 'presentacionCurso', 'cursoGruposInteres', 'fechaInicio'], 'required']
         ];
     }
 
@@ -53,7 +51,6 @@ class Curso extends \yii\db\ActiveRecord
             'nombreCurso' => 'Nombre Curso',
             'presentacionCurso' => 'Presentacion Curso',
             'estadoCurso' => 'Estado Curso',
-            'cursoGruposInteres' => 'Grupos de Interes',
             'idTipoContenido' => 'Tipo Contenido',
             'fechaInicio' => 'Fecha Inicio',
             'fechaFin' => 'Fecha Fin',
@@ -72,77 +69,13 @@ class Curso extends \yii\db\ActiveRecord
             return false;
         }
     }
-    // Retorna false si no existe el registro, de lo contrario retorna el registro.
-    public function leido()
-    {
-        $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-        $connection = Yii::$app->db;
-        $cursoUsuario = $connection->createCommand("SELECT * FROM t_FORCO_CursosUsuario WHERE numeroDocumento={$numeroDocumento} AND idCurso={$this->idCurso}")->queryOne();
-        return $cursoUsuario;
-    }
 
-    public function marcarLeido()
+    public function activarCurso()
     {
-        if ($this->leido() == false) {
-            $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-            $connection = Yii::$app->db;
-            $query = "
-                SELECT SUM(xxxx.leido) as porLeer FROM
-                    (SELECT (
-                        CASE  t_FORCO_ContenidoLeidoUsuario.numeroDocumento 
-                            WHEN {$numeroDocumento}
-                            THEN 0 
-                            ELSE 1 
-                            END) 
-                    AS leido
-                    FROM m_FORCO_Contenido 
-                    LEFT JOIN t_FORCO_ContenidoLeidoUsuario
-                    ON t_FORCO_ContenidoLeidoUsuario.idContenido = m_FORCO_Contenido.idContenido
-                    WHERE m_FORCO_Contenido.idCurso = $this->idCurso
-                    AND (t_FORCO_ContenidoLeidoUsuario.numeroDocumento = {$numeroDocumento} 
-                    OR t_FORCO_ContenidoLeidoUsuario.numeroDocumento IS NULL)) xxxx
-            ";
-            $command = $connection->createCommand($query);
-            $leido = $command->queryOne()['porLeer'];
-            if ($leido == '0') {
-                $fechaInicioLectura = ContenidoLeidoUsuario::find()
-                    ->where(['numeroDocumento' => $numeroDocumento, 'idCurso' => $this->idCurso])
-                    ->orderBy("fechaCreacion ASC")
-                    ->one()->fechaCreacion;
-                $connection->createCommand()
-                    ->insert('t_FORCO_CursosUsuario', [
-                            'idCurso' => $this->idCurso,
-                            'numeroDocumento' => $numeroDocumento,
-                            'fechaCreacion' => date("Y-m-d H:i:s"),
-                            'fechaInicioLectura' => $fechaInicioLectura
-                        ])
-                    ->execute();
-                $this->asignarPuntos();
-            }
-            return $leido;
-        }
-    }
-
-    public function activar()
-    {
-        $fechaInicioCurso = $this->fechaInicio;
         $modulos = $this->modulos;
-        $fechaAcumulada = $fechaInicioCurso;
         foreach ($modulos as $key => $modulo) {
-            $modulo->fechaInicio = $fechaAcumulada;
-            $modulo->estadoModulo = Modulo::ESTADO_ACTIVO;
-            $fechaAcumulada = date('Y-m-d H:i:s', strtotime($fechaAcumulada . "+ {$modulo->duracionDias} days"));
-            $modulo->fechaFin = $fechaAcumulada;
-            $modulo->save();
+            # code...
         }
-        $this->fechaFin = $fechaAcumulada;
-        $this->estadoCurso = self::ESTADO_ACTIVO;
-        // $this->validate();
-        // \yii\helpers\VarDumper::dump($this->errors,10,true);
-        if ($this->save()) {
-            return true;
-        }
-        return false;
     }
 
     public function guardarGruposInteres($gruposInteres)
@@ -164,11 +97,6 @@ class Curso extends \yii\db\ActiveRecord
     public function getModulos()
     {
         return $this->hasMany(Modulo::className(), ['idCurso' => 'idCurso']);
-    }
-
-    public function getModulosActivos()
-    {
-        return $this->hasMany(Modulo::className(), ['idCurso' => 'idCurso'])->andWhere(['estadoModulo' => Modulo::ESTADO_ACTIVO])->all();
     }
 
     public function getObjCursoGruposInteres()
@@ -224,29 +152,4 @@ class Curso extends \yii\db\ActiveRecord
             $nuevoGrupo->save();
         }
     }
-
-    public function asignarPuntos()
-    {
-        $tipoContenido = $this->tipoContenido;
-        $parametroPunto = ParametrosPuntos::find()
-            ->where(['idTipoContenido' => $tipoContenido->idTipoContenido])
-            ->andWhere(['tipoParametro' => ParametrosPuntos::PARAMETRO_TIPO_CONTENIDO])
-            ->andWhere(['estado' => ParametrosPuntos::ESTADO_ACTIVO])
-            ->one();
-        $puntos = new Puntos();
-        $puntos->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-        $puntos->valorPuntos = $parametroPunto->valorPuntosExtra;
-        $puntos->descripcionPunto = "CURSO LEIDO";
-        $puntos->idParametroPunto = $parametroPunto->idParametroPunto;
-        $puntos->tipoParametro = ParametrosPuntos::PARAMETRO_TIPO_CONTENIDO;
-        $puntos->idTipoContenido = $tipoContenido->idTipoContenido;
-        $puntos->idCurso = $this->idCurso;
-        $puntos->save();
-    }
-
-    public function getCuestionario()
-    {
-        return $this->hasOne(Cuestionario::className(), ['idCurso' => 'idCurso']);
-    }
-
 }
