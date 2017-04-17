@@ -41,6 +41,14 @@ $this->params['breadcrumbs'][] = $this->title;
     			<tr> <td>Tiempo empleado</td><td><?=  $cuestionarioUsuario->getTiempoEmpleado()?></td></tr>
     			<tr> <td>Preguntas correctas</td><td><?=  $cuestionarioUsuario->numeroPreguntasRespondidas?></td></tr>
     			<tr> <td>Puntaje</td><td><?=  round($cuestionarioUsuario->porcentajeObtenido,2)?>%/100%</td></tr>
+    			<tr> <td>Aprobado</td><td>
+    						<?php if($cuestionarioUsuario->cuestionarioAprobado()):?>
+    								<img class="" style="margin:0 auto;"  src='<?php echo $src?>correct.png'/>
+    						<?php else:?>
+    								<img class="" style="margin:0 auto;"  src='<?php echo $src?>mistake.png'/>
+    						<?php endif;?>
+    				</td></tr>
+    			<tr> <td>Puntos Ganados</td><td><?=  $cuestionarioUsuario->getPuntosObtenidos();?> Pts</td></tr>
     		</table>
     		<br/>
     		<?php $disabled=" disabled";?>
