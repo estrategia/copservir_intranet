@@ -16,6 +16,7 @@ use kartik\select2\Select2;
     <?= $form->field($model, 'porcentajeMinimo')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'numeroPreguntas')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'numeroIntentos')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'tiempo')->textInput(['maxlength' => true]) ?>
     <?php
     echo \vova07\imperavi\Widget::widget([
         'selector' => '#cuestionario-descripcioncuestionario',

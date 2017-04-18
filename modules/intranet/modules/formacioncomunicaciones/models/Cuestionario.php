@@ -41,8 +41,8 @@ class Cuestionario extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tituloCuestionario', 'descripcionCuestionario', 'fechaCreacion', 'idCurso', 'numeroIntentos'], 'required'],
-            [['estado', 'idCurso', 'porcentajeMinimo', 'numeroPreguntas', 'idCurso','numeroIntentos'], 'integer'],
+            [['tituloCuestionario', 'descripcionCuestionario', 'fechaCreacion', 'idCurso', 'numeroIntentos', 'tiempo'], 'required'],
+            [['estado', 'idCurso', 'porcentajeMinimo', 'numeroPreguntas', 'idCurso','numeroIntentos', 'tiempo'], 'integer'],
             [['fechaCreacion', 'fechaActualizacion'], 'safe'],
             [['tituloCuestionario'], 'string', 'max' => 100],
             [['descripcionCuestionario'], 'string', 'max' => 250],
@@ -66,6 +66,7 @@ class Cuestionario extends \yii\db\ActiveRecord
         	'porcentajeMinimo' => 'Porcentaje Minimo',
             'fechaCreacion' => 'Fecha Creacion',
             'fechaActualizacion' => 'Fecha Actualizacion',
+        	'tiempo' => 'Tiempo (Minutos)'
         ];
     }
 
