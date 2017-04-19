@@ -11,6 +11,7 @@ class m170328_135732_crea_t_FORCO_Puntos extends Migration
             'numeroDocumento' => $this->bigInteger(20)->unsigned()->notNull(),
             'valorPuntos' => $this->integer()->unsigned()->notNull(),
             'descripcionPunto' => $this->string(100)->notNull(),
+            'valorPuntos' => $this->integer()->notNull(),
             'idCuestionario' => $this->integer(10)->unsigned(),
             'idParametroPunto' => $this->integer(10)->unsigned(),
             'tipoParametro' => $this->integer(10),

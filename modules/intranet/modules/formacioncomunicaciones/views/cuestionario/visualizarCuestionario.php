@@ -17,6 +17,47 @@ $this->params['breadcrumbs'][] = $this->title;
 //$this->params['breadcrumbs'][] = ['label' => 'Cuestionarios', 'url' => ['/intranet/formacioncomunicaciones/cuestionario']];
 ?>
 <style> .cuestionario table, th, td{border:solid 1px; padding: 2px 2px 2px 2px} .cuestionario input[type="checkbox"]{opacity:1}</style>
+
+<script type="text/javascript">
+	var milisegundos = 1000;
+	var restante = <?php echo $model->tiempo*60?>;
+	var empleado = 0;
+	timer = setInterval('temporizador()', milisegundos);
+	
+	function temporizador() {
+		$(document).ready(function() {
+			$("#tiempoRestante").html(formato(restante));
+			$("#tiempoEmpleado").html(formato(empleado));
+			restante--;
+			empleado++;
+		});
+		
+	}
+
+	function formato(x){ // x en segundos
+
+		if(x > 0){
+			var horas= x/3600;
+	
+			var minutosPendientes= x%3600;
+			var minutos = minutosPendientes/60;
+			var segundos = minutosPendientes%60;
+			
+			return pad(Math.floor(horas))+":"+pad(Math.floor(minutos))+":"+pad(segundos);
+		}else{
+			return "00:00:00";
+		}
+		
+	}
+
+	function pad (n) {
+	    var  n = n.toString();
+	    while(n.length < 2)
+	         n = "0" + n;
+		return n;
+	}
+		
+</script>
 <div class="cuestionario">
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -34,15 +75,29 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?php endif ?>
 	    
     <?php if($cuestionarioUsuario->estadoCuestionario == Cuestionario::CUESTIONARIO_CERRADO):?>
-    		<table class='table table-striped table-bordered'>
+    		<table class='table table-striped table-bordered' >
     			<tr> <td colspan="2">Resumen del cuestionario</td></tr>
     			<tr> <td>Iniciado</td><td><?=  $cuestionarioUsuario->fechaCreacion?></td></tr>
     			<tr> <td>Finalizado</td><td><?=  $cuestionarioUsuario->fechaActualizacion?></td></tr>
+    			<tr> <td>Tiempo empleado</td><td><?=  $cuestionarioUsuario->getTiempoEmpleado()?></td></tr>
     			<tr> <td>Preguntas correctas</td><td><?=  $cuestionarioUsuario->numeroPreguntasRespondidas?></td></tr>
     			<tr> <td>Puntaje</td><td><?=  round($cuestionarioUsuario->porcentajeObtenido,2)?>%/100%</td></tr>
+    			<tr> <td>Aprobado</td><td>
+    						<?php if($cuestionarioUsuario->cuestionarioAprobado()):?>
+    								<img class="" style="margin:0 auto;"  src='<?php echo $src?>correct.png'/>
+    						<?php else:?>
+    								<img class="" style="margin:0 auto;"  src='<?php echo $src?>mistake.png'/>
+    						<?php endif;?>
+    				</td></tr>
+    			<tr> <td>Puntos Ganados</td><td><?=  $cuestionarioUsuario->getPuntosObtenidos();?> Pts</td></tr>
     		</table>
     		<br/>
     		<?php $disabled=" disabled";?>
+    <?php else:?>
+    	<table class='table table-striped table-bordered' style="width:30%">
+    			<tr> <td >Tiempo restante</td><td> <span id='tiempoRestante'></span></td></tr>
+    			<tr> <td >Tiempo empleado</td><td> <span id='tiempoEmpleado'></span></td></tr>
+    	</table>
     <?php endif;?>
     <?php $form = ActiveForm::begin(); ?>
     <?php $i = 1;?>
@@ -118,8 +173,8 @@ $this->params['breadcrumbs'][] = $this->title;
 	   					endif;?>
 	   				<?php echo $preguntaHija =  str_replace("@pregunta", 
 	   						" <input type='text'  $disabled class='input-sm' name='opcionRespuesta[$pregunta->idPregunta][$preguntaHija->idPregunta]' 
-	   						value='$value'/> ", $preguntaHija->pregunta)?>
-	   						<?php echo $icon?>
+	   						value='$value'/> $icon", $preguntaHija->pregunta)?>
+	   						
 	   			<?php endforeach;?>
 	   		<?php endif;?> 			
 	    	<?php $i++;?>

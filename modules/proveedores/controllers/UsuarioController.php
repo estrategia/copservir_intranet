@@ -184,7 +184,7 @@ class UsuarioController extends Controller
         $ciudades = ArrayHelper::map(Ciudad::find()->all(), 'codigoCiudad', 'nombreCiudad');
         $terceros = $this->getTerceros();
         // $unidadesNegocio = SIICOP::wsGetUnidadesNegocio(1);
-        // $tercerosSelect = ArrayHelper::map($terceros, 'NumeroDocumento', 'Nombre');
+        $tercerosSelect = ArrayHelper::map($terceros, 'NumeroDocumento', 'Nombre');
         $laboratorio = null;
 
         if ($usuarioProveedor->load(Yii::$app->request->post()) && $usuarioProveedor->validate()) {
@@ -206,17 +206,14 @@ class UsuarioController extends Controller
             // if(array_key_exists($idAgrupacion, $unidadesNegocio)) {
             //     $usuarioProveedor->nombreUnidadNegocio = $unidadesNegocio[$idAgrupacion];
             // }
-            $contrasena = "Ya se encuentra registrado en el sistema, por favor use la contraseña con la que accede a los demas servicios del multiportal de Copservir";
-            $usuarioIntranet = \app\models\Usuario::find()->where(['numeroDocumento' => $documento])->one();
-            if (is_null($usuarioIntranet)) {
-                $usuarioIntranet = new \app\models\Usuario();
-                $usuarioIntranet->numeroDocumento = $documento;
-                $contrasena = Funciones::generatePass(8);
-                $usuarioIntranet->contrasena = md5($contrasena);
-                $usuarioIntranet->nombrePortal = Yii::$app->controller->module->id;
-                $usuarioIntranet->estado = true;
-            }
+
+            $usuarioIntranet = new \app\models\Usuario();
+            $usuarioIntranet->numeroDocumento = $documento;
+            $contrasena = Funciones::generatePass(8);
+            $usuarioIntranet->contrasena = md5($contrasena);
             // $usuarioIntranet->codigoPerfil = (int) Yii::$app->params['PerfilesUsuario']['visitaMedica'];
+            $usuarioIntranet->nombrePortal = Yii::$app->controller->module->id;
+            $usuarioIntranet->estado = true;
 
             // var_dump($usuarioProveedor);
             // var_dump($usuarioProveedor);exit();

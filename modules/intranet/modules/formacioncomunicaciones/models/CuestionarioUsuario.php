@@ -67,12 +67,36 @@ class CuestionarioUsuario extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Cuestionario::className(), ['idCuestionario' => 'idCuestionario']);
     }
+    
+	public function cuestionarioAprobado(){
+    	$cuestionario = $this->objCuestionario;
+    
+    	return ($this->porcentajeObtenido >= $cuestionario->porcentajeMinimo) ? true:false;
+    }
 
+    public function getPuntosObtenidos(){
+    	
+    	if($this->cuestionarioAprobado()){
+    		$puntos = Puntos::findOne(['numeroDocumento' => $this->numeroDocumento, 'idCuestionario' => $this->idCuestionario]);
+    		return ($puntos ? $puntos->valorPuntos: 0);
+    	}else{
+    		return 0;
+    	}
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getNumeroDocumento0()
     {
         return $this->hasOne(MUsuario::className(), ['numeroDocumento' => 'numeroDocumento']);
+    }
+    
+    public function getTiempoEmpleado(){
+    	$fecha1 = new \DateTime($this->fechaCreacion);
+    	$fecha2 = new \DateTime($this->fechaActualizacion);
+    	
+    	$diff = $fecha1->diff($fecha2);
+    	
+    	return $diff->format("%h horas %I minutos %s segundos");
     }
 }

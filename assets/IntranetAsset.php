@@ -38,10 +38,7 @@ class IntranetAsset extends AssetBundle {
         'libs/webarch/webarch.css',
         'libs/bootstrap-media-lightbox-master/bootstrap-media-lightbox.css',
         'css/intranet.css',
-        'css/common.css',
-        'libs/jquery-notifications/css/messenger.css',
-        'libs/jquery-notifications/css/messenger-theme-future.css',
-        'libs/jquery-notifications/css/messenger-theme-flat.css',
+        'css/common.css'
     ];
     public $js = [
         // boostrap
@@ -68,10 +65,6 @@ class IntranetAsset extends AssetBundle {
         'libs/timeago/jquery.timeago.es.js',
         // carousel
         'libs/multiportal/owl-carousel/owl.carousel.min.js',
-        'libs/jquery-inView/jquery-inView.min.js',
-        'libs/jquery-notifications/js/messenger.min.js',
-        'libs/jquery-notifications/js/messenger-theme-future.js',
-        'libs/jquery-notifications/js/messenger-theme-flat.js',
 
 
         //propios

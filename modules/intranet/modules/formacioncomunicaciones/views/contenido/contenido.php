@@ -4,12 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ListView;
 use kartik\rating\StarRating;
 
-$this->title = $model->tituloContenido;
-$curso = $model->capitulo->modulo->curso;
-$this->params['breadcrumbs'][] = ['label' => 'Mis Cursos', 'url' => ['curso/mis-cursos']];
-$this->params['breadcrumbs'][] = ['label' => $curso->nombreCurso];
-$this->params['breadcrumbs'][] = ['label' => 'Contenidos', 'url' => ['curso/visualizar-curso', 'id' => $curso->idCurso]];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <?php if (Yii::$app->session->has('success')): ?>
   <div class="alert alert-success" role="alert">
@@ -24,11 +19,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="row">
   <div class="col-md-12">
-    <h1><?= $model->tituloContenido?></h1>
     <?= $model->contenido; ?>
   </div>
 </div>
-<div id="marcador-leido" style="background-color: red; width: 10px; height: 10px;" data-contenido-id="<?= $model->idContenido ?>"></div>
 <div class="row-eq-height" id="resumen-resenas-contenido">
   <div class="col-md-6">
     <div>

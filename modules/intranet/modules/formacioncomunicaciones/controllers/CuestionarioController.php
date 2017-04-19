@@ -19,7 +19,35 @@ use yii\helpers\ArrayHelper;
 
 class CuestionarioController extends Controller{ 
 
-
+	public function behaviors()
+	{
+		return [
+				[
+						'class' => \app\components\AccessFilter::className(),
+						'redirectUri' => ['/intranet/usuario/autenticar']
+				],
+	
+				[
+						'class' => \app\components\AuthItemFilter::className(),
+						'only' => [
+								'index', 'crear', 'actualizar', 'crear-modulo', 'detalle','actualizar-modulo', 'crear-capitulo', 'actualizar-capitulo', 'crear-contenido', 'visualizar-contenido', 'mis-contenidos', 'buscador'
+						],
+						'authsActions' => [
+								'index' => 'formacionComunicaciones_cuestionario_admin',
+								'detalle' => 'formacionComunicaciones_cuestionario_admin',
+								'crear' => 'formacionComunicaciones_cuestionario_admin',
+								'actualizar' => 'formacionComunicaciones_cuestionario_admin',
+								'crear-modulo' => 'formacionComunicaciones_modulo_admin',
+								
+								'visualizar-cuestionario' => 'intranet_usuario',
+								'aplicar-cuestionario' => 'intranet_usuario',
+								
+						],
+				],
+	
+		];
+	}
+	
 	public function actionIndex(){
 		$searchModel = new Cuestionario();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -76,7 +104,7 @@ class CuestionarioController extends Controller{
 		$modelCuestionario =  $this->findModel($id);
 
 		$searchModel = new Pregunta();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$id);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$id,true);
         $tipoPreguntas = TipoPregunta::find()->where('estado = 1')->all();
         
         $params= [
@@ -170,7 +198,7 @@ class CuestionarioController extends Controller{
 	
 		$searchModel = new Pregunta();
 		$searchModel->idPreguntaPadre = $idPregunta;
-		$dataProvider = $searchModel->search(Yii::$app->request->queryParams, null);
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams, null, false);
 	
 		$params = [	'model' => $model,
 				'searchModel' => $searchModel,
@@ -429,17 +457,38 @@ class CuestionarioController extends Controller{
     
     public function actionCuestionarioUsuarios(){
     	$model = new CuestionarioUsuarioForm();
+    	$usuario= [];
+    	$usuarios = [];
+    	$client = new \SoapClient(\Yii::$app->params['webServices']['persona'], array(
+    			"trace" => 1,
+    			"exceptions" => 0,
+    			'connection_timeout' => 5,
+    			'cache_wsdl' => WSDL_CACHE_NONE
+    	));
     	
-    	$usuarios = ArrayHelper::map(Usuario::findAll(['estado' => Usuario::ESTADO_ACTIVO]), 'numeroDocumento',function($user){return $user->numeroDocumento." - ".$user->alias;});
+    	try {
+    	
+    		$result = $client->getPersonas(null,false);
+    		
+    		foreach($result as $persona){
+    			$usuarios[$persona['NumeroDocumento']] =$persona['NumeroDocumento']." - ". $persona['PrimerApellido']." ".$persona['SegundoApellido']." ".$persona['Nombres'];
+    		}
+    		
+    		
+    	} catch (SoapFault $ex) {
+    		$usuarios = ArrayHelper::map(Usuario::findAll(['estado' => Usuario::ESTADO_ACTIVO]), 'numeroDocumento',function($user){return $user->numeroDocumento." - ".$user->alias;});
+    	} 
+    	
     	$cuestionarios = [];
     	if($model->load(Yii::$app->request->post())){
     		$cuestionarios= CuestionarioUsuario::find()->where(['numeroDocumento' => $model->numeroDocumento])->select(['distinct(idCuestionario)','numeroDocumento'])->all();
-    		
+    		$usuario = Usuario::findOne(['numeroDocumento' => $model->numeroDocumento]);
     	}
     	return $this->render('estadoCuestionariousuario',[
     			'model' => $model,
     			'usuarios' => $usuarios,
-    			'cuestionarios' => $cuestionarios
+    			'cuestionarios' => $cuestionarios,
+    			'usuario' => $usuario,
     	]);
     }
     

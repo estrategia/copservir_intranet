@@ -79,17 +79,6 @@ class Contenido extends \yii\db\ActiveRecord {
         ];
     }
 
-    public function beforeSave($insert) {
-        if (parent::beforeSave($insert)) {
-            if (!isset($this->fechaInicioPublicacion)) {
-                $this->fechaInicioPublicacion = date("Y-m-d H:i:s");
-            } 
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     //RELACIONES
 
     public function getContenidoRecomendacion() {

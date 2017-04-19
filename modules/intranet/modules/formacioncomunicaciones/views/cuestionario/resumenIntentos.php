@@ -2,9 +2,14 @@
 use yii\helpers\Html;
 $this->title = 'Resumen Cuestionario';
 
-$this->params['breadcrumbs'][] = ['label' => 'Mis Cursos', 'url' => ['mis-cursos']];
-$this->params['breadcrumbs'][] = ['label' => $modelCuestionario->objCurso->nombreCurso, 'url' => ['curso/visualizar-curso','id' => $modelCuestionario->idCurso]];
-$this->params['breadcrumbs'][] = $this->title;
+if($resumen):
+	$this->params['breadcrumbs'][] = ['label' => 'Cuestionario Usuarios', 'url' => ['cuestionario-usuarios']];
+	$this->params['breadcrumbs'][] = $this->title;
+else:
+	$this->params['breadcrumbs'][] = ['label' => 'Mis Cursos', 'url' => ['mis-cursos']];
+	$this->params['breadcrumbs'][] = ['label' => $modelCuestionario->objCurso->nombreCurso, 'url' => ['curso/visualizar-curso','id' => $modelCuestionario->idCurso]];
+	$this->params['breadcrumbs'][] = $this->title;
+endif;
 ?>
 
 <h1><?php echo $this->title?></h1>
@@ -18,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			<th>Intento </th>
 			<th>Fecha Inicializado </th>
 			<th>Fecha Finalizado </th>
+			<th>Tiempo empleado </th>
 			<th>Preguntas correctas</th>
 			<th>Puntaje</th>
 		</tr>
@@ -30,6 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					<td><?php echo ++$i;?></td>
 					<td><?php echo $intento->fechaCreacion?></td>
 					<td><?php echo $intento->fechaActualizacion?></td>
+					<td><?php echo $intento->getTiempoEmpleado()?></td>
 					<td><?php echo round($intento->numeroPreguntasRespondidas,2)?></td>
 					<td><?php echo round($intento->porcentajeObtenido,2)?></td>
 				</tr>

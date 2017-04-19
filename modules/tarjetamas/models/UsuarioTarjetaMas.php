@@ -37,14 +37,14 @@ class UsuarioTarjetaMas extends \yii\db\ActiveRecord
             [['numeroDocumento', 'nombres', 'primerApellido', 'correo', 'codigoCiudad',], 'required'],
             [['numeroDocumento', 'celular', 'telefonoFijo', 'codigoCiudad'], 'integer'],
             [['nombres', 'primerApellido', 'segundoApellido'], 'string', 'max' => 45],
-            [['nombres', 'primerApellido', 'segundoApellido'], 'match', 'pattern' => "/^[a-zA-ZáéíóúÁÉÍÓÚÑñ ]+$/i", 'message' => 'Sólo se aceptan letras'],
+            [['nombres', 'primerApellido', 'segundoApellido'], 'match', 'pattern' => "/^[a-zA-ZÃ¡Ã©Ã­Ã³ÃºÃ�Ã‰Ã�Ã“ÃšÃ‘Ã± ]+$/i", 'message' => 'SÃ³lo se aceptan letras'],
             [['correo',],'email'],
             [['correo'], 'string', 'max' => 100],
             [['codigoCiudad'], 'exist', 'skipOnError' => true, 'targetClass' => Ciudad::className(), 'targetAttribute' => ['codigoCiudad' => 'codigoCiudad']],
             [['numeroDocumento'], 'exist', 'skipOnError' => true, 'targetClass' => Usuario::className(), 'targetAttribute' => ['numeroDocumento' => 'numeroDocumento']],
             [['password'], 'string', 'min' => 6],
             [['password',], 'required', 'on' =>  ['registroDatos']],
-            ['aceptaTerminos', 'required', 'on' => ['registroDatos','usuarioExistente'], 'requiredValue' => 1, 'message' => 'Debe aceptar términos y condiciones antes de registrarse']
+            ['aceptaTerminos', 'required', 'on' => ['registroDatos','usuarioExistente'], 'requiredValue' => 1, 'message' => 'Debe aceptar tÃ©rminos y condiciones antes de registrarse']
         ];
     }
 
@@ -88,7 +88,7 @@ class UsuarioTarjetaMas extends \yii\db\ActiveRecord
     public static function callWSConsultarTarjetasAbonado($numeroDocumento)
     {
       
-/*      $client = new \SoapClient(\Yii::$app->params['webServices']['tarjetaMas'], array(
+      $client = new \SoapClient(\Yii::$app->params['webServices']['tarjetaMas'], array(
           "trace" => 1,
           "exceptions" => 0,
           'connection_timeout' => 5,
@@ -104,11 +104,11 @@ class UsuarioTarjetaMas extends \yii\db\ActiveRecord
         Yii::error($ex->getMessage());
       } catch (Exception $ex) {
         Yii::error($ex->getMessage());
-      }*/
-      
+      }
+    /*  
       return [['CODIGO' => 1, 'MENSAJE' => 'OK', 'CEDULA' => 123456789, 'NOMBRE' => 'MIGUEL',
        'NUMEROTARJETA' => 123456, 'FECHA' => Date("Y-m-d"), 'TRANSACCION' => 'TRANSACCION', 'VALOR' => 10,
-        'CODPDV' => 123456, 'NOMBREPDV' => 'NOMBREPDV', 'FACTURA' => 'FACTURA', 'CAJA' => 'CAJA']];
+        'CODPDV' => 123456, 'NOMBREPDV' => 'NOMBREPDV', 'FACTURA' => 'FACTURA', 'CAJA' => 'CAJA']];*/
     }
     
     public static function callWSConsultarMovimientos($numeroTarjeta)
@@ -204,9 +204,6 @@ class UsuarioTarjetaMas extends \yii\db\ActiveRecord
       }
       
     }
-    
-    
-    
     
     
 }

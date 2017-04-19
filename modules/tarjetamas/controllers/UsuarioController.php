@@ -250,9 +250,8 @@ class UsuarioController extends Controller {
         $model = new UsuarioTarjetaMas();
         $model->scenario = 'usuarioExistente';
         
-
-        if ($model->load(Yii::$app->request->post())) {
-
+		 if ($model->load(Yii::$app->request->post())) {
+			$model->numeroDocumento = $numeroDocumento;
             $transaction = UsuarioTarjetaMas::getDb()->beginTransaction();
             try {
 

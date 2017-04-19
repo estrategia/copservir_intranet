@@ -64,7 +64,7 @@
         $client = new Client();
         $url = \Yii::$app->params['webServices']['lrv'] . '/producto/buscar/' . $_GET['term'] . '/' . $idFabricante;
         $url = str_replace(' ', '%20', $url);
-        // var_dump($url);
+        var_dump($url);
         $response = $client->createRequest()
         ->setMethod('get')
         ->setUrl($url)
@@ -169,13 +169,6 @@
         } else {
             return $arr;
         }
-    }
-
-    public function actionTerceros()
-    {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-      
-      return $this->getTerceros();
     }
 
     protected function searchNit($idFabricante) {

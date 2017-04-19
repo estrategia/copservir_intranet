@@ -41,11 +41,12 @@ class Cuestionario extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tituloCuestionario', 'descripcionCuestionario', 'fechaCreacion', 'idCurso', 'numeroIntentos'], 'required'],
-            [['estado', 'idCurso', 'porcentajeMinimo', 'numeroPreguntas', 'idCurso','numeroIntentos'], 'integer'],
+            [['tituloCuestionario', 'descripcionCuestionario', 'fechaCreacion', 'idCurso', 'numeroIntentos', 'tiempo'], 'required'],
+            [['estado', 'idCurso', 'porcentajeMinimo', 'numeroPreguntas', 'idCurso','numeroIntentos', 'tiempo'], 'integer'],
             [['fechaCreacion', 'fechaActualizacion'], 'safe'],
             [['tituloCuestionario'], 'string', 'max' => 100],
             [['descripcionCuestionario'], 'string', 'max' => 250],
+        	['porcentajeMinimo', 'compare', 'compareValue' => 100, 'operator' => '<='],
         ];
     }
 
@@ -65,6 +66,7 @@ class Cuestionario extends \yii\db\ActiveRecord
         	'porcentajeMinimo' => 'Porcentaje Minimo',
             'fechaCreacion' => 'Fecha Creacion',
             'fechaActualizacion' => 'Fecha Actualizacion',
+        	'tiempo' => 'Tiempo (Minutos)'
         ];
     }
 
@@ -118,13 +120,16 @@ class Cuestionario extends \yii\db\ActiveRecord
     public function calificarCuestionario($opciones, $model, $idCuestionario, &$cuestionarioUsuario){
     	$puntaje = 0;
     	$preguntasCuestionario = [];
-    	$cuestionarioUsuario->fechaActualizacion = \Date ("Y-m-d h:i:s");
+    	
+    	if($cuestionarioUsuario->fechaActualizacion == ""){
+    		$cuestionarioUsuario->fechaActualizacion = \Date ("Y-m-d h:i:s");
+    	}
     	$numeroPreguntas = 0;
     	
-    /*	Respuestas::deleteAll('idCuestionario = :id AND numeroDocumento = :numerodocumento',
-    			[':id' => $idCuestionario, 
+    	Respuestas::deleteAll('idCuestionarioUsuario = :idcuestionariousuario AND numeroDocumento = :numerodocumento',
+    			[':idcuestionariousuario' => $cuestionarioUsuario->idCuestionarioUsuario, 
     			 ':numerodocumento' => Yii::$app->user->identity->numeroDocumento,
-    			]);*/
+    			]);
     	foreach($opciones as $idPregunta => $opcion){
 	    		$pregunta = Pregunta::find()->where(['idPregunta' => $idPregunta])->one();
 	    		$preguntasCuestionario[]= $idPregunta;
@@ -221,7 +226,11 @@ class Cuestionario extends \yii\db\ActiveRecord
 	    					$incorrectas++;
 	    				}
 	    			}
-	    			$puntaje += ($correctas)/($correctas+$incorrectas);
+	    			
+	    			// $puntaje += ($correctas)/($correctas+$incorrectas);
+	    			if($incorrectas == 0){
+	    				$puntaje++;
+	    			}
 	    		}
 	    		$numeroPreguntas++;
 	    	}
@@ -268,4 +277,10 @@ class Cuestionario extends \yii\db\ActiveRecord
     
     	return $cuestionarioUsuario ? true:false;
     }
+    
+    public function getCalificacion($numeroDocumento){
+    	return round(CuestionarioUsuario::find()->where(['idCuestionario' => $this->idCuestionario, 'numeroDocumento' => $numeroDocumento])->select('max(porcentajeObtenido)')->scalar(),2);
+    	
+    }
+    
 }

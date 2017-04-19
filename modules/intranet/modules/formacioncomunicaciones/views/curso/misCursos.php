@@ -16,18 +16,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'nombreCurso',
         'presentacionCurso',
         [
-          'attribute' => 'Leído',
-          'format' => 'raw',
-          'value' => function ($model) {                      
-              return $model->leido() == false ? '<span class="glyphicon glyphicon-remove"></span>' : '<span class="glyphicon glyphicon-ok"></span>';
-          },
-        ],
-        [
           'attribute' => '',
           'format' => 'raw',
           'value' => function ($model) {                      
               return '<a class="btn btn-default" href="'. Url::to(['visualizar-curso', 'id' => $model->idCurso]) .'">Visualizar</a>';
           },
-        ]
+        ],
       ],
 ]); ?>

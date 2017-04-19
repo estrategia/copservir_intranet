@@ -132,7 +132,7 @@ class Pregunta extends \yii\db\ActiveRecord
     	return $this->hasOne(Respuestas::className(), ['idPregunta' => 'idPregunta', ])->where('numeroDocumento =:documento ', [':documento' => Yii::$app->user->identity->numeroDocumento] );
     }
     
-     public function search($params, $id)
+     public function search($params, $id, $index = true)
     {
         $query = self::find();
 
@@ -141,6 +141,10 @@ class Pregunta extends \yii\db\ActiveRecord
         ]);
 
         $this->load($params);
+        
+        if($index)
+          $query->andWhere('idPreguntaPadre is NULL');
+        
         $query->andFilterWhere([
             'idPregunta' => $this->idPregunta,
             'estado' => $this->estado,
@@ -156,7 +160,7 @@ class Pregunta extends \yii\db\ActiveRecord
     }
     
     public function validarRespuesta($respuesta){
-    	$respuesta = OpcionRespuesta::find(['esCorrecta' => 1, 'idPregunta' => $this->idPregunta, 'trim(lower(respuesta))' => trim(strtolower($respuesta))]);
+    	$respuesta = OpcionRespuesta::findOne(['esCorrecta' => 1, 'idPregunta' => $this->idPregunta, 'trim(lower(respuesta))' => trim(strtolower($respuesta))]);
     	
     	if($respuesta)
     		return true;
