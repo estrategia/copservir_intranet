@@ -52,10 +52,10 @@ class Contenido extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tituloContenido', 'descripcionContenido', 'idCapitulo'], 'required'],
+            [['tituloContenido', 'descripcionContenido', 'idCapitulo', 'tiempoRequerido'], 'required'],
             [['contenido'], 'required', 'on' => 'contenido'],
             [['tituloContenido', 'descripcionContenido', 'contenido'], 'string'],
-            [['estadoContenido', 'idCapitulo', 'idContenidoCopia', 'frecuenciaMes', 'idCurso'], 'integer'],
+            [['estadoContenido', 'idCapitulo', 'idContenidoCopia', 'frecuenciaMes', 'idCurso', 'tiempoRequerido'], 'integer'],
             [['fechaCreacion', 'fechaActualizacion'], 'safe'],
             // [['idAreaConocimiento'], 'exist', 'skipOnError' => true, 'targetClass' => Area::className(), 'targetAttribute' => ['idAreaConocimiento' => 'idAreaConocimiento']],
             // [['idModulo'], 'exist', 'skipOnError' => true, 'targetClass' => Modulo::className(), 'targetAttribute' => ['idModulo' => 'idModulo']],
@@ -81,7 +81,8 @@ class Contenido extends \yii\db\ActiveRecord
             'fechaCreacion' => 'Fecha Creación',
             'fechaActualizacion' => 'Fecha Actualización',
             'contenidoGruposInteres' => 'Grupos de Interes',
-            'idCurso' => 'Id Curso'
+            'idCurso' => 'Id Curso',
+            'tiempoRequerido' => 'Tiempo requerido'
         ];
     }
 

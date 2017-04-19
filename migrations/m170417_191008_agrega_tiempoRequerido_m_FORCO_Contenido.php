@@ -2,16 +2,16 @@
 
 use yii\db\Migration;
 
-class m170407_191935_agrega_fechaInicioCurso_t_CursosUsuario extends Migration
+class m170417_191008_agrega_tiempoRequerido_m_FORCO_Contenido extends Migration
 {
     public function up()
     {
-        $this->addColumn('t_FORCO_CursosUsuario', 'fechaInicioLectura', $this->dateTime());
+        $this->addColumn('m_FORCO_Contenido', 'tiempoRequerido', $this->integer(10)->unsigned()->notNull());
     }
 
     public function down()
     {
-        $this->dropColumn('t_FORCO_CursosUsuario', 'fechaInicioLectura');
+        $this->dropColumn('m_FORCO_Contenido', 'tiempoRequerido');
     }
 
     /*

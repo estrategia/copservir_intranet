@@ -31,7 +31,7 @@ class ContenidoLeidoUsuario extends \yii\db\ActiveRecord
     {
         return [
             [['numeroDocumento', 'idContenido', 'idCurso'], 'required'],
-            [['numeroDocumento', 'idContenido', 'idCurso'], 'integer'],
+            [['numeroDocumento', 'idContenido', 'idCurso', 'tiempoLectura'], 'integer'],
             [['fechaCreacion'], 'safe'],
         ];
     }
@@ -45,7 +45,8 @@ class ContenidoLeidoUsuario extends \yii\db\ActiveRecord
             'numeroDocumento' => 'Numero Documento',
             'idContenido' => 'Id Contenido',
             'fechaCreacion' => 'Fecha Creacion',
-            'idCurso' => 'Id Curso'
+            'idCurso' => 'Id Curso',
+            'tiempoLectura' => 'Tiempo de lectura'
         ];
     }
 

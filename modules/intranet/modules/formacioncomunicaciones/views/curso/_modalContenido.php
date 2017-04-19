@@ -27,6 +27,8 @@ use kartik\select2\Select2;
           <?= $form->field($model, 'tituloContenido')->textInput() ?>
 
           <?= $form->field($model, 'descripcionContenido')->textInput() ?>
+          
+          <?= $form->field($model, 'tiempoRequerido')->textInput() ?>
          
           <?= $form->field($model, 'estadoContenido')->widget(Select2::classname(), [
             'data' => ['1' => 'Activo', '0' => 'Inactivo'],

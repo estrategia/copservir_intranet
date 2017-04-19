@@ -151,7 +151,7 @@ class ContenidoController extends Controller
             $model->numeroDocumento = $numeroDocumento;
             $model->idContenido = $id;
             $model->idCurso = $curso->idCurso;
-            
+            $model->tiempoLectura = Yii::$app->request->post()['tiempoLectura'];
             if ($model->save()) {
                 $curso->marcarLeido();
                 $response = ['result' => 'ok', 'response' => 'El contenido ha sido marcado como leido'];
