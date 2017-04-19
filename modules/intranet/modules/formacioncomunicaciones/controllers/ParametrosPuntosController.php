@@ -5,9 +5,11 @@ namespace app\modules\intranet\modules\formacioncomunicaciones\controllers;
 use Yii;
 use app\modules\intranet\modules\formacioncomunicaciones\models\ParametrosPuntos;
 use app\modules\intranet\modules\formacioncomunicaciones\models\ParametrosPuntosSearch;
+use app\modules\intranet\modules\formacioncomunicaciones\models\TipoContenido;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 
 /**
  * ParametrosPuntosController implements the CRUD actions for ParametrosPuntos model.
@@ -64,12 +66,13 @@ class ParametrosPuntosController extends Controller
     public function actionCreate()
     {
         $model = new ParametrosPuntos();
-
+        $tiposContenido = ArrayHelper::Map(TipoContenido::find()->where(['estadoTipoContenido' => 1])->asArray()->all(), 'idTipoContenido', 'nombreTipoContenido');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idParametroPunto]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'tiposContenido' => $tiposContenido
             ]);
         }
     }
@@ -83,12 +86,13 @@ class ParametrosPuntosController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $tiposContenido = ArrayHelper::Map(TipoContenido::find()->where(['estadoTipoContenido' => 1])->asArray()->all(), 'idTipoContenido', 'nombreTipoContenido');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idParametroPunto]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'tiposContenido' => $tiposContenido
             ]);
         }
     }

@@ -4,10 +4,15 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\intranet\modules\formacioncomunicaciones\models\Contenido */
-
+$capitulo = $model->capitulo;
+$modulo = $capitulo->modulo;
+// var_dump($capitulo);
+$curso = $modulo->curso;
 $this->title = 'Actualizar Contenido';
-$this->params['breadcrumbs'][] = ['label' => 'Contenidos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->tituloContenido, 'url' => ['detalle', 'id' => $model->idContenido]];
+$this->params['breadcrumbs'][] = ['label' => 'Cursos', 'url' => ['curso/index']];
+$this->params['breadcrumbs'][] = ['label' => $curso->nombreCurso, 'url' => ['curso/actualizar', 'id' => $curso->idCurso]];
+$this->params['breadcrumbs'][] = '  Contenido';
+$this->params['breadcrumbs'][] = ['label' => $model->tituloContenido, 'url' => ['visualizar-contenido', 'id' => $model->idContenido]];
 $this->params['breadcrumbs'][] = 'Actualizar';
 ?>
 <div class="contenido-update">

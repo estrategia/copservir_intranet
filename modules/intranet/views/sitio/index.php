@@ -252,7 +252,35 @@ $( document ).ready(function() {
     },
     error: function(jqXHR, textStatus, errorThrown) {
     }
-  })
+  });
+
+  $.ajax({
+    type: 'GET',
+    async: true,
+    url: requestUrl + '/intranet/formacioncomunicaciones/curso/notificaciones',
+    dataType: 'json',
+    beforeSend: function() {
+
+    },
+    complete: function(data) {
+
+    },
+    success: function(data) {
+      console.log(data);
+      data.forEach(function (notificacion, index){
+        Messenger({
+          extraClasses: 'messenger-fixed messenger-on-bottom',
+          theme: 'flat',
+          hideAfter: 10
+        }).post({
+          message: 'Curso: ' + notificacion.nombreCurso + '<a class=\"btn pull-right\" href=\"' + notificacion.urlCurso + '\"> Ver Curso</a>',
+          showCloseButton: true,
+        }); 
+      });
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+    }
+  });
 
   //::::::::::::::::::::::
   // CAMPAÑAS

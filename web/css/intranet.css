@@ -457,3 +457,13 @@ a.circle-avatar, div.circle-avatar{
 .collapse-accion {
     margin-right: 10px;
 }
+
+.contenido-leido {
+    background-color: mintcream;
+}
+
+.etiqueta-contenido-leido {
+    font-size: 1.8rem;
+    float: right;
+    vertical-align: middle;
+}
