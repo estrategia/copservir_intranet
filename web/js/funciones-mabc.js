@@ -2325,3 +2325,17 @@ $(document).on('click', "input[data-role='toogle-collapsible']", function() {
   return false; 
 });
 
+$(document).on('change', "#parametrospuntos-tipoparametro", function () {
+  console.log($(this).val());
+  if ($(this).val() == 1) {
+    $('.field-parametrospuntos-idtipocontenido').removeClass('hidden');
+    $('.field-parametrospuntos-condicion').addClass('hidden');
+  } else if ($(this).val() == 2) {
+    $('.field-parametrospuntos-idtipocontenido').addClass('hidden');
+    $('.field-parametrospuntos-condicion').addClass('hidden');
+  } else if ($(this).val() == 3) {
+    $('.field-parametrospuntos-idtipocontenido').addClass('hidden');
+    $('.field-parametrospuntos-condicion').removeClass('hidden');
+  }
+})
+

@@ -27,7 +27,6 @@
             <div class="list-group-item <?php if ($leido) echo 'contenido-leido' ?>" style="padding-left: 45px;">
               <span class="collapse-titulo">
                 <a href=" <?php echo Url::to(['contenido/visualizar-contenido', 'id' => $contenido->idContenido]) ?> ">
-                  
                 - <?= $contenido->tituloContenido ?>
                 <?php if ($leido): ?>
                   <span class="etiqueta-contenido-leido">

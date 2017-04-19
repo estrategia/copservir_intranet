@@ -79,4 +79,9 @@ class Modulo extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Capitulo::className(), ['idModulo' => 'idModulo']);
     }
+
+    public function getCapitulosActivos()
+    {
+        return $this->hasMany(Capitulo::className(), ['idModulo' => 'idModulo'])->andWhere(['estadoCapitulo' => Capitulo::ESTADO_ACTIVO])->all();
+    }
 }
