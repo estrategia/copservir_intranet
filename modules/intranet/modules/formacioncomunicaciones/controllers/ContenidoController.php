@@ -170,7 +170,35 @@ class ContenidoController extends Controller
                 }
             }
         }
-        return $this->render('contenido', ['model' => $model, 'calificacionModel' => $calificacionModel, 'searchModelCalificacion' => $searchModelCalificacion, 'dataProviderCalificacion' => $dataProviderCalificacion, 'datos' => $datos]);
+
+        return $this->render('contenido', ['model' => $model, 'calificacionModel' => $calificacionModel, 'searchModelCalificacion' => $searchModelCalificacion, 'dataProviderCalificacion' => $dataProviderCalificacion, 'datos' => $model->resumenCalificaciones()]);
+    }
+
+    public function actionMarcarLeido($id)
+    {
+        $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        $model = ContenidoLeidoUsuario::find()
+            ->where(['numeroDocumento' => $numeroDocumento, 'idContenido' => $id])
+            ->one();
+        $response = [];
+        if (is_null($model)) {
+            $curso = Contenido::findOne($id)->capitulo->modulo->curso;
+            $model = new ContenidoLeidoUsuario();
+            $model->numeroDocumento = $numeroDocumento;
+            $model->idContenido = $id;
+            $model->idCurso = $curso->idCurso;
+            $model->tiempoLectura = Yii::$app->request->post()['tiempoLectura'];
+            if ($model->save()) {
+                $curso->marcarLeido();
+                $response = ['result' => 'ok', 'response' => 'El contenido ha sido marcado como leido'];
+            } else {
+                $response = ['result' => 'error', 'response' => 'Error al marcar el contenido como leido'];
+            }
+        } else {
+            $response = ['result' => 'ok', 'response' => 'El contenido ya ha sido marcado como leido'];
+        }
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $response;
     }
 
     /**

@@ -2272,3 +2272,70 @@ $(document).on('click', "button[data-role='crear-contenido']", function() {
   });
   return false;
 });
+
+var tiempoActual = null
+
+$(document).ready(function () {
+  tiempoActual = new Date();
+});
+
+$(document).ready(function () {
+  $("#marcador-leido").one('inview', function () {
+    var idContenido = $(this).attr('data-contenido-id')
+    var tiempoLectura = Math.round( (new Date() - tiempoActual) / 1000);
+    $.ajax({
+      type: 'POST',
+      async: true,
+      url: requestUrl + '/intranet/formacioncomunicaciones/contenido/marcar-leido?id=' + idContenido,
+      dataType: 'json',
+      data: {tiempoLectura: tiempoLectura},
+      beforeSend: function() {
+        $('body').showLoading()
+      },
+      complete: function(data) {
+        $('body').hideLoading();
+      },
+      success: function(data) {
+        if (data.result == "ok") {
+          console.log('Leido')
+        }else{
+          console.log('No Leido')
+        }
+        console.log(data.response);
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        $('body').hideLoading();
+      }
+    });
+  // return false;
+  });
+});
+
+$(document).on('click', "input[data-role='toogle-collapsible']", function() {
+  if ($(this).attr('data-valor') == 1) {
+    $(this).attr('data-valor', 0);
+    $(this).val('Colapsar');
+    $('.list-group.collapse').addClass('in');
+  }
+  else if ($(this).attr('data-valor') == 0) {
+    $(this).val('Expandir');
+    $(this).attr('data-valor', 1);
+    $('.list-group.collapse').removeClass('in');
+  }
+  return false; 
+});
+
+$(document).on('change', "#parametrospuntos-tipoparametro", function () {
+  console.log($(this).val());
+  if ($(this).val() == 1) {
+    $('.field-parametrospuntos-idtipocontenido').removeClass('hidden');
+    $('.field-parametrospuntos-condicion').addClass('hidden');
+  } else if ($(this).val() == 2) {
+    $('.field-parametrospuntos-idtipocontenido').addClass('hidden');
+    $('.field-parametrospuntos-condicion').addClass('hidden');
+  } else if ($(this).val() == 3) {
+    $('.field-parametrospuntos-idtipocontenido').addClass('hidden');
+    $('.field-parametrospuntos-condicion').removeClass('hidden');
+  }
+})
+
