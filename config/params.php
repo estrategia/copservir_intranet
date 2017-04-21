@@ -178,7 +178,14 @@ return [
                 
             ]
         ]
-    ]
+
+    ],
+	'formacioncomunicaciones' => [
+			'cuestionario' => [
+			'opcionesverdaderofalso' => ['1' => 'Verdadero', '0' => 'Falso']
+        ],
+        'wsSincronizarPuntos' => 'http://localhost/copservir/formacionComunicaciones/puntos/sincronizar'
+	]
 
 
 ];
