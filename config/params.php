@@ -84,11 +84,11 @@ return [
         'codigoSeguridad' => 'CopservirLaMejorEmpresaParaTrabajar2016',
         'tarjetaMas' => 'http://siidesarrollo.copservir.com/tarjetamas/WsTarjetaMas/ws',
         //'tarjetaMas' => 'http://sii.copservir.com/tarjetamas/WsTarjetaMas/ws',
-        'persona' => 'http://localhost/copservir/wsMultiportal/persona',
+        'persona' => 'http://localhost/siicop/wsMultiportal/persona',
         //'persona' => 'http://sii.copservir.com/gestionhumana/wsMultiportal/persona',
         'tradeMarketing' => [
-          'puntosVenta' => 'http://localhost/copservir/puntoventa/sweb/puntoventa',
-          'unidades' => 'http://localhost/copservir/trademarketing/wsTradeMarketing/unidades'
+          'puntosVenta' => 'http://localhost/siicop/puntoventa/sweb/puntoventa',
+          'unidades' => 'http://localhost/siicop/trademarketing/wsTradeMarketing/unidades'
         ],
         // 'lrv' => 'http://192.168.1.22/lrv/rest',
         'lrv' => 'http://localhost/lrv/rest',
@@ -98,7 +98,7 @@ return [
     		'detallePDV' => 'http://siidesarrollo.copservir.com:8080/WebSaldosVisitaMedica/webresources/service/saldos',
     	],
         'productos' => [
-            'terceros' => 'http://localhost/copservir/productos/sweb/terceros',
+            'terceros' => 'http://localhost/siicop/productos/sweb/terceros',
         ],
     ],
     'usuario' => [
