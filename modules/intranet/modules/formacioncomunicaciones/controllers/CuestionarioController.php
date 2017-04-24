@@ -459,7 +459,11 @@ class CuestionarioController extends Controller{
     	$model = new CuestionarioUsuarioForm();
     	$usuario= [];
     	$usuarios = [];
+<<<<<<< HEAD
     	$client = new \SoapClient(\Yii::$app->params['webServices']['persona'], array(
+=======
+    	/*$client = new \SoapClient(\Yii::$app->params['webServices']['persona'], array(
+>>>>>>> a0205c26758d0c8e7dd1c093bd63f48283e9f4a4
     			"trace" => 1,
     			"exceptions" => 0,
     			'connection_timeout' => 5,
@@ -477,8 +481,15 @@ class CuestionarioController extends Controller{
     		
     	} catch (SoapFault $ex) {
     		$usuarios = ArrayHelper::map(Usuario::findAll(['estado' => Usuario::ESTADO_ACTIVO]), 'numeroDocumento',function($user){return $user->numeroDocumento." - ".$user->alias;});
+<<<<<<< HEAD
     	} 
     	
+=======
+    	} */
+    	
+    	$usuarioModel = Usuario::find()->where(['estado' => Usuario::ESTADO_ACTIVO])->innerJoinWith('objUsuarioIntranet')->all();
+    	$usuarios = ArrayHelper::map($usuarioModel, 'numeroDocumento',function($user){return $user->numeroDocumento." - ".$user->objUsuarioIntranet->primerApellido." ".$user->objUsuarioIntranet->segundoApellido." ".$user->objUsuarioIntranet->nombres;});
+>>>>>>> a0205c26758d0c8e7dd1c093bd63f48283e9f4a4
     	$cuestionarios = [];
     	if($model->load(Yii::$app->request->post())){
     		$cuestionarios= CuestionarioUsuario::find()->where(['numeroDocumento' => $model->numeroDocumento])->select(['distinct(idCuestionario)','numeroDocumento'])->all();
