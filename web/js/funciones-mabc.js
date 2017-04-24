@@ -2326,7 +2326,6 @@ $(document).on('click', "input[data-role='toogle-collapsible']", function() {
 });
 
 $(document).on('change', "#parametrospuntos-tipoparametro", function () {
-  console.log($(this).val());
   if ($(this).val() == 1) {
     $('.field-parametrospuntos-idtipocontenido').removeClass('hidden');
     $('.field-parametrospuntos-condicion').addClass('hidden');
@@ -2339,3 +2338,35 @@ $(document).on('change', "#parametrospuntos-tipoparametro", function () {
   }
 })
 
+$(document).on('click', "a[data-role='modal-padre-categoria']", function () {
+  $.ajax({
+    type: 'GET',
+    async: true,
+    url: requestUrl + '/intranet/formacioncomunicaciones/categorias-premios/render-modal-asignar-padre',
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading();
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+        if (data.result == "ok") {
+          $('#modal-asignar-categoria-padre').remove();
+          $('body').append(data.response);
+          $('#modal-asignar-categoria-padre').modal('show');
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+})
+
+$(document).on('click', "a[data-role='categoria-padre-asignar']", function () {
+  var idCategoria = $(this).attr('data-id-categoria');
+  var nombreCategoria = $(this).attr('data-nombre-categoria');
+  $('#categoriaspremios-idcategoriapadre').val(idCategoria);
+  $("a[data-role='modal-padre-categoria']").text(nombreCategoria);
+  $('#modal-asignar-categoria-padre').modal('hide');
+})

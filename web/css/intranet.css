@@ -467,3 +467,21 @@ a.circle-avatar, div.circle-avatar{
     float: right;
     vertical-align: middle;
 }
+
+.categorias-premios-redencion-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    /*justify-content: left;*/
+}
+
+.categoria-premios-redencion-item {
+    margin: 10px;
+    flex-basis: content;
+    /*width: 230px !important;*/
+}
+
+.categoria-premios-redencion-item img {
+    height: 200px;
+    width: 200px;
+}
