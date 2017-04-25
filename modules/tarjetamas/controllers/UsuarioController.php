@@ -66,12 +66,17 @@ class UsuarioController extends Controller {
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
             $response = UsuarioTarjetaMas::callWSConsultarTarjetasAbonado($model->username);
-
-            if ($response[0]['CODIGO'] == self::USUARIO_TIENE_TARJETAS) {
-                return $this->redirect(['datos-registro', 'numeroDocumento' => $model->username]);
-            } else {
-                $model->addError('username', $response[0]['MENSAJE']);
-            }
+			$usuarioTarjeta = UsuarioTarjetaMas::findOne(['numeroDocumento' => $model->username]);
+			
+			if(!$usuarioTarjeta){
+	            if ($response[0]['CODIGO'] == self::USUARIO_TIENE_TARJETAS) {
+	                return $this->redirect(['datos-registro', 'numeroDocumento' => $model->username]);
+	            } else {
+	                $model->addError('username', $response[0]['MENSAJE']);
+	            }
+			}else{
+				$model->addError('username', "Ya se encuentra registrado en el portal");
+			}
         }
 
         return $this->render('verifica-registro', [
