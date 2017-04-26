@@ -101,4 +101,9 @@ class CategoriasPremios extends \yii\db\ActiveRecord
     {
         return $this->hasMany(CategoriasPremios::className(), ['idCategoriaPadre' => 'idCategoria']);
     }
+
+    public function getContactos()
+    {
+        return $this->hasMany(ContactoCategoria::className(), ['idCategoriaPremio' => 'idCategoria']);
+    }
 }

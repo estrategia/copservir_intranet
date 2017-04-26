@@ -13,9 +13,24 @@ $this->params['breadcrumbs'][] = 'Actualizar';
 <div class="categorias-premios-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
+    
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active"><a href="#categoria" aria-controls="categoria" role="tab" data-toggle="tab">Categoria</a></li>
+      <li role="presentation"><a href="#contacto" aria-controls="contacto" role="tab" data-toggle="tab">Contactos</a></li>
+    </ul>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="categoria">
+        <?= $this->render('_form', [
+            'model' => $model,
+        ]) ?>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="contacto">
+        <?= $this->render('contactos-categoria', [
+            'model' => $model,
+        ]) ?>
+      </div>
+    </div>
 
 </div>
