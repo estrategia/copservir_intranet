@@ -750,16 +750,15 @@ console.log($(this).val());
 
 $(document).on('click', 'a[data-role="redimir-premio"]', function () {
 
-    var idModulo = $(this).attr('data-modulo');
-    var idGrupo = $("#idGrupo").val();
-    var orden = $("#orden_" + idModulo).val();
+	var idPremio = $(this).attr('data-premio');
+    var cantidad = $("#cantidad_"+idPremio).val();
 
     $.ajax({
         type: 'POST',
         dataType: 'json',
         async: true,
-        url: requestUrl + '/intranet/modulos-administrables/editar-modulo',
-        data: {idModulo: idModulo, idGrupo: idGrupo, orden: orden},
+        url: requestUrl + '/intranet/formacioncomunicaciones/premios/verificar-redimir',
+        data: {idPremio: idPremio, cantidad: cantidad},
         beforeSend: function () {
             $('html').showLoading()
         },
@@ -768,7 +767,9 @@ $(document).on('click', 'a[data-role="redimir-premio"]', function () {
         },
         success: function (data) {
             if (data.result == 'ok') {
-                $("#tabla_agregados").yiiGridView("applyFilter");
+            	alert(data.response);
+            }else{
+            	alert(data.response);
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {

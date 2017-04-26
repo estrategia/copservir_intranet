@@ -27,6 +27,9 @@ class m170424_164236_crea_m_FORCO_ContactoCategoria extends Migration
             'm_Usuario',
             'numeroDocumento'
         );
+        
+        $this->dropColumn('m_FORCO_Premio', 'numeroPremios');
+        
     }
 
     public function down()
