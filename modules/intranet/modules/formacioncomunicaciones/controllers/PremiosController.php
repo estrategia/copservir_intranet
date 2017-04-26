@@ -9,6 +9,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\intranet\modules\formacioncomunicaciones\models\PremioSearch;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Premio;
+use yii\data\ActiveDataProvider;
 
 /**
  * CategoriasPremiosController implements the CRUD actions for CategoriasPremios model.
@@ -132,5 +133,17 @@ class PremiosController extends Controller
 		} else {
 			throw new NotFoundHttpException('The requested page does not exist.');
 		}
+	}
+	
+	
+	public function actionVerPremios($idCategoria){
+		$dataProvider = new ActiveDataProvider([
+				'query' => Premio::traerPremiosCategoria($idCategoria),
+				'pagination' => [
+						'pageSize' => 4,
+				],
+		]);
+		
+		return $this->render('listaPremios', ['listDataProvider' => $dataProvider]);
 	}
 }

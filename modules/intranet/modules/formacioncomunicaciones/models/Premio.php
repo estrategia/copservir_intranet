@@ -25,6 +25,7 @@ use yii\web\UploadedFile;
  */
 class Premio extends \yii\db\ActiveRecord
 {
+	const ACTIVO = 1;
     /**
      * @inheritdoc
      */
@@ -86,5 +87,19 @@ class Premio extends \yii\db\ActiveRecord
     	}else{
     		$this->rutaImagen = $rutaAnterior;
     	}
+    }
+    
+    public static function traerPremiosCategoria($idCategoria) {
+    
+    	$fecha = new \DateTime;
+    
+    	return $noticias = self::find()->where(
+    			" fechaInicioVigencia<=:fecha AND fechaFinVigencia>=:fecha AND idCategoria=:categoria AND tipoRedimir=:tipo"
+    			)
+    			->addParams([':estado' => self::ACTIVO,
+    					':fecha' => $fecha->format('Y-m-d H:i:s'),
+    					':categoria' => $idCategoria,
+    					':tipo' => 1
+    				,])->orderBy('fechaInicioVigencia');
     }
 }

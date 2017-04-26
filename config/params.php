@@ -189,5 +189,6 @@ return [
 					'1' => 'Puntos', 
 					'2' =>'Primeros en terminar el curso'
 		],
+		'rutaImagenPremios' => '/img/formacioncomunicaciones/premios/'
 	]
 ];
