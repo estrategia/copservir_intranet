@@ -7,6 +7,6 @@
 	</fieldset><br/>
 	
 	Puntos: <?= $model->puntosRedimir?><br/>
-	Cantidad <input class='input-sm' name='cantidad_<?php echo $model->idPremio?>' id='cantidad_<?php echo $model->idPremio?>'/><br/>
+	Cantidad <input class='input-sm' name='cantidad_<?php echo $model->idPremio?>' id='cantidad_<?php echo $model->idPremio?>' value='1'/><br/>
 	<a href='#' data-role='redimir-premio' data-premio='<?php echo $model->idPremio?>' class='btn btn-primary'>Redimir</a>
 </div>
