@@ -746,3 +746,35 @@ $('#selectCiudadVisualizacion').change(function() {
    });
 console.log($(this).val());
 });
+
+
+$(document).on('click', 'a[data-role="redimir-premio"]', function () {
+
+    var idModulo = $(this).attr('data-modulo');
+    var idGrupo = $("#idGrupo").val();
+    var orden = $("#orden_" + idModulo).val();
+
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        async: true,
+        url: requestUrl + '/intranet/modulos-administrables/editar-modulo',
+        data: {idModulo: idModulo, idGrupo: idGrupo, orden: orden},
+        beforeSend: function () {
+            $('html').showLoading()
+        },
+        complete: function () {
+            $('html').hideLoading();
+        },
+        success: function (data) {
+            if (data.result == 'ok') {
+                $("#tabla_agregados").yiiGridView("applyFilter");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('html').hideLoading();
+            alert('Error: ' + errorThrown);
+        }
+    });
+    return false;
+});

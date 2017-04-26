@@ -84,7 +84,7 @@ return [
         'codigoSeguridad' => 'CopservirLaMejorEmpresaParaTrabajar2016',
         'tarjetaMas' => 'http://siidesarrollo.copservir.com/tarjetamas/WsTarjetaMas/ws',
         //'tarjetaMas' => 'http://sii.copservir.com/tarjetamas/WsTarjetaMas/ws',
-        'persona' => 'http://localhost/siicop/wsMultiportal/persona',
+        'persona' => 'http://localhost/copservir/wsMultiportal/persona',
         //'persona' => 'http://sii.copservir.com/gestionhumana/wsMultiportal/persona',
         'tradeMarketing' => [
           'puntosVenta' => 'http://localhost/siicop/puntoventa/sweb/puntoventa',
@@ -182,10 +182,13 @@ return [
     ],
 	'formacioncomunicaciones' => [
 			'cuestionario' => [
-			'opcionesverdaderofalso' => ['1' => 'Verdadero', '0' => 'Falso']
-        ],
-        'wsSincronizarPuntos' => 'http://localhost/copservir/formacionComunicaciones/puntos/sincronizar'
+				'opcionesverdaderofalso' => ['1' => 'Verdadero', '0' => 'Falso']
+        	],
+        'wsSincronizarPuntos' => 'http://localhost/copservir/formacionComunicaciones/puntos/sincronizar',
+		'tiposRedimirPremios' => [
+					'1' => 'Puntos', 
+					'2' =>'Primeros en terminar el curso'
+		],
+		'rutaImagenPremios' => '/img/formacioncomunicaciones/premios/'
 	]
-
-
 ];

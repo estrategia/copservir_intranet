@@ -2367,6 +2367,7 @@ $(document).on('click', "a[data-role='categoria-padre-asignar']", function () {
   var idCategoria = $(this).attr('data-id-categoria');
   var nombreCategoria = $(this).attr('data-nombre-categoria');
   $('#categoriaspremios-idcategoriapadre').val(idCategoria);
+  $('#premio-idcategoria').val(idCategoria);
   $("a[data-role='modal-padre-categoria']").text(nombreCategoria);
   $('#modal-asignar-categoria-padre').modal('hide');
 })
