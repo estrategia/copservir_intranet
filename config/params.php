@@ -189,6 +189,12 @@ return [
 					'1' => 'Puntos', 
 					'2' =>'Primeros en terminar el curso'
 		],
-		'rutaImagenPremios' => '/img/formacioncomunicaciones/premios/'
+		'rutaImagenPremios' => '/img/formacioncomunicaciones/premios/',
+		'estadosPremios' => [
+					'1' => 'Solicitado',
+					'2' => 'Aprobado',
+					'3' => 'Cancelado',
+					//'4' => 'Enviado',
+			]
 	]
 ];

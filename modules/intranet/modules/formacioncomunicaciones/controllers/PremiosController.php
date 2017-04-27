@@ -146,8 +146,12 @@ class PremiosController extends Controller
 						'pageSize' => 4,
 				],
 		]);
-		
-		return $this->render('listaPremios', ['listDataProvider' => $dataProvider]);
+		$puntosUsuario = PuntosTotales::findOne(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento]);
+		$puntos = 0;
+		if($puntosUsuario){
+			$puntos = $puntosUsuario->puntos;
+		}
+		return $this->render('listaPremios', ['listDataProvider' => $dataProvider, 'puntos' => $puntos]);
 	}
 	
 	
@@ -214,5 +218,24 @@ class PremiosController extends Controller
 			return  ['result' => 'error', 'response' => 'Error al actualizar los puntos'];
 		}
 		
+	}
+	
+	
+	public function actionMisRedenciones(){
+		
+		$numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+		
+		$dataProvider = new ActiveDataProvider([
+				'query' => UsuariosPremios::traerRedenciones($numeroDocumento),
+				'pagination' => [
+						'pageSize' => 4,
+				],
+		]);
+		$puntosUsuario = PuntosTotales::findOne(['numeroDocumento' => $numeroDocumento]);
+		$puntos = 0;
+		if($puntosUsuario){
+			$puntos = $puntosUsuario->puntos;
+		}
+		return $this->render('listaPremios', ['listDataProvider' => $dataProvider, 'puntos' => $puntos]);
 	}
 }
