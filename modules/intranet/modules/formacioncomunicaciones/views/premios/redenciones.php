@@ -4,7 +4,6 @@ use yii\grid\GridView;
 use yii\helpers\Html;
 use app\modules\intranet\modules\formacioncomunicaciones\models\UsuariosPremios;
 
-
 $this->title = 'Redenciones';
 
 $this->params['breadcrumbs'][] = $this->title;
@@ -58,5 +57,5 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
                 
-    <button type='button' data-role='tramitar-redenciones' data-estado='<?php echo UsuariosPremios::ESTADO_TRAMITADO?>'>Tramitar</button>
-    <button type='button' data-role='tramitar-redenciones' data-estado='<?php echo UsuariosPremios::ESTADO_CANCELADO?>'>Cancelar</button>            
+    <button type='button' data-role='tramitar-redenciones' class='btn btn-default' data-estado='<?php echo UsuariosPremios::ESTADO_TRAMITADO?>'>Tramitar</button>
+    <button type='button' data-role='tramitar-redenciones' class='btn btn-danger' data-estado='<?php echo UsuariosPremios::ESTADO_CANCELADO?>'>Cancelar</button>            
