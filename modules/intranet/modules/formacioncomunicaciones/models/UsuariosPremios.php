@@ -23,7 +23,8 @@ use app\models\Usuario;
 class UsuariosPremios extends \yii\db\ActiveRecord
 {
 	const ESTADO_PENDIENTE = 1;
-	const ESTADO_TRAMITADO = 1;
+    const ESTADO_TRAMITADO = 2;
+	const ESTADO_CANCELADO = 3;
     /**
      * @inheritdoc
      */
