@@ -40,7 +40,7 @@ class PremiosController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$searchModel = new PremioSearch();
+		$searchModel = new UsuariosPremios();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 		return $this->render('index', [
 				'searchModel' => $searchModel,
@@ -221,21 +221,61 @@ class PremiosController extends Controller
 	}
 	
 	
-	public function actionMisRedenciones(){
+	public function actionRedenciones($estado = UsuariosPremios::ESTADO_PENDIENTE){
 		
 		$numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+		$searchModel = new UsuariosPremios();
+		$searchModel->estado = $estado;
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 		
-		$dataProvider = new ActiveDataProvider([
-				'query' => UsuariosPremios::traerRedenciones($numeroDocumento),
-				'pagination' => [
-						'pageSize' => 4,
-				],
-		]);
-		$puntosUsuario = PuntosTotales::findOne(['numeroDocumento' => $numeroDocumento]);
-		$puntos = 0;
-		if($puntosUsuario){
-			$puntos = $puntosUsuario->puntos;
+		return $this->render('redenciones', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel]);
+	}
+	
+	public function actionCambiarEstadoRedencion(){
+		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+		
+		$premios = Yii::$app->request->post('premios');
+		$estado = Yii::$app->request->post('estado');
+		
+		$transaction = UsuariosPremios::getDb()->beginTransaction();
+		
+		foreach($premios as $premio){
+			$premioUsuario = UsuariosPremios::findOne(['idUsuarioPremio' => $premio]);
+			$premioUsuario->estado = $estado;
+			
+			if($estado == UsuariosPremios::ESTADO_CANCELADO){
+				// Devolverle los puntos al usuario
+				$puntosUsuario = PuntosTotales::findOne(['numeroDocumento' => $premioUsuario->numeroDocumento]);
+				
+				if($puntosUsuario){
+					$puntosUsuario->puntos += $premioUsuario->puntosRedimir;
+					if(!$puntosUsuario->save()){
+						$transaction->rollBack();
+						return  ['result' => 'error', 'response' => 'Error al cambiar de estado en el premio '.$premio];
+					}
+				}
+			}
+			
+			if(!$premioUsuario->save()){
+				$transaction->rollBack();
+				return  ['result' => 'error', 'response' => 'Error al actualizar el estado '.$premio];
+			}
+			
+			$premioUsuarioTraza = new UsuariosPremiosTrazabilidad();
+			$premioUsuarioTraza->idUsuarioPremio = $premioUsuario->idUsuarioPremio;
+			$premioUsuarioTraza->idPremio = $premioUsuario->idPremio;
+			$premioUsuarioTraza->numeroDocumento = $premioUsuario->numeroDocumento;
+			$premioUsuarioTraza->numeroDocumentoTraza = Yii::$app->user->identity->numeroDocumento;
+			$premioUsuarioTraza->estado = $estado;
+			$premioUsuarioTraza->fechaRegistro = \Date("Y-m-d h:i:s");
+			
+			if(!$premioUsuarioTraza->save()){
+				$transaction->rollBack();
+				return  ['result' => 'error', 'response' => 'Error al cambiar de estado'.$premio];
+			}
 		}
-		return $this->render('listaPremios', ['listDataProvider' => $dataProvider, 'puntos' => $puntos]);
+		
+		$transaction->commit();
+		return  ['result' => 'ok', 'response' => 'Estados Actualizados'];
 	}
 }
