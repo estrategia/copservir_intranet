@@ -383,7 +383,6 @@ class UsuarioController extends Controller {
         $model->scenario = 'login';
 
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-
             return $this->redirect(['index']);
         }
 
@@ -423,8 +422,8 @@ class UsuarioController extends Controller {
 
             if (!$usuario) {
                 $model->addError('username', 'Usuario no existe');
-            } else {
-
+            } else if(isset($usuario->objUsuarioTarjetaMas)) {
+				
                 $codigoRecuperacion = $usuario->generarCodigoRecuperacion();
                 $fecha = new \DateTime();
 
@@ -446,6 +445,8 @@ class UsuarioController extends Controller {
                 } else {
                     Yii::$app->session->setFlash('error', 'Error al enviar el correo');
                 }
+            }else{
+            	$model->addError('username', 'Usuario no pertenece al portal');
             }
         }
 
