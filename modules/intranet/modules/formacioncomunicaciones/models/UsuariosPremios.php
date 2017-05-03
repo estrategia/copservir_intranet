@@ -64,6 +64,17 @@ class UsuariosPremios extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getNombreEstado()
+    {
+        if ($this->estado == 1) {
+            return 'Pendiente';
+        } elseif ($this->estado == 2) {
+            return 'Tramitado';
+        } elseif ($this->estado == 3) {
+            return 'Cancelado';
+        }
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */

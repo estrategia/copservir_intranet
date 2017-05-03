@@ -14,6 +14,12 @@ class RedencionController extends \yii\web\Controller
         return $this->render('index', ['categorias' => $categorias]);
     }
 
+    public function actionSubcategorias($idCategoria)
+    {
+        $categoria = CategoriasPremios::find()->where(['idCategoria' => $idCategoria])->one();
+        return $this->render('subcategorias', ['categoria' => $categoria]);
+    }
+
     public function actionPremiosCategoria($idCategoria)
     {
         $categoria = CategoriasPremios::find()->where(['idCategoria' => $idCategoria])->one();
@@ -28,6 +34,15 @@ class RedencionController extends \yii\web\Controller
         return $this->render('mis-redenciones', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionDetalle($id)
+    {
+        $model = UsuariosPremios::find()->where(['idUsuarioPremio' => $id])->one();
+
+        return $this->render('detalle-redencion', [
+            'model' => $model
         ]);
     }
 
