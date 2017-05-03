@@ -7,6 +7,7 @@ use yii\widgets\ListView;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
+Tus puntos: <?php echo $puntos?> <br/>
 <?=
 ListView::widget([
   'dataProvider' => $listDataProvider,

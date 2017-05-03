@@ -4,6 +4,7 @@ namespace app\modules\intranet\modules\formacioncomunicaciones\models;
 
 use Yii;
 use app\models\Usuario;
+use yii\data\ActiveDataProvider;
 /**
  * This is the model class for table "t_FORCO_UsuariosPremios".
  *
@@ -90,6 +91,31 @@ class UsuariosPremios extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Premio::className(), ['idPremio' => 'idPremio']);
     }
+    
+    public function search($params){
+    	$query = UsuariosPremios::find();
+    	 
+    	// add conditions that should always apply here
+    	 
+    	$dataProvider = new ActiveDataProvider([
+    			'query' => $query,
+    	]);
+    	 
+    	$this->load($params);
+    	 
+    	// grid filtering conditions
+    	$query->andFilterWhere([
+    			'idUsuarioPremio' => $this->idUsuarioPremio,
+    			'idPremio' => $this->idPremio,
+    			'numeroDocumento' => $this->numeroDocumento,
+    			'cantidad' => $this->cantidad,
+    			'puntosRedimir' => $this->puntosRedimir,
+    			'estado' => $this->estado,
+    			'fechaCreacion' => $this->fechaCreacion,
+    	]);
+    	 
+    	return $dataProvider;
+    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -97,5 +123,9 @@ class UsuariosPremios extends \yii\db\ActiveRecord
     public function getListUsuariosPremiosTrazabilidads()
     {
         return $this->hasMany(UsuariosPremiosTrazabilidad::className(), ['idUsuarioPremio' => 'idUsuarioPremio']);
+    }
+    
+    public function traerRedenciones($estado){
+    	return self::find()->where(['estado' => $estado]) ;
     }
 }

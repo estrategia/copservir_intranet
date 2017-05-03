@@ -779,3 +779,21 @@ $(document).on('click', 'a[data-role="redimir-premio"]', function () {
     });
     return false;
 });
+
+
+$(document).on('click','button[data-role="tramitar-redenciones"]',function() {
+	var keys = $('#gridRedenciones').yiiGridView('getSelectedRows');
+	var estado = $(this).attr('data-estado');
+	$.post({
+	   url: requestUrl + '/intranet/formacioncomunicaciones/premios/cambiar-estado-redencion',
+	   dataType: 'json',
+	   data: {premios: keys, estado:estado},
+	   success: function(data) {
+	      if (data.result === 'ok') {
+	    	  $("#gridRedenciones").yiiGridView("applyFilter");
+	      }else{
+	    	  alert(data.response);
+	      }
+	   },
+	});
+});
