@@ -31,4 +31,13 @@ class RedencionController extends \yii\web\Controller
         ]);
     }
 
+    public function actionDetalle($id)
+    {
+        $model = UsuariosPremios::find()->where(['idUsuarioPremio' => $id])->one();
+
+        return $this->render('detalle-redencion', [
+            'model' => $model
+        ]);
+    }
+
 }

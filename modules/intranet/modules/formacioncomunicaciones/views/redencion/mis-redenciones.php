@@ -26,10 +26,10 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'Premio',
                 'format' => 'raw',
-                'value' => function ($model) {
-                    return $model->objPremio->nombrePremio;
-                }
+                'value' => 'objPremio.nombrePremio',
+                'filter' => Html::activeTextInput($searchModel, 'nombrePremio')
             ],
+            
             [
                 'attribute' => 'estado',
                 'value'  => function ($model)
@@ -45,6 +45,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter'=>array('1' => 'Pendiente', '2' => 'Tramitado', '3' => 'Cancelado'),
             ],
             'fechaCreacion',
+            [
+              'class' => 'yii\grid\ActionColumn',
+              'headerOptions'=> ['style'=>'width: 70px;'],
+              'template' => '{detalle}',
+              'buttons' => [
+                'detalle' => function ($url, $model) {
+                  return  Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url);
+                }
+              ],
+            ],
         ],
     ]); ?>
 </div>

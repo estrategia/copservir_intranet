@@ -468,20 +468,34 @@ a.circle-avatar, div.circle-avatar{
     vertical-align: middle;
 }
 
-.categorias-premios-redencion-container {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    /*justify-content: left;*/
+
+
+/*ESTILOS PREMIOS*/
+.nombre-categoria{   
+    color: #1C4F6E;
+    padding: 15px;
+    text-align: center;
+    margin: 0;
+    font-weight: bold;
+border-bottom: 2px solid #1C4F6E;
 }
 
-.categoria-premios-redencion-item {
-    margin: 10px;
-    flex-basis: content;
-    /*width: 230px !important;*/
+.categoria-item {
+    border:2px solid #1C4F6E;
+    margin-bottom: 30px;
 }
 
-.categoria-premios-redencion-item img {
-    height: 200px;
-    width: 200px;
+.item:hover .nombre-categoria {color:#fff; background-color: #1C4F6E;}
+.item:hover .categoria-item {border:4px solid #1C4F6E;}
+
+.sub-cat {
+/*    position: absolute;
+    right: 27px;
+    top: -69px;*/
+}
+
+.more {
+    width: 25px;
+    height: 25px;
+    float: right;
 }
