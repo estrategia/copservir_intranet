@@ -26,6 +26,8 @@ use yii\web\UploadedFile;
 class Premio extends \yii\db\ActiveRecord
 {
 	const ACTIVO = 1;
+	const TIPO_TIENDA = 1;
+	const TIPO_CUESTIONARIO = 2;
     /**
      * @inheritdoc
      */
@@ -93,13 +95,31 @@ class Premio extends \yii\db\ActiveRecord
     
     	$fecha = new \DateTime;
     
-    	return $noticias = self::find()->where(
-    			" fechaInicioVigencia<=:fecha AND fechaFinVigencia>=:fecha AND idCategoria=:categoria AND tipoRedimir=:tipo"
-    			)
+    	return self::find()->where(
+    			" fechaInicioVigencia<=:fecha AND fechaFinVigencia>=:fecha AND idCategoria=:categoria AND tipoRedimir=:tipo AND cantidad>:cantidad AND estado=:estado AND tipoRedimir=:tipoRedimir")
     			->addParams([':estado' => self::ACTIVO,
     					':fecha' => $fecha->format('Y-m-d H:i:s'),
     					':categoria' => $idCategoria,
-    					':tipo' => 1
-    				,])->orderBy('fechaInicioVigencia');
+    					':tipo' => 1,
+    					':cantidad' => 0,
+    					':estado' => self::ACTIVO,
+    					':tipoRedimir' => self::TIPO_TIENDA
+    				])->orderBy('fechaInicioVigencia');
     }
+    
+    public static function traerPremiosCuestionario($idCuestionario) {
+    
+    	$fecha = new \DateTime;
+    
+    	return self::find()->where(
+    			" fechaInicioVigencia<=:fecha AND fechaFinVigencia>=:fecha AND idCuestionario=:cuestionario AND tipoRedimir=:tipo AND cantidad>:cantidad AND estado=:estado AND tipoRedimir=:tipoRedimir")
+    			->addParams([':estado' => self::ACTIVO,
+    					':fecha' => $fecha->format('Y-m-d H:i:s'),
+    					':cuestionario' => $idCuestionario,
+    					':tipo' => 1,
+    					':cantidad' => 0,
+    					':estado' => self::ACTIVO,
+    					':tipoRedimir' => self::TIPO_TIENDA
+    			])->orderBy('fechaInicioVigencia');
+    }    
 }

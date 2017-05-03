@@ -159,8 +159,10 @@ class PremiosController extends Controller
 		$idPremio = Yii::$app->request->post('idPremio');
 		$cantidad = Yii::$app->request->post('cantidad');
 		$numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+		$transaction = UsuariosPremios::getDb()->beginTransaction();
 		
 		$puntosUsuario = PuntosTotales::findOne(['numeroDocumento' => $numeroDocumento]);
+		
 		$premio = Premio::findOne(['idPremio' => $idPremio]);
 		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 		
@@ -195,9 +197,16 @@ class PremiosController extends Controller
 		$premioUsuario->fechaCreacion = \Date("Y-m-d h:i:s");
 		
 		if(!$premioUsuario->save()){
+			$transaction->rollBack();
 			return  ['result' => 'error', 'response' => 'No tienes puntos suficientes para redimir'];
 		}
 		
+		$premio->cantidad -=  $cantidad;
+		
+		if(!$premio->save()){
+			$transaction->rollBack();
+			return  ['result' => 'error', 'response' => 'No se pueden actualizar las cantidades disponibles'];
+		}
 		// Guardar la traza
 		
 		$premioUsuarioTraza = new UsuariosPremiosTrazabilidad();
@@ -215,8 +224,12 @@ class PremiosController extends Controller
 		$puntosUsuario->puntos -= $premioUsuario->puntosRedimir;
 		
 		if(!$puntosUsuario->save()){
+			$transaction->rollBack();
 			return  ['result' => 'error', 'response' => 'Error al actualizar los puntos'];
 		}
+		
+		$transaction->commit();
+		return  ['result' => 'ok', 'response' => 'Se ha redimido el premio con &eacute;xito'];
 		
 	}
 	
@@ -228,7 +241,7 @@ class PremiosController extends Controller
 		$searchModel->estado = $estado;
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 		
-		return $this->render('redenciones', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel]);
+		return $this->render('redenciones', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel, 'estado' => $estado]);
 	}
 	
 	public function actionCambiarEstadoRedencion(){

@@ -18,9 +18,10 @@ $this->title = 'Tarjeta Mas';
             <li role="presentation">
               <?=   Html::a('Ver tarjetas', ['mis-tarjetas'],['aria-controls' => "ver-tarjetas", ]);?>
             </li>
+            <?php  /*
             <li role="presentation">
                 <?=   Html::a('Activar tarjeta', ['activar-tarjeta'],['aria-controls' => "ver-tarjetas", ]);?> 
-            </li>
+            </li>*/ ?>
             <li role="presentation">
               <?=   Html::a('Cerrar sesión', ['salir'],['aria-controls' => "ver-tarjetas", ]);?>
             </li>

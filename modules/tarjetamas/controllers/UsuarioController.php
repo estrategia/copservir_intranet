@@ -173,7 +173,7 @@ class UsuarioController extends Controller {
             }
         }
     }
-
+/*
     public function actionActivarTarjeta() {
 
         $model = new ActivarForm();
@@ -218,7 +218,7 @@ class UsuarioController extends Controller {
         }
 
         return $this->render('activar-tarjeta', ['model' => $model]);
-    }
+    }*/
 
     /**
      * Funcion para ver las tarjetas de el usuario loguado

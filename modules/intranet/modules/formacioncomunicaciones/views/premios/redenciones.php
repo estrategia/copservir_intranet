@@ -33,7 +33,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'cantidad',
             [
             	'attribute' => 'estado',
-            	'value' => function($model){return \yii::$app->params['formacioncomunicaciones']['estadosPremios'][$model->estado];}
+            	'value' => function($model){return \yii::$app->params['formacioncomunicaciones']['estadosPremios'][$model->estado];},
+            	'filter'=>false
+            	 
             ],
             [
             'attribute' => 'Premio',
@@ -56,6 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
-                
-    <button type='button' data-role='tramitar-redenciones' class='btn btn-default' data-estado='<?php echo UsuariosPremios::ESTADO_TRAMITADO?>'>Tramitar</button>
-    <button type='button' data-role='tramitar-redenciones' class='btn btn-danger' data-estado='<?php echo UsuariosPremios::ESTADO_CANCELADO?>'>Cancelar</button>            
+    <?php if($estado != UsuariosPremios::ESTADO_CANCELADO):?>            
+	    <button type='button' data-role='tramitar-redenciones' class='btn btn-default' data-estado='<?php echo UsuariosPremios::ESTADO_TRAMITADO?>'>Tramitar</button>
+	    <button type='button' data-role='tramitar-redenciones' class='btn btn-danger' data-estado='<?php echo UsuariosPremios::ESTADO_CANCELADO?>'>Cancelar</button>
+    <?php endif;?>            
