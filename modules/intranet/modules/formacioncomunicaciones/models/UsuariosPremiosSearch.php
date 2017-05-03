@@ -12,6 +12,7 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\UsuariosPremios;
  */
 class UsuariosPremiosSearch extends UsuariosPremios
 {
+    public $nombrePremio;
     /**
      * @inheritdoc
      */
@@ -19,7 +20,7 @@ class UsuariosPremiosSearch extends UsuariosPremios
     {
         return [
             [['idUsuarioPremio', 'idPremio', 'numeroDocumento', 'cantidad', 'puntosRedimir', 'estado'], 'integer'],
-            [['fechaCreacion', 'fechaActualizacion'], 'safe'],
+            [['fechaCreacion', 'fechaActualizacion', 'nombrePremio'], 'safe'],
         ];
     }
 
@@ -54,6 +55,7 @@ class UsuariosPremiosSearch extends UsuariosPremios
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
+            // $query->joinWith(['premio']);
             return $dataProvider;
         }
 
@@ -68,6 +70,10 @@ class UsuariosPremiosSearch extends UsuariosPremios
             'fechaCreacion' => $this->fechaCreacion,
             'fechaActualizacion' => $this->fechaActualizacion,
         ]);
+
+        $query->joinWith(['objPremio' => function ($q) {
+            $q->where('m_FORCO_Premio.nombrePremio LIKE "%' . $this->nombrePremio . '%"');
+        }]);
 
         return $dataProvider;
     }
