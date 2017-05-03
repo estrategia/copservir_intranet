@@ -5,6 +5,7 @@ use yii\helpers\Url;
 ?>
 <h1>Categorías de premios</h1>
 <div class="row">
+
 <?= Html::img(Yii::getAlias('@web').'/img/formacioncomunicaciones/assets/banner.png', ['class' => 'img-responsive']) ?>
 <div class="col-md-10">
   <?php foreach ($categorias as $categoria): ?>
@@ -13,7 +14,7 @@ use yii\helpers\Url;
       <h4 class="nombre-categoria"><?= $categoria->nombreCategoria ?></h4>
       <?= Html::img(Yii::getAlias('@web').'/img/formacioncomunicaciones/categorias/'. $categoria->rutaIcono, ['class' => 'img-responsive ']) ?>  
        <div class="sub-cat">
-          <a href="<?= Url::to(['redencion/premios-categoria', 'idCategoria' => $categoria->idCategoria]) ?>">
+          <a href="<?= Url::to(['redencion/subcategorias', 'idCategoria' => $categoria->idCategoria]) ?>">
             <?= Html::img(Yii::getAlias('@web').'/img/formacioncomunicaciones/assets/mas.png', ['class' => 'more']) ?>
           </a>
        </div> 
@@ -22,5 +23,4 @@ use yii\helpers\Url;
     </div>
   <?php endforeach ?>
 </div>
-
 </div>
