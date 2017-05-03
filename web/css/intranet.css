@@ -477,25 +477,60 @@ a.circle-avatar, div.circle-avatar{
     text-align: center;
     margin: 0;
     font-weight: bold;
-border-bottom: 2px solid #1C4F6E;
+    border-bottom: 2px solid #1C4F6E;
+}
+
+.nombre-sub-categoria {
+    color: #1C4F6E;
+    padding: 4px;
+    text-align: center;
+    margin: 0;
+    font-weight: bold;
 }
 
 .categoria-item {
     border:2px solid #1C4F6E;
-    margin-bottom: 30px;
 }
 
+.sub-categoria-item {
+    border: 3px solid #1C4F6E;
+}
+
+.item {margin-bottom:25px;}
 .item:hover .nombre-categoria {color:#fff; background-color: #1C4F6E;}
 .item:hover .categoria-item {border:4px solid #1C4F6E;}
-
-.sub-cat {
-/*    position: absolute;
-    right: 27px;
-    top: -69px;*/
-}
 
 .more {
     width: 25px;
     height: 25px;
-    float: right;
+    right: 0;
+    margin-right: 25px;
+    margin-top: -32px;
+    position: absolute;
+}
+
+.redimir {
+    width: 50%;
+    margin: 10px auto;
+    display: block;
+}
+
+.puntos {
+    width: 60px;
+    height: 60px;
+    right: 0;
+    margin-right: 25px;
+    margin-top: 2px;
+    position: absolute;
+}
+
+.quantity{
+    color: red;
+    text-align: center;
+    font-size: 10px;
+    margin-top: -35px;
+    font-weight: bold;
+    line-height: 7px;
+    position: absolute;
+    margin-left: 14px;
 }
