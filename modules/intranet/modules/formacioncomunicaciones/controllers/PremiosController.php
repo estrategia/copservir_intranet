@@ -47,7 +47,9 @@ class PremiosController extends Controller
 				'dataProvider' => $dataProvider,
 		]);
 	}
-
+	
+	
+	
 	/**
 	 * Displays a single CategoriasPremios model.
 	 * @param integer $id
@@ -240,6 +242,9 @@ class PremiosController extends Controller
 		$searchModel = new UsuariosPremios();
 		$searchModel->estado = $estado;
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$params = Yii::$app->request->queryParams;
+		
+		$filtrosUsuario = \Yii::$app->session->set(\Yii::$app->params['formacioncomunicaciones']['session']['filtrosPremios'], $params);
 		
 		return $this->render('redenciones', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel, 'estado' => $estado]);
 	}
@@ -291,4 +296,66 @@ class PremiosController extends Controller
 		$transaction->commit();
 		return  ['result' => 'ok', 'response' => 'Estados Actualizados'];
 	}
+	
+	public function actionExportarRedenciones(){
+		$searchModel = new UsuariosPremios();
+		$objPHPExcel = new \PHPExcel();
+		$objPHPExcel->getProperties()->setTitle("Premios Redimidos");
+	
+		$objPHPExcel->setActiveSheetIndex(0);
+		$objPHPExcel->getSheet(0)->setTitle('Premios');
+	
+		$objWorksheet = $objPHPExcel->getSheet(0);
+		$objWorksheet->setTitle('Premios');
+	
+		$col = 0;
+		$objWorksheet->setCellValueByColumnAndRow($col++, 1, '#');
+		$objWorksheet->setCellValueByColumnAndRow($col++, 1, '# Documento');
+		$objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Nombre Completo');
+		$objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Cargo');
+		$objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Cantidad');
+		$objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Estado');
+		$objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Premio');
+		$objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Fecha Creacion');
+	
+		$params = \Yii::$app->session->get(\Yii::$app->params['formacioncomunicaciones']['session']['filtrosPremios']);
+		$searchModel->estado = $params['estado'];
+		$dataProvider = $searchModel->search($params);
+	
+		// var_dump($dataProvider);
+		
+		foreach ($dataProvider->getModels() as $indice => $premio ) {
+			$col = 0;
+			$fila = $indice + 2;
+				
+			$objWorksheet->setCellValueByColumnAndRow($col++, $fila, $premio->idUsuarioPremio );
+			$objWorksheet->setCellValueByColumnAndRow($col++, $fila, $premio->numeroDocumento );
+			$objWorksheet->setCellValueByColumnAndRow($col++, $fila, $premio->objUsuario->objUsuarioIntranet->nombres." ".
+					$premio->objUsuario->objUsuarioIntranet->primerApellido." ".
+					$premio->objUsuario->objUsuarioIntranet->segundoApellido );
+				
+			$objWorksheet->setCellValueByColumnAndRow($col++, $fila, $premio->objUsuario->objUsuarioIntranet->nombreCargo);
+			$objWorksheet->setCellValueByColumnAndRow($col++, $fila, $premio->cantidad );
+			$objWorksheet->setCellValueByColumnAndRow($col++, $fila, \yii::$app->params['formacioncomunicaciones']['estadosPremios'][$premio->estado]);
+			$objWorksheet->setCellValueByColumnAndRow($col++, $fila, $premio->objPremio->nombrePremio);
+			$objWorksheet->setCellValueByColumnAndRow($col++, $fila, $premio->fechaCreacion);
+		}
+	
+		$objPHPExcel->setActiveSheetIndex(0);
+	
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="redenciones_' . date('YmdHis') . '.xls"');
+		header('Cache-Control: max-age=0');
+		// If you're serving to IE 9, then the following may be needed
+		header('Cache-Control: max-age=1');
+		// If you're serving to IE over SSL, then the following may be needed
+		//header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+		header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+		header('Pragma: public'); // HTTP/1.0
+	
+		$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+		$objWriter->save('php://output');
+	}
+	
 }

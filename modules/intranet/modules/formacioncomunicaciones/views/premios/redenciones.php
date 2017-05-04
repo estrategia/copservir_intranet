@@ -12,6 +12,8 @@ $this->params['breadcrumbs'][] = $this->title;
  <?= Html::a('Tramitadas', ['redenciones', 'estado' => UsuariosPremios::ESTADO_TRAMITADO], ['class' => 'btn btn-default']) ?>
  <?= Html::a('Canceladas', ['redenciones', 'estado' => UsuariosPremios::ESTADO_CANCELADO], ['class' => 'btn btn-danger']) ?>
 
+
+<?= Html::a('Descargar', ['exportar-redenciones'], ['class' => 'btn btn-warning']) ?>
 <h1><?php echo $this->title?></h1>
   <?= GridView::widget([
   		'id' => 'gridRedenciones',

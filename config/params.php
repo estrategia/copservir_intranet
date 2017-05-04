@@ -197,6 +197,9 @@ return [
 					'2' => 'Aprobado',
 					'3' => 'Cancelado',
 					//'4' => 'Enviado',
-			]
+			],
+		'session' => [
+				'filtrosPremios' => 'intranet.formacioncomunicaciones.premios.redenciones'
+		]	
 	]
 ];
