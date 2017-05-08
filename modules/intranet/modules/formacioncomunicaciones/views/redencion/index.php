@@ -1,11 +1,10 @@
 <?php
-/* @var $this yii\web\View */
-use yii\helpers\Html;
-use yii\helpers\Url;
+  $this->title = 'Categorías de premios';
+  use yii\helpers\Html;
+  use yii\helpers\Url;
 ?>
 <h3>Categorías de premios</h3>
 <div class="row">
-
 <?= Html::img(Yii::getAlias('@web').'/img/formacioncomunicaciones/assets/banner.png', ['class' => 'img-responsive']) ?>
 <div class="col-md-10">
   <?php foreach ($categorias as $categoria): ?>
