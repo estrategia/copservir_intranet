@@ -25,7 +25,7 @@ $this->title = 'Tarjeta Mas';
             <li role="presentation">
               <?=   Html::a('Cerrar sesión', ['salir'],['aria-controls' => "ver-tarjetas", ]);?>
             </li>
-  </ul>
+          </ul>
         </div>
       
 

@@ -40,7 +40,7 @@ class PremiosController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$searchModel = new UsuariosPremios();
+		$searchModel = new PremioSearch();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 		return $this->render('index', [
 				'searchModel' => $searchModel,
@@ -172,21 +172,42 @@ class PremiosController extends Controller
 			return  ['result' => 'error', 'response' => 'Premio no existe'];
 		}
 		
-		if(empty($puntosUsuario)){
-			return  ['result' => 'error', 'response' => 'No tienes puntos'];
+		if($premio->tipoRedimir == Premio::TIPO_TIENDA){
+			if(empty($puntosUsuario)){
+				return  ['result' => 'error', 'response' => 'No tienes puntos'];
+			}
+			
+			if($cantidad > $premio->cantidad){
+				return  ['result' => 'error', 'response' => 'Cantidad no disponible. Disponibles: '.$premio->cantidad." unidades"];
+			}
+			
+			if($cantidad > $premio->cantidad){
+				return  ['result' => 'error', 'response' => 'Cantidad no disponible. Disponibles: '.$premio->cantidad." unidades"];
+			}
+			
+			if($puntosUsuario->puntos < $cantidad*$premio->puntosRedimir){
+				return  ['result' => 'error', 'response' => 'No tienes puntos suficientes para redimir'];
+			}
+		}else{
+			
+			if($premio->cantidad < 1){
+				return  ['result' => 'error', 'response' => 'Premio ya no está disponible'];
+			}
+			
+			if($cantidad > 1){
+				return  ['result' => 'error', 'response' => 'Solo se puede redimir un solo premio'];
+			}
+			
+			// Validar si el premio ya lo ha redimido
+			
+			$premioRedimido = UsuariosPremios::findOne(['idPremio' => $idPremio, 'numeroDocumento' => $numeroDocumento]);
+			
+			if($premioRedimido){
+				return  ['result' => 'error', 'response' => 'Ya redimiste este premio, solo se puede hacer una vez'];
+			}
+			
 		}
 		
-		if($cantidad > $premio->cantidad){
-			return  ['result' => 'error', 'response' => 'Cantidad no disponible. Disponibles: '.$premio->cantidad." unidades"];
-		}
-		
-		if($cantidad > $premio->cantidad){
-			return  ['result' => 'error', 'response' => 'Cantidad no disponible. Disponibles: '.$premio->cantidad." unidades"];
-		}
-		
-		if($puntosUsuario->puntos < $cantidad*$premio->puntosRedimir){
-			return  ['result' => 'error', 'response' => 'No tienes puntos suficientes para redimir'];
-		}
 		
 		// Se puede redimir el articulo por tanto se le crea el registro de redimir
 		

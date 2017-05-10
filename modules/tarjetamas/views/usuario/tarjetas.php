@@ -33,7 +33,7 @@ use yii\helpers\Html;
                         ['attribute' => 'FECHAACTIVACION', 'label' => "Fecha de activación"],
                         ['attribute' => 'FECHAVENCIMIENTO', 'label' => "Fecha de vencimiento"],
                         ['attribute' => 'DESCUENTOSDISPONIBLES', 'label' => "Descuentos Disponibles"],
-                        ['attribute' => 'PRIMARIA', 'label' => "Principal"],
+                        ['attribute' => 'PRINCIPAL', 'label' => "Principal"],
                         ['content' => function ($model) {
                                 $html = Html::beginForm(['ver'], 'post', ['id' => 'form-ver']);
                                 $html.= Html::input('hidden', 'numeroTarjeta', $model['NUMEROTARJETA']);

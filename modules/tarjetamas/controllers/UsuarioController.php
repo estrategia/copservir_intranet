@@ -1,7 +1,7 @@
 <?php
 
 namespace app\modules\tarjetamas\controllers;
-
+ 
 use Yii;
 use yii\web\Controller;
 use app\modules\tarjetamas\models\formularios\LoginForm;
@@ -229,15 +229,8 @@ class UsuarioController extends Controller {
         if ($_POST != null) {
             $cedula = \Yii::$app->user->identity->numeroDocumento;
             $numeroTarjeta = $_POST['numeroTarjeta'];
-            $tarjetasUsuario = UsuarioTarjetaMas::callWSConsultarTarjetasAbonado($cedula);
-
-            $principal = "";
-            foreach ($tarjetasUsuario as $tarjeta) {
-                if ($tarjeta['PRINCIPAL'] == "SI") {
-                    $principal = $tarjeta["NUMEROTARJETA"];
-                }
-            }
-            $respuesta = UsuarioTarjetaMas::callWSCambiarTarjetaPrimaria($principal, $cedula, $numeroTarjeta);
+            
+            $respuesta = UsuarioTarjetaMas::callWSCambiarTarjetaPrimaria($cedula, $numeroTarjeta);
 
             if ($respuesta[0]['CODIGO'] == 1) {
                 Yii::$app->session->setFlash('success', "La tarjeta $numeroTarjeta ha sido marca como principal");
