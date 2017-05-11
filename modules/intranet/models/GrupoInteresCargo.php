@@ -13,6 +13,7 @@ use yii\helpers\ArrayHelper;
 *
 * @property string $idCargo
 * @property string $idGrupoInteres
+* @property string $nombreCargo
 */
 class GrupoInteresCargo extends \yii\db\ActiveRecord
 {
