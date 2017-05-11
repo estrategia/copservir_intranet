@@ -2326,7 +2326,6 @@ $(document).on('click', "input[data-role='toogle-collapsible']", function() {
 });
 
 $(document).on('change', "#parametrospuntos-tipoparametro", function () {
-  console.log($(this).val());
   if ($(this).val() == 1) {
     $('.field-parametrospuntos-idtipocontenido').removeClass('hidden');
     $('.field-parametrospuntos-condicion').addClass('hidden');
@@ -2339,3 +2338,120 @@ $(document).on('change', "#parametrospuntos-tipoparametro", function () {
   }
 })
 
+$(document).on('click', "a[data-role='modal-padre-categoria']", function () {
+  $.ajax({
+    type: 'GET',
+    async: true,
+    url: requestUrl + '/intranet/formacioncomunicaciones/categorias-premios/render-modal-asignar-padre',
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading();
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+        if (data.result == "ok") {
+          $('#modal-asignar-categoria-padre').remove();
+          $('body').append(data.response);
+          $('#modal-asignar-categoria-padre').modal('show');
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+})
+
+$(document).on('click', "a[data-role='categoria-padre-asignar']", function () {
+  var idCategoria = $(this).attr('data-id-categoria');
+  var nombreCategoria = $(this).attr('data-nombre-categoria');
+  $('#categoriaspremios-idcategoriapadre').val(idCategoria);
+  $('#premio-idcategoria').val(idCategoria);
+  $("a[data-role='modal-padre-categoria']").text(nombreCategoria);
+  $('#modal-asignar-categoria-padre').modal('hide');
+})
+
+$(document).on('click', "button[data-role='agregar-contacto-categoria']", function () {
+  if ($('#modal-agregar-contacto-categoria').length == 0) {
+    $.ajax({
+      type: 'GET',
+      async: true,
+      url: requestUrl + '/intranet/formacioncomunicaciones/contacto-categoria/render-modal-agregar-contacto',
+      dataType: 'json',
+      beforeSend: function() {
+        $('body').showLoading();
+      },
+      complete: function(data) {
+        $('body').hideLoading();
+      },
+      success: function(data) {
+          if (data.result == "ok") {
+            // $('#modal-asignar-categoria-padre').remove();
+            $('body').append(data.response);
+            }
+          $('#modal-agregar-contacto-categoria').modal('show');
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        $('body').hideLoading();
+      }
+    });
+  } else {
+    $('#modal-agregar-contacto-categoria').modal('show');  
+  }
+})
+
+$(document).on('click', "button[data-role='crear-contacto-categoria']", function () {
+  var idCategoria = $("button[data-role='agregar-contacto-categoria']").attr('data-id-categoria');
+  var numeroDocumento = $("#selector-usuarios-contacto").val();
+  console.log(idCategoria, numeroDocumento);
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/formacioncomunicaciones/contacto-categoria/crear',
+    data: {idCategoria, numeroDocumento},
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading();
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+        if (data.result == "ok") {
+          $('#lista-contactos-categoria').html(data.response);
+        }
+        $('#agregar-contacto-categoria').modal('hide');
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+})
+
+$(document).on('click', "a[data-role='eliminar-contacto-categoria']", function () {
+  var idCategoria = $(this).attr('data-id-categoria');
+  var numeroDocumento = $(this).attr('data-numero-documento');
+  console.log(idCategoria, numeroDocumento);
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/formacioncomunicaciones/contacto-categoria/eliminar',
+    data: {idCategoria, numeroDocumento},
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading();
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+        if (data.result == "ok") {
+          $('body').append(data.response);
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+})

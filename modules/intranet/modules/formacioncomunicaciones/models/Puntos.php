@@ -44,9 +44,6 @@ class Puntos extends \yii\db\ActiveRecord
             [['numeroDocumento', 'valorPuntos', 'idCuestionario', 'idParametroPunto', 'tipoParametro', 'idTipoContenido', 'condicion', 'idPuntoSincronizado'], 'integer'],
             [['fechaCreacion'], 'safe'],
             [['descripcionPunto'], 'string', 'max' => 100],
-            [['idCuestionario'], 'exist', 'skipOnError' => true, 'targetClass' => Cuestionario::className(), 'targetAttribute' => ['idCuestionario' => 'idCuestionario']],
-            [['idParametroPunto'], 'exist', 'skipOnError' => true, 'targetClass' => ParametrosPuntos::className(), 'targetAttribute' => ['idParametroPunto' => 'idParametroPunto']],
-            [['numeroDocumento'], 'exist', 'skipOnError' => true, 'targetClass' => Usuario::className(), 'targetAttribute' => ['numeroDocumento' => 'numeroDocumento']],
         ];
     }
 

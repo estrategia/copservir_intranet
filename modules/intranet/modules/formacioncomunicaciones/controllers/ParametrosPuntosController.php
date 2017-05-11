@@ -5,6 +5,7 @@ namespace app\modules\intranet\modules\formacioncomunicaciones\controllers;
 use Yii;
 use app\modules\intranet\modules\formacioncomunicaciones\models\ParametrosPuntos;
 use app\modules\intranet\modules\formacioncomunicaciones\models\ParametrosPuntosSearch;
+use app\modules\intranet\modules\formacioncomunicaciones\models\PuntosSearch;
 use app\modules\intranet\modules\formacioncomunicaciones\models\TipoContenido;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -37,12 +38,28 @@ class ParametrosPuntosController extends Controller
      */
     public function actionIndex()
     {
+        return $this->render('index');
+    }
+
+    public function actionParametros()
+    {
         $searchModel = new ParametrosPuntosSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
+        return $this->render('parametros', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'dataProvider' => $dataProvider
+        ]);
+    }
+
+    public function actionPuntos()
+    {
+        $searchModelPuntos = new PuntosSearch();
+        $dataProviderPuntos = $searchModelPuntos->search(Yii::$app->request->queryParams);
+
+        return $this->render('puntos', [
+            'searchModelPuntos' => $searchModelPuntos,
+            'dataProviderPuntos' => $dataProviderPuntos
         ]);
     }
 

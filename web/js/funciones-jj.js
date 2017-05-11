@@ -746,3 +746,54 @@ $('#selectCiudadVisualizacion').change(function() {
    });
 console.log($(this).val());
 });
+
+
+$(document).on('click', 'a[data-role="redimir-premio"]', function () {
+
+	var idPremio = $(this).attr('data-premio');
+    var cantidad = $("#cantidad_"+idPremio).val();
+
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        async: true,
+        url: requestUrl + '/intranet/formacioncomunicaciones/premios/verificar-redimir',
+        data: {idPremio: idPremio, cantidad: cantidad},
+        beforeSend: function () {
+            $('html').showLoading()
+        },
+        complete: function () {
+            $('html').hideLoading();
+        },
+        success: function (data) {
+            if (data.result == 'ok') {
+            	alert(data.response);
+            }else{
+            	alert(data.response);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('html').hideLoading();
+            alert('Error: ' + errorThrown);
+        }
+    });
+    return false;
+});
+
+
+$(document).on('click','button[data-role="tramitar-redenciones"]',function() {
+	var keys = $('#gridRedenciones').yiiGridView('getSelectedRows');
+	var estado = $(this).attr('data-estado');
+	$.post({
+	   url: requestUrl + '/intranet/formacioncomunicaciones/premios/cambiar-estado-redencion',
+	   dataType: 'json',
+	   data: {premios: keys, estado:estado},
+	   success: function(data) {
+	      if (data.result === 'ok') {
+	    	  $("#gridRedenciones").yiiGridView("applyFilter");
+	      }else{
+	    	  alert(data.response);
+	      }
+	   },
+	});
+});

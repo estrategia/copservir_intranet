@@ -21,7 +21,8 @@ use Yii;
  */
 class ParametrosPuntos extends \yii\db\ActiveRecord
 {
-	const ESTADO_ACTIVO = 1;
+    const ESTADO_ACTIVO = 1;
+    const ESTADO_INACTIVO = 0;
     const PARAMETRO_TIPO_CONTENIDO = 1;
     const PARAMETRO_CUMPLEANIOS = 2;
     const PARAMETRO_ANIVERSARIO = 3;
@@ -39,7 +40,7 @@ class ParametrosPuntos extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tipoParametro', 'valorPuntos', 'idTipoContenido'], 'required'],
+            [['tipoParametro', 'valorPuntos'], 'required'],
             [['tipoParametro', 'valorPuntos', 'idTipoContenido', 'condicion', 'estado'], 'integer'],
             [['fechaCreacion', 'fechaActualizacion'], 'safe']
         ];

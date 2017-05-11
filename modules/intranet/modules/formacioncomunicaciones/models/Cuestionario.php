@@ -272,7 +272,10 @@ class Cuestionario extends \yii\db\ActiveRecord
 	    	return $preguntasCuestionario;
     }
     
-    public function cuestionarioAprobado($numeroDocumento){
+    public function cuestionarioAprobado($numeroDocumento = null){
+    	if(is_null($numeroDocumento)){
+    		$numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+    	}
     	$cuestionarioUsuario = CuestionarioUsuario::find()->where(new Expression("porcentajeObtenido >= $this->porcentajeMinimo"))->andFilterWhere(['idCuestionario' => $this->idCuestionario, 'numeroDocumento' => $numeroDocumento])->one();
     
     	return $cuestionarioUsuario ? true:false;
@@ -282,5 +285,7 @@ class Cuestionario extends \yii\db\ActiveRecord
     	return round(CuestionarioUsuario::find()->where(['idCuestionario' => $this->idCuestionario, 'numeroDocumento' => $numeroDocumento])->select('max(porcentajeObtenido)')->scalar(),2);
     	
     }
+    
+    
     
 }

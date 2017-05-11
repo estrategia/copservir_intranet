@@ -1,7 +1,7 @@
 <?php
 
 namespace app\modules\tarjetamas\controllers;
-
+ 
 use Yii;
 use yii\web\Controller;
 use app\modules\tarjetamas\models\formularios\LoginForm;
@@ -66,12 +66,17 @@ class UsuarioController extends Controller {
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
             $response = UsuarioTarjetaMas::callWSConsultarTarjetasAbonado($model->username);
-
-            if ($response[0]['CODIGO'] == self::USUARIO_TIENE_TARJETAS) {
-                return $this->redirect(['datos-registro', 'numeroDocumento' => $model->username]);
-            } else {
-                $model->addError('username', $response[0]['MENSAJE']);
-            }
+			$usuarioTarjeta = UsuarioTarjetaMas::findOne(['numeroDocumento' => $model->username]);
+			
+			if(!$usuarioTarjeta){
+	            if ($response[0]['CODIGO'] == self::USUARIO_TIENE_TARJETAS) {
+	                return $this->redirect(['datos-registro', 'numeroDocumento' => $model->username]);
+	            } else {
+	                $model->addError('username', $response[0]['MENSAJE']);
+	            }
+			}else{
+				$model->addError('username', "Ya se encuentra registrado en el portal");
+			}
         }
 
         return $this->render('verifica-registro', [
@@ -168,7 +173,7 @@ class UsuarioController extends Controller {
             }
         }
     }
-
+/*
     public function actionActivarTarjeta() {
 
         $model = new ActivarForm();
@@ -213,7 +218,7 @@ class UsuarioController extends Controller {
         }
 
         return $this->render('activar-tarjeta', ['model' => $model]);
-    }
+    }*/
 
     /**
      * Funcion para ver las tarjetas de el usuario loguado
@@ -224,15 +229,8 @@ class UsuarioController extends Controller {
         if ($_POST != null) {
             $cedula = \Yii::$app->user->identity->numeroDocumento;
             $numeroTarjeta = $_POST['numeroTarjeta'];
-            $tarjetasUsuario = UsuarioTarjetaMas::callWSConsultarTarjetasAbonado($cedula);
-
-            $principal = "";
-            foreach ($tarjetasUsuario as $tarjeta) {
-                if ($tarjeta['PRINCIPAL'] == "SI") {
-                    $principal = $tarjeta["NUMEROTARJETA"];
-                }
-            }
-            $respuesta = UsuarioTarjetaMas::callWSCambiarTarjetaPrimaria($principal, $cedula, $numeroTarjeta);
+            
+            $respuesta = UsuarioTarjetaMas::callWSCambiarTarjetaPrimaria($cedula, $numeroTarjeta);
 
             if ($respuesta[0]['CODIGO'] == 1) {
                 Yii::$app->session->setFlash('success', "La tarjeta $numeroTarjeta ha sido marca como principal");
@@ -378,7 +376,6 @@ class UsuarioController extends Controller {
         $model->scenario = 'login';
 
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-
             return $this->redirect(['index']);
         }
 
@@ -418,8 +415,8 @@ class UsuarioController extends Controller {
 
             if (!$usuario) {
                 $model->addError('username', 'Usuario no existe');
-            } else {
-
+            } else if(isset($usuario->objUsuarioTarjetaMas)) {
+				
                 $codigoRecuperacion = $usuario->generarCodigoRecuperacion();
                 $fecha = new \DateTime();
 
@@ -441,6 +438,8 @@ class UsuarioController extends Controller {
                 } else {
                     Yii::$app->session->setFlash('error', 'Error al enviar el correo');
                 }
+            }else{
+            	$model->addError('username', 'Usuario no pertenece al portal');
             }
         }
 
