@@ -19,7 +19,7 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\Premio;
 			<h4 class="nombre-sub-categoria"><?= $model->nombrePremio ?></h4>		
 			<fieldset><?= $model->descripcionPremio ?></fieldset>	
 			<label for="cantidad_<?php echo $model->idPremio?>" class="nowrap">Cantidad
-			    <input class='input-sm input-cantidad' name='cantidad_<?php echo $model->idPremio?>' id='cantidad_<?php echo $model->idPremio?>' value='1'/>
+			    <input class='input-sm input-cantidad' name='cantidad_<?php echo $model->idPremio?>'<?php echo ($model->tipoRedimir != Premio::TIPO_TIENDA)?'readonly':''?> ondrop='return false' onpaste='return false' id='cantidad_<?php echo $model->idPremio?>' value='1'/>
 			</label>
 			<?php if($model->tipoRedimir == Premio::TIPO_TIENDA):?>
 	        	<a href='#' data-role='redimir-premio' data-premio='<?php echo $model->idPremio?>'>
