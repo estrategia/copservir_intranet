@@ -8,7 +8,7 @@
 <?= Html::img(Yii::getAlias('@web').'/img/formacioncomunicaciones/assets/banner.png', ['class' => 'img-responsive']) ?>
 <div class="col-md-10">
   <?php foreach ($categorias as $categoria): ?>
-    <div class="col-sm-4 col-md-4 item">
+    <div class="col-sm-3 col-md-3 item">
     <a href="<?= Url::to(['redencion/subcategorias', 'idCategoria' => $categoria->idCategoria]) ?>">
       <div class="categoria-item">
         <h4 class="nombre-categoria"><?= $categoria->nombreCategoria ?></h4>

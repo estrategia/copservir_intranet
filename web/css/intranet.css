@@ -490,7 +490,8 @@ a.circle-avatar, div.circle-avatar{
     border:2px solid #1C4F6E;
 }
 .sub-categoria-item {
-    border: 3px solid #1C4F6E;
+    border: 2px solid #D2D2D2;
+    background-color: #fbfbfb;
 }
 .item {margin-bottom:25px;}
 .item:hover .nombre-categoria {color:#fff; background-color: #1C4F6E;}
@@ -509,26 +510,24 @@ a.circle-avatar, div.circle-avatar{
     display: block;
 }
 .puntos {
-    width: 60px;
-    height: 60px;
+    width: 100px;
+    height: 100px;
     right: 0;
-    margin-right: 25px;
-    margin-top: 2px;
+    margin-right: 12px;
+    margin-top: -7px;
     position: absolute;
 }
-.quantity{
+.quantity {
     color: red;
-    text-align: center;
-    font-size: 10px;
-    margin-top: -35px;
-    font-weight: bold;
-    line-height: 7px;
+    font-size: 17px;
+    line-height: 15px;
+    margin-left: 26px;
+    margin-top: -62px;
     position: absolute;
-    margin-left: 14px;
+    text-align: center;
 }
 .detalle-redencion {
     padding: 4px 20px;
-    border-top: 2px solid #1C4F6E;
     margin-top: 10px;
 }
 .nowrap {

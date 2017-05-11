@@ -205,9 +205,7 @@ class PremiosController extends Controller
 			if($premioRedimido){
 				return  ['result' => 'error', 'response' => 'Ya redimiste este premio, solo se puede hacer una vez'];
 			}
-			
 		}
-		
 		
 		// Se puede redimir el articulo por tanto se le crea el registro de redimir
 		
