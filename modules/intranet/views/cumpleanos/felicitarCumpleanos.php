@@ -12,6 +12,7 @@
  ?>
 
 <div class="col-md-12 center-block" id="felicitar">
+	<?php //echo $this->render('/common/errores', []) ?>
   <div class="grid simple horizontal green">
     <div class="grid-title  center-block">
       <h4 class="text-truncate-hover" style="width: 100%">

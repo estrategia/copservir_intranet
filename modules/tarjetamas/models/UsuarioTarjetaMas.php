@@ -184,7 +184,7 @@ class UsuarioTarjetaMas extends \yii\db\ActiveRecord
     }
     
     
-    public static function callWSCambiarTarjetaPrimaria($NumeroTarjetaPrimaria, $NumeroIdentificacion, $NumeroTarjetaNueva){
+    public static function callWSCambiarTarjetaPrimaria($NumeroIdentificacion, $NumeroTarjetaNueva){
         $client = new \SoapClient(\Yii::$app->params['webServices']['tarjetaMas'], array(
           "trace" => 1,
           "exceptions" => 0,
@@ -194,7 +194,8 @@ class UsuarioTarjetaMas extends \yii\db\ActiveRecord
 
       try {
           $codigoSeguridad = sha1(\Yii::$app->params['webServices']['codigoSeguridad']);
-          $result = $client->CambiarTarjetaPrimaria($codigoSeguridad, $NumeroTarjetaPrimaria, $NumeroIdentificacion, $NumeroTarjetaNueva);
+        //  $result = $client->CambiarTarjetaPrimaria($codigoSeguridad, $NumeroTarjetaPrimaria, $NumeroIdentificacion, $NumeroTarjetaNueva);
+          $result = $client->activarTarjetaPrimaria($codigoSeguridad, $NumeroTarjetaNueva, $NumeroIdentificacion);
           return $result;
 
       } catch (SoapFault $ex) {

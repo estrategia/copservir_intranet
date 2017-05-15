@@ -36,7 +36,7 @@ use kartik\select2\Select2;
 	<?php $cursos = Curso::findAll(['estadoCurso' => Curso::ESTADO_ACTIVO]);?>
     <?php $model->estado = $model->isNewRecord ? 1 : $model->estado;  ?>
     <?= $form->field($model, 'estado')->dropDownList(['0' => 'Inactivo', '1' => 'Activo']); ?>
-    <?php echo $form->field($model, 'idCurso')->widget(Select2::classname(), [
+    <?php echo $form->field($model, 'idCuestionario')->widget(Select2::classname(), [
           'data' => ArrayHelper::map($cursos, 'idCurso','nombreCurso'),
           'options' => ['placeholder' => 'Selecione ...'],
           'pluginOptions' => [

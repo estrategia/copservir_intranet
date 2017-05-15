@@ -12,6 +12,8 @@ $this->params['breadcrumbs'][] = $this->title;
  <?= Html::a('Tramitadas', ['redenciones', 'estado' => UsuariosPremios::ESTADO_TRAMITADO], ['class' => 'btn btn-default']) ?>
  <?= Html::a('Canceladas', ['redenciones', 'estado' => UsuariosPremios::ESTADO_CANCELADO], ['class' => 'btn btn-danger']) ?>
 
+
+<?= Html::a('Descargar', ['exportar-redenciones'], ['class' => 'btn btn-warning']) ?>
 <h1><?php echo $this->title?></h1>
   <?= GridView::widget([
   		'id' => 'gridRedenciones',
@@ -33,7 +35,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'cantidad',
             [
             	'attribute' => 'estado',
-            	'value' => function($model){return \yii::$app->params['formacioncomunicaciones']['estadosPremios'][$model->estado];}
+            	'value' => function($model){return \yii::$app->params['formacioncomunicaciones']['estadosPremios'][$model->estado];},
+            	'filter'=>false
+            	 
             ],
             [
             'attribute' => 'Premio',
@@ -56,6 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
-                
-    <button type='button' data-role='tramitar-redenciones' class='btn btn-default' data-estado='<?php echo UsuariosPremios::ESTADO_TRAMITADO?>'>Tramitar</button>
-    <button type='button' data-role='tramitar-redenciones' class='btn btn-danger' data-estado='<?php echo UsuariosPremios::ESTADO_CANCELADO?>'>Cancelar</button>            
+    <?php if($estado != UsuariosPremios::ESTADO_CANCELADO):?>            
+	    <button type='button' data-role='tramitar-redenciones' class='btn btn-default' data-estado='<?php echo UsuariosPremios::ESTADO_TRAMITADO?>'>Tramitar</button>
+	    <button type='button' data-role='tramitar-redenciones' class='btn btn-danger' data-estado='<?php echo UsuariosPremios::ESTADO_CANCELADO?>'>Cancelar</button>
+    <?php endif;?>            

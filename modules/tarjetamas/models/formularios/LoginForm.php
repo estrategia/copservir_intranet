@@ -1,5 +1,5 @@
 <?php
-
+ 
 namespace app\modules\tarjetamas\models\formularios;
 
 use Yii;
@@ -24,9 +24,10 @@ class LoginForm extends Model {
     public function rules() {
         return [
 
-            [['username', 'password'], 'required'],
+            [['username'], 'required'],
             [['username'], 'integer'],
             [['password', 'password2'], 'string', 'min' => 6],
+        	[['password'], 'required', 'on' => ['login','recuperar','cambiarClave']],	
             ['password2', 'required', 'on' => ['recuperar']],
             ['password2', 'required', 'on' => ['cambiarClave']],
             ['password2', 'compare', 'compareAttribute' => 'password', 'message' => 'Las contraseñas deben ser iguales'],
@@ -78,6 +79,10 @@ class LoginForm extends Model {
     public function getUser() {
         if ($this->_user === false) {
             $this->_user = Usuario::findByUsername($this->username); //UsuarioTarjetaMas::findBy($this->username);
+            
+            if(!isset($this->_user->objUsuarioTarjetaMas)){
+            	return null;
+            }
         }
 
         return $this->_user;

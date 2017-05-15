@@ -117,6 +117,14 @@ class CumpleanosPersona extends \yii\db\ActiveRecord {
         $listGrupoInteres = GrupoInteresCargo::find()
                 ->where("idCargo=:cargo", [':cargo' => $this->idCargo])
                 ->all();
+        
+        if(empty($listGrupoInteres)){
+        	$objGrupoAux = new GrupoInteresCargo;
+        	$objGrupoAux->idCargo = $this->idCargo;
+        	$objGrupoAux->idGrupoInteres = \Yii::$app->params['grupo']['*'];
+        	$objGrupoAux->nombreCargo = "NA";
+        	$listGrupoInteres[] = $objGrupoAux;
+        }
 
         $arrDestinos = array();
 

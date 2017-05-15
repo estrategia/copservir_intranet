@@ -26,6 +26,8 @@ use yii\web\UploadedFile;
 class Premio extends \yii\db\ActiveRecord
 {
 	const ACTIVO = 1;
+	const TIPO_TIENDA = 1;
+	const TIPO_CUESTIONARIO = 2;
     /**
      * @inheritdoc
      */
@@ -42,7 +44,7 @@ class Premio extends \yii\db\ActiveRecord
         return [
             [['descripcionPremio'], 'string'],
             [['idCategoria', 'puntosRedimir', 'estado', 'cantidad'], 'integer'],
-            [['fechaInicioVigencia', 'fechaFinVigencia', 'fechaCreacion', 'fechaActualizacion'], 'safe'],
+            [['fechaInicioVigencia', 'fechaFinVigencia', 'fechaCreacion', 'fechaActualizacion', 'idCuestionario'], 'safe'],
             [['nombrePremio', 'rutaImagen'], 'string', 'max' => 100],
             [['idCategoria'], 'exist', 'skipOnError' => true, 'targetClass' => CategoriasPremios::className(), 'targetAttribute' => ['idCategoria' => 'idCategoria']],
         ];
@@ -58,6 +60,7 @@ class Premio extends \yii\db\ActiveRecord
             'nombrePremio' => 'Nombre Premio',
             'descripcionPremio' => 'Descripcion Premio',
             'idCategoria' => 'Id Categoria',
+        	'idCuestionario' => 'Id Cuestionario',
             'puntosRedimir' => 'Puntos Redimir',
             'estado' => 'Estado',
             'cantidad' => 'Cantidad',
@@ -77,6 +80,11 @@ class Premio extends \yii\db\ActiveRecord
         return $this->hasOne(CategoriasPremios::className(), ['idCategoria' => 'idCategoria']);
     }
     
+    public function getObjCuestionario()
+    {
+    	return $this->hasOne(Cuestionario::className(), ['idCuestionario' => 'idCuestionario']);
+    }
+    
     public function guardarImagen($rutaAnterior)
     {
     	$imagen = UploadedFile::getInstance($this, 'rutaImagen'); // si no selecciona nada pone null
@@ -93,13 +101,29 @@ class Premio extends \yii\db\ActiveRecord
     
     	$fecha = new \DateTime;
     
-    	return $noticias = self::find()->where(
-    			" fechaInicioVigencia<=:fecha AND fechaFinVigencia>=:fecha AND idCategoria=:categoria AND tipoRedimir=:tipo"
-    			)
+    	return self::find()->where(
+    			" fechaInicioVigencia<=:fecha AND fechaFinVigencia>=:fecha AND idCategoria=:categoria AND cantidad>:cantidad AND estado=:estado")
     			->addParams([':estado' => self::ACTIVO,
     					':fecha' => $fecha->format('Y-m-d H:i:s'),
     					':categoria' => $idCategoria,
-    					':tipo' => 1
-    				,])->orderBy('fechaInicioVigencia');
+    					':cantidad' => 0,
+    					': estado' => self::ACTIVO,
+    				])->orderBy('fechaInicioVigencia');
     }
+    
+    public static function traerPremiosCuestionario($idCuestionario) {
+    
+    	$fecha = new \DateTime;
+    
+    	return self::find()->where(
+    			" fechaInicioVigencia<=:fecha AND fechaFinVigencia>=:fecha AND idCuestionario=:cuestionario AND tipoRedimir=:tipo AND cantidad>:cantidad AND estado=:estado")
+    			->addParams([':estado' => self::ACTIVO,
+    					':fecha' => $fecha->format('Y-m-d H:i:s'),
+    					':cuestionario' => $idCuestionario,
+    					':tipo' => 1,
+    					':cantidad' => 0,
+    					':estado' => self::ACTIVO,
+    					//':tipoRedimir' => self::TIPO_TIENDA
+    			])->orderBy('fechaInicioVigencia');
+    }    
 }

@@ -5,6 +5,8 @@ use yii\widgets\ActiveForm;
 use kartik\file\FileInput;
 use kartik\select2\Select2;
 use kartik\date\DatePicker;
+use yii\helpers\ArrayHelper;
+use app\modules\intranet\modules\formacioncomunicaciones\models\Cuestionario;
 
 
 /* @var $this yii\web\View */
@@ -29,6 +31,14 @@ use kartik\date\DatePicker;
       ],
     ]); ?>
     <?= $form->field($model, 'numeroPremios')->textInput(['maxlength' => true]) ?>
+    <?php $cuestionarios = Cuestionario::findAll(['estado' => Cuestionario::ESTADO_ACTIVO]);?>
+    <?php echo $form->field($model, 'idCuestionario')->widget(Select2::classname(), [
+          'data' => ArrayHelper::map($cuestionarios, 'idCuestionario','tituloCuestionario'),
+          'options' => ['placeholder' => 'Selecione ...'],
+          'pluginOptions' => [
+              'allowClear' => true
+          ],
+        ]);?>
     <?php if ($model->isNewRecord): ?>
         <?= $form->field($model, 'rutaImagen')->widget(FileInput::classname(), [
             'options' => ['accept' => 'image/*'],

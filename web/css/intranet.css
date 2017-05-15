@@ -468,28 +468,78 @@ a.circle-avatar, div.circle-avatar{
     vertical-align: middle;
 }
 
-.categorias-premios-redencion-container {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    /*justify-content: left;*/
+/*ESTILOS PREMIOS*/
+.nombre-categoria{   
+    color: #1C4F6E;
+    padding: 15px;
+    text-align: center;
+    margin: 0;
+    font-weight: bold;
+    border-bottom: 2px solid #1C4F6E;
 }
-
-.categoria-premios-redencion-item {
-    margin: 10px;
-    flex-basis: content;
-    /*width: 230px !important;*/
-}
-
-.categoria-premios-redencion-item img {
-    height: 200px;
-    width: 200px;
-}
-
-.node-title {
+.nombre-sub-categoria {
+    color: #1C4F6E;
+    padding: 4px;
+    text-align: center;
+    margin: 0;
     font-weight: bold;
 }
-
-.node {
-    border: solid 1px darkgrey;
+.categoria-item {
+    border:2px solid #1C4F6E;
+}
+.sub-categoria-item {
+    border: 2px solid #D2D2D2;
+    background-color: #fbfbfb;
+}
+.item {margin-bottom:25px;}
+.item:hover .nombre-categoria {color:#fff; background-color: #1C4F6E;}
+.item:hover .categoria-item {border:4px solid #1C4F6E;}
+.more {
+    width: 25px;
+    height: 25px;
+    right: 0;
+    margin-right: 25px;
+    margin-top: -32px;
+    position: absolute;
+}
+.redimir {
+    width: 50%;
+    margin: 10px auto;
+    display: block;
+}
+.puntos {
+    width: 100px;
+    height: 100px;
+    right: 0;
+    margin-right: 12px;
+    margin-top: -7px;
+    position: absolute;
+}
+.quantity {
+    color: red;
+    font-size: 17px;
+    line-height: 15px;
+    margin-left: 26px;
+    margin-top: -62px;
+    position: absolute;
+    text-align: center;
+}
+.detalle-redencion {
+    padding: 4px 20px;
+    margin-top: 10px;
+}
+.nowrap {
+    white-space: nowrap;
+}
+.input-cantidad {
+    border: 1px solid #1C4F6E;
+    width: 50%;
+    text-align: right;
+}
+.cantidad-puntos {
+    margin-bottom: 0px;
+}
+.cantidad-puntos span {
+    font-weight:bold;
+    color:#C71B19;
 }
