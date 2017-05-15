@@ -19,6 +19,8 @@ class Curso extends \yii\db\ActiveRecord
     const ESTADO_ACTIVO = 1;
     const ESTADO_INACTIVO = 0;
     const CRUD_SCENARIO = 'crud';
+    const TIPO_OBLIGATORIO = 1;
+    const TIPO_OPCIONAL = 0;
     public $cursoGruposInteres;
     /**
      * @inheritdoc
@@ -34,11 +36,11 @@ class Curso extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['estadoCurso', 'idCurso', 'idTipoContenido'], 'integer'],
+            [['estadoCurso', 'idCurso', 'idTipoContenido', 'tipoCurso'], 'integer'],
             [['fechaCreacion', 'fechaActualizacion', 'fechaInicio', 'fechaFin'], 'safe'],
             [['nombreCurso'], 'string', 'max' => 45],
             [['presentacionCurso'], 'string', 'max' => 250],
-            [['estadoCurso', 'idTipoContenido', 'nombreCurso', 'presentacionCurso', 'fechaInicio'], 'required'],
+            [['estadoCurso', 'idTipoContenido', 'nombreCurso', 'presentacionCurso', 'fechaInicio', 'tipoCurso'], 'required'],
             [['cursoGruposInteres'], 'required', 'on' => 'crud']
         ];
     }
@@ -59,6 +61,7 @@ class Curso extends \yii\db\ActiveRecord
             'fechaFin' => 'Fecha Fin',
             'fechaCreacion' => 'Fecha Creacion',
             'fechaActualizacion' => 'Fecha Actualizacion',
+            'tipoCurso' => 'Tipo Curso'
         ];
     }
 

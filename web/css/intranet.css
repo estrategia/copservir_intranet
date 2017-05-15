@@ -485,3 +485,11 @@ a.circle-avatar, div.circle-avatar{
     height: 200px;
     width: 200px;
 }
+
+.node-title {
+    font-weight: bold;
+}
+
+.node {
+    border: solid 1px darkgrey;
+}
