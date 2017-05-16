@@ -41,6 +41,19 @@ $this->params['breadcrumbs'][] = $this->title;
             'fechaInicio',
             'fechaFin',
             [
+                'attribute' => 'tipoCurso',
+                'filter' =>
+                Html::activeDropDownList($searchModel, 'tipoCurso', ['1' => 'Obligatorio', '0' => 'Opcional'],
+                        ['class'=>'form-control','prompt' => 'Seleccione']),
+                        'value' => function($model) {
+                          if ($model->tipoCurso == 1) {
+                            return 'Obligatorio';
+                          } elseif ($model->tipoCurso == 0) {
+                            return 'Opcional';
+                          }
+                }
+            ],
+            [
                 'attribute' => '',
                 'format' => 'raw',
                 'value' => function ($model) {                      

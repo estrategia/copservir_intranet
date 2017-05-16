@@ -24,6 +24,16 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             [
+                'attribute' => 'Icon',
+                'format' => 'html',
+                'label' => '',
+                'value' => function ($data) {
+                return Html::img(\Yii::getAlias('@web'). '/img/formacioncomunicaciones/premios/' . $data->objPremio->rutaImagen,
+                   ['width' => '60px']);
+                },
+            ],
+
+            [
                 'attribute' => 'Premio',
                 'format' => 'raw',
                 'value' => 'objPremio.nombrePremio',
@@ -54,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                   return  Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url);
                 },
                 'traza' => function ($url, $model) {
-                  return  Html::a('<span class="glyphicon glyphicon-list-alt"></span>', '#', ['data-role'=> 'ver-traza', 'data-']);
+                  return  Html::a('<span class="glyphicon glyphicon-list-alt"></span>', '#', ['data-role'=> 'ver-traza', 'data-id-redencion' => $model->idUsuarioPremio]);
                 }
               ],
             ],

@@ -1289,11 +1289,11 @@ $(document).on('click', "button[data-role='quitar-enlace-menu']", function() {
 * @return data.result = json donde se especifica si todo se realizo bien
 *         data.response =
 */
-$(document).on('click', "button[data-role='felicitaCumpleaños']", function() {
+$(document).on('click', "button[data-role='felicitar-cumpleanios']", function() {
 
-  var formElement = document.getElementById("formCumpleanos");
+  var formElement = document.getElementById("form-cumpleanios");
   var formData = new FormData(formElement);
-  var id = $(this).attr('data-cumpleanos');
+  var id = $(this).attr('data-cumpleanios');
   var files = $('#contenido-imagenes').fileinput('getFileStack');
 
   if (files.length > 0) {
@@ -1310,23 +1310,52 @@ $(document).on('click', "button[data-role='felicitaCumpleaños']", function() {
     data: formData,
     dataType: 'json',
     beforeSend: function() {
-      $('body').showLoading()
+      $('html').showLoading();
+      $('#form-cumpleanios .form-group.has-error .help-block').html('');
+	  $('#form-cumpleanios .form-group.has-error').removeClass('has-error');
+	  $('#div-felicitar-alert').html('');
+	  $('#form-cumpleanios button[type=submit]').attr('disabled', 'disabled');
     },
     complete: function(data) {
-      $('body').hideLoading();
+      $('html').hideLoading();
+	  $('#form-cumpleanios button[type=submit]').removeAttr('disabled');
     },
     success: function(data) {
       if (data.result == "ok") {
-        $("#felicitar").remove();
-        $('#container').append(data.response);
+    	  $("#contenido-contenido").redactor('code.set', '');
+    	  $('#contenido-imagenes').fileinput('reset'); 
+    	  $('#contenido-imagenes').fileinput('reset').trigger('custom-event');
+    	  $('#div-felicitar-alert').html(jsonToAlertMessage(data.response));
+      }else if(data.result=="error"){
+    	  $('#div-felicitar-alert').html(jsonToAlertMessage(data.response));
+    	  if(data.validation){
+    		  $.each(data.validation, function(element, error) {
+    			  $('#form-cumpleanios .form-group.field-' + element + " .help-block").html(error);
+                  $('#form-cumpleanios .form-group.field-' + element).addClass('has-error');
+              });
+    	  }
+      }else{
+    	  alert("Error no detectado");
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
-      $('body').hideLoading();
+      $('html').hideLoading();
     }
   });
   return false;
 });
+
+function jsonToAlertMessage(data){
+	var html = '';
+	$.each(data, function(i, item) {
+		html += '<div role="alert" class="alert alert-'+item.alert+' alert-dismissible fade in">';
+		html += '<button aria-label="Close" data-dismiss="alert" class="close" type="button"></button>';
+		html += '<p>'+item.text+'</p>';
+		html += '</div>';
+	});
+	return html;
+}
+
 
 /**
 * peticion ajax para guardar una felicitacion de aniversario
@@ -1334,9 +1363,8 @@ $(document).on('click', "button[data-role='felicitaCumpleaños']", function() {
 *         data.response =
 */
 
-$(document).on('click', "button[data-role='felicitaAniversario']", function() {
-
-  var formElement = document.getElementById("formAniversario");
+$(document).on('click', "button[data-role='felicitar-aniversario']", function() {
+  var formElement = document.getElementById("form-aniversario");
   var formData = new FormData(formElement);
   var id = $(this).attr('data-aniversario');
   var files = $('#contenido-imagenes').fileinput('getFileStack');
@@ -1355,19 +1383,36 @@ $(document).on('click', "button[data-role='felicitaAniversario']", function() {
     data: formData,
     dataType: 'json',
     beforeSend: function() {
-      $('body').showLoading()
+        $('html').showLoading();
+        $('#form-aniversario .form-group.has-error .help-block').html('');
+  	  	$('#form-aniversario .form-group.has-error').removeClass('has-error');
+  	  	$('#div-felicitar-alert').html('');
+  	  	$('#form-aniversario button[type=submit]').attr('disabled', 'disabled');
     },
     complete: function(data) {
-      $('body').hideLoading();
+    	$('html').hideLoading();
+  	  	$('#form-aniversario button[type=submit]').removeAttr('disabled');
     },
     success: function(data) {
-      if (data.result == "ok") {
-        $("#felicitar").remove();
-        $('#container').append(data.response);
-      }
+    	if (data.result == "ok") {
+      	  $("#contenido-contenido").redactor('code.set', '');
+      	  $('#contenido-imagenes').fileinput('reset'); 
+      	  $('#contenido-imagenes').fileinput('reset').trigger('custom-event');
+      	  $('#div-felicitar-alert').html(jsonToAlertMessage(data.response));
+        }else if(data.result=="error"){
+      	  $('#div-felicitar-alert').html(jsonToAlertMessage(data.response));
+      	  if(data.validation){
+      		  $.each(data.validation, function(element, error) {
+      			  $('#form-aniversario .form-group.field-' + element + " .help-block").html(error);
+                    $('#form-aniversario .form-group.field-' + element).addClass('has-error');
+                });
+      	  }
+        }else{
+      	  alert("Error no detectado");
+        }
     },
     error: function(jqXHR, textStatus, errorThrown) {
-      $('body').hideLoading();
+      $('html').hideLoading();
     }
   });
   return false;
@@ -2455,6 +2500,33 @@ $(document).on('click', "a[data-role='eliminar-contacto-categoria']", function (
     }
   });
 })
+
+$(document).on('click', "a[data-role='ver-traza']", function() {
+  var idRedencion = $(this).attr('data-id-redencion');
+  $.ajax({
+    type: 'GET',
+    async: true,
+    url: requestUrl + '/intranet/formacioncomunicaciones/redencion/render-modal-traza?idRedencion=' + idRedencion,
+    dataType: 'json',
+    beforeSend: function() {
+      $("#widget-traza").remove();
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $('body').append(data.response);
+        $("#widget-traza").modal("show");
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
 
 // Organigrama 
 // var organigrama_config = {

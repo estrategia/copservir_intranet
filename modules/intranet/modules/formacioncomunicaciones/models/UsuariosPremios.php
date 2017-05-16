@@ -85,6 +85,11 @@ class UsuariosPremios extends \yii\db\ActiveRecord
         return $this->hasOne(Usuario::className(), ['numeroDocumento' => 'numeroDocumento']);
     }
 
+    public function getObjUsuarioIntranet()
+    {
+        return $this->hasOne(\app\modules\intranet\models\UsuarioIntranet::className(), ['numeroDocumento' => 'numeroDocumento']);
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */

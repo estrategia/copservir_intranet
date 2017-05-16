@@ -11,8 +11,8 @@
   $this->params['breadcrumbs'][] = $this->title
  ?>
 
-<div class="col-md-12 center-block" id="felicitar">
-	<?php //echo $this->render('/common/errores', []) ?>
+<div class="col-md-12 center-block" id="div-felicitar">
+  <div id="div-felicitar-alert"></div>
   <div class="grid simple horizontal green">
     <div class="grid-title  center-block">
       <h4 class="text-truncate-hover" style="width: 100%">
@@ -26,8 +26,7 @@
       </div>
 
       <div class="col-md-6" style="border-left: 1px solid #eee;">
-        <?php $form = ActiveForm::begin(['id'=>'formCumpleanos' , 'options'=>['encytype'=>'multipart/form-data']]); ?>
-
+        <?php $form = ActiveForm::begin(['id'=>'form-cumpleanios' , 'options'=>['encytype'=>'multipart/form-data']]); ?>
         <?php
         echo $form->field($modelContenido, 'contenido')->widget(Widget::className(), [
           'settings' => [
@@ -76,7 +75,7 @@
 
         <br>
         <div class="form-group">
-          <?= Html::submitButton('enviar', ['class' =>'btn btn-primary', 'data-role'=>'felicitaCumpleaños', 'data-cumpleanos'=>$modelCumpleanosPersona->idCumpleanosPersona]) ?>
+          <?= Html::submitButton('enviar', ['class' =>'btn btn-primary', 'data-role'=>'felicitar-cumpleanios', 'data-cumpleanios'=>$modelCumpleanosPersona->idCumpleanosPersona]) ?>
         </div>
         <?php ActiveForm::end(); ?>
       </div>

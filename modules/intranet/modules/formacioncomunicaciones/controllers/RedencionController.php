@@ -48,7 +48,33 @@ class RedencionController extends \yii\web\Controller
 
     public function actionRenderModalTraza($idRedencion)
     {
-        
+        $redenciones = (new \yii\db\Query())
+            ->select('traza.fechaRegistro, traza.estado, premio.nombrePremio')
+            ->from('t_FORCO_UsuariosPremiosTrazabilidad as traza')
+            ->join('JOIN', 'm_FORCO_Premio as premio', 'traza.idPremio = premio.idPremio')
+            ->where(['idUsuarioPremio' => $idRedencion])
+            // ->limit(10)
+            ->all();
+        // $redenciones = UsuariosPremios::find()->where(['idUsuarioPremio' => $idRedencion])->all();
+        $response = [
+            'result' => 'ok',
+            'response' => $this->renderAjax('_modal-traza', ['redenciones' => $redenciones])
+        ];
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $response;
+    }
+
+    public function actionHistorial()
+    {
+        $searchModel = new UsuariosPremiosSearch();
+        $params = \Yii::$app->request->queryParams;
+        $params['historial'] = true;
+        $dataProvider = $searchModel->search($params);
+
+        return $this->render('historial', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
 

@@ -97,6 +97,7 @@ class CursoController extends Controller
         $gruposInteres = ArrayHelper::Map(GrupoInteres::find()->where(['estado' => 1])->asArray()->all(), 'idGrupoInteres', 'nombreGrupo');
         $tiposContenido = ArrayHelper::Map(TipoContenido::find()->where(['estadoTipoContenido' => 1])->asArray()->all(), 'idTipoContenido', 'nombreTipoContenido');
         if ($model->load(Yii::$app->request->post())) {
+            $model->guardarImagen('');
             $transaction = Curso::getDb()->beginTransaction();
             try {
               if ($model->save()) {
@@ -135,9 +136,15 @@ class CursoController extends Controller
         $model->scenario = Curso::CRUD_SCENARIO;
         $gruposInteres = ArrayHelper::Map(GrupoInteres::find()->where(['estado' => 1])->asArray()->all(), 'idGrupoInteres', 'nombreGrupo');
         $tiposContenido = ArrayHelper::Map(TipoContenido::find()->where(['estadoTipoContenido' => 1])->asArray()->all(), 'idTipoContenido', 'nombreTipoContenido');
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model->actualizarGrupos(Yii::$app->request->post()['Curso']['cursoGruposInteres']);            
-            return $this->redirect(['detalle', 'id' => $model->idCurso]);
+        $rutaImagen = $model->rutaImagen;
+        if ($model->load(Yii::$app->request->post())) {
+            $model->guardarImagen($rutaImagen);
+            if ($model->save()) {
+                $model->actualizarGrupos(Yii::$app->request->post()['Curso']['cursoGruposInteres']);            
+                return $this->redirect(['detalle', 'id' => $model->idCurso]);
+            } else {
+                return $this->redirect(['actualizar', 'id' => $model->idCurso]);
+            }
         } else {
             $model->setCursoGruposInteres();
             return $this->render('actualizar', [

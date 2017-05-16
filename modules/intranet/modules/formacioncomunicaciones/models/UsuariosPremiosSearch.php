@@ -13,6 +13,7 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\UsuariosPremios;
 class UsuariosPremiosSearch extends UsuariosPremios
 {
     public $nombrePremio;
+    public $usuario;
     /**
      * @inheritdoc
      */
@@ -20,7 +21,7 @@ class UsuariosPremiosSearch extends UsuariosPremios
     {
         return [
             [['idUsuarioPremio', 'idPremio', 'numeroDocumento', 'cantidad', 'puntosRedimir', 'estado'], 'integer'],
-            [['fechaCreacion', 'fechaActualizacion', 'nombrePremio'], 'safe'],
+            [['fechaCreacion', 'fechaActualizacion', 'nombrePremio', 'usuario'], 'safe'],
         ];
     }
 
@@ -59,6 +60,14 @@ class UsuariosPremiosSearch extends UsuariosPremios
             return $dataProvider;
         }
 
+        if (isset($params['historial'])) {
+            $query->andFilterWhere([
+                't_FORCO_UsuariosPremios.estado' => UsuariosPremios::ESTADO_TRAMITADO,
+                // 'like', 'm_INTRA_Usuario.nombres', $this->usuario
+            ]);
+            $query->orderBy(['fechaCreacion' => SORT_DESC]);
+        }
+
         // grid filtering conditions
         $query->andFilterWhere([
             'idUsuarioPremio' => $this->idUsuarioPremio,
@@ -71,8 +80,13 @@ class UsuariosPremiosSearch extends UsuariosPremios
             'fechaActualizacion' => $this->fechaActualizacion,
         ]);
 
+
         $query->joinWith(['objPremio' => function ($q) {
             $q->where('m_FORCO_Premio.nombrePremio LIKE "%' . $this->nombrePremio . '%"');
+        }]);
+
+        $query->joinWith(['objUsuarioIntranet' => function ($q) {
+            $q->where('m_INTRA_Usuario.nombres LIKE "%' . $this->usuario . '%"');
         }]);
 
         return $dataProvider;
