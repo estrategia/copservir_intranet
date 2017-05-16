@@ -2501,6 +2501,33 @@ $(document).on('click', "a[data-role='eliminar-contacto-categoria']", function (
   });
 })
 
+$(document).on('click', "a[data-role='ver-traza']", function() {
+  var idRedencion = $(this).attr('data-id-redencion');
+  $.ajax({
+    type: 'GET',
+    async: true,
+    url: requestUrl + '/intranet/formacioncomunicaciones/redencion/render-modal-traza?idRedencion=' + idRedencion,
+    dataType: 'json',
+    beforeSend: function() {
+      $("#widget-traza").remove();
+      $('body').showLoading()
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $('body').append(data.response);
+        $("#widget-traza").modal("show");
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
+
 // Organigrama 
 // var organigrama_config = {
 //     chart: {

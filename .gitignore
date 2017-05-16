@@ -29,4 +29,5 @@ phpunit.phar
 /web/assets/*
 /web/img/imagenesContenidos/*
 /web/img/gruposInteres/*
+/web/formacioncomunicaciones/contenidos/*
 /uploads/

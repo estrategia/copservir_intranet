@@ -12,6 +12,7 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\Curso;
  */
 class CursoSearch extends Curso
 {
+    public $tipoCurso;
     /**
      * @inheritdoc
      */
@@ -19,7 +20,7 @@ class CursoSearch extends Curso
     {
         return [
             [['idCurso', 'estadoCurso'], 'integer'],
-            [['nombreCurso', 'presentacionCurso', 'fechaCreacion', 'fechaActualizacion'], 'safe'],
+            [['nombreCurso', 'presentacionCurso', 'fechaCreacion', 'fechaActualizacion', 'tipoCurso'], 'safe'],
         ];
     }
 
@@ -75,6 +76,7 @@ class CursoSearch extends Curso
             'estadoCurso' => $this->estadoCurso,
             'fechaCreacion' => $this->fechaCreacion,
             'fechaActualizacion' => $this->fechaActualizacion,
+            'tipoCurso' => $this->tipoCurso
         ]);
 
         $query->andFilterWhere(['like', 'nombreCurso', $this->nombreCurso])
