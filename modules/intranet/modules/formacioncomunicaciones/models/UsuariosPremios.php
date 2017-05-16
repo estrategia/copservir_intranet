@@ -5,6 +5,7 @@ namespace app\modules\intranet\modules\formacioncomunicaciones\models;
 use Yii;
 use app\models\Usuario;
 use yii\data\ActiveDataProvider;
+use app\modules\intranet\models\UsuarioIntranet;
 /**
  * This is the model class for table "t_FORCO_UsuariosPremios".
  *
@@ -127,5 +128,10 @@ class UsuariosPremios extends \yii\db\ActiveRecord
     
     public function traerRedenciones($estado){
     	return self::find()->where(['estado' => $estado]) ;
+    }
+    
+    public function obtenerUsuarios(){
+    	return UsuarioIntranet::find()->all();
+    	
     }
 }
