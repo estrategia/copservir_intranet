@@ -287,6 +287,13 @@ class PremiosController extends Controller
 		
 		$premios = Yii::$app->request->post('premios');
 		$estado = Yii::$app->request->post('estado');
+		$observacion = "";
+		$fechaEntrega = null;
+		if($estado ==  UsuariosPremios::ESTADO_TRAMITADO){
+			$observacion = Yii::$app->request->post('observaciones');
+			$fechaEntrega =  Yii::$app->request->post('fechaEntrega');
+		}
+		
 		
 		$transaction = UsuariosPremios::getDb()->beginTransaction();
 		
@@ -305,8 +312,10 @@ class PremiosController extends Controller
 						return  ['result' => 'error', 'response' => 'Error al cambiar de estado en el premio '.$premio];
 					}
 				}
+			}else{
+				$premioUsuario->fechaEntrega = $fechaEntrega;
 			}
-			
+		
 			if(!$premioUsuario->save()){
 				$transaction->rollBack();
 				return  ['result' => 'error', 'response' => 'Error al actualizar el estado '.$premio];
@@ -319,6 +328,7 @@ class PremiosController extends Controller
 			$premioUsuarioTraza->numeroDocumentoTraza = Yii::$app->user->identity->numeroDocumento;
 			$premioUsuarioTraza->estado = $estado;
 			$premioUsuarioTraza->fechaRegistro = \Date("Y-m-d h:i:s");
+			$premioUsuarioTraza->observacion = $observacion;
 			
 			if(!$premioUsuarioTraza->save()){
 				$transaction->rollBack();
