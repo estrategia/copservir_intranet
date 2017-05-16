@@ -435,11 +435,9 @@ class UsuarioController extends \yii\web\Controller {
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             // var_dump(\Yii::$app->user->identity->numeroDocumento);
-            $usuario = Usuario::find()->where(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento])->one();
-            $usuario->alias = Yii::$app->request->post()['PersonaForm']['alias'];
-            $response = self::callWSActualizarPersona($model->attributes);
-            if ($response && $usuario->save()) {
+            if ($model->guardar()) {
                 \Yii::$app->user->identity->generarDatos(true);
+                Yii::$app->session->setFlash('success', 'Información actualizada');
                 return $this->redirect(['perfil']);
             } else {
                 Yii::$app->session->setFlash('error', 'Error al actualizar la información');
@@ -451,30 +449,6 @@ class UsuarioController extends \yii\web\Controller {
         return $this->render('actualizarDatos', [
                     'model' => $model,
         ]);
-    }
-
-    /**
-     * Funcion para actualizar la informacion de un usuario a traves de un web services
-     * @param string $request
-     * @return array['result'],
-     */
-    public static function callWSActualizarPersona($data) {
-        $client = new \SoapClient(\Yii::$app->params['webServices']['persona'], array(
-            "trace" => 1,
-            "exceptions" => 0,
-            'connection_timeout' => 5,
-            'cache_wsdl' => WSDL_CACHE_NONE
-        ));
-
-        try {
-
-            $result = $client->actualizarPersona($data);
-            return $result;
-        } catch (SoapFault $ex) {
-            Yii::error($ex->getMessage());
-        } catch (Exception $ex) {
-            Yii::error($ex->getMessage());
-        }
     }
 
     public function actionPantallaInicio() {
