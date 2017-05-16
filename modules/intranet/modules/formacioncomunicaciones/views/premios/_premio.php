@@ -14,10 +14,12 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\Premio;
 		<?php endif;?>
 		<p align="center">
 			<img src='<?= Yii::getAlias('@web').\Yii::$app->params['formacioncomunicaciones']['rutaImagenPremios']?><?= $model->rutaImagen ?>' class="img-responsive"/>
+			Cant. Disp. <?= $model->cantidad ?>
 		</p>
 		<div class="detalle-redencion">
 			<h4 class="nombre-sub-categoria"><?= $model->nombrePremio ?></h4>		
 			<fieldset><?= $model->descripcionPremio ?></fieldset>	
+				
 			<label for="cantidad_<?php echo $model->idPremio?>" class="nowrap">Cantidad
 			    <input class='input-sm input-cantidad' name='cantidad_<?php echo $model->idPremio?>'<?php echo ($model->tipoRedimir != Premio::TIPO_TIENDA)?'readonly':''?> ondrop='return false' onpaste='return false' id='cantidad_<?php echo $model->idPremio?>' value='1'/>
 			</label>

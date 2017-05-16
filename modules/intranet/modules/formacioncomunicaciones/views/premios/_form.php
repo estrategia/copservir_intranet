@@ -20,9 +20,7 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\Cuestionario;
 
     <?= $form->field($model, 'nombrePremio')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'descripcionPremio')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'puntosRedimir')->textInput(['maxlength' => true]) ?>
-	<?= $form->field($model, 'cantidad')->textInput(['maxlength' => true]) ?>
-	<?= $form->field($model, 'tipoRedimir')->widget(Select2::classname(), [
+    <?= $form->field($model, 'tipoRedimir')->widget(Select2::classname(), [
       'data' => \Yii::$app->params['formacioncomunicaciones']['tiposRedimirPremios'],
       'options' => ['placeholder' => 'Selecciona estado ...'],
       'hideSearch' => true,
@@ -30,15 +28,21 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\Cuestionario;
         'allowClear' => true
       ],
     ]); ?>
-    <?= $form->field($model, 'numeroPremios')->textInput(['maxlength' => true]) ?>
-    <?php $cuestionarios = Cuestionario::findAll(['estado' => Cuestionario::ESTADO_ACTIVO]);?>
-    <?php echo $form->field($model, 'idCuestionario')->widget(Select2::classname(), [
-          'data' => ArrayHelper::map($cuestionarios, 'idCuestionario','tituloCuestionario'),
-          'options' => ['placeholder' => 'Selecione ...'],
-          'pluginOptions' => [
-              'allowClear' => true
-          ],
-        ]);?>
+    
+	<?= $form->field($model, 'cantidad')->textInput(['maxlength' => true]) ?>
+	<div id='puntos_redimir'>
+    <?= $form->field($model, 'puntosRedimir')->textInput(['maxlength' => true]) ?>
+    </div>
+    <div id='cuestionario_redimir'>
+	    <?php $cuestionarios = Cuestionario::findAll([]);?>
+	    <?php echo $form->field($model, 'idCuestionario')->widget(Select2::classname(), [
+	          'data' => ArrayHelper::map($cuestionarios, 'idCuestionario','tituloCuestionario'),
+	          'options' => ['placeholder' => 'Selecione ...'],
+	          'pluginOptions' => [
+	              'allowClear' => true
+	          ],
+	        ]);?>
+    </div>
     <?php if ($model->isNewRecord): ?>
         <?= $form->field($model, 'rutaImagen')->widget(FileInput::classname(), [
             'options' => ['accept' => 'image/*'],
