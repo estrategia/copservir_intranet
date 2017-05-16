@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
         		return Html::img(Yii::getAlias('@web').\Yii::$app->params['formacioncomunicaciones']['rutaImagenPremios'].$model->objPremio->rutaImagen ,
         				['width' => '80px']);
         		},
-        	],
+        	], 
         	[
         	'attribute' => 'Premio',
         	'value' => function($model){return $model->objPremio->nombrePremio;},
