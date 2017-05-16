@@ -42,6 +42,7 @@ class IntranetAsset extends AssetBundle {
         'libs/jquery-notifications/css/messenger.css',
         'libs/jquery-notifications/css/messenger-theme-future.css',
         'libs/jquery-notifications/css/messenger-theme-flat.css',
+        'libs/treant-js/Treant.css',
     ];
     public $js = [
         // boostrap
@@ -73,6 +74,9 @@ class IntranetAsset extends AssetBundle {
         'libs/jquery-notifications/js/messenger-theme-future.js',
         'libs/jquery-notifications/js/messenger-theme-flat.js',
 
+        // Organigrama
+        'libs/treant-js/vendor/raphael.js',
+        'libs/treant-js/Treant.js',
 
         //propios
         //'libs/fullcalendar/fullcalendar.js',

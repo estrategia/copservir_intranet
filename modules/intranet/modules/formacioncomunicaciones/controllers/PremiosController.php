@@ -23,16 +23,30 @@ class PremiosController extends Controller
 	 * @inheritdoc
 	 */
 	public function behaviors()
-	{
-		return [
-				'verbs' => [
-						'class' => VerbFilter::className(),
-						'actions' => [
-								'delete' => ['POST'],
-						],
-				],
-		];
-	}
+    {
+        return [
+            [
+                'class' => \app\components\AccessFilter::className(),
+                'redirectUri' => ['/intranet/usuario/autenticar']
+            ],
+
+            [
+                'class' => \app\components\AuthItemFilter::className(),
+                'only' => [
+                    'index', 'crear', 'actualizar', 'detalle', 'cambiar-estado-redencion'
+                ],
+                'authsActions' => [
+                    'index' => 'formacionComunicaciones_premios_admin',
+                    'detalle' => 'formacionComunicaciones_premios_admin',
+                    'crear' => 'formacionComunicaciones_premios_admin',
+                    'actualizar' => 'formacionComunicaciones_premios_admin',
+                    'detalle' => 'formacionComunicaciones_premios_admin',
+                    'cambiar-estado-redencion' => 'formacionComunicaciones_premios_admin'
+                ],
+           ],
+
+        ];
+    }
 
 	/**
 	 * Lists all CategoriasPremios models.

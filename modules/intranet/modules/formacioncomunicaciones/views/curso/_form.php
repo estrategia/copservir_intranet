@@ -66,6 +66,16 @@ $escape = new JsExpression("function(m) {return m; }");
           ]);
       ?>
       
+      <?= $form->field($model, 'tipoCurso')->widget(Select2::classname(), [
+            'data' => ['1' => 'Obligatorio', '0' => 'Opcional'],
+            'options' => ['placeholder' => 'Selecciona estado ...'],
+            'hideSearch' => true,
+            'pluginOptions' => [
+              'allowClear' => true
+            ],
+          ]); 
+      ?>
+
       <?= $form->field($model, 'estadoCurso')->hiddenInput(['value' => 0])->label(false) ?>
 
       <div class="form-group">

@@ -12,6 +12,7 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\Puntos;
  */
 class PuntosSearch extends Puntos
 {
+    public $usuario;
     /**
      * @inheritdoc
      */
@@ -19,7 +20,7 @@ class PuntosSearch extends Puntos
     {
         return [
             [['idPunto', 'numeroDocumento', 'valorPuntos', 'idCuestionario', 'idParametroPunto', 'tipoParametro', 'idTipoContenido', 'condicion', 'idPuntoSincronizado', 'idCurso'], 'integer'],
-            [['descripcionPunto', 'fechaCreacion'], 'safe'],
+            [['descripcionPunto', 'fechaCreacion', 'usuario'], 'safe'],
         ];
     }
 
@@ -44,6 +45,7 @@ class PuntosSearch extends Puntos
         $query = Puntos::find();
 
         // add conditions that should always apply here
+        $query->joinWith(['objUsuarioIntranet']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -71,7 +73,7 @@ class PuntosSearch extends Puntos
             'idPuntoSincronizado' => $this->idPuntoSincronizado,
             'idCurso' => $this->idCurso,
         ]);
-
+        $query->andFilterWhere(['like', 'm_INTRA_Usuario.nombres', $this->usuario]);
         $query->andFilterWhere(['like', 'descripcionPunto', $this->descripcionPunto]);
 
         return $dataProvider;

@@ -46,4 +46,10 @@ class RedencionController extends \yii\web\Controller
         ]);
     }
 
+    public function actionRenderModalTraza($idRedencion)
+    {
+        
+    }
+
+
 }

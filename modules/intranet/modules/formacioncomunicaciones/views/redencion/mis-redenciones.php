@@ -48,10 +48,13 @@ $this->params['breadcrumbs'][] = $this->title;
             [
               'class' => 'yii\grid\ActionColumn',
               'headerOptions'=> ['style'=>'width: 70px;'],
-              'template' => '{detalle}',
+              'template' => '{detalle} {traza}',
               'buttons' => [
                 'detalle' => function ($url, $model) {
                   return  Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url);
+                },
+                'traza' => function ($url, $model) {
+                  return  Html::a('<span class="glyphicon glyphicon-list-alt"></span>', '#', ['data-role'=> 'ver-traza', 'data-']);
                 }
               ],
             ],

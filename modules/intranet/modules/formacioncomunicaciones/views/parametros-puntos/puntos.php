@@ -20,9 +20,15 @@ $this->params['breadcrumbs'][] = $this->title;
     'columns' => [
 
         'idPunto',
-        'numeroDocumento',
+        // 'numeroDocumento',
         'descripcionPunto',
         'valorPuntos',
+        [
+            'attribute' => 'objUsuario',
+            'label' => 'Usuario',
+            'value' => 'objUsuario.nombres',
+            'filter' => Html::activeInput('text', $searchModelPuntos, 'usuario'),
+        ],
         [
             'attribute' => 'tipoParametro',
             'value'  => function ($model)

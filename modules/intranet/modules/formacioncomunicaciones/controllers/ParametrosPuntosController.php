@@ -23,12 +23,27 @@ class ParametrosPuntosController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
+            [
+                'class' => \app\components\AccessFilter::className(),
+                'redirectUri' => ['/intranet/usuario/autenticar']
             ],
+
+            [
+                'class' => \app\components\AuthItemFilter::className(),
+                'only' => [
+                    'index', 'crear', 'actualizar', 'detalle','parametros', 'puntos'
+                ],
+                'authsActions' => [
+                    'index' => 'formacionComunicaciones_parametros-puntos_admin',
+                    'detalle' => 'formacionComunicaciones_parametros-puntos_admin',
+                    'crear' => 'formacionComunicaciones_parametros-puntos_admin',
+                    'actualizar' => 'formacionComunicaciones_parametros-puntos_admin',
+                    'detalle' => 'formacionComunicaciones_parametros-puntos_admin',
+                    'parametros' => 'formacionComunicaciones_parametros-puntos_admin',
+                    'puntos' => 'formacionComunicaciones_parametros-puntos_admin'
+                ],
+           ],
+
         ];
     }
 
@@ -45,10 +60,11 @@ class ParametrosPuntosController extends Controller
     {
         $searchModel = new ParametrosPuntosSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $tiposContenido = ArrayHelper::Map(TipoContenido::find()->where(['estadoTipoContenido' => 1])->asArray()->all(), 'idTipoContenido', 'nombreTipoContenido');
         return $this->render('parametros', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider
+            'dataProvider' => $dataProvider,
+            'tiposContenidos' => $tiposContenido
         ]);
     }
 
@@ -56,10 +72,10 @@ class ParametrosPuntosController extends Controller
     {
         $searchModelPuntos = new PuntosSearch();
         $dataProviderPuntos = $searchModelPuntos->search(Yii::$app->request->queryParams);
-
+        
         return $this->render('puntos', [
             'searchModelPuntos' => $searchModelPuntos,
-            'dataProviderPuntos' => $dataProviderPuntos
+            'dataProviderPuntos' => $dataProviderPuntos,
         ]);
     }
 
@@ -68,9 +84,9 @@ class ParametrosPuntosController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
+    public function actionDetalle($id)
     {
-        return $this->render('view', [
+        return $this->render('detalle', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -80,14 +96,14 @@ class ParametrosPuntosController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCrear()
     {
         $model = new ParametrosPuntos();
         $tiposContenido = ArrayHelper::Map(TipoContenido::find()->where(['estadoTipoContenido' => 1])->asArray()->all(), 'idTipoContenido', 'nombreTipoContenido');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idParametroPunto]);
         } else {
-            return $this->render('create', [
+            return $this->render('crear', [
                 'model' => $model,
                 'tiposContenido' => $tiposContenido
             ]);
@@ -100,31 +116,18 @@ class ParametrosPuntosController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionActualizar($id)
     {
         $model = $this->findModel($id);
         $tiposContenido = ArrayHelper::Map(TipoContenido::find()->where(['estadoTipoContenido' => 1])->asArray()->all(), 'idTipoContenido', 'nombreTipoContenido');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idParametroPunto]);
         } else {
-            return $this->render('update', [
+            return $this->render('actualizar', [
                 'model' => $model,
                 'tiposContenido' => $tiposContenido
             ]);
         }
-    }
-
-    /**
-     * Deletes an existing ParametrosPuntos model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**

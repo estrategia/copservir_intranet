@@ -18,6 +18,7 @@ $config = [
         //'defaultRoles' => ['usuario'],
         ],
         'assetManager' => [
+            'forceCopy' => true,
             'bundles' => [
                 /* 'yii\web\JqueryAsset' => [
                   'js' => []

@@ -50,6 +50,7 @@ use vova07\imperavi\Widget;
     <div class="row">
       <div class="col-md-12">
         <?= $form->field($model, 'contenido')->widget(Widget::className(), [
+            'id' => 'redactor',
             'settings' => [
               'replaceDivs' => false,
               'lang' => 'es',
@@ -58,6 +59,7 @@ use vova07\imperavi\Widget;
               'fileUpload' => Url::toRoute('contenido/cargar-archivo'),
               'plugins' => [
                 'imagemanager',
+                'localvideo' => 'localvideo',
               ],
               'fileManagerJson' => Url::to(['sitio/files-get']),
             ]

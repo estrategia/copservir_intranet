@@ -35,7 +35,7 @@ return [
         ],
         'archivo' => [
             'tamanho' => 5,
-            'formatosValidos' => 'jpg,jpeg,png,pdf'
+            'formatosValidos' => 'jpg,jpeg,png,pdf,mp4'
         ],
         'imagenAdmin' => [
             'ancho' => 1920,//pixeles
@@ -45,7 +45,7 @@ return [
         ],
         'archivoAdmin' => [
             'tamanho' => 6,
-            'formatosValidos' => 'jpg,jpeg,png,pdf'
+            'formatosValidos' => 'jpg,jpeg,png,pdf,mp4'
         ],
         
     ],
@@ -80,11 +80,11 @@ return [
         'visitaMedica' => ['codigo' => 3, 'permiso' => ''],
 
     ],
+    'organigrama' => 'organigrama',
     'webServices' => [
         'codigoSeguridad' => 'CopservirLaMejorEmpresaParaTrabajar2016',
         'tarjetaMas' => 'http://siidesarrollo.copservir.com/tarjetamas/WsTarjetaMas/ws',
         //'tarjetaMas' => 'http://sii.copservir.com/tarjetamas/WsTarjetaMas/ws',
-
         'persona' => 'http://192.168.1.22/copservir/wsMultiportal/persona',
 
         //'persona' => 'http://sii.copservir.com/gestionhumana/wsMultiportal/persona',
@@ -102,6 +102,7 @@ return [
         'productos' => [
             'terceros' => 'http://localhost/siicop/productos/sweb/terceros',
         ],
+        'organigrama' => 'http://sii.copservir.com/gestionhumana/api/view/id',
     ],
     'usuario' => [
       'tiempoRecuperarClave' => 1 // dias

@@ -78,4 +78,9 @@ class ParametrosPuntos extends \yii\db\ActiveRecord
     {
         return $this->hasMany(TFORCOPuntos::className(), ['idParametroPunto' => 'idParametroPunto']);
     }
+
+    public function getObjTipoContenido()
+    {
+        return $this->hasOne(TipoContenido::className(), ['idTipoContenido' => 'idTipoContenido']);
+    }
 }
