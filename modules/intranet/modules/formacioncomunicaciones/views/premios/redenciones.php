@@ -45,16 +45,20 @@ $this->params['breadcrumbs'][] = $this->title;
         			'data' => ArrayHelper::map($premios, 'idPremio','descripcionPremio'),
         			'options' => [
         					'placeholder' => 'Seleccione...',
-        			]
+        			],
+        			
         	]),
         	],
-            'numeroDocumento',
+            [ 'label' => 'numeroDocumento',
+              'format' => 'html',
+              'value' => function($model){return Html::a($model->numeroDocumento,["/intranet/usuario/ver",'documento' => $model->numeroDocumento],['target' => '_blank']);}
+            ],
         	[
         		'label' => 'Nombre Completo',
         		'format' => 'html',
-        		'value' => function($model){return  "<a href=''>".$model->objUsuario->objUsuarioIntranet->nombres." ".
+        		'value' => function($model){return  Html::a($model->objUsuario->objUsuarioIntranet->nombres." ".
         											$model->objUsuario->objUsuarioIntranet->primerApellido." ".
-        											$model->objUsuario->objUsuarioIntranet->segundoApellido."</a>";},
+        											$model->objUsuario->objUsuarioIntranet->segundoApellido,["/intranet/usuario/ver",'documento' => $model->numeroDocumento],['target' => '_blank']);},
         		'filter' => Select2::widget([
         						'name' => 'UsuariosPremios[numeroDocumento]',
         						'data' => ArrayHelper::map(UsuariosPremios::obtenerUsuarios(), 'numeroDocumento',function($obj){return $obj->nombres." ".$obj->primerApellido." ".
@@ -105,6 +109,7 @@ $this->params['breadcrumbs'][] = $this->title;
     
     <div class='row'>
     	<div class='col-md-3'>
+    		<label class="control-label" >Fecha estimada de entrega:</label>
     		<?php echo DatePicker::widget([
 			    'name'  => 'fecha_entrega',
     			'id'  => 'fecha_entrega',
@@ -114,6 +119,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			]);?>
     	</div>
     	<div class='col-md-6'>
+    		<label class="control-label" >Observaciones:</label>
     		<?php echo Html::textarea('observacion',null,['id' => 'observacion','class' =>'form-control']);?>
     	</div>
     	<div class='col-md-3'>
