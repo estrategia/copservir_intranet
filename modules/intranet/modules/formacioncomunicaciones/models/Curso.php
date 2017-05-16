@@ -3,6 +3,7 @@
 namespace app\modules\intranet\modules\formacioncomunicaciones\models;
 
 use Yii;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "m_FORCO_Curso".
@@ -40,6 +41,7 @@ class Curso extends \yii\db\ActiveRecord
             [['fechaCreacion', 'fechaActualizacion', 'fechaInicio', 'fechaFin'], 'safe'],
             [['nombreCurso'], 'string', 'max' => 45],
             [['presentacionCurso'], 'string', 'max' => 250],
+            [['rutaImagen'], 'string', 'max' => 100],
             [['estadoCurso', 'idTipoContenido', 'nombreCurso', 'presentacionCurso', 'fechaInicio', 'tipoCurso'], 'required'],
             [['cursoGruposInteres'], 'required', 'on' => 'crud']
         ];
@@ -245,6 +247,18 @@ class Curso extends \yii\db\ActiveRecord
         $puntos->idTipoContenido = $tipoContenido->idTipoContenido;
         $puntos->idCurso = $this->idCurso;
         $puntos->save();
+    }
+
+    public function guardarImagen($rutaAnterior)
+    {
+        $imagen = UploadedFile::getInstance($this, 'rutaImagen'); // si no selecciona nada pone null
+        if (!is_null($imagen)) {
+            $nombre = time() . '_.' . $imagen->extension;
+            $imagen->saveAs('img/formacioncomunicaciones/cursos/'. $nombre);
+            $this->rutaImagen = $nombre;
+        }else{
+            $this->rutaImagen = $rutaAnterior;
+        }
     }
 
     public function getCuestionario()

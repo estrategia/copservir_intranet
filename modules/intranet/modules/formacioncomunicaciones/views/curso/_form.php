@@ -3,8 +3,10 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
+use kartik\file\FileInput;
 use kartik\select2\Select2;
 use yii\web\JsExpression;
+
 
 $format = <<< SCRIPT
 function formatSelect(state) {
@@ -24,11 +26,43 @@ $escape = new JsExpression("function(m) {return m; }");
 
 <div class="curso-form">
       
-      <?php $form = ActiveForm::begin(); ?>
-
+      <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+      
       <?= $form->field($model, 'nombreCurso')->textInput(['maxlength' => true]) ?>
 
       <?= $form->field($model, 'presentacionCurso')->textInput(['maxlength' => true]) ?>
+
+      <?php if ($model->isNewRecord): ?>
+        <?= $form->field($model, 'rutaImagen')->widget(FileInput::classname(), [
+            'options' => ['accept' => 'image/*'],
+              'pluginOptions' => [
+                'maxFileSize' => 1024,
+                'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
+                'showPreview' => true,
+                'showCaption' => true,
+                'showRemove' => true,
+                'showUpload' => false,
+              ]
+            ])->label('Imagen');
+        ?>
+    <?php else: ?>
+        <?= $form->field($model, 'rutaImagen')->widget(FileInput::classname(), [
+            'options' => ['accept' => 'image/*'],
+            'pluginOptions' => [
+                'initialPreview'=>[
+                  '<img src="'.Yii::getAlias('@web').'/img/formacioncomunicaciones/cursos/'. $model->rutaImagen.'" class="img-responsive"
+                    />'
+                ],
+                'maxFileSize' => 1024,
+                'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
+                'showPreview' => true,
+                'showCaption' => true,
+                'showRemove' => true,
+                'showUpload' => false,
+            ]
+        ])->label('Imagen'); ?>
+
+    <?php endif ?>
 
       <?= $form->field($model, 'cursoGruposInteres')->widget(Select2::classname(),[
         'data' => $objCursoGruposInteres->getDatosSelectGruposInteres()['data'],

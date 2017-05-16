@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Puntos'];
         				return $model->objTipoContenido->nombreTipoContenido;
         		}
         	],
-            'valorPuntos',
+          'valorPuntos',
         	'valorPuntosExtra',
             'condicion',
             [
