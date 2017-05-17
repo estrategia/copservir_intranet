@@ -65,5 +65,48 @@ class PersonaForm extends Model {
     }
 
   }
+  
+  public function guardar(){
+  	$usuario = UsuarioSearch::find()->where(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento])->one();
+  	$usuario->alias = Yii::$app->request->post()['PersonaForm']['alias'];
+  	
+  	if ($usuario->save()) {
+  		if ($this->actualizarPersonaWS()) {
+  			return true;
+  		}else{
+  			$this->addError("alias","Error al guardar informacion de usuario");
+  		}
+  	}else{
+  		$this->addError("alias","Error al guardar alias");
+  	}
+  	
+  	return false;
+  }
+  
+  /**
+   * Funcion para actualizar la informacion de un usuario a traves de un web services
+   * @param string $request
+   * @return array['result'],
+   */
+  private function actualizarPersonaWS() {
+  	$client = new \SoapClient(\Yii::$app->params['webServices']['persona'], array(
+  			"trace" => 1,
+  			"exceptions" => 0,
+  			'connection_timeout' => 5,
+  			'cache_wsdl' => WSDL_CACHE_NONE
+  	));
+  	
+  	try {
+  		$result = $client->actualizarPersona($this->attributes);
+  		return $result;
+  	} catch (SoapFault $ex) {
+  		Yii::error($ex->getMessage());
+  	} catch (Exception $ex) {
+  		Yii::error($ex->getMessage());
+  	}
+  	
+  	return false;
+  }
+  
 
 }

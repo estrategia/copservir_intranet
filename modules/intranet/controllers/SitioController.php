@@ -1063,7 +1063,8 @@ class SitioController extends \app\controllers\CController {
 
         if (Yii::$app->request->isAjax) {
             if ($modelContenido->load(Yii::$app->request->post())) {
-                $transaction = Contenido::getDb()->beginTransaction();
+            	\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            	$transaction = \Yii::$app->db->beginTransaction();
                 try {
                     $modelContenido->idLineaTiempo = \Yii::$app->params['lineasTiempo']['aniversario'];
                     $lineaTiempo = LineaTiempo::encontrarModelo($modelContenido->idLineaTiempo);
@@ -1072,41 +1073,45 @@ class SitioController extends \app\controllers\CController {
                     if (!empty($_FILES['imagenes'])) {
                         $modelContenido->imagenes = $_FILES['imagenes'];
                     }
-                    $modelContenido->fechaPublicacion = Date("Y-m-d H:i:s");
+                    $modelContenido->fechaPublicacion = date("Y-m-d H:i:s");
                     $modelContenido->setEstadoDependiendoAprobacion($lineaTiempo);
                     $modelContenido->titulo = "Felicitaciones $modelCumpleanosLaboral->nombre";
 
                     if ($modelContenido->save()) {
                         $modelContenido->guardarImagenes();
                         $modelContenido->guardarContenidoDestino($modelCumpleanosLaboral->obtenerDestinos(true));
-                        //$contenidoRecomendacion = new ContenidoRecomendacion();
-                        //$contenidoRecomendacion->guardarContenidoRecomendacion($modelContenido->idContenido, $modelCumpleanosLaboral->numeroDocumento);
                         $this->generarNotificacionFelicitacion($modelContenido->idContenido, $modelCumpleanosLaboral->numeroDocumento);
 
                         $transaction->commit();
-                        $respond = [
+                        return [
                             'result' => 'ok',
-                            'response' => $this->renderAjax('/cumpleanos/felicitarAniversario', [
-                                'modelCumpleanosLaboral' => $modelCumpleanosLaboral,
-                                'modelContenido' => new Contenido,
-                            ])
+                        	'response' => [['alert'=> 'success', 'text'=> 'Felicitaci&oacute;n de aniversario enviada']]
                         ];
-                        Yii::$app->session->setFlash('success', 'Enviaste un saludo por su aniversario');
-                        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-                        return $respond;
+                    }else{
+                    	return [
+                    		'result' => 'error',
+                    		'response' => [['alert'=> 'error', 'text'=> 'Datos inv&aacute;lidos']],
+                    		'validation' => \yii\bootstrap\ActiveForm::validate($modelContenido),
+                    	];
                     }
                 } catch (\Exception $e) {
-
                     $transaction->rollBack();
-                    Yii::$app->session->setFlash('error', $e->getMessage());
-                    throw $e;
+                    return [
+                    	'result' => 'error',
+                    	'response' => [['alert'=> 'error', 'text'=> $e->getMessage()]]
+                    ];
                 }
+            }else{
+            	return [
+            		'result' => 'ok',
+            		'response' => [['alert'=> 'error', 'text'=> 'Datos no ingresados']]
+            	];
             }
-        }//
+        }
 
         return $this->render('/cumpleanos/felicitarAniversario', [
-                    'modelCumpleanosLaboral' => $modelCumpleanosLaboral,
-                    'modelContenido' => $modelContenido
+      		'modelCumpleanosLaboral' => $modelCumpleanosLaboral,
+   			'modelContenido' => $modelContenido
         ]);
     }
 
@@ -1119,8 +1124,9 @@ class SitioController extends \app\controllers\CController {
         $modelContenido = new Contenido;
 
         if (Yii::$app->request->isAjax) {
+        	\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             if ($modelContenido->load(Yii::$app->request->post())) {
-                $transaction = Contenido::getDb()->beginTransaction();
+            	$transaction = \Yii::$app->db->beginTransaction(); 
                 try {
                     $modelContenido->idLineaTiempo = \Yii::$app->params['lineasTiempo']['cumpleanios'];
                     $lineaTiempo = LineaTiempo::encontrarModelo($modelContenido->idLineaTiempo);
@@ -1129,41 +1135,45 @@ class SitioController extends \app\controllers\CController {
                     if (!empty($_FILES['imagenes'])) {
                         $modelContenido->imagenes = $_FILES['imagenes'];
                     }
-                    $modelContenido->fechaPublicacion = Date("Y-m-d H:i:s");
+                    $modelContenido->fechaPublicacion = date("Y-m-d H:i:s");
                     $modelContenido->setEstadoDependiendoAprobacion($lineaTiempo);
                     $modelContenido->titulo = "Felicitaciones $modelCumpleanosPersona->nombre";
 
                     if ($modelContenido->save()) {
                         $modelContenido->guardarImagenes();
                         $modelContenido->guardarContenidoDestino($modelCumpleanosPersona->obtenerDestinos(true));
-                        //$contenidoRecomendacion = new ContenidoRecomendacion();
-                        //$contenidoRecomendacion->guardarContenidoRecomendacion($modelContenido->idContenido, $modelCumpleanosPersona->numeroDocumento);
                         $this->generarNotificacionFelicitacion($modelContenido->idContenido, $modelCumpleanosPersona->numeroDocumento);
-
+                        
                         $transaction->commit();
-                        $respond = [
+                        return [
                             'result' => 'ok',
-                            'response' => $this->renderAjax('/cumpleanos/felicitarCumpleanos', [
-                                'modelCumpleanosPersona' => $modelCumpleanosPersona,
-                                'modelContenido' => new Contenido,
-                            ])
+                        	'response' => [['alert'=> 'success', 'text'=> 'Felicitaci&oacute;n de cumplea&ntilde;os enviada']]
                         ];
-                        Yii::$app->session->setFlash('success', 'Enviaste un saludo por su cumpleaños');
-                        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-                        return $respond;
+                    }else{
+                    	return [
+                    		'result' => 'error',
+                    		'response' => [['alert'=> 'error', 'text'=> 'Datos inv&aacute;lidos']],
+                    		'validation' => \yii\bootstrap\ActiveForm::validate($modelContenido),
+                    	];
                     }
                 } catch (\Exception $e) {
-
                     $transaction->rollBack();
-                    Yii::$app->session->setFlash('error', $e->getMessage());
-                    throw $e;
+                    return [
+                    	'result' => 'error',
+                    	'response' => [['alert'=> 'error', 'text'=> $e->getMessage()]]
+                    ];
                 }
+            }else{
+            	return [
+            		'result' => 'ok',
+            		'response' => [['alert'=> 'error', 'text'=> 'Datos no ingresados']]
+            	];
             }
         }
 
         return $this->render('/cumpleanos/felicitarCumpleanos', [
-                    'modelCumpleanosPersona' => $modelCumpleanosPersona,
-                    'modelContenido' => $modelContenido
+     		'modelCumpleanosPersona' => $modelCumpleanosPersona,
+			'modelContenido' => $modelContenido
         ]);
     }
 

@@ -10,7 +10,8 @@
   $this->params['breadcrumbs'][] = $this->title;
  ?>
 
-<div class="col-md-12 center-block" id="felicitar">
+<div class="col-md-12 center-block" id="div-felicitar">
+  <div id="div-felicitar-alert"></div>
   <div class="grid simple horizontal green">
     <div class="grid-title  center-block">
       <h4 class="text-truncate-hover" style="width: 100%">
@@ -26,8 +27,7 @@
       </div>
 
       <div class="col-md-6" style="border-left: 1px solid #eee;">
-        <?php $form = ActiveForm::begin(['id'=>'formAniversario' , 'options'=>['encytype'=>'multipart/form-data']]); ?>
-
+        <?php $form = ActiveForm::begin(['id'=>'form-aniversario' , 'options'=>['encytype'=>'multipart/form-data']]); ?>
         <?php
         echo $form->field($modelContenido, 'contenido')->widget(Widget::className(), [
           'settings' => [
@@ -39,10 +39,10 @@
 
           ]
           ])->label(false);
-          ?>
+        ?>
 
-          <?php
-          echo FileInput::widget([
+        <?php
+        echo FileInput::widget([
             'name'=> 'imagen[]',
             'id' => 'contenido-imagenes',
             'options' => ['multiple' => true, 'accept' => 'image/*'],
@@ -69,13 +69,13 @@
               ],
             ],
             'pluginLoading' => false,
-      ]);
-          ?>
+        ]);
+        ?>
 
           <?= Html::hiddenInput("numeroDocumentoDirigido", $modelCumpleanosLaboral->numeroDocumento, []); ?>
         <br>
         <div class="form-group">
-          <?= Html::submitButton('enviar', ['class' =>'btn btn-primary', 'data-role'=>'felicitaAniversario', 'data-aniversario'=>$modelCumpleanosLaboral->idCumpleanosLaboral]) ?>
+          <?= Html::submitButton('enviar', ['class' =>'btn btn-primary', 'data-role'=>'felicitar-aniversario', 'data-aniversario'=>$modelCumpleanosLaboral->idCumpleanosLaboral]) ?>
         </div>
         <?php ActiveForm::end(); ?>
 
