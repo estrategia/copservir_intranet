@@ -12,11 +12,14 @@ use yii\widgets\ActiveForm;
 
     
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+    <div class="row">
+      <div class="col-md-3">
+        <?= $form->field($model, 'archivo')->fileInput()->label(false); ?>
+      </div>
 
-    <?= $form->field($model, 'archivo')->fileInput(); ?>
-
-    <div class="form-group">
+      <div class="col-md-4">
         <?= Html::submitButton('Cargar', ['class' => 'btn btn-primary']) ?>
+      </div>  
     </div>
 
     <?php ActiveForm::end(); ?>
