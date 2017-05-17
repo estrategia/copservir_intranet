@@ -254,7 +254,7 @@ class Curso extends \yii\db\ActiveRecord
         $imagen = UploadedFile::getInstance($this, 'rutaImagen'); // si no selecciona nada pone null
         if (!is_null($imagen)) {
             $nombre = time() . '_.' . $imagen->extension;
-            $imagen->saveAs('img/formacioncomunicaciones/cursos/'. $nombre);
+            $imagen->saveAs(Yii::getAlias('@webroot') . Yii::$app->params['formacioncomunicaciones']['rutaImagenCursos'] . $nombre);
             $this->rutaImagen = $nombre;
         }else{
             $this->rutaImagen = $rutaAnterior;

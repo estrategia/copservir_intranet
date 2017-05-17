@@ -192,7 +192,12 @@ return [
 					'1' => 'Puntos', 
 					'2' =>'Primeros en terminar el curso'
 		],
-		'rutaImagenPremios' => '/img/formacioncomunicaciones/premios/',
+        'rutaImagenPremios' => '/formacioncomunicaciones/premios/',
+        'rutaImagenCategorias' => '/formacioncomunicaciones/categorias/',
+        'rutaImagenCursos' => '/formacioncomunicaciones/cursos/',
+		'rutaContenidosImagenes' => '/img/formacioncomunicaciones/contenidos/imagenes/',
+        'rutaContenidosArchivos' => '/formacioncomunicaciones/contenidos/archivos/',
+        'rutaContenidosPaquetes' => '/formacioncomunicaciones/contenidos/paquetes/',
 		'estadosPremios' => [
 					'1' => 'Solicitado',
 					'2' => 'Aprobado',

@@ -37,8 +37,7 @@ use kartik\select2\Select2;
             'options' => ['accept' => 'image/*'],
             'pluginOptions' => [
                 'initialPreview'=>[
-                  '<img src="'.Yii::getAlias('@web').'/img/formacioncomunicaciones/categorias/'. $model->rutaIcono.'" class="img-responsive"
-                    />'
+                  '<img src="'.Yii::getAlias('@web') . Yii::$app->params['formacioncomunicaciones']['rutaImagenCategorias'] . $model->rutaIcono.'" class="img-responsive"/>'
                 ],
                 'maxFileSize' => 1024,
                 'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',

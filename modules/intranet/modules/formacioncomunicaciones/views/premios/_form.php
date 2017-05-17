@@ -61,7 +61,7 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\Cuestionario;
             'options' => ['accept' => 'image/*'],
             'pluginOptions' => [
                 'initialPreview'=>[
-                  '<img src="'.Yii::getAlias('@web').'/img/formacioncomunicaciones/premios/'. $model->rutaImagen.'" class="img-responsive"
+                  '<img src="'.Yii::getAlias('@web') . Yii::$app->params['formacioncomunicaciones']['rutaImagenPremios'] . $model->rutaImagen.'" class="img-responsive"
                     />'
                 ],
                 'maxFileSize' => 1024,

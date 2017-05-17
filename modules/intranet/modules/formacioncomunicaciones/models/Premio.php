@@ -90,13 +90,13 @@ class Premio extends \yii\db\ActiveRecord
     	$imagen = UploadedFile::getInstance($this, 'rutaImagen'); // si no selecciona nada pone null
     	if (!is_null($imagen)) {
     		$nombre = time() . '_.' . $imagen->extension;
-    		$imagen->saveAs('img/formacioncomunicaciones/premios/'. $nombre);
+    		$imagen->saveAs(Yii::getAlias('@webroot') . Yii::$app->params['formacioncomunicaciones']['rutaImagenPremios'] . $nombre);
     		$this->rutaImagen = $nombre;
     	}else{
     		$this->rutaImagen = $rutaAnterior;
     	}
     }
-    
+
     public static function traerPremiosCategoria($idCategoria) {
     
     	$fecha = new \DateTime;

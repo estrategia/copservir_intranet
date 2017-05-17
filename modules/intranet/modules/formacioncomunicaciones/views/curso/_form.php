@@ -50,7 +50,7 @@ $escape = new JsExpression("function(m) {return m; }");
             'options' => ['accept' => 'image/*'],
             'pluginOptions' => [
                 'initialPreview'=>[
-                  '<img src="'.Yii::getAlias('@web').'/img/formacioncomunicaciones/cursos/'. $model->rutaImagen.'" class="img-responsive"
+                  '<img src="'.Yii::getAlias('@web') . Yii::$app->params['formacioncomunicaciones']['rutaImagenCursos'] . $model->rutaImagen.'" class="img-responsive"
                     />'
                 ],
                 'maxFileSize' => 1024,
