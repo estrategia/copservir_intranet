@@ -199,6 +199,7 @@ return [
 					'3' => 'Cancelado',
 					//'4' => 'Enviado',
 			],
+        'directorioCargues' => '/uploads/formacioncomunicaciones/',
 		'session' => [
 				'filtrosPremios' => 'intranet.formacioncomunicaciones.premios.redenciones'
 		]	
