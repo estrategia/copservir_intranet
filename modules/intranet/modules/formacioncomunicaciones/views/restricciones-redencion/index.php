@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <div class="alert alert-info" role="alert">Descarga plantilla de ejemplo <a href="<?= Yii::$app->homeUrl . "plantillas-cargue/formacioncomunicaciones/plantilla_cargue_restricciones_redencion.xlsx" ?>" download=""><u>Aqui</u></a></div>
     <?= $this->render('_formCargue', ['model' => $modeloCargue]) ?>
     
     <p>
