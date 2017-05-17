@@ -4,7 +4,7 @@ use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Pregunta;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Cuestionario;
-$src = Yii::$app->homeUrl . 'img/formacioncomunicaciones/';
+$src = Yii::$app->homeUrl . 'img/formacioncomunicaciones/assets';
 
 
 
