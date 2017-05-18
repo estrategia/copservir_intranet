@@ -195,7 +195,7 @@ return [
         'rutaImagenPremios' => '/formacioncomunicaciones/premios/',
         'rutaImagenCategorias' => '/formacioncomunicaciones/categorias/',
         'rutaImagenCursos' => '/formacioncomunicaciones/cursos/',
-		'rutaContenidosImagenes' => '/img/formacioncomunicaciones/contenidos/imagenes/',
+		'rutaContenidosImagenes' => '/formacioncomunicaciones/contenidos/imagenes/',
         'rutaContenidosArchivos' => '/formacioncomunicaciones/contenidos/archivos/',
         'rutaContenidosPaquetes' => '/formacioncomunicaciones/contenidos/paquetes/',
 		'estadosPremios' => [

@@ -174,6 +174,42 @@ class ContenidoController extends Controller
         return $this->render('contenido', ['model' => $model, 'calificacionModel' => $calificacionModel, 'searchModelCalificacion' => $searchModelCalificacion, 'dataProviderCalificacion' => $dataProviderCalificacion, 'datos' => $model->resumenCalificaciones()]);
     }
 
+    public function actionCargarPaquete()
+    {   
+        $response = [];
+        $modelId = $_POST['modelId'];
+        $rutaArchivo = Yii::getAlias('@webroot') . Yii::$app->params['formacioncomunicaciones']['rutaContenidosPaquetes'] . "{$modelId}/";
+        $nombreArchivo = $rutaArchivo . "{$modelId}.zip";
+        $iframeSrc = Yii::getAlias('@web') . Yii::$app->params['formacioncomunicaciones']['rutaContenidosPaquetes'] . "{$modelId}/" . "index.html";
+
+        if (!is_dir($rutaArchivo)) {
+            mkdir($rutaArchivo);
+        }
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        $archivoMovido = move_uploaded_file(
+            $_FILES['paqueteContenido']['tmp_name'],
+            $nombreArchivo
+        );
+
+        if (!$archivoMovido) {
+            $response = ['error', 'no se ha podido guardar el archivo'];
+            return $response;
+        }
+
+        $zip = new \ZipArchive;
+        $res = $zip->open($nombreArchivo);
+        if ($res !== true) {
+            $response = ['error', 'no se ha podido descomprimir el archivo'];
+        }
+        $zip->extractTo($rutaArchivo);
+        $zip->close();
+
+        $response = ['result' => 'ok', 'response' => ['iframeSrc' => $iframeSrc]];
+        return $response;
+    }
+
     public function actionMarcarLeido($id)
     {
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;

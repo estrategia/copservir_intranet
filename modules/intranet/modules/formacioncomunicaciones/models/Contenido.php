@@ -185,4 +185,9 @@ class Contenido extends \yii\db\ActiveRecord
         $datos['promedio'] = $promedio;
         return $datos;
     }
+
+    public function cargarPaquete()
+    {
+        return $_FILES;
+    }
 }
