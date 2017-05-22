@@ -6,6 +6,9 @@ return [
         'formacioncomunicaciones' => [
             'class' => 'app\modules\intranet\modules\formacioncomunicaciones\FormacionComunicacionesModule',
         ],
+        'sascop' => [
+            'class' => 'app\modules\intranet\modules\sascop\SascopModule',
+        ],
       ],
   ],
   'proveedores' => [
