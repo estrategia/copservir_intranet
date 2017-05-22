@@ -35,12 +35,12 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\Premio;
 		        	</a>
 		        	<?php else:?>
 		        		<a href='<?php echo Url::to(['curso/visualizar-curso', 'id' => $model->objCuestionario->idCurso])?>' >
-	        			<?= Html::img(Yii::getAlias('@web').'/img/formacioncomunicaciones/assets/redimir.png', ['class' => 'redimir']) ?>
+	        			<?= Html::img(Yii::getAlias('@web').'/img/formacioncomunicaciones/assets/ver_curso.png', ['class' => 'redimir']) ?>
 	        			</a>
 		        	<?php endif;?>
 	        	<?php endif;?>
 	        <?php else:?>
-	        	<?= Html::img(Yii::getAlias('@web').'/img/formacioncomunicaciones/assets/redimir.png', ['class' => 'redimir']) ?>
+	        	<?= Html::img(Yii::getAlias('@web').'/img/formacioncomunicaciones/assets/no_redimir.png', ['class' => 'redimir']) ?>
 	        <?php endif;?>
 		</div>
 	</div>
