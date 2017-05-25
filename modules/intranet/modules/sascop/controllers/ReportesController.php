@@ -63,6 +63,17 @@ class ReportesController extends Controller
         return $this->render('cuotas-fondo-mutuo', ['datos' => $datos['response']]);
     }
 
+    public function actionFinanciero()
+    {
+        $url = Yii::$app->params['webServices']['sascop']['reportes'] . 'financiero';
+        $parametros = [
+            'numeroDocumento' => Yii::$app->user->identity->numeroDocumento,
+            // 'numeroDocumento' => 10002383,
+        ];
+        $datos = $this->consultarWebService($url, $parametros);
+        return $this->render('financiero', ['datosReporte' => $datos['response']]);
+    }
+
     private function consultarWebService($url, $parametros, $metodo='get')
     {
         $client = new Client();
