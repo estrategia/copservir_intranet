@@ -22,9 +22,8 @@
             'maxButtonCount' => Yii::$app->params['limiteBotonesPaginador'],  
           ],
           'layout' => "{summary}\n{items}\n<center>{pager}</center>",
-          'itemView' => function ($model, $var, $index, $widget) {
-            return $this->render('_premio', ['model' => $model]);
-          },
+          'itemView' => '_premio',
+          'viewParams' => ['restriccion' => $restriccion],
           'itemOptions' => [
             'tag' => false,
           ],

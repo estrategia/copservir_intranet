@@ -79,7 +79,7 @@ class CategoriasPremios extends \yii\db\ActiveRecord
         $imagen = UploadedFile::getInstance($this, 'rutaIcono'); // si no selecciona nada pone null
         if (!is_null($imagen)) {
             $nombre = time() . '_.' . $imagen->extension;
-            $imagen->saveAs('img/formacioncomunicaciones/categorias/'. $nombre);
+            $imagen->saveAs(Yii::getAlias('@webroot') . Yii::$app->params['formacioncomunicaciones']['rutaImagenCategorias'] . $nombre);
             $this->rutaIcono = $nombre;
         }else{
             $this->rutaIcono = $rutaAnterior;

@@ -103,6 +103,9 @@ return [
             'terceros' => 'http://localhost/siicop/productos/sweb/terceros',
         ],
         'organigrama' => 'http://sii.copservir.com/gestionhumana/api/view/id',
+        'sascop' => [
+            'reportes' => 'http://localhost/siicop/sascop/restReportes/',
+        ]
     ],
     'usuario' => [
       'tiempoRecuperarClave' => 1 // dias
@@ -192,13 +195,19 @@ return [
 					'1' => 'Puntos', 
 					'2' =>'Primeros en terminar el curso'
 		],
-		'rutaImagenPremios' => '/img/formacioncomunicaciones/premios/',
+        'rutaImagenPremios' => '/formacioncomunicaciones/premios/',
+        'rutaImagenCategorias' => '/formacioncomunicaciones/categorias/',
+        'rutaImagenCursos' => '/formacioncomunicaciones/cursos/',
+		'rutaContenidosImagenes' => '/formacioncomunicaciones/contenidos/imagenes/',
+        'rutaContenidosArchivos' => '/formacioncomunicaciones/contenidos/archivos/',
+        'rutaContenidosPaquetes' => '/formacioncomunicaciones/contenidos/paquetes/',
 		'estadosPremios' => [
 					'1' => 'Solicitado',
 					'2' => 'Aprobado',
 					'3' => 'Cancelado',
 					//'4' => 'Enviado',
 			],
+        'directorioCargues' => '/uploads/formacioncomunicaciones/',
 		'session' => [
 				'filtrosPremios' => 'intranet.formacioncomunicaciones.premios.redenciones'
 		]	

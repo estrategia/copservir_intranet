@@ -23,21 +23,25 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\Premio;
 			<label for="cantidad_<?php echo $model->idPremio?>" class="nowrap">Cantidad
 			    <input class='input-sm input-cantidad' name='cantidad_<?php echo $model->idPremio?>'<?php echo ($model->tipoRedimir != Premio::TIPO_TIENDA)?'readonly':''?> ondrop='return false' onpaste='return false' id='cantidad_<?php echo $model->idPremio?>' value='1'/>
 			</label>
-			<?php if($model->tipoRedimir == Premio::TIPO_TIENDA):?>
-	        	<a href='#' data-role='redimir-premio' data-premio='<?php echo $model->idPremio?>'>
-	        		<?= Html::img(Yii::getAlias('@web').'/img/formacioncomunicaciones/assets/redimir.png', ['class' => 'redimir']) ?>
-	        	</a> 
-        	<?php else:?>
-        		<?php if($model->objCuestionario->cuestionarioAprobado()):?>
-        		<a href='#' data-role='redimir-premio' data-premio='<?php echo $model->idPremio?>'>
-	        		<?= Html::img(Yii::getAlias('@web').'/img/formacioncomunicaciones/assets/redimir.png', ['class' => 'redimir']) ?>
-	        	</a>
+			<?php if(!$restriccion):?>
+				<?php if($model->tipoRedimir == Premio::TIPO_TIENDA):?>
+		        	<a href='#' data-role='redimir-premio' data-premio='<?php echo $model->idPremio?>'>
+		        		<?= Html::img(Yii::getAlias('@web').'/img/formacioncomunicaciones/assets/redimir.png', ['class' => 'redimir']) ?>
+		        	</a> 
 	        	<?php else:?>
-	        		<a href='<?php echo Url::to(['curso/visualizar-curso', 'id' => $model->objCuestionario->idCurso])?>' >
-        			<?= Html::img(Yii::getAlias('@web').'/img/formacioncomunicaciones/assets/redimir.png', ['class' => 'redimir']) ?>
-        			</a>
+	        		<?php if($model->objCuestionario->cuestionarioAprobado()):?>
+	        		<a href='#' data-role='redimir-premio' data-premio='<?php echo $model->idPremio?>'>
+		        		<?= Html::img(Yii::getAlias('@web').'/img/formacioncomunicaciones/assets/redimir.png', ['class' => 'redimir']) ?>
+		        	</a>
+		        	<?php else:?>
+		        		<a href='<?php echo Url::to(['curso/visualizar-curso', 'id' => $model->objCuestionario->idCurso])?>' >
+	        			<?= Html::img(Yii::getAlias('@web').'/img/formacioncomunicaciones/assets/ver_curso.png', ['class' => 'redimir']) ?>
+	        			</a>
+		        	<?php endif;?>
 	        	<?php endif;?>
-        	<?php endif;?>
+	        <?php else:?>
+	        	<?= Html::img(Yii::getAlias('@web').'/img/formacioncomunicaciones/assets/no_redimir.png', ['class' => 'redimir']) ?>
+	        <?php endif;?>
 		</div>
 	</div>
 </div>

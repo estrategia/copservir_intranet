@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'label' => '',
                 'value' => function ($data) {
-                return Html::img(\Yii::getAlias('@web'). '/img/formacioncomunicaciones/premios/' . $data->objPremio->rutaImagen,
+                return Html::img(\Yii::getAlias('@web'). Yii::$app->params['formacioncomunicaciones']['rutaImagenPremios'] . $data->objPremio->rutaImagen,
                    ['width' => '60px']);
                 },
             ],

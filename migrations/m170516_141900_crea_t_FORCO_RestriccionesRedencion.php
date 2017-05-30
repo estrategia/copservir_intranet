@@ -8,7 +8,7 @@ class m170516_141900_crea_t_FORCO_RestriccionesRedencion extends Migration
     {
         $this->createTable('t_FORCO_RestriccionesRedencion', [
             'numeroDocumento' => $this->bigInteger(20)->unsigned()->notNull(),
-            'fechaCreacion' =>  $this->dateTime(),
+            'fechaCreacion' => $this->timestamp() . ' DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
             'PRIMARY KEY (numeroDocumento)'
         ]);
     }

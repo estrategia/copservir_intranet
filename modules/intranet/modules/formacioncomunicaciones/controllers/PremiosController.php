@@ -13,6 +13,7 @@ use yii\data\ActiveDataProvider;
 use app\modules\intranet\modules\formacioncomunicaciones\models\PuntosTotales;
 use app\modules\intranet\modules\formacioncomunicaciones\models\UsuariosPremios;
 use app\modules\intranet\modules\formacioncomunicaciones\models\UsuariosPremiosTrazabilidad;
+use app\modules\intranet\modules\formacioncomunicaciones\models\RestriccionesRedencion;
 
 /**
  * CategoriasPremiosController implements the CRUD actions for CategoriasPremios model.
@@ -167,7 +168,14 @@ class PremiosController extends Controller
 		if($puntosUsuario){
 			$puntos = $puntosUsuario->puntos;
 		}
-		return $this->render('listaPremios', ['listDataProvider' => $dataProvider, 'puntos' => $puntos]);
+		
+		$restricciones = RestriccionesRedencion::findOne(['numeroDocumento' =>  Yii::$app->user->identity->numeroDocumento]);
+		
+		$restriccion = false;
+		if($restricciones){
+			$restriccion = true;
+		}
+		return $this->render('listaPremios', ['listDataProvider' => $dataProvider, 'puntos' => $puntos, 'restriccion' => $restriccion]);
 	}
 	
 	

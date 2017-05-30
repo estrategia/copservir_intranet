@@ -2,8 +2,10 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\web\JsExpression;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
+use kartik\file\FileInput;
 use kartik\select2\Select2;
 use vova07\imperavi\Widget;
 
@@ -47,6 +49,28 @@ use vova07\imperavi\Widget;
         ]); ?>
       </div>
     </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <?php
+          echo '<label class="control-label">Cargar paquete</label>';
+          echo FileInput::widget([
+            'name' => 'paqueteContenido',
+            'pluginOptions' => [
+              'allowedFileExtensions'  => ['zip'],
+              'uploadUrl' => Url::toRoute('contenido/cargar-paquete'),
+              'uploadAsync' => true,
+              'maxFileCount' => 1,
+              'uploadExtraData' => ['modelId' => $model->idContenido]
+            ],
+            // 'pluginEvents' => [
+            //   'fileupload' => new JsExpression("function FunctionName() { console.log('Cargado'); }"),
+            // ]
+          ]);
+        ?>
+      </div>
+    </div>
+
     <div class="row">
       <div class="col-md-12">
         <?= $form->field($model, 'contenido')->widget(Widget::className(), [
@@ -68,7 +92,7 @@ use vova07\imperavi\Widget;
     </div>
         
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['id' => 'btn-actualizar-contenido','class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

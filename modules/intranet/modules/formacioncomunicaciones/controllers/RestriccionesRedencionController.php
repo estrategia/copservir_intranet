@@ -4,6 +4,7 @@ namespace app\modules\intranet\modules\formacioncomunicaciones\controllers;
 
 use Yii;
 use app\modules\intranet\modules\formacioncomunicaciones\models\RestriccionesRedencion;
+use app\modules\intranet\modules\formacioncomunicaciones\models\CargueRestriccionesRedencion;
 use app\modules\intranet\modules\formacioncomunicaciones\models\RestriccionesRedencionSearch;
 use yii\web\Controller;
 use yii\db\Query;
@@ -38,10 +39,25 @@ class RestriccionesRedencionController extends Controller
     {
         $searchModel = new RestriccionesRedencionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $modeloCargue = new CargueRestriccionesRedencion();
+        if (Yii::$app->request->isPost) {
+            if ($modeloCargue->load(Yii::$app->request->post())) {
+                $rutaAchivo = $modeloCargue->guardarArchivo();
+                if ($rutaAchivo) {
+                    if(RestriccionesRedencion::cargarExcel($rutaAchivo)) {
+                        Yii::$app->session->setFlash('success', 'Se han registrado correctamente los datos');
+                    } else {
+                        Yii::$app->session->setFlash('error', 'No se han registrado los datos');
+                    }
+                } else {
+                    Yii::$app->session->setFlash('error', 'Error al cargar el archivo');
+                }
+            }
+        }
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'modeloCargue' => $modeloCargue,
         ]);
     }
 
@@ -93,9 +109,24 @@ class RestriccionesRedencionController extends Controller
         return $out;
     }
 
-    public function cargarExcel()
+    public function actionImportarExcel()
     {
-        
+        $rutaAchivo = Yii::getAlias('@app').'/uploads/formacioncomunicaciones/plantilla_cargue_restricciones_redencion.xlsx';
+
+        $tipoArchivo = \PHPExcel_IOFactory::identify($rutaAchivo);
+        $objectReader = \PHPExcel_IOFactory::createReader($tipoArchivo);
+        $objectPHPExcel = $objectReader->load($rutaAchivo);
+        $hoja = $objectPHPExcel->getActiveSheet();
+        $numerosDocumento = [];
+        $numeroDocumento = null;
+        for ($indiceFila=2; true; $indiceFila++) { 
+            $numeroDocumento = $hoja->getCell('A'.$indiceFila)->getValue();
+            if (is_null($numeroDocumento)) {
+                break;
+            }
+            $numerosDocumento[] = $numeroDocumento;
+        }
+        \yii\helpers\VarDumper::dump($numerosDocumento,10,true);
     }
 
     /**

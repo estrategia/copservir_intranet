@@ -2356,6 +2356,22 @@ $(document).ready(function () {
   });
 });
 
+$(document).ready(function () {
+  $("input[name='paqueteContenido']").on('filepreajax', function (event, previewId, index) {
+    $('#btn-actualizar-contenido').addClass('disabled');
+  });
+
+  $("input[name='paqueteContenido']").on('fileuploaded', function (event, data, previewId, index) {
+    $('#btn-actualizar-contenido').removeClass('disabled');
+    var html = "<iframe class='iframe-contenido-curso' src=" + data.response.response.iframeSrc + "> <iframe>";
+    $("#contenido-contenido").redactor('insert.htmlWithoutClean', html);
+  });
+
+  $("input[name='paqueteContenido']").on('fileunlock', function (event, filestack, extraData) {
+    $('#btn-actualizar-contenido').removeClass('disabled');
+  });
+})
+
 $(document).on('click', "input[data-role='toogle-collapsible']", function() {
   if ($(this).attr('data-valor') == 1) {
     $(this).attr('data-valor', 0);

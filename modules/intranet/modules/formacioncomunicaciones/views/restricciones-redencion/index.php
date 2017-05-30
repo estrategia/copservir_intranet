@@ -10,11 +10,25 @@ use yii\grid\GridView;
 $this->title = 'Restricciones de Redención';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<?php if(Yii::$app->session->hasFlash('error')): ?>
+    <div class="alert alert-danger" role="alert">
+        <?= Yii::$app->session->getFlash('error') ?>
+    </div>
+<?php endif; ?>
+
+<?php if(Yii::$app->session->hasFlash('success')): ?>
+    <div class="alert alert-info" role="alert">
+        <?= Yii::$app->session->getFlash('success') ?>
+    </div>
+<?php endif; ?>
+
 <div class="restricciones-redencion-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <div class="alert alert-info" role="alert">Descarga plantilla de ejemplo <a href="<?= Yii::$app->homeUrl . "plantillas-cargue/formacioncomunicaciones/plantilla_cargue_restricciones_redencion.xlsx" ?>" download=""><u>Aqui</u></a></div>
+    <?= $this->render('_formCargue', ['model' => $modeloCargue]) ?>
+    
     <p>
         <?= Html::a('Crear Restricción de Redención', ['crear'], ['class' => 'btn btn-success']) ?>
     </p>
