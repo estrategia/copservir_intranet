@@ -407,9 +407,9 @@ class CursoController extends Controller
         $cursosObligatorios = Curso::find()
             ->joinWith('objCursoGruposInteres')
             ->where([
-                // 'tipoCurso' => Curso::TIPO_OBLIGATORIO,
-                // 'estadoCurso' => Curso::ESTADO_ACTIVO,
-                // 'idGrupoInteres' => $gruposInteres
+                'tipoCurso' => Curso::TIPO_OBLIGATORIO,
+                'estadoCurso' => Curso::ESTADO_ACTIVO,
+                'idGrupoInteres' => $gruposInteres
             ])
             ->orderBy(['fechaActualizacion' => SORT_DESC])
             ->all();
@@ -423,9 +423,9 @@ class CursoController extends Controller
         $cursosComunicacion = Curso::find()
             ->joinWith('objCursoGruposInteres')
             ->where([
-                // 'tipoCurso' => Curso::TIPO_OPCIONAL,
-                // 'estadoCurso' => Curso::ESTADO_ACTIVO,
-                // 'idGrupoInteres' => $gruposInteres
+                'tipoCurso' => Curso::TIPO_OPCIONAL,
+                'estadoCurso' => Curso::ESTADO_ACTIVO,
+                'idGrupoInteres' => $gruposInteres
             ])
             ->orderBy(['fechaActualizacion' => SORT_DESC])
             ->all();

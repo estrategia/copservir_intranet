@@ -11,13 +11,17 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="item">
       <img src="<?= \Yii::getAlias('@web') . '/formacioncomunicaciones/cursos/' . $curso->rutaImagen ?>" alt="">
       <div class="titulo-rotor-cursos"> 
-        <h3> <?= $curso->nombreCurso ?> </h3>
+        <a href="<?= Url::to(['visualizar-curso', 'id' => $curso->idCurso]) ?>">
+          <h3>
+              <?= $curso->nombreCurso ?> 
+          </h3>
+        </a> 
       </div>
     </div>
   <?php endforeach ?>
 </div>
 <?php if (empty($cursosBanner)): ?>
-  <div class="container jumbotron">
+  <div class="jumbotron">
     <h1>Sin cursos</h1>
     <p>No tiene cursos asignados, pero puede acceder a todos los cursos usando el siguiente <a href="<?= Url::to('buscador') ?>">link.</a></p>
   </div>
