@@ -1,11 +1,12 @@
 <h1>Volante de Nómina</h1>
 
+<?php $formatter = \Yii::$app->formatter; ?>
 <table class="table table-striped">
     <thead>
         <tr>
             <th>Código de Concepto</th>
+            <th>Descripción</th>
             <th>Valor</th>
-            <th>Consecutivo Documento</th>
         </tr>
     </thead>
     <tbody>
@@ -22,10 +23,7 @@
                     <?= $dato['codigoConcepto'] ?>
                 </td>
                 <td>
-                    <?= $dato['valor'] ?>
-                </td>
-                <td>
-                    <?= $dato['consecutivoDocumento'] ?>
+                    <?= $formatter->asDecimal($dato['valor'] ,2)?>
                 </td>
             </tr>
         <?php endforeach ?>

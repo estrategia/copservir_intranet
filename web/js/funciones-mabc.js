@@ -2544,6 +2544,20 @@ $(document).on('click', "a[data-role='ver-traza']", function() {
   return false;
 });
 
+$(document).ready(function () {
+  $('.owl-carousel').owlCarousel({
+      singleItem:true,
+      loop:true,
+      // navigation:true,
+      // pagination: true,
+      center: true,
+      // dots: true,
+      // autoPlay: 3000,
+      // autoplayTimeout: 3000,
+      
+  })
+})
+
 // Organigrama 
 // var organigrama_config = {
 //     chart: {
