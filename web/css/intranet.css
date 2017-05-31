@@ -413,6 +413,41 @@ a.circle-avatar, div.circle-avatar{
   display: flex;
 }
 
+.iframe-contenido-curso {
+    width: 100%;
+    
+}
+
+@media only screen and (max-width: 320px) {
+    .iframe-contenido-curso {
+        height: 200px;
+    }
+}
+
+@media only screen and (max-width: 425px) and (min-width: 321px) {
+    .iframe-contenido-curso {
+        height: 300px;
+    }
+}
+
+@media only screen and (max-width: 768px) and (min-width: 426px) {
+    .iframe-contenido-curso {
+        height: 400px;
+    }
+}
+
+@media only screen and (max-width: 1024px) and (min-width: 769px) {
+    .iframe-contenido-curso {
+        height: 480px;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .iframe-contenido-curso {
+        height: 540px;
+    }
+}
+
 .crear-resena {
    display: flex;
    justify-content: center;
