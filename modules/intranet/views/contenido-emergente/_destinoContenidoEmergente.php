@@ -4,8 +4,22 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use app\modules\intranet\models\GrupoInteres;
 use app\modules\intranet\models\Ciudad;
+use app\modules\intranet\models\Funciones;
 use kartik\select2\Select2;
 use yii\widgets\ActiveForm;
+use yii\web\JsExpression;
+
+
+$format = <<< SCRIPT
+function formatSelect(state) {
+  console.log(state.element);
+  if (!state.id) return state.text; // optgroup
+    return '<span style="' + state.element.style.cssText + '">' + state.text + '</span>';
+}
+SCRIPT;
+
+$this->registerJs($format, \yii\web\View::POS_HEAD);
+$escape = new JsExpression("function(m) {return m; }");
 
 ?>
 
@@ -17,11 +31,19 @@ use yii\widgets\ActiveForm;
   <div class="col-md-4">
     <?php
       echo $form->field($modelDestinoContenidoEmergente, 'idGrupoInteres')->widget(Select2::classname(), [
-        'data' => ArrayHelper::map(GrupoInteres::find()->orderBy('nombreGrupo')->all(), 'idGrupoInteres', 'nombreGrupo'),
-        'options' => ['placeholder' => 'Selecione ...'],
-        'pluginOptions' => [
-            'allowClear' => true
+        'data' => Funciones::getDatosSelectGruposInteres()['data'],
+        'options' => [
+          'placeholder' => 'Selecione ...',
+          'options' => Funciones::getDatosSelectGruposInteres()['options'],
+          'multiple' => false,
         ],
+        'pluginOptions' => [
+          'allowClear' => true,
+          'templateResult' => new JsExpression('formatSelect'),
+          'templateSelection' => new JsExpression('formatSelect'),
+          'escapeMarkup' => $escape,
+        ],
+        'hideSearch' => false,
       ]);
     ?>
   </div>

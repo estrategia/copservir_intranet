@@ -4,9 +4,23 @@ use yii\helpers\Html;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use app\modules\intranet\models\GrupoInteres;
+use app\modules\intranet\models\Funciones;
 use app\modules\intranet\models\Ciudad;
 use yii\widgets\ActiveForm;
+use yii\web\JsExpression;
+
+$format = <<< SCRIPT
+function formatSelect(state) {
+  console.log(state.element);
+  if (!state.id) return state.text; // optgroup
+    return '<span style="' + state.element.style.cssText + '">' + state.text + '</span>';
+}
+SCRIPT;
+
+$this->registerJs($format, \yii\web\View::POS_HEAD);
+$escape = new JsExpression("function(m) {return m; }");
 ?>
+
 <div class="col-md-12" id="listaEventos">
 
       <h4>Grupos de interes y ciudad de destino</h4>

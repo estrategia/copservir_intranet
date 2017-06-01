@@ -49,6 +49,7 @@ class CursoGruposInteres extends \yii\db\ActiveRecord
             'idCurso' => 'Id Contenido',
         ];
     }
+    
     public function getListaGrupoInteres() 
     {
         $opciones = GrupoInteres::find()->where(['estado'=>1])->orderBy('nombreGrupo')->asArray()->all();

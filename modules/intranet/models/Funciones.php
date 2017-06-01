@@ -3,7 +3,10 @@
 namespace app\modules\intranet\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper;
+
+use app\modules\intranet\models\GrupoInteres;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -145,5 +148,51 @@ class Funciones {
             }
         }
         return false;
+    }
+
+    public static function getListaGrupoInteres() 
+    {
+        $opciones = GrupoInteres::find()->where(['estado'=>1])->orderBy('nombreGrupo')->asArray()->all();
+        return ArrayHelper::map($opciones, 'idGrupoInteres', 'nombreGrupo');
+    }
+
+    public static function getDatosSelectGruposInteres()
+    {
+        $data = [];
+        $options = [];
+        $padres = GrupoInteres::find()->where(['estado'=>1])->andWhere(['idGrupoInteresPadre' => NULL])->orderBy('nombreGrupo')->all();
+        $grupos = Funciones::getDataSelectGrupos($padres);
+        $data = ArrayHelper::map($grupos, 'idGrupoInteres', 'nombreGrupo');
+        $options = Funciones::getEstilosSelectGrupos($grupos);
+        return ['data' => $data, 'options' => $options];
+    }
+
+    private static function getEstilosSelectGrupos($grupos)
+    {
+        $options = [];
+        foreach ($grupos as $indice => $grupo) {
+          if ($grupo->idGrupoInteresPadre == '') {
+            $options[$grupo->idGrupoInteres] = ['style' => 'font-weight: bold;font-style: italic;'];
+          } else {
+            $options[$grupo->idGrupoInteres] = ['style' => 'padding-left: 15px;'];
+          }
+        }
+        return $options;
+    }
+
+    private function getDataSelectGrupos($padres)
+    {
+        $data = [];
+        $hijos = [];
+        foreach ($padres as $indice => $padre) {
+          $data[] = $padre;
+          $hijos = $padre->gruposHijos;
+          if (!empty($hijos)) {
+            foreach ($hijos as $hijo) {
+              $data[] = $hijo;
+            }
+          }
+        }
+        return $data;
     }
 }

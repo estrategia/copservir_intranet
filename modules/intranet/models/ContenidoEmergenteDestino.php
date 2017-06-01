@@ -17,6 +17,7 @@ use yii\data\ActiveDataProvider;
  */
 class ContenidoEmergenteDestino extends \yii\db\ActiveRecord
 {
+
     public static function tableName()
     {
         return 't_ContenidoEmergenteDestino';
@@ -40,6 +41,17 @@ class ContenidoEmergenteDestino extends \yii\db\ActiveRecord
             'idGrupoInteres' => 'Grupo Interes',
             'codigoCiudad' => 'Ciudad',
         ];
+    }
+
+    public function guardarGruposInteres($gruposInteres)
+    {
+        foreach ($gruposInteres as $indice => $grupoInteres) {
+            $cursoGruposInteres = new CursoGruposInteres;
+            $cursoGruposInteres->idCurso = $this->idCurso;
+            $cursoGruposInteres->idGrupoInteres = $gruposInteres[$indice];
+            // \yii\helpers\VarDumper::dump($cursoGruposInteres, 10,true);
+            $cursoGruposInteres->save();
+        }
     }
 
     // RELACIONES
