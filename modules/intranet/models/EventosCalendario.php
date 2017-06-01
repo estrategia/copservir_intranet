@@ -30,7 +30,7 @@ class EventosCalendario extends \yii\db\ActiveRecord {
   const INACTIVO = 0;
   const ENLACE_INTERNO = 1;
   const ENLACE_EXTERNO = 2;
-
+  public $gruposInteres;
   public $portales;
 
     public static function tableName() {

@@ -2544,6 +2544,20 @@ $(document).on('click', "a[data-role='ver-traza']", function() {
   return false;
 });
 
+$(document).ready(function () {
+  $('.owl-carousel').owlCarousel({
+      singleItem:true,
+      loop:true,
+      // navigation:true,
+      // pagination: true,
+      center: true,
+      // dots: true,
+      // autoPlay: 3000,
+      // autoplayTimeout: 3000,
+      
+  })
+})
+
 // Organigrama 
 // var organigrama_config = {
 //     chart: {
@@ -2579,32 +2593,32 @@ $(document).on('click', "a[data-role='ver-traza']", function() {
 //   });
 // })
 
-$(document).on('click', '.node', function () {
-  var numeroDocumento = $(this).attr('id');
-  var expandido = $(this).attr('data-expandido');
-  if(expandido != 1) {
-    $.ajax({
-      type: 'GET',
-      async: true,
-      url: requestUrl + '/intranet/organigrama/colaboradores?numeroDocumento=' + numeroDocumento,
-      // data: {idCategoria, numeroDocumento},
-      dataType: 'json',
-      beforeSend: function() {
-        $('body').showLoading();
-      },
-      complete: function(data) {
-        $('body').hideLoading();
-      },
-      success: function(data) {
-          if (data.result == "ok") {
-            organigrama_config.nodeStructure = data.response;
-            organigrama = new Treant(organigrama_config, null, $);
-          }
-            $('#'+numeroDocumento).attr('data-expandido', '1');
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-        $('body').hideLoading();
-      }
-    });
-  }
-});
+// $(document).on('click', '.node', function () {
+//   var numeroDocumento = $(this).attr('id');
+//   var expandido = $(this).attr('data-expandido');
+//   if(expandido != 1) {
+//     $.ajax({
+//       type: 'GET',
+//       async: true,
+//       url: requestUrl + '/intranet/organigrama/colaboradores?numeroDocumento=' + numeroDocumento,
+//       // data: {idCategoria, numeroDocumento},
+//       dataType: 'json',
+//       beforeSend: function() {
+//         $('body').showLoading();
+//       },
+//       complete: function(data) {
+//         $('body').hideLoading();
+//       },
+//       success: function(data) {
+//           if (data.result == "ok") {
+//             organigrama_config.nodeStructure = data.response;
+//             organigrama = new Treant(organigrama_config, null, $);
+//           }
+//             $('#'+numeroDocumento).attr('data-expandido', '1');
+//       },
+//       error: function(jqXHR, textStatus, errorThrown) {
+//         $('body').hideLoading();
+//       }
+//     });
+//   }
+// });

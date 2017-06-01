@@ -62,6 +62,44 @@ class OrganigramaController extends \yii\web\Controller
       ]
     ];
 
+    public $datos2 = [
+      'Empleado' => [
+          'NumeroDocumento' => "94504074",
+          'Nombre' => "TORRES CORDOBA CAMILO",
+          'Cargo' => "001213 - DIRECTOR DE SISTEMAS DE INFORMACION"
+      ],
+      'Jefe' => [
+          'NumeroDocumento' => "1234",
+          'Nombre' => "PEPETO",
+          'Cargo' => "001213 - DIRECTOR GENERAL"
+      ],
+      'Pares' => [
+        [
+          'NumeroDocumento' => "8765",
+          'Nombres' => "POPEYE",
+          'Cargo' => "001328 - JEFE DE DESARROLLO",
+          'Estado' => "ACTIVO",
+          'CentroCostos' => "520400"
+        ],
+      ],
+      'Colaboradores' => [
+        [
+          'NumeroDocumento' => "6341008",
+          'Nombres' => "TORRES ALVARO",
+          'Cargo' => "001328 - JEFE DE DESARROLLO",
+          'Estado' => "ACTIVO",
+          'CentroCostos' => "520400"
+        ],
+        [
+          'NumeroDocumento' => "80113523",
+          'Nombres' => "SOLANO SOLER CARLOS ALBERTO",
+          'Cargo' => "001305 - JEFE DE CENTRO DE COMPUTO",
+          'Estado' => "ACTIVO",
+          'CentroCostos' => "520400"
+        ]
+      ]
+    ];
+
     public $nodo = [
       'numeroDocumento' => 12345,
       'text' => [
@@ -77,8 +115,8 @@ class OrganigramaController extends \yii\web\Controller
         'text' => [
           'title' => 'juan',
           'name' => 'ing junior',
-          'HTMLid' => 12345,
         ],
+        'HTMLid' => 12345,
         'children' => []
       ],
       [
@@ -95,34 +133,18 @@ class OrganigramaController extends \yii\web\Controller
 
     public function actionIndex()
     {
+        // \yii\helpers\VarDumper::dump($this->formatearNodos($this->datos2['Colaboradores']), 10, true);
+        // \yii\helpers\VarDumper::dump($this->nodos, 10, true);
+        // \yii\helpers\VarDumper::dump(Yii::$app->session->get(Yii::$app->params['organigrama']), 10, true);
+
         return $this->render('index');
     }
-
-    // public function actionCrearArbol()
-    // { 
-    //   $jefe = $this->datos['Jefe'];
-    //   $empleado = $this->datos['Empleado'];
-    //   $pares = $this->datos['Pares'];
-    //   $colaboradores = $this->datos['Colaboradores'];
-    //   $arbol = new Tree();
-    //   $nodoJefe = new Node($jefe['NumeroDocumento'], $jefe);
-    //   $arbol->setRoot($nodoJefe);
-    //   $nodoEmpleado = new Node($empleado['NumeroDocumento'], $empleado);
-    //   $nodoJefe->addChild($nodoEmpleado);
-    //   $nodoJefe->insertDataArrayAsChildren($pares, 'NumeroDocumento');
-    //   $arbol->insertDataArrayAsChildrenById(6341008, $colaboradores, 'NumeroDocumento');
-
-    //   \yii\helpers\VarDumper::dump($arbol, 10, true);
-    // }
 
     public function actionConsultar()
     {
       // if (is_null(Yii::$app->session->get(Yii::$app->params['organigrama']))) {
         Yii::$app->session->set(Yii::$app->params['organigrama'], $this->formatearJSON($this->datos));
       // }
-      // $nuevo = $this->insertarNodos($organigrama, $this->nodos, 80113523);
-      // $nuevo = $this->insertarNodo($nuevo, $this->nodo, 12345);
-      // $response = ['result' => 'ok', 'response' => $this->nested_values($organigrama)];
       $response = ['result' => 'ok', 'response' => Yii::$app->session->get(Yii::$app->params['organigrama'])];
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       return $response;
@@ -131,7 +153,11 @@ class OrganigramaController extends \yii\web\Controller
     public function actionColaboradores($numeroDocumento)
     {
       $organigrama = Yii::$app->session->get(Yii::$app->params['organigrama']);
-      $organigrama = $this->insertarNodos($organigrama, $this->nodos, $numeroDocumento);
+      if ($numeroDocumento == $organigrama['numeroDocumento']) {
+        $organigrama = $this->fusionarArboles($organigrama, $this->formatearJSON($this->datos2), $organigrama['numeroDocumento']);
+      } else { 
+        $organigrama = $this->insertarNodos($organigrama, $this->nodos, $numeroDocumento);
+      }
       Yii::$app->session->set(Yii::$app->params['organigrama'], $organigrama);
       $response = ['result' => 'ok', 'response' => $organigrama];
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -173,7 +199,34 @@ class OrganigramaController extends \yii\web\Controller
           'children' => []
         ];
       }
+      $numeroDocumento = $empleado['NumeroDocumento'];
+      $colaboradoresFormateados = $this->formatearNodos($colaboradores);
+      $nodeStructure = $this->insertarNodos($nodeStructure, $colaboradoresFormateados, $numeroDocumento);
       return $nodeStructure;
+    }
+
+    private function formatearNodos($arregloNodos) 
+    {
+      $nodos = [];
+      foreach($arregloNodos as $key => $nodo) {
+        $nombres = '';
+        if (isset($nodo['Nombres'])) {
+          $nombres = $nodo['Nombres'];
+        } else {
+          $nombres = $nodo['Nombre'];
+        }
+
+        $nodos[] = [
+        'numeroDocumento' => $nodo['NumeroDocumento'],
+          'text' => [
+            'title' => $nombres,
+            'name' => $nodo['Cargo'],
+          ],
+          'HTMLid' => $nodo['NumeroDocumento'],
+          'children' => []
+        ];
+      }
+      return $nodos;
     }
 
     private function insertarNodo($organigrama, $nodo, $numeroDocumento)
@@ -204,6 +257,14 @@ class OrganigramaController extends \yii\web\Controller
       }
       $temp = $nodos;
       return $organigrama;
+    }
+
+    private function fusionarArboles($organigrama1, $organigrama2, $numeroDocumento)
+    {
+      $hijosInsertar = $organigrama1['children'];
+      $numeroDocumento = $organigrama1['numeroDocumento'];
+      $organigramaFinal = $this->insertarNodos($organigrama2, $hijosInsertar, $numeroDocumento);
+      return $organigramaFinal;
     }
 
     private function getRutasArray($array, $path="") {

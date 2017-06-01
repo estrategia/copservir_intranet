@@ -23,11 +23,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'options' => [
             'tag' => 'div',
-            'class' => 'buscador-container',
+            'class' => 'listado-cursos-todos',
             'id' => 'list-wrapper',
         ],
         'layout' => "{pager}\n{items}\n{summary}",
         'itemView' => '_item_buscador',
+        'itemOptions' => [
+            'class' => 'listado-cursos-item'
+        ],
         'pager' => [
             'nextPageLabel' => 'next',
             'prevPageLabel' => 'previous',

@@ -8,6 +8,7 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\Area;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Capitulo;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Contenido;
 use app\modules\intranet\modules\formacioncomunicaciones\models\ContenidoCalificacion;
+use app\modules\intranet\modules\formacioncomunicaciones\models\ContenidoLeidoUsuario;
 use app\modules\intranet\modules\formacioncomunicaciones\models\ContenidoCalificacionSearch;
 use app\modules\intranet\modules\formacioncomunicaciones\models\ContenidoSearch;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Modulo;
@@ -16,6 +17,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\helpers\FileHelper;
 
 /**
  * ContenidoController implements the CRUD actions for Contenido model.
@@ -183,7 +185,8 @@ class ContenidoController extends Controller
         $iframeSrc = Yii::getAlias('@web') . Yii::$app->params['formacioncomunicaciones']['rutaContenidosPaquetes'] . "{$modelId}/" . "index.html";
 
         if (!is_dir($rutaArchivo)) {
-            mkdir($rutaArchivo);
+            // mkdir($rutaArchivo);
+            FileHelper::createDirectory($rutaArchivo, 0777, true);
         }
 
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -205,6 +208,8 @@ class ContenidoController extends Controller
         }
         $zip->extractTo($rutaArchivo);
         $zip->close();
+
+        $this->formatearPaquete($modelId);
 
         $response = ['result' => 'ok', 'response' => ['iframeSrc' => $iframeSrc]];
         return $response;
@@ -252,4 +257,45 @@ class ContenidoController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    private function formatearPaquete($modelId)
+    {
+        $rutaBase = Yii::getAlias('@webroot') . Yii::$app->params['formacioncomunicaciones']['rutaContenidosPaquetes'] . "{$modelId}/";
+        $rutas = [];
+        $nuevasRutas = [];
+        foreach (new \DirectoryIterator($rutaBase) as $file) {
+            if ($file->isFile()) {
+                $rutaOriginal = $file->getFilename();
+                $rutaFinal = FileHelper::normalizePath($rutaOriginal);
+                $rutaFinal = $this->eliminarDirectorioRaiz($rutaFinal);
+                if ($rutaFinal != '') {
+                    $rutas[] = [$rutaOriginal, $rutaFinal];
+                }
+            }
+        }
+
+        foreach ($rutas as $ruta) {
+            $origen = $rutaBase . $ruta[0];
+            $destino = $rutaBase . $ruta[1];
+            $carpeta = pathinfo($destino);
+            if (!is_dir($carpeta['dirname'] && $carpeta['dirname'])) {
+                FileHelper::createDirectory($carpeta['dirname'], 0777, true);
+            }
+            rename($origen, $destino);
+        }
+        // \yii\helpers\VarDumper::dump($nuevasRutas,10,true);
+    }
+
+    private function eliminarDirectorioRaiz($path)
+    {
+        $ruta = explode("/", $path); // Pull it apart
+        if (sizeof($ruta > 1)) {
+            array_shift($ruta); // Pop the first index off array
+            $ruta = implode("/", $ruta); // Put it together again
+            return $ruta;
+        } else {
+            return '';
+        }
+    }
+
 }

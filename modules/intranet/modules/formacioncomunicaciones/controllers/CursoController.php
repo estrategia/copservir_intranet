@@ -345,18 +345,91 @@ class CursoController extends Controller
         ]);
     }
 
+    // public function actionMisCursos()
+    // {
+    //     $searchModel = new CursoSearch();
+    //     $queryParams = Yii::$app->request->queryParams;
+    //     $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();
+    //     $queryParams['gruposInteresUsuario'] = $gruposInteres;
+    //     $queryParams['activos'] = true;
+    //     $dataProvider = $searchModel->search($queryParams);
+    //     return $this->render('misCursos', [
+    //         'searchModel' => $searchModel,
+    //         'dataProvider' => $dataProvider
+    //     ]);
+    // }
+
     public function actionMisCursos()
     {
-        $searchModel = new CursoSearch();
-        $queryParams = Yii::$app->request->queryParams;
-        $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();
-        $queryParams['gruposInteresUsuario'] = $gruposInteres;
-        $queryParams['activos'] = true;
-        $dataProvider = $searchModel->search($queryParams);
-        return $this->render('misCursos', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider
-        ]);
+        $params = [];
+        $cursosBanner = [];
+        $cursosFormacion = [];
+        $cursosComunicacion = [];
+        $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();   
+        $cursosObligatorios = Curso::find()
+            ->joinWith('objCursoGruposInteres')
+            ->where([
+                'tipoCurso' => Curso::TIPO_OBLIGATORIO,
+                'estadoCurso' => Curso::ESTADO_ACTIVO,
+                'idGrupoInteres' => $gruposInteres
+            ])
+            ->orderBy(['fechaActualizacion' => SORT_DESC])
+            ->limit(7)
+            ->all();
+        $cursosComunicacion = Curso::find()
+            ->joinWith('objCursoGruposInteres')
+            ->where([
+                'tipoCurso' => Curso::TIPO_OPCIONAL,
+                'estadoCurso' => Curso::ESTADO_ACTIVO,
+                'idGrupoInteres' => $gruposInteres
+            ])
+            ->orderBy(['fechaActualizacion' => SORT_DESC])
+            ->limit(4)
+            ->all();
+        if (sizeof($cursosObligatorios >= 3)) {
+            $cursosBanner = array_slice($cursosObligatorios, 0, 3);
+            $cursosFormacion = array_slice($cursosObligatorios, 3, 8);
+        } else {
+            $cursosBanner = $cursosObligatorios;
+        }
+        $params = [
+            'cursosBanner' => $cursosBanner,
+            'cursosFormacion' => $cursosFormacion,
+            'cursosComunicacion' => $cursosComunicacion,
+        ];
+        return $this->render('misCursos', $params);
+    }
+
+    public function actionFormacion()
+    {
+        $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();   
+
+        $cursosObligatorios = Curso::find()
+            ->joinWith('objCursoGruposInteres')
+            ->where([
+                'tipoCurso' => Curso::TIPO_OBLIGATORIO,
+                'estadoCurso' => Curso::ESTADO_ACTIVO,
+                'idGrupoInteres' => $gruposInteres
+            ])
+            ->orderBy(['fechaActualizacion' => SORT_DESC])
+            ->all();
+        return $this->render('cursosFormacion', ['cursosFormacion' => $cursosObligatorios]);
+    }
+
+    public function actionComunicacion()
+    {
+        $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();   
+
+        $cursosComunicacion = Curso::find()
+            ->joinWith('objCursoGruposInteres')
+            ->where([
+                'tipoCurso' => Curso::TIPO_OPCIONAL,
+                'estadoCurso' => Curso::ESTADO_ACTIVO,
+                'idGrupoInteres' => $gruposInteres
+            ])
+            ->orderBy(['fechaActualizacion' => SORT_DESC])
+            ->all();
+        return $this->render('cursosComunicacion', ['cursosComunicacion' => $cursosComunicacion]);
     }
 
     public function actionNotificaciones()

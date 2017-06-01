@@ -3,16 +3,9 @@
  use yii\helpers\Url;
 
 ?>
-<div class="buscador-fila">
-    
-  <div class="buscador-fila-seccion-izquierda">
-    <h1 class="buscador-titulo">
-      <a href="<?=  Url::toRoute(['curso/visualizar-curso', 'id' => $model->idCurso]); ?>" >
-        <?= $model->nombreCurso; ?>
+    <img class="" src="<?= \Yii::getAlias('@web') . '/formacioncomunicaciones/cursos/' . $model->rutaImagen ?>" >
+    <div class="listado-cursos-item-titulo">
+      <a href="<?= Url::to(['visualizar-curso', 'id' => $model->idCurso]) ?>">
+          <h3 class=""><?= $model->nombreCurso ?></h3>
       </a>
-    </h1>
-    <p class="buscador-descripcion-contenido">
-      <?= BaseStringHelper::truncate($model->presentacionCurso, 50, '...', null, false);?>
-    </p>
-  </div>
-</div>
+    </div>
