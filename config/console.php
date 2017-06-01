@@ -10,6 +10,9 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log', 'gii'],
     'controllerNamespace' => 'app\commands',
+    'on beforeAction' => function ($event) {
+        date_default_timezone_set('America/Bogota');
+    },
     'modules' => [
         'gii' => 'yii\gii\Module',
     ],
@@ -50,6 +53,16 @@ return [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['trace'],
                 ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'logFile' => '@runtime/logs/console_profile.log',
+                    'logVars' => [],
+                    'levels' => ['profile'],
+                    'categories' => ['yii\db\Command::query'],
+                    'prefix' => function($message) {
+                    return '';
+                    }
+                ]
             ],
         ],
         'db' => $db,
