@@ -392,7 +392,7 @@
             },
         });
 
-        $('.validate').validate();
+        // $('.validate').validate();
     }
     // Block UI
     Webarch.prototype.blockUI = function(el){
@@ -429,7 +429,7 @@
         this.initScrollBar();
         this.initTooltipPlugin();
         this.initPopoverPlugin();
-        this.initValidatorPlugin();
+        // this.initValidatorPlugin();
         this.initUtil();
 
     }

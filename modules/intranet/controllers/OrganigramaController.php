@@ -5,14 +5,16 @@ namespace app\modules\intranet\controllers;
 use Yii;
 // use app\models\Tree;
 // use app\models\Node;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\httpclient\Client;
+use app\models\Usuario;
 
 class OrganigramaController extends \yii\web\Controller
 {
     public $datos = [
       'Empleado' => [
-          'NumeroDocumento' => "6341008",
+          'NumeroDocumento' => "1115077082",
           'Nombre' => "TORRES ALVARO",
           'Cargo' => "001328 - JEFE DE DESARROLLO"
       ],
@@ -133,21 +135,26 @@ class OrganigramaController extends \yii\web\Controller
 
     public function actionIndex()
     {
-        // \yii\helpers\VarDumper::dump($this->formatearNodos($this->datos2['Colaboradores']), 10, true);
-        // \yii\helpers\VarDumper::dump($this->nodos, 10, true);
-        // \yii\helpers\VarDumper::dump(Yii::$app->session->get(Yii::$app->params['organigrama']), 10, true);
-
         return $this->render('index');
+    }
+
+    public function actionPerfil($numeroDocumento)
+    {
+      $usuario = Usuario::callWSInfoPersona($numero);
+      // \yii\helpers\VarDumper::dump($usuario, 10, true);
+      return $this->renderAjax('_modalPerfil', ['usuario' => $usuario]);
     }
 
     public function actionConsultar()
     {
       // if (is_null(Yii::$app->session->get(Yii::$app->params['organigrama']))) {
-        Yii::$app->session->set(Yii::$app->params['organigrama'], $this->formatearJSON($this->datos));
-      // }
-      $response = ['result' => 'ok', 'response' => Yii::$app->session->get(Yii::$app->params['organigrama'])];
-      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-      return $response;
+        $numero = 80113523;
+        $datos = $this->consultarWS($numero);
+      //   Yii::$app->session->set(Yii::$app->params['organigrama'], $this->formatearJSON($datos));
+      // // }
+      // $response = ['result' => 'ok', 'response' => Yii::$app->session->get(Yii::$app->params['organigrama'])];
+      // Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      return $datos;
     }
 
     public function actionColaboradores($numeroDocumento)
@@ -170,31 +177,36 @@ class OrganigramaController extends \yii\web\Controller
       $empleado = $organigrama['Empleado'];
       $pares = $organigrama['Pares'];
       $colaboradores = $organigrama['Colaboradores'];
+      $numerosDocumento = ArrayHelper::getColumn($colaboradores, 'NumeroDocumento');
+      $numerosDocumento[] = $jefe['NumeroDocumento'];
+      $numerosDocumento[] = $empleado['NumeroDocumento'];
+      $usuarios = Usuario::find()->where(['numeroDocumento' => $numerosDocumento])->all();
+      $imagenes = ArrayHelper::map($usuarios, 'numeroDocumento', 'imagenPerfil');
       $nodeStructure = [
         'numeroDocumento' => $jefe['NumeroDocumento'],
-        'text' => [
-          'title' => $jefe['Nombre'],
-          'name' => $jefe['Cargo'],
-        ],
+        'innerHTML' => $this->renderPartial('_nodo', [
+          'empleado' => $jefe, 
+          'imagen' => $this->getImagenPerfil($jefe['NumeroDocumento'], $imagenes)
+        ]),
         'HTMLid' => $jefe['NumeroDocumento'],
         'children' => []
       ];
       $nodeStructure['children'][] = [
         'numeroDocumento' => $empleado['NumeroDocumento'],
-        'text' => [
-          'title' => $empleado['Nombre'],
-          'name' => $empleado['Cargo'],
-        ],
+        'innerHTML' => $this->renderPartial('_nodo', [
+          'empleado' => $empleado, 
+          'imagen' => $this->getImagenPerfil($empleado['NumeroDocumento'], $imagenes)
+        ]),
         'HTMLid' => $empleado['NumeroDocumento'],
         'children' => []
       ];
       foreach ($pares as $par) {
         $nodeStructure['children'][] = [
           'numeroDocumento' => $par['NumeroDocumento'],
-          'text' => [
-            'title' => $par['Nombres'],
-            'name' => $par['Cargo'],
-          ],
+          'innerHTML' => $this->renderPartial('_nodo', [
+            'empleado' => $empleado, 
+            'imagen' => $this->getImagenPerfil($par['NumeroDocumento'], $imagenes)
+          ]),
           'HTMLid' => $par['NumeroDocumento'],
           'children' => []
         ];
@@ -205,9 +217,23 @@ class OrganigramaController extends \yii\web\Controller
       return $nodeStructure;
     }
 
+    private function getImagenPerfil($numeroDocumento, $imagenes)
+    {
+      $rutaBase = Yii::getAlias('@web').'/img/fotosperfil/';
+      if (isset($imagenes[$numeroDocumento])) {
+        return $rutaBase . $imagenes[$numeroDocumento];
+      } else {
+        return $rutaBase . "no-image.png";
+      }
+    }
+
     private function formatearNodos($arregloNodos) 
     {
       $nodos = [];
+      $numerosDocumento = ArrayHelper::getColumn($arregloNodos, 'NumeroDocumento');
+      $usuarios = Usuario::find()->where(['numeroDocumento' => $numerosDocumento])->all();
+      $imagenes = ArrayHelper::map($usuarios, 'numeroDocumento', 'imagenPerfil');
+
       foreach($arregloNodos as $key => $nodo) {
         $nombres = '';
         if (isset($nodo['Nombres'])) {
@@ -218,10 +244,10 @@ class OrganigramaController extends \yii\web\Controller
 
         $nodos[] = [
         'numeroDocumento' => $nodo['NumeroDocumento'],
-          'text' => [
-            'title' => $nombres,
-            'name' => $nodo['Cargo'],
-          ],
+          'innerHTML' => $this->renderPartial('_nodo', [
+            'empleado' => $nodo, 
+            'imagen' => $this->getImagenPerfil($nodo['NumeroDocumento'], $imagenes)
+          ]),
           'HTMLid' => $nodo['NumeroDocumento'],
           'children' => []
         ];
@@ -287,7 +313,7 @@ class OrganigramaController extends \yii\web\Controller
       ->setUrl($urlOrganigrama)
       ->setData([''])
       ->setOptions([
-        'timeout' => 5,
+        'timeout' => 10,
       ])
       ->send();
       $infoEmpleado = JSON::decode($wsResponse->content);
