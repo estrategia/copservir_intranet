@@ -64,7 +64,7 @@ class IntranetAsset extends AssetBundle {
         'libs/boostrap-slider/js/bootstrap-slider.js',
         'libs/bootstrap-media-lightbox-master/bootstrap-media-lightbox.js',
         'libs/modernizr/modernizr.js',
-        'js/dashboard/dashboard.js',
+        // 'js/dashboard/dashboard.js',
         'libs/timeago/jquery.timeago.js',
         'libs/timeago/jquery.timeago.es.js',
         // carousel
