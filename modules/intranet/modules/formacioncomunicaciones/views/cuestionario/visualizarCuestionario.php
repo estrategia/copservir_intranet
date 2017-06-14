@@ -4,7 +4,7 @@ use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Pregunta;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Cuestionario;
-$src = Yii::$app->homeUrl . 'img/formacioncomunicaciones/assets';
+$src = Yii::$app->homeUrl . 'img/formacioncomunicaciones/assets/';
 
 
 
@@ -22,14 +22,21 @@ $this->params['breadcrumbs'][] = $this->title;
 	var milisegundos = 1000;
 	var restante = <?php echo $model->tiempo*60?>;
 	var empleado = 0;
+	<?php if($cuestionarioUsuario->estadoCuestionario != Cuestionario::CUESTIONARIO_CERRADO):?>
 	timer = setInterval('temporizador()', milisegundos);
-	
+	<?php endif;?>
 	function temporizador() {
 		$(document).ready(function() {
 			$("#tiempoRestante").html(formato(restante));
 			$("#tiempoEmpleado").html(formato(empleado));
 			restante--;
 			empleado++;
+
+			if(restante < 0 ){
+				alert("El tiempo ha finalizado");
+				restante = <?php echo $model->tiempo*60?>;
+				$("#form-cuestionario").submit();
+			}
 		});
 		
 	}
@@ -91,6 +98,26 @@ $this->params['breadcrumbs'][] = $this->title;
     				</td></tr>
     			<tr> <td>Puntos Ganados</td><td><?=  $cuestionarioUsuario->getPuntosObtenidos();?> Pts</td></tr>
     		</table>
+    		<div class='row'>
+    			<div class='col-sm-2'>
+    				Respuesta correcta:
+    			</div>
+    			<div class='col-sm-2'>
+    				<img class="" style="margin:0 auto;"  src='<?php echo $src?>correct.png'/>
+    			</div>
+    			<div class='col-sm-2'>
+    				Respuesta incorrecta:
+    			</div>
+    			<div class='col-sm-2'>
+    				<img class="" style="margin:0 auto;"  src='<?php echo $src?>mistake.png'/>
+    			</div>
+    			<div class='col-sm-2'>
+    				Respuesta correcta sin marcar:
+    			</div>
+    			<div class='col-sm-2'>
+    				<img class="" style="margin:0 auto;"  src='<?php echo $src?>unmarked.png'/>
+    			</div>
+    		</div>
     		<br/>
     		<?php $disabled=" disabled";?>
     <?php else:?>
@@ -99,7 +126,7 @@ $this->params['breadcrumbs'][] = $this->title;
     			<tr> <td >Tiempo empleado</td><td> <span id='tiempoEmpleado'></span></td></tr>
     	</table>
     <?php endif;?>
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['id' => 'form-cuestionario']); ?>
     <?php $i = 1;?>
     <input type='hidden' value='<?php echo $cuestionarioUsuario->idCuestionarioUsuario?>' name='idCuestionarioUsuario' />
     <?php foreach($preguntas as $pregunta):?>
