@@ -49,16 +49,18 @@ class PuntosController extends Controller
       ];
     }
 
-    $transaction = $connection->beginTransaction();
-    try {
-      $connection->createCommand()->batchInsert('t_FORCO_Puntos', $columnas, $filas)->execute();
-      $transaction->commit();
-    } catch (\Exception $e) {
-      $transaction->rollBack();
-      throw $e;
-    } catch (\Throwable $e) {
-      $transaction->rollBack();
-      throw $e;
+    if (count($filas) > 0) {
+      $transaction = $connection->beginTransaction();
+      try {
+        $connection->createCommand()->batchInsert('t_FORCO_Puntos', $columnas, $filas)->execute();
+        $transaction->commit();
+      } catch (\Exception $e) {
+        $transaction->rollBack();
+        throw $e;
+      } catch (\Throwable $e) {
+        $transaction->rollBack();
+        throw $e;
+      }
     }
     \Yii::info('sincronizar puntos -- fin');
   }
@@ -93,26 +95,27 @@ class PuntosController extends Controller
     }
     \Yii::info("Cantidad de cumpleanios: " . count($filas));
     echo "Cantidad de cumpleanios: " . count($filas) . "\n";
-    $transaction = $connection->beginTransaction();
-    try {
-        $connection->createCommand("set foreign_key_checks = 0")->execute();
-        $result = $connection->createCommand()->batchInsert('t_FORCO_Puntos', $columnas, $filas);
-        \Yii::info("batchInsert: " . $result->rawSql);
-        $result = $result->execute();
-        \Yii::info("Cantidad de puntos insertados: $result");
-        echo "Cantidad de puntos insertados: $result \n";
-        $transaction->commit();
-        $connection->createCommand("set foreign_key_checks = 1")->execute();
-    } catch (\Exception $e) {
-      $transaction->rollBack();
-      \Yii::error("Exception :: " . $e->getTraceAsString());
-      echo "Exception :: " . $e->getTraceAsString() . "\n";
-    } catch (\Throwable $e) {
-      $transaction->rollBack();
-      \Yii::error("Throwable :: " . $e->getTraceAsString());
-      echo "Throwable :: " . $e->getTraceAsString() . "\n";
-    }
-    
+    if (count($filas) > 0) {
+      $transaction = $connection->beginTransaction();
+      try {
+          $connection->createCommand("set foreign_key_checks = 0")->execute();
+          $result = $connection->createCommand()->batchInsert('t_FORCO_Puntos', $columnas, $filas);
+          \Yii::info("batchInsert: " . $result->rawSql);
+          $result = $result->execute();
+          \Yii::info("Cantidad de puntos insertados: $result");
+          echo "Cantidad de puntos insertados: $result \n";
+          $transaction->commit();
+          $connection->createCommand("set foreign_key_checks = 1")->execute();
+      } catch (\Exception $e) {
+        $transaction->rollBack();
+        \Yii::error("Exception :: " . $e->getTraceAsString());
+        echo "Exception :: " . $e->getTraceAsString() . "\n";
+      } catch (\Throwable $e) {
+        $transaction->rollBack();
+        \Yii::error("Throwable :: " . $e->getTraceAsString());
+        echo "Throwable :: " . $e->getTraceAsString() . "\n";
+      }
+    }    
     \Yii::info("PuntosController::actionAsignarPuntosCumpleanios -- FIN");
     echo "PuntosController::actionAsignarPuntosCumpleanios -- FIN \n";
   }
@@ -148,22 +151,24 @@ class PuntosController extends Controller
     }
     \Yii::info("Cantidad de aniversarios: " . count($filas));
     echo "Cantidad de aniversarios: " . count($filas) . "\n";
-    $transaction = $connection->beginTransaction();
-    try {
-        $connection->createCommand("set foreign_key_checks = 0")->execute();
-        $result = $connection->createCommand()->batchInsert('t_FORCO_Puntos', $columnas, $filas)->execute();
-        \Yii::info("Cantidad de puntos insertados: $result");
-        echo "Cantidad de puntos insertados: $result \n";
-        $transaction->commit();
-        $connection->createCommand("set foreign_key_checks = 1")->execute();
-    } catch (\Exception $e) {
-        $transaction->rollBack();
-        \Yii::error("Exception :: " . $e->getTraceAsString());
-        echo "Exception :: " . $e->getTraceAsString() . "\n";
-    } catch (\Throwable $e) {
-        $transaction->rollBack();
-        \Yii::error("Throwable :: " . $e->getTraceAsString());
-        echo "Throwable :: " . $e->getTraceAsString() . "\n";
+    if (count($filas) > 0) {
+      $transaction = $connection->beginTransaction();
+      try {
+          $connection->createCommand("set foreign_key_checks = 0")->execute();
+          $result = $connection->createCommand()->batchInsert('t_FORCO_Puntos', $columnas, $filas)->execute();
+          \Yii::info("Cantidad de puntos insertados: $result");
+          echo "Cantidad de puntos insertados: $result \n";
+          $transaction->commit();
+          $connection->createCommand("set foreign_key_checks = 1")->execute();
+      } catch (\Exception $e) {
+          $transaction->rollBack();
+          \Yii::error("Exception :: " . $e->getTraceAsString());
+          echo "Exception :: " . $e->getTraceAsString() . "\n";
+      } catch (\Throwable $e) {
+          $transaction->rollBack();
+          \Yii::error("Throwable :: " . $e->getTraceAsString());
+          echo "Throwable :: " . $e->getTraceAsString() . "\n";
+      }
     }
     \Yii::info("PuntosController::actionAsignarPuntosAniversarios -- FIN");
     echo "PuntosController::actionAsignarPuntosAniversarios -- FIN \n";

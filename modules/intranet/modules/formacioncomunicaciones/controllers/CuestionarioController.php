@@ -14,7 +14,7 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\CuestionarioUsua
 use yii\base\Model;
 use yii\db\Expression;
 use app\models\Usuario;
-use app\modules\intranet\models\CuestionarioUsuarioForm;
+use app\modules\intranet\models\formacioncomunicaciones\CuestionarioUsuarioForm;
 use yii\helpers\ArrayHelper;
 
 class CuestionarioController extends Controller{ 

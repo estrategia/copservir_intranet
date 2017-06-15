@@ -128,6 +128,28 @@ class Curso extends \yii\db\ActiveRecord
         }
     }
 
+    public function calcularPromedioCalificacion()
+    {
+        $connection = Yii::$app->db;
+        $query = "
+            UPDATE m_FORCO_Curso 
+                SET promedioCalificacion = (
+                    SELECT AVG(calificacion.calificacion) FROM t_FORCO_ContenidoCalificacion calificacion
+                    JOIN m_FORCO_Contenido contenido
+                        ON calificacion.idContenido = contenido.idContenido
+                    JOIN m_FORCO_Capitulo capitulo
+                        ON contenido.idCapitulo = capitulo.idCapitulo
+                    JOIN m_FORCO_Modulo modulo
+                        ON capitulo.idModulo = modulo.idModulo
+                    JOIN (SELECT idCurso FROM m_FORCO_Curso) curso
+                        ON modulo.idCurso = curso.idCurso
+                    WHERE curso.idCurso = {$this->idCurso}
+                )
+            WHERE m_FORCO_Curso.idCurso = {$this->idCurso}
+        ";
+        $command = $connection->createCommand($query)->execute();
+    }
+
     public function activar()
     {
         $fechaInicioCurso = $this->fechaInicio;
@@ -264,6 +286,11 @@ class Curso extends \yii\db\ActiveRecord
     public function getCuestionario()
     {
         return $this->hasOne(Cuestionario::className(), ['idCurso' => 'idCurso']);
+    }
+
+    public function getContenidosLeidosUsuario()
+    {
+        return $this->hasMany(ContenidoLeidoUsuario::className(), ['idCurso' => 'idCurso']);
     }
 
 }

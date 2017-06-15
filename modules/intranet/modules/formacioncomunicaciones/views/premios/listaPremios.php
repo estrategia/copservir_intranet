@@ -7,7 +7,7 @@
 <h3>Redime tus premios</h3>
 
 <div class="row">
-<?= Html::img(Yii::getAlias('@web').'/img/formacioncomunicaciones/assets/banner.png', ['class' => 'img-responsive']) ?>
+<?= Html::img(Yii::getAlias('@web').'/img/formacioncomunicaciones/banner.png', ['class' => 'img-responsive']) ?>
   <div class="col-md-10">
       <p class="cantidad-puntos">Tus puntos: <span><?php echo $puntos?></span></p>
       <?=

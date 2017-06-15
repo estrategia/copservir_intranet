@@ -50,20 +50,16 @@
         
         if (!$user) {
             $this->addError($attribute, 'Usuario no existe');
+        } else if(is_null(UsuarioProveedor::find()->where(['numeroDocumento' => $this->username])->one())) {
+            $this->addError($attribute, 'El usuario no se encuentra registrado en el portal');
         } else if (!$this->checkPassword($user->contrasena)) {
             $this->addError($attribute, 'Contraseña incorrecta por favor verifica de nuevo');
         } else if ($user->estado != 1) {
             $this->addError($attribute, 'El usuario se encuentra inactivo');
-
-        }else if(($user->nombrePortal != \Yii::$app->controller->module->id) && (!Funciones::esSubModulo($user->nombrePortal))){
-          $this->addError($attribute, 'El usuario no es permitido');
         }
-        // }else if($user->nombrePortal != \Yii::$app->getModule('proveedores')->id){
-        // 	$this->addError($attribute, 'El usuario no es permitido');
-        // }
-        // else if ($user->codigoPerfil != \Yii::$app->params['PerfilesUsuario']['tarjetaMas']['codigo']) {
-        //     $this->addError($attribute, 'El usuario no tiene permiso para iniciar sesion');
-        // }
+        /*else if(($user->nombrePortal != \Yii::$app->controller->module->id) && (!Funciones::esSubModulo($user->nombrePortal))){
+          $this->addError($attribute, 'El usuario no es permitido');
+        }*/
       }
     }
 

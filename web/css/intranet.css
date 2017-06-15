@@ -644,9 +644,17 @@ a.circle-avatar, div.circle-avatar{
     background-color: #e1dbd4;
     font-size: 1.8rem;
     line-height: 1.8rem;
-    padding: 30px 0px 30px 10px;
+    padding: 10px 0px 10px 10px;
     margin: 0 !important;
     font-weight: 400;
+}
+
+.titulo-curso-destacado .glyphicon {
+    font-size: 1.3rem;
+}
+
+.titulo-curso-destacado .rating-xs {
+    font-size: 1rem;
 }
 
 .curso-destacado img {
@@ -682,6 +690,14 @@ a.circle-avatar, div.circle-avatar{
     margin-top: 20px;
 }
 
+.listado-cursos-item-titulo .glyphicon {
+    font-size: 1.3rem;
+}
+
+.listado-cursos-item-titulo .rating-xs {
+    font-size: 1rem;
+}
+
 .ver-mas {
     background-color: red;
     color: white;
@@ -701,7 +717,8 @@ a.circle-avatar, div.circle-avatar{
 }
 
 .listado-cursos-todos .listado-cursos-item {
-    width: 33%;
+    width: 45%;
+    margin-right: 4.5%;
 }
 
 /*organigrama*/

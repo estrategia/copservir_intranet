@@ -367,23 +367,23 @@ class CursoController extends Controller
         $cursosComunicacion = [];
         $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();   
         $cursosObligatorios = Curso::find()
-            ->joinWith('objCursoGruposInteres')
+            /*->joinWith('objCursoGruposInteres')
             ->where([
                 'tipoCurso' => Curso::TIPO_OBLIGATORIO,
                 'estadoCurso' => Curso::ESTADO_ACTIVO,
                 'idGrupoInteres' => $gruposInteres
             ])
-            ->orderBy(['fechaActualizacion' => SORT_DESC])
+            ->orderBy(['fechaActualizacion' => SORT_DESC])*/
             ->limit(7)
             ->all();
         $cursosComunicacion = Curso::find()
-            ->joinWith('objCursoGruposInteres')
+            /*->joinWith('objCursoGruposInteres')
             ->where([
                 'tipoCurso' => Curso::TIPO_OPCIONAL,
                 'estadoCurso' => Curso::ESTADO_ACTIVO,
                 'idGrupoInteres' => $gruposInteres
             ])
-            ->orderBy(['fechaActualizacion' => SORT_DESC])
+            ->orderBy(['fechaActualizacion' => SORT_DESC])*/
             ->limit(4)
             ->all();
         if (sizeof($cursosObligatorios >= 3)) {
@@ -459,7 +459,7 @@ class CursoController extends Controller
             'model' => $this->findModel($id)
         ]);
     }
-
+    
     /**
      * Finds the Curso model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

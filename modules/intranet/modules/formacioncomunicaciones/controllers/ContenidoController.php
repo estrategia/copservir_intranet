@@ -166,6 +166,7 @@ class ContenidoController extends Controller
                 $calificacionModel->numeroDocumento = $numeroDocumento;
                 $calificacionModel->idContenido = $model->idContenido;
                 if ($calificacionModel->save()) {
+                    $model->capitulo->modulo->curso->calcularPromedioCalificacion();
                     Yii::$app->session->setFlash('success', 'Se ha guardado su reseña.');
                 } else {
                     Yii::$app->session->setFlash('error', 'Ocurrio un error al guardar su reseña.');

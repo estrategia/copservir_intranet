@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\Url;
+use kartik\rating\StarRating;
 
 $this->title = 'Mis Cursos';
 $this->params['breadcrumbs'][] = $this->title;
@@ -13,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
       <div class="titulo-rotor-cursos"> 
         <a href="<?= Url::to(['visualizar-curso', 'id' => $curso->idCurso]) ?>">
           <h3>
-              <?= $curso->nombreCurso ?> 
+              <?= \yii\helpers\StringHelper::truncateWords($curso->nombreCurso, 5, '...', false); ?>
           </h3>
         </a> 
       </div>
@@ -34,7 +35,23 @@ $this->params['breadcrumbs'][] = $this->title;
         <a href="<?= Url::to(['visualizar-curso', 'id' => $cursosFormacion[0]->idCurso]) ?>">
           <h3 class="titulo-columna-cursos formacion">Formación</h3>
           <img class="" src="<?= \Yii::getAlias('@web') . '/formacioncomunicaciones/cursos/' . $cursosFormacion[0]->rutaImagen ?>" >
-          <h2 class="titulo-curso-destacado"> <?= $cursosFormacion[0]->nombreCurso ?></h2>
+          <h2 class="titulo-curso-destacado"> 
+          <?= \yii\helpers\StringHelper::truncateWords($cursosFormacion[0]->nombreCurso, 5, '...', false); ?>      
+          <?php 
+            echo StarRating::widget([
+                'name' => 'rating_1',
+                'value' =>  $cursosFormacion[0]->promedioCalificacion,
+                'pluginOptions' => [
+                  'displayOnly' => true,
+                  'showClear'=> false,
+                  'showCaption' => false,
+                  'filledStar' => '<i class="glyphicon glyphicon-star"></i>',
+                  'emptyStar' => '<i class="glyphicon glyphicon-star-empty"></i>',
+                  'size' => 'xs'
+                ]
+            ]);
+          ?>
+          </h2>
         </a>
       </div>
       <div class="listado-cursos">
@@ -44,14 +61,30 @@ $this->params['breadcrumbs'][] = $this->title;
               <div class="listado-cursos-item">
                 <img class="" src="<?= \Yii::getAlias('@web') . '/formacioncomunicaciones/cursos/' . $curso->rutaImagen ?>" >
                 <div class="listado-cursos-item-titulo">
-                  <h3 class=""><?= $curso->nombreCurso ?></h3>
+                  <h3 class="">
+                    <?php 
+                      echo StarRating::widget([
+                          'name' => 'rating_1',
+                          'value' =>  $curso->promedioCalificacion,
+                          'pluginOptions' => [
+                            'displayOnly' => true,
+                            'showClear'=> false,
+                            'showCaption' => false,
+                            'filledStar' => '<i class="glyphicon glyphicon-star"></i>',
+                            'emptyStar' => '<i class="glyphicon glyphicon-star-empty"></i>',
+                            'size' => 'xs'
+                          ]
+                      ]);
+                    ?>
+                    <?= \yii\helpers\StringHelper::truncateWords($curso->nombreCurso, 5, '...', false); ?>
+                  </h3>
                 </div>
               </div>
             </a>
           <?php endif ?>
         <?php endforeach ?>
       </div>
-      <a class="ver-mas" href=" <?php Url::to('formacion') ?> ">Ver más</a>
+      <a class="ver-mas" href=" <?= Url::to('formacion') ?> ">Ver más</a>
     <?php endif ?>
   </div>
   <div class="listado-cursos-columna">
@@ -60,7 +93,23 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="curso-destacado">
           <h3 class="titulo-columna-cursos comunicacion">Comunicación</h3>
           <img class="" src="<?= \Yii::getAlias('@web') . '/formacioncomunicaciones/cursos/' . $cursosComunicacion[0]->rutaImagen ?>" >
-          <h2 class="titulo-curso-destacado"><?= $cursosComunicacion[0]->nombreCurso ?></h2>
+          <h2 class="titulo-curso-destacado">
+          <?= \yii\helpers\StringHelper::truncateWords($cursosComunicacion[0]->nombreCurso, 5, '...', false); ?>  
+          <?php 
+              echo StarRating::widget([
+                  'name' => 'rating_1',
+                  'value' =>  $cursosComunicacion[0]->promedioCalificacion,
+                  'pluginOptions' => [
+                    'displayOnly' => true,
+                    'showClear'=> false,
+                    'showCaption' => false,
+                    'filledStar' => '<i class="glyphicon glyphicon-star"></i>',
+                    'emptyStar' => '<i class="glyphicon glyphicon-star-empty"></i>',
+                    'size' => 'xs'
+                  ]
+              ]);
+            ?>
+          </h2>
         </div>
       </a>
       <div class="listado-cursos">
@@ -70,7 +119,23 @@ $this->params['breadcrumbs'][] = $this->title;
               <div class="listado-cursos-item">
                 <img class="" src="<?= \Yii::getAlias('@web') . '/formacioncomunicaciones/cursos/' . $curso->rutaImagen ?>" >
                 <div class="listado-cursos-item-titulo">
-                  <h3 class=""><?= $curso->nombreCurso ?></h3>
+                  <h3 class="">
+                    <?php 
+                      echo StarRating::widget([
+                          'name' => 'rating_1',
+                          'value' =>  $curso->promedioCalificacion,
+                          'pluginOptions' => [
+                            'displayOnly' => true,
+                            'showClear'=> false,
+                            'showCaption' => false,
+                            'filledStar' => '<i class="glyphicon glyphicon-star"></i>',
+                            'emptyStar' => '<i class="glyphicon glyphicon-star-empty"></i>',
+                            'size' => 'xs'
+                          ]
+                      ]);
+                    ?>
+                    <?= \yii\helpers\StringHelper::truncateWords($curso->nombreCurso, 5, '...', false); ?>
+                  </h3>
                 </div>
               </div>
             </a>
