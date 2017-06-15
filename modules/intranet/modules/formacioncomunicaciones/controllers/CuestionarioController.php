@@ -405,7 +405,10 @@ class CuestionarioController extends Controller{
 				$opciones = Yii::$app->request->post('opcionRespuesta');
 				$objCuestionario = new Cuestionario();
 				$preguntas = $objCuestionario->calificarCuestionario($opciones, $model,$id, $cuestionarioUsuario, $idCuestionarioUsuario);
-				$params['preguntas'] = Pregunta::find()->where('idPregunta in ('.implode(",",$preguntas).")")->all();
+				$params['preguntas'] = array();
+				if($preguntas != null){
+					$params['preguntas'] = Pregunta::find()->where('idPregunta in ('.implode(",",$preguntas).")")->all();
+				}
 				$params['cuestionarioUsuario'] = $cuestionarioUsuario;
 				$params['respuestasUsuario'] =  Yii::$app->request->post('opcionRespuesta');
 			}else{

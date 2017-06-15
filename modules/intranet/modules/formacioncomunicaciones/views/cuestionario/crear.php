@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 
 $this->title = 'Crea Cuestionario';
-$this->params['breadcrumbs'][] = ['label' => 'Cuestionarios', 'url' => ['/intranet/formacioncomunicacion/cuestionario']];
+$this->params['breadcrumbs'][] = ['label' => 'Cuestionarios', 'url' => ['/intranet/formacioncomunicaciones/cuestionario']];
 $this->params['breadcrumbs'][] = ['label' => 'Crear Cuestionario'];
 ?>
 <div class="linea-tiempo-create">
