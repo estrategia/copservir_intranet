@@ -4,6 +4,7 @@ namespace app\modules\intranet\modules\formacioncomunicaciones\models;
 
 use Yii;
 use yii\web\UploadedFile;
+use app\modules\intranet\models\GrupoInteres;
 
 /**
  * This is the model class for table "m_FORCO_Curso".
@@ -201,6 +202,11 @@ class Curso extends \yii\db\ActiveRecord
     public function getObjCursoGruposInteres()
     {
         return $this->hasMany(CursoGruposInteres::className(), ['idCurso' => 'idCurso']);
+    }
+
+    public function getObjGruposInteres()
+    {
+        return $this->hasMany(GrupoInteres::className(), ['idGrupoInteres' => 'idGrupoInteres'])->via('objCursoGruposInteres');
     }
 
     public function setCursoGruposInteres()

@@ -367,25 +367,26 @@ class CursoController extends Controller
         $cursosComunicacion = [];
         $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();   
         $cursosObligatorios = Curso::find()
-            ->joinWith('objCursoGruposInteres')
+            ->joinWith('objGruposInteres')
             ->where([
                 'tipoCurso' => Curso::TIPO_OBLIGATORIO,
                 'estadoCurso' => Curso::ESTADO_ACTIVO,
-                'idGrupoInteres' => $gruposInteres
+                'm_GrupoInteres.idGrupoInteres' => $gruposInteres
             ])
             ->orderBy(['fechaActualizacion' => SORT_DESC])
             ->limit(7)
             ->all();
         $cursosComunicacion = Curso::find()
-            ->joinWith('objCursoGruposInteres')
+            ->joinWith('objGruposInteres')
             ->where([
                 'tipoCurso' => Curso::TIPO_OPCIONAL,
                 'estadoCurso' => Curso::ESTADO_ACTIVO,
-                'idGrupoInteres' => $gruposInteres
+                'm_GrupoInteres.idGrupoInteres' => $gruposInteres
             ])
             ->orderBy(['fechaActualizacion' => SORT_DESC])
             ->limit(4)
             ->all();
+            echo sizeof($cursosObligatorios);
         if (sizeof($cursosObligatorios >= 3)) {
             $cursosBanner = array_slice($cursosObligatorios, 0, 3);
             $cursosFormacion = array_slice($cursosObligatorios, 3, 8);
