@@ -289,6 +289,16 @@ class Cuestionario extends \yii\db\ActiveRecord
     	return round(CuestionarioUsuario::find()->where(['idCuestionario' => $this->idCuestionario, 'numeroDocumento' => $numeroDocumento])->select('max(porcentajeObtenido)')->scalar(),2);
     	
     }
+
+    public function getPuntos($numeroDocumento = null)
+    {
+        $documento = $numeroDocumento;
+        if ($documento == null) {
+            $documento = Yii::$app->user->identity->numeroDocumento;
+        }
+        $puntos = Puntos::findOne(['numeroDocumento' => $documento, 'idCuestionario' => $this->idCuestionario]);
+        return ($puntos ? $puntos->valorPuntos: 0);
+    }
     
     
     

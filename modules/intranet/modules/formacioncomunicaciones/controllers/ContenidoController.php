@@ -223,8 +223,8 @@ class ContenidoController extends Controller
             ->where(['numeroDocumento' => $numeroDocumento, 'idContenido' => $id])
             ->one();
         $response = [];
+        $curso = Contenido::findOne($id)->capitulo->modulo->curso;
         if (is_null($model)) {
-            $curso = Contenido::findOne($id)->capitulo->modulo->curso;
             $model = new ContenidoLeidoUsuario();
             $model->numeroDocumento = $numeroDocumento;
             $model->idContenido = $id;
@@ -232,12 +232,27 @@ class ContenidoController extends Controller
             $model->tiempoLectura = Yii::$app->request->post()['tiempoLectura'];
             if ($model->save()) {
                 $curso->marcarLeido();
-                $response = ['result' => 'ok', 'response' => 'El contenido ha sido marcado como leido'];
+                $response = ['result' => 'ok',
+                    'response' => [
+                        'mensaje' => 'El contenido ha sido marcado como leido',
+                        'preguntaCuestionario' => $curso->preguntaCuestionario()
+                    ]
+                ];
             } else {
-                $response = ['result' => 'error', 'response' => 'Error al marcar el contenido como leido'];
+                $response = ['result' => 'error',
+                'response' => [
+                        'mensaje' => 'El contenido ha sido marcado como leido',
+                        'preguntaCuestionario' => $curso->preguntaCuestionario()
+                    ]
+                ];
             }
         } else {
-            $response = ['result' => 'ok', 'response' => 'El contenido ya ha sido marcado como leido'];
+            $response = ['result' => 'ok',
+                    'response' => [
+                        'mensaje' => 'El contenido ya ha sido marcado como leido',
+                        'preguntaCuestionario' => $curso->preguntaCuestionario()
+                    ]
+                ];
         }
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $response;

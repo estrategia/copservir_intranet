@@ -8,7 +8,7 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\Premio;
 	<div class="sub-categoria-item">
 		<?php if($model->tipoRedimir == Premio::TIPO_TIENDA):?>
 		<div class="puntos">
-		  <?= Html::img(Yii::getAlias('@web').'/img/formacioncomunicaciones/puntos.png', ['class' => 'img-responsive']) ?> 
+		  <?= Html::img(Yii::getAlias('@web').'/img/formacioncomunicaciones/assets/puntos.png', ['class' => 'img-responsive']) ?> 
 		  <span class="quantity"><?= $model->puntosRedimir?> <br> puntos</span>              
 		</div>
 		<?php endif;?>

@@ -4,38 +4,17 @@ use yii\grid\GridView;
 use yii\helpers\Url;
 use kartik\rating\StarRating;
 
-$this->title = 'Mis Cursos Recientes';
+$this->title = 'Mis Cursos Recomendados';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div>
   <h2>
-    Mis cursos recientes
+    Mis cursos recomendados
   </h2>
-    <a href="<?= Url::to('recomendados') ?>" class="btn btn-default">Recomendados <span class="glyphicon glyphicon-star"></span></a>
+    <a href="<?= Url::to('mis-cursos') ?>" class="btn btn-default">Recientes <span class="glyphicon glyphicon-star"></span></a>
     <a href="<?= Url::to('leidos') ?>" class="btn btn-default">Terminados <span class="glyphicon glyphicon-ok-circle"></span></a>
 </div>
 <br>
-<div class="owl-carousel rotor-cursos owl-theme">
-  <?php foreach ($cursosBanner as $curso): ?>
-    <div class="item">
-      <img src="<?= \Yii::getAlias('@web') . '/formacioncomunicaciones/cursos/' . $curso->rutaImagen ?>" alt="">
-      <div class="titulo-rotor-cursos"> 
-        <a href="<?= Url::to(['visualizar-curso', 'id' => $curso->idCurso]) ?>">
-          <h3>
-              <?= \yii\helpers\StringHelper::truncateWords($curso->nombreCurso, 5, '...', false); ?>
-          </h3>
-        </a> 
-      </div>
-    </div>
-  <?php endforeach ?>
-</div>
-<?php if (empty($cursosBanner)): ?>
-  <div class="jumbotron">
-    <h1>Sin cursos</h1>
-    <p>No tiene cursos asignados, pero puede acceder a todos los cursos usando el siguiente <a href="<?= Url::to('buscador') ?>">link.</a></p>
-  </div>
-<?php endif ?>
-
 <div class="listado-cursos-contenedor">
   <div class="listado-cursos-columna">
     <?php if (!empty($cursosFormacion)): ?>
@@ -154,5 +133,3 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php endif ?>
   </div>
 </div>
-
-<!-- <?php \yii\helpers\VarDumper::dump($cursosBanner,10,true); ?> -->

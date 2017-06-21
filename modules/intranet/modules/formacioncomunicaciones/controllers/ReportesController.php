@@ -5,6 +5,7 @@ namespace app\modules\intranet\modules\formacioncomunicaciones\controllers;
 use Yii;
 use app\modules\intranet\modules\formacioncomunicaciones\models\ContenidoLeidoUsuario;
 use app\modules\intranet\modules\formacioncomunicaciones\models\ContenidoLeidoUsuarioSearch;
+use app\modules\intranet\modules\formacioncomunicaciones\models\Puntos;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -50,6 +51,19 @@ class ReportesController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionRenderModalPuntosUsuario()
+    {
+        $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        $puntos = [
+            'result' => 'ok',
+            'response' => $this->renderAjax('_modalPuntosUsuario', [
+                'puntos' => Puntos::puntosDiscriminadosUsuario($numeroDocumento)
+            ])
+        ];
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $puntos;
     }
 
     /**

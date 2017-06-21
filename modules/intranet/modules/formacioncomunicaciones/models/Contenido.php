@@ -82,7 +82,7 @@ class Contenido extends \yii\db\ActiveRecord
             'fechaActualizacion' => 'Fecha Actualización',
             'contenidoGruposInteres' => 'Grupos de Interes',
             'idCurso' => 'Id Curso',
-            'tiempoRequerido' => 'Tiempo requerido'
+            'tiempoRequerido' => 'Tiempo requerido (minutos)'
         ];
     }
 

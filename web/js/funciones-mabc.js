@@ -2343,10 +2343,10 @@ $(document).ready(function () {
       success: function(data) {
         if (data.result == "ok") {
           console.log('Leido');
+          mostrarMensajeCuestionario(data.response.preguntaCuestionario);
         }else{
           console.log('No Leido');
         }
-        console.log(data.response);
       },
       error: function(jqXHR, textStatus, errorThrown) {
         $('body').hideLoading();
@@ -2355,6 +2355,15 @@ $(document).ready(function () {
   // return false;
   });
 });
+
+function mostrarMensajeCuestionario(idCuestionario) {
+  if (idCuestionario != false) {
+    var redirecciona = confirm("Felicitaciones, ha completado el curso. ¿Desea realizar la prueba de conocimiento ahora?");
+    if (redirecciona == true) {
+      window.location.href = requestUrl + '/intranet/formacioncomunicaciones/cuestionario/aplicar-cuestionario?id=' + idCuestionario;
+    }
+  }
+}
 
 $(document).ready(function () {
   $("input[name='paqueteContenido']").on('filepreajax', function (event, previewId, index) {
@@ -2535,6 +2544,32 @@ $(document).on('click', "a[data-role='ver-traza']", function() {
       if (data.result == "ok") {
         $('body').append(data.response);
         $("#widget-traza").modal("show");
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
+
+$(document).on('click', "button[data-role='ver-puntos-usuario']", function() {
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/formacioncomunicaciones/reportes/render-modal-puntos-usuario',
+    dataType: 'json',
+    beforeSend: function() {
+      $("#widget-puntos-usuario").remove();
+      $('body').showLoading();
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $('body').append(data.response);
+        $("#widget-puntos-usuario").modal("show");
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {

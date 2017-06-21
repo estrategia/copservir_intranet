@@ -413,7 +413,7 @@ class CuestionarioController extends Controller{
 				$params['respuestasUsuario'] =  Yii::$app->request->post('opcionRespuesta');
 			}else{
 				if(($model->numeroIntentos != 0 && count($cuestionariosPrevios) >= $model->numeroIntentos) || 
-						$model->cuestionarioAprobado(Yii::$app->user->identity->numeroDocumento) || !$model->objCurso->leido()){
+						$model->cuestionarioAprobado(Yii::$app->user->identity->numeroDocumento)){
 					// numero de intentos por encima
 					return $this->redirect(['aplicar-cuestionario' , 'id' => $id]);
 					exit();

@@ -37,7 +37,7 @@ class Curso extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['estadoCurso', 'idCurso', 'idTipoContenido', 'tipoCurso'], 'integer'],
+            [['estadoCurso', 'idCurso', 'idTipoContenido', 'tipoCurso', 'prioridad'], 'integer'],
             [['fechaCreacion', 'fechaActualizacion', 'fechaInicio', 'fechaFin'], 'safe'],
             [['nombreCurso'], 'string', 'max' => 45],
             [['presentacionCurso'], 'string', 'max' => 250],
@@ -283,6 +283,14 @@ class Curso extends \yii\db\ActiveRecord
         }
     }
 
+    public function preguntaCuestionario()
+    {
+        if ($this->leido() != false && $this->cuestionario != null) {
+            return $this->cuestionario->idCuestionario;
+        }
+        return false;
+    }
+
     public function getCuestionario()
     {
         return $this->hasOne(Cuestionario::className(), ['idCurso' => 'idCurso']);
@@ -291,6 +299,11 @@ class Curso extends \yii\db\ActiveRecord
     public function getContenidosLeidosUsuario()
     {
         return $this->hasMany(ContenidoLeidoUsuario::className(), ['idCurso' => 'idCurso']);
+    }
+
+    public function getCursosUsuario()
+    {
+        return $this->hasMany(CursosUsuario::className(), ['idCurso' => 'idCurso']);
     }
 
 }
