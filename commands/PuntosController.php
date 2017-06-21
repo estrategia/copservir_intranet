@@ -51,8 +51,10 @@ class PuntosController extends Controller
 
     $transaction = $connection->beginTransaction();
     try {
-      $connection->createCommand()->batchInsert('t_FORCO_Puntos', $columnas, $filas)->execute();
-      $transaction->commit();
+        $connection->createCommand("set foreign_key_checks = 0")->execute();
+        $connection->createCommand()->batchInsert('t_FORCO_Puntos', $columnas, $filas)->execute();
+        $connection->createCommand("set foreign_key_checks = 1")->execute();
+        $transaction->commit();
     } catch (\Exception $e) {
       $transaction->rollBack();
       throw $e;
