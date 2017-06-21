@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h3>
         <?= $model->presentacionCurso ?>
     </h3>
-    <?php if ($model->leido() != false && $model->cuestionario != null): ?>
+    <?php if ($model->cuestionario != null): ?>
       <?= Html::a('Tomar cuestionario', ['cuestionario/aplicar-cuestionario', 'id' => $model->cuestionario->idCuestionario], ['class' => 'btn btn-primary']) ?>
     <?php endif ?>
 

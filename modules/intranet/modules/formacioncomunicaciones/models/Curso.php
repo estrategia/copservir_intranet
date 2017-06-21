@@ -4,6 +4,7 @@ namespace app\modules\intranet\modules\formacioncomunicaciones\models;
 
 use Yii;
 use yii\web\UploadedFile;
+use app\modules\intranet\models\GrupoInteres;
 
 /**
  * This is the model class for table "m_FORCO_Curso".
@@ -37,7 +38,7 @@ class Curso extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['estadoCurso', 'idCurso', 'idTipoContenido', 'tipoCurso'], 'integer'],
+            [['estadoCurso', 'idCurso', 'idTipoContenido', 'tipoCurso', 'prioridad'], 'integer'],
             [['fechaCreacion', 'fechaActualizacion', 'fechaInicio', 'fechaFin'], 'safe'],
             [['nombreCurso'], 'string', 'max' => 45],
             [['presentacionCurso'], 'string', 'max' => 250],
@@ -128,6 +129,28 @@ class Curso extends \yii\db\ActiveRecord
         }
     }
 
+    public function calcularPromedioCalificacion()
+    {
+        $connection = Yii::$app->db;
+        $query = "
+            UPDATE m_FORCO_Curso 
+                SET promedioCalificacion = (
+                    SELECT AVG(calificacion.calificacion) FROM t_FORCO_ContenidoCalificacion calificacion
+                    JOIN m_FORCO_Contenido contenido
+                        ON calificacion.idContenido = contenido.idContenido
+                    JOIN m_FORCO_Capitulo capitulo
+                        ON contenido.idCapitulo = capitulo.idCapitulo
+                    JOIN m_FORCO_Modulo modulo
+                        ON capitulo.idModulo = modulo.idModulo
+                    JOIN (SELECT idCurso FROM m_FORCO_Curso) curso
+                        ON modulo.idCurso = curso.idCurso
+                    WHERE curso.idCurso = {$this->idCurso}
+                )
+            WHERE m_FORCO_Curso.idCurso = {$this->idCurso}
+        ";
+        $command = $connection->createCommand($query)->execute();
+    }
+
     public function activar()
     {
         $fechaInicioCurso = $this->fechaInicio;
@@ -179,6 +202,11 @@ class Curso extends \yii\db\ActiveRecord
     public function getObjCursoGruposInteres()
     {
         return $this->hasMany(CursoGruposInteres::className(), ['idCurso' => 'idCurso']);
+    }
+
+    public function getObjGruposInteres()
+    {
+        return $this->hasMany(GrupoInteres::className(), ['idGrupoInteres' => 'idGrupoInteres'])->via('objCursoGruposInteres');
     }
 
     public function setCursoGruposInteres()
@@ -261,9 +289,27 @@ class Curso extends \yii\db\ActiveRecord
         }
     }
 
+    public function preguntaCuestionario()
+    {
+        if ($this->leido() != false && $this->cuestionario != null) {
+            return $this->cuestionario->idCuestionario;
+        }
+        return false;
+    }
+
     public function getCuestionario()
     {
         return $this->hasOne(Cuestionario::className(), ['idCurso' => 'idCurso']);
+    }
+
+    public function getContenidosLeidosUsuario()
+    {
+        return $this->hasMany(ContenidoLeidoUsuario::className(), ['idCurso' => 'idCurso']);
+    }
+
+    public function getCursosUsuario()
+    {
+        return $this->hasMany(CursosUsuario::className(), ['idCurso' => 'idCurso']);
     }
 
 }

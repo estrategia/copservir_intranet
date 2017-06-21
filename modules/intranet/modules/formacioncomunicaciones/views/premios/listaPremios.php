@@ -9,7 +9,7 @@
 <div class="row">
 <?= Html::img(Yii::getAlias('@web').'/img/formacioncomunicaciones/assets/banner.png', ['class' => 'img-responsive']) ?>
   <div class="col-md-10">
-      <p class="cantidad-puntos">Tus puntos: <span><?php echo $puntos?></span></p>
+      <h2 class="cantidad-puntos">Tus puntos: <span><?php echo $puntos?></span></h2>
       <?=
         ListView::widget([
           'dataProvider' => $listDataProvider,

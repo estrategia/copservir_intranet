@@ -367,25 +367,26 @@ class CursoController extends Controller
         $cursosComunicacion = [];
         $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();   
         $cursosObligatorios = Curso::find()
-            ->joinWith('objCursoGruposInteres')
+            ->joinWith('objGruposInteres')
             ->where([
                 'tipoCurso' => Curso::TIPO_OBLIGATORIO,
                 'estadoCurso' => Curso::ESTADO_ACTIVO,
-                'idGrupoInteres' => $gruposInteres
+                'm_GrupoInteres.idGrupoInteres' => $gruposInteres
             ])
             ->orderBy(['fechaActualizacion' => SORT_DESC])
             ->limit(7)
             ->all();
         $cursosComunicacion = Curso::find()
-            ->joinWith('objCursoGruposInteres')
+            ->joinWith('objGruposInteres')
             ->where([
                 'tipoCurso' => Curso::TIPO_OPCIONAL,
                 'estadoCurso' => Curso::ESTADO_ACTIVO,
-                'idGrupoInteres' => $gruposInteres
+                'm_GrupoInteres.idGrupoInteres' => $gruposInteres
             ])
             ->orderBy(['fechaActualizacion' => SORT_DESC])
             ->limit(4)
             ->all();
+            echo sizeof($cursosObligatorios);
         if (sizeof($cursosObligatorios >= 3)) {
             $cursosBanner = array_slice($cursosObligatorios, 0, 3);
             $cursosFormacion = array_slice($cursosObligatorios, 3, 8);
@@ -398,6 +399,51 @@ class CursoController extends Controller
             'cursosComunicacion' => $cursosComunicacion,
         ];
         return $this->render('misCursos', $params);
+    }
+
+    public function actionRecomendados()
+    {
+        $cursosFormacion = Curso::find()
+            ->where(['tipoCurso' => Curso::TIPO_OBLIGATORIO])
+            ->limit(10)
+            ->orderBy(['prioridad' => SORT_DESC])
+            ->all();
+        $cursosComunicacion = Curso::find()
+            ->where(['tipoCurso' => Curso::TIPO_OPCIONAL])
+            ->limit(10)
+            ->orderBy(['prioridad' => SORT_DESC])
+            ->all();
+        return $this->render('recomendados', [
+            'cursosFormacion' => $cursosFormacion,
+            'cursosComunicacion' => $cursosComunicacion
+        ]);
+    }
+
+    public function actionLeidos()
+    {
+        $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        $cursosFormacion = Curso::find()
+            ->leftJoin('t_FORCO_CursosUsuario', 't_FORCO_CursosUsuario.idCurso = m_FORCO_Curso.idCurso')
+            ->where([
+                'tipoCurso' => Curso::TIPO_OBLIGATORIO,
+                'numeroDocumento' => $numeroDocumento
+            ])
+            ->limit(10)
+            ->orderBy(['prioridad' => SORT_DESC])
+            ->all();
+        $cursosComunicacion = Curso::find()
+            ->leftJoin('t_FORCO_CursosUsuario', 't_FORCO_CursosUsuario.idCurso = m_FORCO_Curso.idCurso')
+            ->where([
+                'tipoCurso' => Curso::TIPO_OPCIONAL,
+                'numeroDocumento' => $numeroDocumento
+            ])
+            ->limit(10)
+            ->orderBy(['prioridad' => SORT_DESC])
+            ->all();
+         return $this->render('leidos', [
+            'cursosFormacion' => $cursosFormacion,
+            'cursosComunicacion' => $cursosComunicacion
+        ]);
     }
 
     public function actionFormacion()
@@ -459,7 +505,7 @@ class CursoController extends Controller
             'model' => $this->findModel($id)
         ]);
     }
-
+    
     /**
      * Finds the Curso model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

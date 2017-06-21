@@ -124,119 +124,123 @@ class Cuestionario extends \yii\db\ActiveRecord
     	if($cuestionarioUsuario->fechaActualizacion == ""){
     		$cuestionarioUsuario->fechaActualizacion = \Date ("Y-m-d h:i:s");
     	}
-    	$numeroPreguntas = 0;
+    	$numeroPreguntas = $porcentajeObtenido = 0;
     	
     	Respuestas::deleteAll('idCuestionarioUsuario = :idcuestionariousuario AND numeroDocumento = :numerodocumento',
     			[':idcuestionariousuario' => $cuestionarioUsuario->idCuestionarioUsuario, 
     			 ':numerodocumento' => Yii::$app->user->identity->numeroDocumento,
     			]);
-    	foreach($opciones as $idPregunta => $opcion){
-	    		$pregunta = Pregunta::find()->where(['idPregunta' => $idPregunta])->one();
-	    		$preguntasCuestionario[]= $idPregunta;
-	    		
-	    		if($pregunta->idTipoPregunta == Pregunta::PREGUNTA_SELECCION_UNICA
-	    				|| $pregunta->idTipoPregunta == Pregunta::PREGUNTA_FALSO_VERDADERO){
-	    					$respuesta = OpcionRespuesta::find()->where(['idPregunta' => $pregunta->idPregunta, 'esCorrecta' => 1])->one();
-	    						
-	    					$esCorrecta = 0;
-	    					if($respuesta){
-	    						if($opcion == $respuesta->idOpcionRespuesta){
-	    							$puntaje++;
-	    							$esCorrecta = 1;
-	    						}
-	    					}
-	    						
-	    					$respuestaUsuario = new Respuestas();
-	    					$respuestaUsuario->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-	    					$respuestaUsuario->idPregunta = $idPregunta;
-	    					$respuestaUsuario->idOpcionRespuesta = $opcion;
-	    					$respuestaUsuario->esCorrecta = $esCorrecta;
-	    					$respuestaUsuario->idCuestionario = $idCuestionario;
-	    					$respuestaUsuario->idCuestionarioUsuario = $cuestionarioUsuario->idCuestionarioUsuario;
-	    					
-	    					if(!$respuestaUsuario->save()){
-	    						throw new \Exception("No se pudo guardar respuestas de seleccion &uacute;nica",501);
-	    					}
-	    						
-	    		}else if($pregunta->idTipoPregunta == Pregunta::PREGUNTA_SELECCION_MULTIPLE){
-	    			$respuesta = OpcionRespuesta::find()->where(['idPregunta' => $pregunta->idPregunta, 'esCorrecta' => 1])->all();
-	    			$correctas = $incorrectas = 0;
-	    			$respuestasCorrectas = $contestadas = array();
-	    			foreach($respuesta as $opcionCorrecta){
-	    				$respuestasCorrectas[] = $opcionCorrecta->idOpcionRespuesta;
-	    			}
-	    			foreach($opcion as $opcionMarcada => $estado){
-	    				$contestadas [] = $opcionMarcada;
-	    				$esCorrecta = 0;
-	    				if(in_array($opcionMarcada, $respuestasCorrectas) ){/***********/
-	    					$correctas++;
-	    					$esCorrecta = 1;
-	    				}else{
-	    					$incorrectas++;
-	    				}
-	    	
-	    				$respuestaUsuario = new Respuestas();
-	    				$respuestaUsuario->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-	    				$respuestaUsuario->idPregunta = $idPregunta;
-	    				$respuestaUsuario->idOpcionRespuesta = $opcionMarcada;
-	    				$respuestaUsuario->esCorrecta = $esCorrecta;
-	    				$respuestaUsuario->idCuestionario = $idCuestionario;
-	    				$respuestaUsuario->idCuestionarioUsuario = $cuestionarioUsuario->idCuestionarioUsuario;
-	    				if(!$respuestaUsuario->save()){
-	    					throw new \Exception("No se pudo guardar respuestas de seleccion m&uacute;ltiple",501);
-	    				}
-	    			}
-	    				
-	    			foreach($respuestasCorrectas as $respuestaCorrecta){
-	    				if(!in_array($respuestaCorrecta, $contestadas) ){/***********/
-	    					$incorrectas++;
-	    				}
-	    			}
-	    				
-	    			$puntaje+= ($correctas)/($correctas+$incorrectas);
-	    		}else if($pregunta->idTipoPregunta == Pregunta::PREGUNTA_COMPLETAR){
-	    			$correctas = $incorrectas = 0;
-	    			foreach($pregunta->listPreguntasHijas as $subPregunta){
-	    	
-	    				if(isset($opcion[$subPregunta->idPregunta])){
-	    					$respuesta = OpcionRespuesta::find()->where(['idPregunta' => $subPregunta->idPregunta, 'esCorrecta' => 1, 'TRIM(LOWER(respuesta))' => trim(strtolower($opcion[$subPregunta->idPregunta]))])->one();
-	    					$opcionMarcada = NULL;
-	    					$esCorrecta = 0;
-	    					if($respuesta != null){
-	    						$correctas++;
-	    						$opcionMarcada = $respuesta->idOpcionRespuesta;
-	    						$esCorrecta = 1;
-	    					}else{
-	    						$incorrectas++;
-	    					}
-	    						
-	    					$respuestaUsuario = new Respuestas();
-	    					$respuestaUsuario->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-	    					$respuestaUsuario->idPregunta = $subPregunta->idPregunta;
-	    					$respuestaUsuario->idOpcionRespuesta = $opcionMarcada;
-	    					$respuestaUsuario->esCorrecta = $esCorrecta;
-	    					$respuestaUsuario->idCuestionario = $idCuestionario;
-	    					$respuestaUsuario->respuestaTextual = $opcion[$subPregunta->idPregunta];
-	    					$respuestaUsuario->idCuestionarioUsuario = $cuestionarioUsuario->idCuestionarioUsuario;
-	    					
-	    					if(!$respuestaUsuario->save()){
-	    						throw new \Exception("No se pudo guardar respuestas de completar",501);
-	    					}
-	    				}else{
-	    					$incorrectas++;
-	    				}
-	    			}
-	    			
-	    			// $puntaje += ($correctas)/($correctas+$incorrectas);
-	    			if($incorrectas == 0){
-	    				$puntaje++;
-	    			}
-	    		}
-	    		$numeroPreguntas++;
-	    	}
+    	
+    	if($opciones != null){
+	    	foreach($opciones as $idPregunta => $opcion){
+		    		$pregunta = Pregunta::find()->where(['idPregunta' => $idPregunta])->one();
+		    		$preguntasCuestionario[]= $idPregunta;
+		    		
+		    		if($pregunta->idTipoPregunta == Pregunta::PREGUNTA_SELECCION_UNICA
+		    				|| $pregunta->idTipoPregunta == Pregunta::PREGUNTA_FALSO_VERDADERO){
+		    					$respuesta = OpcionRespuesta::find()->where(['idPregunta' => $pregunta->idPregunta, 'esCorrecta' => 1])->one();
+		    						
+		    					$esCorrecta = 0;
+		    					if($respuesta){
+		    						if($opcion == $respuesta->idOpcionRespuesta){
+		    							$puntaje++;
+		    							$esCorrecta = 1;
+		    						}
+		    					}
+		    						
+		    					$respuestaUsuario = new Respuestas();
+		    					$respuestaUsuario->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+		    					$respuestaUsuario->idPregunta = $idPregunta;
+		    					$respuestaUsuario->idOpcionRespuesta = $opcion;
+		    					$respuestaUsuario->esCorrecta = $esCorrecta;
+		    					$respuestaUsuario->idCuestionario = $idCuestionario;
+		    					$respuestaUsuario->idCuestionarioUsuario = $cuestionarioUsuario->idCuestionarioUsuario;
+		    					
+		    					if(!$respuestaUsuario->save()){
+		    						throw new \Exception("No se pudo guardar respuestas de seleccion &uacute;nica",501);
+		    					}
+		    						
+		    		}else if($pregunta->idTipoPregunta == Pregunta::PREGUNTA_SELECCION_MULTIPLE){
+		    			$respuesta = OpcionRespuesta::find()->where(['idPregunta' => $pregunta->idPregunta, 'esCorrecta' => 1])->all();
+		    			$correctas = $incorrectas = 0;
+		    			$respuestasCorrectas = $contestadas = array();
+		    			foreach($respuesta as $opcionCorrecta){
+		    				$respuestasCorrectas[] = $opcionCorrecta->idOpcionRespuesta;
+		    			}
+		    			foreach($opcion as $opcionMarcada => $estado){
+		    				$contestadas [] = $opcionMarcada;
+		    				$esCorrecta = 0;
+		    				if(in_array($opcionMarcada, $respuestasCorrectas) ){/***********/
+		    					$correctas++;
+		    					$esCorrecta = 1;
+		    				}else{
+		    					$incorrectas++;
+		    				}
+		    	
+		    				$respuestaUsuario = new Respuestas();
+		    				$respuestaUsuario->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+		    				$respuestaUsuario->idPregunta = $idPregunta;
+		    				$respuestaUsuario->idOpcionRespuesta = $opcionMarcada;
+		    				$respuestaUsuario->esCorrecta = $esCorrecta;
+		    				$respuestaUsuario->idCuestionario = $idCuestionario;
+		    				$respuestaUsuario->idCuestionarioUsuario = $cuestionarioUsuario->idCuestionarioUsuario;
+		    				if(!$respuestaUsuario->save()){
+		    					throw new \Exception("No se pudo guardar respuestas de seleccion m&uacute;ltiple",501);
+		    				}
+		    			}
+		    				
+		    			foreach($respuestasCorrectas as $respuestaCorrecta){
+		    				if(!in_array($respuestaCorrecta, $contestadas) ){/***********/
+		    					$incorrectas++;
+		    				}
+		    			}
+		    				
+		    			$puntaje+= ($correctas)/($correctas+$incorrectas);
+		    		}else if($pregunta->idTipoPregunta == Pregunta::PREGUNTA_COMPLETAR){
+		    			$correctas = $incorrectas = 0;
+		    			foreach($pregunta->listPreguntasHijas as $subPregunta){
+		    	
+		    				if(isset($opcion[$subPregunta->idPregunta])){
+		    					$respuesta = OpcionRespuesta::find()->where(['idPregunta' => $subPregunta->idPregunta, 'esCorrecta' => 1, 'TRIM(LOWER(respuesta))' => trim(strtolower($opcion[$subPregunta->idPregunta]))])->one();
+		    					$opcionMarcada = NULL;
+		    					$esCorrecta = 0;
+		    					if($respuesta != null){
+		    						$correctas++;
+		    						$opcionMarcada = $respuesta->idOpcionRespuesta;
+		    						$esCorrecta = 1;
+		    					}else{
+		    						$incorrectas++;
+		    					}
+		    						
+		    					$respuestaUsuario = new Respuestas();
+		    					$respuestaUsuario->numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+		    					$respuestaUsuario->idPregunta = $subPregunta->idPregunta;
+		    					$respuestaUsuario->idOpcionRespuesta = $opcionMarcada;
+		    					$respuestaUsuario->esCorrecta = $esCorrecta;
+		    					$respuestaUsuario->idCuestionario = $idCuestionario;
+		    					$respuestaUsuario->respuestaTextual = $opcion[$subPregunta->idPregunta];
+		    					$respuestaUsuario->idCuestionarioUsuario = $cuestionarioUsuario->idCuestionarioUsuario;
+		    					
+		    					if(!$respuestaUsuario->save()){
+		    						throw new \Exception("No se pudo guardar respuestas de completar",501);
+		    					}
+		    				}else{
+		    					$incorrectas++;
+		    				}
+		    			}
+		    			
+		    			// $puntaje += ($correctas)/($correctas+$incorrectas);
+		    			if($incorrectas == 0){
+		    				$puntaje++;
+		    			}
+		    		}
+		    		$numeroPreguntas++;
+		    	}
+		    	$porcentajeObtenido = $puntaje/$numeroPreguntas*100;
+    		}
 	    	$cuestionarioUsuario->numeroPreguntasTotal = $numeroPreguntas;
 	    	$cuestionarioUsuario->numeroPreguntasRespondidas = $puntaje;
-	    	$cuestionarioUsuario->porcentajeObtenido = $puntaje/$numeroPreguntas*100;
+	    	$cuestionarioUsuario->porcentajeObtenido = $porcentajeObtenido;
 	    	$cuestionarioUsuario->estadoCuestionario = Cuestionario::CUESTIONARIO_CERRADO;
 	    	
 	    	if(!$cuestionarioUsuario->save()){
@@ -246,7 +250,7 @@ class Cuestionario extends \yii\db\ActiveRecord
 	    	/******************* SI GANA EL EXAMEN GANA PUNTOS PARAMETRIZADOS *************/
 	    	if($cuestionarioUsuario->porcentajeObtenido >= $model->porcentajeMinimo){
 	    		
-	    		// Buscar el parámetro
+	    		// Buscar el parï¿½metro
 	    		
 	    		$parametroPunto = ParametrosPuntos::findOne(['idTipoContenido' => $model->objCurso->idTipoContenido, 'estado' => ParametrosPuntos::ESTADO_ACTIVO]);
 	    		// Guardar los puntos
@@ -284,6 +288,16 @@ class Cuestionario extends \yii\db\ActiveRecord
     public function getCalificacion($numeroDocumento){
     	return round(CuestionarioUsuario::find()->where(['idCuestionario' => $this->idCuestionario, 'numeroDocumento' => $numeroDocumento])->select('max(porcentajeObtenido)')->scalar(),2);
     	
+    }
+
+    public function getPuntos($numeroDocumento = null)
+    {
+        $documento = $numeroDocumento;
+        if ($documento == null) {
+            $documento = Yii::$app->user->identity->numeroDocumento;
+        }
+        $puntos = Puntos::findOne(['numeroDocumento' => $documento, 'idCuestionario' => $this->idCuestionario]);
+        return ($puntos ? $puntos->valorPuntos: 0);
     }
     
     

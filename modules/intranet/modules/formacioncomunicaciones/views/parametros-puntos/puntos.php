@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 } elseif ($model->tipoParametro == 3) {
                     return 'Aniversario';
                 } elseif ($model->tipoParametro == 999) {
-                    return 'Siicop';
+                    return 'Externo';
                 }
             },
             'filter'=>array('1' => 'Tipo Contenido', '2' => 'Cumpleaños', '3' => 'Aniversario', '999' => 'Siicop'),

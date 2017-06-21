@@ -644,9 +644,17 @@ a.circle-avatar, div.circle-avatar{
     background-color: #e1dbd4;
     font-size: 1.8rem;
     line-height: 1.8rem;
-    padding: 30px 0px 30px 10px;
+    padding: 10px 0px 10px 10px;
     margin: 0 !important;
     font-weight: 400;
+}
+
+.titulo-curso-destacado .glyphicon {
+    font-size: 1.3rem;
+}
+
+.titulo-curso-destacado .rating-xs {
+    font-size: 1rem;
 }
 
 .curso-destacado img {
@@ -682,6 +690,14 @@ a.circle-avatar, div.circle-avatar{
     margin-top: 20px;
 }
 
+.listado-cursos-item-titulo .glyphicon {
+    font-size: 1.3rem;
+}
+
+.listado-cursos-item-titulo .rating-xs {
+    font-size: 1rem;
+}
+
 .ver-mas {
     background-color: red;
     color: white;
@@ -701,5 +717,55 @@ a.circle-avatar, div.circle-avatar{
 }
 
 .listado-cursos-todos .listado-cursos-item {
-    width: 33%;
+    width: 45%;
+    margin-right: 4.5%;
+}
+
+/*organigrama*/
+.nodo-organigrama {
+    border: 1px solid black;
+    padding: 2px;
+    width: 300px;
+}
+
+.nodo-organigrama .node-title {
+    font-weight: 600;
+    margin:0;
+}
+
+.nodo-organigrama .node-name {
+    margin: 0;
+}
+
+.nodo-organigrama img {
+    width: 60px;
+    height: 60px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+#modal-perfil .modal-body {
+    background-color: white;
+}
+
+#modal-perfil .modal-body h4 {
+    margin: 3px 0 3px 0;
+}
+
+#modal-perfil .modal-body p {
+    margin-bottom: 0px;
+}
+
+#modal-perfil .modal-header {
+    /*background-color: #E5E9EC;*/
+    border: none;
+    text-align: center;
+}
+
+#modal-perfil img {
+    height: 160px;
+    width: 160px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }

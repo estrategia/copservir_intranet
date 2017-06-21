@@ -53,14 +53,14 @@ class IntranetAsset extends AssetBundle {
         'libs/pace/pace.min.js',
         'libs/jquery-scrollbar/jquery.scrollbar.min.js',
         'libs/jquery-numberAnimate/jquery.animateNumbers.js',
-        'libs/jquery-validation/js/jquery.validate.min.js',
+        // 'libs/jquery-validation/js/jquery.validate.min.js',
         'libs/jquery-nestable/jquery.nestable.min.js',
         'libs/webarch/webarch.js',
         'libs/jquery-block-ui/jqueryblockui.min.js',
         'libs/jquery-unveil/jquery.unveil.min.js',
         'libs/jquery-ui/jquery-ui-1.10.1.custom.min.js',
         'libs/jquery-ui-touch/jquery.ui.touch-punch.min.js',
-        //slider tareas intranet
+        // slider tareas intranet
         'libs/boostrap-slider/js/bootstrap-slider.js',
         'libs/bootstrap-media-lightbox-master/bootstrap-media-lightbox.js',
         'libs/modernizr/modernizr.js',
@@ -78,8 +78,8 @@ class IntranetAsset extends AssetBundle {
         'libs/treant-js/vendor/raphael.js',
         'libs/treant-js/Treant.js',
 
-        //propios
-        //'libs/fullcalendar/fullcalendar.js',
+        // //propios
+        'libs/fullcalendar/fullcalendar.js',
         'js/funciones-jj.js',
         'js/funciones-mabc.js',
         'js/funciones-masm.js',

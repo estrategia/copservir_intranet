@@ -18,7 +18,7 @@ $(document).on('slideStop', "input[data-role='slider-tarea']", function() {
     data: {idTarea: idTarea, progresoTarea: progresoTarea, flagHome: false},
     dataType: 'json',
     beforeSend: function() {
-      $('body').showLoading()
+      $('body').showLoading();
     },
 
     complete: function(data) {
@@ -26,7 +26,7 @@ $(document).on('slideStop', "input[data-role='slider-tarea']", function() {
     },
     success: function(data) {
       if (data.result == "ok") {
-        var elemento = '#tarea'+data.response
+        var elemento = '#tarea'+data.response;
         if (data.progreso < 100) {
           $(elemento).removeClass('slider danger col-md-8');
           $(elemento).addClass('slider primary col-md-8');
@@ -63,7 +63,7 @@ $(document).on('change', "input[data-role='tarea-check']", function() {
       data: {idTarea: idTarea},
       dataType: 'json',
       beforeSend: function() {
-        $('body').showLoading()
+        $('body').showLoading();
       },
 
       complete: function(data) {
@@ -91,7 +91,7 @@ $(document).on('change', "input[data-role='tarea-check']", function() {
       data: {idTarea: idTarea, progresoTarea: 100, flagHome: true},
       dataType: 'json',
       beforeSend: function() {
-        $('body').showLoading()
+        $('body').showLoading();
       },
 
       complete: function(data) {
@@ -130,7 +130,7 @@ $(document).on('click', "a[data-role='inactivarTarea']", function() {
       data: {idTarea: idTarea, location: location},
       dataType: 'json',
       beforeSend: function() {
-        $('body').showLoading()
+        $('body').showLoading();
       },
       complete: function(data) {
         $('body').hideLoading();
@@ -143,7 +143,7 @@ $(document).on('click', "a[data-role='inactivarTarea']", function() {
       error: function(jqXHR, textStatus, errorThrown) {
         $('body').hideLoading();
       }
-    })
+    });
   }
   return false;
 });
@@ -219,7 +219,7 @@ $(document).on('click', "a[data-role='eliminarDestinoContenidoEmergente']", func
       error: function(jqXHR, textStatus, errorThrown) {
         $('body').hideLoading();
       }
-    })
+    });
   }
   return false;
 });
@@ -275,7 +275,7 @@ $(document).on('click', "button[data-role='widget-enviarAmigo']", function() {
     url: requestUrl + '/intranet/usuario/modal-amigos?idClasificado='+idClasificado,
     dataType: 'json',
     beforeSend: function() {
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -309,7 +309,7 @@ $(document).on('click', "button[data-role='enviar-amigos']", function() {
     data: form.serialize(),
     dataType: 'json',
     beforeSend: function() {
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -371,7 +371,7 @@ $(document).on('click', "a[data-role='eliminarCargoGrupo']", function() {
       error: function(jqXHR, textStatus, errorThrown) {
         $('body').hideLoading();
       }
-    })
+    });
   }
   return false;
 });
@@ -453,7 +453,7 @@ $(document).on('click', "a[data-role='eliminarDestino']", function() {
       error: function(jqXHR, textStatus, errorThrown) {
         $('body').hideLoading();
       }
-    })
+    });
   }
   return false;
 });
@@ -538,7 +538,7 @@ $(document).on('click', "a[data-role='contacto-oferta']", function() {
 
   var idOferta = $(this).attr('data-oferta');
   var elemento = $(this);
-  var contenido = elemento.attr('data-content')
+  var contenido = elemento.attr('data-content');
   if (contenido === '' || contenido === undefined) {
     $.ajax({
       type: 'GET',
@@ -588,7 +588,7 @@ $(document).on('click', "button[data-role='categoria-crear']", function() {
     dataType: 'json',
     beforeSend: function() {
       $("#widget-categoria").remove();
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -622,7 +622,7 @@ $(document).on('click', "button[data-role='categoria-editar']", function() {
     dataType: 'json',
     beforeSend: function() {
       $("#widget-categoria").remove();
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -656,7 +656,7 @@ $(document).on('click', "button[data-role='guardar-categoria']", function() {
     data: form.serialize(),
     dataType: 'json',
     beforeSend: function() {
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -672,7 +672,7 @@ $(document).on('click', "button[data-role='guardar-categoria']", function() {
           $('#widget-categoria').remove();
           $("body").append(data.response);
           $("#widget-categoria").modal("show");
-        })
+        });
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -699,7 +699,7 @@ $(document).on('click', "button[data-role='actualizar-categoria']", function() {
     data: form.serialize(),
     dataType: 'json',
     beforeSend: function() {
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -715,7 +715,7 @@ $(document).on('click', "button[data-role='actualizar-categoria']", function() {
           $('#widget-categoria').remove();
           $("body").append(data.response);
           $("#widget-categoria").modal("show");
-        })
+        });
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -742,7 +742,7 @@ $(document).on('click', "button[data-role='relaciona-documento']", function() {
     dataType: 'json',
     beforeSend: function() {
       $("#widget-relaciona-documento").remove();
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -776,7 +776,7 @@ $(document).on('click', "button[data-role='guardar-relacion']", function() {
     data: form.serialize(),
     dataType: 'json',
     beforeSend: function() {
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -792,7 +792,7 @@ $(document).on('click', "button[data-role='guardar-relacion']", function() {
           $('#widget-relaciona-documento').remove();
           $("body").append(data.response);
           $("#widget-relaciona-documento").modal("show");
-        })
+        });
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -814,7 +814,7 @@ $(document).on('click', "button[data-role='edita-relacion']", function() {
     dataType: 'json',
     beforeSend: function() {
       $("#widget-relaciona-documento").remove();
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -848,7 +848,7 @@ $(document).on('click', "button[data-role='guardar-edito-relacion']", function()
     data: form.serialize(),
     dataType: 'json',
     beforeSend: function() {
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -862,7 +862,7 @@ $(document).on('click', "button[data-role='guardar-edito-relacion']", function()
           $('#widget-relaciona-documento').remove();
           $('body').append(data.response);
           $("#widget-relaciona-documento").modal("show");
-        })
+        });
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -892,7 +892,7 @@ $(document).on('click', "button[data-role='no-relaciona-documento']", function()
     data: {idCategoria: idCategoria, idDocumento: idDocumento},
     dataType: 'json',
     beforeSend: function() {
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -952,7 +952,7 @@ $(document).on('click', "button[data-role='opcion-menu-render-crear']", function
     dataType: 'json',
     beforeSend: function() {
       $("#widget-opcion-menu").remove();
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -986,7 +986,7 @@ $(document).on('click', "button[data-role='opcion-menu-render-actualizar']", fun
     dataType: 'json',
     beforeSend: function() {
       $("#widget-opcion-menu").remove();
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -1020,7 +1020,7 @@ $(document).on('click', "button[data-role='guardar-opcion-menu']", function() {
     data: form.serialize(),
     dataType: 'json',
     beforeSend: function() {
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -1036,7 +1036,7 @@ $(document).on('click', "button[data-role='guardar-opcion-menu']", function() {
           $("#widget-opcion-menu").remove();
           $('body').append(data.response);
           $("#widget-opcion-menu").modal("show");
-        })
+        });
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -1063,7 +1063,7 @@ $(document).on('click', "button[data-role='actualizar-opcion-menu']", function()
     data: form.serialize(),
     dataType: 'json',
     beforeSend: function() {
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -1079,7 +1079,7 @@ $(document).on('click', "button[data-role='actualizar-opcion-menu']", function()
             $('#widget-opcion-menu').remove();
             $('body').append(data.response);
             $("#widget-opcion-menu").modal("show");
-          })
+          });
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -1107,7 +1107,7 @@ $(document).on('click', "button[data-role='agregar-enlace-menu']", function() {
     dataType: 'json',
     beforeSend: function() {
       $("#widget-agregar-opcion-menu").remove();
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -1143,7 +1143,7 @@ $(document).on('click', "button[data-role='editar-enlace']", function() {
     dataType: 'json',
     beforeSend: function() {
       $("#widget-agregar-opcion-menu").remove();
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -1178,7 +1178,7 @@ $(document).on('click', "button[data-role='guardar-edicion-enlace']", function()
     data: form.serialize(),
     dataType: 'json',
     beforeSend: function() {
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -1194,7 +1194,7 @@ $(document).on('click', "button[data-role='guardar-edicion-enlace']", function()
           $('#widget-agregar-opcion-menu').remove();
           $('body').append(data.response);
           $("#widget-agregar-opcion-menu").modal("show");
-        })
+        });
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -1221,7 +1221,7 @@ $(document).on('click', "button[data-role='guardar-enlace']", function() {
     data: form.serialize(),
     dataType: 'json',
     beforeSend: function() {
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -1237,7 +1237,7 @@ $(document).on('click', "button[data-role='guardar-enlace']", function() {
           $('#widget-agregar-opcion-menu').remove();
           $('body').append(data.response);
           $("#widget-agregar-opcion-menu").modal("show");
-        })
+        });
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -1263,7 +1263,7 @@ $(document).on('click', "button[data-role='quitar-enlace-menu']", function() {
     data: {idOpcion: idOpcion},
     dataType: 'json',
     beforeSend: function() {
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -1456,7 +1456,7 @@ $(document).on('click', "a[data-role='eliminarDestinoCampana']", function() {
       error: function(jqXHR, textStatus, errorThrown) {
         $('body').hideLoading();
       }
-    })
+    });
   }
   return false;
 });
@@ -1533,7 +1533,7 @@ $(document).on('click', "a[data-role='eliminarDestinoEventoCalendario']", functi
       error: function(jqXHR, textStatus, errorThrown) {
         $('body').hideLoading();
       }
-    })
+    });
   }
   return false;
 });
@@ -1577,7 +1577,7 @@ $(document).on('click', "a[data-role='asignar-contenido-evento-calendario']", fu
 
   var idContenido = $(this).attr('data-contenido');
   var idEvento = $('#modelo').attr('data-evento');
-  var url = $(this).attr('href')
+  var url = $(this).attr('href');
 
   $.ajax({
     type: 'POST',
@@ -1819,9 +1819,9 @@ $(document).on('click', "#mostrarFormularioContenido", function() {
   $('#publicarContenido').toggle('slow');
   count ++;
   if (count % 2 === 0 ) {
-      $("#mostrarFormularioContenido").text('ocultar formulario')
+      $("#mostrarFormularioContenido").text('ocultar formulario');
   }else{
-      $("#mostrarFormularioContenido").text('crea una publicación')
+      $("#mostrarFormularioContenido").text('crea una publicación');
   }
 
   return false;
@@ -1861,13 +1861,13 @@ $( document ).ready(function() {
   });
 
   // EVENTOS PARA MOVER EL CAROUSEL CUMPLEAÑOS
-  $('.owl-prev-Cumpleaños').click(function() {;
+  $('.owl-prev-Cumpleaños').click(function() {
     owlCumple.trigger('owl.prev');
-  })
+  });
 
   $('.owl-next-Cumpleaños').click(function() {
     owlCumple.trigger('owl.next');
-  })
+  });
 
   // CAROUSEL ANIVERSARIOS
   var owlAni = $('#owl-Aniversarios');
@@ -1885,13 +1885,13 @@ $( document ).ready(function() {
   });
 
   // EVENTOS PARA MOVER EL CAROUSEL ANIVERSARIOS
-  $('.owl-prev-Aniversarios').click(function() {;
+  $('.owl-prev-Aniversarios').click(function() {
     owlAni.trigger('owl.prev');
-  })
+  });
 
   $('.owl-next-Aniversarios').click(function() {
     owlAni.trigger('owl.next');
-  })
+  });
 
   // javascript para que se busque una noticia cuando presiona enter
   $('#busqueda').keypress(function(event) {
@@ -1929,7 +1929,7 @@ $(document).on('click', 'button[data-role="eliminar-imagen-modulo-galeria"]', fu
       console.log(jqXHR);
     }
   });
-})
+});
 
 $(document).on('click', 'button[data-role="editar-imagen-modulo-galeria"]', function () {
   var idImagen = $(this).attr('data-imagen');
@@ -1957,7 +1957,7 @@ $(document).on('click', 'button[data-role="editar-imagen-modulo-galeria"]', func
       console.log(jqXHR);
     }
   });
-})
+});
 
 $(document).on('click', 'button[data-role="guardar-cambios-imagen"]', function () {
   // var idImagen = $(this).attr('data-imagen');
@@ -1986,7 +1986,7 @@ $(document).on('click', 'button[data-role="guardar-cambios-imagen"]', function (
       console.log(jqXHR);
     }
   });
-})
+});
 
 $(document).on('click', "button[data-role='modulo-crear']", function() {
 
@@ -1998,7 +1998,7 @@ $(document).on('click', "button[data-role='modulo-crear']", function() {
     dataType: 'json',
     beforeSend: function() {
       $("#widget-modulo").remove();
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -2026,7 +2026,7 @@ $(document).on('click', "a[data-role='modulo-editar']", function() {
     dataType: 'json',
     beforeSend: function() {
       $("#widget-modulo").remove();
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -2055,7 +2055,7 @@ $(document).on('click', "button[data-role='crear-modulo']", function() {
     data: form.serialize(),
     dataType: 'json',
     beforeSend: function() {
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -2071,7 +2071,7 @@ $(document).on('click', "button[data-role='crear-modulo']", function() {
           $('#widget-modulo').remove();
           $("body").append(data.response);
           $("#widget-modulo").modal("show");
-        })
+        });
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -2093,7 +2093,7 @@ $(document).on('click', "button[data-role='actualizar-modulo']", function() {
     data: form.serialize(),
     dataType: 'json',
     beforeSend: function() {
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -2109,7 +2109,7 @@ $(document).on('click', "button[data-role='actualizar-modulo']", function() {
           $('#widget-modulo').remove();
           $("body").append(data.response);
           $("#widget-modulo").modal("show");
-        })
+        });
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -2130,7 +2130,7 @@ $(document).on('click', "a[data-role='agregar-capitulo']", function() {
     dataType: 'json',
     beforeSend: function() {
       $("#widget-capitulo").remove();
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -2159,7 +2159,7 @@ $(document).on('click', "button[data-role='crear-capitulo']", function() {
     data: form.serialize(),
     dataType: 'json',
     beforeSend: function() {
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -2175,7 +2175,7 @@ $(document).on('click', "button[data-role='crear-capitulo']", function() {
           $('#widget-capitulo').remove();
           $("body").append(data.response);
           $("#widget-capitulo").modal("show");
-        })
+        });
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -2195,7 +2195,7 @@ $(document).on('click', "a[data-role='capitulo-editar']", function() {
     dataType: 'json',
     beforeSend: function() {
       $("#widget-capitulo").remove();
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -2225,7 +2225,7 @@ $(document).on('click', "button[data-role='actualizar-capitulo']", function() {
     data: form.serialize(),
     dataType: 'json',
     beforeSend: function() {
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -2241,7 +2241,7 @@ $(document).on('click', "button[data-role='actualizar-capitulo']", function() {
           $('#widget-capitulo').remove();
           $("body").append(data.response);
           $("#widget-capitulo").modal("show");
-        })
+        });
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -2262,7 +2262,7 @@ $(document).on('click', "a[data-role='agregar-contenido']", function() {
     dataType: 'json',
     beforeSend: function() {
       $("#widget-contenido").remove();
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -2292,7 +2292,7 @@ $(document).on('click', "button[data-role='crear-contenido']", function() {
     data: form.serialize(),
     dataType: 'json',
     beforeSend: function() {
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -2308,7 +2308,7 @@ $(document).on('click', "button[data-role='crear-contenido']", function() {
           $('#widget-contenido').remove();
           $("body").append(data.response);
           $("#widget-contenido").modal("show");
-        })
+        });
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -2318,7 +2318,7 @@ $(document).on('click', "button[data-role='crear-contenido']", function() {
   return false;
 });
 
-var tiempoActual = null
+var tiempoActual = null;
 
 $(document).ready(function () {
   tiempoActual = new Date();
@@ -2326,7 +2326,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $("#marcador-leido").one('inview', function () {
-    var idContenido = $(this).attr('data-contenido-id')
+    var idContenido = $(this).attr('data-contenido-id');
     var tiempoLectura = Math.round( (new Date() - tiempoActual) / 1000);
     $.ajax({
       type: 'POST',
@@ -2335,18 +2335,18 @@ $(document).ready(function () {
       dataType: 'json',
       data: {tiempoLectura: tiempoLectura},
       beforeSend: function() {
-        $('body').showLoading()
+        $('body').showLoading();
       },
       complete: function(data) {
         $('body').hideLoading();
       },
       success: function(data) {
         if (data.result == "ok") {
-          console.log('Leido')
+          console.log('Leido');
+          mostrarMensajeCuestionario(data.response.preguntaCuestionario);
         }else{
-          console.log('No Leido')
+          console.log('No Leido');
         }
-        console.log(data.response);
       },
       error: function(jqXHR, textStatus, errorThrown) {
         $('body').hideLoading();
@@ -2355,6 +2355,15 @@ $(document).ready(function () {
   // return false;
   });
 });
+
+function mostrarMensajeCuestionario(idCuestionario) {
+  if (idCuestionario != false) {
+    var redirecciona = confirm("Felicitaciones, ha completado el curso. ¿Desea realizar la prueba de conocimiento ahora?");
+    if (redirecciona == true) {
+      window.location.href = requestUrl + '/intranet/formacioncomunicaciones/cuestionario/aplicar-cuestionario?id=' + idCuestionario;
+    }
+  }
+}
 
 $(document).ready(function () {
   $("input[name='paqueteContenido']").on('filepreajax', function (event, previewId, index) {
@@ -2370,7 +2379,7 @@ $(document).ready(function () {
   $("input[name='paqueteContenido']").on('fileunlock', function (event, filestack, extraData) {
     $('#btn-actualizar-contenido').removeClass('disabled');
   });
-})
+});
 
 $(document).on('click', "input[data-role='toogle-collapsible']", function() {
   if ($(this).attr('data-valor') == 1) {
@@ -2397,7 +2406,7 @@ $(document).on('change', "#parametrospuntos-tipoparametro", function () {
     $('.field-parametrospuntos-idtipocontenido').addClass('hidden');
     $('.field-parametrospuntos-condicion').removeClass('hidden');
   }
-})
+});
 
 $(document).on('click', "a[data-role='modal-padre-categoria']", function () {
   $.ajax({
@@ -2422,7 +2431,7 @@ $(document).on('click', "a[data-role='modal-padre-categoria']", function () {
       $('body').hideLoading();
     }
   });
-})
+});
 
 $(document).on('click', "a[data-role='categoria-padre-asignar']", function () {
   var idCategoria = $(this).attr('data-id-categoria');
@@ -2431,7 +2440,7 @@ $(document).on('click', "a[data-role='categoria-padre-asignar']", function () {
   $('#premio-idcategoria').val(idCategoria);
   $("a[data-role='modal-padre-categoria']").text(nombreCategoria);
   $('#modal-asignar-categoria-padre').modal('hide');
-})
+});
 
 $(document).on('click', "button[data-role='agregar-contacto-categoria']", function () {
   if ($('#modal-agregar-contacto-categoria').length == 0) {
@@ -2460,7 +2469,7 @@ $(document).on('click', "button[data-role='agregar-contacto-categoria']", functi
   } else {
     $('#modal-agregar-contacto-categoria').modal('show');  
   }
-})
+});
 
 $(document).on('click', "button[data-role='crear-contacto-categoria']", function () {
   var idCategoria = $("button[data-role='agregar-contacto-categoria']").attr('data-id-categoria');
@@ -2515,7 +2524,7 @@ $(document).on('click', "a[data-role='eliminar-contacto-categoria']", function (
       $('body').hideLoading();
     }
   });
-})
+});
 
 $(document).on('click', "a[data-role='ver-traza']", function() {
   var idRedencion = $(this).attr('data-id-redencion');
@@ -2526,7 +2535,7 @@ $(document).on('click', "a[data-role='ver-traza']", function() {
     dataType: 'json',
     beforeSend: function() {
       $("#widget-traza").remove();
-      $('body').showLoading()
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -2535,6 +2544,32 @@ $(document).on('click', "a[data-role='ver-traza']", function() {
       if (data.result == "ok") {
         $('body').append(data.response);
         $("#widget-traza").modal("show");
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
+
+$(document).on('click', "button[data-role='ver-puntos-usuario']", function() {
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/formacioncomunicaciones/reportes/render-modal-puntos-usuario',
+    dataType: 'json',
+    beforeSend: function() {
+      $("#widget-puntos-usuario").remove();
+      $('body').showLoading();
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      if (data.result == "ok") {
+        $('body').append(data.response);
+        $("#widget-puntos-usuario").modal("show");
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -2555,70 +2590,8 @@ $(document).ready(function () {
       // autoPlay: 3000,
       // autoplayTimeout: 3000,
       
-  })
+  });
 })
 
 // Organigrama 
-// var organigrama_config = {
-//     chart: {
-//         container: "#organigrama",
-//         connectors: {
-//           type: "step"
-//         }
-//     }
-//   };
 
-// $(document).ready(function () {
-//   $.ajax({
-//     type: 'GET',
-//     async: true,
-//     url: requestUrl + '/intranet/organigrama/consultar',
-//     // data: {idCategoria, numeroDocumento},
-//     dataType: 'json',
-//     beforeSend: function() {
-//       $('body').showLoading();
-//     },
-//     complete: function(data) {
-//       $('body').hideLoading();
-//     },
-//     success: function(data) {
-//         if (data.result == "ok") {
-//           organigrama_config.nodeStructure = data.response;
-//           var organigrama = new Treant(organigrama_config, null, $);
-//         }
-//     },
-//     error: function(jqXHR, textStatus, errorThrown) {
-//       $('body').hideLoading();
-//     }
-//   });
-// })
-
-// $(document).on('click', '.node', function () {
-//   var numeroDocumento = $(this).attr('id');
-//   var expandido = $(this).attr('data-expandido');
-//   if(expandido != 1) {
-//     $.ajax({
-//       type: 'GET',
-//       async: true,
-//       url: requestUrl + '/intranet/organigrama/colaboradores?numeroDocumento=' + numeroDocumento,
-//       // data: {idCategoria, numeroDocumento},
-//       dataType: 'json',
-//       beforeSend: function() {
-//         $('body').showLoading();
-//       },
-//       complete: function(data) {
-//         $('body').hideLoading();
-//       },
-//       success: function(data) {
-//           if (data.result == "ok") {
-//             organigrama_config.nodeStructure = data.response;
-//             organigrama = new Treant(organigrama_config, null, $);
-//           }
-//             $('#'+numeroDocumento).attr('data-expandido', '1');
-//       },
-//       error: function(jqXHR, textStatus, errorThrown) {
-//         $('body').hideLoading();
-//       }
-//     });
-//   }
-// });
