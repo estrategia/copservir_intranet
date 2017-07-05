@@ -16,22 +16,13 @@ use kartik\select2\Select2;
     <?= $form->field($model, 'valorPuntos')->textInput() ?>
 
     <?= $form->field($model, 'tipoParametro')->widget(Select2::classname(), [
-      'data' => ['1' => 'Tipo de Contenido', '2' => 'Cumpleaños', '3' => 'Aniversario'],
+      'data' => ['1' => 'Cumpleaños', '2' => 'Aniversario'],
       'options' => ['placeholder' => 'Selecciona tipo de parametro ...'],
       'hideSearch' => true,
       'pluginOptions' => [
         'allowClear' => true
       ],
     ]); ?>
-
-    <?= $form->field($model, 'idTipoContenido', ['options' => ['class' => 'form-group hidden']])->widget(Select2::classname(), [
-        'data' => $tiposContenido,
-        'options' => ['placeholder' => 'Selecciona tipo de contenido ...'],
-        'hideSearch' => true,
-        'pluginOptions' => [
-          'allowClear' => true
-        ],
-      ]); ?>
   
     <?= $form->field($model, 'condicion', ['options' => ['class' => 'form-group hidden']])->textInput() ?>
 

@@ -1,11 +1,11 @@
 <?php
 use yii\helpers\Html;
 
-$this->params['breadcrumbs'][] = ['label' => 'Cuestionario', 'url' => ['/intranet/formacioncomunicaciones/cuestionario']];
-$this->params['breadcrumbs'][] = ['label' => 'Ver cuestionario'];
+$this->params['breadcrumbs'][] = ['label' => 'Cuestionarios', 'url' => ['/intranet/formacioncomunicaciones/cuestionario']];
+$this->params['breadcrumbs'][] = ['label' => $params['model']->tituloCuestionario];
 ?>
 <div class="linea-tiempo-view">
-
+<?php //yii\helpers\VarDumper::dump($params,1,true) ?>
     <p>
         <?= Html::a('Actualizar', ['actualizar', 'id' => $params['model']->idCuestionario], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Preguntas', ['preguntas', 'id' => $params['model']->idCuestionario], ['class' => 'btn btn-primary']) ?>

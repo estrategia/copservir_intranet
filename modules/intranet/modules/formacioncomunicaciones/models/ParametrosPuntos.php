@@ -23,9 +23,8 @@ class ParametrosPuntos extends \yii\db\ActiveRecord
 {
     const ESTADO_ACTIVO = 1;
     const ESTADO_INACTIVO = 0;
-    const PARAMETRO_TIPO_CONTENIDO = 1;
-    const PARAMETRO_CUMPLEANIOS = 2;
-    const PARAMETRO_ANIVERSARIO = 3;
+    const PARAMETRO_CUMPLEANIOS = 1;
+    const PARAMETRO_ANIVERSARIO = 2;
     const PARAMETRO_EXTERNO = 999;
     /**
      * @inheritdoc
@@ -42,7 +41,7 @@ class ParametrosPuntos extends \yii\db\ActiveRecord
     {
         return [
             [['tipoParametro', 'valorPuntos'], 'required'],
-            [['tipoParametro', 'valorPuntos', 'idTipoContenido', 'condicion', 'estado'], 'integer'],
+            [['tipoParametro', 'valorPuntos', 'condicion', 'estado'], 'integer'],
             [['fechaCreacion', 'fechaActualizacion'], 'safe']
         ];
     }
@@ -56,7 +55,6 @@ class ParametrosPuntos extends \yii\db\ActiveRecord
             'idParametroPunto' => 'Id Parametro Punto',
             'tipoParametro' => 'Tipo Parametro',
             'valorPuntos' => 'Valor Puntos',
-            'idTipoContenido' => 'Tipo Contenido',
             'condicion' => 'Cantidad de años',
             'estado' => 'Estado',
             'fechaCreacion' => 'Fecha Creacion',
@@ -67,21 +65,9 @@ class ParametrosPuntos extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIdTipoContenido0()
-    {
-        return $this->hasOne(MFORCOTipoContenido::className(), ['idTipoContenido' => 'idTipoContenido']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getTFORCOPuntos()
     {
         return $this->hasMany(TFORCOPuntos::className(), ['idParametroPunto' => 'idParametroPunto']);
     }
 
-    public function getObjTipoContenido()
-    {
-        return $this->hasOne(TipoContenido::className(), ['idTipoContenido' => 'idTipoContenido']);
-    }
 }

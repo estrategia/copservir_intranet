@@ -47,6 +47,36 @@ class CuestionarioController extends Controller{
 	
 		];
 	}
+
+	public function actions()
+    {
+        return [
+            'cargar-imagen' => [
+                'class' => 'vova07\imperavi\actions\UploadAction',
+                'url' => Yii::getAlias('@web') . '/formacioncomunicaciones/cuestionarios/imagenes/', //Yii::$app->realpath().'/imagenes', // Directory URL address, where files are stored.
+                'path' => '@app/web/formacioncomunicaciones/cuestionarios/imagenes/', // Or absolute path to directory where files are stored.
+                'validatorOptions' => [
+                    'extensions' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? Yii::$app->params['contenido']['imagenAdmin']['formatosValidos'] : Yii::$app->params['contenido']['imagen']['formatosValidos'],
+                    
+                    'maxWidth' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? Yii::$app->params['contenido']['imagenAdmin']['ancho'] : Yii::$app->params['contenido']['imagen']['ancho'],
+
+                    'maxHeight' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? Yii::$app->params['contenido']['imagenAdmin']['alto'] : Yii::$app->params['contenido']['imagen']['alto'],
+                    
+                    'maxSize' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? Yii::$app->params['contenido']['imagenAdmin']['tamanho'] * 1024 * 1024 : Yii::$app->params['contenido']['imagen']['tamanho'] * 1024 * 1024
+                ]
+            ],
+            'cargar-archivo' => [
+                'class' => 'vova07\imperavi\actions\UploadAction',
+                'url' => Yii::getAlias('@web') . '/formacioncomunicaciones/cuestionarios/archivos/',
+                'path' => '@app/web/formacioncomunicaciones/cuestionarios/archivos/',
+                'uploadOnlyImage' => false,
+                'validatorOptions' => [
+                    'extensions' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? Yii::$app->params['contenido']['archivoAdmin']['formatosValidos'] : Yii::$app->params['contenido']['archivo']['formatosValidos'],
+                    'maxSize' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? Yii::$app->params['contenido']['archivoAdmin']['tamanho'] * 1024 * 1024 :  Yii::$app->params['contenido']['archivo']['tamanho'] * 1024 * 1024
+                ]
+            ]
+        ];
+    }
 	
 	public function actionIndex(){
 		$searchModel = new Cuestionario();

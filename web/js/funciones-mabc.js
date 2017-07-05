@@ -2397,13 +2397,8 @@ $(document).on('click', "input[data-role='toogle-collapsible']", function() {
 
 $(document).on('change', "#parametrospuntos-tipoparametro", function () {
   if ($(this).val() == 1) {
-    $('.field-parametrospuntos-idtipocontenido').removeClass('hidden');
     $('.field-parametrospuntos-condicion').addClass('hidden');
   } else if ($(this).val() == 2) {
-    $('.field-parametrospuntos-idtipocontenido').addClass('hidden');
-    $('.field-parametrospuntos-condicion').addClass('hidden');
-  } else if ($(this).val() == 3) {
-    $('.field-parametrospuntos-idtipocontenido').addClass('hidden');
     $('.field-parametrospuntos-condicion').removeClass('hidden');
   }
 });
@@ -2474,7 +2469,7 @@ $(document).on('click', "button[data-role='agregar-contacto-categoria']", functi
 $(document).on('click', "button[data-role='crear-contacto-categoria']", function () {
   var idCategoria = $("button[data-role='agregar-contacto-categoria']").attr('data-id-categoria');
   var numeroDocumento = $("#selector-usuarios-contacto").val();
-  console.log(idCategoria, numeroDocumento);
+  // console.log(idCategoria, numeroDocumento);
   $.ajax({
     type: 'POST',
     async: true,
@@ -2491,7 +2486,7 @@ $(document).on('click', "button[data-role='crear-contacto-categoria']", function
         if (data.result == "ok") {
           $('#lista-contactos-categoria').html(data.response);
         }
-        $('#agregar-contacto-categoria').modal('hide');
+        $('#modal-agregar-contacto-categoria').modal('hide');
     },
     error: function(jqXHR, textStatus, errorThrown) {
       $('body').hideLoading();
@@ -2502,7 +2497,7 @@ $(document).on('click', "button[data-role='crear-contacto-categoria']", function
 $(document).on('click', "a[data-role='eliminar-contacto-categoria']", function () {
   var idCategoria = $(this).attr('data-id-categoria');
   var numeroDocumento = $(this).attr('data-numero-documento');
-  console.log(idCategoria, numeroDocumento);
+  // console.log(idCategoria, numeroDocumento);
   $.ajax({
     type: 'POST',
     async: true,
@@ -2517,7 +2512,8 @@ $(document).on('click', "a[data-role='eliminar-contacto-categoria']", function (
     },
     success: function(data) {
         if (data.result == "ok") {
-          $('body').append(data.response);
+          $('#lista-contactos-categoria').html(data.response);
+          // $('body').append(data.response);
         }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -2580,14 +2576,14 @@ $(document).on('click', "button[data-role='ver-puntos-usuario']", function() {
 });
 
 $(document).ready(function () {
-  $('.owl-carousel').owlCarousel({
+  $('.rotor-cursos').owlCarousel({
       singleItem:true,
       loop:true,
       // navigation:true,
       // pagination: true,
       center: true,
       // dots: true,
-      // autoPlay: 3000,
+      autoPlay: true,
       // autoplayTimeout: 3000,
       
   });

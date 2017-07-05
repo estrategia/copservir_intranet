@@ -18,7 +18,7 @@ class ParametrosPuntosSearch extends ParametrosPuntos
     public function rules()
     {
         return [
-            [['idParametroPunto', 'tipoParametro', 'valorPuntos', 'idTipoContenido', 'condicion', 'estado', 'valorPuntosExtra'], 'integer'],
+            [['idParametroPunto', 'tipoParametro', 'valorPuntos', 'condicion', 'estado', 'valorPuntosExtra'], 'integer'],
             [['fechaCreacion', 'fechaActualizacion'], 'safe'],
         ];
     }
@@ -62,7 +62,6 @@ class ParametrosPuntosSearch extends ParametrosPuntos
             'idParametroPunto' => $this->idParametroPunto,
             'tipoParametro' => $this->tipoParametro,
             'valorPuntos' => $this->valorPuntos,
-            'idTipoContenido' => $this->idTipoContenido,
             'condicion' => $this->condicion,
             'estado' => $this->estado,
             'fechaCreacion' => $this->fechaCreacion,
