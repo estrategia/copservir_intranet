@@ -14,7 +14,7 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\CuestionarioUsua
 use yii\base\Model;
 use yii\db\Expression;
 use app\models\Usuario;
-use app\modules\intranet\models\CuestionarioUsuarioForm;
+use app\modules\intranet\models\formacioncomunicaciones\CuestionarioUsuarioForm;
 use yii\helpers\ArrayHelper;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Contenido;
 
@@ -48,6 +48,36 @@ class CuestionarioController extends Controller{
 	
 		];
 	}
+
+	public function actions()
+    {
+        return [
+            'cargar-imagen' => [
+                'class' => 'vova07\imperavi\actions\UploadAction',
+                'url' => Yii::getAlias('@web') . '/formacioncomunicaciones/cuestionarios/imagenes/', //Yii::$app->realpath().'/imagenes', // Directory URL address, where files are stored.
+                'path' => '@app/web/formacioncomunicaciones/cuestionarios/imagenes/', // Or absolute path to directory where files are stored.
+                'validatorOptions' => [
+                    'extensions' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? Yii::$app->params['contenido']['imagenAdmin']['formatosValidos'] : Yii::$app->params['contenido']['imagen']['formatosValidos'],
+                    
+                    'maxWidth' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? Yii::$app->params['contenido']['imagenAdmin']['ancho'] : Yii::$app->params['contenido']['imagen']['ancho'],
+
+                    'maxHeight' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? Yii::$app->params['contenido']['imagenAdmin']['alto'] : Yii::$app->params['contenido']['imagen']['alto'],
+                    
+                    'maxSize' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? Yii::$app->params['contenido']['imagenAdmin']['tamanho'] * 1024 * 1024 : Yii::$app->params['contenido']['imagen']['tamanho'] * 1024 * 1024
+                ]
+            ],
+            'cargar-archivo' => [
+                'class' => 'vova07\imperavi\actions\UploadAction',
+                'url' => Yii::getAlias('@web') . '/formacioncomunicaciones/cuestionarios/archivos/',
+                'path' => '@app/web/formacioncomunicaciones/cuestionarios/archivos/',
+                'uploadOnlyImage' => false,
+                'validatorOptions' => [
+                    'extensions' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? Yii::$app->params['contenido']['archivoAdmin']['formatosValidos'] : Yii::$app->params['contenido']['archivo']['formatosValidos'],
+                    'maxSize' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? Yii::$app->params['contenido']['archivoAdmin']['tamanho'] * 1024 * 1024 :  Yii::$app->params['contenido']['archivo']['tamanho'] * 1024 * 1024
+                ]
+            ]
+        ];
+    }
 	
 	public function actionIndex(){
 		$searchModel = new Cuestionario();
@@ -406,12 +436,15 @@ class CuestionarioController extends Controller{
 				$opciones = Yii::$app->request->post('opcionRespuesta');
 				$objCuestionario = new Cuestionario();
 				$preguntas = $objCuestionario->calificarCuestionario($opciones, $model,$id, $cuestionarioUsuario, $idCuestionarioUsuario);
-				$params['preguntas'] = Pregunta::find()->where('idPregunta in ('.implode(",",$preguntas).")")->all();
+				$params['preguntas'] = array();
+				if($preguntas != null){
+					$params['preguntas'] = Pregunta::find()->where('idPregunta in ('.implode(",",$preguntas).")")->all();
+				}
 				$params['cuestionarioUsuario'] = $cuestionarioUsuario;
 				$params['respuestasUsuario'] =  Yii::$app->request->post('opcionRespuesta');
 			}else{
 				if(($model->numeroIntentos != 0 && count($cuestionariosPrevios) >= $model->numeroIntentos) || 
-						$model->cuestionarioAprobado(Yii::$app->user->identity->numeroDocumento) || !$model->objCurso->leido()){
+						$model->cuestionarioAprobado(Yii::$app->user->identity->numeroDocumento)){
 					// numero de intentos por encima
 					return $this->redirect(['aplicar-cuestionario' , 'id' => $id]);
 					exit();

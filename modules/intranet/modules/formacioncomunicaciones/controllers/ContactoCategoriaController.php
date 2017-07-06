@@ -47,10 +47,14 @@ class ContactoCategoriaController extends \yii\web\Controller
         $idCategoria = \Yii::$app->request->post()['idCategoria'];
         $numeroDocumento = \Yii::$app->request->post()['numeroDocumento'];
         $contacto = ContactoCategoria::find()->where(['idCategoriaPremio' => $idCategoria, 'numeroDocumento' => $numeroDocumento])->one();
+        $modelCategoria = CategoriasPremios::find()->where(['idCategoria' => $idCategoria])->one();
         if (is_null($contacto)) {
           $response = ['result' => 'error', 'response' => 'No se encuentra el contacto'];
         } elseif ($contacto->delete()) {
-          $response = ['result' => 'ok', 'response' => 'Se ha eliminado el contacto correctamente'];
+          $response = [
+            'result' => 'ok', 
+            'response' => $this->renderAjax('_lista-contactos-categoria', ['model'=> $modelCategoria])
+          ];
         }
       }
       \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;  

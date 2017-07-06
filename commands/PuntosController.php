@@ -48,11 +48,13 @@ class PuntosController extends Controller
         $fechaCreacion
       ];
     }
-
+    
     $transaction = $connection->beginTransaction();
     try {
-      $connection->createCommand()->batchInsert('t_FORCO_Puntos', $columnas, $filas)->execute();
-      $transaction->commit();
+        $connection->createCommand("set foreign_key_checks = 0")->execute();
+        $connection->createCommand()->batchInsert('t_FORCO_Puntos', $columnas, $filas)->execute();
+        $connection->createCommand("set foreign_key_checks = 1")->execute();
+        $transaction->commit();
     } catch (\Exception $e) {
       $transaction->rollBack();
       throw $e;
@@ -65,6 +67,8 @@ class PuntosController extends Controller
 
   public function actionAsignarPuntosCumpleanios()
   {
+    echo "PuntosController::actionAsignarPuntosCumpleanios -- INICIO\n";
+    \Yii::info("PuntosController::actionAsignarPuntosCumpleanios -- INICIO");
     $connection = Yii::$app->getDb();
     $fechaHoy = date('Y-m-d H:i:s');
     $parametrosCumpleanios = ParametrosPuntos::PARAMETRO_CUMPLEANIOS;
@@ -85,25 +89,43 @@ class PuntosController extends Controller
         'numeroDocumento' => $dato['numeroDocumento'],
         'valorPuntos' => $dato['valorPuntos'],
         'descripcionPunto' => 'Puntos por cumpleaños',
-        'tipoParametro' => ParametrosPuntos::PARAMETRO_ANIVERSARIO,
+        'tipoParametro' => ParametrosPuntos::PARAMETRO_CUMPLEANIOS,
         'fechaCreacion' => $fechaHoy
       ];
     }
-    $transaction = $connection->beginTransaction();
-    try {
-      $connection->createCommand()->batchInsert('t_FORCO_Puntos', $columnas, $filas)->execute();
-      $transaction->commit();
-    } catch (\Exception $e) {
-      $transaction->rollBack();
-      throw $e;
-    } catch (\Throwable $e) {
-      $transaction->rollBack();
-      throw $e;
+    \Yii::info("Cantidad de cumpleanios: " . count($filas));
+    echo "Cantidad de cumpleanios: " . count($filas) . "\n";
+    
+    if (count($filas) > 0) {
+      $transaction = $connection->beginTransaction();
+      try {
+          $connection->createCommand("set foreign_key_checks = 0")->execute();
+          $result = $connection->createCommand()->batchInsert('t_FORCO_Puntos', $columnas, $filas);
+          \Yii::info("batchInsert: " . $result->rawSql);
+          $result = $result->execute();
+          \Yii::info("Cantidad de puntos insertados: $result");
+          echo "Cantidad de puntos insertados: $result \n";
+          $transaction->commit();
+          $connection->createCommand("set foreign_key_checks = 1")->execute();
+      } catch (\Exception $e) {
+        $transaction->rollBack();
+        \Yii::error("Exception :: " . $e->getTraceAsString());
+        echo "Exception :: " . $e->getTraceAsString() . "\n";
+      } catch (\Throwable $e) {
+        $transaction->rollBack();
+        \Yii::error("Throwable :: " . $e->getTraceAsString());
+        echo "Throwable :: " . $e->getTraceAsString() . "\n";
+      }
     }
+    
+    \Yii::info("PuntosController::actionAsignarPuntosCumpleanios -- FIN");
+    echo "PuntosController::actionAsignarPuntosCumpleanios -- FIN \n";
   }
 
   public function actionAsignarPuntosAniversarios()
   {
+    echo "PuntosController::actionAsignarPuntosAniversarios -- INICIO\n";
+    \Yii::info("PuntosController::actionAsignarPuntosAniversarios -- INICIO");
     $connection = Yii::$app->getDb();
     $fechaHoy = date('Y-m-d H:i:s');
     $parametrosAniversario = ParametrosPuntos::PARAMETRO_ANIVERSARIO;
@@ -114,8 +136,8 @@ class PuntosController extends Controller
       JOIN m_FORCO_ParametrosPuntos as parametro
       WHERE parametro.estado = {$parametrosEstado}
         AND parametro.tipoParametro = {$parametrosAniversario}
-        AND DATE_FORMAT('{$fechaHoy}', '%y') - DATE_FORMAT(aniversario.fechaIngreso , '%y') = parametro.condicion
-        AND DATE_FORMAT(aniversario.fechaIngreso, '%m-%d') = DATE_FORMAT('{$fechaHoy}', '%m-%d')
+        AND DATE_FORMAT('{$fechaHoy}', '%Y') - DATE_FORMAT(aniversario.fechaIngreso , '%Y') = parametro.condicion
+        AND DATE_FORMAT(aniversario.fecha, '%m-%d') = DATE_FORMAT('{$fechaHoy}', '%m-%d')
     ";
     $aniversarios = $connection->createCommand($aniversariosQuery)->queryAll();
     $columnas = ['numeroDocumento', 'valorPuntos', 'descripcionPunto', 'tipoParametro', 'fechaCreacion'];
@@ -129,17 +151,31 @@ class PuntosController extends Controller
         'fechaCreacion' => $fechaHoy
       ];
     }
-    $transaction = $connection->beginTransaction();
-    try {
-      $connection->createCommand()->batchInsert('t_FORCO_Puntos', $columnas, $filas)->execute();
-      $transaction->commit();
-    } catch (\Exception $e) {
-      $transaction->rollBack();
-      throw $e;
-    } catch (\Throwable $e) {
-      $transaction->rollBack();
-      throw $e;
+    \Yii::info("Cantidad de aniversarios: " . count($filas));
+    echo "Cantidad de aniversarios: " . count($filas) . "\n";
+    
+    if (count($filas) > 0) {
+      $transaction = $connection->beginTransaction();
+      try {
+          $connection->createCommand("set foreign_key_checks = 0")->execute();
+          $result = $connection->createCommand()->batchInsert('t_FORCO_Puntos', $columnas, $filas)->execute();
+          \Yii::info("Cantidad de puntos insertados: $result");
+          echo "Cantidad de puntos insertados: $result \n";
+          $transaction->commit();
+          $connection->createCommand("set foreign_key_checks = 1")->execute();
+      } catch (\Exception $e) {
+          $transaction->rollBack();
+          \Yii::error("Exception :: " . $e->getTraceAsString());
+          echo "Exception :: " . $e->getTraceAsString() . "\n";
+      } catch (\Throwable $e) {
+          $transaction->rollBack();
+          \Yii::error("Throwable :: " . $e->getTraceAsString());
+          echo "Throwable :: " . $e->getTraceAsString() . "\n";
+      }
     }
+    
+    \Yii::info("PuntosController::actionAsignarPuntosAniversarios -- FIN");
+    echo "PuntosController::actionAsignarPuntosAniversarios -- FIN \n";
   }
 }
 ?>

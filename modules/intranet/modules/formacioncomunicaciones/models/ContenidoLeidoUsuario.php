@@ -70,4 +70,14 @@ class ContenidoLeidoUsuario extends \yii\db\ActiveRecord
     {
         return $this->hasOne(\app\models\Usuario::className(), ['numeroDocumento' => 'numeroDocumento']);
     }
+
+    public function getUsuarioIntranet()
+    {
+        return $this->hasOne(\app\modules\intranet\models\UsuarioIntranet::className(), ['numeroDocumento' => 'numeroDocumento']);
+    }
+
+    public function getCurso()
+    {
+        return $this->hasOne(Curso::className(), ['idCurso' => 'idCurso']);
+    }
 }

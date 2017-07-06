@@ -413,6 +413,41 @@ a.circle-avatar, div.circle-avatar{
   display: flex;
 }
 
+.iframe-contenido-curso {
+    width: 100%;
+    border: 0;
+}
+
+@media only screen and (max-width: 320px) {
+    .iframe-contenido-curso {
+        height: 200px;
+    }
+}
+
+@media only screen and (max-width: 425px) and (min-width: 321px) {
+    .iframe-contenido-curso {
+        height: 300px;
+    }
+}
+
+@media only screen and (max-width: 768px) and (min-width: 426px) {
+    .iframe-contenido-curso {
+        height: 400px;
+    }
+}
+
+@media only screen and (max-width: 1024px) and (min-width: 769px) {
+    .iframe-contenido-curso {
+        height: 480px;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .iframe-contenido-curso {
+        height: 540px;
+    }
+}
+
 .crear-resena {
    display: flex;
    justify-content: center;
@@ -542,4 +577,195 @@ a.circle-avatar, div.circle-avatar{
 .cantidad-puntos span {
     font-weight:bold;
     color:#C71B19;
+}
+
+.rotor-cursos img {
+    width: 100%;
+    height: 400px;
+}
+
+.titulo-rotor-cursos {
+    /*background-color: rgba(93, 63, 17, 0.7);*/
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 40%;
+    height: auto;
+    position: absolute;
+    bottom: 50px;
+    height: 40px;
+    text-overflow: ellipsis;
+}
+
+.titulo-rotor-cursos p {
+    color: white !important;
+    font-size: 1.2rem;
+    /*font-size: 2rem;*/
+}
+
+.titulo-rotor-cursos a {
+    color: white !important;
+    font-size: 1.2rem;
+    /*font-size: 2rem;*/
+}
+
+.titulo-rotor-cursos h3 {
+    margin-left: 5px;
+    color: white !important;
+    font-size: 1.2rem;
+    line-height: 1.2rem;
+    font-weight: 600;
+}
+
+.titulo-columna-cursos {
+    color: white;
+    padding: 5px 0px 5px 5px;
+    margin: 0 !important;
+    font-weight: 600;
+}
+
+.formacion {
+    background-color: #891F4F;
+}
+
+.comunicacion {
+    background-color: #009FE3;
+}
+
+.listado-cursos-contenedor {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.listado-cursos-columna {
+    width: 48%;
+}
+
+.titulo-curso-destacado {
+    background-color: #e1dbd4;
+    font-size: 1.8rem;
+    line-height: 1.8rem;
+    padding: 10px 0px 10px 10px;
+    margin: 0 !important;
+    font-weight: 400;
+}
+
+.titulo-curso-destacado .glyphicon {
+    font-size: 1.3rem;
+}
+
+.titulo-curso-destacado .rating-xs {
+    font-size: 1rem;
+}
+
+.curso-destacado img {
+    height: 250px;
+    width: 100%;
+}
+
+.listado-cursos-item {
+    background-color: pink;
+    height: 160px;
+    display: inline-flex;
+    margin-top: 20px; 
+}
+
+.listado-cursos {
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+.listado-cursos-item img {
+    width: 50%;
+}
+
+.listado-cursos-item-titulo {
+    width: 50%;
+    background-color: #e1dbd4;
+}
+
+.listado-cursos-item-titulo h3 {
+    font-size: 1.6rem;
+    /*line-height: 1.6rem;*/
+    font-weight: 400;
+    margin-left: 10px;
+    margin-top: 20px;
+}
+
+.listado-cursos-item-titulo .glyphicon {
+    font-size: 1.3rem;
+}
+
+.listado-cursos-item-titulo .rating-xs {
+    font-size: 1rem;
+}
+
+.ver-mas {
+    background-color: red;
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 600;
+    padding: 2px 20px 2px 20px;
+    border-radius: 60px;
+    margin-bottom: 20px;
+}
+
+.ver-mas:hover {
+    color: white;
+}
+
+.ver-mas:visited {
+    color: white;
+}
+
+.listado-cursos-todos .listado-cursos-item {
+    width: 45%;
+    margin-right: 4.5%;
+}
+
+/*organigrama*/
+.nodo-organigrama {
+    border: 1px solid black;
+    padding: 2px;
+    width: 300px;
+}
+
+.nodo-organigrama .node-title {
+    font-weight: 600;
+    margin:0;
+}
+
+.nodo-organigrama .node-name {
+    margin: 0;
+}
+
+.nodo-organigrama img {
+    width: 60px;
+    height: 60px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+#modal-perfil .modal-body {
+    background-color: white;
+}
+
+#modal-perfil .modal-body h4 {
+    margin: 3px 0 3px 0;
+}
+
+#modal-perfil .modal-body p {
+    margin-bottom: 0px;
+}
+
+#modal-perfil .modal-header {
+    /*background-color: #E5E9EC;*/
+    border: none;
+    text-align: center;
+}
+
+#modal-perfil img {
+    height: 160px;
+    width: 160px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }

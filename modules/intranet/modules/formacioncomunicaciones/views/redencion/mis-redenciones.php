@@ -61,10 +61,10 @@ $this->params['breadcrumbs'][] = $this->title;
               'template' => '{detalle} {traza}',
               'buttons' => [
                 'detalle' => function ($url, $model) {
-                  return  Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url);
+                  return  Html::a('<span><span class="glyphicon glyphicon-eye-open"></span>Detalle</span>', $url);
                 },
                 'traza' => function ($url, $model) {
-                  return  Html::a('<span class="glyphicon glyphicon-list-alt"></span>', '#', ['data-role'=> 'ver-traza', 'data-id-redencion' => $model->idUsuarioPremio]);
+                  return  Html::a('<span><span class="glyphicon glyphicon-list-alt"></span>Historial</span>', '#', ['data-role'=> 'ver-traza', 'data-id-redencion' => $model->idUsuarioPremio]);
                 }
               ],
             ],

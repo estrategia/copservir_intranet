@@ -13,7 +13,7 @@ use yii\data\ActiveDataProvider;
 * @property integer $codigoCiudad
 */
 class EventosCalendarioDestino extends \yii\db\ActiveRecord {
-
+    
   public static function tableName() {
     return 't_EventosCalendarioDestino';
   }
@@ -21,7 +21,7 @@ class EventosCalendarioDestino extends \yii\db\ActiveRecord {
   public function rules() {
     return [
       [['idEventoCalendario', 'idGrupoInteres', 'codigoCiudad'], 'required'],
-      [['idEventoCalendario', 'idGrupoInteres', 'codigoCiudad'], 'integer']
+      [['idEventoCalendario', 'idGrupoInteres', 'codigoCiudad'], 'integer'],
     ];
   }
 

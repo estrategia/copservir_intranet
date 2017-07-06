@@ -66,9 +66,9 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\OpcionRespuesta;
 	              'headerOptions'=> ['style'=>'width: 70px;'],
 	              'template' => '{editar-opcion}&nbsp;{eliminar-opcion}',
 	              'buttons' => [
-	                'eliminar-opcion' => function ($url, $model)  {
-	                  return  Html::a('<span class="glyphicon glyphicon-trash"></span>', '#', ['data-role' => 'eliminar-opcion', 'data-opcion-respuesta' => $model->idOpcionRespuesta]);
-	                },
+	                // 'eliminar-opcion' => function ($url, $model)  {
+	                //   return  Html::a('<span class="glyphicon glyphicon-trash"></span>', '#', ['data-role' => 'eliminar-opcion', 'data-opcion-respuesta' => $model->idOpcionRespuesta]);
+	                // },
 	                'editar-opcion' => function ($url, $model)  {
 	                return  Html::a('<span class="glyphicon glyphicon-pencil"></span>', '#', ['data-role' => 'editar-opcion', 'data-opcion-respuesta' => $model->idOpcionRespuesta]);
 	                },

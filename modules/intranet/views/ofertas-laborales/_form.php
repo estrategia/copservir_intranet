@@ -5,6 +5,7 @@ use kartik\datetime\DateTimePicker;
 use app\modules\intranet\models\ContenidoDestino;
 use kartik\select2\Select2;
 use yii\helpers\Url;
+
 ?>
 
 <div class="ofertas-laborales-form">

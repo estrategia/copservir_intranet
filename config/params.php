@@ -103,6 +103,9 @@ return [
             'terceros' => 'http://localhost/siicop/productos/sweb/terceros',
         ],
         'organigrama' => 'http://sii.copservir.com/gestionhumana/api/view/id',
+        'sascop' => [
+            'reportes' => 'http://localhost/siicop/sascop/restReportes/',
+        ]
     ],
     'usuario' => [
       'tiempoRecuperarClave' => 1 // dias

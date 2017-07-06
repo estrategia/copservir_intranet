@@ -60,6 +60,7 @@ class CursoSearch extends Curso
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=> ['defaultOrder' => ['fechaInicio'=>SORT_DESC]]
         ]);
 
         $this->load($params);
