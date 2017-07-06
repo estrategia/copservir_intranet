@@ -42,7 +42,7 @@ class Cuestionario extends \yii\db\ActiveRecord
     {
         return [
             [['tituloCuestionario', 'descripcionCuestionario', 'fechaCreacion', 'idCurso', 'numeroIntentos', 'tiempo'], 'required'],
-            [['estado', 'idCurso', 'porcentajeMinimo', 'numeroPreguntas', 'idCurso','numeroIntentos', 'tiempo'], 'integer'],
+            [['estado', 'idCurso', 'idCuestionario', 'porcentajeMinimo', 'numeroPreguntas', 'idCurso','numeroIntentos', 'tiempo'], 'integer'],
             [['fechaCreacion', 'fechaActualizacion'], 'safe'],
             [['tituloCuestionario'], 'string', 'max' => 100],
             [['descripcionCuestionario'], 'string', 'max' => 250],
@@ -81,6 +81,18 @@ class Cuestionario extends \yii\db\ActiveRecord
     public function getListPreguntas()
     {
     	return $this->hasMany(Pregunta::className(), ['idCuestionario' => 'idCuestionario'])->where('idPreguntaPadre IS NULL AND estado = '.Pregunta::ESTADO_ACTIVO)->orderBy(new Expression('rand()'))->limit($this->numeroPreguntas);
+    }
+    
+    public function getListPreguntasCurso()
+    {
+    	$cuestionarios = Cuestionario::findAll(['idCurso' => $this->idCurso]);
+    	
+    	$arrayCuestionarios = [];
+    	foreach($cuestionarios as $cuestionario){
+    		$arrayCuestionarios[] = $cuestionario->idCuestionario;
+    	}
+    	
+    	return Pregunta::find()->where('idPreguntaPadre IS NULL AND estado = '.Pregunta::ESTADO_ACTIVO)->andWhere("idCuestionario in (".implode(",", $arrayCuestionarios).")")->orderBy(new Expression('rand()'))->limit($this->numeroPreguntas)-all();
     }
     
     public function getObjCurso(){

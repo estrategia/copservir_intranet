@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 //$this->params['breadcrumbs'][] = ['label' => 'Cuestionarios', 'url' => ['/intranet/formacioncomunicaciones/cuestionario']];
 ?>
 <style> .cuestionario table, th, td{border:solid 1px; padding: 2px 2px 2px 2px} .cuestionario input[type="checkbox"]{opacity:1}</style>
-
+<?php  if($model->tiempo != 0):?>
 <script type="text/javascript">
 	var milisegundos = 1000;
 	var restante = <?php echo $model->tiempo*60?>;
@@ -58,6 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	}
 		
 </script>
+<?php endif;?>
 <div class="cuestionario">
 
     <h1><?= Html::encode($this->title) ?></h1>

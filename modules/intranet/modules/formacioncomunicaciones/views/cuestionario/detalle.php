@@ -8,8 +8,11 @@ $this->params['breadcrumbs'][] = ['label' => 'Ver cuestionario'];
 
     <p>
         <?= Html::a('Actualizar', ['actualizar', 'id' => $params['model']->idCuestionario], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Preguntas', ['preguntas', 'id' => $params['model']->idCuestionario], ['class' => 'btn btn-primary']) ?>
+        <?php if($params['model']->idContenido != null):?>
+        	<?= Html::a('Preguntas', ['preguntas', 'id' => $params['model']->idCuestionario], ['class' => 'btn btn-primary']) ?>
+        <?php endif;?>
         <?= Html::a('Inactivar', ['eliminar', 'id' => $params['model']->idCuestionario], [
+        		
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Estas seguro de inactivar este cuestionario?',
