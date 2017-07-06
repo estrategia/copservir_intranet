@@ -106,10 +106,9 @@ class CuestionarioController extends Controller{
 	
 	public function actionActualizar($id){
 		$model = $this->findModel($id);
-		
 		if ($model->load(Yii::$app->request->post()) ) {
 			$model->fechaActualizacion = \Date("Y-m-d h:i:s");
-			
+			//$model->idContenido = 
 			if($model->save()){
 				return $this->redirect(['detalle', 'id' => $model->idCuestionario]);
 			}

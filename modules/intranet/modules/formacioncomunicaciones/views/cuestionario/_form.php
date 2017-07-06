@@ -59,7 +59,7 @@ use kartik\select2\Select2;
               'allowClear' => true
           ],
         ]);*/?>
-        <?php echo $form->field($model, 'idContenido')->dropDownList(['0' => 'Inactivo', '1' => 'Activo']); ?>
+        <?php echo $form->field($model, 'idContenido')->dropDownList([]); ?>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
