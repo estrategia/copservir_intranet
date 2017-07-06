@@ -20,10 +20,8 @@ class Curso extends \yii\db\ActiveRecord
 {
     const ESTADO_ACTIVO = 1;
     const ESTADO_INACTIVO = 0;
-    const CRUD_SCENARIO = 'crud';
     const TIPO_OBLIGATORIO = 1;
     const TIPO_OPCIONAL = 0;
-    public $cursoGruposInteres;
     /**
      * @inheritdoc
      */
@@ -38,13 +36,11 @@ class Curso extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['estadoCurso', 'idCurso', 'idTipoContenido', 'tipoCurso', 'prioridad'], 'integer'],
-            [['fechaCreacion', 'fechaActualizacion', 'fechaInicio', 'fechaFin'], 'safe'],
+            [['estadoCurso', 'idCurso', 'cantidadPuntos', 'idTercero'], 'integer'],
+            [['fechaCreacion', 'fechaActualizacion', 'fechaInicio', 'fechaFin', 'fechaActivacion'], 'safe'],
             [['nombreCurso'], 'string', 'max' => 45],
             [['presentacionCurso'], 'string', 'max' => 250],
-            [['rutaImagen'], 'string', 'max' => 100],
-            [['estadoCurso', 'idTipoContenido', 'nombreCurso', 'presentacionCurso', 'fechaInicio', 'tipoCurso'], 'required'],
-            [['cursoGruposInteres'], 'required', 'on' => 'crud']
+            [['estadoCurso', 'nombreCurso', 'presentacionCurso', 'fechaInicio', 'cantidadPuntos'], 'required'],
         ];
     }
 
@@ -57,14 +53,14 @@ class Curso extends \yii\db\ActiveRecord
             'idCurso' => 'Id Curso',
             'nombreCurso' => 'Nombre Curso',
             'presentacionCurso' => 'Presentacion Curso',
+            'cantidadPuntos' => 'Cantidad Puntos',
+            'idTercero' => 'Proveedor',
             'estadoCurso' => 'Estado Curso',
-            'cursoGruposInteres' => 'Grupos de Interes',
-            'idTipoContenido' => 'Tipo Contenido',
             'fechaInicio' => 'Fecha Inicio',
             'fechaFin' => 'Fecha Fin',
             'fechaCreacion' => 'Fecha Creacion',
             'fechaActualizacion' => 'Fecha Actualizacion',
-            'tipoCurso' => 'Tipo Curso'
+            'fechaActivacion' => 'Fecha Activacion',
         ];
     }
 
@@ -173,20 +169,17 @@ class Curso extends \yii\db\ActiveRecord
         return false;
     }
 
-    public function guardarGruposInteres($gruposInteres)
-    {
-        foreach ($gruposInteres as $indice => $grupoInteres) {
-            $cursoGruposInteres = new CursoGruposInteres;
-            $cursoGruposInteres->idCurso = $this->idCurso;
-            $cursoGruposInteres->idGrupoInteres = $gruposInteres[$indice];
-            // \yii\helpers\VarDumper::dump($cursoGruposInteres, 10,true);
-            $cursoGruposInteres->save();
-        }
-    }
-
-    public function getTipoContenido()
-    {
-        return $this->hasOne(TipoContenido::className(), ['idTipoContenido' => 'idTipoContenido']);
+    public function getModulosActivosUsuario()
+    {   
+        // $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();   
+        $modulos = Modulo::find()->joinWith('objGruposInteres')
+            ->where([
+                'estado' => Modulo::ESTADO_ACTIVO,
+                'm_GrupoInteres.idGrupoInteres' => $gruposInteres
+            ])
+            ->all();
+        return $modulos;
     }
 
     public function getModulos()
@@ -199,70 +192,11 @@ class Curso extends \yii\db\ActiveRecord
         return $this->hasMany(Modulo::className(), ['idCurso' => 'idCurso'])->andWhere(['estadoModulo' => Modulo::ESTADO_ACTIVO])->all();
     }
 
-    public function getObjCursoGruposInteres()
-    {
-        return $this->hasMany(CursoGruposInteres::className(), ['idCurso' => 'idCurso']);
-    }
-
-    public function getObjGruposInteres()
-    {
-        return $this->hasMany(GrupoInteres::className(), ['idGrupoInteres' => 'idGrupoInteres'])->via('objCursoGruposInteres');
-    }
-
-    public function setCursoGruposInteres()
-    {
-        $idsGrupos = [];
-        foreach ($this->objCursoGruposInteres as $grupo) {
-            $idsGrupos[] = $grupo->idGrupoInteres;
-        }
-        $this->cursoGruposInteres = $idsGrupos;
-    }
-
-    public function actualizarGrupos($gruposSelect)
-    {
-        $paraCrear = [];
-        $paraEliminar = [];
-        $idsGrupos = [];
-        $array1 = [];
-        $array2 = [];
-        $gruposAsignados = CursoGruposInteres::find()->where(['idCurso' => $this->idCurso])->all();
-        foreach ($gruposAsignados as $grupo) {
-            $idsGrupos[] = $grupo->idGrupoInteres;
-        }
-
-        if (!is_array($gruposSelect)) {
-            $array1 = (array) $gruposSelect;
-        } else {
-            $array1 = $gruposSelect;
-        }
-        if (!is_array($idsGrupos)) {
-            $array2 = (array) $idsGrupos;
-        } else {
-            $array2 = $idsGrupos;
-        }
-        $paraCrear = array_diff($array1, $array2);
-        $paraEliminar = array_diff($array2, $array1);
-
-        // print_r($gruposSelect);
-        if (!empty($paraEliminar)) {
-            CursoGruposInteres::deleteAll(['and', 'idCurso = :curso', ['in', 'idGrupoInteres', $paraEliminar]],[
-                ':curso' => $this->idCurso
-            ]);
-        }
-
-        foreach ($paraCrear as $idGrupo) {
-            $nuevoGrupo = new CursoGruposInteres;
-            $nuevoGrupo->idCurso = $this->idCurso;
-            $nuevoGrupo->idGrupoInteres = $idGrupo;
-            $nuevoGrupo->save();
-        }
-    }
-
     public function asignarPuntos()
     {
         $tipoContenido = $this->tipoContenido;
         $parametroPunto = ParametrosPuntos::find()
-            ->where(['idTipoContenido' => $tipoContenido->idTipoContenido])
+            // ->where(['idTipoContenido' => $tipoContenido->idTipoContenido])
             ->andWhere(['tipoParametro' => ParametrosPuntos::PARAMETRO_TIPO_CONTENIDO])
             ->andWhere(['estado' => ParametrosPuntos::ESTADO_ACTIVO])
             ->one();
@@ -275,18 +209,6 @@ class Curso extends \yii\db\ActiveRecord
         $puntos->idTipoContenido = $tipoContenido->idTipoContenido;
         $puntos->idCurso = $this->idCurso;
         $puntos->save();
-    }
-
-    public function guardarImagen($rutaAnterior)
-    {
-        $imagen = UploadedFile::getInstance($this, 'rutaImagen'); // si no selecciona nada pone null
-        if (!is_null($imagen)) {
-            $nombre = time() . '_.' . $imagen->extension;
-            $imagen->saveAs(Yii::getAlias('@webroot') . Yii::$app->params['formacioncomunicaciones']['rutaImagenCursos'] . $nombre);
-            $this->rutaImagen = $nombre;
-        }else{
-            $this->rutaImagen = $rutaAnterior;
-        }
     }
 
     public function preguntaCuestionario()
