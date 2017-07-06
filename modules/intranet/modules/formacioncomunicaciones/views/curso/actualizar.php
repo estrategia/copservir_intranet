@@ -24,9 +24,7 @@ $this->params['breadcrumbs'][] = 'Actualizar';
     <div role="tabpanel" class="tab-pane active" id="curso">
       <?= $this->render('_form', [
           'model' => $model,
-          'gruposInteres' => $gruposInteres,
-          'tiposContenido' => $tiposContenido,
-          'objCursoGruposInteres' => $objCursoGruposInteres
+          'terceros' => $terceros
       ]) ?>
     </div>
     <div role="tabpanel" class="tab-pane" id="contenidos">

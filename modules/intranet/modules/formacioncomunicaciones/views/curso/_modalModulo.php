@@ -2,6 +2,19 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use kartik\select2\Select2;
+use yii\web\JsExpression;
+
+
+$format = <<< SCRIPT
+function formatSelect(state) {
+  if (!state.id) return state.text; // optgroup
+    return '<span style="' + state.element.style.cssText + '">' + state.text + '</span>';
+}
+SCRIPT;
+
+$this->registerJs($format, \yii\web\View::POS_HEAD);
+$escape = new JsExpression("function(m) {return m; }");
 
 ?>
 <div class="modal fade" id="widget-modulo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -30,6 +43,23 @@ use yii\helpers\Url;
         <?= $form->field($model, 'duracionDias')->textInput(['maxlength' => true]) ?>
 
         <?= $form->field($model, 'estadoModulo')->hiddenInput(['value' => 0])->label(false) ?>
+
+        <?= $form->field($model, 'moduloGruposInteres')->widget(Select2::classname(),[
+          'data' => $objModuloGruposInteres->getDatosSelectGruposInteres()['data'],
+          'options' => [
+            'placeholder' => 'Selecione ...',
+            'options' => $objModuloGruposInteres->getDatosSelectGruposInteres()['options'],
+            'multiple' => true,
+          ],
+          'pluginOptions' => [
+            'allowClear' => true,
+            'templateResult' => new JsExpression('formatSelect'),
+            'templateSelection' => new JsExpression('formatSelect'),
+            'escapeMarkup' => $escape,
+          ],
+          'hideSearch' => false,
+          ]);
+        ?>
 
         <?php ActiveForm::end(); ?>
 
