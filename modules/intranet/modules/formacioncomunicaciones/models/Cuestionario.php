@@ -275,12 +275,31 @@ class Cuestionario extends \yii\db\ActiveRecord
 	    		if($model->idContenido != null){
 	    			$puntos = $model->objContenido->cantidadPuntos;
 	    			$tipoParametro = ParametrosPuntos::CUESTIONARIO_CONTENIDO;
+	    			
+	    			$contenidoUsuario = new ContenidoLeidoUsuario();
+	    			$contenidoUsuario->idContenido = $model->idContenido ;
+	    			$contenidoUsuario->idCurso = $model->idCurso ;
+	    			$contenidoUsuario->numeroDocumento = $cuestionarioUsuario->numeroDocumento ;
+	    			$contenidoUsuario->fechaCreacion = \Date("Y-m-d h:i:s");
+	    			
+	    			if(!$contenidoUsuario->save()){
+	    				throw new \Exception("No se pudo marcar el contenido leido",505);
+	    			}
 	    		}else{
 	    			$puntos = $model->objCurso->cantidadPuntos;
 	    			$tipoParametro = ParametrosPuntos::CUESTIONARIO_CURSO;
+	    			
+	    			$contenidoUsuario = new CursosUsuario();
+	    			$contenidoUsuario->numeroDocumento = $cuestionarioUsuario->numeroDocumento ;
+	    			$contenidoUsuario->idCurso = $model->idCurso ;
+	    			$contenidoUsuario->fechaCreacion  = \Date("Y-m-d h:i:s") ;
+	    			$contenidoUsuario->fechaInicioLectura = \Date("Y-m-d h:i:s") ;
+	    			
+	    			if(!$contenidoUsuario->save()){
+	    				throw new \Exception("No se pudo marcar el contenido leido",505);
+	    			}
 	    		}
 	    		
-
 		    		$puntosUsuario = new Puntos();
 		    		
 		    		$puntosUsuario->numeroDocumento = $cuestionarioUsuario->numeroDocumento;
