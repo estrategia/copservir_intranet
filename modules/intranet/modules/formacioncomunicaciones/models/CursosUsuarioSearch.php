@@ -5,14 +5,13 @@ namespace app\modules\intranet\modules\formacioncomunicaciones\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\intranet\modules\formacioncomunicaciones\models\ContenidoLeidoUsuario;
+use app\modules\intranet\modules\formacioncomunicaciones\models\CursosUsuario;
 
 /**
- * ContenidoLeidoUsuarioSearch represents the model behind the search form about `app\modules\intranet\modules\formacioncomunicaciones\models\ContenidoLeidoUsuario`.
+ * CursosUsuarioSearch represents the model behind the search form about `app\modules\intranet\modules\formacioncomunicaciones\models\CursosUsuario`.
  */
-class ContenidoLeidoUsuarioSearch extends ContenidoLeidoUsuario
-{   
-    public $tituloContenido;
+class CursosUsuarioSearch extends CursosUsuario
+{
     public $nombreCurso;
     public $nombres;
     public $primerApellido;
@@ -24,8 +23,8 @@ class ContenidoLeidoUsuarioSearch extends ContenidoLeidoUsuario
     public function rules()
     {
         return [
-            [['numeroDocumento', 'idContenido', 'idCurso', 'tiempoLectura'], 'integer'],
-            [['fechaCreacion', 'tituloContenido', 'nombreCurso', 'nombres', 'primerApellido', 'segundoApellido', 'nombreProveedor'], 'safe'],
+            [['idCurso', 'numeroDocumento'], 'integer'],
+            [['fechaCreacion', 'fechaInicioLectura'], 'safe'],
         ];
     }
 
@@ -47,11 +46,11 @@ class ContenidoLeidoUsuarioSearch extends ContenidoLeidoUsuario
      */
     public function search($params)
     {
-        $query = ContenidoLeidoUsuario::find();
+        $query = CursosUsuario::find();
 
-        $query->joinWith(['contenido']);
         $query->joinWith(['curso']);
         $query->joinWith(['usuarioIntranet']);
+
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -68,15 +67,12 @@ class ContenidoLeidoUsuarioSearch extends ContenidoLeidoUsuario
 
         // grid filtering conditions
         $query->andFilterWhere([
-            't_FORCO_ContenidoLeidoUsuario.numeroDocumento' => $this->numeroDocumento,
-            'idContenido' => $this->idContenido,
-            'fechaCreacion' => $this->fechaCreacion,
             'idCurso' => $this->idCurso,
-            'tiempoLectura' => $this->tiempoLectura,
+            'numeroDocumento' => $this->numeroDocumento,
+            'fechaCreacion' => $this->fechaCreacion,
+            'fechaInicioLectura' => $this->fechaInicioLectura,
         ]);
 
-        $query->andFilterWhere(['like', 'm_FORCO_Contenido.tituloContenido', $this->tituloContenido]);
-        $query->andFilterWhere(['like', 'm_FORCO_Contenido.nombreProveedor', $this->nombreProveedor]);
         $query->andFilterWhere(['like', 'm_FORCO_Curso.nombreCurso', $this->nombreCurso]);
         $query->andFilterWhere(['like', 'm_INTRA_Usuario.nombres', $this->nombres]);
         $query->andFilterWhere(['like', 'm_INTRA_Usuario.primerApellido', $this->primerApellido]);

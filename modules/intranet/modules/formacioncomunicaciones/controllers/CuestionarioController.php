@@ -14,7 +14,7 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\CuestionarioUsua
 use yii\base\Model;
 use yii\db\Expression;
 use app\models\Usuario;
-use app\modules\intranet\models\formacioncomunicaciones\CuestionarioUsuarioForm;
+use app\modules\intranet\models\CuestionarioUsuarioForm;
 use yii\helpers\ArrayHelper;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Contenido;
 
@@ -501,7 +501,7 @@ class CuestionarioController extends Controller{
     		$cuestionarios= CuestionarioUsuario::find()->where(['numeroDocumento' => $model->numeroDocumento])->select(['distinct(idCuestionario)','numeroDocumento'])->all();
     		$usuario = Usuario::findOne(['numeroDocumento' => $model->numeroDocumento]);
     	}
-    	return $this->render('estadoCuestionariousuario',[
+    	return $this->render('estadoCuestionarioUsuario',[
     			'model' => $model,
     			'usuarios' => $usuarios,
     			'cuestionarios' => $cuestionarios,
