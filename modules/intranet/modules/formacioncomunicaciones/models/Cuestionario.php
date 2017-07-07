@@ -296,7 +296,7 @@ class Cuestionario extends \yii\db\ActiveRecord
 	    			$contenidoUsuario->fechaInicioLectura = \Date("Y-m-d h:i:s") ;
 	    			
 	    			if(!$contenidoUsuario->save()){
-	    				throw new \Exception("No se pudo marcar el contenido leido",505);
+	    				throw new \Exception("No se pudo marcar el curso leido",505);
 	    			}
 	    		}
 	    		
