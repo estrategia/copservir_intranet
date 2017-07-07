@@ -2318,52 +2318,52 @@ $(document).on('click', "button[data-role='crear-contenido']", function() {
   return false;
 });
 
-var tiempoActual = null;
+// var tiempoActual = null;
 
-$(document).ready(function () {
-  tiempoActual = new Date();
-});
+// $(document).ready(function () {
+//   tiempoActual = new Date();
+// });
 
-$(document).ready(function () {
-  $("#marcador-leido").one('inview', function () {
-    var idContenido = $(this).attr('data-contenido-id');
-    var tiempoLectura = Math.round( (new Date() - tiempoActual) / 1000);
-    $.ajax({
-      type: 'POST',
-      async: true,
-      url: requestUrl + '/intranet/formacioncomunicaciones/contenido/marcar-leido?id=' + idContenido,
-      dataType: 'json',
-      data: {tiempoLectura: tiempoLectura},
-      beforeSend: function() {
-        $('body').showLoading();
-      },
-      complete: function(data) {
-        $('body').hideLoading();
-      },
-      success: function(data) {
-        if (data.result == "ok") {
-          console.log('Leido');
-          mostrarMensajeCuestionario(data.response.preguntaCuestionario);
-        }else{
-          console.log('No Leido');
-        }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-        $('body').hideLoading();
-      }
-    });
-  // return false;
-  });
-});
+// $(document).ready(function () {
+//   $("#marcador-leido").one('inview', function () {
+//     var idContenido = $(this).attr('data-contenido-id');
+//     var tiempoLectura = Math.round( (new Date() - tiempoActual) / 1000);
+//     $.ajax({
+//       type: 'POST',
+//       async: true,
+//       url: requestUrl + '/intranet/formacioncomunicaciones/contenido/marcar-leido?id=' + idContenido,
+//       dataType: 'json',
+//       data: {tiempoLectura: tiempoLectura},
+//       beforeSend: function() {
+//         $('body').showLoading();
+//       },
+//       complete: function(data) {
+//         $('body').hideLoading();
+//       },
+//       success: function(data) {
+//         if (data.result == "ok") {
+//           console.log('Leido');
+//           mostrarMensajeCuestionario(data.response.preguntaCuestionario);
+//         }else{
+//           console.log('No Leido');
+//         }
+//       },
+//       error: function(jqXHR, textStatus, errorThrown) {
+//         $('body').hideLoading();
+//       }
+//     });
+//   // return false;
+//   });
+// });
 
-function mostrarMensajeCuestionario(idCuestionario) {
-  if (idCuestionario != false) {
-    var redirecciona = confirm("Felicitaciones, ha completado el curso. ¿Desea realizar la prueba de conocimiento ahora?");
-    if (redirecciona == true) {
-      window.location.href = requestUrl + '/intranet/formacioncomunicaciones/cuestionario/aplicar-cuestionario?id=' + idCuestionario;
-    }
-  }
-}
+// function mostrarMensajeCuestionario(idCuestionario) {
+//   if (idCuestionario != false) {
+//     var redirecciona = confirm("Felicitaciones, ha completado el curso. ¿Desea realizar la prueba de conocimiento ahora?");
+//     if (redirecciona == true) {
+//       window.location.href = requestUrl + '/intranet/formacioncomunicaciones/cuestionario/aplicar-cuestionario?id=' + idCuestionario;
+//     }
+//   }
+// }
 
 $(document).ready(function () {
   $("input[name='paqueteContenido']").on('filepreajax', function (event, previewId, index) {

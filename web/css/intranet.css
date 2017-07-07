@@ -610,6 +610,10 @@ a.circle-avatar, div.circle-avatar{
     color: #505458;
 }
 
+.modulo-dirigido {
+    background-color: #BEE1E5;
+}
+
 
 /*organigrama*/
 .nodo-organigrama {

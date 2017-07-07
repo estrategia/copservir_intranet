@@ -31,16 +31,6 @@ use kartik\select2\Select2;
       
       <?= $form->field($model, 'cantidadPuntos')->textInput(['maxlength' => true]) ?>
 
-      <?= $form->field($model, 'idTercero')->widget(Select2::classname(), [
-            'data' => $terceros,
-            'options' => ['placeholder' => 'Selecciona proveedor ...'],
-            'hideSearch' => true,
-            'pluginOptions' => [
-              'allowClear' => true
-            ],
-          ]); 
-      ?>
-
       <?= $form->field($model, 'estadoCurso')->hiddenInput(['value' => 0])->label(false) ?>
 
       <div class="form-group">

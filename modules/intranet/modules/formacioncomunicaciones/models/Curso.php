@@ -20,8 +20,6 @@ class Curso extends \yii\db\ActiveRecord
 {
     const ESTADO_ACTIVO = 1;
     const ESTADO_INACTIVO = 0;
-    const TIPO_OBLIGATORIO = 1;
-    const TIPO_OPCIONAL = 0;
     /**
      * @inheritdoc
      */
@@ -36,7 +34,7 @@ class Curso extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['estadoCurso', 'idCurso', 'cantidadPuntos', 'idTercero'], 'integer'],
+            [['estadoCurso', 'idCurso', 'cantidadPuntos'], 'integer'],
             [['fechaCreacion', 'fechaActualizacion', 'fechaInicio', 'fechaFin', 'fechaActivacion'], 'safe'],
             [['nombreCurso'], 'string', 'max' => 45],
             [['presentacionCurso'], 'string', 'max' => 250],
@@ -54,7 +52,6 @@ class Curso extends \yii\db\ActiveRecord
             'nombreCurso' => 'Nombre Curso',
             'presentacionCurso' => 'Presentacion Curso',
             'cantidadPuntos' => 'Cantidad Puntos',
-            'idTercero' => 'Proveedor',
             'estadoCurso' => 'Estado Curso',
             'fechaInicio' => 'Fecha Inicio',
             'fechaFin' => 'Fecha Fin',
@@ -81,48 +78,6 @@ class Curso extends \yii\db\ActiveRecord
         $connection = Yii::$app->db;
         $cursoUsuario = $connection->createCommand("SELECT * FROM t_FORCO_CursosUsuario WHERE numeroDocumento={$numeroDocumento} AND idCurso={$this->idCurso}")->queryOne();
         return $cursoUsuario;
-    }
-
-    public function marcarLeido()
-    {
-        if ($this->leido() == false) {
-            $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-            $connection = Yii::$app->db;
-            $query = "
-                SELECT SUM(xxxx.leido) as porLeer FROM
-                    (SELECT (
-                        CASE  t_FORCO_ContenidoLeidoUsuario.numeroDocumento 
-                            WHEN {$numeroDocumento}
-                            THEN 0 
-                            ELSE 1 
-                            END) 
-                    AS leido
-                    FROM m_FORCO_Contenido 
-                    LEFT JOIN t_FORCO_ContenidoLeidoUsuario
-                    ON t_FORCO_ContenidoLeidoUsuario.idContenido = m_FORCO_Contenido.idContenido
-                    WHERE m_FORCO_Contenido.idCurso = $this->idCurso
-                    AND (t_FORCO_ContenidoLeidoUsuario.numeroDocumento = {$numeroDocumento} 
-                    OR t_FORCO_ContenidoLeidoUsuario.numeroDocumento IS NULL)) xxxx
-            ";
-            $command = $connection->createCommand($query);
-            $leido = $command->queryOne()['porLeer'];
-            if ($leido == '0') {
-                $fechaInicioLectura = ContenidoLeidoUsuario::find()
-                    ->where(['numeroDocumento' => $numeroDocumento, 'idCurso' => $this->idCurso])
-                    ->orderBy("fechaCreacion ASC")
-                    ->one()->fechaCreacion;
-                $connection->createCommand()
-                    ->insert('t_FORCO_CursosUsuario', [
-                            'idCurso' => $this->idCurso,
-                            'numeroDocumento' => $numeroDocumento,
-                            'fechaCreacion' => date("Y-m-d H:i:s"),
-                            'fechaInicioLectura' => $fechaInicioLectura
-                        ])
-                    ->execute();
-                $this->asignarPuntos();
-            }
-            return $leido;
-        }
     }
 
     public function calcularPromedioCalificacion()
@@ -161,8 +116,7 @@ class Curso extends \yii\db\ActiveRecord
         }
         $this->fechaFin = $fechaAcumulada;
         $this->estadoCurso = self::ESTADO_ACTIVO;
-        // $this->validate();
-        // \yii\helpers\VarDumper::dump($this->errors,10,true);
+
         if ($this->save()) {
             return true;
         }

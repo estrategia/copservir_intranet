@@ -1,19 +1,22 @@
 <?php 
   use yii\helpers\Url;
+  use yii\helpers\ArrayHelper;
+
+  $modulosUsuario = ArrayHelper::getColumn($model->getModulosActivosUsuario(), 'idModulo');
 ?>
-<input type="button" class="btn" data-role="toogle-collapsible" data-valor="0" value="Colapsar"></input>
+<input type="button" class="btn" data-role="toogle-collapsible" data-valor="0" value="Colapsar" style="margin-bottom: 15px !important; "></input>
 <div class="list-group list-group-root well" id="contenido-curso" data-curso-id="<?= $model->idCurso ?>">
   <?php if (empty($model->modulos)): ?>
     <h3>Sin contenido</h3>
   <?php endif ?>
   <?php foreach ($model->modulosActivos as $key => $modulo): ?>
-    <div class="list-group-item" data-toggle="collapse" data-target="<?= '#modulo'. $modulo->idModulo ?>" >
+    <div class="list-group-item <?php if(in_array($modulo->idModulo, $modulosUsuario)) echo 'modulo-dirigido' ?>" data-toggle="collapse" data-target="<?= '#modulo'. $modulo->idModulo ?>" >
       <i class="glyphicon glyphicon-chevron-right"></i>
       <span class="collapse-titulo">
         <?= $modulo->nombreModulo ?>
       </span>
     </div>
-    <div id="<?= 'modulo'. $modulo->idModulo ?>" class="list-group collapse in">
+    <div id="<?= 'modulo' . $modulo->idModulo ?>" class="list-group collapse in">
       <?php foreach ($modulo->capitulosActivos as $key => $capitulo): ?>
         <div class="list-group-item " data-toggle="collapse" data-target="<?= '#capitulo'. $capitulo->idCapitulo ?>">
           <i class="glyphicon glyphicon-chevron-right"></i>

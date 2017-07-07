@@ -52,6 +52,20 @@ use vova07\imperavi\Widget;
 
     <div class="row">
       <div class="col-md-12">
+        <?= $form->field($model, 'idTercero')->widget(Select2::classname(), [
+              'data' => $terceros,
+              'options' => ['placeholder' => 'Selecciona proveedor ...'],
+              'hideSearch' => false,
+              'pluginOptions' => [
+                'allowClear' => true
+              ],
+            ]); 
+        ?>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
         <?php
           echo '<label class="control-label">Cargar paquete</label>';
           echo FileInput::widget([

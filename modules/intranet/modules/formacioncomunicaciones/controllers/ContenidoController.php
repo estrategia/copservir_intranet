@@ -137,13 +137,25 @@ class ContenidoController extends Controller
     public function actionActualizar($id)
     {
         $model = $this->findModel($id);
+        $terceros = $this->getTerceros();
+        $terceros[] = ['IdTercero' => '-1', 'RazonSocial' => 'COPSERVIR'];
+        $tercerosSelect = ArrayHelper::map($terceros, 'IdTercero', 'RazonSocial');
+        // \yii\helpers\VarDumper::dump($tercerosSelect,2,true);
         $capitulos = ArrayHelper::Map(Capitulo::find()->where(['estadoCapitulo' => 1])->asArray()->all(),'idCapitulo', 'nombreCapitulo');
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['detalle', 'id' => $model->idContenido]);
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->idTercero == -1) {
+                $model->nombreProveedor = 'COPSERVIR';
+            } else {
+                $model->nombreProveedor = $tercerosSelect[$model->idTercero];
+            }
+            if ($model->save()) {
+                return $this->redirect(['detalle', 'id' => $model->idContenido]);
+            }
         } else {
             return $this->render('actualizar', [
                 'model' => $model,
                 'capitulos' => $capitulos,
+                'terceros' => $tercerosSelect
             ]);
         }
     }
@@ -216,48 +228,6 @@ class ContenidoController extends Controller
         return $response;
     }
 
-    public function actionMarcarLeido($id)
-    {
-        $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-        $model = ContenidoLeidoUsuario::find()
-            ->where(['numeroDocumento' => $numeroDocumento, 'idContenido' => $id])
-            ->one();
-        $response = [];
-        $curso = Contenido::findOne($id)->capitulo->modulo->curso;
-        if (is_null($model)) {
-            $model = new ContenidoLeidoUsuario();
-            $model->numeroDocumento = $numeroDocumento;
-            $model->idContenido = $id;
-            $model->idCurso = $curso->idCurso;
-            $model->tiempoLectura = Yii::$app->request->post()['tiempoLectura'];
-            if ($model->save()) {
-                $curso->marcarLeido();
-                $response = ['result' => 'ok',
-                    'response' => [
-                        'mensaje' => 'El contenido ha sido marcado como leido',
-                        'preguntaCuestionario' => $curso->preguntaCuestionario()
-                    ]
-                ];
-            } else {
-                $response = ['result' => 'error',
-                'response' => [
-                        'mensaje' => 'El contenido ha sido marcado como leido',
-                        'preguntaCuestionario' => $curso->preguntaCuestionario()
-                    ]
-                ];
-            }
-        } else {
-            $response = ['result' => 'ok',
-                    'response' => [
-                        'mensaje' => 'El contenido ya ha sido marcado como leido',
-                        'preguntaCuestionario' => $curso->preguntaCuestionario()
-                    ]
-                ];
-        }
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return $response;
-    }
-
     /**
      * Finds the Contenido model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -311,6 +281,20 @@ class ContenidoController extends Controller
             return $ruta;
         } else {
             return '';
+        }
+    }
+
+    protected function getTerceros() {
+
+        ini_set("soap.wsdl_cache_enabled", 0);
+
+        $client = new \SoapClient(Yii::$app->params['webServices']['productos']['terceros']);
+        $arr = $client->getTerceros();
+
+        if ($arr === null) {
+            return [];
+        } else {
+            return $arr;
         }
     }
 

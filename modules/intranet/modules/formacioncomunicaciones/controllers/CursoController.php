@@ -24,7 +24,7 @@ use yii\helpers\Url;
  */
 class CursoController extends Controller
 {
-    /**
+    /*
      * @inheritdoc
      */
     public function behaviors()
@@ -94,14 +94,11 @@ class CursoController extends Controller
     public function actionCrear()
     {
         $model = new Curso();
-        $terceros = $this->getTerceros();
-        $tercerosSelect = ArrayHelper::map($terceros, 'IdTercero', 'RazonSocial');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['detalle', 'id' => $model->idCurso]);
         } else {
             return $this->render('crear', [
                 'model' => $model,
-                'terceros' => $tercerosSelect
             ]);
         }
     }
@@ -115,14 +112,11 @@ class CursoController extends Controller
     public function actionActualizar($id)
     {
         $model = $this->findModel($id);
-        $terceros = $this->getTerceros();
-        $tercerosSelect = ArrayHelper::map($terceros, 'NumeroDocumento', 'Nombre');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['detalle', 'id' => $model->idCurso]);
         } else {
             return $this->render('actualizar', [
                 'model' => $model,
-                'terceros' => $tercerosSelect
             ]);
         }
     }
@@ -292,9 +286,16 @@ class CursoController extends Controller
     public function actionRenderModalCrearContenido($idCapitulo)
     {
         $model = new Contenido();
+        $terceros = $this->getTerceros();
+        $terceros[] = ['IdTercero' => '-1', 'RazonSocial' => 'COPSERVIR'];
+        $tercerosSelect = ArrayHelper::map($terceros, 'IdTercero', 'RazonSocial');
         $contenidos = [
             'result' => 'ok',
-            'response' => $this->renderAjax('_modalContenido', ['model' => $model, 'idCapitulo' => $idCapitulo])
+            'response' => $this->renderAjax('_modalContenido', [
+                'model' => $model,
+                'idCapitulo' => $idCapitulo,
+                'terceros' => $tercerosSelect
+            ])
         ];
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $contenidos;
@@ -304,13 +305,23 @@ class CursoController extends Controller
     {
         $model = new Contenido();
         $capitulos = [];
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $capitulos = [
-                'result' => 'ok',
-                'response' => $this->renderAjax('_contenidoCurso', [
-                    'model' => Curso::find()->where(['idCurso' => $idCurso])->one()
-                ])
-            ];
+        $terceros = $this->getTerceros();
+        $terceros[] = ['IdTercero' => '-1', 'RazonSocial' => 'COPSERVIR'];
+        $tercerosSelect = ArrayHelper::map($terceros, 'IdTercero', 'RazonSocial');
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->idTercero == -1) {
+                $model->nombreProveedor = 'COPSERVIR';
+            } else {
+                $model->nombreProveedor = $tercerosSelect[$model->idTercero];
+            }
+            if ($model->save()) {
+                $capitulos = [
+                    'result' => 'ok',
+                    'response' => $this->renderAjax('_contenidoCurso', [
+                        'model' => Curso::find()->where(['idCurso' => $idCurso])->one()
+                    ])
+                ];
+            }
         } else {
             $capitulos = [
                 'result' => 'error',
@@ -344,104 +355,26 @@ class CursoController extends Controller
         ]);
     }
 
-    // public function actionMisCursos()
-    // {
-    //     $searchModel = new CursoSearch();
-    //     $queryParams = Yii::$app->request->queryParams;
-    //     $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();
-    //     $queryParams['gruposInteresUsuario'] = $gruposInteres;
-    //     $queryParams['activos'] = true;
-    //     $dataProvider = $searchModel->search($queryParams);
-    //     return $this->render('misCursos', [
-    //         'searchModel' => $searchModel,
-    //         'dataProvider' => $dataProvider
-    //     ]);
-    // }
-
-    // public function actionMisCursos()
-    // {
-    //     $params = [];
-    //     $cursosBanner = [];
-    //     $cursosFormacion = [];
-    //     $cursosComunicacion = [];
-    //     $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();   
-    //     $cursosObligatorios = Curso::find()
-    //         ->joinWith('objGruposInteres')
-    //         ->where([
-    //             'tipoCurso' => Curso::TIPO_OBLIGATORIO,
-    //             'estadoCurso' => Curso::ESTADO_ACTIVO,
-    //             'm_GrupoInteres.idGrupoInteres' => $gruposInteres
-    //         ])
-    //         ->orderBy(['fechaActualizacion' => SORT_DESC])
-    //         ->limit(7)
-    //         ->all();
-    //     $cursosComunicacion = Curso::find()
-    //         ->joinWith('objGruposInteres')
-    //         ->where([
-    //             'tipoCurso' => Curso::TIPO_OPCIONAL,
-    //             'estadoCurso' => Curso::ESTADO_ACTIVO,
-    //             'm_GrupoInteres.idGrupoInteres' => $gruposInteres
-    //         ])
-    //         ->orderBy(['fechaActualizacion' => SORT_DESC])
-    //         ->limit(4)
-    //         ->all();
-    //         // echo sizeof($cursosObligatorios);
-    //     if (sizeof($cursosObligatorios >= 3)) {
-    //         $cursosBanner = array_slice($cursosObligatorios, 0, 3);
-    //         $cursosFormacion = array_slice($cursosObligatorios, 3, 8);
-    //     } else {
-    //         $cursosBanner = $cursosObligatorios;
-    //     }
-    //     $params = [
-    //         'cursosBanner' => $cursosBanner,
-    //         'cursosFormacion' => $cursosFormacion,
-    //         'cursosComunicacion' => $cursosComunicacion,
-    //     ];
-    //     return $this->render('misCursos', $params);
-    // }
-
-    public function actionRecomendados()
+    public function actionLeidos()
     {
-        $cursosFormacion = Curso::find()
-            ->where(['tipoCurso' => Curso::TIPO_OBLIGATORIO])
-            ->limit(10)
-            ->orderBy(['prioridad' => SORT_DESC])
-            ->all();
-        $cursosComunicacion = Curso::find()
-            ->where(['tipoCurso' => Curso::TIPO_OPCIONAL])
-            ->limit(10)
-            ->orderBy(['prioridad' => SORT_DESC])
-            ->all();
-        return $this->render('recomendados', [
-            'cursosFormacion' => $cursosFormacion,
-            'cursosComunicacion' => $cursosComunicacion
+        $searchModel = new CursoSearch();
+        $queryParams['terminados'] = true;
+        $dataProvider = $searchModel->search($queryParams);
+        return $this->render('misCursos', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
         ]);
     }
 
-    public function actionLeidos()
+    public function actionRecomendados()
     {
-        $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-        $cursosFormacion = Curso::find()
-            ->leftJoin('t_FORCO_CursosUsuario', 't_FORCO_CursosUsuario.idCurso = m_FORCO_Curso.idCurso')
-            ->where([
-                'tipoCurso' => Curso::TIPO_OBLIGATORIO,
-                'numeroDocumento' => $numeroDocumento
-            ])
-            ->limit(10)
-            ->orderBy(['prioridad' => SORT_DESC])
-            ->all();
-        $cursosComunicacion = Curso::find()
-            ->leftJoin('t_FORCO_CursosUsuario', 't_FORCO_CursosUsuario.idCurso = m_FORCO_Curso.idCurso')
-            ->where([
-                'tipoCurso' => Curso::TIPO_OPCIONAL,
-                'numeroDocumento' => $numeroDocumento
-            ])
-            ->limit(10)
-            ->orderBy(['prioridad' => SORT_DESC])
-            ->all();
-         return $this->render('leidos', [
-            'cursosFormacion' => $cursosFormacion,
-            'cursosComunicacion' => $cursosComunicacion
+        $searchModel = new CursoSearch();
+        $queryParams['activos'] = true;
+        $queryParams['recomendados'] = true;
+        $dataProvider = $searchModel->search($queryParams);
+        return $this->render('misCursos', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
         ]);
     }
 
