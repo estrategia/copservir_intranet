@@ -5,7 +5,10 @@ namespace app\modules\intranet\modules\formacioncomunicaciones\controllers;
 use Yii;
 use app\modules\intranet\modules\formacioncomunicaciones\models\ContenidoLeidoUsuario;
 use app\modules\intranet\modules\formacioncomunicaciones\models\ContenidoLeidoUsuarioSearch;
+use app\modules\intranet\modules\formacioncomunicaciones\models\CursosUsuario;
+use app\modules\intranet\modules\formacioncomunicaciones\models\CursosUsuarioSearch;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Puntos;
+use app\modules\intranet\modules\formacioncomunicaciones\models\PuntosSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -53,6 +56,16 @@ class ReportesController extends Controller
         ]);
     }
 
+    public function actionCursosTerminados()
+    {
+        $searchModel = new CursosUsuarioSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('cursosLeidos', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     public function actionRenderModalPuntosUsuario()
     {
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
@@ -64,6 +77,18 @@ class ReportesController extends Controller
         ];
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $puntos;
+    }
+
+    public function actionMisPuntos()
+    {
+        $searchModelPuntos = new PuntosSearch();
+        $queryParams['misPuntos'] = true;
+        $dataProviderPuntos = $searchModelPuntos->search($queryParams);
+        
+        return $this->render('misPuntos', [
+            'searchModelPuntos' => $searchModelPuntos,
+            'dataProviderPuntos' => $dataProviderPuntos,
+        ]);
     }
 
     /**

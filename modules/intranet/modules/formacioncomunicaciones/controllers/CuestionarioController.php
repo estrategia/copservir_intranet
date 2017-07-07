@@ -501,7 +501,7 @@ class CuestionarioController extends Controller{
     		$cuestionarios= CuestionarioUsuario::find()->where(['numeroDocumento' => $model->numeroDocumento])->select(['distinct(idCuestionario)','numeroDocumento'])->all();
     		$usuario = Usuario::findOne(['numeroDocumento' => $model->numeroDocumento]);
     	}
-    	return $this->render('estadoCuestionariousuario',[
+    	return $this->render('estadoCuestionarioUsuario',[
     			'model' => $model,
     			'usuarios' => $usuarios,
     			'cuestionarios' => $cuestionarios,

@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\modules\intranet\modules\formacioncomunicaciones\models\CategoriasPremiosSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Contenidos realizados';
+$this->title = 'Cursos realizados';
 $this->params['breadcrumbs'][] = 'Reportes';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -20,12 +20,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            [
-                'attribute' => '',
-                'label' => 'Contenido',
-                'value' => 'contenido.tituloContenido',
-                'filter' => Html::activeInput('text', $searchModel, 'tituloContenido', ['class' => 'form-control']),
-            ],
             [
                 'attribute' => '',
                 'label' => 'Curso',
@@ -51,14 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => 'usuarioIntranet.segundoApellido',
                 'filter' => Html::activeInput('text', $searchModel, 'segundoApellido', ['class' => 'form-control']),
             ],
-            [
-                'attribute' => '',
-                'label' => 'Proveedor',
-                'value' => 'contenido.nombreProveedor',
-                'filter' => Html::activeInput('text', $searchModel, 'nombreProveedor', ['class' => 'form-control']),
-            ]
-            // 'tiempoLectura',
-            // 'fechaCreacion',
+            'fechaCreacion',
         ],
     ]); ?>
 </div>

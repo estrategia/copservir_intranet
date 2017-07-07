@@ -68,7 +68,9 @@ class ParametrosPuntosController extends Controller
     public function actionPuntos()
     {
         $searchModelPuntos = new PuntosSearch();
-        $dataProviderPuntos = $searchModelPuntos->search(Yii::$app->request->queryParams);
+        $queryParams['misPuntos'] = true;
+        // $dataProviderPuntos = $searchModelPuntos->search(Yii::$app->request->queryParams);
+        $dataProviderPuntos = $searchModelPuntos->search($queryParams);
         
         return $this->render('puntos', [
             'searchModelPuntos' => $searchModelPuntos,
