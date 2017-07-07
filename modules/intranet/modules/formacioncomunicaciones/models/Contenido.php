@@ -128,6 +128,11 @@ class Contenido extends \yii\db\ActiveRecord
     {
         return $this->hasMany(ContenidoCalificacion::className(), ['idContenido' => 'idContenido']);
     }
+    
+    public function getCuestionario()
+    {
+    	return $this->hasOne(Cuestionario::className(), ['idContenido' => 'idContenido'])->andWhere("estado = 1");
+    }
 
     /**
      * @return \yii\db\ActiveQuery
