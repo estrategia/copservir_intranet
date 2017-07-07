@@ -42,8 +42,8 @@ class Cuestionario extends \yii\db\ActiveRecord
     {
         return [
             [['tituloCuestionario', 'descripcionCuestionario', 'fechaCreacion', 'idCurso', 'numeroIntentos', 'tiempo'], 'required'],
-            [['estado', 'idCurso', 'porcentajeMinimo', 'numeroPreguntas', 'idCurso','numeroIntentos', 'tiempo'], 'integer'],
-            [['fechaCreacion', 'fechaActualizacion'], 'safe'],
+            [['estado', 'idCurso', 'idContenido', 'porcentajeMinimo', 'numeroPreguntas', 'idCurso','numeroIntentos', 'tiempo'], 'integer'],
+            [['fechaCreacion', 'fechaActualizacion','idContenido'], 'safe'],
             [['tituloCuestionario'], 'string', 'max' => 100],
             [['descripcionCuestionario'], 'string', 'max' => 250],
         	['porcentajeMinimo', 'compare', 'compareValue' => 100, 'operator' => '<='],
@@ -61,6 +61,7 @@ class Cuestionario extends \yii\db\ActiveRecord
             'descripcionCuestionario' => 'Descripcion Cuestionario',
             'estado' => 'Estado',
         	'idCurso' => 'Curso',
+        	'idContenido' => 'Contenido',
         	'numeroPreguntas' => 'Numero Preguntas',
         	'numeroIntentos' => 'Numero Intentos',
         	'porcentajeMinimo' => 'Porcentaje Minimo',
@@ -83,8 +84,24 @@ class Cuestionario extends \yii\db\ActiveRecord
     	return $this->hasMany(Pregunta::className(), ['idCuestionario' => 'idCuestionario'])->where('idPreguntaPadre IS NULL AND estado = '.Pregunta::ESTADO_ACTIVO)->orderBy(new Expression('rand()'))->limit($this->numeroPreguntas);
     }
     
+    public function getListPreguntasCurso()
+    {
+    	$cuestionarios = Cuestionario::findAll(['idCurso' => $this->idCurso]);
+    	
+    	$arrayCuestionarios = [];
+    	foreach($cuestionarios as $cuestionario){
+    		$arrayCuestionarios[] = $cuestionario->idCuestionario;
+    	}
+    	
+    	return Pregunta::find()->where('idPreguntaPadre IS NULL AND estado = '.Pregunta::ESTADO_ACTIVO)->andWhere("idCuestionario in (".implode(",", $arrayCuestionarios).")")->orderBy(new Expression('rand()'))->limit($this->numeroPreguntas)->all();
+    }
+    
     public function getObjCurso(){
     	return $this->hasOne(Curso::className(), ['idCurso' => 'idCurso']);
+    }
+    
+    public function getObjContenido(){
+    	return $this->hasOne(Contenido::className(), ['idContenido' => 'idContenido']);
     }
 
     public function search($params)
@@ -252,26 +269,52 @@ class Cuestionario extends \yii\db\ActiveRecord
 	    		
 	    		// Buscar el par�metro
 	    		
-	    		$parametroPunto = ParametrosPuntos::findOne(['idTipoContenido' => $model->objCurso->idTipoContenido, 'estado' => ParametrosPuntos::ESTADO_ACTIVO]);
+	    	//	$parametroPunto = ParametrosPuntos::findOne(['idTipoContenido' => $model->objCurso->idTipoContenido, 'estado' => ParametrosPuntos::ESTADO_ACTIVO]);
 	    		// Guardar los puntos
+	    		$puntos = $tipoParametro =  0;
+	    		if($model->idContenido != null){
+	    			$puntos = $model->objContenido->cantidadPuntos;
+	    			$tipoParametro = ParametrosPuntos::CUESTIONARIO_CONTENIDO;
+	    			
+	    			$contenidoUsuario = new ContenidoLeidoUsuario();
+	    			$contenidoUsuario->idContenido = $model->idContenido ;
+	    			$contenidoUsuario->idCurso = $model->idCurso ;
+	    			$contenidoUsuario->numeroDocumento = $cuestionarioUsuario->numeroDocumento ;
+	    			$contenidoUsuario->fechaCreacion = \Date("Y-m-d h:i:s");
+	    			
+	    			if(!$contenidoUsuario->save()){
+	    				throw new \Exception("No se pudo marcar el contenido leido",505);
+	    			}
+	    		}else{
+	    			$puntos = $model->objCurso->cantidadPuntos;
+	    			$tipoParametro = ParametrosPuntos::CUESTIONARIO_CURSO;
+	    			
+	    			$contenidoUsuario = new CursosUsuario();
+	    			$contenidoUsuario->numeroDocumento = $cuestionarioUsuario->numeroDocumento ;
+	    			$contenidoUsuario->idCurso = $model->idCurso ;
+	    			$contenidoUsuario->fechaCreacion  = \Date("Y-m-d h:i:s") ;
+	    			$contenidoUsuario->fechaInicioLectura = \Date("Y-m-d h:i:s") ;
+	    			
+	    			if(!$contenidoUsuario->save()){
+	    				throw new \Exception("No se pudo marcar el curso leido",505);
+	    			}
+	    		}
 	    		
-	    		if($parametroPunto){
 		    		$puntosUsuario = new Puntos();
 		    		
 		    		$puntosUsuario->numeroDocumento = $cuestionarioUsuario->numeroDocumento;
-		    		$puntosUsuario->valorPuntos = $parametroPunto->valorPuntos; 
+		    		$puntosUsuario->valorPuntos = $puntos; 
 		    		$puntosUsuario->descripcionPunto = Cuestionario::DESCRIPCION_PUNTOS;
 		    		$puntosUsuario->idCuestionario = $model->idCuestionario;
-		    		$puntosUsuario->idParametroPunto = $parametroPunto->tipoParametro; /* ? */
-		    		$puntosUsuario->tipoParametro = $parametroPunto->tipoParametro;
-		    		$puntosUsuario->idTipoContenido = $parametroPunto->idTipoContenido;
+		    	//	$puntosUsuario->idParametroPunto = $parametroPunto->tipoParametro; /* ? */
+		    		$puntosUsuario->tipoParametro = $tipoParametro;
 		    		$puntosUsuario->fechaCreacion = Date("Y-m-d h:i:s");
 		    		$puntosUsuario->idCurso = $model->idCurso;
 		    	
 		    		if(!$puntosUsuario->save()){
 		    			throw new \Exception("No se pudo actualizar el cuestionario",502);
 		    		}
-	    		}
+	    		
 	    	}
 	    	return $preguntasCuestionario;
     }

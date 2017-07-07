@@ -41,7 +41,7 @@ class Puntos extends \yii\db\ActiveRecord
     {
         return [
             [['numeroDocumento', 'valorPuntos', 'descripcionPunto'], 'required'],
-            [['numeroDocumento', 'valorPuntos', 'idCuestionario', 'idParametroPunto', 'tipoParametro', 'idTipoContenido', 'condicion', 'idPuntoSincronizado'], 'integer'],
+            [['numeroDocumento', 'valorPuntos', 'idCuestionario', 'idParametroPunto', 'tipoParametro',  'condicion', 'idPuntoSincronizado'], 'integer'],
             [['fechaCreacion'], 'safe'],
             [['descripcionPunto'], 'string', 'max' => 100],
         ];
@@ -60,7 +60,6 @@ class Puntos extends \yii\db\ActiveRecord
             'idCuestionario' => 'Id Cuestionario',
             'idParametroPunto' => 'Id Parametro Punto',
             'tipoParametro' => 'Tipo Parametro',
-            'idTipoContenido' => 'Id Tipo Contenido',
             'condicion' => 'Condicion',
             'fechaCreacion' => 'Fecha Creacion',
             'idPuntoSincronizado' => 'Id Punto Sincronizado',

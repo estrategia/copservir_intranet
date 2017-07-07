@@ -25,6 +25,8 @@ class ParametrosPuntos extends \yii\db\ActiveRecord
     const ESTADO_INACTIVO = 0;
     const PARAMETRO_CUMPLEANIOS = 1;
     const PARAMETRO_ANIVERSARIO = 2;
+    const CUESTIONARIO_CONTENIDO = 3;
+    const CUESTIONARIO_CURSO = 4;
     const PARAMETRO_EXTERNO = 999;
     /**
      * @inheritdoc

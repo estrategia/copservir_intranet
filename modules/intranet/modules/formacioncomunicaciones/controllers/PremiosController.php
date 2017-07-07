@@ -199,7 +199,7 @@ class PremiosController extends Controller
 				return  ['result' => 'error', 'response' => 'No tienes puntos'];
 			}
 			
-			if($cantidad > $premio->cantidad){
+			if($premio->cantidad < 1){
 				return  ['result' => 'error', 'response' => 'Cantidad no disponible. Disponibles: '.$premio->cantidad." unidades"];
 			}
 			

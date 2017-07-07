@@ -16,6 +16,7 @@ use yii\db\Expression;
 use app\models\Usuario;
 use app\modules\intranet\models\formacioncomunicaciones\CuestionarioUsuarioForm;
 use yii\helpers\ArrayHelper;
+use app\modules\intranet\modules\formacioncomunicaciones\models\Contenido;
 
 class CuestionarioController extends Controller{ 
 
@@ -97,7 +98,7 @@ class CuestionarioController extends Controller{
         	
             return $this->redirect(['detalle', 'id' => $model->idCuestionario]);
         } else {
-            return $this->render('crear', [
+        	  return $this->render('crear', [
                         'model' => $model,
             ]);
         }
@@ -105,10 +106,9 @@ class CuestionarioController extends Controller{
 	
 	public function actionActualizar($id){
 		$model = $this->findModel($id);
-		
 		if ($model->load(Yii::$app->request->post()) ) {
 			$model->fechaActualizacion = \Date("Y-m-d h:i:s");
-			
+			//$model->idContenido = 
 			if($model->save()){
 				return $this->redirect(['detalle', 'id' => $model->idCuestionario]);
 			}
@@ -133,6 +133,7 @@ class CuestionarioController extends Controller{
 	public function actionPreguntas($id){
 		$modelCuestionario =  $this->findModel($id);
 
+		
 		$searchModel = new Pregunta();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$id,true);
         $tipoPreguntas = TipoPregunta::find()->where('estado = 1')->all();
@@ -311,7 +312,6 @@ class CuestionarioController extends Controller{
 			])];
 			exit();
 		}else{
-			print_r($modelOpciones->getErrors());exit();
 			return ['result' => 'error', 
 					'response' => 'Error al guardar la opci&oacute;n' 
 			];
@@ -458,7 +458,10 @@ class CuestionarioController extends Controller{
 				if(!$cuestionarioUsuario->save()){
 					throw new \Exception("No se pudo guardar el inicio del intento",502);;
 				}
-				$params['preguntas'] = $model->listPreguntas;
+				if($model->idContenido != null)
+					$params['preguntas'] = $model->listPreguntas;
+				else
+					$params['preguntas'] = $model->getListPreguntasCurso();
 				$params['cuestionarioUsuario'] = $cuestionarioUsuario;
 			}
 			$params['model'] = $model;
@@ -487,7 +490,6 @@ class CuestionarioController extends Controller{
         }
     }
     
-    
     public function actionCuestionarioUsuarios(){
     	$model = new CuestionarioUsuarioForm();
     	$usuario= [];
@@ -515,6 +517,15 @@ class CuestionarioController extends Controller{
     			'modelCuestionario' => $modelCuestionario,
     			'resumen' => true
     	]);
+    }
+    
+    public function actionBuscarContenidos(){
+    	Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+    	
+    	$contenidos = Contenido::findAll(['idCurso' => Yii::$app->request->post('idCurso')]);
+    	return ['result' => 'ok', 'response' => $this->renderAjax('_contenidos',[
+    			'model' => $contenidos,
+    	])];
     }
     
 }

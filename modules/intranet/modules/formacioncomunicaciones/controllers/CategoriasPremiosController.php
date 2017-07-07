@@ -116,6 +116,21 @@ class CategoriasPremiosController extends Controller
         return $respond;
       }
     }
+    
+
+    public function actionRenderModalAsignarPremio()
+    {
+    	if (Yii::$app->request->isAjax) {
+    		$categorias = CategoriasPremios::find()->where(['estado' => CategoriasPremios::ESTADO_ACTIVO, 'idCategoriaPadre' => null])->all();
+    		$respond = [
+    				'result' => 'ok',
+    				'response' => $this->renderAjax('_modalCategoriaPremio', [
+    						'categorias' => $categorias,
+    				])];
+    		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+    		return $respond;
+    	}
+    }    
 
     /**
      * Finds the CategoriasPremios model based on its primary key value.
