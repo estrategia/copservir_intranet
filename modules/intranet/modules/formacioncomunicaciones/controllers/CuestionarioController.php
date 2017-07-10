@@ -266,6 +266,10 @@ class CuestionarioController extends Controller{
 					exit();
 				}
 			}else if($pregunta->idTipoPregunta == Pregunta::PREGUNTA_FALSO_VERDADERO){
+				
+				// borrar respuestas anteriores.
+				OpcionRespuesta::deleteAll('idPregunta = :id',[':id' => $model->idPregunta]);
+				
 				foreach(Yii::$app->params['formacioncomunicaciones']['cuestionario']['opcionesverdaderofalso'] as $index => $value){
 					$opcionRespuesta = new OpcionRespuesta();
 					$opcionRespuesta->respuesta = $value;
