@@ -51,7 +51,7 @@ use vova07\imperavi\Widget;
     </div>
 
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-6">
         <?= $form->field($model, 'idTercero')->widget(Select2::classname(), [
               'data' => $terceros,
               'options' => ['placeholder' => 'Selecciona proveedor ...'],
@@ -61,6 +61,9 @@ use vova07\imperavi\Widget;
               ],
             ]); 
         ?>
+      </div>
+      <div class="col-md-6">
+         <?= $form->field($model, 'cantidadPuntos')->textInput() ?>
       </div>
     </div>
 

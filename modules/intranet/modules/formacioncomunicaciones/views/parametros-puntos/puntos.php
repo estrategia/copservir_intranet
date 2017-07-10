@@ -24,11 +24,23 @@ $this->params['breadcrumbs'][] = $this->title;
         'descripcionPunto',
         'valorPuntos',
         [
-            'attribute' => 'objUsuario',
-            'label' => 'Usuario',
-            'value' => 'objUsuario.nombres',
-            'filter' => Html::activeInput('text', $searchModelPuntos, 'usuario'),
-        ],
+                'attribute' => '',
+                'label' => 'Nombres',
+                'value' => 'objUsuarioIntranet.nombres',
+                'filter' => Html::activeInput('text', $searchModelPuntos, 'nombres', ['class' => 'form-control']),
+            ],
+            [
+                'attribute' => '',
+                'label' => 'Primer Apellido',
+                'value' => 'objUsuarioIntranet.primerApellido',
+                'filter' => Html::activeInput('text', $searchModelPuntos, 'primerApellido', ['class' => 'form-control']),
+            ],
+            [
+                'attribute' => '',
+                'label' => 'Segundo Apellido',
+                'value' => 'objUsuarioIntranet.segundoApellido',
+                'filter' => Html::activeInput('text', $searchModelPuntos, 'segundoApellido', ['class' => 'form-control']),
+            ],
         [
             'attribute' => 'tipoParametro',
             'value'  => function ($model)
@@ -37,11 +49,15 @@ $this->params['breadcrumbs'][] = $this->title;
                     return 'Cumpleaños';
                 } elseif ($model->tipoParametro == 2) {
                     return 'Aniversario';
+                } elseif ($model->tipoParametro == 3) {
+                    return 'Contenido';
+                } elseif ($model->tipoParametro == 4) {
+                    return 'Curso';
                 } elseif ($model->tipoParametro == 999) {
                     return 'Externo';
                 }
             },
-            'filter'=>array('1' => 'Tipo Contenido', '2' => 'Cumpleaños', '3' => 'Aniversario', '999' => 'Externo'),
+            'filter'=>array('1' => 'Cumpleaños', '2' => 'Aniversario', '3' => 'Contenido', '4' => 'Curso', '999' => 'Externo'),
         ],
     ],
 ]); ?>

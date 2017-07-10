@@ -24,7 +24,7 @@ class CursosUsuarioSearch extends CursosUsuario
     {
         return [
             [['idCurso', 'numeroDocumento'], 'integer'],
-            [['fechaCreacion', 'fechaInicioLectura'], 'safe'],
+            [['fechaCreacion', 'fechaInicioLectura', 'nombreCurso', 'nombres', 'primerApellido', 'segundoApellido', 'nombreProveedor'], 'safe'],
         ];
     }
 

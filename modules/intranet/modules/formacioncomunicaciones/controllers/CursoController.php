@@ -414,9 +414,8 @@ class CursoController extends Controller
     {
         $searchModel = new CursoSearch();
         $queryParams = Yii::$app->request->queryParams;
-        $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();
-        $queryParams['gruposInteresUsuario'] = $gruposInteres;
         $queryParams['activos'] = true;
+        $queryParams['limite'] = 3;
         $dataProvider = $searchModel->search($queryParams);
         $cursos = $dataProvider->getModels();
         // \yii\helpers\VarDumper::dump($cursos,10,true);

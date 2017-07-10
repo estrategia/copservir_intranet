@@ -51,7 +51,7 @@ class Contenido extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tituloContenido', 'descripcionContenido', 'idCapitulo', 'tiempoRequerido', 'idTercero',], 'required'],
+            [['tituloContenido', 'descripcionContenido', 'idCapitulo', 'tiempoRequerido', 'idTercero', 'cantidadPuntos'], 'required'],
             [['contenido'], 'required', 'on' => 'contenido'],
             [['tituloContenido', 'descripcionContenido', 'contenido'], 'string'],
             [['estadoContenido', 'idCapitulo', 'idContenidoCopia', 'frecuenciaMes', 'idCurso', 'tiempoRequerido'], 'integer'],
@@ -81,7 +81,8 @@ class Contenido extends \yii\db\ActiveRecord
             'fechaActualizacion' => 'Fecha Actualización',
             'idCurso' => 'Id Curso',
             'tiempoRequerido' => 'Tiempo requerido (minutos)',
-            'idTercero' => 'Proveedor'
+            'idTercero' => 'Proveedor',
+            'cantidadPuntos' => 'Cantidad Puntos'
         ];
     }
 

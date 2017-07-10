@@ -22,14 +22,14 @@ use kartik\select2\Select2;
         <?= $form->field($model, 'rutaIcono')->widget(FileInput::classname(), [
             'options' => ['accept' => 'image/*'],
               'pluginOptions' => [
-                'maxFileSize' => 5120,
+                'maxFileSize' => 1024,
                 'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
                 'showPreview' => true,
                 'showCaption' => true,
                 'showRemove' => true,
                 'showUpload' => false,
               ]
-            ])->label('Imagen');
+            ])->label('Icono');
         ?>
 
     <?php else: ?>
@@ -72,6 +72,7 @@ use kartik\select2\Select2;
           </a>
         </div>
       </div>
+      <a href="#" data-role="categoria-padre-eliminar">Eliminar Asignación</a>
     </div>
 
     <?= $form->field($model, 'idCategoriaPadre')->hiddenInput()->label(false) ?>

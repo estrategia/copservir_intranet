@@ -12,7 +12,9 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\Puntos;
  */
 class PuntosSearch extends Puntos
 {
-    public $usuario;
+    public $nombres;
+    public $primerApellido;
+    public $segundoApellido;
     /**
      * @inheritdoc
      */
@@ -20,7 +22,7 @@ class PuntosSearch extends Puntos
     {
         return [
             [['idPunto', 'numeroDocumento', 'valorPuntos', 'idCuestionario', 'idParametroPunto', 'tipoParametro', 'condicion', 'idPuntoSincronizado', 'idCurso'], 'integer'],
-            [['descripcionPunto', 'fechaCreacion', 'usuario'], 'safe'],
+            [['descripcionPunto', 'fechaCreacion', 'nombres', 'primerApellido', 'segundoApellido'], 'safe'],
         ];
     }
 
@@ -76,7 +78,9 @@ class PuntosSearch extends Puntos
             'idPuntoSincronizado' => $this->idPuntoSincronizado,
             'idCurso' => $this->idCurso,
         ]);
-        $query->andFilterWhere(['like', 'm_INTRA_Usuario.nombres', $this->usuario]);
+        $query->andFilterWhere(['like', 'm_INTRA_Usuario.nombres', $this->nombres]);
+        $query->andFilterWhere(['like', 'm_INTRA_Usuario.primerApellido', $this->primerApellido]);
+        $query->andFilterWhere(['like', 'm_INTRA_Usuario.segundoApellido', $this->segundoApellido]);
         $query->andFilterWhere(['like', 'descripcionPunto', $this->descripcionPunto]);
 
         return $dataProvider;
