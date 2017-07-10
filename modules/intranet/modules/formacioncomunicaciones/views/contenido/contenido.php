@@ -25,7 +25,10 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="row">
   <div class="col-md-12">
     <h1><?= $model->tituloContenido?></h1>
-    <?= $model->contenido; ?>
+    <?= $model->contenido; ?> <br>
+        <?php if ($model->cuestionario != null): ?>
+	      <?= Html::a('Prueba de conocimiento', ['cuestionario/aplicar-cuestionario', 'id' => $model->cuestionario->idCuestionario], ['class' => 'btn btn-primary']) ?>
+	    <?php endif ?>
   </div>
 </div>
 <div id="marcador-leido" style="width: 10px; height: 10px;" data-contenido-id="<?= $model->idContenido ?>"></div>

@@ -175,7 +175,7 @@ class Curso extends \yii\db\ActiveRecord
 
     public function getCuestionario()
     {
-        return $this->hasOne(Cuestionario::className(), ['idCurso' => 'idCurso']);
+        return $this->hasOne(Cuestionario::className(), ['idCurso' => 'idCurso'])->andWhere("idContenido is NULL and estado = 1");
     }
 
     public function getContenidosLeidosUsuario()
