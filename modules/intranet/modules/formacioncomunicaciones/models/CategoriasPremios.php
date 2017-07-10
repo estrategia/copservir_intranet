@@ -24,6 +24,7 @@ class CategoriasPremios extends \yii\db\ActiveRecord
 {
     const ESTADO_ACTIVO = 1;
     const ESTADO_INACTIVO = 0;
+    const SCENARIO_ACTUALIZAR = 'actualizar';
     /**
      * @inheritdoc
      */
@@ -38,7 +39,8 @@ class CategoriasPremios extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombreCategoria', 'orden', 'estado', 'rutaIcono'], 'required'],
+            [['nombreCategoria', 'orden', 'estado'], 'required'],
+            [['rutaIcono'], 'required', 'except' => self::SCENARIO_ACTUALIZAR],
             [['orden', 'estado', 'idCategoriaPadre'], 'integer'],
             [['fechaCreacion', 'fechaActualizacion', 'rutaIcono'], 'safe'],
             [['nombreCategoria'], 'string', 'max' => 100],

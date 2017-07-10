@@ -29,6 +29,8 @@ use kartik\select2\Select2;
           <?= $form->field($model, 'descripcionContenido')->textInput() ?>
           
           <?= $form->field($model, 'tiempoRequerido')->textInput() ?>
+          
+          <?= $form->field($model, 'cantidadPuntos')->textInput() ?>
 
           <?= $form->field($model, 'idTercero')->widget(Select2::classname(), [
             'data' => $terceros,

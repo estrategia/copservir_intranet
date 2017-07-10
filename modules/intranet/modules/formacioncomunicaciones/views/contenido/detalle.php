@@ -33,8 +33,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Capítulo',
                 'value' => $model->capitulo->nombreCapitulo
             ],
-            'idContenidoCopia',
+            // 'idContenidoCopia',
             'frecuenciaMes',
+            'cantidadPuntos'
         ],
     ]) ?>
 

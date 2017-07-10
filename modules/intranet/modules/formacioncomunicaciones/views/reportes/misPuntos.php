@@ -7,8 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\modules\intranet\modules\formacioncomunicaciones\models\ParametrosPuntosSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Puntos';
-$this->params['breadcrumbs'][] = ['label' => 'Parametros - Puntos', 'url' => ['index']];
+$this->title = 'Mis Puntos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

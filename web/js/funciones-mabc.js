@@ -2435,7 +2435,14 @@ $(document).on('click', "a[data-role='categoria-padre-asignar']", function () {
   $('#premio-idcategoria').val(idCategoria);
   $("a[data-role='modal-padre-categoria']").text(nombreCategoria);
   $('#modal-asignar-categoria-padre').modal('hide');
+  return false;
 });
+
+$(document).on('click', "a[data-role='categoria-padre-eliminar']", function () {
+  $("a[data-role='modal-padre-categoria']").text('Asignar');
+  $('#categoriaspremios-idcategoriapadre').val(null);
+  return false;
+})
 
 $(document).on('click', "button[data-role='agregar-contacto-categoria']", function () {
   if ($('#modal-agregar-contacto-categoria').length == 0) {

@@ -91,6 +91,7 @@ class CategoriasPremiosController extends Controller
     {
         $model = $this->findModel($id);
         $atributoIcono = $model->rutaIcono;
+        $model->scenario = CategoriasPremios::SCENARIO_ACTUALIZAR;
         if ($model->load(Yii::$app->request->post())) {
             $model->guardarImagen($atributoIcono);
             if ($model->save()) {

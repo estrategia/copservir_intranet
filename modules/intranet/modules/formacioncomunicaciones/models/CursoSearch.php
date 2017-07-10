@@ -68,12 +68,16 @@ class CursoSearch extends Curso
         if (isset($params['recomendados'])) {
             $query->orderBy(['cantidadPuntos' => SORT_DESC]);
         }
-        // var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort'=> ['defaultOrder' => ['fechaActivacion'=>SORT_DESC]]
         ]);
+
+        if (isset($params['limite'])) {
+            $query->limit($params['limite']);
+        }
+        //var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
 
         $this->load($params);
 
