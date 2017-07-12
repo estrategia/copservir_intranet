@@ -7,7 +7,7 @@ if($resumen):
 	$this->params['breadcrumbs'][] = ['label' => 'Cuestionario Usuarios', 'url' => ['cuestionario-usuarios']];
 	$this->params['breadcrumbs'][] = $this->title;
 else:
-	$this->params['breadcrumbs'][] = ['label' => 'Mis Cursos', 'url' => ['mis-cursos']];
+	$this->params['breadcrumbs'][] = ['label' => 'Programas', 'url' => ['curso/mis-cursos']];
 	$this->params['breadcrumbs'][] = ['label' => $modelCuestionario->objCurso->nombreCurso, 'url' => ['curso/visualizar-curso','id' => $modelCuestionario->idCurso]];
 	$this->params['breadcrumbs'][] = $this->title;
 endif;

@@ -22,7 +22,7 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\Cuestionario;
     <?= $form->field($model, 'descripcionPremio')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'tipoRedimir')->widget(Select2::classname(), [
       'data' => \Yii::$app->params['formacioncomunicaciones']['tiposRedimirPremios'],
-      'options' => ['placeholder' => 'Selecciona estado ...'],
+      'options' => ['placeholder' => 'Selecciona Tipo ...'],
       'hideSearch' => true,
       'pluginOptions' => [
         'allowClear' => true

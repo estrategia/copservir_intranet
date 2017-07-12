@@ -45,7 +45,7 @@ use kartik\select2\Select2;
             </tr>
             <tr>
               <td>Sin redimir</td>
-              <td><?= $puntos['totales']->puntos ?></td>
+              <td><?= $puntos['totales'] != 0 ? $puntos['totales']->puntos : $puntos['totales'] ?></td>
             </tr>
           </tbody>
         </table>

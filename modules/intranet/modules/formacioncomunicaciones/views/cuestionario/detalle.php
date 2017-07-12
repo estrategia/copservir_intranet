@@ -23,5 +23,4 @@ $this->params['breadcrumbs'][] = ['label' => $params['model']->tituloCuestionari
 
 	<?php echo $this->render($params['view'], $params)?>
 
-
 </div>

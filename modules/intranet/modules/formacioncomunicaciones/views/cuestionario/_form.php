@@ -59,7 +59,21 @@ use kartik\select2\Select2;
               'allowClear' => true
           ],
         ]);*/?>
-        <?php echo $form->field($model, 'idContenido')->dropDownList([]); ?>
+        <?php if ($model->idContenido != null): ?>
+          <?php if ($model->idCurso != null): ?>
+            <?php echo $form->field($model, 'idContenido')->widget(Select2::classname(), [
+              'data' => ArrayHelper::map(Curso::getContenidos($model->idCurso), 'idContenido','tituloContenido'),
+              // 'id' => 'Cuestionario_idCurso', 
+              'options' => ['placeholder' => 'Selecione ...'],
+              'pluginOptions' => [
+                  'allowClear' => true
+              ],
+            ]);?>
+            <!-- $model->getContenidos() -->
+          <?php endif ?>
+        <?php else: ?>
+          <?php echo $form->field($model, 'idContenido')->dropDownList([]); ?>
+        <?php endif ?>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

@@ -10,7 +10,7 @@ $src = Yii::$app->homeUrl . 'img/formacioncomunicaciones/assets/';
 
 $this->title = 'Resolver Cuestionario';
 
-$this->params['breadcrumbs'][] = ['label' => 'Mis Cursos', 'url' => ['mis-cursos']];
+$this->params['breadcrumbs'][] = ['label' => 'Programas', 'url' => ['curso/mis-cursos']];
 $this->params['breadcrumbs'][] = ['label' => $model->objCurso->nombreCurso, 'url' => ['/curso/visualizar-curso','id' => $model->idCurso]];
 $this->params['breadcrumbs'][] = ['label' => 'Resumen cuestionario', 'url' => ['aplicar-cuestionario','id' => $model->idCuestionario]];
 $this->params['breadcrumbs'][] = $this->title;

@@ -42,7 +42,14 @@ $escape = new JsExpression("function(m) {return m; }");
         
         <?= $form->field($model, 'duracionDias')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'estadoModulo')->hiddenInput(['value' => 0])->label(false) ?>
+        <?= $form->field($model, 'estadoModulo')->widget(Select2::classname(), [
+            'data' => ['1' => 'Activo', '0' => 'Inactivo'],
+            'options' => ['placeholder' => 'Selecciona estado ...'],
+            'hideSearch' => true,
+            'pluginOptions' => [
+              'allowClear' => true
+            ],
+          ]); ?>
 
         <?= $form->field($model, 'moduloGruposInteres')->widget(Select2::classname(),[
           'data' => $objModuloGruposInteres->getDatosSelectGruposInteres()['data'],

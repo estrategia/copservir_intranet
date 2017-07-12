@@ -31,7 +31,23 @@ use kartik\select2\Select2;
       
       <?= $form->field($model, 'cantidadPuntos')->textInput(['maxlength' => true]) ?>
 
-      <?= $form->field($model, 'estadoCurso')->hiddenInput(['value' => 0])->label(false) ?>
+      <?= $form->field($model, 'estadoCurso')->widget(Select2::classname(), [
+          'data' => ['1' => 'Activo', '0' => 'Inactivo'],
+          'options' => ['placeholder' => 'Selecciona estado ...'],
+          'hideSearch' => true,
+          'pluginOptions' => [
+            'allowClear' => true
+          ],
+        ]); ?>
+
+      <?= $form->field($model, 'tipoCurso')->widget(Select2::classname(), [
+          'data' => ['1' => 'Obligatorio', '0' => 'Opcional'],
+          'options' => ['placeholder' => 'Selecciona estado ...'],
+          'hideSearch' => true,
+          'pluginOptions' => [
+            'allowClear' => true
+          ],
+        ]); ?>
 
       <div class="form-group">
           <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

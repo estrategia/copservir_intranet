@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\ListView;
-
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\intranet\modules\formacioncomunicaciones\models\ContenidoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -20,21 +19,14 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
     <br>
     <?= ListView::widget([
-        'dataProvider' => $dataProvider,
-        'options' => [
-            'tag' => 'div',
-            'class' => 'listado-cursos-todos',
-            'id' => 'list-wrapper',
-        ],
-        'layout' => "{pager}\n{items}\n{summary}",
-        'itemView' => '_item_buscador',
-        'itemOptions' => [
-            'class' => 'listado-cursos-item'
-        ],
-        'pager' => [
-            'nextPageLabel' => 'next',
-            'prevPageLabel' => 'previous',
-            'maxButtonCount' => 3,
-        ],
-    ]); ?>
+    'dataProvider' => $dataProvider,
+    'itemView' => '_item_misCursos',
+    'layout' => '{summary}{items}{pager}',
+    'pager' => [
+        'prevPageLabel' => 'Anterior',
+        'nextPageLabel' => 'Siguiente',
+        'maxButtonCount' => 3,
+    ],
+]); ?>
+
 </div>

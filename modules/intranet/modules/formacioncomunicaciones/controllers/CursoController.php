@@ -18,6 +18,8 @@ use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\helpers\BaseUrl;
 use yii\helpers\Url;
+use yii\data\ActiveDataProvider;
+
 
 /**
  * CursoController implements the CRUD actions for Curso model.
@@ -95,7 +97,7 @@ class CursoController extends Controller
     {
         $model = new Curso();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['detalle', 'id' => $model->idCurso]);
+            return $this->redirect(['actualizar', 'id' => $model->idCurso]);
         } else {
             return $this->render('crear', [
                 'model' => $model,
@@ -113,7 +115,7 @@ class CursoController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['detalle', 'id' => $model->idCurso]);
+            return $this->redirect(['actualizar', 'id' => $model->idCurso]);
         } else {
             return $this->render('actualizar', [
                 'model' => $model,
@@ -347,11 +349,24 @@ class CursoController extends Controller
     public function actionMisCursos()
     {
         $searchModel = new CursoSearch();
-        $queryParams['activos'] = true;
-        $dataProvider = $searchModel->search($queryParams);
+        $dataProviderObligatorios = new ActiveDataProvider([
+            'query' => Curso::consultarActivosObligatorios(),
+            'pagination' => [
+                'pageSize' => 10
+            ]
+        ]);
+
+        $dataProviderOpcionales = new ActiveDataProvider([
+            'query' => Curso::consultarActivosOpcionales(),
+            'pagination' => [
+                'pageSize' => 10
+            ]
+        ]);
+
         return $this->render('misCursos', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider
+            'dataProviderObligatorios' => $dataProviderObligatorios,
+            'dataProviderOpcionales' => $dataProviderOpcionales
         ]);
     }
 

@@ -11,9 +11,9 @@ $curso = $modulo->curso;
 $this->title = 'Actualizar Contenido';
 $this->params['breadcrumbs'][] = ['label' => 'Cursos', 'url' => ['curso/index']];
 $this->params['breadcrumbs'][] = ['label' => $curso->nombreCurso, 'url' => ['curso/actualizar', 'id' => $curso->idCurso]];
-$this->params['breadcrumbs'][] = '  Contenido';
-$this->params['breadcrumbs'][] = ['label' => $model->tituloContenido, 'url' => ['visualizar-contenido', 'id' => $model->idContenido]];
-$this->params['breadcrumbs'][] = 'Actualizar';
+$this->params['breadcrumbs'][] = $model->tituloContenido;
+// $this->params['breadcrumbs'][] = ['label' => $model->tituloContenido, 'url' => ['visualizar-contenido', 'id' => $model->idContenido]];
+// $this->params['breadcrumbs'][] = 'Actualizar';
 ?>
 <div class="contenido-update">
 

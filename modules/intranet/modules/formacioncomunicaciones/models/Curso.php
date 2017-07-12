@@ -20,6 +20,8 @@ class Curso extends \yii\db\ActiveRecord
 {
     const ESTADO_ACTIVO = 1;
     const ESTADO_INACTIVO = 0;
+    const TIPO_OBLIGATORIO = 1;
+    const TIPO_OPCIONAL = 0;
     /**
      * @inheritdoc
      */
@@ -34,11 +36,11 @@ class Curso extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['estadoCurso', 'idCurso', 'cantidadPuntos'], 'integer'],
+            [['estadoCurso', 'idCurso', 'cantidadPuntos', 'tipoCurso'], 'integer'],
             [['fechaCreacion', 'fechaActualizacion', 'fechaInicio', 'fechaFin', 'fechaActivacion'], 'safe'],
             [['nombreCurso'], 'string', 'max' => 45],
             [['presentacionCurso'], 'string', 'max' => 250],
-            [['estadoCurso', 'nombreCurso', 'presentacionCurso', 'fechaInicio', 'cantidadPuntos'], 'required'],
+            [['estadoCurso', 'nombreCurso', 'presentacionCurso', 'fechaInicio', 'cantidadPuntos', 'tipoCurso'], 'required'],
         ];
     }
 
@@ -136,6 +138,45 @@ class Curso extends \yii\db\ActiveRecord
         return $modulos;
     }
 
+    public static function consultarActivosObligatorios()
+    {
+        return self::find()
+            ->where(['tipoCurso' => self::TIPO_OBLIGATORIO])
+            ->Where(['<=', 'fechaInicio', date("Y-m-d H:i:s")]);
+    }
+
+    public static function consultarActivosOpcionales()
+    {
+        return self::find()
+            ->where(['tipoCurso' => self::TIPO_OPCIONAL])
+            ->Where(['<=', 'fechaInicio', date("Y-m-d H:i:s")]);
+    }
+
+    public static function consultarActivosObligatoriosRecomendados()
+    {
+        return self::find()
+            ->where(['tipoCurso' => self::TIPO_OBLIGATORIO])
+            ->Where(['<=', 'fechaInicio', date("Y-m-d H:i:s")]);
+    }
+
+    public static function consultarActivosOpcionalesRecomendados()
+    {
+        return self::find()
+            ->where(['tipoCurso' => self::TIPO_OPCIONAL])
+            ->Where(['<=', 'fechaInicio', date("Y-m-d H:i:s")]);
+    }
+
+    public static function getContenidos($idCurso)
+    {
+        $contenidos = Contenido::find()
+            ->joinWith('capitulo capitulo')
+            ->joinWith('capitulo.modulo modulo')
+            ->joinWith('capitulo.modulo.curso curso')
+            ->where(['curso.idCurso' => $idCurso])
+            ->all();
+        return $contenidos;
+    }
+
     public function getModulos()
     {
         return $this->hasMany(Modulo::className(), ['idCurso' => 'idCurso']);
@@ -187,5 +228,4 @@ class Curso extends \yii\db\ActiveRecord
     {
         return $this->hasMany(CursosUsuario::className(), ['idCurso' => 'idCurso']);
     }
-
 }

@@ -98,6 +98,11 @@ class Contenido extends \yii\db\ActiveRecord
         }
     }
 
+    // public function getModulo()
+    // {
+    //     return $this->hasOne(Modulo::className(), ['idContenido' => 'idContenido']);
+    // }
+
     public function getContenidoLeidoUsuario()
     {
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
