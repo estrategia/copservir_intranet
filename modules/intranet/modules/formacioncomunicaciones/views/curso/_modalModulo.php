@@ -51,23 +51,6 @@ $escape = new JsExpression("function(m) {return m; }");
             ],
           ]); ?>
 
-        <?= $form->field($model, 'moduloGruposInteres')->widget(Select2::classname(),[
-          'data' => $objModuloGruposInteres->getDatosSelectGruposInteres()['data'],
-          'options' => [
-            'placeholder' => 'Selecione ...',
-            'options' => $objModuloGruposInteres->getDatosSelectGruposInteres()['options'],
-            'multiple' => true,
-          ],
-          'pluginOptions' => [
-            'allowClear' => true,
-            'templateResult' => new JsExpression('formatSelect'),
-            'templateSelection' => new JsExpression('formatSelect'),
-            'escapeMarkup' => $escape,
-          ],
-          'hideSearch' => false,
-          ]);
-        ?>
-
         <?php ActiveForm::end(); ?>
 
       </div>

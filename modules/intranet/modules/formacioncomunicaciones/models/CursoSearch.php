@@ -71,7 +71,7 @@ class CursoSearch extends Curso
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=> ['defaultOrder' => ['fechaActivacion'=>SORT_DESC]],
+            // 'sort'=> ['defaultOrder' => ['fechaActivacion'=>SORT_DESC]],
             'pagination' => [
                 'pagesize' => 10,
             ],

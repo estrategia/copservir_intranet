@@ -19,7 +19,6 @@ class Modulo extends \yii\db\ActiveRecord
 {
     const ESTADO_ACTIVO = 1;
     const ESTADO_INACTIVO = 0;
-    public $moduloGruposInteres;
 
     /**
      * @inheritdoc
@@ -35,7 +34,7 @@ class Modulo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombreModulo', 'descripcionModulo', 'estadoModulo', 'idCurso', 'moduloGruposInteres'], 'required'],
+            [['nombreModulo', 'descripcionModulo', 'estadoModulo', 'idCurso'], 'required'],
             [['estadoModulo', 'idCurso', 'duracionDias'], 'integer'],
             [['fechaCreacion', 'fechaActualizacion', 'fechaInicio', 'fechaFin', 'descripcionModulo'], 'safe'],
             [['nombreModulo'], 'string', 'max' => 45],
@@ -73,66 +72,6 @@ class Modulo extends \yii\db\ActiveRecord
         }
     }
 
-    public function guardarGruposInteres($gruposInteres)
-    {
-        foreach ($gruposInteres as $indice => $grupoInteres) {
-            $moduloGruposInteres = new ModuloGruposInteres;
-            $moduloGruposInteres->idModulo = $this->idModulo;
-            $moduloGruposInteres->idGrupoInteres = $gruposInteres[$indice];
-            // \yii\helpers\VarDumper::dump($moduloGruposInteres, 10,true);
-            $moduloGruposInteres->save();
-        }
-    }
-
-    public function setModuloGruposInteres()
-    {
-        $idsGrupos = [];
-        foreach ($this->objModuloGruposInteres as $grupo) {
-            $idsGrupos[] = $grupo->idGrupoInteres;
-        }
-        $this->moduloGruposInteres = $idsGrupos;
-    }
-
-    public function actualizarGrupos($gruposSelect)
-    {
-        $paraCrear = [];
-        $paraEliminar = [];
-        $idsGrupos = [];
-        $array1 = [];
-        $array2 = [];
-        $gruposAsignados = ModuloGruposInteres::find()->where(['idModulo' => $this->idModulo])->all();
-        foreach ($gruposAsignados as $grupo) {
-            $idsGrupos[] = $grupo->idGrupoInteres;
-        }
-
-        if (!is_array($gruposSelect)) {
-            $array1 = (array) $gruposSelect;
-        } else {
-            $array1 = $gruposSelect;
-        }
-        if (!is_array($idsGrupos)) {
-            $array2 = (array) $idsGrupos;
-        } else {
-            $array2 = $idsGrupos;
-        }
-        $paraCrear = array_diff($array1, $array2);
-        $paraEliminar = array_diff($array2, $array1);
-
-        // print_r($gruposSelect);
-        if (!empty($paraEliminar)) {
-            ModuloGruposInteres::deleteAll(['and', 'idModulo = :modulo', ['in', 'idGrupoInteres', $paraEliminar]],[
-                ':modulo' => $this->idModulo
-            ]);
-        }
-
-        foreach ($paraCrear as $idGrupo) {
-            $nuevoGrupo = new ModuloGruposInteres;
-            $nuevoGrupo->idModulo = $this->idModulo;
-            $nuevoGrupo->idGrupoInteres = $idGrupo;
-            $nuevoGrupo->save();
-        }
-    }
-
     public function getCurso()
     {
         return $this->hasOne(Curso::className(), ['idCurso' => 'idCurso']);
@@ -146,15 +85,5 @@ class Modulo extends \yii\db\ActiveRecord
     public function getCapitulosActivos()
     {
         return $this->hasMany(Capitulo::className(), ['idModulo' => 'idModulo'])->andWhere(['estadoCapitulo' => Capitulo::ESTADO_ACTIVO])->all();
-    }
-
-    public function getObjModuloGruposInteres()
-    {
-        return $this->hasMany(ModuloGruposInteres::className(), ['idModulo' => 'idModulo']);
-    }
-
-    public function getObjGruposInteres()
-    {
-        return $this->hasMany(GrupoInteres::className(), ['idGrupoInteres' => 'idGrupoInteres'])->via('objModuloGruposInteres');
     }
 }

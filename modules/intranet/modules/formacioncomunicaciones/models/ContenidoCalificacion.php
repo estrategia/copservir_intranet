@@ -31,7 +31,7 @@ class ContenidoCalificacion extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['numeroDocumento', 'idContenido', 'titulo', 'comentario', 'calificacion'], 'required'],
+            [['numeroDocumento', 'idContenido', 'comentario', 'calificacion'], 'required'],
             [['numeroDocumento', 'idContenido', 'calificacion'], 'integer'],
             [['fecha'], 'safe'],
             [['titulo'], 'string', 'max' => 45],
@@ -47,7 +47,6 @@ class ContenidoCalificacion extends \yii\db\ActiveRecord
         return [
             'numeroDocumento' => 'Numero Documento',
             'idContenido' => 'Id Contenido',
-            'titulo' => 'Titulo',
             'comentatio' => 'Comentatio',
             'calificacion' => 'Calificacion',
             'fecha' => 'Fecha',

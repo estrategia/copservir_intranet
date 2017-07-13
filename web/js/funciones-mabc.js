@@ -2152,6 +2152,7 @@ $(document).on('click', "button[data-role='crear-capitulo']", function() {
 
   var form = $("#form-capitulo");
   var idCurso = $("#contenido-curso").attr('data-curso-id');
+  // console.log(form.serialize());
   $.ajax({
     type: 'POST',
     async: true,

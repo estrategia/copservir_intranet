@@ -6,8 +6,7 @@ use Yii;
 use app\modules\intranet\models\GrupoInteres;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Capitulo;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Curso;
-use app\modules\intranet\modules\formacioncomunicaciones\models\CursoGruposInteres;
-use app\modules\intranet\modules\formacioncomunicaciones\models\ModuloGruposInteres;
+use app\modules\intranet\modules\formacioncomunicaciones\models\CapituloGruposInteres;
 use app\modules\intranet\modules\formacioncomunicaciones\models\CursoSearch;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Contenido;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Modulo;
@@ -126,14 +125,11 @@ class CursoController extends Controller
     public function actionRenderModalCrearModulo($idCurso)
     {
         $model = new Modulo();
-        $gruposInteres = ArrayHelper::Map(GrupoInteres::find()->where(['estado' => 1])->asArray()->all(), 'idGrupoInteres', 'nombreGrupo');
         $modulos = [
             'result' => 'ok',
             'response' => $this->renderAjax('_modalModulo', [
                 'model' => $model,
-                'idCurso' => $idCurso,
-                'gruposInteres' => $gruposInteres,
-                'objModuloGruposInteres' => new ModuloGruposInteres(),
+                'idCurso' => $idCurso
             ])
         ];
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -143,15 +139,11 @@ class CursoController extends Controller
     public function actionRenderModalEditarModulo($idModulo)
     {
         $model = Modulo::find()->where(['idModulo' => $idModulo])->one();
-        $gruposInteres = ArrayHelper::Map(GrupoInteres::find()->where(['estado' => 1])->asArray()->all(), 'idGrupoInteres', 'nombreGrupo');
-        $model->setModuloGruposInteres();
         $modulos = [
             'result' => 'ok',
             'response' => $this->renderAjax('_modalModulo', [
                 'model' => $model, 
-                'idCurso' => $model->idCurso,
-                'gruposInteres' => $gruposInteres,
-                'objModuloGruposInteres' => new ModuloGruposInteres()
+                'idCurso' => $model->idCurso
             ])
         ];
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -162,9 +154,6 @@ class CursoController extends Controller
         $model = new Modulo();
         $modulos = [];
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            if (!empty(Yii::$app->request->post()['Modulo']['moduloGruposInteres'])) {
-                $model->guardarGruposInteres(Yii::$app->request->post()['Modulo']['moduloGruposInteres']);
-            }
             $modulos = [
                 'result' => 'ok',
                 'response' => $this->renderAjax('_contenidoCurso', [
@@ -182,26 +171,10 @@ class CursoController extends Controller
         return $modulos;
     }
 
-    public function actionActivar($id)
-    {
-        $model = Curso::find()->where(['idCurso' => $id])->one();
-        if (sizeof($model->modulos) > 0) {
-            if ($model->activar()) {
-                Yii::$app->session->setFlash('success', 'Se ha activado el curso correctamente');
-            } else {
-                Yii::$app->session->setFlash('error', 'Ha ocurrido un error al activar el curso');
-            }
-        } else {
-            Yii::$app->session->setFlash('error', 'El curso debe contener modulos para poder ser activado');
-        }
-        return $this->redirect(['index']);
-    }
-
     public function actionActualizarModulo($idModulo, $idCurso) {
         $model = Modulo::find()->where(['idModulo' => $idModulo])->one();
         $modulos = [];
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model->actualizarGrupos(Yii::$app->request->post()['Modulo']['moduloGruposInteres']);
             $modulos = [
                 'result' => 'ok',
                 'response' => $this->renderAjax('_contenidoCurso', [
@@ -222,9 +195,15 @@ class CursoController extends Controller
     public function actionRenderModalCrearCapitulo($idModulo)
     {
         $model = new Capitulo();
+        $gruposInteres = ArrayHelper::Map(GrupoInteres::find()->where(['estado' => 1])->asArray()->all(), 'idGrupoInteres', 'nombreGrupo');
         $capitulos = [
             'result' => 'ok',
-            'response' => $this->renderAjax('_modalCapitulo', ['model' => $model, 'idModulo' => $idModulo])
+            'response' => $this->renderAjax('_modalCapitulo', [
+                'model' => $model,
+                'idModulo' => $idModulo,
+                'gruposInteres' => $gruposInteres,
+                'objCapituloGruposInteres' => new CapituloGruposInteres()
+            ])
         ];
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $capitulos;
@@ -233,9 +212,16 @@ class CursoController extends Controller
     public function actionRenderModalEditarCapitulo($idCapitulo)
     {
         $model = Capitulo::find()->where(['idCapitulo' => $idCapitulo])->one();
+        $gruposInteres = ArrayHelper::Map(GrupoInteres::find()->where(['estado' => 1])->asArray()->all(), 'idGrupoInteres', 'nombreGrupo');
+        $model->setCapituloGruposInteres();
         $capitulos = [
             'result' => 'ok',
-            'response' => $this->renderAjax('_modalCapitulo', ['model' => $model, 'idModulo' => $model->idModulo])
+            'response' => $this->renderAjax('_modalCapitulo', [
+                'model' => $model,
+                'idModulo' => $model->idModulo,
+                'gruposInteres' => $gruposInteres,
+                'objCapituloGruposInteres' => new CapituloGruposInteres()
+            ])
         ];
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $capitulos;
@@ -245,7 +231,11 @@ class CursoController extends Controller
     {
         $model = new Capitulo();
         $capitulos = [];
+        $gruposInteres = ArrayHelper::Map(GrupoInteres::find()->where(['estado' => 1])->asArray()->all(), 'idGrupoInteres', 'nombreGrupo');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if (!empty(Yii::$app->request->post()['Capitulo']['capituloGruposInteres'])) {
+                $model->guardarGruposInteres(Yii::$app->request->post()['Capitulo']['capituloGruposInteres']);
+            }
             $capitulos = [
                 'result' => 'ok',
                 'response' => $this->renderAjax('_contenidoCurso', [
@@ -253,14 +243,20 @@ class CursoController extends Controller
                 ])
             ];
         } else {
+            $model->validate();
             $capitulos = [
                 'result' => 'error',
-                'response' => $this->renderAjax('_modalCapitulo', ['model' => $model])
+                'response' => $this->renderAjax('_modalCapitulo', [
+                    'model' => $model,
+                    'idModulo' => $model->idModulo,
+                    'gruposInteres' => $gruposInteres,  
+                    'objCapituloGruposInteres' => new CapituloGruposInteres()
+                ])
             ];
         }
 
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return $capitulos;   
+        return $capitulos;
     }
 
     public function actionActualizarCapitulo($idCapitulo, $idCurso)
@@ -268,6 +264,7 @@ class CursoController extends Controller
         $model = Capitulo::find()->where(['idCapitulo' => $idCapitulo])->one();
         $capitulos = [];
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model->actualizarGrupos(Yii::$app->request->post()['Capitulo']['capituloGruposInteres']);
             $capitulos = [
                 'result' => 'ok',
                 'response' => $this->renderAjax('_contenidoCurso', [
@@ -384,12 +381,24 @@ class CursoController extends Controller
     public function actionRecomendados()
     {
         $searchModel = new CursoSearch();
-        $queryParams['activos'] = true;
-        $queryParams['recomendados'] = true;
-        $dataProvider = $searchModel->search($queryParams);
+        $dataProviderObligatorios = new ActiveDataProvider([
+            'query' => Curso::consultarActivosObligatoriosRecomendados(),
+            'pagination' => [
+                'pageSize' => 10
+            ]
+        ]);
+
+        $dataProviderOpcionales = new ActiveDataProvider([
+            'query' => Curso::consultarActivosOpcionalesRecomendados(),
+            'pagination' => [
+                'pageSize' => 10
+            ]
+        ]);
+
         return $this->render('misCursos', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider
+            'dataProviderObligatorios' => $dataProviderObligatorios,
+            'dataProviderOpcionales' => $dataProviderOpcionales
         ]);
     }
 

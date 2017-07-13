@@ -84,8 +84,6 @@ $this->params['breadcrumbs'][] = $this->title;
       <div class="modal-body">
         <?php $form = ActiveForm::begin(); ?>
 
-          <?= $form->field($calificacionModel, 'titulo')->textInput() ?>
-
           <?= $form->field($calificacionModel, 'comentario')->textArea(['rows' => '5']) ?>
 
           <?= $form->field($calificacionModel, 'calificacion')->widget(StarRating::classname(), [

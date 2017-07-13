@@ -156,14 +156,16 @@ class Curso extends \yii\db\ActiveRecord
     {
         return self::find()
             ->where(['tipoCurso' => self::TIPO_OBLIGATORIO])
-            ->Where(['<=', 'fechaInicio', date("Y-m-d H:i:s")]);
+            ->Where(['<=', 'fechaInicio', date("Y-m-d H:i:s")])
+            ->orderBy(['cantidadPuntos' => SORT_DESC]);
     }
 
     public static function consultarActivosOpcionalesRecomendados()
     {
         return self::find()
             ->where(['tipoCurso' => self::TIPO_OPCIONAL])
-            ->Where(['<=', 'fechaInicio', date("Y-m-d H:i:s")]);
+            ->Where(['<=', 'fechaInicio', date("Y-m-d H:i:s")])
+            ->orderBy(['cantidadPuntos' => SORT_DESC]);
     }
 
     public static function getContenidos($idCurso)

@@ -19,7 +19,7 @@ class ContenidoCalificacionSearch extends ContenidoCalificacion
     {
         return [
             [['numeroDocumento', 'idContenido', 'calificacion'], 'integer'],
-            [['titulo', 'comentario', 'fecha'], 'safe'],
+            [['comentario', 'fecha'], 'safe'],
         ];
     }
 
@@ -71,8 +71,7 @@ class ContenidoCalificacionSearch extends ContenidoCalificacion
             'calificacion' => $this->calificacion,
         ]);
 
-        $query->andFilterWhere(['like', 'titulo', $this->titulo])
-            ->andFilterWhere(['like', 'comentario', $this->comentario]);
+        $query->andFilterWhere(['like', 'comentario', $this->comentario]);
 
         return $dataProvider;
     }
