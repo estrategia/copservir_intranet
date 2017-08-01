@@ -41,6 +41,8 @@ $escape = new JsExpression("function(m) {return m; }");
         <?= $form->field($model, 'descripcionModulo')->textInput(['maxlength' => true]) ?>
         
         <?= $form->field($model, 'duracionDias')->textInput(['maxlength' => true]) ?>
+        
+        <?= $form->field($model, 'orden')->textInput(['maxlength' => true]) ?>
 
         <?= $form->field($model, 'estadoModulo')->widget(Select2::classname(), [
             'data' => ['1' => 'Activo', '0' => 'Inactivo'],

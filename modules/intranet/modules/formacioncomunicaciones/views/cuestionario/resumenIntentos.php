@@ -16,7 +16,8 @@ endif;
 <h1><?php echo $this->title?></h1>
 
 <h2><?php echo $modelCuestionario->tituloCuestionario?></h2>
-
+<h5>Porcentaje necesario para aprobar: <?= $modelCuestionario->porcentajeMinimo ?>%</h5>
+<h5>Puntos otorgados al aprobar: <?php echo $modelCuestionario->idContenido == null ? $modelCuestionario->objCurso->cantidadPuntos : $modelCuestionario->objContenido->cantidadPuntos ?></h5>
 <?php echo $modelCuestionario->descripcionCuestionario ?>
 <table class='table table-striped table-bordered'>
 	<tr>

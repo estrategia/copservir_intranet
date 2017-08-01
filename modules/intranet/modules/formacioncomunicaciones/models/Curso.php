@@ -50,16 +50,17 @@ class Curso extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idCurso' => 'Id Curso',
-            'nombreCurso' => 'Nombre Curso',
-            'presentacionCurso' => 'Presentacion Curso',
+            'idCurso' => 'Id Programa',
+            'nombreCurso' => 'Nombre Programa',
+            'presentacionCurso' => 'Presentacion Programa',
             'cantidadPuntos' => 'Cantidad Puntos',
-            'estadoCurso' => 'Estado Curso',
+            'estadoCurso' => 'Estado Programa',
             'fechaInicio' => 'Fecha Inicio',
             'fechaFin' => 'Fecha Fin',
             'fechaCreacion' => 'Fecha Creacion',
             'fechaActualizacion' => 'Fecha Actualizacion',
             'fechaActivacion' => 'Fecha Activacion',
+            'tipoCurso' => 'Tipo Programa'
         ];
     }
 
@@ -125,38 +126,41 @@ class Curso extends \yii\db\ActiveRecord
         return false;
     }
 
-    public function getModulosActivosUsuario()
-    {   
-        // $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-        $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();   
-        $modulos = Modulo::find()->joinWith('objGruposInteres')
-            ->where([
-                'estado' => Modulo::ESTADO_ACTIVO,
-                'm_GrupoInteres.idGrupoInteres' => $gruposInteres
-            ])
-            ->all();
-        return $modulos;
-    }
+    // public function getModulosActivosUsuario()
+    // {   
+    //     // $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+    //     $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();   
+    //     $modulos = Modulo::find()->joinWith('objGruposInteres')
+    //         ->where([
+    //             'estado' => Modulo::ESTADO_ACTIVO,
+    //             'm_GrupoInteres.idGrupoInteres' => $gruposInteres
+    //         ])
+    //         ->all();
+    //     return $modulos;
+    // }
 
     public static function consultarActivosObligatorios()
     {
         return self::find()
             ->where(['tipoCurso' => self::TIPO_OBLIGATORIO])
-            ->Where(['<=', 'fechaInicio', date("Y-m-d H:i:s")]);
+            ->andWhere(['estadoCurso' => self::ESTADO_ACTIVO])
+            ->andWhere(['<=', 'fechaInicio', date("Y-m-d H:i:s")]);
     }
 
     public static function consultarActivosOpcionales()
     {
         return self::find()
             ->where(['tipoCurso' => self::TIPO_OPCIONAL])
-            ->Where(['<=', 'fechaInicio', date("Y-m-d H:i:s")]);
+            ->andWhere(['estadoCurso' => self::ESTADO_ACTIVO])
+            ->andWhere(['<=', 'fechaInicio', date("Y-m-d H:i:s")]);
     }
 
     public static function consultarActivosObligatoriosRecomendados()
     {
         return self::find()
             ->where(['tipoCurso' => self::TIPO_OBLIGATORIO])
-            ->Where(['<=', 'fechaInicio', date("Y-m-d H:i:s")])
+            ->andWhere(['estadoCurso' => self::ESTADO_ACTIVO])
+            ->andWhere(['<=', 'fechaInicio', date("Y-m-d H:i:s")])
             ->orderBy(['cantidadPuntos' => SORT_DESC]);
     }
 
@@ -164,7 +168,8 @@ class Curso extends \yii\db\ActiveRecord
     {
         return self::find()
             ->where(['tipoCurso' => self::TIPO_OPCIONAL])
-            ->Where(['<=', 'fechaInicio', date("Y-m-d H:i:s")])
+            ->andWhere(['estadoCurso' => self::ESTADO_ACTIVO])
+            ->andWhere(['<=', 'fechaInicio', date("Y-m-d H:i:s")])
             ->orderBy(['cantidadPuntos' => SORT_DESC]);
     }
 

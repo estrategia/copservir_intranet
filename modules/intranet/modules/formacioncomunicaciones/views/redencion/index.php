@@ -4,8 +4,9 @@
   use yii\helpers\Url;
 ?>
 <h3>Categorías de premios</h3>
+
+<?= $this->render('/banners/banner', ['banner' => $banner]) ?>
 <div class="row">
-<?= Html::img(Yii::getAlias('@web').'/img/formacioncomunicaciones/assets/banner.png', ['class' => 'img-responsive']) ?>
 <div class="col-md-10">
   <?php foreach ($categorias as $categoria): ?>
     <div class="col-sm-3 col-md-3 item">

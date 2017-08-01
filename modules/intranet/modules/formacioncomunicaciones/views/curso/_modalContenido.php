@@ -13,7 +13,7 @@ use kartik\select2\Select2;
         <h4 class="modal-title" id="myModalLabel">
           <?php
           $modalTitle = '';
-          $model->isNewRecord ? $modalTitle = 'Crea un contenido' : $modalTitle = 'Actualiza el contenido';
+          $model->isNewRecord ? $modalTitle = 'Crea un curso' : $modalTitle = 'Actualiza el curso';
           echo $modalTitle;
           ?>
         </h4>
@@ -31,6 +31,8 @@ use kartik\select2\Select2;
           <?= $form->field($model, 'tiempoRequerido')->textInput() ?>
           
           <?= $form->field($model, 'cantidadPuntos')->textInput() ?>
+          
+          <?= $form->field($model, 'orden')->textInput() ?>
 
           <?= $form->field($model, 'idTercero')->widget(Select2::classname(), [
             'data' => $terceros,

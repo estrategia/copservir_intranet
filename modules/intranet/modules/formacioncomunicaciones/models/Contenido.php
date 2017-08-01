@@ -54,7 +54,7 @@ class Contenido extends \yii\db\ActiveRecord
             [['tituloContenido', 'descripcionContenido', 'idCapitulo', 'tiempoRequerido', 'idTercero', 'cantidadPuntos'], 'required'],
             [['contenido'], 'required', 'on' => 'contenido'],
             [['tituloContenido', 'descripcionContenido', 'contenido'], 'string'],
-            [['estadoContenido', 'idCapitulo', 'idContenidoCopia', 'frecuenciaMes', 'idCurso', 'tiempoRequerido'], 'integer'],
+            [['estadoContenido', 'idCapitulo', 'idContenidoCopia', 'frecuenciaMes', 'idCurso', 'tiempoRequerido', 'orden'], 'integer'],
             [['fechaCreacion', 'fechaActualizacion', 'nombreProveedor'], 'safe'],
             // [['idAreaConocimiento'], 'exist', 'skipOnError' => true, 'targetClass' => Area::className(), 'targetAttribute' => ['idAreaConocimiento' => 'idAreaConocimiento']],
             // [['idModulo'], 'exist', 'skipOnError' => true, 'targetClass' => Modulo::className(), 'targetAttribute' => ['idModulo' => 'idModulo']],
@@ -82,7 +82,8 @@ class Contenido extends \yii\db\ActiveRecord
             'idCurso' => 'Id Curso',
             'tiempoRequerido' => 'Tiempo requerido (minutos)',
             'idTercero' => 'Proveedor',
-            'cantidadPuntos' => 'Cantidad Puntos'
+            'cantidadPuntos' => 'Cantidad Puntos',
+            'orden' => 'Orden'
         ];
     }
 
@@ -200,4 +201,5 @@ class Contenido extends \yii\db\ActiveRecord
     {
         return $_FILES;
     }
+
 }

@@ -4,6 +4,7 @@ namespace app\modules\intranet\modules\formacioncomunicaciones\models;
 
 use Yii;
 use app\modules\intranet\models\GrupoInteres;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "m_FORCO_Modulo".
@@ -35,7 +36,7 @@ class Modulo extends \yii\db\ActiveRecord
     {
         return [
             [['nombreModulo', 'descripcionModulo', 'estadoModulo', 'idCurso'], 'required'],
-            [['estadoModulo', 'idCurso', 'duracionDias'], 'integer'],
+            [['estadoModulo', 'idCurso', 'duracionDias', 'orden'], 'integer'],
             [['fechaCreacion', 'fechaActualizacion', 'fechaInicio', 'fechaFin', 'descripcionModulo'], 'safe'],
             [['nombreModulo'], 'string', 'max' => 45],
             [['descripcionModulo'], 'string', 'max' => 250],
@@ -85,5 +86,33 @@ class Modulo extends \yii\db\ActiveRecord
     public function getCapitulosActivos()
     {
         return $this->hasMany(Capitulo::className(), ['idModulo' => 'idModulo'])->andWhere(['estadoCapitulo' => Capitulo::ESTADO_ACTIVO])->all();
+    }
+
+    public function getCapitulosObligatoriosUsuario()
+    {   
+        // $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();   
+        $modulos = Capitulo::find()
+            ->joinWith('objGruposInteres')
+            ->where([
+                'estadoCapitulo' => Modulo::ESTADO_ACTIVO,
+                'idModulo' => $this->idModulo,
+                'm_GrupoInteres.idGrupoInteres' => $gruposInteres,
+            ])
+            ->orderBy(['orden' => SORT_ASC])
+            ->all();
+        return $modulos;
+    }
+
+    public function getCapitulosOpcionalesUsuario()
+    {   
+        $capitulosAsignados = $this->getCapitulosObligatoriosUsuario();
+        $idCapitulosAsignados = ArrayHelper::getColumn($capitulosAsignados, 'idCapitulo');
+        $capitulosNoAsignados = Capitulo::find()
+            ->where(['estadoCapitulo' => Modulo::ESTADO_ACTIVO, 'idModulo' => $this->idModulo])
+            ->andWhere(['NOT IN', 'idCapitulo', $idCapitulosAsignados])
+            ->orderBy(['orden' => SORT_ASC])
+            ->all();
+        return $capitulosNoAsignados;
     }
 }

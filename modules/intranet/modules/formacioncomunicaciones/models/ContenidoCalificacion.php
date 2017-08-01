@@ -34,7 +34,6 @@ class ContenidoCalificacion extends \yii\db\ActiveRecord
             [['numeroDocumento', 'idContenido', 'comentario', 'calificacion'], 'required'],
             [['numeroDocumento', 'idContenido', 'calificacion'], 'integer'],
             [['fecha'], 'safe'],
-            [['titulo'], 'string', 'max' => 45],
             [['comentario'], 'string', 'max' => 100],
         ];
     }

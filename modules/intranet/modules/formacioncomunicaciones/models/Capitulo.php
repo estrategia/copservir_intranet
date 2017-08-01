@@ -36,7 +36,7 @@ class Capitulo extends \yii\db\ActiveRecord
     {
         return [
             [['nombreCapitulo', 'descripcionCapitulo', 'estadoCapitulo', 'idModulo'], 'required'],
-            [['estadoCapitulo', 'idCapitulo'], 'integer'],
+            [['estadoCapitulo', 'idCapitulo', 'orden'], 'integer'],
             [['fechaCreacion', 'fechaActualizacion', 'capituloGruposInteres'], 'safe'],
             [['nombreCapitulo'], 'string', 'max' => 45],
             [['descripcionCapitulo'], 'string', 'max' => 250],
@@ -71,17 +71,17 @@ class Capitulo extends \yii\db\ActiveRecord
 
     public function getModulo()
     {
-        return $this->hasOne(Modulo::className(), ['idCapitulo' => 'idCapitulo']);
+        return $this->hasOne(Modulo::className(), ['idModulo' => 'idModulo']);
     }
 
     public function getContenidos()
     {
-        return $this->hasMany(Contenido::className(), ['idCapitulo' => 'idCapitulo']);
+        return $this->hasMany(Contenido::className(), ['idCapitulo' => 'idCapitulo'])->orderBy(['m_FORCO_Contenido.orden' => SORT_ASC]);
     }
 
     public function getContenidosActivos()
     {
-        return $this->hasMany(Contenido::className(), ['idCapitulo' => 'idCapitulo'])->andWhere(['estadoContenido' => Contenido::ESTADO_ACTIVO])->all();
+        return $this->hasMany(Contenido::className(), ['idCapitulo' => 'idCapitulo'])->andWhere(['estadoContenido' => Contenido::ESTADO_ACTIVO])->orderBy(['m_FORCO_Contenido.orden' => SORT_ASC])->all();
     }
 
     public function guardarGruposInteres($gruposInteres)
@@ -151,6 +151,6 @@ class Capitulo extends \yii\db\ActiveRecord
 
     public function getObjGruposInteres()
     {
-        return $this->hasMany(GrupoInteres::className(), ['idGrupoInteres' => 'idGrupoInteres'])->via('objModuloGruposInteres');
+        return $this->hasMany(GrupoInteres::className(), ['idGrupoInteres' => 'idGrupoInteres'])->via('objCapituloGruposInteres');
     }
 }

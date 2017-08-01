@@ -30,13 +30,11 @@ $escape = new JsExpression("function(m) {return m; }");
           ?>
         </h4>
       </div>
-      <?php \yii\helpers\VarDumper::dump($model->errors,10,true); ?>
-      <?php \yii\helpers\VarDumper::dump($idModulo,10,true); ?>
       <div class="modal-body">
 
         <?php $form = ActiveForm::begin(['id' => 'form-capitulo', 'enableClientValidation' => true]); ?>
 
-        <?= $form->field($model, 'idModulo')->textInput(['value' => $idModulo])->label(false) ?>
+        <?= $form->field($model, 'idModulo')->hiddenInput(['value' => $idModulo])->label(false) ?>
 
         <?= $form->field($model, 'nombreCapitulo')->textInput(['maxlength' => true]) ?>
 
@@ -67,6 +65,8 @@ $escape = new JsExpression("function(m) {return m; }");
             'allowClear' => true
           ],
         ]); ?>
+
+        <?= $form->field($model, 'orden')->textInput(['maxlength' => true]) ?>
 
         <?php ActiveForm::end(); ?>
 

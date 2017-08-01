@@ -94,7 +94,7 @@ use app\modules\intranet\models\CampanasDestino;
     <?= $form->field($model, 'estado')->dropDownList(['0' => 'Inactivo', '1' => 'Activo']); ?>
 
     <?php $model->posicion = $model->isNewRecord ? 0 : $model->posicion;  ?>
-    <?= $form->field($model, 'posicion')->dropDownList(['0' => 'Superior', '1' => 'Inferior', '2'=>'Derecha']); ?>
+    <?= $form->field($model, 'posicion')->dropDownList(['0' => 'Superior', '1' => 'Inferior', '2'=>'Derecha', '3'=>'Tienda Formación y Comunicación', '4'=>'Programas Formación y Comunicación']); ?>
 
     <?php
     echo  $form->field($model, 'fechaInicio')->widget(DateTimePicker::classname(), [

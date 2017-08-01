@@ -54,10 +54,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 } elseif ($model->tipoParametro == 4) {
                     return 'Curso';
                 } elseif ($model->tipoParametro == 999) {
-                    return 'Externo';
+                    return 'Misiones de Compra';
                 }
             },
-            'filter'=>array('1' => 'Cumpleaños', '2' => 'Aniversario', '3' => 'Contenido', '4' => 'Curso', '999' => 'Externo'),
+            'filter'=>array('1' => 'Cumpleaños', '2' => 'Aniversario', '3' => 'Contenido', '4' => 'Curso', '999' => 'Misiones de Compra'),
         ],
     ],
 ]); ?>

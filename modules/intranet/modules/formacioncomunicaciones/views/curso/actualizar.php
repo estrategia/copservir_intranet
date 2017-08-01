@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model app\modules\intranet\modules\formacioncomunicaciones\models\Curso */
 
 $this->title = 'Actualizar Curso: ' . $model->nombreCurso;
-$this->params['breadcrumbs'][] = ['label' => 'Cursos', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Programas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->nombreCurso, 'url' => ['detalle', 'id' => $model->idCurso]];
 $this->params['breadcrumbs'][] = 'Actualizar';
 ?>

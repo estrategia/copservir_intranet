@@ -2271,6 +2271,7 @@ $(document).on('click', "a[data-role='agregar-contenido']", function() {
     success: function(data) {
       if (data.result == "ok") {
         $('body').append(data.response);
+        $.fn.modal.Constructor.prototype.enforceFocus = function() {};
         $("#widget-contenido").modal("show");
       }
     },
@@ -2599,3 +2600,182 @@ $(document).ready(function () {
 
 // Organigrama 
 
+// Simulador Servicop
+
+$('select[name="lineaCredito"]').on("change", function(e) {
+  var idCredito = $(this).val();
+  $.ajax({
+    type: 'GET',
+    async: true,
+    data: {idCredito: idCredito},
+    url: requestUrl + '/intranet/servicop/simulador/render-widgets',
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading();
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      $('#widget-info-basica').html(data.response.infoBasica);
+      $('#widget-cuotas-extra').html(data.response.tiposCuotaExtra);
+      $('#widget-garantias').html(data.response.garantiasNoCombinadas);
+      $('#widget-garantias-combinadas').html(data.response.garantiasCombinadas);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
+
+$(document).on('click', "button[data-role='consultar']", function() {
+  var plazo = 30;
+  var idCuota = 1;
+  $.ajax({
+    type: 'GET',
+    async: true,
+    data: {idCuota: idCuota, plazo: plazo},
+    url: requestUrl + '/intranet/servicop/simulador/render-form-cuota-extra',
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading();
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      $('#forms-cuotas-extra').append(data.response);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
+
+$(document).on('click', '#widget-cuotas-extra :checkbox', function () {
+    var idCuota = $(this).attr('data-cuota-extra-id');
+    if (!$(this).is(':checked')) {
+      removerCuota(idCuota);
+    } else {
+      crearFormCuota(idCuota);
+    }
+});
+
+$(document).on('click', '#widget-garantias :radio', function () {
+    $('#widget-garantias-combinadas :checkbox').removeAttr("checked");
+});
+
+$(document).on('click', '#widget-garantias-combinadas :checkbox', function () {
+    $('#widget-garantias :radio').attr('checked',false);
+});
+
+function crearFormCuota(idCuota) {
+  var plazo = 10;
+  $.ajax({
+    type: 'GET',
+    async: true,
+    data: {idCuota: idCuota, plazo: plazo},
+    url: requestUrl + '/intranet/servicop/simulador/render-form-cuota-extra',
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading();
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      $('#forms-cuotas-extra').append(data.response);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+}
+
+function removerCuota (idCuota) {
+  $('#form-cuota-' + idCuota).remove();
+}
+
+$(document).on('click', 'button[data-role="simular-credito"]', function () {
+  // var credito = $('#form-creditos').serializeArray()
+  //   .reduce(function(a, x) { a[x.name] = x.value; return a; }, {});
+
+  var credito = $('#form-creditos').serialize();
+  console.log(credito);
+  $.ajax({
+    type: 'POST',
+    async: true,
+    data: {datos: credito},
+    url: requestUrl + '/intranet/servicop/simulador/simular',
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading();
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      $('input[name="valor-cuota"]').val(data.response);
+      // console.log(data);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+})
+
+$(document).on('click', 'button[data-role="solicitar-credito"]', function () {
+  // var credito = $('#form-creditos').serializeArray()
+  //   .reduce(function(a, x) { a[x.name] = x.value; return a; }, {});
+  var credito = $('#form-creditos').serialize();
+  // console.log(credito);
+  $.ajax({
+    type: 'POST',
+    async: true,
+    data: {datos: credito},
+    url: requestUrl + '/intranet/servicop/solicitudes/crear',
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading();
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      // $('input[name="valor-cuota"]').val(data.response);
+      console.log(data);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+})
+
+// Carga de documentos
+// var form = document.forms.namedItem("fileinfo");
+// form.addEventListener('submit', function(ev) {
+
+//   var oOutput = document.querySelector("div"),
+//       oData = new FormData(form);
+
+//   // oData.append("CustomField", "This is some extra data");
+
+//   var oReq = new XMLHttpRequest();
+//   oReq.open("POST", "", true);
+//   oReq.onload = function(oEvent) {
+//     if (oReq.status == 200) {
+//       oOutput.innerHTML = "Uploaded!";
+//     } else {
+//       oOutput.innerHTML = "Error " + oReq.status + " occurred when trying to upload your file.<br \/>";
+//     }
+//   };
+
+//   oReq.send(oData);
+//   ev.preventDefault();
+// }, false);
+
+$(document).on('click', 'input[class="subir-documento"]', function () {
+  console.log('hola');
+});

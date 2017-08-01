@@ -51,7 +51,7 @@ class Pregunta extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tituloPregunta', 'idTipoPregunta', 'idCuestionario', 'estado', 'fechaCreacion'], 'required'],
+            [['idTipoPregunta', 'idCuestionario', 'estado', 'fechaCreacion'], 'required'],
             [['idPreguntaPadre', 'idTipoPregunta', 'idCuestionario', 'estado'], 'integer'],
             [['pregunta'], 'string'],
             [['fechaCreacion', 'fechaActualizacion'], 'safe'],
@@ -69,7 +69,7 @@ class Pregunta extends \yii\db\ActiveRecord
     {
         return [
             'idPregunta' => 'Id Pregunta',
-            'tituloPregunta' => 'Titulo Pregunta',
+            // 'tituloPregunta' => 'Titulo Pregunta',
             'pregunta' => 'Pregunta',
             'idPreguntaPadre' => 'Id Pregunta Padre',
             'idTipoPregunta' => 'Id Tipo Pregunta',

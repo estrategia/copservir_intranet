@@ -121,7 +121,6 @@ class CuestionarioController extends Controller{
 		
 	}
 
-
 	public function actionDetalle($id){
 		 $params= [  'model' => $this->findModel($id),
 		 			'view' => 'detallePregunta'

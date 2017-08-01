@@ -89,9 +89,6 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\OpcionRespuesta;
 		    <div class='col-sm-2'>
 		    	<?= $form->field($model, 'estado')->dropDownList(['0' => 'Inactivo', '1' => 'Activo']); ?>
 		    </div>
-		    <div class='col-sm-2'>
-		    	<?= $form->field($model, 'tituloPregunta')->textInput(['maxlength' => true]); ?>
-		    </div>
 		    <div class='col-sm-3'>
 		        <?= Html::Button('Guardar', ['class' => 'btn btn-success', 'data-role' => 'guardarPreguntaCompletar', 'data-pregunta' => $model->idPregunta ]) ?>
 		    </div>

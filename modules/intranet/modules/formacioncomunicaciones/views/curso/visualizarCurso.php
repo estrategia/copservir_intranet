@@ -17,8 +17,10 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $model->presentacionCurso ?>
     </h3>
     <!-- $model->cuestionario != null -->
-    <?php if (false): ?>
-      <?= Html::a('Prueba de conocimiento', ['cuestionario/aplicar-cuestionario', 'id' => $model->cuestionario->idCuestionario], ['class' => 'btn btn-primary']) ?>
+    <?php if ($model->cuestionario != null): ?>
+        <?php if ($model->cuestionario->estado == 1): ?>
+            <?= Html::a('Prueba de conocimiento', ['cuestionario/aplicar-cuestionario', 'id' => $model->cuestionario->idCuestionario], ['class' => 'btn btn-primary']) ?>
+        <?php endif ?>
     <?php endif ?>
 
     <h1>Contenido</h1>

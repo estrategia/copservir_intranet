@@ -22,7 +22,7 @@ use kartik\select2\Select2;
       <?= $form->field($model, 'fechaInicio')->widget(DatePicker::classname(), [
           'type' => DatePicker::TYPE_INPUT,
           'options' => ['placeholder' => ''],
-              'pluginOptions' => [
+            'pluginOptions' => [
               'autoclose'=>true,
               'format' => 'yyyy-mm-dd'
               ]

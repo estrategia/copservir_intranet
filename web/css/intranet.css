@@ -663,3 +663,13 @@ a.circle-avatar, div.circle-avatar{
     margin-left: auto;
     margin-right: auto;
 }
+
+#widget-cuotas-extra {
+    display: flex;
+    justify-content: center;
+
+}
+
+.block {
+    display: block !important;
+}

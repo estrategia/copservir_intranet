@@ -15,7 +15,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Preguntas' ];
 	<p>
 
         <?= Html::a('Actualizar', ['actualizar-pregunta', 'id' => $params['model']->idPregunta], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Contenido', ['contenido-pregunta', 'idPregunta' => $params['model']->idPregunta], ['class' => 'btn btn-primary']) ?>
         <?php if($params['model']->idTipoPregunta != Pregunta::PREGUNTA_COMPLETAR):?>
         	<?= Html::a('Opciones respuesta', ['opciones-respuesta', 'idPregunta' => $params['model']->idPregunta], ['class' => 'btn btn-primary',]) ?>
     	<?php else:?>

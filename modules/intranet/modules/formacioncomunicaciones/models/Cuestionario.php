@@ -86,14 +86,51 @@ class Cuestionario extends \yii\db\ActiveRecord
     
     public function getListPreguntasCurso()
     {
-    	$cuestionarios = Cuestionario::findAll(['idCurso' => $this->idCurso]);
+        $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();
+
+        $subQueryModulos = Modulo::find()
+            ->select('idModulo')
+            ->where(['idCurso' => $this->idCurso]);
+
+        $capitulosObligatorios = Capitulo::find()
+            ->select('m_FORCO_Capitulo.idCapitulo')
+            ->joinWith('objGruposInteres')
+            ->where([
+                'estadoCapitulo' => Modulo::ESTADO_ACTIVO,
+                'idModulo' => $subQueryModulos,
+                'm_GrupoInteres.idGrupoInteres' => $gruposInteres,
+            ]);
+
+        $contenidosObligatorios = Contenido::find()
+            ->select('idContenido')
+            ->where(['idCapitulo' => $capitulosObligatorios]);
+
+        $cuestionarios = Cuestionario::find()
+            ->select('idCuestionario')
+            ->where(['idContenido' => $contenidosObligatorios]);
+        
+        $preguntas = Pregunta::find()
+            ->joinWith('objCuestionario')
+            ->where(['idPreguntaPadre' => null])
+            ->andWhere(['m_FORCO_Pregunta.estado' => Pregunta::ESTADO_ACTIVO])
+            ->andWhere(['m_FORCO_Cuestionario.idCuestionario' => $cuestionarios])
+            ->all();
+
+        // var_dump($preguntas->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
+
+        return $preguntas;
+        // $subQuery = Contenido::find()
+        //     ->joinWith([])
+        //     ->joinWith([])
+
+    	// $cuestionarios = Cuestionario::findAll(['idCurso' => $this->idCurso]);
     	
-    	$arrayCuestionarios = [];
-    	foreach($cuestionarios as $cuestionario){
-    		$arrayCuestionarios[] = $cuestionario->idCuestionario;
-    	}
+    	// $arrayCuestionarios = [];
+    	// foreach($cuestionarios as $cuestionario){
+    	// 	$arrayCuestionarios[] = $cuestionario->idCuestionario;
+    	// }
     	
-    	return Pregunta::find()->where('idPreguntaPadre IS NULL AND estado = '.Pregunta::ESTADO_ACTIVO)->andWhere("idCuestionario in (".implode(",", $arrayCuestionarios).")")->orderBy(new Expression('rand()'))->limit($this->numeroPreguntas)->all();
+    	// return Pregunta::find()->where('idPreguntaPadre IS NULL AND estado = '.Pregunta::ESTADO_ACTIVO)->andWhere("idCuestionario in (".implode(",", $arrayCuestionarios).")")->orderBy(new Expression('rand()'))->limit($this->numeroPreguntas)->all();
     }
     
     public function getObjCurso(){
@@ -266,7 +303,9 @@ class Cuestionario extends \yii\db\ActiveRecord
 	    	
 	    	/******************* SI GANA EL EXAMEN GANA PUNTOS PARAMETRIZADOS *************/
 	    	if($cuestionarioUsuario->porcentajeObtenido >= $model->porcentajeMinimo){
-	    		
+                // Actualizamos el Promedio
+                PromedioPonderadoUsuario::actualizar(Yii::$app->user->identity->numeroDocumento, $cuestionarioUsuario->porcentajeObtenido, $model->porcentajeMinimo);
+
 	    		// Buscar el par�metro
 	    		
 	    	//	$parametroPunto = ParametrosPuntos::findOne(['idTipoContenido' => $model->objCurso->idTipoContenido, 'estado' => ParametrosPuntos::ESTADO_ACTIVO]);
@@ -311,6 +350,18 @@ class Cuestionario extends \yii\db\ActiveRecord
 		    		$puntosUsuario->fechaCreacion = Date("Y-m-d h:i:s");
 		    		$puntosUsuario->idCurso = $model->idCurso;
 		    	
+                    $totales = PuntosTotales::find()->where(['numeroDocumento' => $cuestionarioUsuario->numeroDocumento])->one();
+
+                    if ($totales == null) {
+                        $puntosTotales = new PuntosTotales();
+                        $puntosTotales->puntos = $puntos;
+                        $puntosTotales->numeroDocumento = $cuestionarioUsuario->numeroDocumento;
+                        $puntosTotales->save();
+                    } else {
+                        $totales->puntos += $puntos;
+                        $totales->save();
+                    }
+
 		    		if(!$puntosUsuario->save()){
 		    			throw new \Exception("No se pudo actualizar el cuestionario",502);
 		    		}
@@ -330,7 +381,6 @@ class Cuestionario extends \yii\db\ActiveRecord
     
     public function getCalificacion($numeroDocumento){
     	return round(CuestionarioUsuario::find()->where(['idCuestionario' => $this->idCuestionario, 'numeroDocumento' => $numeroDocumento])->select('max(porcentajeObtenido)')->scalar(),2);
-    	
     }
 
     public function getPuntos($numeroDocumento = null)
@@ -342,7 +392,5 @@ class Cuestionario extends \yii\db\ActiveRecord
         $puntos = Puntos::findOne(['numeroDocumento' => $documento, 'idCuestionario' => $this->idCuestionario]);
         return ($puntos ? $puntos->valorPuntos: 0);
     }
-    
-    
     
 }

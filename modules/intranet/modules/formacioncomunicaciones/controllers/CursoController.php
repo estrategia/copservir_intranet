@@ -11,6 +11,9 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\CursoSearch;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Contenido;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Modulo;
 use app\modules\intranet\modules\formacioncomunicaciones\models\TipoContenido;
+use app\modules\intranet\modules\formacioncomunicaciones\models\Indicadores;
+use app\modules\intranet\modules\formacioncomunicaciones\models\PromedioPonderadoUsuario;
+use app\modules\intranet\models\PublicacionesCampanas;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -58,6 +61,11 @@ class CursoController extends Controller
            ],
 
         ];
+    }
+
+    public function actionPrueba()
+    {
+        \yii\helpers\VarDumper::dump(Indicadores::cursosPendientes(),10,true);
     }
 
     /**
@@ -345,12 +353,16 @@ class CursoController extends Controller
 
     public function actionMisCursos()
     {
+        $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        $userCiudad = Yii::$app->user->identity->getCiudadCodigo();
+        $userGrupos = (array) Yii::$app->user->identity->getGruposCodigos();
+        $banner = PublicacionesCampanas::getCampana($userCiudad, $userGrupos, PublicacionesCampanas::POSICION_TIENDA_FORCO);
         $searchModel = new CursoSearch();
         $dataProviderObligatorios = new ActiveDataProvider([
             'query' => Curso::consultarActivosObligatorios(),
             'pagination' => [
                 'pageSize' => 10
-            ]
+            ],
         ]);
 
         $dataProviderOpcionales = new ActiveDataProvider([
@@ -360,26 +372,45 @@ class CursoController extends Controller
             ]
         ]);
 
+        $indicadores = [
+            'cursosNuevos' => Indicadores::cursosNuevos(),
+            'cursosHechos' => Indicadores::cursosHechos(),
+            'cursosPendientes' => Indicadores::cursosPendientes(),
+            'puntosObtenidos' => Indicadores::puntosObtenidos(),
+            'ranking' => Indicadores::ranking()
+        ];
+
         return $this->render('misCursos', [
             'searchModel' => $searchModel,
             'dataProviderObligatorios' => $dataProviderObligatorios,
-            'dataProviderOpcionales' => $dataProviderOpcionales
+            'dataProviderOpcionales' => $dataProviderOpcionales,
+            'banner' => $banner,
+            'indicadores' => $indicadores
         ]);
     }
 
     public function actionLeidos()
     {
+        $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        $userCiudad = Yii::$app->user->identity->getCiudadCodigo();
+        $userGrupos = (array) Yii::$app->user->identity->getGruposCodigos();
+        $banner = PublicacionesCampanas::getCampana($userCiudad, $userGrupos, PublicacionesCampanas::POSICION_TIENDA_FORCO);
         $searchModel = new CursoSearch();
         $queryParams['terminados'] = true;
         $dataProvider = $searchModel->search($queryParams);
         return $this->render('misCursos', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider
+            'dataProvider' => $dataProvider,
+            'banner' => $banner
         ]);
     }
 
     public function actionRecomendados()
     {
+        $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        $userCiudad = Yii::$app->user->identity->getCiudadCodigo();
+        $userGrupos = (array) Yii::$app->user->identity->getGruposCodigos();
+        $banner = PublicacionesCampanas::getCampana($userCiudad, $userGrupos, PublicacionesCampanas::POSICION_TIENDA_FORCO);
         $searchModel = new CursoSearch();
         $dataProviderObligatorios = new ActiveDataProvider([
             'query' => Curso::consultarActivosObligatoriosRecomendados(),
@@ -398,40 +429,9 @@ class CursoController extends Controller
         return $this->render('misCursos', [
             'searchModel' => $searchModel,
             'dataProviderObligatorios' => $dataProviderObligatorios,
-            'dataProviderOpcionales' => $dataProviderOpcionales
+            'dataProviderOpcionales' => $dataProviderOpcionales,
+            'banner' => $banner
         ]);
-    }
-
-    public function actionFormacion()
-    {
-        $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();   
-
-        $cursosObligatorios = Curso::find()
-            ->joinWith('objCursoGruposInteres')
-            ->where([
-                'tipoCurso' => Curso::TIPO_OBLIGATORIO,
-                'estadoCurso' => Curso::ESTADO_ACTIVO,
-                'idGrupoInteres' => $gruposInteres
-            ])
-            ->orderBy(['fechaActualizacion' => SORT_DESC])
-            ->all();
-        return $this->render('cursosFormacion', ['cursosFormacion' => $cursosObligatorios]);
-    }
-
-    public function actionComunicacion()
-    {
-        $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();   
-
-        $cursosComunicacion = Curso::find()
-            ->joinWith('objCursoGruposInteres')
-            ->where([
-                'tipoCurso' => Curso::TIPO_OPCIONAL,
-                'estadoCurso' => Curso::ESTADO_ACTIVO,
-                'idGrupoInteres' => $gruposInteres
-            ])
-            ->orderBy(['fechaActualizacion' => SORT_DESC])
-            ->all();
-        return $this->render('cursosComunicacion', ['cursosComunicacion' => $cursosComunicacion]);
     }
 
     public function actionNotificaciones()

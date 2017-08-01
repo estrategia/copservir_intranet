@@ -67,10 +67,12 @@ $this->params['breadcrumbs'][] = $this->title;
 </script>
 <?php endif;?>
 <div class="cuestionario">
-
+    
     <h1><?= Html::encode($this->title) ?></h1>
     <?php $disabled="";?>
-    
+    <h5>Porcentaje necesario para aprobar: <?= $model->porcentajeMinimo ?>%</h5>
+    <h5>Puntos otorgados al aprobar: <?php echo $model->idContenido == null ? $model->objCurso->cantidadPuntos : $model->objContenido->cantidadPuntos ?></h5>
+    <?php echo $model->descripcionCuestionario ?>
     <?php if (Yii::$app->session->has('success')): ?>
 	  <div class="alert alert-success" role="alert">
 	    <?= Yii::$app->session->getFlash('success') ?>

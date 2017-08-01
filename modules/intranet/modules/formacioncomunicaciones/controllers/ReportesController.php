@@ -7,11 +7,14 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\ContenidoLeidoUs
 use app\modules\intranet\modules\formacioncomunicaciones\models\ContenidoLeidoUsuarioSearch;
 use app\modules\intranet\modules\formacioncomunicaciones\models\CursosUsuario;
 use app\modules\intranet\modules\formacioncomunicaciones\models\CursosUsuarioSearch;
+use app\modules\intranet\modules\formacioncomunicaciones\models\CuestionarioUsuarioSearch;
+use app\modules\intranet\modules\formacioncomunicaciones\models\CuestionarioUsuario;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Puntos;
 use app\modules\intranet\modules\formacioncomunicaciones\models\PuntosSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 
 /**
  * TippContenidoController implements the CRUD actions for TipoContenido model.
@@ -88,6 +91,21 @@ class ReportesController extends Controller
         return $this->render('misPuntos', [
             'searchModelPuntos' => $searchModelPuntos,
             'dataProviderPuntos' => $dataProviderPuntos,
+        ]);
+    }
+
+    public function actionMiBoletin()
+    {
+        $searchModel = new CuestionarioUsuarioSearch();
+        // $dataProvider = new ActiveDataProvider([
+        //     'query' => CuestionarioUsuario::consultaCuestionariosAprovados()
+        // ]);
+        $queryParams['aprobados'] = true;
+        $dataProvider = $searchModel->search($queryParams);
+        // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('miBoletin', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
         ]);
     }
 

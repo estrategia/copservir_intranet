@@ -15,6 +15,7 @@ class PuntosSearch extends Puntos
     public $nombres;
     public $primerApellido;
     public $segundoApellido;
+    public $tituloCurso;
     /**
      * @inheritdoc
      */

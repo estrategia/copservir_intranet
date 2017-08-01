@@ -40,12 +40,12 @@ use kartik\select2\Select2;
               <td><?= $puntos[4] ?></td>
             </tr>
             <tr>
-              <td>Externos</td>
+              <td>Misiones de Compra</td>
               <td><?= $puntos[999] ?></td>
             </tr>
             <tr>
               <td>Sin redimir</td>
-              <td><?= $puntos['totales'] != 0 ? $puntos['totales']->puntos : $puntos['totales'] ?></td>
+              <td><?= $puntos['totales'] !== 0 ? $puntos['totales']->puntos : $puntos['totales'] ?></td>
             </tr>
           </tbody>
         </table>

@@ -19,6 +19,16 @@ $this->params['breadcrumbs'][] = $this->title;
     'columns' => [
 
         'idPunto',
+        [
+                'attribute' => '',
+                'label' => 'Programa / Curso',
+                'value' => function ($model) { 
+                    return $model->objCuestionario->idContenido == null ? 
+                    $model->objCuestionario->objCurso->nombreCurso : 
+                    $model->objCuestionario->objContenido->tituloContenido;
+                },
+                'filter' => Html::activeInput('text', $searchModelPuntos, 'tituloCurso', ['class' => 'form-control']),                
+            ],
         'descripcionPunto',
         'valorPuntos',
         [
@@ -34,10 +44,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 } elseif ($model->tipoParametro == 4) {
                     return 'Curso';
                 } elseif ($model->tipoParametro == 999) {
-                    return 'Externo';
+                    return 'Misiones de Compra';
                 }
             },
-            'filter'=>array('1' => 'Cumpleaños', '2' => 'Aniversario', '3' => 'Contenido', '4' => 'Curso', '999' => 'Externo'),
+            'filter'=>array('1' => 'Cumpleaños', '2' => 'Aniversario', '3' => 'Contenido', '4' => 'Curso', '999' => 'Misiones de Compra'),
         ],
     ],
 ]); ?>

@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Preguntas'];
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'tituloPregunta',
+            'pregunta',
             [
               'attribute' => 'idTipoPregunta',
               'filter' =>
