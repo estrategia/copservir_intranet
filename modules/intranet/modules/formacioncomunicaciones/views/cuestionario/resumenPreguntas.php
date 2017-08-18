@@ -5,8 +5,8 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\Cuestionario;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Pregunta;
 use yii\helpers\ArrayHelper;
 
-$this->title = 'Formacion comunicacion';
-$this->params['breadcrumbs'][] = ['label' => 'Cuestionario'];
+$this->title = 'Preguntas';
+$this->params['breadcrumbs'][] = ['label' => 'Preguntas'];
 ?>
 <div class="">
 
@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Cuestionario'];
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'tituloPregunta',
+            'pregunta',
             [
               'attribute' => 'idTipoPregunta',
               'filter' =>
@@ -64,7 +64,12 @@ $this->params['breadcrumbs'][] = ['label' => 'Cuestionario'];
                   return  Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url);
                 },
                 'eliminar-pregunta' => function ($url, $model) {
-                  return  Html::a('<span class="glyphicon glyphicon-trash"></span>', $url);
+                  return  Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+                    'data' => [
+                      'confirm' => 'Esta seguro de desactivar esta pregunta?',
+                      'method' => 'post',
+                    ],
+                  ]);
                 }
               ],
             ],

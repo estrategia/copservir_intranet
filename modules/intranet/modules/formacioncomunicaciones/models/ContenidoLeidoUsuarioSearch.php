@@ -17,6 +17,7 @@ class ContenidoLeidoUsuarioSearch extends ContenidoLeidoUsuario
     public $nombres;
     public $primerApellido;
     public $segundoApellido;
+    public $nombreProveedor;
     /**
      * @inheritdoc
      */
@@ -24,7 +25,7 @@ class ContenidoLeidoUsuarioSearch extends ContenidoLeidoUsuario
     {
         return [
             [['numeroDocumento', 'idContenido', 'idCurso', 'tiempoLectura'], 'integer'],
-            [['fechaCreacion', 'tituloContenido', 'nombreCurso', 'nombres', 'primerApellido', 'segundoApellido'], 'safe'],
+            [['fechaCreacion', 'tituloContenido', 'nombreCurso', 'nombres', 'primerApellido', 'segundoApellido', 'nombreProveedor'], 'safe'],
         ];
     }
 
@@ -75,6 +76,7 @@ class ContenidoLeidoUsuarioSearch extends ContenidoLeidoUsuario
         ]);
 
         $query->andFilterWhere(['like', 'm_FORCO_Contenido.tituloContenido', $this->tituloContenido]);
+        $query->andFilterWhere(['like', 'm_FORCO_Contenido.nombreProveedor', $this->nombreProveedor]);
         $query->andFilterWhere(['like', 'm_FORCO_Curso.nombreCurso', $this->nombreCurso]);
         $query->andFilterWhere(['like', 'm_INTRA_Usuario.nombres', $this->nombres]);
         $query->andFilterWhere(['like', 'm_INTRA_Usuario.primerApellido', $this->primerApellido]);

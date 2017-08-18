@@ -29,30 +29,18 @@ $this->params['breadcrumbs'][] = $this->title;
             'value'  => function ($model)
             {
                 if ($model->tipoParametro == 1) {
-                    return 'Tipo Contenido';
-                } elseif ($model->tipoParametro == 2) {
                     return 'Cumpleaños';
-                } elseif ($model->tipoParametro == 3) {
+                } elseif ($model->tipoParametro == 2) {
                     return 'Aniversario';
                 } elseif ($model->tipoParametro == 999) {
-                    return 'Siicop';
+                    return 'Externo';
                 }
             },
-            'filter'=>array('1' => 'Tipo Contenido', '2' => 'Cumpleaños', '3' => 'Aniversario', '999' => 'Siicop'),
+            'filter'=>array('1' => 'Cumpleaños', '2' => 'Aniversario', '999' => 'Externo'),
         ],
         'valorPuntos',
         // 'idTipoContenido',
         'condicion',
-        [
-            'attribute' => 'idTipoContenido',
-            'filter' =>
-            Html::activeDropDownList($searchModel, 'idTipoContenido', ArrayHelper::map($tiposContenidos, 'idTipoContenido','nombreTipoContenido'),
-                    ['class'=>'form-control','prompt' => 'Seleccione']),
-                    'value' => function($model) {
-                    return is_null($model->idTipoContenido) ? 'Sin tipo' : $model->objTipoContenido->nombreTipoContenido;
-            }
-        ],
-
         // 'estado',
         // 'fechaCreacion',
         // 'fechaActualizacion',

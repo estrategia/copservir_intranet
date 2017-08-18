@@ -19,7 +19,7 @@
             <?= $capitulo->nombreCapitulo ?>
           </span>
           <a class="collapse-accion" data-role="capitulo-editar" data-capitulo-id="<?= $capitulo->idCapitulo ?>" href="#">&bull; Editar Capitulo</a>
-          <a class="collapse-accion" data-role="agregar-contenido" data-capitulo-id="<?= $capitulo->idCapitulo ?>" href="#">&bull; Agregar Contenido</a>
+          <a class="collapse-accion" data-role="agregar-contenido" data-capitulo-id="<?= $capitulo->idCapitulo ?>" href="#">&bull; Agregar Curso</a>
         </div>
         <div id="<?= 'capitulo'. $capitulo->idCapitulo ?>" class="list-group collapse">
           <?php foreach ($capitulo->contenidos as $key => $contenido): ?>
@@ -27,8 +27,8 @@
               <span class="collapse-titulo">
                 - <?= $contenido->tituloContenido ?>
               </span>
-              <?= Html::a('&bull;  Editar contenido', ['contenido/actualizar', 'id' => $contenido->idContenido], ['class' => 'collapse-accion']) ?>
-              <?= Html::a('&bull;  Ver contenido', ['contenido/detalle', 'id' => $contenido->idContenido], ['class' => 'collapse-accion']) ?>
+              <?= Html::a('&bull;  Editar Curso', ['contenido/actualizar', 'id' => $contenido->idContenido], ['class' => 'collapse-accion']) ?>
+              <?= Html::a('&bull;  Ver Curso', ['contenido/detalle', 'id' => $contenido->idContenido], ['class' => 'collapse-accion']) ?>
             </div>
           <?php endforeach ?>
         </div>

@@ -42,8 +42,8 @@ class Cuestionario extends \yii\db\ActiveRecord
     {
         return [
             [['tituloCuestionario', 'descripcionCuestionario', 'fechaCreacion', 'idCurso', 'numeroIntentos', 'tiempo'], 'required'],
-            [['estado', 'idCurso', 'porcentajeMinimo', 'numeroPreguntas', 'idCurso','numeroIntentos', 'tiempo'], 'integer'],
-            [['fechaCreacion', 'fechaActualizacion'], 'safe'],
+            [['estado', 'idCurso', 'idContenido', 'porcentajeMinimo', 'numeroPreguntas', 'idCurso','numeroIntentos', 'tiempo'], 'integer'],
+            [['fechaCreacion', 'fechaActualizacion','idContenido'], 'safe'],
             [['tituloCuestionario'], 'string', 'max' => 100],
             [['descripcionCuestionario'], 'string', 'max' => 250],
         	['porcentajeMinimo', 'compare', 'compareValue' => 100, 'operator' => '<='],
@@ -60,7 +60,8 @@ class Cuestionario extends \yii\db\ActiveRecord
             'tituloCuestionario' => 'Titulo Cuestionario',
             'descripcionCuestionario' => 'Descripcion Cuestionario',
             'estado' => 'Estado',
-        	'idCurso' => 'Curso',
+        	'idCurso' => 'Programa',
+        	'idContenido' => 'Curso',
         	'numeroPreguntas' => 'Numero Preguntas',
         	'numeroIntentos' => 'Numero Intentos',
         	'porcentajeMinimo' => 'Porcentaje Minimo',
@@ -83,8 +84,61 @@ class Cuestionario extends \yii\db\ActiveRecord
     	return $this->hasMany(Pregunta::className(), ['idCuestionario' => 'idCuestionario'])->where('idPreguntaPadre IS NULL AND estado = '.Pregunta::ESTADO_ACTIVO)->orderBy(new Expression('rand()'))->limit($this->numeroPreguntas);
     }
     
+    public function getListPreguntasCurso()
+    {
+        $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();
+
+        $subQueryModulos = Modulo::find()
+            ->select('idModulo')
+            ->where(['idCurso' => $this->idCurso]);
+
+        $capitulosObligatorios = Capitulo::find()
+            ->select('m_FORCO_Capitulo.idCapitulo')
+            ->joinWith('objGruposInteres')
+            ->where([
+                'estadoCapitulo' => Modulo::ESTADO_ACTIVO,
+                'idModulo' => $subQueryModulos,
+                'm_GrupoInteres.idGrupoInteres' => $gruposInteres,
+            ]);
+
+        $contenidosObligatorios = Contenido::find()
+            ->select('idContenido')
+            ->where(['idCapitulo' => $capitulosObligatorios]);
+
+        $cuestionarios = Cuestionario::find()
+            ->select('idCuestionario')
+            ->where(['idContenido' => $contenidosObligatorios]);
+        
+        $preguntas = Pregunta::find()
+            ->joinWith('objCuestionario')
+            ->where(['idPreguntaPadre' => null])
+            ->andWhere(['m_FORCO_Pregunta.estado' => Pregunta::ESTADO_ACTIVO])
+            ->andWhere(['m_FORCO_Cuestionario.idCuestionario' => $cuestionarios])
+            ->all();
+
+        // var_dump($preguntas->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
+
+        return $preguntas;
+        // $subQuery = Contenido::find()
+        //     ->joinWith([])
+        //     ->joinWith([])
+
+    	// $cuestionarios = Cuestionario::findAll(['idCurso' => $this->idCurso]);
+    	
+    	// $arrayCuestionarios = [];
+    	// foreach($cuestionarios as $cuestionario){
+    	// 	$arrayCuestionarios[] = $cuestionario->idCuestionario;
+    	// }
+    	
+    	// return Pregunta::find()->where('idPreguntaPadre IS NULL AND estado = '.Pregunta::ESTADO_ACTIVO)->andWhere("idCuestionario in (".implode(",", $arrayCuestionarios).")")->orderBy(new Expression('rand()'))->limit($this->numeroPreguntas)->all();
+    }
+    
     public function getObjCurso(){
     	return $this->hasOne(Curso::className(), ['idCurso' => 'idCurso']);
+    }
+    
+    public function getObjContenido(){
+    	return $this->hasOne(Contenido::className(), ['idContenido' => 'idContenido']);
     }
 
     public function search($params)
@@ -249,29 +303,69 @@ class Cuestionario extends \yii\db\ActiveRecord
 	    	
 	    	/******************* SI GANA EL EXAMEN GANA PUNTOS PARAMETRIZADOS *************/
 	    	if($cuestionarioUsuario->porcentajeObtenido >= $model->porcentajeMinimo){
-	    		
+                // Actualizamos el Promedio
+                PromedioPonderadoUsuario::actualizar(Yii::$app->user->identity->numeroDocumento, $cuestionarioUsuario->porcentajeObtenido, $model->porcentajeMinimo);
+
 	    		// Buscar el par�metro
 	    		
-	    		$parametroPunto = ParametrosPuntos::findOne(['idTipoContenido' => $model->objCurso->idTipoContenido, 'estado' => ParametrosPuntos::ESTADO_ACTIVO]);
+	    	//	$parametroPunto = ParametrosPuntos::findOne(['idTipoContenido' => $model->objCurso->idTipoContenido, 'estado' => ParametrosPuntos::ESTADO_ACTIVO]);
 	    		// Guardar los puntos
+	    		$puntos = $tipoParametro =  0;
+	    		if($model->idContenido != null){
+	    			$puntos = $model->objContenido->cantidadPuntos;
+	    			$tipoParametro = ParametrosPuntos::CUESTIONARIO_CONTENIDO;
+	    			
+	    			$contenidoUsuario = new ContenidoLeidoUsuario();
+	    			$contenidoUsuario->idContenido = $model->idContenido ;
+	    			$contenidoUsuario->idCurso = $model->idCurso ;
+	    			$contenidoUsuario->numeroDocumento = $cuestionarioUsuario->numeroDocumento ;
+	    			$contenidoUsuario->fechaCreacion = \Date("Y-m-d h:i:s");
+	    			
+	    			if(!$contenidoUsuario->save()){
+	    				throw new \Exception("No se pudo marcar el contenido leido",505);
+	    			}
+	    		}else{
+	    			$puntos = $model->objCurso->cantidadPuntos;
+	    			$tipoParametro = ParametrosPuntos::CUESTIONARIO_CURSO;
+	    			
+	    			$contenidoUsuario = new CursosUsuario();
+	    			$contenidoUsuario->numeroDocumento = $cuestionarioUsuario->numeroDocumento ;
+	    			$contenidoUsuario->idCurso = $model->idCurso ;
+	    			$contenidoUsuario->fechaCreacion  = \Date("Y-m-d h:i:s") ;
+	    			$contenidoUsuario->fechaInicioLectura = \Date("Y-m-d h:i:s") ;
+	    			
+	    			if(!$contenidoUsuario->save()){
+	    				throw new \Exception("No se pudo marcar el curso leido",505);
+	    			}
+	    		}
 	    		
-	    		if($parametroPunto){
 		    		$puntosUsuario = new Puntos();
 		    		
 		    		$puntosUsuario->numeroDocumento = $cuestionarioUsuario->numeroDocumento;
-		    		$puntosUsuario->valorPuntos = $parametroPunto->valorPuntos; 
+		    		$puntosUsuario->valorPuntos = $puntos; 
 		    		$puntosUsuario->descripcionPunto = Cuestionario::DESCRIPCION_PUNTOS;
 		    		$puntosUsuario->idCuestionario = $model->idCuestionario;
-		    		$puntosUsuario->idParametroPunto = $parametroPunto->tipoParametro; /* ? */
-		    		$puntosUsuario->tipoParametro = $parametroPunto->tipoParametro;
-		    		$puntosUsuario->idTipoContenido = $parametroPunto->idTipoContenido;
+		    	//	$puntosUsuario->idParametroPunto = $parametroPunto->tipoParametro; /* ? */
+		    		$puntosUsuario->tipoParametro = $tipoParametro;
 		    		$puntosUsuario->fechaCreacion = Date("Y-m-d h:i:s");
 		    		$puntosUsuario->idCurso = $model->idCurso;
 		    	
+                    $totales = PuntosTotales::find()->where(['numeroDocumento' => $cuestionarioUsuario->numeroDocumento])->one();
+
+                    if ($totales == null) {
+                        $puntosTotales = new PuntosTotales();
+                        $puntosTotales->puntos = $puntos;
+                        $puntosTotales->numeroDocumento = $cuestionarioUsuario->numeroDocumento;
+                        $puntosTotales->save();
+                    } else {
+                        $totales->puntos += $puntos;
+                        $totales->save();
+                    }
+
 		    		if(!$puntosUsuario->save()){
 		    			throw new \Exception("No se pudo actualizar el cuestionario",502);
 		    		}
-	    		}
+	    		
 	    	}
 	    	return $preguntasCuestionario;
     }
@@ -287,7 +381,6 @@ class Cuestionario extends \yii\db\ActiveRecord
     
     public function getCalificacion($numeroDocumento){
     	return round(CuestionarioUsuario::find()->where(['idCuestionario' => $this->idCuestionario, 'numeroDocumento' => $numeroDocumento])->select('max(porcentajeObtenido)')->scalar(),2);
-    	
     }
 
     public function getPuntos($numeroDocumento = null)
@@ -299,7 +392,5 @@ class Cuestionario extends \yii\db\ActiveRecord
         $puntos = Puntos::findOne(['numeroDocumento' => $documento, 'idCuestionario' => $this->idCuestionario]);
         return ($puntos ? $puntos->valorPuntos: 0);
     }
-    
-    
     
 }

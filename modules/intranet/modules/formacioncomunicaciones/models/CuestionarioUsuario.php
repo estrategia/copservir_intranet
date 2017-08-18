@@ -83,13 +83,6 @@ class CuestionarioUsuario extends \yii\db\ActiveRecord
     		return 0;
     	}
     }
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getNumeroDocumento0()
-    {
-        return $this->hasOne(MUsuario::className(), ['numeroDocumento' => 'numeroDocumento']);
-    }
     
     public function getTiempoEmpleado(){
     	$fecha1 = new \DateTime($this->fechaCreacion);
@@ -98,5 +91,16 @@ class CuestionarioUsuario extends \yii\db\ActiveRecord
     	$diff = $fecha1->diff($fecha2);
     	
     	return $diff->format("%h horas %I minutos %s segundos");
+    }
+
+    public static function consultaCuestionariosAprovados()
+    {
+        return self::find()
+            ->joinWith('objCuestionario')
+            ->where([
+                '>=', 
+                't_FORCO_CuestionarioUsuario.porcentajeObtenido',
+                'm_FORCO_Cuestionario.porcentajeMinimo'
+            ]);
     }
 }

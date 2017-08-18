@@ -37,7 +37,6 @@ class Contenido extends \yii\db\ActiveRecord
     const FRECUENCIA_SEMESTRAL = 1;
     const FRECUENCIA_ANUAL = 2;
 
-    public $contenidoGruposInteres;
     /**
      * @inheritdoc
      */
@@ -52,11 +51,11 @@ class Contenido extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tituloContenido', 'descripcionContenido', 'idCapitulo', 'tiempoRequerido'], 'required'],
+            [['tituloContenido', 'descripcionContenido', 'idCapitulo', 'tiempoRequerido', 'idTercero', 'cantidadPuntos'], 'required'],
             [['contenido'], 'required', 'on' => 'contenido'],
             [['tituloContenido', 'descripcionContenido', 'contenido'], 'string'],
-            [['estadoContenido', 'idCapitulo', 'idContenidoCopia', 'frecuenciaMes', 'idCurso', 'tiempoRequerido'], 'integer'],
-            [['fechaCreacion', 'fechaActualizacion'], 'safe'],
+            [['estadoContenido', 'idCapitulo', 'idContenidoCopia', 'frecuenciaMes', 'idCurso', 'tiempoRequerido', 'orden'], 'integer'],
+            [['fechaCreacion', 'fechaActualizacion', 'nombreProveedor'], 'safe'],
             // [['idAreaConocimiento'], 'exist', 'skipOnError' => true, 'targetClass' => Area::className(), 'targetAttribute' => ['idAreaConocimiento' => 'idAreaConocimiento']],
             // [['idModulo'], 'exist', 'skipOnError' => true, 'targetClass' => Modulo::className(), 'targetAttribute' => ['idModulo' => 'idModulo']],
             // [['idCapitulo'], 'exist', 'skipOnError' => true, 'targetClass' => Capitulo::className(), 'targetAttribute' => ['idCapitulo' => 'idCapitulo']],
@@ -80,9 +79,11 @@ class Contenido extends \yii\db\ActiveRecord
             'frecuenciaMes' => 'Frecuencia Mes',
             'fechaCreacion' => 'Fecha Creación',
             'fechaActualizacion' => 'Fecha Actualización',
-            'contenidoGruposInteres' => 'Grupos de Interes',
             'idCurso' => 'Id Curso',
-            'tiempoRequerido' => 'Tiempo requerido (minutos)'
+            'tiempoRequerido' => 'Tiempo requerido (minutos)',
+            'idTercero' => 'Proveedor',
+            'cantidadPuntos' => 'Cantidad Puntos',
+            'orden' => 'Orden'
         ];
     }
 
@@ -97,6 +98,11 @@ class Contenido extends \yii\db\ActiveRecord
             return false;
         }
     }
+
+    // public function getModulo()
+    // {
+    //     return $this->hasOne(Modulo::className(), ['idContenido' => 'idContenido']);
+    // }
 
     public function getContenidoLeidoUsuario()
     {
@@ -128,6 +134,11 @@ class Contenido extends \yii\db\ActiveRecord
     public function getContenidoCalificaciones()
     {
         return $this->hasMany(ContenidoCalificacion::className(), ['idContenido' => 'idContenido']);
+    }
+    
+    public function getCuestionario()
+    {
+    	return $this->hasOne(Cuestionario::className(), ['idContenido' => 'idContenido'])->andWhere("estado = 1");
     }
 
     /**
@@ -190,4 +201,5 @@ class Contenido extends \yii\db\ActiveRecord
     {
         return $_FILES;
     }
+
 }

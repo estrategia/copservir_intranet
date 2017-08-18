@@ -7,7 +7,7 @@ if($resumen):
 	$this->params['breadcrumbs'][] = ['label' => 'Cuestionario Usuarios', 'url' => ['cuestionario-usuarios']];
 	$this->params['breadcrumbs'][] = $this->title;
 else:
-	$this->params['breadcrumbs'][] = ['label' => 'Mis Cursos', 'url' => ['mis-cursos']];
+	$this->params['breadcrumbs'][] = ['label' => 'Programas', 'url' => ['curso/mis-cursos']];
 	$this->params['breadcrumbs'][] = ['label' => $modelCuestionario->objCurso->nombreCurso, 'url' => ['curso/visualizar-curso','id' => $modelCuestionario->idCurso]];
 	$this->params['breadcrumbs'][] = $this->title;
 endif;
@@ -16,7 +16,8 @@ endif;
 <h1><?php echo $this->title?></h1>
 
 <h2><?php echo $modelCuestionario->tituloCuestionario?></h2>
-
+<h5>Porcentaje necesario para aprobar: <?= $modelCuestionario->porcentajeMinimo ?>%</h5>
+<h5>Puntos otorgados al aprobar: <?php echo $modelCuestionario->idContenido == null ? $modelCuestionario->objCurso->cantidadPuntos : $modelCuestionario->objContenido->cantidadPuntos ?></h5>
 <?php echo $modelCuestionario->descripcionCuestionario ?>
 <table class='table table-striped table-bordered'>
 	<tr>

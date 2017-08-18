@@ -29,7 +29,9 @@ use vova07\imperavi\Widget;
   
     <div class="row">
       <div class="col-md-6">
-        <?= $form->field($model, 'frecuenciaMes')->widget(Select2::classname(), [
+        <?= $form->field($model, 'orden')->textInput() ?>
+        
+        <?php $form->field($model, 'frecuenciaMes')->widget(Select2::classname(), [
           'data' => ['1' => 'Semestral', '2' => 'Anual'],
           'options' => ['placeholder' => 'Selecciona estado ...'],
           'hideSearch' => true,
@@ -47,6 +49,23 @@ use vova07\imperavi\Widget;
             'allowClear' => true
           ],
         ]); ?>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <?= $form->field($model, 'idTercero')->widget(Select2::classname(), [
+              'data' => $terceros,
+              'options' => ['placeholder' => 'Selecciona proveedor ...'],
+              'hideSearch' => false,
+              'pluginOptions' => [
+                'allowClear' => true
+              ],
+            ]); 
+        ?>
+      </div>
+      <div class="col-md-6">
+         <?= $form->field($model, 'cantidadPuntos')->textInput() ?>
       </div>
     </div>
 

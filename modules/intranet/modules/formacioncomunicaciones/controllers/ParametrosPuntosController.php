@@ -6,7 +6,6 @@ use Yii;
 use app\modules\intranet\modules\formacioncomunicaciones\models\ParametrosPuntos;
 use app\modules\intranet\modules\formacioncomunicaciones\models\ParametrosPuntosSearch;
 use app\modules\intranet\modules\formacioncomunicaciones\models\PuntosSearch;
-use app\modules\intranet\modules\formacioncomunicaciones\models\TipoContenido;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -60,11 +59,9 @@ class ParametrosPuntosController extends Controller
     {
         $searchModel = new ParametrosPuntosSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $tiposContenido = ArrayHelper::Map(TipoContenido::find()->where(['estadoTipoContenido' => 1])->asArray()->all(), 'idTipoContenido', 'nombreTipoContenido');
         return $this->render('parametros', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'tiposContenidos' => $tiposContenido
+            'dataProvider' => $dataProvider
         ]);
     }
 
@@ -99,13 +96,11 @@ class ParametrosPuntosController extends Controller
     public function actionCrear()
     {
         $model = new ParametrosPuntos();
-        $tiposContenido = ArrayHelper::Map(TipoContenido::find()->where(['estadoTipoContenido' => 1])->asArray()->all(), 'idTipoContenido', 'nombreTipoContenido');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idParametroPunto]);
+            return $this->redirect(['detalle', 'id' => $model->idParametroPunto]);
         } else {
             return $this->render('crear', [
-                'model' => $model,
-                'tiposContenido' => $tiposContenido
+                'model' => $model
             ]);
         }
     }
@@ -119,13 +114,11 @@ class ParametrosPuntosController extends Controller
     public function actionActualizar($id)
     {
         $model = $this->findModel($id);
-        $tiposContenido = ArrayHelper::Map(TipoContenido::find()->where(['estadoTipoContenido' => 1])->asArray()->all(), 'idTipoContenido', 'nombreTipoContenido');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idParametroPunto]);
         } else {
             return $this->render('actualizar', [
                 'model' => $model,
-                'tiposContenido' => $tiposContenido
             ]);
         }
     }

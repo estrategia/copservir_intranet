@@ -66,9 +66,9 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\OpcionRespuesta;
 	              'headerOptions'=> ['style'=>'width: 70px;'],
 	              'template' => '{editar-opcion}&nbsp;{eliminar-opcion}',
 	              'buttons' => [
-	                'eliminar-opcion' => function ($url, $model)  {
-	                  return  Html::a('<span class="glyphicon glyphicon-trash"></span>', '#', ['data-role' => 'eliminar-opcion', 'data-opcion-respuesta' => $model->idOpcionRespuesta]);
-	                },
+	                // 'eliminar-opcion' => function ($url, $model)  {
+	                //   return  Html::a('<span class="glyphicon glyphicon-trash"></span>', '#', ['data-role' => 'eliminar-opcion', 'data-opcion-respuesta' => $model->idOpcionRespuesta]);
+	                // },
 	                'editar-opcion' => function ($url, $model)  {
 	                return  Html::a('<span class="glyphicon glyphicon-pencil"></span>', '#', ['data-role' => 'editar-opcion', 'data-opcion-respuesta' => $model->idOpcionRespuesta]);
 	                },
@@ -88,9 +88,6 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\OpcionRespuesta;
 		    </div>
 		    <div class='col-sm-2'>
 		    	<?= $form->field($model, 'estado')->dropDownList(['0' => 'Inactivo', '1' => 'Activo']); ?>
-		    </div>
-		    <div class='col-sm-2'>
-		    	<?= $form->field($model, 'tituloPregunta')->textInput(['maxlength' => true]); ?>
 		    </div>
 		    <div class='col-sm-3'>
 		        <?= Html::Button('Guardar', ['class' => 'btn btn-success', 'data-role' => 'guardarPreguntaCompletar', 'data-pregunta' => $model->idPregunta ]) ?>

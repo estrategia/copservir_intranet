@@ -4,7 +4,7 @@ use yii\grid\GridView;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Cuestionario;
 
 $this->title = 'Formacion comunicacion';
-$this->params['breadcrumbs'][] = ['label' => 'Cuestionario'];
+$this->params['breadcrumbs'][] = ['label' => 'Cuestionarios'];
 ?>
 <div class="">
 
@@ -44,11 +44,10 @@ $this->params['breadcrumbs'][] = ['label' => 'Cuestionario'];
               }
             ],
             
-
             [
               'class' => 'yii\grid\ActionColumn',
               'headerOptions'=> ['style'=>'width: 70px;'],
-              'template' => '{detalle} {actualizar} {eliminar}',
+              'template' => '{detalle} {actualizar}',
               'buttons' => [
                 'detalle' => function ($url, $model) {
                   return  Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url);
@@ -56,9 +55,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Cuestionario'];
                 'actualizar' => function ($url, $model) {
                   return  Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url);
                 },
-                'eliminar' => function ($url, $model) {
-                  return  Html::a('<span class="glyphicon glyphicon-trash"></span>', $url);
-                }
               ],
             ],
         ],

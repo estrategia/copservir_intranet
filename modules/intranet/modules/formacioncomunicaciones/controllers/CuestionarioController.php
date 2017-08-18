@@ -14,8 +14,9 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\CuestionarioUsua
 use yii\base\Model;
 use yii\db\Expression;
 use app\models\Usuario;
-use app\modules\intranet\models\formacioncomunicaciones\CuestionarioUsuarioForm;
+use app\modules\intranet\models\CuestionarioUsuarioForm;
 use yii\helpers\ArrayHelper;
+use app\modules\intranet\modules\formacioncomunicaciones\models\Contenido;
 
 class CuestionarioController extends Controller{ 
 
@@ -47,6 +48,36 @@ class CuestionarioController extends Controller{
 	
 		];
 	}
+
+	public function actions()
+    {
+        return [
+            'cargar-imagen' => [
+                'class' => 'vova07\imperavi\actions\UploadAction',
+                'url' => Yii::getAlias('@web') . '/formacioncomunicaciones/cuestionarios/imagenes/', //Yii::$app->realpath().'/imagenes', // Directory URL address, where files are stored.
+                'path' => '@app/web/formacioncomunicaciones/cuestionarios/imagenes/', // Or absolute path to directory where files are stored.
+                'validatorOptions' => [
+                    'extensions' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? Yii::$app->params['contenido']['imagenAdmin']['formatosValidos'] : Yii::$app->params['contenido']['imagen']['formatosValidos'],
+                    
+                    'maxWidth' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? Yii::$app->params['contenido']['imagenAdmin']['ancho'] : Yii::$app->params['contenido']['imagen']['ancho'],
+
+                    'maxHeight' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? Yii::$app->params['contenido']['imagenAdmin']['alto'] : Yii::$app->params['contenido']['imagen']['alto'],
+                    
+                    'maxSize' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? Yii::$app->params['contenido']['imagenAdmin']['tamanho'] * 1024 * 1024 : Yii::$app->params['contenido']['imagen']['tamanho'] * 1024 * 1024
+                ]
+            ],
+            'cargar-archivo' => [
+                'class' => 'vova07\imperavi\actions\UploadAction',
+                'url' => Yii::getAlias('@web') . '/formacioncomunicaciones/cuestionarios/archivos/',
+                'path' => '@app/web/formacioncomunicaciones/cuestionarios/archivos/',
+                'uploadOnlyImage' => false,
+                'validatorOptions' => [
+                    'extensions' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? Yii::$app->params['contenido']['archivoAdmin']['formatosValidos'] : Yii::$app->params['contenido']['archivo']['formatosValidos'],
+                    'maxSize' => (!Yii::$app->getUser()->isGuest && Yii::$app->user->identity->tienePermiso("intranet_admin")) ? Yii::$app->params['contenido']['archivoAdmin']['tamanho'] * 1024 * 1024 :  Yii::$app->params['contenido']['archivo']['tamanho'] * 1024 * 1024
+                ]
+            ]
+        ];
+    }
 	
 	public function actionIndex(){
 		$searchModel = new Cuestionario();
@@ -67,7 +98,7 @@ class CuestionarioController extends Controller{
         	
             return $this->redirect(['detalle', 'id' => $model->idCuestionario]);
         } else {
-            return $this->render('crear', [
+        	  return $this->render('crear', [
                         'model' => $model,
             ]);
         }
@@ -75,10 +106,9 @@ class CuestionarioController extends Controller{
 	
 	public function actionActualizar($id){
 		$model = $this->findModel($id);
-		
 		if ($model->load(Yii::$app->request->post()) ) {
 			$model->fechaActualizacion = \Date("Y-m-d h:i:s");
-			
+			//$model->idContenido = 
 			if($model->save()){
 				return $this->redirect(['detalle', 'id' => $model->idCuestionario]);
 			}
@@ -91,7 +121,6 @@ class CuestionarioController extends Controller{
 		
 	}
 
-
 	public function actionDetalle($id){
 		 $params= [  'model' => $this->findModel($id),
 		 			'view' => 'detallePregunta'
@@ -103,6 +132,7 @@ class CuestionarioController extends Controller{
 	public function actionPreguntas($id){
 		$modelCuestionario =  $this->findModel($id);
 
+		
 		$searchModel = new Pregunta();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$id,true);
         $tipoPreguntas = TipoPregunta::find()->where('estado = 1')->all();
@@ -235,6 +265,10 @@ class CuestionarioController extends Controller{
 					exit();
 				}
 			}else if($pregunta->idTipoPregunta == Pregunta::PREGUNTA_FALSO_VERDADERO){
+				
+				// borrar respuestas anteriores.
+				OpcionRespuesta::deleteAll('idPregunta = :id',[':id' => $model->idPregunta]);
+				
 				foreach(Yii::$app->params['formacioncomunicaciones']['cuestionario']['opcionesverdaderofalso'] as $index => $value){
 					$opcionRespuesta = new OpcionRespuesta();
 					$opcionRespuesta->respuesta = $value;
@@ -281,7 +315,6 @@ class CuestionarioController extends Controller{
 			])];
 			exit();
 		}else{
-			print_r($modelOpciones->getErrors());exit();
 			return ['result' => 'error', 
 					'response' => 'Error al guardar la opci&oacute;n' 
 			];
@@ -428,7 +461,10 @@ class CuestionarioController extends Controller{
 				if(!$cuestionarioUsuario->save()){
 					throw new \Exception("No se pudo guardar el inicio del intento",502);;
 				}
-				$params['preguntas'] = $model->listPreguntas;
+				if($model->idContenido != null)
+					$params['preguntas'] = $model->listPreguntas;
+				else
+					$params['preguntas'] = $model->getListPreguntasCurso();
 				$params['cuestionarioUsuario'] = $cuestionarioUsuario;
 			}
 			$params['model'] = $model;
@@ -457,7 +493,6 @@ class CuestionarioController extends Controller{
         }
     }
     
-    
     public function actionCuestionarioUsuarios(){
     	$model = new CuestionarioUsuarioForm();
     	$usuario= [];
@@ -469,7 +504,7 @@ class CuestionarioController extends Controller{
     		$cuestionarios= CuestionarioUsuario::find()->where(['numeroDocumento' => $model->numeroDocumento])->select(['distinct(idCuestionario)','numeroDocumento'])->all();
     		$usuario = Usuario::findOne(['numeroDocumento' => $model->numeroDocumento]);
     	}
-    	return $this->render('estadoCuestionariousuario',[
+    	return $this->render('estadoCuestionarioUsuario',[
     			'model' => $model,
     			'usuarios' => $usuarios,
     			'cuestionarios' => $cuestionarios,
@@ -485,6 +520,15 @@ class CuestionarioController extends Controller{
     			'modelCuestionario' => $modelCuestionario,
     			'resumen' => true
     	]);
+    }
+    
+    public function actionBuscarContenidos(){
+    	Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+    	
+    	$contenidos = Contenido::findAll(['idCurso' => Yii::$app->request->post('idCurso')]);
+    	return ['result' => 'ok', 'response' => $this->renderAjax('_contenidos',[
+    			'model' => $contenidos,
+    	])];
     }
     
 }

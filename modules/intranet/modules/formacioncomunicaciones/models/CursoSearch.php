@@ -20,7 +20,7 @@ class CursoSearch extends Curso
     {
         return [
             [['idCurso', 'estadoCurso'], 'integer'],
-            [['nombreCurso', 'presentacionCurso', 'fechaCreacion', 'fechaActualizacion', 'tipoCurso'], 'safe'],
+            [['nombreCurso', 'presentacionCurso', 'fechaCreacion', 'fechaActualizacion'], 'safe'],
         ];
     }
 
@@ -51,17 +51,36 @@ class CursoSearch extends Curso
             $query->andFilterWhere(['in', 't_FORCO_CursoGruposInteres.idGrupoInteres', array_values($params['gruposInteresUsuario'])]);
         }
 
+        if (isset($params['terminados'])) {
+            $query->leftJoin('t_FORCO_CursosUsuario', 't_FORCO_CursosUsuario.idCurso = m_FORCO_Curso.idCurso');
+            $query->andFilterwhere(['numeroDocumento' => Yii::$app->user->identity->numeroDocumento]);
+        }
+
         if (isset($params['activos'])) {
             $query->andFilterWhere(['estadoCurso' => Curso::ESTADO_ACTIVO]);
             $query->andFilterWhere(['<=', 'fechaInicio', date("Y-m-d H:i:s")]);
+        }
+
+        if (isset($params['vigentes'])) {
             $query->andFilterWhere(['>=', 'fechaFin', date("Y-m-d H:i:s")]);
         }
-        // var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
+
+        if (isset($params['recomendados'])) {
+            $query->orderBy(['cantidadPuntos' => SORT_DESC]);
+        }
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=> ['defaultOrder' => ['fechaInicio'=>SORT_DESC]]
+            // 'sort'=> ['defaultOrder' => ['fechaActivacion'=>SORT_DESC]],
+            'pagination' => [
+                'pagesize' => 10,
+            ],
         ]);
+
+        if (isset($params['limite'])) {
+            $query->limit($params['limite']);
+        }
+        //var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
 
         $this->load($params);
 

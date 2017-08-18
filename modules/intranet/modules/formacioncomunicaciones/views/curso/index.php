@@ -8,7 +8,7 @@ use yii\helpers\Url;
 /* @var $searchModel app\modules\intranet\modules\formacioncomunicaciones\models\CursoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Cursos';
+$this->title = 'Programas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?php if (Yii::$app->session->hasFlash('error')): ?>
@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Crear Curso', ['crear'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Programa', ['crear'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -67,13 +67,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     return '<a class="btn btn-default" href="'. Url::to(['actualizar', 'id' => $model->idCurso]) .'">Actualizar</a>';
                 },
             ],
-            [
-                'attribute' => '',
-                'format' => 'raw',
-                'value' => function ($model) {                      
-                    return $model->estadoCurso == 0 ? '<a class="btn btn-default" href="'. Url::to(['activar', 'id' => $model->idCurso]) .'">Activar</a>' : '';
-                },
-            ],
+            // [
+            //     'attribute' => '',
+            //     'format' => 'raw',
+            //     'value' => function ($model) {                      
+            //         return $model->estadoCurso == 0 ? '<a class="btn btn-default" href="'. Url::to(['activar', 'id' => $model->idCurso]) .'">Activar</a>' : '';
+            //     },
+            // ],
         ],
     ]); ?>
 </div>

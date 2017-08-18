@@ -2152,6 +2152,7 @@ $(document).on('click', "button[data-role='crear-capitulo']", function() {
 
   var form = $("#form-capitulo");
   var idCurso = $("#contenido-curso").attr('data-curso-id');
+  // console.log(form.serialize());
   $.ajax({
     type: 'POST',
     async: true,
@@ -2270,6 +2271,7 @@ $(document).on('click', "a[data-role='agregar-contenido']", function() {
     success: function(data) {
       if (data.result == "ok") {
         $('body').append(data.response);
+        $.fn.modal.Constructor.prototype.enforceFocus = function() {};
         $("#widget-contenido").modal("show");
       }
     },
@@ -2318,52 +2320,52 @@ $(document).on('click', "button[data-role='crear-contenido']", function() {
   return false;
 });
 
-var tiempoActual = null;
+// var tiempoActual = null;
 
-$(document).ready(function () {
-  tiempoActual = new Date();
-});
+// $(document).ready(function () {
+//   tiempoActual = new Date();
+// });
 
-$(document).ready(function () {
-  $("#marcador-leido").one('inview', function () {
-    var idContenido = $(this).attr('data-contenido-id');
-    var tiempoLectura = Math.round( (new Date() - tiempoActual) / 1000);
-    $.ajax({
-      type: 'POST',
-      async: true,
-      url: requestUrl + '/intranet/formacioncomunicaciones/contenido/marcar-leido?id=' + idContenido,
-      dataType: 'json',
-      data: {tiempoLectura: tiempoLectura},
-      beforeSend: function() {
-        $('body').showLoading();
-      },
-      complete: function(data) {
-        $('body').hideLoading();
-      },
-      success: function(data) {
-        if (data.result == "ok") {
-          console.log('Leido');
-          mostrarMensajeCuestionario(data.response.preguntaCuestionario);
-        }else{
-          console.log('No Leido');
-        }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-        $('body').hideLoading();
-      }
-    });
-  // return false;
-  });
-});
+// $(document).ready(function () {
+//   $("#marcador-leido").one('inview', function () {
+//     var idContenido = $(this).attr('data-contenido-id');
+//     var tiempoLectura = Math.round( (new Date() - tiempoActual) / 1000);
+//     $.ajax({
+//       type: 'POST',
+//       async: true,
+//       url: requestUrl + '/intranet/formacioncomunicaciones/contenido/marcar-leido?id=' + idContenido,
+//       dataType: 'json',
+//       data: {tiempoLectura: tiempoLectura},
+//       beforeSend: function() {
+//         $('body').showLoading();
+//       },
+//       complete: function(data) {
+//         $('body').hideLoading();
+//       },
+//       success: function(data) {
+//         if (data.result == "ok") {
+//           console.log('Leido');
+//           mostrarMensajeCuestionario(data.response.preguntaCuestionario);
+//         }else{
+//           console.log('No Leido');
+//         }
+//       },
+//       error: function(jqXHR, textStatus, errorThrown) {
+//         $('body').hideLoading();
+//       }
+//     });
+//   // return false;
+//   });
+// });
 
-function mostrarMensajeCuestionario(idCuestionario) {
-  if (idCuestionario != false) {
-    var redirecciona = confirm("Felicitaciones, ha completado el curso. ¿Desea realizar la prueba de conocimiento ahora?");
-    if (redirecciona == true) {
-      window.location.href = requestUrl + '/intranet/formacioncomunicaciones/cuestionario/aplicar-cuestionario?id=' + idCuestionario;
-    }
-  }
-}
+// function mostrarMensajeCuestionario(idCuestionario) {
+//   if (idCuestionario != false) {
+//     var redirecciona = confirm("Felicitaciones, ha completado el curso. ¿Desea realizar la prueba de conocimiento ahora?");
+//     if (redirecciona == true) {
+//       window.location.href = requestUrl + '/intranet/formacioncomunicaciones/cuestionario/aplicar-cuestionario?id=' + idCuestionario;
+//     }
+//   }
+// }
 
 $(document).ready(function () {
   $("input[name='paqueteContenido']").on('filepreajax', function (event, previewId, index) {
@@ -2397,13 +2399,8 @@ $(document).on('click', "input[data-role='toogle-collapsible']", function() {
 
 $(document).on('change', "#parametrospuntos-tipoparametro", function () {
   if ($(this).val() == 1) {
-    $('.field-parametrospuntos-idtipocontenido').removeClass('hidden');
     $('.field-parametrospuntos-condicion').addClass('hidden');
   } else if ($(this).val() == 2) {
-    $('.field-parametrospuntos-idtipocontenido').addClass('hidden');
-    $('.field-parametrospuntos-condicion').addClass('hidden');
-  } else if ($(this).val() == 3) {
-    $('.field-parametrospuntos-idtipocontenido').addClass('hidden');
     $('.field-parametrospuntos-condicion').removeClass('hidden');
   }
 });
@@ -2440,7 +2437,14 @@ $(document).on('click', "a[data-role='categoria-padre-asignar']", function () {
   $('#premio-idcategoria').val(idCategoria);
   $("a[data-role='modal-padre-categoria']").text(nombreCategoria);
   $('#modal-asignar-categoria-padre').modal('hide');
+  return false;
 });
+
+$(document).on('click', "a[data-role='categoria-padre-eliminar']", function () {
+  $("a[data-role='modal-padre-categoria']").text('Asignar');
+  $('#categoriaspremios-idcategoriapadre').val(null);
+  return false;
+})
 
 $(document).on('click', "button[data-role='agregar-contacto-categoria']", function () {
   if ($('#modal-agregar-contacto-categoria').length == 0) {
@@ -2474,7 +2478,7 @@ $(document).on('click', "button[data-role='agregar-contacto-categoria']", functi
 $(document).on('click', "button[data-role='crear-contacto-categoria']", function () {
   var idCategoria = $("button[data-role='agregar-contacto-categoria']").attr('data-id-categoria');
   var numeroDocumento = $("#selector-usuarios-contacto").val();
-  console.log(idCategoria, numeroDocumento);
+  // console.log(idCategoria, numeroDocumento);
   $.ajax({
     type: 'POST',
     async: true,
@@ -2491,7 +2495,7 @@ $(document).on('click', "button[data-role='crear-contacto-categoria']", function
         if (data.result == "ok") {
           $('#lista-contactos-categoria').html(data.response);
         }
-        $('#agregar-contacto-categoria').modal('hide');
+        $('#modal-agregar-contacto-categoria').modal('hide');
     },
     error: function(jqXHR, textStatus, errorThrown) {
       $('body').hideLoading();
@@ -2502,7 +2506,7 @@ $(document).on('click', "button[data-role='crear-contacto-categoria']", function
 $(document).on('click', "a[data-role='eliminar-contacto-categoria']", function () {
   var idCategoria = $(this).attr('data-id-categoria');
   var numeroDocumento = $(this).attr('data-numero-documento');
-  console.log(idCategoria, numeroDocumento);
+  // console.log(idCategoria, numeroDocumento);
   $.ajax({
     type: 'POST',
     async: true,
@@ -2517,7 +2521,8 @@ $(document).on('click', "a[data-role='eliminar-contacto-categoria']", function (
     },
     success: function(data) {
         if (data.result == "ok") {
-          $('body').append(data.response);
+          $('#lista-contactos-categoria').html(data.response);
+          // $('body').append(data.response);
         }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -2580,14 +2585,14 @@ $(document).on('click', "button[data-role='ver-puntos-usuario']", function() {
 });
 
 $(document).ready(function () {
-  $('.owl-carousel').owlCarousel({
+  $('.rotor-cursos').owlCarousel({
       singleItem:true,
       loop:true,
       // navigation:true,
       // pagination: true,
       center: true,
       // dots: true,
-      // autoPlay: 3000,
+      autoPlay: true,
       // autoplayTimeout: 3000,
       
   });
@@ -2595,3 +2600,182 @@ $(document).ready(function () {
 
 // Organigrama 
 
+// Simulador Servicop
+
+$('select[name="lineaCredito"]').on("change", function(e) {
+  var idCredito = $(this).val();
+  $.ajax({
+    type: 'GET',
+    async: true,
+    data: {idCredito: idCredito},
+    url: requestUrl + '/intranet/servicop/simulador/render-widgets',
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading();
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      $('#widget-info-basica').html(data.response.infoBasica);
+      $('#widget-cuotas-extra').html(data.response.tiposCuotaExtra);
+      $('#widget-garantias').html(data.response.garantiasNoCombinadas);
+      $('#widget-garantias-combinadas').html(data.response.garantiasCombinadas);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
+
+$(document).on('click', "button[data-role='consultar']", function() {
+  var plazo = 30;
+  var idCuota = 1;
+  $.ajax({
+    type: 'GET',
+    async: true,
+    data: {idCuota: idCuota, plazo: plazo},
+    url: requestUrl + '/intranet/servicop/simulador/render-form-cuota-extra',
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading();
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      $('#forms-cuotas-extra').append(data.response);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
+
+$(document).on('click', '#widget-cuotas-extra :checkbox', function () {
+    var idCuota = $(this).attr('data-cuota-extra-id');
+    if (!$(this).is(':checked')) {
+      removerCuota(idCuota);
+    } else {
+      crearFormCuota(idCuota);
+    }
+});
+
+$(document).on('click', '#widget-garantias :radio', function () {
+    $('#widget-garantias-combinadas :checkbox').removeAttr("checked");
+});
+
+$(document).on('click', '#widget-garantias-combinadas :checkbox', function () {
+    $('#widget-garantias :radio').attr('checked',false);
+});
+
+function crearFormCuota(idCuota) {
+  var plazo = 10;
+  $.ajax({
+    type: 'GET',
+    async: true,
+    data: {idCuota: idCuota, plazo: plazo},
+    url: requestUrl + '/intranet/servicop/simulador/render-form-cuota-extra',
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading();
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      $('#forms-cuotas-extra').append(data.response);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+}
+
+function removerCuota (idCuota) {
+  $('#form-cuota-' + idCuota).remove();
+}
+
+$(document).on('click', 'button[data-role="simular-credito"]', function () {
+  // var credito = $('#form-creditos').serializeArray()
+  //   .reduce(function(a, x) { a[x.name] = x.value; return a; }, {});
+
+  var credito = $('#form-creditos').serialize();
+  console.log(credito);
+  $.ajax({
+    type: 'POST',
+    async: true,
+    data: {datos: credito},
+    url: requestUrl + '/intranet/servicop/simulador/simular',
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading();
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      $('input[name="valor-cuota"]').val(data.response);
+      // console.log(data);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+})
+
+$(document).on('click', 'button[data-role="solicitar-credito"]', function () {
+  // var credito = $('#form-creditos').serializeArray()
+  //   .reduce(function(a, x) { a[x.name] = x.value; return a; }, {});
+  var credito = $('#form-creditos').serialize();
+  // console.log(credito);
+  $.ajax({
+    type: 'POST',
+    async: true,
+    data: {datos: credito},
+    url: requestUrl + '/intranet/servicop/solicitudes/crear',
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading();
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      // $('input[name="valor-cuota"]').val(data.response);
+      console.log(data);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+})
+
+// Carga de documentos
+// var form = document.forms.namedItem("fileinfo");
+// form.addEventListener('submit', function(ev) {
+
+//   var oOutput = document.querySelector("div"),
+//       oData = new FormData(form);
+
+//   // oData.append("CustomField", "This is some extra data");
+
+//   var oReq = new XMLHttpRequest();
+//   oReq.open("POST", "", true);
+//   oReq.onload = function(oEvent) {
+//     if (oReq.status == 200) {
+//       oOutput.innerHTML = "Uploaded!";
+//     } else {
+//       oOutput.innerHTML = "Error " + oReq.status + " occurred when trying to upload your file.<br \/>";
+//     }
+//   };
+
+//   oReq.send(oData);
+//   ev.preventDefault();
+// }, false);
+
+$(document).on('click', 'input[class="subir-documento"]', function () {
+  console.log('hola');
+});

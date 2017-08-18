@@ -13,9 +13,6 @@ use kartik\rating\StarRating;
       </a>
     </div>
     <div class="calificacion-body">
-      <h3 class="calificacion-titulo">
-        <?= $model->titulo ?>
-      </h3>
       <p class="calificacion-comentario">
         <?= $model->comentario ?>
       </p>

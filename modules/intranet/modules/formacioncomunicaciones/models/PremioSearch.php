@@ -69,7 +69,10 @@ class PremioSearch extends Premio
     	// add conditions that should always apply here
     	
     	$dataProvider = new ActiveDataProvider([
-    			'query' => $query,
+			'query' => $query,
+            'pagination' => [
+                'pagesize' => 10,
+            ],
     	]);
     	
     	$this->load($params);

@@ -1054,6 +1054,33 @@ $(document).on('click', 'button[data-role="actualizar-opcion-respuesta"]', funct
 	  return false;
 	});
 
+$(document).on('change', '#cuestionario-idcurso', function () {
+	 $.ajax({
+	      type: 'POST',
+	      dataType: 'json',
+	      async: true,
+	      url: requestUrl + '/intranet/formacioncomunicaciones/cuestionario/buscar-contenidos',
+	      data: {idCurso: $(this).val()},
+	      beforeSend: function () {
+	    		$('html').showLoading();
+	      },
+	      complete: function () {
+	          $('html').hideLoading();
+	      },
+	      success: function (data) {
+	      	if(data.result == 'ok'){
+	      		$("#cuestionario-idcontenido").html(data.response);
+	      	}else{
+	      		alert(data.response);
+	      	}
+	      },
+	      error: function (jqXHR, textStatus, errorThrown) {
+	          $('html').hideLoading();
+	          alert('Error: ' + errorThrown);
+	      }
+	  });
+	
+});
 
 $(document).on('click', 'a[data-role="visualizar-pregunta"]', function () {
 

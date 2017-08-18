@@ -2,7 +2,7 @@
 <br>
 <br>
 
-<div class="lista-contactos-categoria">
+<div id="lista-contactos-categoria">
   <ul class="list-group">
       <?php foreach ($model->contactos as $contacto): ?>
         <li class="list-group-item">

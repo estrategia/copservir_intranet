@@ -3,17 +3,18 @@
 namespace app\modules\intranet\modules\formacioncomunicaciones\controllers;
 
 use Yii;
-use app\modules\intranet\modules\formacioncomunicaciones\models\CategoriasPremios;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
+use app\modules\intranet\modules\formacioncomunicaciones\models\CategoriasPremios;
 use app\modules\intranet\modules\formacioncomunicaciones\models\PremioSearch;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Premio;
-use yii\data\ActiveDataProvider;
 use app\modules\intranet\modules\formacioncomunicaciones\models\PuntosTotales;
 use app\modules\intranet\modules\formacioncomunicaciones\models\UsuariosPremios;
 use app\modules\intranet\modules\formacioncomunicaciones\models\UsuariosPremiosTrazabilidad;
 use app\modules\intranet\modules\formacioncomunicaciones\models\RestriccionesRedencion;
+use app\modules\intranet\models\PublicacionesCampanas;
 
 /**
  * CategoriasPremiosController implements the CRUD actions for CategoriasPremios model.
@@ -157,6 +158,10 @@ class PremiosController extends Controller
 	
 	
 	public function actionVerPremios($idCategoria){
+		$numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        $userCiudad = Yii::$app->user->identity->getCiudadCodigo();
+        $userGrupos = (array) Yii::$app->user->identity->getGruposCodigos();
+        $banner = PublicacionesCampanas::getCampana($userCiudad, $userGrupos, PublicacionesCampanas::POSICION_TIENDA_FORCO);
 		$dataProvider = new ActiveDataProvider([
 				'query' => Premio::traerPremiosCategoria($idCategoria),
 				'pagination' => [
@@ -175,7 +180,7 @@ class PremiosController extends Controller
 		if($restricciones){
 			$restriccion = true;
 		}
-		return $this->render('listaPremios', ['listDataProvider' => $dataProvider, 'puntos' => $puntos, 'restriccion' => $restriccion]);
+		return $this->render('listaPremios', ['listDataProvider' => $dataProvider, 'puntos' => $puntos, 'restriccion' => $restriccion, 'banner' => $banner]);
 	}
 	
 	
@@ -199,7 +204,7 @@ class PremiosController extends Controller
 				return  ['result' => 'error', 'response' => 'No tienes puntos'];
 			}
 			
-			if($cantidad > $premio->cantidad){
+			if($premio->cantidad < 1){
 				return  ['result' => 'error', 'response' => 'Cantidad no disponible. Disponibles: '.$premio->cantidad." unidades"];
 			}
 			

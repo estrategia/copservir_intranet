@@ -22,7 +22,7 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\Cuestionario;
     <?= $form->field($model, 'descripcionPremio')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'tipoRedimir')->widget(Select2::classname(), [
       'data' => \Yii::$app->params['formacioncomunicaciones']['tiposRedimirPremios'],
-      'options' => ['placeholder' => 'Selecciona estado ...'],
+      'options' => ['placeholder' => 'Selecciona Tipo ...'],
       'hideSearch' => true,
       'pluginOptions' => [
         'allowClear' => true
@@ -106,7 +106,7 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\Cuestionario;
       <label for="">Categoria</label>
       <div class="input-group">
         <div class="input-group-addon">
-          <a href="#" data-toggle="modal" data-role="modal-padre-categoria">
+          <a href="#" data-toggle="modal" data-role="modal-premio-categoria">
             <?php if (!$model->isNewRecord && !is_null($model->objCategoria)): ?>
                 <?php echo $model->objCategoria->nombreCategoria; ?>
              <?php else: ?>

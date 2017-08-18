@@ -44,7 +44,7 @@ class Premio extends \yii\db\ActiveRecord
         return [
             [['descripcionPremio'], 'string'],
             [['idCategoria', 'puntosRedimir', 'estado', 'cantidad'], 'integer'],
-            [['fechaInicioVigencia', 'fechaFinVigencia', 'fechaCreacion', 'fechaActualizacion', 'idCuestionario'], 'safe'],
+            [['fechaInicioVigencia', 'fechaFinVigencia', 'fechaCreacion', 'fechaActualizacion', 'idCuestionario', 'tipoRedimir'], 'safe'],
             [['nombrePremio', 'rutaImagen'], 'string', 'max' => 100],
             [['idCategoria'], 'exist', 'skipOnError' => true, 'targetClass' => CategoriasPremios::className(), 'targetAttribute' => ['idCategoria' => 'idCategoria']],
         ];

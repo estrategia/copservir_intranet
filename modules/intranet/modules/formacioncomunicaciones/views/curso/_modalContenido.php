@@ -5,7 +5,7 @@ use yii\helpers\Url;
 use kartik\select2\Select2;
 
 ?>
-<div class="modal fade" id="widget-contenido" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="widget-contenido" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -13,7 +13,7 @@ use kartik\select2\Select2;
         <h4 class="modal-title" id="myModalLabel">
           <?php
           $modalTitle = '';
-          $model->isNewRecord ? $modalTitle = 'Crea un contenido' : $modalTitle = 'Actualiza el contenido';
+          $model->isNewRecord ? $modalTitle = 'Crea un curso' : $modalTitle = 'Actualiza el curso';
           echo $modalTitle;
           ?>
         </h4>
@@ -29,6 +29,19 @@ use kartik\select2\Select2;
           <?= $form->field($model, 'descripcionContenido')->textInput() ?>
           
           <?= $form->field($model, 'tiempoRequerido')->textInput() ?>
+          
+          <?= $form->field($model, 'cantidadPuntos')->textInput() ?>
+          
+          <?= $form->field($model, 'orden')->textInput() ?>
+
+          <?= $form->field($model, 'idTercero')->widget(Select2::classname(), [
+            'data' => $terceros,
+            'options' => ['placeholder' => 'Selecciona proveedor ...'],
+            'hideSearch' => false,
+            'pluginOptions' => [
+              'allowClear' => true
+            ],
+          ]); ?>
          
           <?= $form->field($model, 'estadoContenido')->widget(Select2::classname(), [
             'data' => ['1' => 'Activo', '0' => 'Inactivo'],

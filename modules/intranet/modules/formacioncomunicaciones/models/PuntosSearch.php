@@ -12,15 +12,18 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\Puntos;
  */
 class PuntosSearch extends Puntos
 {
-    public $usuario;
+    public $nombres;
+    public $primerApellido;
+    public $segundoApellido;
+    public $tituloCurso;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['idPunto', 'numeroDocumento', 'valorPuntos', 'idCuestionario', 'idParametroPunto', 'tipoParametro', 'idTipoContenido', 'condicion', 'idPuntoSincronizado', 'idCurso'], 'integer'],
-            [['descripcionPunto', 'fechaCreacion', 'usuario'], 'safe'],
+            [['idPunto', 'numeroDocumento', 'valorPuntos', 'idCuestionario', 'idParametroPunto', 'tipoParametro', 'condicion', 'idPuntoSincronizado', 'idCurso'], 'integer'],
+            [['descripcionPunto', 'fechaCreacion', 'nombres', 'primerApellido', 'segundoApellido'], 'safe'],
         ];
     }
 
@@ -47,6 +50,10 @@ class PuntosSearch extends Puntos
         // add conditions that should always apply here
         $query->joinWith(['objUsuarioIntranet']);
 
+        if (isset($params['misPuntos'])) {
+            $query->andFilterWhere(['m_INTRA_Usuario.numeroDocumento' => Yii::$app->user->identity->numeroDocumento]);
+        }
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -67,13 +74,14 @@ class PuntosSearch extends Puntos
             'idCuestionario' => $this->idCuestionario,
             'idParametroPunto' => $this->idParametroPunto,
             'tipoParametro' => $this->tipoParametro,
-            'idTipoContenido' => $this->idTipoContenido,
             'condicion' => $this->condicion,
             'fechaCreacion' => $this->fechaCreacion,
             'idPuntoSincronizado' => $this->idPuntoSincronizado,
             'idCurso' => $this->idCurso,
         ]);
-        $query->andFilterWhere(['like', 'm_INTRA_Usuario.nombres', $this->usuario]);
+        $query->andFilterWhere(['like', 'm_INTRA_Usuario.nombres', $this->nombres]);
+        $query->andFilterWhere(['like', 'm_INTRA_Usuario.primerApellido', $this->primerApellido]);
+        $query->andFilterWhere(['like', 'm_INTRA_Usuario.segundoApellido', $this->segundoApellido]);
         $query->andFilterWhere(['like', 'descripcionPunto', $this->descripcionPunto]);
 
         return $dataProvider;

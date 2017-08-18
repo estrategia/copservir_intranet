@@ -7,7 +7,10 @@ use yii\widgets\DetailView;
 /* @var $model app\modules\intranet\modules\formacioncomunicaciones\models\Contenido */
 
 $this->title = $model->tituloContenido;
-$this->params['breadcrumbs'][] = ['label' => 'Contenidos', 'url' => ['index']];
+$curso = $model->capitulo->modulo->curso;
+$this->params['breadcrumbs'][] = ['label' => 'Mis Cursos', 'url' => ['curso/mis-cursos']];
+// $this->params['breadcrumbs'][] = ['label' => $curso->nombreCurso];
+$this->params['breadcrumbs'][] = ['label' => $curso->nombreCurso, 'url' => ['curso/visualizar-curso', 'id' => $curso->idCurso]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="contenido-view">
@@ -33,8 +36,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Capítulo',
                 'value' => $model->capitulo->nombreCapitulo
             ],
-            'idContenidoCopia',
+            // 'idContenidoCopia',
             'frecuenciaMes',
+            'cantidadPuntos'
         ],
     ]) ?>
 

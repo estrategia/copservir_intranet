@@ -85,8 +85,8 @@ return [
         'codigoSeguridad' => 'CopservirLaMejorEmpresaParaTrabajar2016',
         'tarjetaMas' => 'http://siidesarrollo.copservir.com/tarjetamas/WsTarjetaMas/ws',
         //'tarjetaMas' => 'http://sii.copservir.com/tarjetamas/WsTarjetaMas/ws',
+        // 'persona' => 'http://192.168.1.28/copservir/wsMultiportal/persona',
         'persona' => 'http://localhost/siicop/wsMultiportal/persona',
-        // 'persona' => 'http://192.168.1.31/copservir/wsMultiportal/persona',
 
         //'persona' => 'http://sii.copservir.com/gestionhumana/wsMultiportal/persona',
         'tradeMarketing' => [
@@ -104,8 +104,13 @@ return [
             'terceros' => 'http://localhost/siicop/productos/sweb/terceros',
         ],
         'organigrama' => 'http://sii.copservir.com/gestionhumana/api/view/id',
-        'sascop' => [
-            'reportes' => 'http://localhost/siicop/sascop/restReportes/',
+        'servicop' => [
+            'reportes' => 'http://localhost/siicop/servicop/restReportes/',
+            'lineasCredito' => 'http://localhost/siicop/servicop/restLineaCredito',
+            'garantias' => 'http://localhost/siicop/servicop/restGarantia',
+            'tiposCuotaExtra' => 'http://localhost/siicop/servicop/restTipoCuotaExtra',
+            'simulador' => 'http://localhost/siicop/servicop/restSimulador',
+            'solicitudes' => 'http://localhost/siicop/servicop/restSolicitudes',
         ]
     ],
     'usuario' => [
@@ -212,5 +217,13 @@ return [
 		'session' => [
 				'filtrosPremios' => 'intranet.formacioncomunicaciones.premios.redenciones'
 		]	
-	]
+	],
+    'servicop' => [
+        'session' => [
+            'lineaCredito' => 'servicop.lineaCredito'
+        ],
+        'rutas' => [
+            'documentos' => ''
+        ]
+    ]
 ];

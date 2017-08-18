@@ -10,14 +10,14 @@ $src = Yii::$app->homeUrl . 'img/formacioncomunicaciones/assets/';
 
 $this->title = 'Resolver Cuestionario';
 
-$this->params['breadcrumbs'][] = ['label' => 'Mis Cursos', 'url' => ['mis-cursos']];
+$this->params['breadcrumbs'][] = ['label' => 'Programas', 'url' => ['curso/mis-cursos']];
 $this->params['breadcrumbs'][] = ['label' => $model->objCurso->nombreCurso, 'url' => ['/curso/visualizar-curso','id' => $model->idCurso]];
 $this->params['breadcrumbs'][] = ['label' => 'Resumen cuestionario', 'url' => ['aplicar-cuestionario','id' => $model->idCuestionario]];
 $this->params['breadcrumbs'][] = $this->title;
 //$this->params['breadcrumbs'][] = ['label' => 'Cuestionarios', 'url' => ['/intranet/formacioncomunicaciones/cuestionario']];
 ?>
 <style> .cuestionario table, th, td{border:solid 1px; padding: 2px 2px 2px 2px} .cuestionario input[type="checkbox"]{opacity:1}</style>
-
+<?php  if($model->tiempo != 0):?>
 <script type="text/javascript">
 	var milisegundos = 1000;
 	var restante = <?php echo $model->tiempo*60?>;
@@ -65,11 +65,14 @@ $this->params['breadcrumbs'][] = $this->title;
 	}
 		
 </script>
+<?php endif;?>
 <div class="cuestionario">
-
+    
     <h1><?= Html::encode($this->title) ?></h1>
     <?php $disabled="";?>
-    
+    <h5>Porcentaje necesario para aprobar: <?= $model->porcentajeMinimo ?>%</h5>
+    <h5>Puntos otorgados al aprobar: <?php echo $model->idContenido == null ? $model->objCurso->cantidadPuntos : $model->objContenido->cantidadPuntos ?></h5>
+    <?php echo $model->descripcionCuestionario ?>
     <?php if (Yii::$app->session->has('success')): ?>
 	  <div class="alert alert-success" role="alert">
 	    <?= Yii::$app->session->getFlash('success') ?>

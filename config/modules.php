@@ -6,8 +6,8 @@ return [
         'formacioncomunicaciones' => [
             'class' => 'app\modules\intranet\modules\formacioncomunicaciones\FormacionComunicacionesModule',
         ],
-        'sascop' => [
-            'class' => 'app\modules\intranet\modules\sascop\SascopModule',
+        'servicop' => [
+            'class' => 'app\modules\intranet\modules\servicop\ServicopModule',
         ],
       ],
   ],

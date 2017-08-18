@@ -6,7 +6,7 @@ use yii\base\Controller;
 ?>
 <h3>Categorías de premios</h3>
 <div class="row">
-<?= Html::img(Yii::getAlias('@web').'/img/formacioncomunicaciones/assets/banner.png', ['class' => 'img-responsive']) ?>
+<?= $this->render('/banners/banner', ['banner' => $banner]) ?>
 <div class="col-md-10">
   <?php foreach ($categoria->categoriasPremios as $categoria): ?>
     <div class="col-sm-3 col-md-3 item">

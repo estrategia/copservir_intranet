@@ -41,7 +41,7 @@ class Puntos extends \yii\db\ActiveRecord
     {
         return [
             [['numeroDocumento', 'valorPuntos', 'descripcionPunto'], 'required'],
-            [['numeroDocumento', 'valorPuntos', 'idCuestionario', 'idParametroPunto', 'tipoParametro', 'idTipoContenido', 'condicion', 'idPuntoSincronizado'], 'integer'],
+            [['numeroDocumento', 'valorPuntos', 'idCuestionario', 'idParametroPunto', 'tipoParametro',  'condicion', 'idPuntoSincronizado'], 'integer'],
             [['fechaCreacion'], 'safe'],
             [['descripcionPunto'], 'string', 'max' => 100],
         ];
@@ -60,7 +60,6 @@ class Puntos extends \yii\db\ActiveRecord
             'idCuestionario' => 'Id Cuestionario',
             'idParametroPunto' => 'Id Parametro Punto',
             'tipoParametro' => 'Tipo Parametro',
-            'idTipoContenido' => 'Id Tipo Contenido',
             'condicion' => 'Condicion',
             'fechaCreacion' => 'Fecha Creacion',
             'idPuntoSincronizado' => 'Id Punto Sincronizado',
@@ -82,22 +81,27 @@ class Puntos extends \yii\db\ActiveRecord
     {
         $puntos = self::find()->where(['numeroDocumento' => $numeroDocumento])->all();
         $totales = PuntosTotales::findOne($numeroDocumento);
+        $totales = $totales != null ? $totales : 0;
         $discriminados = [
-            ParametrosPuntos::PARAMETRO_TIPO_CONTENIDO => 0,
             ParametrosPuntos::PARAMETRO_CUMPLEANIOS => 0,
             ParametrosPuntos::PARAMETRO_ANIVERSARIO => 0,
+            ParametrosPuntos::CUESTIONARIO_CONTENIDO => 0,
+            ParametrosPuntos::CUESTIONARIO_CURSO => 0,
             ParametrosPuntos::PARAMETRO_EXTERNO => 0,
-            'totales' => $totales != null ? $totales : 0
+            'totales' => $totales
         ];
         foreach ($puntos as $punto) {
-            if ($punto->tipoParametro == ParametrosPuntos::PARAMETRO_TIPO_CONTENIDO) {
-                $discriminados[ParametrosPuntos::PARAMETRO_TIPO_CONTENIDO] += $punto->valorPuntos;
-            }
             if ($punto->tipoParametro == ParametrosPuntos::PARAMETRO_CUMPLEANIOS) {
                 $discriminados[ParametrosPuntos::PARAMETRO_CUMPLEANIOS] += $punto->valorPuntos;
             }
             if ($punto->tipoParametro == ParametrosPuntos::PARAMETRO_ANIVERSARIO) {
                 $discriminados[ParametrosPuntos::PARAMETRO_ANIVERSARIO] += $punto->valorPuntos;
+            }
+            if ($punto->tipoParametro == ParametrosPuntos::CUESTIONARIO_CONTENIDO) {
+                $discriminados[ParametrosPuntos::CUESTIONARIO_CONTENIDO] += $punto->valorPuntos;
+            }
+            if ($punto->tipoParametro == ParametrosPuntos::CUESTIONARIO_CURSO) {
+                $discriminados[ParametrosPuntos::CUESTIONARIO_CURSO] += $punto->valorPuntos;
             }
             if ($punto->tipoParametro == ParametrosPuntos::PARAMETRO_EXTERNO) {
                 $discriminados[ParametrosPuntos::PARAMETRO_EXTERNO] += $punto->valorPuntos;

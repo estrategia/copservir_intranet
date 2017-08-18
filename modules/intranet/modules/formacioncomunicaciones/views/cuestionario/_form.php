@@ -4,6 +4,8 @@ use yii\widgets\ActiveForm;
 use kartik\datetime\DateTimePicker;
 use yii\helpers\Url;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Curso;
+use app\modules\intranet\modules\formacioncomunicaciones\models\Contenido;
+
 use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
 ?>
@@ -17,6 +19,7 @@ use kartik\select2\Select2;
     <?= $form->field($model, 'numeroPreguntas')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'numeroIntentos')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'tiempo')->textInput(['maxlength' => true]) ?>
+    
     <?php
     echo \vova07\imperavi\Widget::widget([
         'selector' => '#cuestionario-descripcioncuestionario',
@@ -33,16 +36,44 @@ use kartik\select2\Select2;
         ]
     ]);
     ?>
-	<?php $cursos = Curso::findAll(['estadoCurso' => Curso::ESTADO_ACTIVO]);?>
+    <?php $cursos = Curso::findAll(['estadoCurso' => Curso::ESTADO_ACTIVO]);?>
+  
+    
+	<?php $contenidos = Contenido::findAll(['estadoContenido' => Curso::ESTADO_ACTIVO]);?>
     <?php $model->estado = $model->isNewRecord ? 1 : $model->estado;  ?>
+    
     <?= $form->field($model, 'estado')->dropDownList(['0' => 'Inactivo', '1' => 'Activo']); ?>
     <?php echo $form->field($model, 'idCurso')->widget(Select2::classname(), [
           'data' => ArrayHelper::map($cursos, 'idCurso','nombreCurso'),
+    	  'id' => 'Cuestionario_idCurso',	
           'options' => ['placeholder' => 'Selecione ...'],
           'pluginOptions' => [
               'allowClear' => true
           ],
         ]);?>
+        <?php /*echo $form->field($model, 'idContenido')->widget(Select2::classname(), [
+          'data' => ArrayHelper::map($contenidos, 'idContenido','tituloContenido'),
+          'id' => 'Cuestionario_idContenido',
+          'options' => ['placeholder' => 'Selecione ...'],
+          'pluginOptions' => [
+              'allowClear' => true
+          ],
+        ]);*/?>
+        <?php if ($model->idContenido != null): ?>
+          <?php if ($model->idCurso != null): ?>
+            <?php echo $form->field($model, 'idContenido')->widget(Select2::classname(), [
+              'data' => ArrayHelper::map(Curso::getContenidos($model->idCurso), 'idContenido','tituloContenido'),
+              // 'id' => 'Cuestionario_idCurso', 
+              'options' => ['placeholder' => 'Selecione ...'],
+              'pluginOptions' => [
+                  'allowClear' => true
+              ],
+            ]);?>
+            <!-- $model->getContenidos() -->
+          <?php endif ?>
+        <?php else: ?>
+          <?php echo $form->field($model, 'idContenido')->dropDownList([]); ?>
+        <?php endif ?>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

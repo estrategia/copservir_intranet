@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\intranet\modules\sascop\controllers;
+namespace app\modules\intranet\modules\servicop\controllers;
 
 use Yii;
 use yii\web\Controller;
@@ -13,7 +13,7 @@ class ReportesController extends Controller
 {
     public function actionVolanteNomina()
     {
-        $url = Yii::$app->params['webServices']['sascop']['reportes'] . 'volanteNomina';
+        $url = Yii::$app->params['webServices']['servicop']['reportes'] . 'volanteNomina';
         $parametros = [
             'numeroDocumento' => Yii::$app->user->identity->numeroDocumento,
             // 'numeroDocumento' => 10002383,
@@ -26,7 +26,7 @@ class ReportesController extends Controller
 
     public function actionLiquidacionVacaciones()
     {
-        $url = Yii::$app->params['webServices']['sascop']['reportes'] . 'liquidacionVacaciones';
+        $url = Yii::$app->params['webServices']['servicop']['reportes'] . 'liquidacionVacaciones';
         $parametros = [
             'numeroDocumento' => Yii::$app->user->identity->numeroDocumento,
             // 'numeroDocumento' => 10002383,
@@ -39,7 +39,7 @@ class ReportesController extends Controller
 
     public function actionPagoRodamientos()
     {
-        $url = Yii::$app->params['webServices']['sascop']['reportes'] . 'pagoRodamientos';
+        $url = Yii::$app->params['webServices']['servicop']['reportes'] . 'pagoRodamientos';
         $parametros = [
             'numeroDocumento' => Yii::$app->user->identity->numeroDocumento,
             // 'numeroDocumento' => 10002383,
@@ -52,7 +52,7 @@ class ReportesController extends Controller
 
     public function actionCuotasFondoMutuo()
     {
-        $url = Yii::$app->params['webServices']['sascop']['reportes'] . 'cuotasFondoMutuo';
+        $url = Yii::$app->params['webServices']['servicop']['reportes'] . 'cuotasFondoMutuo';
         $parametros = [
             'numeroDocumento' => Yii::$app->user->identity->numeroDocumento,
             // 'numeroDocumento' => 10002383,
@@ -65,7 +65,7 @@ class ReportesController extends Controller
 
     public function actionFinanciero()
     {
-        $url = Yii::$app->params['webServices']['sascop']['reportes'] . 'financiero';
+        $url = Yii::$app->params['webServices']['servicop']['reportes'] . 'financiero';
         $parametros = [
             'numeroDocumento' => Yii::$app->user->identity->numeroDocumento,
             // 'numeroDocumento' => 10002383,

@@ -103,6 +103,11 @@ $config = [
                 ],
                 [
                     'class' => 'yii\log\FileTarget',
+                    'logFile' => '@runtime/logs/http-request.log',
+                    'categories' => ['yii\httpclient\*'],
+                ],
+                [
+                    'class' => 'yii\log\FileTarget',
                     'levels' => ['trace'],
                 ],
                 [

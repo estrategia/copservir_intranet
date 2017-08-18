@@ -7,8 +7,8 @@ use kartik\rating\StarRating;
 $this->title = $model->tituloContenido;
 $curso = $model->capitulo->modulo->curso;
 $this->params['breadcrumbs'][] = ['label' => 'Mis Cursos', 'url' => ['curso/mis-cursos']];
-$this->params['breadcrumbs'][] = ['label' => $curso->nombreCurso];
-$this->params['breadcrumbs'][] = ['label' => 'Contenidos', 'url' => ['curso/visualizar-curso', 'id' => $curso->idCurso]];
+// $this->params['breadcrumbs'][] = ['label' => $curso->nombreCurso];
+$this->params['breadcrumbs'][] = ['label' => $curso->nombreCurso, 'url' => ['curso/visualizar-curso', 'id' => $curso->idCurso]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?php if (Yii::$app->session->has('success')): ?>
@@ -25,10 +25,13 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="row">
   <div class="col-md-12">
     <h1><?= $model->tituloContenido?></h1>
-    <?= $model->contenido; ?>
+    <?= $model->contenido; ?> <br>
+        <?php if ($model->cuestionario != null): ?>
+	      <?= Html::a('Prueba de conocimiento', ['cuestionario/aplicar-cuestionario', 'id' => $model->cuestionario->idCuestionario], ['class' => 'btn btn-primary']) ?>
+	    <?php endif ?>
   </div>
 </div>
-<div id="marcador-leido" style="background-color: red; width: 10px; height: 10px;" data-contenido-id="<?= $model->idContenido ?>"></div>
+<div id="marcador-leido" style="width: 10px; height: 10px;" data-contenido-id="<?= $model->idContenido ?>"></div>
 <div class="row-eq-height" id="resumen-resenas-contenido">
   <div class="col-md-6">
     <div>
@@ -80,8 +83,6 @@ $this->params['breadcrumbs'][] = $this->title;
       </div>
       <div class="modal-body">
         <?php $form = ActiveForm::begin(); ?>
-
-          <?= $form->field($calificacionModel, 'titulo')->textInput() ?>
 
           <?= $form->field($calificacionModel, 'comentario')->textArea(['rows' => '5']) ?>
 

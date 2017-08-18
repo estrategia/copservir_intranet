@@ -3,6 +3,7 @@
 namespace app\modules\intranet\modules\formacioncomunicaciones\models;
 
 use Yii;
+use app\modules\intranet\models\GrupoInteres;
 
 /**
  * This is the model class for table "m_FORCO_Capitulo".
@@ -18,6 +19,8 @@ class Capitulo extends \yii\db\ActiveRecord
 {
     const ESTADO_ACTIVO = 1;
     const ESTADO_INACTIVO = 0;
+    public $capituloGruposInteres;
+
     /**
      * @inheritdoc
      */
@@ -33,8 +36,8 @@ class Capitulo extends \yii\db\ActiveRecord
     {
         return [
             [['nombreCapitulo', 'descripcionCapitulo', 'estadoCapitulo', 'idModulo'], 'required'],
-            [['estadoCapitulo', 'idModulo'], 'integer'],
-            [['fechaCreacion', 'fechaActualizacion'], 'safe'],
+            [['estadoCapitulo', 'idCapitulo', 'orden'], 'integer'],
+            [['fechaCreacion', 'fechaActualizacion', 'capituloGruposInteres'], 'safe'],
             [['nombreCapitulo'], 'string', 'max' => 45],
             [['descripcionCapitulo'], 'string', 'max' => 250],
         ];
@@ -50,7 +53,6 @@ class Capitulo extends \yii\db\ActiveRecord
             'nombreCapitulo' => 'Nombre',
             'descripcionCapitulo' => 'Descripción',
             'estadoCapitulo' => 'Estado',
-            'idModulo' => 'Id Modulo',
             'fechaCreacion' => 'Fecha Creación',
             'fechaActualizacion' => 'Fecha Actualización',
         ];
@@ -74,11 +76,81 @@ class Capitulo extends \yii\db\ActiveRecord
 
     public function getContenidos()
     {
-        return $this->hasMany(Contenido::className(), ['idCapitulo' => 'idCapitulo']);
+        return $this->hasMany(Contenido::className(), ['idCapitulo' => 'idCapitulo'])->orderBy(['m_FORCO_Contenido.orden' => SORT_ASC]);
     }
 
     public function getContenidosActivos()
     {
-        return $this->hasMany(Contenido::className(), ['idCapitulo' => 'idCapitulo'])->andWhere(['estadoContenido' => Contenido::ESTADO_ACTIVO])->all();
+        return $this->hasMany(Contenido::className(), ['idCapitulo' => 'idCapitulo'])->andWhere(['estadoContenido' => Contenido::ESTADO_ACTIVO])->orderBy(['m_FORCO_Contenido.orden' => SORT_ASC])->all();
+    }
+
+    public function guardarGruposInteres($gruposInteres)
+    {
+        foreach ($gruposInteres as $indice => $grupoInteres) {
+            $moduloGruposInteres = new CapituloGruposInteres;
+            $moduloGruposInteres->idCapitulo = $this->idCapitulo;
+            $moduloGruposInteres->idGrupoInteres = $gruposInteres[$indice];
+            // \yii\helpers\VarDumper::dump($moduloGruposInteres, 10,true);
+            $moduloGruposInteres->save();
+        }
+    }
+
+    public function setCapituloGruposInteres()
+    {
+        $idsGrupos = [];
+        foreach ($this->objCapituloGruposInteres as $grupo) {
+            $idsGrupos[] = $grupo->idGrupoInteres;
+        }
+        $this->capituloGruposInteres = $idsGrupos;
+    }
+
+    public function actualizarGrupos($gruposSelect)
+    {
+        $paraCrear = [];
+        $paraEliminar = [];
+        $idsGrupos = [];
+        $array1 = [];
+        $array2 = [];
+        $gruposAsignados = CapituloGruposInteres::find()->where(['idCapitulo' => $this->idCapitulo])->all();
+        foreach ($gruposAsignados as $grupo) {
+            $idsGrupos[] = $grupo->idGrupoInteres;
+        }
+
+        if (!is_array($gruposSelect)) {
+            $array1 = (array) $gruposSelect;
+        } else {
+            $array1 = $gruposSelect;
+        }
+        if (!is_array($idsGrupos)) {
+            $array2 = (array) $idsGrupos;
+        } else {
+            $array2 = $idsGrupos;
+        }
+        $paraCrear = array_diff($array1, $array2);
+        $paraEliminar = array_diff($array2, $array1);
+
+        // print_r($gruposSelect);
+        if (!empty($paraEliminar)) {
+            CapituloGruposInteres::deleteAll(['and', 'idCapitulo = :capitulo', ['in', 'idGrupoInteres', $paraEliminar]],[
+                ':capitulo' => $this->idCapitulo
+            ]);
+        }
+
+        foreach ($paraCrear as $idGrupo) {
+            $nuevoGrupo = new CapituloGruposInteres;
+            $nuevoGrupo->idCapitulo = $this->idCapitulo;
+            $nuevoGrupo->idGrupoInteres = $idGrupo;
+            $nuevoGrupo->save();
+        }
+    }
+
+    public function getObjCapituloGruposInteres()
+    {
+        return $this->hasMany(CapituloGruposInteres::className(), ['idCapitulo' => 'idCapitulo']);
+    }
+
+    public function getObjGruposInteres()
+    {
+        return $this->hasMany(GrupoInteres::className(), ['idGrupoInteres' => 'idGrupoInteres'])->via('objCapituloGruposInteres');
     }
 }

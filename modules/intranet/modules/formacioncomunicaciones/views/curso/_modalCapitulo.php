@@ -3,6 +3,18 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use kartik\select2\Select2;
+use yii\web\JsExpression;
+
+
+$format = <<< SCRIPT
+function formatSelect(state) {
+  if (!state.id) return state.text; // optgroup
+    return '<span style="' + state.element.style.cssText + '">' + state.text + '</span>';
+}
+SCRIPT;
+
+$this->registerJs($format, \yii\web\View::POS_HEAD);
+$escape = new JsExpression("function(m) {return m; }");
 
 ?>
 <div class="modal fade" id="widget-capitulo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -28,6 +40,23 @@ use kartik\select2\Select2;
 
         <?= $form->field($model, 'descripcionCapitulo')->textInput(['maxlength' => true]) ?>
 
+        <?= $form->field($model, 'capituloGruposInteres')->widget(Select2::classname(),[
+          'data' => $objCapituloGruposInteres->getDatosSelectGruposInteres()['data'],
+          'options' => [
+            'placeholder' => 'Selecione ...',
+            'options' => $objCapituloGruposInteres->getDatosSelectGruposInteres()['options'],
+            'multiple' => true,
+          ],
+          'pluginOptions' => [
+            'allowClear' => true,
+            'templateResult' => new JsExpression('formatSelect'),
+            'templateSelection' => new JsExpression('formatSelect'),
+            'escapeMarkup' => $escape,
+          ],
+          'hideSearch' => false,
+          ]);
+        ?>
+
         <?= $form->field($model, 'estadoCapitulo')->widget(Select2::classname(), [
           'data' => ['1' => 'Activo', '0' => 'Inactivo'],
           'options' => ['placeholder' => 'Selecciona estado ...'],
@@ -36,6 +65,8 @@ use kartik\select2\Select2;
             'allowClear' => true
           ],
         ]); ?>
+
+        <?= $form->field($model, 'orden')->textInput(['maxlength' => true]) ?>
 
         <?php ActiveForm::end(); ?>
 

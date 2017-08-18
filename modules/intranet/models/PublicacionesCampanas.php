@@ -25,6 +25,9 @@ class PublicacionesCampanas extends \yii\db\ActiveRecord
   const POSICION_ARRIBA = 0;
   const POSICION_ABAJO = 1;
   const POSICION_DERECHA = 2;
+  const POSICION_TIENDA_FORCO = 3;
+  const POSICION_PROGRAMAS_FORCO = 4;
+
 
   const ESTADO_ACTIVO = 1;
   const ESTADO_INACTIVO = 0;
