@@ -18,6 +18,8 @@ use kartik\select2\Select2;
       <?= $form->field($model, 'nombreCurso')->textInput(['maxlength' => true]) ?>
 
       <?= $form->field($model, 'presentacionCurso')->textInput(['maxlength' => true]) ?>
+      
+      <?= $form->field($model, 'orden')->textInput(['maxlength' => true]) ?>
 
       <?= $form->field($model, 'fechaInicio')->widget(DatePicker::classname(), [
           'type' => DatePicker::TYPE_INPUT,

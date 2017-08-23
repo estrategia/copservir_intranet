@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\intranet\modules\servicop\controllers;
+namespace app\modules\intranet\modules\servicop\modules\creditos\controllers;
 
 use Yii;
 use yii\web\Controller;
@@ -105,12 +105,16 @@ class SimuladorController extends Controller
         $datosFormulario = [];
         if ($request->isPost) {
             parse_str($request->post('datos'), $datosFormulario);
-            $simulacion = $module->consultarWebService($params['webServices']['servicop']['simulador'] . '/simular', ['datos' => $datosFormulario], 'post')['response'];
+            $simulacion = $module->consultarWebService($params['webServices']['servicop']['simulador'] . '/simular', ['datos' => $datosFormulario], 'post');
         }
         if (!empty($simulacion)) {
-            $response = ['result' => 'ok', 'response' => $simulacion];
+            if ($simulacion['result'] == 'ok') {
+                $response = ['result' => 'ok', 'response' => $simulacion['response']];
+            } else {
+                $response = ['result' => 'error', 'response' => $simulacion['response']];
+            }
         } else {
-            $response = ['result' => 'error', 'response' => $simulacion];
+            $response = ['result' => 'error', 'response' => $simulacion['response']];
         }
         return Json::encode($response);
     }
@@ -118,18 +122,15 @@ class SimuladorController extends Controller
     private function calcularPeriodosCuotas($quincenas)
     {
         $dias = ($quincenas * 15);
-        $inicio = date('Y') . '-01-01';
+        $inicio = (int) date('Y');
         $final = $inicio;
-        $cantidadAnios = ceil($dias / 350);
-        $anios[] = date('Y', strtotime($inicio));
-
+        $cantidadAnios = ceil($dias / 365);
+        $anios[] = $inicio;
         for ($i=1; $i < $cantidadAnios; $i++) { 
-            $final = date('Y', strtotime("+1 year", strtotime($final)));
+            $final ++;
             $anios[] = $final;
         }
-
         return $anios;
-        // \yii\helpers\VarDumper::dump($anios,10,true);
     }
 
 }

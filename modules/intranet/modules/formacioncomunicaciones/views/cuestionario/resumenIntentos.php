@@ -53,7 +53,7 @@ endif;
 		<?php if((($modelCuestionario->numeroIntentos != 0 && 
 				count($cuestionariosPrevios) < $modelCuestionario->numeroIntentos) || $modelCuestionario->numeroIntentos == 0) && 
 				$calificacion < $modelCuestionario->porcentajeMinimo):
-			 echo Html::a('Nuevo intento', ['visualizar-cuestionario', 'id' => $modelCuestionario->idCuestionario] ,['class' => 'btn btn-success'] );
+			 echo Html::a('Iniciar Cuestionario', ['visualizar-cuestionario', 'id' => $modelCuestionario->idCuestionario] ,['class' => 'btn btn-success'] );
 			?>
 	
 			<?php elseif($calificacion >= $modelCuestionario->porcentajeMinimo):?>

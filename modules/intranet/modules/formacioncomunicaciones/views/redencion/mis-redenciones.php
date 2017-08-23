@@ -55,6 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter'=>array('1' => 'Pendiente', '2' => 'Tramitado', '3' => 'Cancelado'),
             ],
             'fechaCreacion',
+            'fechaEntrega',
             [
               'class' => 'yii\grid\ActionColumn',
               'headerOptions'=> ['style'=>'width: 70px;'],

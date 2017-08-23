@@ -486,4 +486,37 @@ class UsuarioController extends \yii\web\Controller {
         return $respond;
     }
 
+    public function actionBuscarAjax($q = null, $id = null)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $response = ['results' => ['id' => '', 'text' => '']];
+        if (!is_null($q)) {
+            $usuarios = \app\modules\intranet\models\UsuarioIntranet::find()
+                ->where(['like', 'numeroDocumento', $q])
+                ->orWhere(['like', 'nombres', $q])
+                ->orWhere(['like', 'primerApellido', $q])
+                ->orWhere(['like', 'segundoApellido', $q])
+                ->limit(10)
+                ->all();
+            foreach ($usuarios as $key => $usuario) {
+                $response = [];
+                $response['results'][] = [
+                    'id' => $usuario->numeroDocumento, 
+                    'text' => $usuario->nombres . ' ' . $usuario->primerApellido . ' ' . $usuario->segundoApellido . ' - ' . $usuario->numeroDocumento
+                ];
+            }
+        }
+        elseif ($id > 0){
+            $usuario = \app\modules\intranet\models\UsuarioIntranet::find()
+                ->where(['numeroDocumento' => $id])
+                ->one();
+            $response['results'][] = [
+                    'id' => $usuario->numeroDocumento, 
+                    'text' => $usuario->nombres . ' ' . $usuario->primerApellido . ' ' . $usuario->segundoApellido . ' - ' . $usuario->numeroDocumento
+            ];
+        }
+        // $jsonUsuarios = \yii\helpers\ArrayHelper::map($usuarios, 'numeroDocumento', 'nombres');
+        return $response;
+    }
+
 }

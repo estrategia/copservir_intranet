@@ -32,14 +32,15 @@ $this->params['breadcrumbs'][] = $this->title;
   </div>
 </div>
 <div id="marcador-leido" style="width: 10px; height: 10px;" data-contenido-id="<?= $model->idContenido ?>"></div>
-<div class="row-eq-height" id="resumen-resenas-contenido">
-  <div class="col-md-6">
+<div class="row-eq-height" >
+  <div class="col-md-6" id="resumen-resenas-contenido">
     <div>
       <?php echo $this->render('resumen-resenas', ['datos' => $datos]); ?>
     </div>
   </div>
-  <div class="col-md-6 crear-resena">
+  <div class="col-md-6 crear-resena" id="crear-resena">
     <div>
+      <h3>Valoraciones: <?php echo $datos['cantidad']; ?></h3>
       <?php 
         echo StarRating::widget([
             'name' => 'rating_1',
@@ -53,11 +54,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ]
         ]);
       ?>
-      <button class="btn btn-default btn-block" data-toggle="modal" data-target="#modal-form-calificacion" <?php echo $calificacionModel->isNewRecord ? '' : 'disabled' ?> >Escribe una reseña</button>
+      <button class="btn btn-default btn-block" data-toggle="modal" data-target="#modal-form-calificacion" <?php echo $calificacionModel->isNewRecord ? '' : 'disabled' ?> >Valora este curso</button>
     </div>
   </div>
 </div>
 <div class="row" id="comentarios-contenido">
+  <div class="col-md-12">
+    
   <?= ListView::widget([
         'dataProvider' => $dataProviderCalificacion,
         'options' => [
@@ -65,14 +68,17 @@ $this->params['breadcrumbs'][] = $this->title;
             'class' => 'buscador-container',
             'id' => 'list-wrapper',
         ],
-        'layout' => "{pager}\n{items}",
+        'layout' => "{summary}\n{pager}\n{items}",
         'itemView' => '_item_calificacion',
         'pager' => [
-            'nextPageLabel' => 'next',
-            'prevPageLabel' => 'previous',
+          // 'firstPageLabel' => 'primero',
+          // 'lastPageLabel' => 'ultimo',
+            'nextPageLabel' => 'siguiente',
+            'prevPageLabel' => 'anterior',
             'maxButtonCount' => 3,
         ],
     ]); ?>
+  </div>
 </div>
 <div class="modal fade" tabindex="-1" role="dialog" id="modal-form-calificacion">
   <div class="modal-dialog" role="document">
@@ -82,9 +88,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <h4 class="modal-title">Escribe una reseña</h4>
       </div>
       <div class="modal-body">
-        <?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin(['id' => 'form-resena']); ?>
 
           <?= $form->field($calificacionModel, 'comentario')->textArea(['rows' => '5']) ?>
+          
+          <?= $form->field($calificacionModel, 'idContenido')->hiddenInput(['value' => $model->idContenido])->label(false) ?>
 
           <?= $form->field($calificacionModel, 'calificacion')->widget(StarRating::classname(), [
             'pluginOptions' => [

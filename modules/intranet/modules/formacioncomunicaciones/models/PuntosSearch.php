@@ -16,6 +16,7 @@ class PuntosSearch extends Puntos
     public $primerApellido;
     public $segundoApellido;
     public $tituloCurso;
+    public $tipoParametro;
     /**
      * @inheritdoc
      */
@@ -45,6 +46,8 @@ class PuntosSearch extends Puntos
      */
     public function search($params)
     {
+        // \yii\helpers\VarDumper::dump($params, 10, true);
+
         $query = Puntos::find();
 
         // add conditions that should always apply here
@@ -79,6 +82,7 @@ class PuntosSearch extends Puntos
             'idPuntoSincronizado' => $this->idPuntoSincronizado,
             'idCurso' => $this->idCurso,
         ]);
+
         $query->andFilterWhere(['like', 'm_INTRA_Usuario.nombres', $this->nombres]);
         $query->andFilterWhere(['like', 'm_INTRA_Usuario.primerApellido', $this->primerApellido]);
         $query->andFilterWhere(['like', 'm_INTRA_Usuario.segundoApellido', $this->segundoApellido]);

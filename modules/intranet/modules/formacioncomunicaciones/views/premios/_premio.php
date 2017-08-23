@@ -17,7 +17,7 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\Premio;
 			Cant. Disp. <?= $model->cantidad ?>
 		</p>
 		<div class="detalle-redencion">
-			<h4 class="nombre-sub-categoria"><?= $model->nombrePremio ?></h4>		
+			<h4 class="nombre-sub-categoria" data-toggle="tooltip" title="Hooray!"><?= $model->nombrePremio ?></h4>		
 			<fieldset><?= $model->descripcionPremio ?></fieldset>	
 				
 			<label for="cantidad_<?php echo $model->idPremio?>" class="nowrap">Cantidad

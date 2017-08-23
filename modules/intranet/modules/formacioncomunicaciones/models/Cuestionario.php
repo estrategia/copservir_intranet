@@ -87,7 +87,8 @@ class Cuestionario extends \yii\db\ActiveRecord
     public function getListPreguntasCurso()
     {
         $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();
-
+        $gruposInteres[] = 999999;
+        
         $subQueryModulos = Modulo::find()
             ->select('idModulo')
             ->where(['idCurso' => $this->idCurso]);

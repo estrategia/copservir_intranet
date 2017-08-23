@@ -8,6 +8,11 @@ return [
         ],
         'servicop' => [
             'class' => 'app\modules\intranet\modules\servicop\ServicopModule',
+            'modules' => [
+              'creditos' => [
+                'class' => 'app\modules\intranet\modules\servicop\modules\creditos\CreditosModule'
+              ]
+            ]
         ],
       ],
   ],

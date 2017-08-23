@@ -65,7 +65,7 @@ class CursoController extends Controller
 
     public function actionPrueba()
     {
-        \yii\helpers\VarDumper::dump(Indicadores::cursosPendientes(),10,true);
+        Indicadores::cursosNuevosDisponibles();
     }
 
     /**
@@ -356,28 +356,37 @@ class CursoController extends Controller
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
         $userCiudad = Yii::$app->user->identity->getCiudadCodigo();
         $userGrupos = (array) Yii::$app->user->identity->getGruposCodigos();
-        $banner = PublicacionesCampanas::getCampana($userCiudad, $userGrupos, PublicacionesCampanas::POSICION_TIENDA_FORCO);
+        $banner = PublicacionesCampanas::getCampana($userCiudad, $userGrupos, PublicacionesCampanas::POSICION_PROGRAMAS_FORCO);
         $searchModel = new CursoSearch();
         $dataProviderObligatorios = new ActiveDataProvider([
             'query' => Curso::consultarActivosObligatorios(),
             'pagination' => [
                 'pageSize' => 10
             ],
+            'sort' => [
+                'defaultOrder' => 'orden ASC'
+            ]
         ]);
 
         $dataProviderOpcionales = new ActiveDataProvider([
             'query' => Curso::consultarActivosOpcionales(),
             'pagination' => [
                 'pageSize' => 10
+            ],
+            'sort' => [
+                'defaultOrder' => 'orden ASC'
             ]
         ]);
 
         $indicadores = [
             'cursosNuevos' => Indicadores::cursosNuevos(),
+            'cursosNuevosDisponibles' => Indicadores::cursosNuevosDisponibles(),
             'cursosHechos' => Indicadores::cursosHechos(),
             'cursosPendientes' => Indicadores::cursosPendientes(),
             'puntosObtenidos' => Indicadores::puntosObtenidos(),
-            'ranking' => Indicadores::ranking()
+            'ranking' => Indicadores::ranking(),
+            'puntosTotales' => Indicadores::puntosTotales(),
+            'usuariosTotales' => Indicadores::cantidadRanking(),
         ];
 
         return $this->render('misCursos', [
@@ -394,14 +403,45 @@ class CursoController extends Controller
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
         $userCiudad = Yii::$app->user->identity->getCiudadCodigo();
         $userGrupos = (array) Yii::$app->user->identity->getGruposCodigos();
-        $banner = PublicacionesCampanas::getCampana($userCiudad, $userGrupos, PublicacionesCampanas::POSICION_TIENDA_FORCO);
+        $banner = PublicacionesCampanas::getCampana($userCiudad, $userGrupos, PublicacionesCampanas::POSICION_PROGRAMAS_FORCO);
         $searchModel = new CursoSearch();
-        $queryParams['terminados'] = true;
-        $dataProvider = $searchModel->search($queryParams);
+        $dataProviderObligatorios = new ActiveDataProvider([
+            'query' => Curso::consultarActivosObligatorios(),
+            'pagination' => [
+                'pageSize' => 10
+            ],
+            'sort' => [
+                'defaultOrder' => 'orden ASC'
+            ]
+        ]);
+
+        $dataProviderOpcionales = new ActiveDataProvider([
+            'query' => Curso::consultarActivosOpcionales(),
+            'pagination' => [
+                'pageSize' => 10
+            ],
+            'sort' => [
+                'defaultOrder' => 'orden ASC'
+            ]
+        ]);
+
+        $indicadores = [
+            'cursosNuevos' => Indicadores::cursosNuevos(),
+            'cursosNuevosDisponibles' => Indicadores::cursosNuevosDisponibles(),
+            'cursosHechos' => Indicadores::cursosHechos(),
+            'cursosPendientes' => Indicadores::cursosPendientes(),
+            'puntosObtenidos' => Indicadores::puntosObtenidos(),
+            'ranking' => Indicadores::ranking(),
+            'puntosTotales' => Indicadores::puntosTotales(),
+            'usuariosTotales' => Indicadores::cantidadRanking(),
+        ];
+
         return $this->render('misCursos', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'banner' => $banner
+            'dataProviderObligatorios' => $dataProviderObligatorios,
+            'dataProviderOpcionales' => $dataProviderOpcionales,
+            'banner' => $banner,
+            'indicadores' => $indicadores
         ]);
     }
 
@@ -416,6 +456,9 @@ class CursoController extends Controller
             'query' => Curso::consultarActivosObligatoriosRecomendados(),
             'pagination' => [
                 'pageSize' => 10
+            ],
+            'sort' => [
+                'defaultOrder' => 'orden ASC'
             ]
         ]);
 
@@ -423,14 +466,28 @@ class CursoController extends Controller
             'query' => Curso::consultarActivosOpcionalesRecomendados(),
             'pagination' => [
                 'pageSize' => 10
+            ],
+            'sort' => [
+                'defaultOrder' => 'orden ASC'
             ]
         ]);
+        $indicadores = [
+            'cursosNuevos' => Indicadores::cursosNuevos(),
+            'cursosNuevosDisponibles' => Indicadores::cursosNuevosDisponibles(),
+            'cursosHechos' => Indicadores::cursosHechos(),
+            'cursosPendientes' => Indicadores::cursosPendientes(),
+            'puntosObtenidos' => Indicadores::puntosObtenidos(),
+            'ranking' => Indicadores::ranking(),
+            'puntosTotales' => Indicadores::puntosTotales(),
+            'usuariosTotales' => Indicadores::cantidadRanking(),
+        ];
 
         return $this->render('misCursos', [
             'searchModel' => $searchModel,
             'dataProviderObligatorios' => $dataProviderObligatorios,
             'dataProviderOpcionales' => $dataProviderOpcionales,
-            'banner' => $banner
+            'banner' => $banner,
+            'indicadores' => $indicadores
         ]);
     }
 

@@ -6,6 +6,7 @@
 <h3>Categorías de premios</h3>
 
 <?= $this->render('/banners/banner', ['banner' => $banner]) ?>
+<br>
 <div class="row">
 <div class="col-md-10">
   <?php foreach ($categorias as $categoria): ?>

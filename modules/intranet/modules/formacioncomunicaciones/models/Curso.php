@@ -36,7 +36,7 @@ class Curso extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['estadoCurso', 'idCurso', 'cantidadPuntos', 'tipoCurso'], 'integer'],
+            [['estadoCurso', 'idCurso', 'cantidadPuntos', 'tipoCurso', 'orden'], 'integer'],
             [['fechaCreacion', 'fechaActualizacion', 'fechaInicio', 'fechaFin', 'fechaActivacion'], 'safe'],
             [['nombreCurso'], 'string', 'max' => 45],
             [['presentacionCurso'], 'string', 'max' => 250],
@@ -60,7 +60,8 @@ class Curso extends \yii\db\ActiveRecord
             'fechaCreacion' => 'Fecha Creacion',
             'fechaActualizacion' => 'Fecha Actualizacion',
             'fechaActivacion' => 'Fecha Activacion',
-            'tipoCurso' => 'Tipo Programa'
+            'tipoCurso' => 'Tipo Programa',
+            'orden' => 'Orden'
         ];
     }
 
@@ -186,7 +187,7 @@ class Curso extends \yii\db\ActiveRecord
 
     public function getModulos()
     {
-        return $this->hasMany(Modulo::className(), ['idCurso' => 'idCurso']);
+        return $this->hasMany(Modulo::className(), ['idCurso' => 'idCurso'])->orderBy(['orden' => SORT_ASC]);
     }
 
     public function getModulosActivos()
@@ -234,5 +235,44 @@ class Curso extends \yii\db\ActiveRecord
     public function getCursosUsuario()
     {
         return $this->hasMany(CursosUsuario::className(), ['idCurso' => 'idCurso']);
+    }
+
+    public function porcentajeCompletado()
+    {
+        $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+    
+        $contenidosLeidosCurso = ContenidoLeidoUsuario::find()
+            ->joinWith('contenido')
+            ->where(['numeroDocumento' => $numeroDocumento])
+            ->andWhere(['m_FORCO_Contenido.idCurso' => $this->idCurso])
+            ->andWhere(['estadoContenido' => Contenido::ESTADO_ACTIVO])
+            ->all();
+
+        $contenidosAsignados = Contenido::find()
+            ->joinWith('capitulo.modulo.curso')
+            ->where(['m_FORCO_Curso.idCurso' => $this->idCurso])
+            // ->andWhere(['estadoCurso' => Curso::ESTADO_ACTIVO])
+            // ->andWhere(['m_FORCO_Modulo.idModulo' => Modulo::ESTADO_ACTIVO])
+            // ->andWhere(['m_FORCO_Capitulo.idCapitulo' => Capitulo::ESTADO_ACTIVO])
+            ->andWhere(['estadoContenido' => Contenido::ESTADO_ACTIVO])
+            ->all();
+            // ->distinct();
+        // var_dump($contenidosAsignados->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
+        // $contenidosAsignados->all();
+        $cantidadTerminados = 0;
+        $cantidadAsignados = 0;
+
+        if (isset($contenidosLeidosCurso)) {
+            $cantidadTerminados = count($contenidosLeidosCurso);
+        }
+        if (isset($contenidosAsignados)) {
+            $cantidadAsignados = count($contenidosAsignados);
+        }
+
+        $porcentajeCompletado = 0;
+        if ($cantidadAsignados > 0) {
+            $porcentajeCompletado = $cantidadTerminados * 100 / $cantidadAsignados;
+        }
+        return $porcentajeCompletado;
     }
 }

@@ -18,6 +18,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
+use yii\helpers\Json;
+use yii\data\ActiveDataProvider;
 
 /**
  * ContenidoController implements the CRUD actions for Contenido model.
@@ -173,20 +175,59 @@ class ContenidoController extends Controller
         $params = Yii::$app->request->queryParams;
         $params['contenido'] = $model->idContenido;
         $dataProviderCalificacion = $searchModelCalificacion->search($params);
+        // if (Yii::$app->request->isPost) {
+        //     if ($calificacionModel->load(Yii::$app->request->post())) {
+        //         $calificacionModel->numeroDocumento = $numeroDocumento;
+        //         $calificacionModel->idContenido = $model->idContenido;
+        //         if ($calificacionModel->save()) {
+        //             $model->capitulo->modulo->curso->calcularPromedioCalificacion();
+        //             Yii::$app->session->setFlash('success', 'Se ha guardado su reseña.');
+        //         } else {
+        //             Yii::$app->session->setFlash('error', 'Ocurrio un error al guardar su reseña.');
+        //         }
+        //     }
+        // }
+
+        return $this->render('contenido', ['model' => $model, 'calificacionModel' => $calificacionModel, 'searchModelCalificacion' => $searchModelCalificacion, 'dataProviderCalificacion' => $dataProviderCalificacion, 'datos' => $model->resumenCalificaciones()]);
+    }
+
+    public function actionCrearResena()
+    {
+        $response = [];
+        // var_dump(Yii::$app->request->post());
+        // exit();
         if (Yii::$app->request->isPost) {
+            $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+            $calificacionModel = ContenidoCalificacion::find()->where(['numeroDocumento' => $numeroDocumento, 'idContenido' => Yii::$app->request->post()['ContenidoCalificacion']['idContenido']])->one();
+            if ($calificacionModel == null) {
+            }
+            $calificacionModel = new ContenidoCalificacion;
             if ($calificacionModel->load(Yii::$app->request->post())) {
                 $calificacionModel->numeroDocumento = $numeroDocumento;
-                $calificacionModel->idContenido = $model->idContenido;
+                // $calificacionModel->idContenido = $model->idContenido;
                 if ($calificacionModel->save()) {
+                    $searchModelCalificacion = new ContenidoCalificacionSearch;
+                    $model = Contenido::find()->where(['idContenido' => $calificacionModel->idContenido])->one();
+                    $params = Yii::$app->request->queryParams;
+                    $params['contenido'] = $model->idContenido;
+                    $dataProviderCalificacion = $searchModelCalificacion->search($params);
                     $model->capitulo->modulo->curso->calcularPromedioCalificacion();
-                    Yii::$app->session->setFlash('success', 'Se ha guardado su reseña.');
+                    $datos = $model->resumenCalificaciones();
+                    $response = [
+                        'result' => 'ok', 
+                        'response' => [
+                            'resumen' => $this->renderPartial('resumen-resenas', ['datos' => $datos]),
+                            'resenas' => $this->renderAjax('comentarios-contenido', ['dataProviderCalificacion' => $dataProviderCalificacion]),
+                            'promedio' => $this->renderAjax('crear-resena', ['datos' => $datos])
+
+                        ]
+                    ];
                 } else {
-                    Yii::$app->session->setFlash('error', 'Ocurrio un error al guardar su reseña.');
+                    $response = ['result' => 'error', 'response' => []];
                 }
             }
         }
-
-        return $this->render('contenido', ['model' => $model, 'calificacionModel' => $calificacionModel, 'searchModelCalificacion' => $searchModelCalificacion, 'dataProviderCalificacion' => $dataProviderCalificacion, 'datos' => $model->resumenCalificaciones()]);
+        return Json::encode($response);
     }
 
     public function actionCargarPaquete()
@@ -227,6 +268,62 @@ class ContenidoController extends Controller
         $response = ['result' => 'ok', 'response' => ['iframeSrc' => $iframeSrc]];
         return $response;
     }
+
+    public function actionPendientesUsuario()
+    {
+        $searchModel = new ContenidoSearch();
+        $dataProvider = new ActiveDataProvider([
+            'query' => Contenido::consultarContenidosPendientesUsuario(),
+            'pagination' => [
+                'pageSize' => 10
+            ]
+        ]);
+
+        return $this->render('misContenidos', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionRecomendados()
+    {
+        $searchModel = new ContenidoSearch();
+        $dataProvider = new ActiveDataProvider([
+            'query' => Contenido::consultarContenidosPendientesUsuario(),
+            'pagination' => [
+                'pageSize' => 10
+            ],
+            'sort'=> [
+                'defaultOrder'=>'cantidadPuntos',
+            ],
+        ]);
+
+        return $this->render('misContenidos', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionPendientesRecientes()
+    {
+        $searchModel = new ContenidoSearch();
+        $dataProvider = new ActiveDataProvider([
+            'query' => Contenido::consultarContenidosPendientesUsuario(),
+            'pagination' => [
+                'pageSize' => 10
+            ],
+            'sort'=> [
+                'defaultOrder'=>'fechaCreacion',
+            ],
+        ]);
+
+        return $this->render('misContenidos', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+
 
     /**
      * Finds the Contenido model based on its primary key value.

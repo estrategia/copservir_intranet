@@ -32,20 +32,33 @@ use kartik\select2\Select2;
               <td><?= $puntos[2] ?></td>
             </tr>
             <tr>
-              <td>Contenidos</td>
+              <td>Cursos</td>
               <td><?= $puntos[3] ?></td>
             </tr>
             <tr>
-              <td>Cursos</td>
+              <td>Programas</td>
               <td><?= $puntos[4] ?></td>
             </tr>
             <tr>
               <td>Misiones de Compra</td>
               <td><?= $puntos[999] ?></td>
             </tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <th colspan="2" class="text-center">Totales</th>
+            </tr>
             <tr>
               <td>Sin redimir</td>
               <td><?= $puntos['totales'] !== 0 ? $puntos['totales']->puntos : $puntos['totales'] ?></td>
+            </tr>
+            <tr>
+              <td>Redimidos</td>
+              <td><?= $puntos['redimidos'] ?></td>
+            </tr>
+            <tr>
+              <td>Total</td>
+              <td><?= $puntos['absolutos'] ?></td>
             </tr>
           </tbody>
         </table>

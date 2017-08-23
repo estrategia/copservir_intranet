@@ -47,6 +47,12 @@ class ContenidoCalificacionSearch extends ContenidoCalificacion
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 4
+            ],
+            'sort' => [
+                'defaultOrder' => ['fecha' => SORT_DESC]
+            ]
         ]);
 
         $this->load($params);

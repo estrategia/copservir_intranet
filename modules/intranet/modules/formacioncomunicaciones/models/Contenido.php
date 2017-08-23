@@ -158,10 +158,12 @@ class Contenido extends \yii\db\ActiveRecord
             '4' => '', 
             '5' => '', 
             'total' => '', 
-            'promedio' => ''
+            'promedio' => '',
+            'cantidad' => ''
         ];
         $total = 0;
         $suma = 0;
+        $cantidad = 0;
         $calificaciones = $this->contenidoCalificaciones;
         foreach ($calificaciones as $calificacion) {
             switch ($calificacion->calificacion) {
@@ -184,7 +186,7 @@ class Contenido extends \yii\db\ActiveRecord
             $suma += $calificacion->calificacion;
             $total ++;
         }
-        
+        $cantidad = 0;
         if ($total == 0) {
             $promedio = 0;
             $datos['total'] = 1;
@@ -193,6 +195,7 @@ class Contenido extends \yii\db\ActiveRecord
             $datos['total'] = $total;
         }
 
+        $datos['cantidad'] = $cantidad;
         $datos['promedio'] = $promedio;
         return $datos;
     }
@@ -200,6 +203,44 @@ class Contenido extends \yii\db\ActiveRecord
     public function cargarPaquete()
     {
         return $_FILES;
+    }
+
+    public static function consultarContenidosPendientesUsuario()
+    {
+        $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();
+        $gruposInteres[] = 999999;
+        $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        $subQueryModulos = Modulo::find()
+            ->select('idModulo')
+            ->joinWith('curso')
+            ->where(['estadoModulo' => Modulo::ESTADO_ACTIVO])
+            ->andWhere(['estadoCurso' => Curso::ESTADO_ACTIVO]);
+
+        $capitulosObligatorios = Capitulo::find()
+            ->select('m_FORCO_Capitulo.idCapitulo')
+            ->joinWith('objGruposInteres')
+            ->where([
+                'estadoCapitulo' => Capitulo::ESTADO_ACTIVO,
+                'idModulo' => $subQueryModulos,
+                'm_GrupoInteres.idGrupoInteres' => $gruposInteres,
+            ]);
+
+        $contenidosLeidos = ContenidoLeidoUsuario::find()
+            ->joinWith('contenido')
+            ->where(['numeroDocumento' => $numeroDocumento])
+            ->andWhere(['estadoContenido' => Contenido::ESTADO_ACTIVO])
+            ->all();
+        
+        $idsTerminados = \yii\helpers\ArrayHelper::getColumn($contenidosLeidos, 'idContenido');
+
+        $contenidosPendientes = Contenido::find()
+            // ->select('idContenido')
+            ->where(['idCapitulo' => $capitulosObligatorios])
+            ->andWhere(['NOT IN', 'idContenido', $idsTerminados])
+            ->andWhere(['estadoContenido' => Contenido::ESTADO_ACTIVO]);
+            // ->count();
+
+        return $contenidosPendientes;
     }
 
 }

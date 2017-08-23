@@ -17,45 +17,80 @@ $this->params['breadcrumbs'][] = $this->title;
     <!-- <a href="<?= Url::to('leidos') ?>" class="btn btn-default">Terminados <span class="glyphicon glyphicon-ok-circle"></span></a> -->
 </div>
 <br>
+<?php $mes = strtoupper(date('n')); ?>
+<?php $meses = [
+    1 => 'ENERO', 2 => 'FEBRERO', 3 => 'MARZO', 4 => 'ABRIL', 5 => 'MAYO', 6 => 'JUNIO',
+    7 => 'JULIO', 8 => 'AGOSTO', 9 => 'SEPTIEMBRE', 10 => 'OCTUBRE', 11 => 'NOVIEMBRE', 12 => 'DICIEMBRE'
+] ?>
 
-<div class="row">
-    <div class="col-md-2">
-        <div class="tiles blue text-center m-b-10">
-            <h2 class="semi-bold text-white text-primary weather-widget-big-text no-margin p-t-35 p-b-10"><?php echo $indicadores['ranking'] ?></h2>
-            <div class="tiles-title text-white blend p-b-25">RANKING NACIONAL</div>
-            <div class="clearfix"></div>
-        </div>
+<div class="indicadores-container">
+    <div class="indicador">
+        <a href=<?= Url::toRoute('reportes/ranking-usuarios') ?> >
+            <div class="tiles blue text-center ">
+            <?php if ($indicadores['ranking'] != null): ?>
+                    <h2 class="semi-bold text-white text-primary weather-widget-big-text no-margin p-t-35 p-b-10"><?php echo $indicadores['ranking'] ?></h2>
+                    <div class="tiles-title text-white blend p-b-25"> DE <?php echo $indicadores['usuariosTotales']?> USUARIOS<br>RANKING NACIONAL </div>
+                    <div class="clearfix"></div>
+            <?php else: ?>
+                <h2 class="semi-bold text-white text-primary weather-widget-big-text no-margin p-t-35 p-b-10">N/A</h2>
+                <div class="tiles-title text-white blend p-b-25">ESTE MES NO HAS REALIZADO CURSOS</div>
+                <div class="clearfix"></div>    
+            <?php endif ?>
+            </div>
+        </a>
     </div>
-    <div class="col-md-2">
-        <div class="tiles red text-center m-b-10">
-            <h2 class="semi-bold text-white text-primary weather-widget-big-text no-margin p-t-35 p-b-10"><?php echo $indicadores['cursosPendientes'] ?></h2>
-            <div class="tiles-title text-white blend p-b-25">CURSOS PENDIENTES</div>
-            <div class="clearfix"></div>
-        </div>
+    <div class="indicador">
+        <a href=<?= Url::toRoute('contenido/pendientes-usuario') ?> >
+            <div class="tiles red text-center ">
+                <h2 class="semi-bold text-white text-primary weather-widget-big-text no-margin p-t-35 p-b-10"><?php echo $indicadores['cursosPendientes'] ?></h2>
+                <div class="tiles-title text-white blend p-b-25">CURSOS PENDIENTES ASIGNADOS</div>
+                <div class="clearfix"></div>
+            </div>
+        </a>
     </div>
-    <div class="col-md-2">
-        <div class="tiles green text-center m-b-10">
+    <div class="indicador">
+        <div class="tiles green text-center ">
             <h2 class="semi-bold text-white text-primary weather-widget-big-text no-margin p-t-35 p-b-10"><?php echo $indicadores['cursosHechos'] ?></h2>
-            <div class="tiles-title text-white blend p-b-25">CURSOS REALIZADOS</div>
+            <div class="tiles-title text-white blend p-b-25">CURSOS REALIZADOS <br>&nbsp;</div>
             <div class="clearfix"></div>
         </div>
     </div>
-    <div class="col-md-2">
-        <div class="tiles black text-center m-b-10">
-            <h2 class="semi-bold text-white text-primary weather-widget-big-text no-margin p-t-35 p-b-10"><?php echo $indicadores['puntosObtenidos'] ?></h2>
-            <div class="tiles-title text-white blend p-b-25">PUNTOS OBTENIDOS</div>
+    <div class="indicador">
+        <a href="<?= Url::toRoute('contenido/pendientes-recientes') ?>" >
+            <div class="tiles black text-center ">
+                <h2 class="semi-bold text-white text-primary weather-widget-big-text no-margin p-t-35 p-b-10"><?php echo $indicadores['cursosNuevos'] ?></h2>
+                <div class="tiles-title text-white blend p-b-25">CURSOS NUEVOS <br> <?php echo $meses[$mes] ?> </div>
+                <div class="clearfix"></div>
+            </div>
+        </a>
+    </div>
+    <div class="indicador">
+        <a href="<?= Url::toRoute('contenido/recomendados') ?>" >
+            <div class="tiles red text-center ">
+                <h2 class="semi-bold text-white text-primary weather-widget-big-text no-margin p-t-35 p-b-10"><?php echo $indicadores['cursosNuevosDisponibles'] ?></h2>
+                <div class="tiles-title text-white blend p-b-25">CURSOS NUEVOS DISPONIBLES</div>
+                <div class="clearfix"></div>
+            </div>
+        </a>
+    </div>
+    <div class="indicador">
+        <div class="tiles purple text-center ">
+            <h2 class="semi-bold text-white text-primary weather-widget-big-text no-margin p-t-35 p-b-10"><?php echo $indicadores['puntosObtenidos'] == null ?  0 : $indicadores['puntosObtenidos'] ?></h2>
+            <div class="tiles-title text-white blend p-b-25">PUNTOS OBTENIDOS <?php echo $meses[$mes] ?></div>
             <div class="clearfix"></div>
         </div>
     </div>
-    <div class="col-md-2">
-        <div class="tiles purple text-center m-b-10">
-            <h2 class="semi-bold text-white text-primary weather-widget-big-text no-margin p-t-35 p-b-10"><?php echo $indicadores['cursosNuevos'] ?></h2>
-            <div class="tiles-title text-white blend p-b-25">CURSOS NUEVOS</div>
-            <div class="clearfix"></div>
-        </div>
+    <div class="indicador">
+        <a href="<?= Url::toRoute('reportes/mis-puntos') ?>" >
+            <div class="tiles black text-center ">
+                <h2 class="semi-bold text-white text-primary weather-widget-big-text no-margin p-t-35 p-b-10"><?php echo $indicadores['puntosTotales'] ?></h2>
+                <div class="tiles-title text-white blend p-b-25">PUNTOS OBTENIDOS TOTALES</div>
+                <div class="clearfix"></div>
+            </div>
+        </a>
     </div>
 </div>
-
+    
 <div class="row">
     <div class="col-md-6">
         <?= ListView::widget([

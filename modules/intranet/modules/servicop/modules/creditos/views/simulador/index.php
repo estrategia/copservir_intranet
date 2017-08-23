@@ -1,8 +1,8 @@
 <?php 
 use kartik\select2\Select2;
 use kartik\date\DatePicker;
-
 ?>
+
 <form action="" id="form-creditos">
 <input type="hidden" name="numeroDocumento" value="<?= Yii::$app->user->identity->numeroDocumento ?>">
 <div class="row">
@@ -16,26 +16,19 @@ use kartik\date\DatePicker;
                     'options' => [
                         'placeholder' => 'Seleccione una línea de crédito',
                     ],
+                    'pluginEvents' => [
+                        "select2:select" => "function() { $('#valor-cuota').val(0).trigger('change'); }"
+                    ]
                 ]); ?>
             </div>
             <div class="col-md-12">
-                <label for="plazo">Plazo</label>
-                <input type="text" name="plazo" class="form-control">
+                <label for="plazo">Plazo (Quincenas)</label>
+                <input type="number" name="plazo" class="form-control">
             </div>
             <div class="col-md-12">
                 <label for="valor">Valor</label>
-                <input type="text" name="valor" class="form-control">
+                <input type="number" name="valor" class="form-control">
             </div>
-            <!-- <div class="col-md-12">
-                <label for="lineaCredito">Tipo Garantía</label>
-                <?php echo Select2::widget([
-                    'name' => 'garantia',
-                    'data' => [],
-                    'options' => [
-                        'placeholder' => 'Seleccione una garantía',
-                    ],
-                ]); ?>
-            </div> -->
         </div>
     </div>
 
@@ -46,7 +39,7 @@ use kartik\date\DatePicker;
                 <input type="text" name="interesMensual" class="form-control" readonly>
             </div>
             <div class="col-md-12">
-                <label for="plazo">Plazo Máximo</label>
+                <label for="plazo">Plazo Máximo (Quincenas)</label>
                 <input type="text" name="plazoMaximo" class="form-control" readonly>
             </div>
             <div class="col-md-12">
@@ -57,13 +50,23 @@ use kartik\date\DatePicker;
     </div>
 </div>
 <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <h4 class="text-center">Garantias</h4>
+    </div>
+</div>
+<div class="row">
     <div class="col-md-12" id="widget-garantias">
-
+        
     </div>
 </div>
 <div class="row">
     <div class="col-md-12" id="widget-garantias-combinadas">
 
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12" id="widget-codeudor" style="display: none;">
+        <?php echo $this->render('_selectCodeudor'); ?>
     </div>
 </div>
 <div class="row">
@@ -88,7 +91,7 @@ use kartik\date\DatePicker;
         <form action="" class="form-inline">
             <div class="form-group">
                 <label class="control-label" for="valor-cuota">Valor Cuota</label>
-                <input type="text" name="valor-cuota" readonly value="0" class="form-control">
+                <input type="text" id="valor-cuota" name="valor-cuota" readonly value="0" class="form-control">
             </div>
         </form>
     </div>
@@ -96,5 +99,5 @@ use kartik\date\DatePicker;
 <br>
 <div class="center-text">
     <button class="btn btn-default" data-role="simular-credito">Simular</button>
-    <button class="btn btn-primary" data-role="solicitar-credito">Solicitar Credito</button>
+    <button class="btn btn-primary" disabled data-role="solicitar-credito">Solicitar Credito</button>
 </div>

@@ -105,12 +105,12 @@ return [
         ],
         'organigrama' => 'http://sii.copservir.com/gestionhumana/api/view/id',
         'servicop' => [
-            'reportes' => 'http://localhost/siicop/servicop/restReportes/',
-            'lineasCredito' => 'http://localhost/siicop/servicop/restLineaCredito',
-            'garantias' => 'http://localhost/siicop/servicop/restGarantia',
-            'tiposCuotaExtra' => 'http://localhost/siicop/servicop/restTipoCuotaExtra',
-            'simulador' => 'http://localhost/siicop/servicop/restSimulador',
-            'solicitudes' => 'http://localhost/siicop/servicop/restSolicitudes',
+            'reportes' => 'http://localhost/siicop/servicop/creditos/restReportes/',
+            'lineasCredito' => 'http://localhost/siicop/servicop/creditos/restLineaCredito',
+            'garantias' => 'http://localhost/siicop/servicop/creditos/restGarantia',
+            'tiposCuotaExtra' => 'http://localhost/siicop/servicop/creditos/restTipoCuotaExtra',
+            'simulador' => 'http://localhost/siicop/servicop/creditos/restSimulador',
+            'solicitudes' => 'http://localhost/siicop/servicop/creditos/restSolicitudes',
         ]
     ],
     'usuario' => [
@@ -223,7 +223,18 @@ return [
             'lineaCredito' => 'servicop.lineaCredito'
         ],
         'rutas' => [
-            'documentos' => ''
-        ]
+            'documentos' => '/opt/lampp/htdocs/copservir_intranet/web/servicop/documentos'
+        ],
+        'estados' => [
+            'solicitudes' => [
+                '1' => 'En Proceso',
+                '2' => 'Solicitado',
+                '3' => 'Radicado',
+                '4' => 'Documentacion Pendiente',
+                '5' => 'No Aprobado',
+                '6' => 'Desembolso Aprobado'
+            ]
+        ],
+        'mensajeSolicitud' => 'Imprimir formato de solicitud y enviarlo'
     ]
 ];

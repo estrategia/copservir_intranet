@@ -49,6 +49,7 @@ class UsuariosPremiosSearch extends UsuariosPremios
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+
         ]);
 
         $this->load($params);
@@ -68,6 +69,7 @@ class UsuariosPremiosSearch extends UsuariosPremios
             $query->orderBy(['fechaCreacion' => SORT_DESC]);
         }
 
+
         // grid filtering conditions
         $query->andFilterWhere([
             'idUsuarioPremio' => $this->idUsuarioPremio,
@@ -80,6 +82,11 @@ class UsuariosPremiosSearch extends UsuariosPremios
             'fechaActualizacion' => $this->fechaActualizacion,
         ]);
 
+        if (isset($params['mis-redenciones'])) {
+            $query->andFilterWhere([
+                't_FORCO_UsuariosPremios.numeroDocumento' => Yii::$app->user->identity->numeroDocumento
+            ]);
+        }
 
         $query->joinWith(['objPremio' => function ($q) {
             $q->where('m_FORCO_Premio.nombrePremio LIKE "%' . $this->nombrePremio . '%"');

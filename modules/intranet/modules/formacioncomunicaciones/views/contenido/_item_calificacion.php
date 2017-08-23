@@ -30,6 +30,7 @@ use kartik\rating\StarRating;
             ]
         ]);
       ?>
+      <?= date('Y-m-d', strtotime($model->fecha)) ?>
       <hr>
     </div>
   </div>

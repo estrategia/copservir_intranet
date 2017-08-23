@@ -25,15 +25,15 @@ class ServicopModule extends \yii\base\Module
         // custom initialization code goes here
     }
 
-    public function consultarWebService($url, $parametros=[], $metodo='get')
-    {
-        $client = new Client();
-        $response = $client->createRequest()
-            ->setMethod($metodo)
-            ->setUrl($url)
-            ->setData($parametros)
-            ->send();
-        return Json::decode($response->content);
-        // return $response->content;
-    }   
+    // public function consultarWebService($url, $parametros=[], $metodo='get')
+    // {
+    //     $client = new Client();
+    //     $response = $client->createRequest()
+    //         ->setMethod($metodo)
+    //         ->setUrl($url)
+    //         ->setData($parametros)
+    //         ->send();
+    //     return Json::decode($response->content);
+    //     // return $response->content;
+    // }   
 }

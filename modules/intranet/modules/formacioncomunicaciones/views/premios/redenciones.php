@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
  <?= Html::a('Canceladas', ['redenciones', 'estado' => UsuariosPremios::ESTADO_CANCELADO], ['class' => 'btn btn-danger']) ?>
 
 
-<?= Html::a('Descargar', ['exportar-redenciones'], ['class' => 'btn btn-warning']) ?>
+<?= Html::a('Exportar Excel', ['exportar-redenciones'], ['class' => 'btn btn-warning']) ?>
     
 <h1><?php echo $this->title?></h1>
 <?php $premios = Premio::findAll(['estado' => 1]);?>
@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return Html::img(Yii::getAlias('@web').\Yii::$app->params['formacioncomunicaciones']['rutaImagenPremios'].$model->objPremio->rutaImagen ,
                         ['width' => '80px']);
                 },
-            ], 
+            ],
             [
             'attribute' => 'Premio',
             'value' => function($model){return $model->objPremio->nombrePremio;},
@@ -83,6 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
             
             
             ['attribute' => 'fechaCreacion', 'filter' => false],
+            ['attribute' => 'fechaEntrega', 'filter' => false],
             ['class' => 'yii\grid\CheckboxColumn'],
             // [
             //   'class' => 'yii\grid\ActionColumn',

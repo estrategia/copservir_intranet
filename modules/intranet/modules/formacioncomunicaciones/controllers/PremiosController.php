@@ -289,7 +289,7 @@ class PremiosController extends Controller
 		$searchModel->estado = $estado;
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 		$params = Yii::$app->request->queryParams;
-		
+		$params['estado'] = $estado;
 		$filtrosUsuario = \Yii::$app->session->set(\Yii::$app->params['formacioncomunicaciones']['session']['filtrosPremios'], $params);
 		
 		return $this->render('redenciones', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel, 'estado' => $estado]);
@@ -325,6 +325,17 @@ class PremiosController extends Controller
 						return  ['result' => 'error', 'response' => 'Error al cambiar de estado en el premio '.$premio];
 					}
 				}
+				// Devolver stock del producto
+				$modeloPremio = Premio::find()->where(['idPremio' => $premioUsuario->idPremio])->one();
+				if ($modeloPremio) {
+					$modeloPremio->cantidad += $premioUsuario->cantidad;
+					if (!$modeloPremio->save()) {
+						$transaction->rollBack();
+						return ['result' => 'error', 'response' => 'Error al cambiar de estado en el premio '.$premio];
+					}
+				}
+				// Eliminar fecha de entrega
+				$premioUsuario->fechaEntrega = null;
 			}else{
 				$premioUsuario->fechaEntrega = $fechaEntrega;
 			}
@@ -375,8 +386,13 @@ class PremiosController extends Controller
 		$objWorksheet->setCellValueByColumnAndRow($col++, 1, 'Fecha Creacion');
 	
 		$params = \Yii::$app->session->get(\Yii::$app->params['formacioncomunicaciones']['session']['filtrosPremios']);
-		$searchModel->estado = $params['estado'];
+		if (isset($params['estado'])) {
+			$searchModel->estado = $params['estado'];
+		}
 		$dataProvider = $searchModel->search($params);
+		$dataProvider->pagination = false;
+		// \yii\helpers\VarDumper::dump($dataProvider,10,true);
+		// exit();
 	
 		// var_dump($dataProvider);
 		

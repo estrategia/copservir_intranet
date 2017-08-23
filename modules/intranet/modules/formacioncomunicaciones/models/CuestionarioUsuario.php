@@ -60,6 +60,8 @@ class CuestionarioUsuario extends \yii\db\ActiveRecord
         ];
     }
 
+    
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -102,5 +104,18 @@ class CuestionarioUsuario extends \yii\db\ActiveRecord
                 't_FORCO_CuestionarioUsuario.porcentajeObtenido',
                 'm_FORCO_Cuestionario.porcentajeMinimo'
             ]);
+    }
+
+    public function beforeSave($insert) {
+        if (parent::beforeSave($insert)) {
+            if ($this->getIsNewRecord() && $insert) {
+                $this->fechaActualizacion = date('Y-m-d h:i:s', strtotime("{$this->fechaCreacion} + {$this->objCuestionario->tiempo} minutes"));
+            } else {
+                 $this->fechaActualizacion = date('Y-m-d h:i:s');
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 }

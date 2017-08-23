@@ -14,7 +14,7 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\CuestionarioUsua
 use yii\base\Model;
 use yii\db\Expression;
 use app\models\Usuario;
-use app\modules\intranet\models\CuestionarioUsuarioForm;
+use app\modules\intranet\modules\formacioncomunicaciones\models\CuestionarioUsuarioForm;
 use yii\helpers\ArrayHelper;
 use app\modules\intranet\modules\formacioncomunicaciones\models\Contenido;
 
@@ -78,14 +78,50 @@ class CuestionarioController extends Controller{
             ]
         ];
     }
+
+    public function actionActualizarRanking()
+    {
+
+    	$sql = "
+    		SELECT CU.numeroDocumento, CU.idCuestionario, MAX(CU.porcentajeObtenido) AS porcentajeObtenido, C.porcentajeMinimo
+            FROM intranet2.t_FORCO_CuestionarioUsuario AS CU
+            JOIN intranet2.m_FORCO_Cuestionario AS C
+            ON CU.idCuestionario = C.idCuestionario
+            GROUP BY numeroDocumento, idCuestionario
+		";
+    	$connection = Yii::$app->db;
+    	$command = $connection->createCommand($sql);
+    	$registros = $command->queryAll();
+
+    	// ['numeroDocumento', 'promedio', 'acumuladoNecesario', 'acumuladoPoderado'];
+    	$promedios = [];
+    	foreach ($registros as $key => $registro) {
+ 			if (!isset($promedios[$registro['numeroDocumento']])) {
+ 				$promedios[$registro['numeroDocumento']] = [
+	 				'promedio' => 0,
+	 				'acumuladoNecesario' => 0, 
+	 				'acumuladoPonderado' => 0
+ 				];
+ 			}
+ 			$promedios[$registro['numeroDocumento']]['acumuladoNecesario'] += $registro['porcentajeMinimo'];
+ 			$promedios[$registro['numeroDocumento']]['acumuladoPonderado'] += ($registro['porcentajeMinimo'] * $registro['porcentajeObtenido']);
+ 			$promedios[$registro['numeroDocumento']]['promedio'] = $promedios[$registro['numeroDocumento']]['acumuladoPonderado'] / $promedios[$registro['numeroDocumento']]['acumuladoNecesario'];
+            $promedios[$registro['numeroDocumento']]['numeroDocumento'] = $registro['numeroDocumento'];
+    	}
+
+        $connection->createCommand()->batchInsert('t_FORCO_PromedioPonderadoUsuario', ['promedio', 'acumuladoNecesario', 'acumuladoPonderado', 'numeroDocumento'], array_values($promedios))->execute();
+    	// \yii\helpers\VarDumper::dump(array_values($promedios), 10, true);
+
+    	// \yii\helpers\VarDumper::dump($registros, 10, true);
+    }
 	
 	public function actionIndex(){
 		$searchModel = new Cuestionario();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-                    'searchModel' => $searchModel,
-                    'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
 	}
 

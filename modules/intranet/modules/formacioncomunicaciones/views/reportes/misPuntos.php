@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     'filterModel' => $searchModelPuntos,
     'columns' => [
 
-        'idPunto',
+        // 'idPunto',
         [
                 'attribute' => '',
                 'label' => 'Programa / Curso',
@@ -40,14 +40,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 } elseif ($model->tipoParametro == 2) {
                     return 'Aniversario';
                 } elseif ($model->tipoParametro == 3) {
-                    return 'Contenido';
-                } elseif ($model->tipoParametro == 4) {
                     return 'Curso';
+                } elseif ($model->tipoParametro == 4) {
+                    return 'Programa';
                 } elseif ($model->tipoParametro == 999) {
                     return 'Misiones de Compra';
                 }
             },
-            'filter'=>array('1' => 'Cumpleaños', '2' => 'Aniversario', '3' => 'Contenido', '4' => 'Curso', '999' => 'Misiones de Compra'),
+            'filter'=>array('1' => 'Cumpleaños', '2' => 'Aniversario', '3' => 'Curso', '4' => 'Programa', '999' => 'Misiones de Compra'),
         ],
     ],
 ]); ?>

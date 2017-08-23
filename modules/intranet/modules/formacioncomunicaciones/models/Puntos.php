@@ -82,13 +82,21 @@ class Puntos extends \yii\db\ActiveRecord
         $puntos = self::find()->where(['numeroDocumento' => $numeroDocumento])->all();
         $totales = PuntosTotales::findOne($numeroDocumento);
         $totales = $totales != null ? $totales : 0;
+        $redimidos = UsuariosPremios::find()
+            ->where(['numeroDocumento' => $numeroDocumento])
+            ->sum('puntosRedimir');
+        $absolutos = Puntos::find()
+            ->where(['numeroDocumento' => $numeroDocumento])
+            ->sum('valorPuntos');
         $discriminados = [
             ParametrosPuntos::PARAMETRO_CUMPLEANIOS => 0,
             ParametrosPuntos::PARAMETRO_ANIVERSARIO => 0,
             ParametrosPuntos::CUESTIONARIO_CONTENIDO => 0,
             ParametrosPuntos::CUESTIONARIO_CURSO => 0,
             ParametrosPuntos::PARAMETRO_EXTERNO => 0,
-            'totales' => $totales
+            'totales' => $totales,
+            'redimidos' => $redimidos,
+            'absolutos' => $absolutos
         ];
         foreach ($puntos as $punto) {
             if ($punto->tipoParametro == ParametrosPuntos::PARAMETRO_CUMPLEANIOS) {

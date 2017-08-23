@@ -26,7 +26,7 @@ class RedencionController extends \yii\web\Controller
         $userCiudad = Yii::$app->user->identity->getCiudadCodigo();
         $userGrupos = (array) Yii::$app->user->identity->getGruposCodigos();
         $banner = PublicacionesCampanas::getCampana($userCiudad, $userGrupos, PublicacionesCampanas::POSICION_TIENDA_FORCO);
-        $categoria = CategoriasPremios::find()->where(['idCategoria' => $idCategoria])->one();
+        $categoria = CategoriasPremios::find()->where(['estado' => CategoriasPremios::ESTADO_ACTIVO, 'idCategoria' => $idCategoria])->one();
         return $this->render('subcategorias', ['categoria' => $categoria, 'banner' => $banner]);
     }
 
@@ -39,7 +39,9 @@ class RedencionController extends \yii\web\Controller
     public function actionMisRedenciones()
     {
         $searchModel = new UsuariosPremiosSearch();
-        $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
+        $params = \Yii::$app->request->queryParams;
+        $params['mis-redenciones'] = true;
+        $dataProvider = $searchModel->search($params);
 
         return $this->render('mis-redenciones', [
             'searchModel' => $searchModel,

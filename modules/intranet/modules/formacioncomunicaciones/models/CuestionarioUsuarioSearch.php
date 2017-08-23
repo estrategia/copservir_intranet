@@ -71,6 +71,9 @@ class CuestionarioUsuarioSearch extends CuestionarioUsuario
                 ->andWhere([
                     't_FORCO_CuestionarioUsuario.estadoCuestionario' => Cuestionario::CUESTIONARIO_CERRADO
                 ]);
+            $query->joinWith('objCuestionario.objCurso');
+            $query->joinWith('objCuestionario.objContenido');
+            $query->andFilterWhere(['numeroDocumento' => \Yii::$app->user->identity->numeroDocumento]);
         }
 
         $this->load($params);
@@ -93,6 +96,16 @@ class CuestionarioUsuarioSearch extends CuestionarioUsuario
             'fechaCreacion' => $this->fechaCreacion,
             'fechaActualizacion' => $this->fechaActualizacion,
         ]);
+        if ($this->tipoCuestionario == 1) {
+            $query->andFilterWhere(['<>', 'm_FORCO_Cuestionario.idContenido', null]);
+        }
+        if ($this->tipoCuestionario == 0) {
+            $query->andFilterWhere(['=', 'm_FORCO_Cuestionario.idContenido', null]);
+        }
+
+        $query->andFilterWhere(['like', 'm_FORCO_Cuestionario.tituloCuestionario', $this->nombreCuestionario]);
+        $query->andFilterWhere(['like', 'm_FORCO_Curso.nombreCurso', $this->tituloCurso]);
+        $query->andFilterWhere(['like', 'm_FORCO_Contenido.tituloContenido', $this->tituloCurso]);
 
         return $dataProvider;
     }

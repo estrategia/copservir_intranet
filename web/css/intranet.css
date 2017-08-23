@@ -413,6 +413,18 @@ a.circle-avatar, div.circle-avatar{
   display: flex;
 }
 
+.row-equal-height {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+  flex-wrap: wrap;
+}
+.row-equal-height > [class*='col-'] {
+  display: flex;
+  flex-direction: column;
+}
+
 .iframe-contenido-curso {
     width: 100%;
     border: 0;
@@ -511,6 +523,9 @@ a.circle-avatar, div.circle-avatar{
     margin: 0;
     font-weight: bold;
     border-bottom: 2px solid #1C4F6E;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .nombre-sub-categoria {
     color: #1C4F6E;
@@ -518,6 +533,9 @@ a.circle-avatar, div.circle-avatar{
     text-align: center;
     margin: 0;
     font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .categoria-item {
     border:2px solid #1C4F6E;
@@ -667,9 +685,36 @@ a.circle-avatar, div.circle-avatar{
 #widget-cuotas-extra {
     display: flex;
     justify-content: center;
+}
 
+#widget-garantias {
+    display: flex;
+    justify-content: center;
+}
+
+#widget-garantias-combinadas {
+    display: flex;
+    justify-content: center;
 }
 
 .block {
     display: block !important;
+}
+
+.indicadores-container {
+    display: flex;
+    justify-content: space-between;
+    /*align-items: center;*/
+    /*margin-bottom: 40px;*/
+    /*height: 100px;*/
+}
+
+.indicador {
+    width: 14%;
+    max-width: 160px !important;
+    /*flex-grow: 1;*/
+    /*flex: 1;*/
+    /*height: 100% !important;*/
+    /*height: 80px;*/
+    /*min-height: 100%;*/
 }

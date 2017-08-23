@@ -80,7 +80,7 @@ class Modulo extends \yii\db\ActiveRecord
 
     public function getCapitulos()
     {
-        return $this->hasMany(Capitulo::className(), ['idModulo' => 'idModulo']);
+        return $this->hasMany(Capitulo::className(), ['idModulo' => 'idModulo'])->orderBy(['orden' => SORT_ASC]);
     }
 
     public function getCapitulosActivos()
@@ -91,7 +91,8 @@ class Modulo extends \yii\db\ActiveRecord
     public function getCapitulosObligatoriosUsuario()
     {   
         // $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-        $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();   
+        $gruposInteres = (array) Yii::$app->user->identity->getGruposCodigos();
+        $gruposInteres[] = 999999;
         $modulos = Capitulo::find()
             ->joinWith('objGruposInteres')
             ->where([
