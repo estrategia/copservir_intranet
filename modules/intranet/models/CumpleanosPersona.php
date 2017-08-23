@@ -61,10 +61,11 @@ class CumpleanosPersona extends \yii\db\ActiveRecord {
      */
     public static function getCumpleanosMes()
     {
-        $query = self::find()->where('(  month(t_CumpleanosPersona.fecha) =:mes )')
-        ->addParams([':mes' => date("m")])
+        $fecha = new \DateTime();
+        $query = self::find()->where('year(t_CumpleanosPersona.fecha)=:anho  AND  month(t_CumpleanosPersona.fecha)=:mes')
+        ->addParams([':anho' => $fecha->format("Y"), ':mes' => $fecha->format("n")])
         ->all();
-
+        
         return $query;
     }
 
@@ -75,7 +76,7 @@ class CumpleanosPersona extends \yii\db\ActiveRecord {
     public static function getCumpleanosIndex() {
         $fecha = new \DateTime;
         $query =  self::find()->joinWith(['objUsuario'])
-                        ->where("m_Usuario.imagenPerfil IS NOT NULL AND t_CumpleanosPersona.fecha=:fecha")
+                        ->where("t_CumpleanosPersona.fecha=:fecha")
                         ->addParams([':fecha' => $fecha->format('Y-m-d')])
                         ->orderBy('t_CumpleanosPersona.fecha asc');
 
@@ -96,7 +97,7 @@ class CumpleanosPersona extends \yii\db\ActiveRecord {
         $fecha2->modify('+5 days');
 
         $query = self::find()->joinWith(['objUsuario'])
-                        ->where("m_Usuario.imagenPerfil IS NOT NULL AND  t_CumpleanosPersona.fecha>=:fecha")
+                        ->where("t_CumpleanosPersona.fecha>=:fecha")
                         ->addParams([':fecha' => $fecha->format('Y-m-d')])
                         ->orderBy('t_CumpleanosPersona.fecha asc');
 

@@ -13,6 +13,9 @@ $config = [
     },
     'modules' => $modules,
     'components' => [
+        /*'helper' => [
+            'class' => 'app\components\Helper',
+        ],*/
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         //'defaultRoles' => ['usuario'],

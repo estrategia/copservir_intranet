@@ -5,6 +5,7 @@ namespace app\commands;
 use yii\console\Controller;
 use app\modules\intranet\models\CumpleanosLaboral;
 use app\modules\intranet\models\CumpleanosPersona;
+use yii\helpers\VarDumper;
 
 /**
  * Comando con tareas programadas para la intranet
@@ -19,10 +20,19 @@ class SiiController extends Controller {
         \Yii::info('sincronizar cumpleanos -- inicio');
         $cumpleanos = CumpleanosPersona::getCumpleanosMes();
         $cedulasOmitir = $this->generarCedulas($cumpleanos);
+        
+        \Yii::info("Cedulas omitir: " . $cedulasOmitir);
+        \Yii::info("Cantidad cedular omitir: " . count($cedulasOmitir));
 
         $response = CumpleanosPersona::callWSGetCumpleanos($cedulasOmitir);
+        
+        \Yii::info('Respuesta SIICOP: \n');
+        \Yii::info(VarDumper::dumpAsString($response));
 
         if (!empty($response)) {
+            \Yii::info('Guardar cumpleanos -- inicio');
+            \Yii::info('Cantidad cumpleanos consultados: ' . count($response));
+            $count = 0;
             foreach ($response as $value) {
                 try {
                     $model = new CumpleanosPersona;
@@ -44,10 +54,14 @@ class SiiController extends Controller {
                     if (!$model->save()) {
                         throw new \Exception("Error al sincronizar cumpleanos: " . \yii\helpers\Json::encode($model->getErrors()), 100);
                     }
+                    
+                    $count++;
                 } catch (\Exception $e) {
                     \Yii::error($e->getMessage());
                 }
             }
+            \Yii::info('Cantidad cumpleanos guardados: ' . $count);
+            \Yii::info('Guardar cumpleanos -- fin');
         }
 
         \Yii::info('sincronizar cumpleanos -- fin');
@@ -61,9 +75,19 @@ class SiiController extends Controller {
         \Yii::info('sincronizar aniversarios -- inicio');
         $aniversarios = CumpleanosLaboral::getAniversariosMes();
         $cedulas = $this->generarCedulas($aniversarios);
+        
+        \Yii::info("Cedulas omitir: " . $cedulas);
+        \Yii::info("Cantidad cedular omitir: " . count($cedulas));
+        
         $response = CumpleanosLaboral::callWSGetAniversarios($cedulas);
+        
+        \Yii::info('Respuesta SIICOP: \n');
+        \Yii::info(VarDumper::dumpAsString($response));
 
         if (!empty($response)) {
+            \Yii::info('Guardar aniversarios -- inicio');
+            \Yii::info('Cantidad aniversarios: ' . count($response));
+            $count = 0;
             foreach ($response as $value) {
                 try {
                     $model = new CumpleanosLaboral;
@@ -77,11 +101,14 @@ class SiiController extends Controller {
                     if (!$model->save()) {
                         throw new \Exception("Error al sincronizar aniversarios: " . \yii\helpers\Json::encode($model->getErrors()), 100);
                     }
-
+                    
+                    $count++;
                 } catch (Exception $e) {
                     \Yii::error($e->getMessage());
                 }
             }
+            \Yii::info('Cantidad aniversarios guardados: ' . $count);
+            \Yii::info('Guardar aniversarios -- fin');
         }
 
         \Yii::info('sincronizar aniversarios -- fin');
