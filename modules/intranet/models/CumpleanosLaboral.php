@@ -59,11 +59,11 @@ class CumpleanosLaboral extends \yii\db\ActiveRecord {
      */
     public static function getAniversariosMes()
     {
-        $query = self::find()->where('(  month(t_CumpleanosLaboral.fecha) =:mes )')
-        ->addParams([':mes' => date("m")])
-        ->all()
-        ;
-
+        $fecha = new \DateTime();
+        $query = self::find()->where('year(t_CumpleanosLaboral.fecha)=:anho AND month(t_CumpleanosLaboral.fecha)=:mes')
+        ->addParams([':anho' => $fecha->format("Y"), ':mes' => $fecha->format("n")])
+        ->all();
+        
         return $query;
     }
 
@@ -75,7 +75,7 @@ class CumpleanosLaboral extends \yii\db\ActiveRecord {
         $fecha = new \DateTime;
 
         $query = self::find()->joinWith(['objUsuario'])
-                ->where("m_Usuario.imagenPerfil IS NOT NULL AND  t_CumpleanosLaboral.fecha=:fecha")
+                ->where("t_CumpleanosLaboral.fecha=:fecha")
                 ->addParams([':fecha' => $fecha->format('Y-m-d')])
                 ->orderBy('t_CumpleanosLaboral.fecha asc');
 

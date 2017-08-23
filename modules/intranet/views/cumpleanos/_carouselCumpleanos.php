@@ -1,10 +1,13 @@
 <?php
 use yii\helpers\Html;
+
+//shuffle($models);
 ?>
 <section id="carousel-cumpleanos">
   <div class="internal col-md-12">
     <div id="<?= 'owl-'.$flag ?>" class="owl-carousel">
       <?php foreach ($models as $model): ?>
+		<?php if ($model->objUsuario != null): ?>
         <div class="item orange center-block " style="text-align: center;">
           <div class="circle-avatar" style="background-image:url(<?= Yii::getAlias('@web').'/img/fotosperfil/'. $model->objUsuario->getImagenPerfil() ?>)"></div>
           <!--  <img class='img-circle img-responsive' src="<?= Yii::getAlias('@web').'/img/fotosperfil/'. $model->objUsuario->getImagenPerfil() ?>" alt="<?=$model->nombre?>" style="width: 30%; margin-left: auto; margin-right: auto;"> -->
@@ -25,7 +28,7 @@ use yii\helpers\Html;
             }
             ?>
         </div>
-
+		<?php endif; ?>
       <?php endforeach; ?>
     </div>
     <!-- <div class="owl-nav" style="text-align:center;padding: 20px;"> -->

@@ -61,10 +61,11 @@ class CumpleanosPersona extends \yii\db\ActiveRecord {
      */
     public static function getCumpleanosMes()
     {
-        $query = self::find()->where('(  month(t_CumpleanosPersona.fecha) =:mes )')
-        ->addParams([':mes' => date("m")])
+        $fecha = new \DateTime();
+        $query = self::find()->where('year(t_CumpleanosPersona.fecha)=:anho  AND  month(t_CumpleanosPersona.fecha)=:mes')
+        ->addParams([':anho' => $fecha->format("Y"), ':mes' => $fecha->format("n")])
         ->all();
-
+        
         return $query;
     }
 
