@@ -23,7 +23,7 @@ use app\modules\intranet\modules\formacioncomunicaciones\models\Premio;
 			<label for="cantidad_<?php echo $model->idPremio?>" class="nowrap">Cantidad
 			    <input class='input-sm input-cantidad' name='cantidad_<?php echo $model->idPremio?>'<?php echo ($model->tipoRedimir != Premio::TIPO_TIENDA)?'readonly':''?> ondrop='return false' onpaste='return false' id='cantidad_<?php echo $model->idPremio?>' value='1'/>
 			</label>
-			<?php if(!$restriccion):?>
+			<?php if(!$restriccion && $model->cantidad > 0):?>
 				<?php if($model->tipoRedimir == Premio::TIPO_TIENDA):?>
 		        	<a href='#' data-role='redimir-premio' data-premio='<?php echo $model->idPremio?>'>
 		        		<?= Html::img(Yii::getAlias('@web').'/img/formacioncomunicaciones/assets/redimir.png', ['class' => 'redimir']) ?>

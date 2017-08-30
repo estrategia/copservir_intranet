@@ -2598,6 +2598,69 @@ $(document).ready(function () {
 })
 
 // Organigrama 
+ // var organigrama_config = {
+ //     chart: {
+ //         container: "#organigrama",
+ //         connectors: {
+ //           type: "step"
+ //         }
+ //     }
+ //   };
+ 
+ // $(document).ready(function () {
+ //   $.ajax({
+ //     type: 'GET',
+ //     async: true,
+ //     url: requestUrl + '/intranet/organigrama/consultar',
+ //     // data: {idCategoria, numeroDocumento},
+ //     dataType: 'json',
+ //     beforeSend: function() {
+ //       $('body').showLoading();
+ //     },
+ //     complete: function(data) {
+ //       $('body').hideLoading();
+ //     },
+ //     success: function(data) {
+ //         if (data.result == "ok") {
+ //           organigrama_config.nodeStructure = data.response;
+ //           var organigrama = new Treant(organigrama_config, null, $);
+ //         }
+ //     },
+ //     error: function(jqXHR, textStatus, errorThrown) {
+ //       $('body').hideLoading();
+ //     }
+ //   });
+ // })
+ 
+ // $(document).on('click', '.node', function () {
+ //   var numeroDocumento = $(this).attr('id');
+ //   var expandido = $(this).attr('data-expandido');
+ //   if(expandido != 1) {
+ //     $.ajax({
+ //       type: 'GET',
+ //       async: true,
+ //       url: requestUrl + '/intranet/organigrama/colaboradores?numeroDocumento=' + numeroDocumento,
+ //       // data: {idCategoria, numeroDocumento},
+ //       dataType: 'json',
+ //       beforeSend: function() {
+ //         $('body').showLoading();
+ //       },
+ //       complete: function(data) {
+ //         $('body').hideLoading();
+ //       },
+ //       success: function(data) {
+ //           if (data.result == "ok") {
+ //             organigrama_config.nodeStructure = data.response;
+ //             organigrama = new Treant(organigrama_config, null, $);
+ //           }
+ //             $('#'+numeroDocumento).attr('data-expandido', '1');
+ //       },
+ //       error: function(jqXHR, textStatus, errorThrown) {
+ //         $('body').hideLoading();
+ //       }
+ //     });
+ //   }
+ // });
 
 // Simulador Servicop
 
@@ -2620,6 +2683,7 @@ $('select[name="lineaCredito"]').on("change", function(e) {
       $('#widget-cuotas-extra').html(data.response.tiposCuotaExtra);
       $('#widget-garantias').html(data.response.garantiasNoCombinadas);
       $('#widget-garantias-combinadas').html(data.response.garantiasCombinadas);
+      consultarCupoMaximo(idCredito);
     },
     error: function(jqXHR, textStatus, errorThrown) {
       $('body').hideLoading();
@@ -2627,6 +2691,31 @@ $('select[name="lineaCredito"]').on("change", function(e) {
   });
   return false;
 });
+
+function consultarCupoMaximo(idCredito) {
+  $.ajax({
+    type: 'GET',
+    async: true,
+    data: {idCredito: idCredito},
+    url: requestUrl + '/intranet/servicop/creditos/simulador/consultar-cupo-maximo',
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading();
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      $('input[name="cupoMaximo"]').val(data.response);
+      $('#widget-garantias-combinadas').html(data.response.garantiasCombinadas);
+
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+}
 
 $(document).on('keyup', 'input[name="plazo"]', function () {
   var plazoMaximo = parseInt($('input[name="plazoMaximo"]').val());
@@ -2810,7 +2899,7 @@ $(document).on('click', 'button[data-role="solicitar-credito"]', function () {
   } 
 })
 
-// Carga de documentos
+// Carga de documentos Creditos
 var forms = $('form.cargar-documento');
 if (forms != null) {
   for (var i = 0; i < forms.length; i++) {
@@ -2887,3 +2976,110 @@ $(document).ready(function () {
       return false;
    });
 });
+
+
+// Contribuciones Servicop
+$('select[name="contribucion"]').on("change", function(e) {
+  var idContribucion = $(this).val();
+  $.ajax({
+    type: 'GET',
+    async: true,
+    data: {idContribucion: idContribucion},
+    url: requestUrl + '/intranet/servicop/contribuciones/solicitudes/render-widget-parentesco',
+    dataType: 'json',
+    beforeSend: function() {
+      $('body').showLoading();
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      $('#widget-parentesco-contribucion').html(data.response);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
+
+$(document).on('change', 'select[name="id-parentesco"]', function () {
+  var idParentesco = $(this).val();
+  $.ajax({
+      type: 'GET',
+      async: true,
+      data: {idParentesco: idParentesco},
+      url: requestUrl + '/intranet/servicop/contribuciones/solicitudes/render-widget-beneficiario',
+      dataType: 'json',
+      beforeSend: function() {
+        $('body').showLoading();
+      },
+      complete: function(data) {
+        $('body').hideLoading();
+      },
+      success: function(data) {
+        $('#widget-beneficiario-contribucion').html(data.response);
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        $('body').hideLoading();
+      }
+    });
+});
+
+$(document).on('click', 'button[data-role="solicitar-contribucion"]', function () {
+  var form = $('#form-solicitar-contribucion').serialize();
+  $.ajax({
+      type: 'POST',
+      async: true,
+      data: {datos: form},
+      url: requestUrl + '/intranet/servicop/contribuciones/solicitudes/solicitar',
+      dataType: 'json',
+      beforeSend: function() {
+        $('body').showLoading();
+      },
+      complete: function(data) {
+        $('body').hideLoading();
+      },
+      success: function(data) {
+        // $('#widget-beneficiario-contribucion').html(data.response);
+        console.log(data);
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        $('body').hideLoading();
+      }
+    });
+  return false;
+});
+
+var forms = $('form.cargar-documento-contribuciones');
+if (forms != null) {
+  for (var i = 0; i < forms.length; i++) {
+    var form = forms[i];
+    form.addEventListener('submit', function(ev) {
+      var oData = new FormData(this);
+      $.ajax({
+        type: 'POST',
+        async: true,
+        data: oData,
+        url: requestUrl + '/intranet/servicop/contribuciones/solicitudes/cargar-documento',
+        dataType: 'json',
+        contentType: false,
+        processData: false,
+        beforeSend: function() {
+          $('body').showLoading();
+        },
+        complete: function(data) {
+          $('body').hideLoading();
+        },
+        success: function(data) {
+          console.log(data);
+          // ToDo: Actualizar boton de descargar documento
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          $('body').hideLoading();
+        }
+      });
+      ev.preventDefault();
+    }, false)
+  };
+};

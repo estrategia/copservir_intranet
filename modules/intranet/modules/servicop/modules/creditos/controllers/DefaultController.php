@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\intranet\modules\sascop\controllers;
+namespace app\modules\intranet\modules\sascop\creditos\controllers;
 
 use yii\web\Controller;
 

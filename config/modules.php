@@ -11,6 +11,9 @@ return [
             'modules' => [
               'creditos' => [
                 'class' => 'app\modules\intranet\modules\servicop\modules\creditos\CreditosModule'
+              ],
+              'contribuciones' => [
+                'class' => 'app\modules\intranet\modules\servicop\modules\contribuciones\ContribucionesModule'
               ]
             ]
         ],

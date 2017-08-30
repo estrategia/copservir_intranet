@@ -102,11 +102,11 @@ class Premio extends \yii\db\ActiveRecord
     	$fecha = new \DateTime;
     
     	return self::find()->where(
-    			" fechaInicioVigencia<=:fecha AND fechaFinVigencia>=:fecha AND idCategoria=:categoria AND cantidad>:cantidad AND estado=:estado")
+    			" fechaInicioVigencia<=:fecha AND fechaFinVigencia>=:fecha AND idCategoria=:categoria AND estado=:estado")
     			->addParams([':estado' => self::ACTIVO,
     					':fecha' => $fecha->format('Y-m-d H:i:s'),
     					':categoria' => $idCategoria,
-    					':cantidad' => 0,
+    					// ':cantidad' => 0,
     					': estado' => self::ACTIVO,
     				])->orderBy('fechaInicioVigencia');
     }

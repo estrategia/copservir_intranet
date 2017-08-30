@@ -83,5 +83,11 @@ class ReportesController extends Controller
             ->setData($parametros)
             ->send();
         return Json::decode($response->content);
-    }   
+    }
+
+    public function actionPrueba()
+    {
+        $reportes = new Reportes();
+        $reportes->consultarWsSiesa(94429997, '', 14, 'PCC');
+    }
 }

@@ -10,7 +10,7 @@
     </div>
     <div class="col-md-12">
         <label for="valor">Cupo Máximo</label>
-        <input type="text" name="cupoMaximo" class="form-control" value="10000000" readonly>
+        <input type="text" name="cupoMaximo" class="form-control" value="0" readonly>
     </div>
 
 <?php endif ?>

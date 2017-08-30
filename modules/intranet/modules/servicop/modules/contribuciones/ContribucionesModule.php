@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\intranet\modules\servicop\modules\creditos;
+namespace app\modules\intranet\modules\servicop\modules\contribuciones;
 
 use yii\httpclient\Client;
 use yii\helpers\Json;
@@ -8,10 +8,10 @@ use yii\helpers\Json;
 /**
 * 
 */
-class CreditosModule extends \yii\base\Module
+class ContribucionesModule extends \yii\base\Module
 {
 
-    public $controllerNamespace = 'app\modules\intranet\modules\servicop\modules\creditos\controllers';
+    public $controllerNamespace = 'app\modules\intranet\modules\servicop\modules\contribuciones\controllers';
     
     public function init()
     {

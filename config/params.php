@@ -105,12 +105,15 @@ return [
         ],
         'organigrama' => 'http://sii.copservir.com/gestionhumana/api/view/id',
         'servicop' => [
+            'parentescos' => 'http://sii.copservir.com/gestionusuario/api/viewparentesco',
             'reportes' => 'http://localhost/siicop/servicop/creditos/restReportes/',
             'lineasCredito' => 'http://localhost/siicop/servicop/creditos/restLineaCredito',
             'garantias' => 'http://localhost/siicop/servicop/creditos/restGarantia',
             'tiposCuotaExtra' => 'http://localhost/siicop/servicop/creditos/restTipoCuotaExtra',
             'simulador' => 'http://localhost/siicop/servicop/creditos/restSimulador',
             'solicitudes' => 'http://localhost/siicop/servicop/creditos/restSolicitudes',
+            'contribuciones' => 'http://localhost/siicop/servicop/contribuciones/restContribucion',
+            'solicitudesContribuciones' => 'http://localhost/siicop/servicop/contribuciones/restSolicitudes',
         ]
     ],
     'usuario' => [
@@ -235,6 +238,11 @@ return [
                 '6' => 'Desembolso Aprobado'
             ]
         ],
-        'mensajeSolicitud' => 'Imprimir formato de solicitud y enviarlo'
+        'mensajeSolicitud' => '...',
+        'contribuciones' => [
+            'rutas' => [
+                'documentos' => '/opt/lampp/htdocs/copservir_intranet/web/servicop/contribuciones/documentos'
+            ]
+        ]
     ]
 ];
