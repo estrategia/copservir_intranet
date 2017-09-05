@@ -218,7 +218,7 @@ class PremiosController extends Controller
 		}else{
 			
 			if($premio->cantidad < 1){
-				return  ['result' => 'error', 'response' => 'Premio ya no está disponible'];
+				return  ['result' => 'error', 'response' => 'Premio ya no est&aacute; disponible'];
 			}
 			
 			if($cantidad > 1){
