@@ -78,6 +78,10 @@ class IntranetAsset extends AssetBundle {
         'libs/treant-js/vendor/raphael.js',
         'libs/treant-js/Treant.js',
 
+        // Formatter
+        'libs/jquery-number/jquery.number.js',
+
+
         // 'libs/jquery-datatable/js/jquery.dataTables.min.js',
         // //propios
         'libs/fullcalendar/fullcalendar.js',

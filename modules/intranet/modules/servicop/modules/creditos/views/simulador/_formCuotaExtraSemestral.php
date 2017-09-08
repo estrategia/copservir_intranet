@@ -21,7 +21,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label for="">Valor</label>
-                <input class="form-control" type="text" name="<?= 'cuota-' . $tipoCuotaExtra['idTipoCuotaExtra'] . '-valor-' . $anio . '-1' ?>" value="0">
+                <input class="form-control formatear-numero" type="text" name="<?= 'cuota-' . $tipoCuotaExtra['idTipoCuotaExtra'] . '-valor-' . $anio . '-1' ?>" value="0">
             </div>
         </div>
     </div>
@@ -42,7 +42,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label for="">Valor</label>
-                <input class="form-control" type="text" name="<?= 'cuota-' . $tipoCuotaExtra['idTipoCuotaExtra'] . '-valor-' . $anio . '-2' ?>" value="0">
+                <input class="form-control formatear-numero" type="text" name="<?= 'cuota-' . $tipoCuotaExtra['idTipoCuotaExtra'] . '-valor-' . $anio . '-2' ?>" value="0">
             </div>
         </div>
     </div>

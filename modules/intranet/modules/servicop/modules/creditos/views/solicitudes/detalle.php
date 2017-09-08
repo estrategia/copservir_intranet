@@ -1,4 +1,10 @@
-</table>
+<?php 
+
+$this->title = $solicitud['nombreCredito'];
+$this->params['breadcrumbs'][] = ['label' => 'Solicitudes', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
+
+?>
 <h3 class="text-center">Línea de crédito</h3>
 <h4 class="text-center">
     <?= $solicitud['nombreCredito'] ?>
@@ -32,11 +38,11 @@
                             <td><?= $solicitud['plazoMaximo'] ?></td>
                         </tr>
                         <tr>
-                           <th>Plazo máximo</th> 
-                           <td><?= $solicitud['valorCuota'] ?></td>
+                           <th>Valor Cuota Quincenal</th> 
+                           <td><?= Yii::$app->formatter->asCurrency($solicitud['valorCuota'], 'COP') ?></td>
                         </tr>
                         <tr>
-                            <th>Interés</th>
+                            <th>Interés Mensual</th>
                             <td><?= $solicitud['porcentajeIntereses'] ?> %</td>
                         </tr>
                         <tr>
@@ -58,6 +64,36 @@
                         <?php echo Yii::$app->params['servicop']['mensajeSolicitud'] ?>
                     </h4>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Cuotas Extra</h4>
+                <div class="list-group">
+                    <?php foreach ($relaciones['tipoCuotasExtra'] as $key => $tipoCuotaExtra): ?>
+                        <div class="list-group-item">
+                        <?php echo $tipoCuotaExtra['nombreCuotaExtra']; ?>
+                            <ul>
+                                <?php foreach ($relaciones['cuotasExtra'][$tipoCuotaExtra['idTipoCuotaExtra']] as $key => $cuotaExtra): ?>
+                                    <li>
+                                        <?php echo $cuotaExtra['mes']; ?>/<?php echo $cuotaExtra['anio']; ?> - 
+                                        <?= Yii::$app->formatter->asCurrency($cuotaExtra['valor'], 'COP') ?>
+                                    </li>                                 
+                                <?php endforeach ?>
+                            </ul>
+                        </div>
+                    <?php endforeach ?>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h4>Garantías</h4>
+                <ul>
+                    <?php foreach ($relaciones['garantias'] as $key => $tipoCuotaExtra): ?>
+                        <li>
+                            <?php echo $tipoCuotaExtra['nombreGarantia']; ?>
+                        </li>
+                    <?php endforeach ?>
+                </ul>
             </div>
         </div>
     </div>
@@ -86,12 +122,14 @@
             <?php endforeach ?>
         </div>
     </div>
-    <div role="tabpanel" class="tab-pane" id="settings">
+    <div role="tabpanel" class="tab-pane" id="settings" data-role="widgetDocumentosSolicitudCredito">
         <div class="row">
             <h4>Documentos <small>(Solo archivos Pdf)</small></h4>
         </div>
         <?php foreach ($relaciones['documentos'] as $key => $documento): ?>
             <div class="row" id="<?php echo $documento['idSolicitudDocumento'] ?>">
+                <?php if (in_array($solicitud['estado'], [1, 4])): ?>
+                    
                 <div class="col-md-6 col-md-offset-2">
                     
                 <form id="<?php echo $documento['idSolicitudDocumento'] ?>" class="form-inline cargar-documento" enctype="multipart/form-data" method="post" name="documentos">
@@ -105,6 +143,7 @@
                     </div>
                 </form>
                 </div>
+                <?php endif ?>
                 <div class="col-md-2">
                     <?php if ($documento['rutaDocumento'] != ''): ?>
                         <label for="">&nbsp;</label>
@@ -114,4 +153,7 @@
             </div>
         <?php endforeach ?>
     </div>
+    <?php if (in_array($solicitud['estado'], [1, 4])): ?>
+        <button data-role="radicar-credito" data-id-solicitud="<?php echo $solicitud['idSolicitud'] ?>" class="btn btn-primary">Confirmar Solicitud</button>
+    <?php endif ?>
   </div>

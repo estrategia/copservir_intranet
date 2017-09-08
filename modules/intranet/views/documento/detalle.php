@@ -43,6 +43,11 @@ if($flag){
         'value' => Html::a('<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>', Yii::getAlias('@web') . Yii::$app->params['documentos']['rutaArchivo'] .$model->rutaDocumento, ['target'=>'_blank']),
       ],
       [
+        'label' => 'Visualizar Bizagi',
+        'format'=>'raw',
+        'value' => Html::a('<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>', Yii::getAlias('@web') . Yii::$app->params['documentos']['rutaArchivo'] .$model->rutaDocumento, ['target'=>'_blank']),
+      ],
+      [
         'attribute' => 'estado',
         'value' =>  $model->estado == Documento::ESTADO_ACTIVO ? 'Activo' : 'Inactivo',
       ],

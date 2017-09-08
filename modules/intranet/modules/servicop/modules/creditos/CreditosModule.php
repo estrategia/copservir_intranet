@@ -20,14 +20,24 @@ class CreditosModule extends \yii\base\Module
         // custom initialization code goes here
     }
 
-    public function consultarWebService($url, $parametros=[], $metodo='get')
+    public function consultarWebService($url, $parametros=[], $metodo='get', $headers=[])
     {
         $client = new Client();
-        $response = $client->createRequest()
-            ->setMethod($metodo)
-            ->setUrl($url)
-            ->setData($parametros)
-            ->send();
+        $response = [];
+        if (!empty($headers)) {
+            $response = $client->createRequest()
+                ->setMethod($metodo)
+                ->setUrl($url)
+                ->setData($parametros)
+                ->setHeaders($headers)
+                ->send();
+        } else {
+            $response = $client->createRequest()
+                ->setMethod($metodo)
+                ->setUrl($url)
+                ->setData($parametros)
+                ->send();
+        }
         return Json::decode($response->content);
         // return $response->content;
     }

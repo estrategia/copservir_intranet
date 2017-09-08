@@ -14,6 +14,37 @@ use yii\helpers\Json;
  */
 class SolicitudesController extends Controller
 {
+
+    public function actionRenderWidgetDocumentos($idSolicitud)
+    {
+        $params = Yii::$app->params;
+        $module = Yii::$app->controller->module;
+        $response = [];
+        $respuestaWS = $module->consultarWebService($params['webServices']['servicop']['solicitudes'] . '/detalle', ['idSolicitud' => $idSolicitud], 'get')['response'];
+        $solicitud = $respuestaWS['solicitud'];
+        $relaciones = $respuestaWS['relaciones'];
+        // \yii\helpers\VarDumper::dump($respuestaWS,10,true);
+        // exit();
+        $response = ['result' => 'ok', 'response' => $this->renderPartial('_widgetDocumento', ['solicitud' => $solicitud, 'relaciones' => $relaciones])];
+        return Json::encode($response);
+    }
+
+    public function actionRadicar()
+    {
+        $params = Yii::$app->params;
+        $module = Yii::$app->controller->module;
+        $request = Yii::$app->request;
+        $result = [];
+        $idSolicitud = $request->post('idSolicitud');
+        $respuestaWS = $module->consultarWebService($params['webServices']['servicop']['solicitudes'] . '/radicar', ['idSolicitud' => $idSolicitud], 'post');
+        if ($respuestaWS['response']) {
+            $result = ['result' => 'ok', 'response' => 'Se ha confirmado correctamente su solicitud'];
+        } else {
+            $result = ['result' => 'error', 'response' => 'Error al confirmar la solicitud'];
+        }
+        return Json::encode($result);
+    }
+
     public function actionIndex()
     {
         $params = Yii::$app->params;
@@ -35,7 +66,7 @@ class SolicitudesController extends Controller
         $datosFormulario = [];
         if ($request->isPost) {
             parse_str($request->post('datos'), $datosFormulario);
-            $solicitud = $module->consultarWebService($params['webServices']['servicop']['solicitudes'] . '/crear', ['datos' => $datosFormulario], 'post')['response'];
+            $solicitud = $module->consultarWebService($params['webServices']['servicop']['solicitudes'] . '/crear', ['datos' => $datosFormulario], 'post', ['content-type' => 'application/x-www-form-urlencoded'])['response'];
         }
         if (!empty($solicitud)) {
             $response = ['result' => 'ok', 'response' => $solicitud];

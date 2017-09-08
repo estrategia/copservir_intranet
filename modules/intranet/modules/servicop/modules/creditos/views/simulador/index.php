@@ -27,7 +27,7 @@ use kartik\date\DatePicker;
             </div>
             <div class="col-md-12">
                 <label for="valor">Valor</label>
-                <input type="number" name="valor" class="form-control">
+                <input type="text" name="valor" class="form-control formatear-numero">
             </div>
         </div>
     </div>

@@ -2707,7 +2707,7 @@ function consultarCupoMaximo(idCredito) {
     },
     success: function(data) {
       $('input[name="cupoMaximo"]').val(data.response);
-      $('#widget-garantias-combinadas').html(data.response.garantiasCombinadas);
+      //$('#widget-garantias-combinadas').html(data.response.garantiasCombinadas);
 
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -2814,6 +2814,7 @@ function crearFormCuota(idCuota) {
     },
     success: function(data) {
       $('#forms-cuotas-extra').append(data.response);
+      $('.formatear-numero').number(true,2);
     },
     error: function(jqXHR, textStatus, errorThrown) {
       $('body').hideLoading();
@@ -2887,9 +2888,10 @@ $(document).on('click', 'button[data-role="solicitar-credito"]', function () {
       },
       success: function(data) {
         // $('input[name="valor-cuota"]').val(data.response);
-        console.log(data);
         if (data.result == 'ok' && data.response != null) {
+          console.log(data);
           alert('La solicitud fue generada con éxito');
+          window.location.href = requestUrl + '/intranet/servicop/creditos/solicitudes/detalle?idSolicitud=' + data.response.idSolicitud;
         }
       },
       error: function(jqXHR, textStatus, errorThrown) {
@@ -2922,7 +2924,9 @@ if (forms != null) {
         },
         success: function(data) {
           console.log(data);
-          // ToDo: Actualizar boton de descargar documento
+          if (data.result == 'ok') {
+            alert('Se ha cargado correctamente el documento');
+          }
         },
         error: function(jqXHR, textStatus, errorThrown) {
           $('body').hideLoading();
@@ -3042,7 +3046,9 @@ $(document).on('click', 'button[data-role="solicitar-contribucion"]', function (
       },
       success: function(data) {
         // $('#widget-beneficiario-contribucion').html(data.response);
-        console.log(data);
+        if (data.result == 'ok') {
+          window.location.href = requestUrl + '/intranet/servicop/contribuciones/solicitudes/detalle?idSolicitudContribucion=' + data.response.idSolicitudContribucion;
+        }
       },
       error: function(jqXHR, textStatus, errorThrown) {
         $('body').hideLoading();
@@ -3073,6 +3079,9 @@ if (forms != null) {
         },
         success: function(data) {
           console.log(data);
+          if (data.result == 'ok') {
+            alert('Se ha cargado correctamente el documento');
+          }
           // ToDo: Actualizar boton de descargar documento
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -3083,3 +3092,106 @@ if (forms != null) {
     }, false)
   };
 };
+
+$(document).on('click', 'button[data-role="radicar-contribucion"]', function () {
+  var idSolicitud = $(this).attr('data-id-solicitud');
+  $.ajax({
+      type: 'POST',
+      async: true,
+      data: {idSolicitud: idSolicitud},
+      url: requestUrl + '/intranet/servicop/contribuciones/solicitudes/radicar',
+      dataType: 'json',
+      beforeSend: function() {
+        $('body').showLoading();
+      },
+      complete: function(data) {
+        $('body').hideLoading();
+      },
+      success: function(data) {
+        alert(data.response);
+        actualizarWidgetDocumentosSolicitudContribucion();
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        $('body').hideLoading();
+      }
+    });
+  return false;
+});
+
+$(document).on('click', 'button[data-role="radicar-credito"]', function () {
+  var idSolicitud = $(this).attr('data-id-solicitud');
+  $.ajax({
+      type: 'POST',
+      async: true,
+      data: {idSolicitud: idSolicitud},
+      url: requestUrl + '/intranet/servicop/creditos/solicitudes/radicar',
+      dataType: 'json',
+      beforeSend: function() {
+        $('body').showLoading();
+      },
+      complete: function(data) {
+        $('body').hideLoading();
+      },
+      success: function(data) {
+        alert(data.response);
+        if (data.result == 'ok') {
+          actualizarWidgetDocumentosSolicitudCredito();
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        $('body').hideLoading();
+      }
+    });
+  return false;
+});
+
+
+$(document).ready(function () {
+  $('input.formatear-numero').number(true,2);
+});
+
+function actualizarWidgetDocumentosSolicitudCredito() {
+  var idSolicitud = $('button[data-role="radicar-credito"]').attr('data-id-solicitud');
+  $.ajax({
+      type: 'GET',
+      async: true,
+      data: {idSolicitud: idSolicitud},
+      url: requestUrl + '/intranet/servicop/creditos/solicitudes/render-widget-documentos',
+      dataType: 'json',
+      beforeSend: function() {
+        $('body').showLoading();
+      },
+      complete: function(data) {
+        $('body').hideLoading();
+      },
+      success: function(data) {
+        $('div[data-role="widgetDocumentosSolicitudCredito"').html(data.response);
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        $('body').hideLoading();
+      }
+    });
+}
+
+function actualizarWidgetDocumentosSolicitudContribucion() {
+  var idSolicitud = $('button[data-role="radicar-contribucion"]').attr('data-id-solicitud');
+  $.ajax({
+      type: 'GET',
+      async: true,
+      data: {idSolicitud: idSolicitud},
+      url: requestUrl + '/intranet/servicop/contribuciones/solicitudes/render-widget-documentos',
+      dataType: 'json',
+      beforeSend: function() {
+        $('body').showLoading();
+      },
+      complete: function(data) {
+        $('body').hideLoading();
+      },
+      success: function(data) {
+        $('div[data-role="widgetDocumentosSolicitudContribucion"').html(data.response);
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        $('body').hideLoading();
+      }
+    });
+}

@@ -125,14 +125,16 @@ class SimuladorController extends Controller
         $module = Yii::$app->controller->module;
         $request = Yii::$app->request;
         $response = [];
-        $cupoMaximo = $module->consultarWebService(
-            $params['webServices']['servicop']['lineasCredito'] . '/calcularCupoMaximo',
-            [
-                'numeroDocumento' => Yii::$app->user->identity->numeroDocumento,
-                'lineaCredito' => $request->get('idCredito')
-            ],
-            'get'
-        )['response'];
+        // $cupoMaximo = $module->consultarWebService(
+        //     $params['webServices']['servicop']['lineasCredito'] . '/calcularCupoMaximo',
+        //     [
+        //         // 'numeroDocumento' => Yii::$app->user->identity->numeroDocumento,
+        //         'numeroDocumento' => 10002383,
+        //         'lineaCredito' => $request->get('idCredito')
+        //     ],
+        //     'get'
+        // )['response'];
+        $cupoMaximo = 10000000;
         $response = ['result' => 'ok', 'response' => $cupoMaximo];
         return Json::encode($response);
     }

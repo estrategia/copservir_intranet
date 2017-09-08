@@ -6,11 +6,42 @@ use yii\web\Controller;
 use yii\httpclient\Client;
 use yii\helpers\Json;
 use yii\helpers\ArrayHelper;
+use yii\helpers\FileHelper;
 /**
 * 
 */
 class SolicitudesController extends Controller
 {
+    public function actionRenderWidgetDocumentos($idSolicitud)
+    {
+        $params = Yii::$app->params;
+        $module = Yii::$app->controller->module;
+        $response = [];
+        $respuestaWS = $module->consultarWebService($params['webServices']['servicop']['solicitudesContribuciones'] . '/detalle', ['idSolicitudContribucion' => $idSolicitud], 'get')['response'];
+        $solicitud = $respuestaWS['solicitud'];
+        $relaciones = $respuestaWS['relaciones'];
+        // \yii\helpers\VarDumper::dump($respuestaWS,10,true);
+        // exit();
+        $response = ['result' => 'ok', 'response' => $this->renderPartial('_widgetDocumento', ['solicitud' => $solicitud, 'relaciones' => $relaciones])];
+        return Json::encode($response);
+    }
+
+    public function actionRadicar()
+    {
+        $params = Yii::$app->params;
+        $module = Yii::$app->controller->module;
+        $request = Yii::$app->request;
+        $result = [];
+        $idSolicitud = $request->post('idSolicitud');
+        $respuestaWS = $module->consultarWebService($params['webServices']['servicop']['solicitudesContribuciones'] . '/radicar', ['idSolicitud' => $idSolicitud], 'post');
+        if ($respuestaWS['response']) {
+            $result = ['result' => 'ok', 'response' => 'Se ha radicado correctamente su solicitud'];
+        } else {
+            $result = ['result' => 'error', 'response' => 'Error al radicar la solicitud'];
+        }
+        return Json::encode($result);
+    }
+
     public function actionIndex()
     {
         $params = Yii::$app->params;
@@ -110,34 +141,42 @@ class SolicitudesController extends Controller
         $response = [];
         $params = Yii::$app->params;
         $module = Yii::$app->controller->module;
-        $modelId = $_POST['idSolitudDocumento'];
-        $nombreDocumento = $_POST['nombreDocumento'];
-        $idSolicitud = $_POST['idSolicitud'];
+        $request = Yii::$app->request;
+
+        $modelId = $request->post('idSolitudDocumento');
+        $nombreDocumento = $request->post('nombreDocumento');
+        $idSolicitud = $request->post('idSolicitudContribucion');
+        $valorDocumento = $request->post('valor');
+        $fechaDocumento = $request->post('fecha');
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
         $rutaArchivo = Yii::$app->params['servicop']['contribuciones']['rutas']['documentos'] . "/{$numeroDocumento}/{$idSolicitud}/";
         $nombreArchivo = $rutaArchivo . "{$nombreDocumento}.pdf";
 
-        if (!is_dir($rutaArchivo)) {
-            // mkdir($rutaArchivo);
-            FileHelper::createDirectory($rutaArchivo, 0777, true);
-        }
-
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-        $archivoMovido = move_uploaded_file(
-            $_FILES['documento']['tmp_name'],
-            $nombreArchivo
-        );
-
-        if (!$archivoMovido) {
-            $response = ['error', 'no se ha podido guardar el archivo'];
-            // $response = ['error', $_FILES];
-            return $response;
-        }
-
-        $respuestaWS = $module->consultarWebService($params['webServices']['servicop']['solicitudesContribuciones'] . '/cargarDocumento', ['idSolicitudDocumento' => $modelId, 'rutaDocumento' => $nombreArchivo], 'post')['response'];
         
+        if (isset($_FILES['documento'])) {
+
+            if (!is_dir($rutaArchivo)) {
+                // mkdir($rutaArchivo);
+                FileHelper::createDirectory($rutaArchivo, 0777, true);
+            }
+
+            $archivoMovido = move_uploaded_file(
+                $_FILES['documento']['tmp_name'],
+                $nombreArchivo
+            );
+
+            if (!$archivoMovido) {
+                $response = ['error', 'no se ha podido guardar el archivo'];
+                // $response = ['error', $_FILES];
+                return $response;
+            }
+
+        } else {
+            $nombreArchivo = '';
+        }
+        $respuestaWS = $module->consultarWebService($params['webServices']['servicop']['solicitudesContribuciones'] . '/cargarDocumento', ['idSolicitudDocumento' => $modelId, 'rutaDocumento' => $nombreArchivo, 'valorDocumento' => $valorDocumento, 'fechaDocumento' => $fechaDocumento], 'post')['response'];
         $response = ['result' => 'ok', 'response' => $respuestaWS];
-        return $response;
+        return $response;        
     }
 }

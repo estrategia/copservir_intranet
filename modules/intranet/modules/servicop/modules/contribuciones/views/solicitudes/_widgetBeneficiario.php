@@ -11,7 +11,7 @@ $beneficiariosNumeroDocumento = ArrayHelper::map($parentescos, 'IdGrupoFamiliar'
     'name' => 'id-grupo-familiar',
     'data' => $beneficiariosNumeroDocumento,
     'options' => [
-        'placeholder' => 'Seleccione un Tipo de Beneficiario',
+        'placeholder' => 'Seleccione un Beneficiario',
     ],
     'pluginEvents' => [
 
