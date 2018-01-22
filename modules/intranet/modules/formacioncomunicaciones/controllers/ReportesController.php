@@ -33,15 +33,7 @@ class ReportesController extends Controller
                 'class' => \app\components\AccessFilter::className(),
                 'redirectUri' => ['/intranet/usuario/autenticar']
             ],
-            [
-                'class' => \app\components\AuthItemFilter::className(),
-                'only' => [
-                    'contenidos-leidos'
-                ],
-                'authsActions' => [
-                    'contenidos-leidos' => 'formacionComunicaciones_reportes_contenidosLeidos'
-                ],
-           ],
+            
 
         ];
     }

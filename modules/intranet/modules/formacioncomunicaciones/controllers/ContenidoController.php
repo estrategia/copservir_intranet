@@ -37,19 +37,7 @@ class ContenidoController extends Controller
                 'redirectUri' => ['/intranet/usuario/autenticar']
             ],
 
-            [
-                'class' => \app\components\AuthItemFilter::className(),
-                'only' => [
-                    'index', 'detalle', 'crear', 'actualizar', 'visualizar-contenido'
-                ],
-                'authsActions' => [
-                    'index' => 'formacionComunicaciones_contenido_admin',
-                    'detalle' => 'formacionComunicaciones_contenido_admin',
-                    'crear' => 'formacionComunicaciones_contenido_admin',
-                    'actualizar' => 'formacionComunicaciones_contenido_admin',                    
-                    'visualizar-contenido' => 'intranet_usuario',
-                ],
-           ],
+            
 
         ];
     }

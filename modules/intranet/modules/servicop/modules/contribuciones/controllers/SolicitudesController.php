@@ -105,17 +105,17 @@ class SolicitudesController extends Controller
     {
         $params = Yii::$app->params;
         $module = Yii::$app->controller->module;
-        // $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-        $numeroDocumento = 1130670869;
-        $respuestaWS['Parenescos'] = [
-            ['IdGrupoFamiliar' => 20546, 'IdParentesco' => 7, 'Parentesco' => 'Conyugue', 'ApellidosNombres' => 'Puentes Suares Maria Angelica', 'NumeroDocumentoFamiliar' => 38643725, 'VerificacionParentesco' => 1],
-            ['IdGrupoFamiliar' => 23764, 'IdParentesco' => 1, 'Parentesco' => 'Madre', 'ApellidosNombres' => 'diaz qui\u00f1ones maria lucia', 'NumeroDocumentoFamiliar' => 634578, 'VerificacionParentesco' => 0]
-        ];
+        $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
+        // $numeroDocumento = 1130670869;
+        // $respuestaWS['Parenescos'] = [
+        //     ['IdGrupoFamiliar' => 20546, 'IdParentesco' => 7, 'Parentesco' => 'Conyugue', 'ApellidosNombres' => 'Puentes Suares Maria Angelica', 'NumeroDocumentoFamiliar' => 38643725, 'VerificacionParentesco' => 1],
+        //     ['IdGrupoFamiliar' => 23764, 'IdParentesco' => 1, 'Parentesco' => 'Madre', 'ApellidosNombres' => 'diaz qui\u00f1ones maria lucia', 'NumeroDocumentoFamiliar' => 634578, 'VerificacionParentesco' => 0]
+        // ];
 
+        $respuestaWS = $module->consultarWebService(
+            $params['webServices']['servicop']['parentescos'] . "/id/{$numeroDocumento}/Parentesco/{$idParentesco}"
+        );
         $parentescos = $respuestaWS['Parenescos'];
-        // $respuestaWS = $module->consultarWebService(
-        //     $params['webServices']['servicop']['parentescos'] . "/id/{$numeroDocumento}/Parentesco/{$idParentesco}"
-        // );
         
         $response = ['result' => 'ok', 'response' => $this->renderAjax('_widgetBeneficiario', ['parentescos' => $parentescos])];
         return Json::encode($response);
@@ -130,8 +130,12 @@ class SolicitudesController extends Controller
             $params['webServices']['servicop']['contribuciones'] . '/detalle', ['idContribucion' => $idContribucion])['response'];
         $contribucion = $respuestaWS['contribucion'];
         $parentescos = $respuestaWS['relaciones']['beneficiarios'];
-        
-        $response = ['result' => 'ok', 'response' => $this->renderAjax('_widgetParentesco', ['parentescos' => $parentescos])];
+        if ($contribucion['tipoContribucion'] == 1) {
+            $response = ['result' => 'ok', 'response' => $this->renderAjax('_widgetParentesco', ['parentescos' => $parentescos])];
+        }
+        else {
+            $response = ['result' => 'ok', 'response' => $this->renderAjax('_widgetDescripcion', ['contribucion' => $contribucion])];
+        }
         return Json::encode($response);
 
     }
@@ -144,12 +148,12 @@ class SolicitudesController extends Controller
         $request = Yii::$app->request;
 
         $modelId = $request->post('idSolitudDocumento');
-        $nombreDocumento = $request->post('nombreDocumento');
+        $nombreDocumento = preg_replace('/\s+/', '_', $request->post('nombreDocumento'));
         $idSolicitud = $request->post('idSolicitudContribucion');
         $valorDocumento = $request->post('valor');
         $fechaDocumento = $request->post('fecha');
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-        $rutaArchivo = Yii::$app->params['servicop']['contribuciones']['rutas']['documentos'] . "/{$numeroDocumento}/{$idSolicitud}/";
+        $rutaArchivo = Yii::$app->params['servicop']['contribuciones']['rutas']['documentos'] . "/{$numeroDocumento}/servicoop/contribuciones/{$idSolicitud}/";
         $nombreArchivo = $rutaArchivo . "{$nombreDocumento}.pdf";
 
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -176,7 +180,18 @@ class SolicitudesController extends Controller
             $nombreArchivo = '';
         }
         $respuestaWS = $module->consultarWebService($params['webServices']['servicop']['solicitudesContribuciones'] . '/cargarDocumento', ['idSolicitudDocumento' => $modelId, 'rutaDocumento' => $nombreArchivo, 'valorDocumento' => $valorDocumento, 'fechaDocumento' => $fechaDocumento], 'post')['response'];
-        $response = ['result' => 'ok', 'response' => $respuestaWS];
+        $response = ['result' => 'ok', 'response' => $nombreArchivo];
         return $response;        
+    }
+
+    public function actionDescargarArchivo($idSolicitudDocumento)
+    {
+        $response = [];
+        $params = Yii::$app->params;
+        $module = Yii::$app->controller->module;
+
+        $documento = $module->consultarWebService($params['webServices']['servicop']['solicitudesContribuciones'] . '/detalleDocumento', ['idSolicitudDocumento' => $idSolicitudDocumento])['response'];
+
+        Yii::$app->response->sendFile($documento['rutaArchivo']);
     }
 }

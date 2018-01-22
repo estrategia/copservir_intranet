@@ -2,7 +2,8 @@
 use kartik\select2\Select2;
 use yii\web\JsExpression;
 use yii\helpers\Url;
-$url = Url::toRoute('/intranet/usuario/buscar-ajax');
+$url = Url::toRoute('/intranet/servicop/creditos/usuario/buscar-ajax');
+// $url = 'http://localhost/creditos/usuario/ajax';
 ?>
 <label for="selector-codeudor">Codeudor</label>
 <?= Select2::widget([
@@ -28,5 +29,6 @@ $url = Url::toRoute('/intranet/usuario/buscar-ajax');
         "select2:select" => "function() { $('#valor-cuota').val(0).trigger('change'); }"
     ]
 ]);
+
 ?>
 

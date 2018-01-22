@@ -14,6 +14,13 @@ use yii\helpers\Json;
  */
 class SolicitudesController extends Controller
 {
+    public function behaviors() {
+        return [
+            [
+                'class' => \app\components\AccessFilter::className(),
+            ],
+        ];
+    }
 
     public function actionRenderWidgetDocumentos($idSolicitud)
     {
@@ -37,10 +44,10 @@ class SolicitudesController extends Controller
         $result = [];
         $idSolicitud = $request->post('idSolicitud');
         $respuestaWS = $module->consultarWebService($params['webServices']['servicop']['solicitudes'] . '/radicar', ['idSolicitud' => $idSolicitud], 'post');
-        if ($respuestaWS['response']) {
-            $result = ['result' => 'ok', 'response' => 'Se ha confirmado correctamente su solicitud'];
+        if ($respuestaWS['result']  == 'ok') {
+            $result = ['result' => 'ok', 'response' => $respuestaWS['response']];
         } else {
-            $result = ['result' => 'error', 'response' => 'Error al confirmar la solicitud'];
+            $result = ['result' => 'error', 'response' => $respuestaWS['response']];
         }
         return Json::encode($result);
     }
@@ -66,10 +73,10 @@ class SolicitudesController extends Controller
         $datosFormulario = [];
         if ($request->isPost) {
             parse_str($request->post('datos'), $datosFormulario);
-            $solicitud = $module->consultarWebService($params['webServices']['servicop']['solicitudes'] . '/crear', ['datos' => $datosFormulario], 'post', ['content-type' => 'application/x-www-form-urlencoded'])['response'];
+            $solicitud = $module->consultarWebService($params['webServices']['servicop']['solicitudes'] . '/crear', ['datos' => $datosFormulario], 'post', ['content-type' => 'application/x-www-form-urlencoded']);
         }
-        if (!empty($solicitud)) {
-            $response = ['result' => 'ok', 'response' => $solicitud];
+        if ($solicitud['result'] == 'ok') {
+            $response = ['result' => 'ok', 'response' => $solicitud['response']];
         } else {
             $response = ['result' => 'error', 'response' => $solicitud];
         }
@@ -94,10 +101,10 @@ class SolicitudesController extends Controller
         $params = Yii::$app->params;
         $module = Yii::$app->controller->module;
         $modelId = $_POST['idSolitudDocumento'];
-        $nombreDocumento = $_POST['nombreDocumento'];
+        $nombreDocumento = preg_replace('/\s+/', '_', $_POST['nombreDocumento']);
         $idSolicitud = $_POST['idSolicitud'];
         $numeroDocumento = Yii::$app->user->identity->numeroDocumento;
-        $rutaArchivo = Yii::$app->params['servicop']['rutas']['documentos'] . "/{$numeroDocumento}/{$idSolicitud}/";
+        $rutaArchivo = Yii::$app->params['servicop']['rutas']['documentos'] . "/{$numeroDocumento}/servicoop/creditos/{$idSolicitud}/";
         $nombreArchivo = $rutaArchivo . "{$nombreDocumento}.pdf";
 
         if (!is_dir($rutaArchivo)) {
@@ -114,7 +121,7 @@ class SolicitudesController extends Controller
 
         if (!$archivoMovido) {
             $response = ['error', 'no se ha podido guardar el archivo'];
-            $response = ['error', $_FILES];
+            // $response = ['error', $_FILES];
             return $response;
         }
 
@@ -122,5 +129,29 @@ class SolicitudesController extends Controller
         
         $response = ['result' => 'ok', 'response' => $respuestaWS];
         return $response;
+    }
+
+    public function actionDescargarArchivo($idSolicitudDocumento)
+    {
+        $response = [];
+        $params = Yii::$app->params;
+        $module = Yii::$app->controller->module;
+        $request = Yii::$app->request;
+
+        $documento = $module->consultarWebService($params['webServices']['servicop']['solicitudes'] . '/detalleDocumento', ['idSolicitudDocumento' => $idSolicitudDocumento])['response'];
+
+        Yii::$app->response->sendFile($documento['rutaDocumento']);
+    }
+
+    public function actionDescargarFormato($idSolicitudDocumento)
+    {
+        $response = [];
+        $params = Yii::$app->params;
+        $module = Yii::$app->controller->module;
+        $request = Yii::$app->request;
+
+        $documento = $module->consultarWebService($params['webServices']['servicop']['solicitudes'] . '/detalleFormato', ['idSolicitudDocumento' => $idSolicitudDocumento])['response'];
+
+        Yii::$app->response->sendFile($documento['rutaFormato']);
     }
 }

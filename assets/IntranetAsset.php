@@ -80,6 +80,7 @@ class IntranetAsset extends AssetBundle {
 
         // Formatter
         'libs/jquery-number/jquery.number.js',
+        'libs/jquery-alphanum/jquery.alphanum.js',
 
 
         // 'libs/jquery-datatable/js/jquery.dataTables.min.js',

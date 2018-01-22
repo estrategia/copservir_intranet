@@ -103,11 +103,12 @@ return [
         'productos' => [
             'terceros' => 'http://localhost/siicop/productos/sweb/terceros',
         ],
-        'organigrama' => 'http://sii.copservir.com/gestionhumana/api/view/id',
+        'organigrama' => 'http://192.168.100.30/gestionhumana/api/view/id',
         'servicop' => [
-            'parentescos' => 'http://sii.copservir.com/gestionusuario/api/viewparentesco',
+            'parentescos' => 'http://192.168.100.30/gestionusuario/api/viewparentesco',
             'reportes' => 'http://localhost/siicop/servicop/creditos/restReportes/',
             'lineasCredito' => 'http://localhost/siicop/servicop/creditos/restLineaCredito',
+            'tiposLineaCredito' => 'http://localhost/siicop/servicop/creditos/restTipoLineaCredito',
             'garantias' => 'http://localhost/siicop/servicop/creditos/restGarantia',
             'tiposCuotaExtra' => 'http://localhost/siicop/servicop/creditos/restTipoCuotaExtra',
             'simulador' => 'http://localhost/siicop/servicop/creditos/restSimulador',
@@ -226,7 +227,8 @@ return [
             'lineaCredito' => 'servicop.lineaCredito'
         ],
         'rutas' => [
-            'documentos' => '/opt/lampp/htdocs/copservir_intranet/web/servicop/documentos'
+            'documentos' => '/archivos/modules/gestionusuario'
+            // 'documentos' => '/opt/lampp/htdocs/copservir_intranet/web'
         ],
         'estados' => [
             'solicitudes' => [
@@ -241,7 +243,7 @@ return [
         'mensajeSolicitud' => '...',
         'contribuciones' => [
             'rutas' => [
-                'documentos' => '/opt/lampp/htdocs/copservir_intranet/web/servicop/contribuciones/documentos'
+                'documentos' => '/archivos/modules/gestionusuario'
             ]
         ]
     ]

@@ -2,7 +2,6 @@
 /* @var $this yii\web\View */
 use yii\web\JsExpression;
 
-
 $format = <<< SCRIPT
 var organigrama_config = {
     chart: {
@@ -23,7 +22,7 @@ $(document).ready(function () {
     url: requestUrl + '/intranet/organigrama/consultar',
     dataType: 'json',
     beforeSend: function() {
-      // $('body').showLoading();
+      $('body').showLoading();
     },
     complete: function(data) {
       $('body').hideLoading();
@@ -96,7 +95,7 @@ SCRIPT;
 
 $this->registerJs($format, \yii\web\View::POS_END);
 ?>
-<h1>organigrama/index</h1>
+<h1>Organigrama</h1>
 
 <div id="organigrama">
 

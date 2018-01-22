@@ -6,11 +6,20 @@ use Yii;
 use yii\web\Controller;
 use yii\httpclient\Client;
 use yii\helpers\Json;
+use mPDF;
 /**
  * 
  */
 class ReportesController extends Controller
 {
+    public function behaviors() {
+        return [
+            [
+                'class' => \app\components\AccessFilter::className(),
+            ],
+        ];
+    }
+    
     public function actionVolanteNomina()
     {
         $url = Yii::$app->params['webServices']['servicop']['reportes'] . 'volanteNomina';
@@ -72,6 +81,33 @@ class ReportesController extends Controller
         ];
         $datos = $this->consultarWebService($url, $parametros);
         return $this->render('financiero', ['datosReporte' => $datos['response']]);
+    }
+
+    public function actionDescargarFinanciero()
+    {
+        $url = Yii::$app->params['webServices']['servicop']['reportes'] . 'financiero';
+        $parametros = [
+            'numeroDocumento' => Yii::$app->user->identity->numeroDocumento,
+            // 'numeroDocumento' => 10002383,
+        ];
+        $datos = $this->consultarWebService($url, $parametros);
+        $mpdf = new mPDF();
+        $mpdf->WriteHtml($this->renderPartial('financiero', ['datosReporte' => $datos['response']]));
+        $mpdf->Output('financiero.pdf', 'D');
+        exit();
+    }
+
+    public function actionCalcularNivelEndeudamientoCuota($cuotaQuincenal)
+    {
+        $url = Yii::$app->params['webServices']['servicop']['reportes'] . 'nivelEndeudamientoCuota';
+        $response = [];
+        $parametros = [
+            'numeroDocumento' => Yii::$app->user->identity->numeroDocumento,
+            'cuotaQuincenal' => $cuotaQuincenal
+        ];
+        $datos = $this->consultarWebService($url, $parametros);
+        $response = $datos;
+        return Json::encode($response);
     }
 
     private function consultarWebService($url, $parametros, $metodo='get')

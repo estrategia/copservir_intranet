@@ -3,14 +3,6 @@
 <table class="table table-bordered">
     <tbody>
         <tr>
-            <th>Nombre</th>
-            <td>
-                <?php echo $usuario['ApellidosNombres'] ?>
-            </td>
-            <th>Documento</th>
-            <td>
-                <?php echo $usuario['NumeroDocumento'] ?>
-            </td>
             <th>Año</th>
             <td>
                 <?php echo $traza['anio'] ?>

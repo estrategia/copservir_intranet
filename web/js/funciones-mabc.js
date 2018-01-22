@@ -2663,11 +2663,188 @@ $(document).ready(function () {
  // });
 
 // Simulador Servicop
+var ordenItemsSimulador = [
+   'input[name="plazo"]',
+   'input[name="valor"]',
+   // 'div#widget-garantias',
+   // 'div#widget-garantias-combinadas',
+   'div#garantias',
+   // 'div#widget-parametros',
+   // 'div#widget-codeudor',
+   // 'div#widget-cuotas-extra',
+   // 'div#cuotas'
+];
+
+var contadorFormularioSimulador = 0;
+
+function desactivarInputs() {
+  $.each(ordenItemsSimulador, function (index, selector) {
+    var elemento = $(selector);
+    elemento.hide();
+    var elementos = $(selector + ' input');
+    $.each(elementos, function (index, elementoInterno) {
+      elemento.hide();
+    })
+  })
+  $('button[data-role="simular-credito"]').attr('disabled', true);
+  $('button[data-role="simular-credito"]').removeClass('btn-primary');
+  $('button[data-role="simular-credito"]').addClass('btn-default');
+
+}
+
+function activarSiguienteItemSimulador() {
+  console.log('Antes: ' + contadorFormularioSimulador);
+  if (contadorFormularioSimulador == (ordenItemsSimulador.length)) {
+    $('button[data-role="simular-credito"]').attr('disabled', false);
+    $('button[data-role="simular-credito"]').removeClass('btn-default');
+    $('button[data-role="simular-credito"]').addClass('btn-primary');
+  }
+  $(ordenItemsSimulador[contadorFormularioSimulador]).show();
+  $(ordenItemsSimulador[contadorFormularioSimulador] + ' input').show();
+  contadorFormularioSimulador++;
+  console.log('Despues ' + contadorFormularioSimulador);
+}
+
+function inicializarFormularioSimulador() {
+  desactivarInputs();
+  contadorFormularioSimulador = 0;
+  $(ordenItemsSimulador[contadorFormularioSimulador]).show();
+  $(ordenItemsSimulador[contadorFormularioSimulador] + ' input').show();
+  $.each(ordenItemsSimulador, function (index, selector) {
+    var input = $(selector);
+    var inputs = $(selector + ' input[type="text"]');
+    var radios = $(selector + ' input[type="radio"]');
+    var checks = $(selector + ' input[type="checkbox"]');
+    input.on('keypress', function (e) {
+      if (e.which === 13) {
+        activarSiguienteItemSimulador();
+        input.off('keypress');
+      }
+    });
+    inputs.on('keypress', function (e) {
+      if (e.which === 13) {
+        activarSiguienteItemSimulador();
+        inputs.off('keypress');
+      }
+    });
+    radios.on('change', function (e) {
+      activarSiguienteItemSimulador();
+      radios.off('change');
+      checks.off('change');
+    });
+    checks.on('change', function (e) {
+      activarSiguienteItemSimulador();
+      radios.off('change');
+      checks.off('change');
+    });
+  })
+  contadorFormularioSimulador = 1;
+}
+
+function validarAntiguedadCredito(idCredito) {
+  var numeroDocumento = $('input[name="numeroDocumento"]').val();
+  $.ajax({
+    type: 'GET',
+    async: true,
+    data: {numeroDocumento: numeroDocumento, idCredito: idCredito },
+    url: requestUrl + '/intranet/servicop/creditos/simulador/validar-antiguedad',
+    dataType: 'json',
+    beforeSend: function () {
+      $('body').showLoading();
+    },
+    complete: function (data) {
+      $('body').hideLoading();
+    },
+    success: function (data) {
+      if (data.response == 0) {
+        alert('No cumple con la antiguedad requerida para aplicar a esta linea de credito');
+        desactivarInputs();
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+}
+
+function validarAntiguedadCargo(idCredito) {
+  var numeroDocumento = $('input[name="numeroDocumento"]').val();
+  $.ajax({
+    type: 'GET',
+    async: true,
+    data: {numeroDocumento: numeroDocumento, idCredito: idCredito },
+    url: requestUrl + '/intranet/servicop/creditos/simulador/validar-cargo',
+    dataType: 'json',
+    beforeSend: function () {
+      $('body').showLoading();
+    },
+    complete: function (data) {
+      $('body').hideLoading();
+    },
+    success: function (data) {
+      if (data.response == 0) {
+        alert('No cumple con el cargo requerido para aplicar a esta linea de credito');
+        desactivarInputs();
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+}
+
+$('button[data-role="limpiar-formulario"]').on("click", function (e) {
+  location.reload(true);
+});
+
+$('select[name="tipoLineaCredito"]').on("change", function (e) {
+  var idTipoLineaCredito = $(this).val();
+  $.ajax({
+    type: 'GET',
+    async: true,
+    data: { idTipoLineaCredito: idTipoLineaCredito },
+    url: requestUrl + '/intranet/servicop/creditos/simulador/render-select-lineas-credito',
+    dataType: 'json',
+    beforeSend: function () {
+      $('body').showLoading();
+    },
+    complete: function (data) {
+      $('body').hideLoading();
+    },
+    success: function (data) {
+      $('#select-linea-credito').html(data.response);
+      $('#widget-descripcion').html("");
+      $('input[name="valor"]').val("");
+      $('input[name="plazo"]').val("");
+      $('input[name="interesMensual"]').val("");
+      $('input[name="cupoMaximo"]').val("");
+      $('input[name="plazoMaximo"]').val("");
+      $('#forms-cuotas-extra').html("");
+      $('#widget-parametros').html("");
+      $('#widget-garantias').html("");
+      $('#widget-garantias-combinadas').html("");
+      $('#widget-cuotas-extra').html("");
+      $('#widget-codeudor').hide();
+      $('input.formatear-numero').numeric({allowMinus: false});
+      $('input[name="nivel-endeudamiento-cuota"]').val(0);
+      inicializarFormularioSimulador();
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
+
+function mostrarParametrosGenerales() {
+  $('div[data-role="parametros-usuario-credito"][data-id-garantia="0"]').removeClass('hidden');
+}
 
 $('select[name="lineaCredito"]').on("change", function(e) {
   var idCredito = $(this).val();
+  var credito = $('#form-creditos').serialize();
   $.ajax({
-    type: 'GET',
+    type: 'POST',
     async: true,
     data: {idCredito: idCredito},
     url: requestUrl + '/intranet/servicop/creditos/simulador/render-widgets',
@@ -2683,7 +2860,20 @@ $('select[name="lineaCredito"]').on("change", function(e) {
       $('#widget-cuotas-extra').html(data.response.tiposCuotaExtra);
       $('#widget-garantias').html(data.response.garantiasNoCombinadas);
       $('#widget-garantias-combinadas').html(data.response.garantiasCombinadas);
-      consultarCupoMaximo(idCredito);
+      $('#widget-parametros').html(data.response.parametros);
+      $('#widget-descripcion').html(data.response.descripcion);
+      $('input[name="valor"]').val("");
+      $('input[name="plazo"]').val("");
+      $('#forms-cuotas-extra').html("");
+      $('input[name="nivel-endeudamiento-cuota"]').val(0);
+      $('#widget-codeudor').hide();
+      // consultarCupoMaximo(idCredito);
+      // mostrarParametrosGenerales();
+      $('input.formatear-numero').numeric({allowMinus: false});
+      inicializarFormularioSimulador();
+      validarAntiguedadCredito(idCredito);
+      validarAntiguedadCargo(idCredito);
+      preSeleccionarGarantia();
     },
     error: function(jqXHR, textStatus, errorThrown) {
       $('body').hideLoading();
@@ -2691,6 +2881,50 @@ $('select[name="lineaCredito"]').on("change", function(e) {
   });
   return false;
 });
+
+function preSeleccionarGarantia() {
+  var cantidadGarantias = $('#widget-garantias input').length;
+  var cantidadGarantiasCombinadas = $('#widget-garantias-combinadas input').length;
+  console.log(cantidadGarantias);
+  console.log(cantidadGarantiasCombinadas);
+  if (cantidadGarantias == 1 && cantidadGarantiasCombinadas == 0) {
+    $('#widget-garantias input').prop('checked',true).trigger('click');
+  } 
+  if (cantidadGarantias == 0 && cantidadGarantiasCombinadas == 1) {
+    $('#widget-garantias-combinadas input').prop("checked", true).trigger('click');
+  }
+}
+
+// function consultarCupoMaximo(idCredito) {
+//   var credito = $('#form-creditos').serialize();
+//   $.ajax({
+//     type: 'POST',
+//     async: true,
+//     data: {datos: credito},
+//     url: requestUrl + '/intranet/servicop/creditos/simulador/consultar-cupo-maximo',
+//     dataType: 'json',
+//     beforeSend: function() {
+//       $('body').showLoading();
+//     },
+//     complete: function(data) {
+//       $('body').hideLoading();
+//     },
+//     success: function(data) {
+//       $('input[name="cupoMaximo"]').val(data.response);
+//       $('input[name="cupoMaximo"]').number(true,0);
+//       if (data.response == 0) {
+//         $('#container-cupo-maximo').hide();
+//       } else {
+//         $('#container-cupo-maximo').show();
+//       }
+//       //$('#widget-garantias-combinadas').html(data.response.garantiasCombinadas);
+//     },
+//     error: function(jqXHR, textStatus, errorThrown) {
+//       $('body').hideLoading();
+//     }
+//   });
+//   return false;
+// }
 
 function consultarCupoMaximo(idCredito) {
   $.ajax({
@@ -2707,8 +2941,8 @@ function consultarCupoMaximo(idCredito) {
     },
     success: function(data) {
       $('input[name="cupoMaximo"]').val(data.response);
+      $('input[name="cupoMaximo"]').number(true,0);
       //$('#widget-garantias-combinadas').html(data.response.garantiasCombinadas);
-
     },
     error: function(jqXHR, textStatus, errorThrown) {
       $('body').hideLoading();
@@ -2727,8 +2961,18 @@ $(document).on('keyup', 'input[name="plazo"]', function () {
   }
 });
 
-$(document).on('keyup', 'input[name="valor"]', function () {
-  var cupoMaximo = parseInt($('input[name="cupoMaximo"]').val());
+// $(document).on('keyup', 'input[name="valor"]', function () {
+//   var cupoMaximo = parseInt($('input[name="cupoMaximo"]').val());
+//   var actual = parseInt($(this).val());
+//   if(actual > cupoMaximo) {
+//     $(this).val(cupoMaximo);
+//   }else if($(this).val() < 0){
+//     $(this).val(0);
+//   }
+// });
+
+$(document).on('keyup', 'input[data-role="cuota-extra-valor"]', function () {
+  var cupoMaximo = parseInt($(this).attr('data-maximo'));
   var actual = parseInt($(this).val());
   if(actual > cupoMaximo) {
     $(this).val(cupoMaximo);
@@ -2754,6 +2998,7 @@ $(document).on('click', "button[data-role='consultar']", function() {
     },
     success: function(data) {
       $('#forms-cuotas-extra').append(data.response);
+      $('input.formatear-numero').numeric({allowMinus: false});
     },
     error: function(jqXHR, textStatus, errorThrown) {
       $('body').hideLoading();
@@ -2761,6 +3006,29 @@ $(document).on('click', "button[data-role='consultar']", function() {
   });
   return false;
 });
+
+// if (-1 != $.inArray(...))
+
+function mostrarParametroGarantia(idGarantia) {
+  $('div[data-role="parametros-usuario-credito"]').addClass('hidden');
+  $('div[data-role="parametros-usuario-credito"][data-id-garantia="0"]').removeClass('hidden');
+  $('div[data-role="parametros-usuario-credito"][data-id-garantia="'+ idGarantia +'"]').removeClass('hidden');
+  $('input.formatear-numero').number(true,0);
+}
+
+function mostrarParametroGarantiaCombinadas() {
+  $('div[data-role="parametros-usuario-credito"]').addClass('hidden');
+  var selected = [];
+  $('#widget-garantias-combinadas input:checked').each(function() {
+    selected.push($(this).attr('name'));
+  });
+  $('div[data-role="parametros-usuario-credito"][data-id-garantia="0"]').removeClass('hidden');
+  for (var i = selected.length - 1; i >= 0; i--) {
+    var idGarantia = selected[i].slice(-1);
+    $('div[data-role="parametros-usuario-credito"][data-id-garantia="'+ idGarantia +'"]').removeClass('hidden');
+  }
+  $('input.formatear-numero').number(true,0);
+}
 
 $(document).on('click', '#widget-cuotas-extra :checkbox', function () {
     var idCuota = $(this).attr('data-cuota-extra-id');
@@ -2778,6 +3046,9 @@ $(document).on('click', '#widget-garantias :radio', function () {
     } else {
       ocultarSelectCodeudor();
     }
+    var idCredito = $('#selector-lineas-credito').val();
+    // consultarCupoMaximo(idCredito);
+    mostrarParametroGarantia($(this).val());
 });
 
 $(document).on('click', '#widget-garantias-combinadas :checkbox', function () {
@@ -2787,6 +3058,9 @@ $(document).on('click', '#widget-garantias-combinadas :checkbox', function () {
     } else {
       ocultarSelectCodeudor();
     }
+    var idCredito = $('#selector-lineas-credito').val();
+    // consultarCupoMaximo(idCredito);
+    mostrarParametroGarantiaCombinadas();
 });
 
 function renderSelectCodeudor() {
@@ -2814,7 +3088,7 @@ function crearFormCuota(idCuota) {
     },
     success: function(data) {
       $('#forms-cuotas-extra').append(data.response);
-      $('.formatear-numero').number(true,2);
+      $('.formatear-numero').number(true,0);
     },
     error: function(jqXHR, textStatus, errorThrown) {
       $('body').hideLoading();
@@ -2826,35 +3100,70 @@ function removerCuota (idCuota) {
   $('#form-cuota-' + idCuota).remove();
 }
 
+function consultarNivelEndeudamientoCuota(cuotaQuincenal) {
+  $.ajax({
+      type: 'GET',
+      async: true,
+      data: {cuotaQuincenal: cuotaQuincenal},
+      url: requestUrl + '/intranet/servicop/creditos/reportes/calcular-nivel-endeudamiento-cuota',
+      dataType: 'json',
+      beforeSend: function() {
+        $('body').showLoading();
+      },
+      complete: function(data) {
+        $('body').hideLoading();
+      },
+      success: function(data) {
+        if (data.result == 'ok') {
+          $('input[name="nivel-endeudamiento-cuota"]').val(data.response);
+        } else {
+          $('input[name="nivel-endeudamiento-cuota"]').val(0);
+        }
+        console.log(data);
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        $('body').hideLoading();
+      }
+    });
+}
+
 $(document).on('click', 'button[data-role="simular-credito"]', function () {
   var credito = $('#form-creditos').serialize();
-  console.log(credito);
-  $.ajax({
-    type: 'POST',
-    async: true,
-    data: {datos: credito},
-    url: requestUrl + '/intranet/servicop/creditos/simulador/simular',
-    dataType: 'json',
-    beforeSend: function() {
-      $('body').showLoading();
-    },
-    complete: function(data) {
-      $('body').hideLoading();
-    },
-    success: function(data) {
-      if (data.result == 'ok') {
-        $('input[name="valor-cuota"]').val(data.response).trigger('change');
-        alert('Simulación completada. Ahora puede realizar la solicitud del credito');
-      } else {
-        $('input[name="valor-cuota"]').val(0).trigger('change');
-        alert(data.response);
+  var plazo = $('input[name="plazo"]').val();
+  var valor = $('input[name="valor"]').val();
+  if (plazo <= 0 || valor <= 0) {
+    alert('Los campos Plazo y Valor a solicitar son requeridos');
+  } else {
+
+    // console.log(credito);
+    $.ajax({
+      type: 'POST',
+      async: true,
+      data: {datos: credito},
+      url: requestUrl + '/intranet/servicop/creditos/simulador/simular',
+      dataType: 'json',
+      beforeSend: function() {
+        $('body').showLoading();
+      },
+      complete: function(data) {
+        $('body').hideLoading();
+      },
+      success: function(data) {
+        if (data.result == 'ok') {
+          $('input[name="valor-cuota"]').val(data.response).trigger('change');
+          consultarNivelEndeudamientoCuota(data.response);
+          // alert('Simulación completada. Ahora puede realizar la solicitud del credito');
+        } else {
+          $('input[name="valor-cuota"]').val(0).trigger('change');
+          alert(data.response);
+        }
+        // console.log(data);
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        $('body').hideLoading();
       }
-      console.log(data);
-    },
-    error: function(jqXHR, textStatus, errorThrown) {
-      $('body').hideLoading();
-    }
-  });
+    });
+  }
 })
 
 $(document).on('change', 'input[name="valor-cuota"]', function () {
@@ -2862,8 +3171,12 @@ $(document).on('change', 'input[name="valor-cuota"]', function () {
   // console.log(valor);
   if (valor == null || valor == 0 || valor == undefined) {
     $('button[data-role="solicitar-credito"]').attr('disabled', true);
+    $('button[data-role="solicitar-credito"]').removeClass('btn-primary');
+    $('button[data-role="solicitar-credito"]').addClass('btn-default');
   } else {
     $('button[data-role="solicitar-credito"]').removeAttr('disabled');
+    $('button[data-role="solicitar-credito"]').removeClass('btn-default');
+    $('button[data-role="solicitar-credito"]').addClass('btn-primary');
   }
 })
 
@@ -2893,49 +3206,150 @@ $(document).on('click', 'button[data-role="solicitar-credito"]', function () {
           alert('La solicitud fue generada con éxito');
           window.location.href = requestUrl + '/intranet/servicop/creditos/solicitudes/detalle?idSolicitud=' + data.response.idSolicitud;
         }
+        if (data.result == 'error') {
+          alert(data.response.response);
+        }
       },
       error: function(jqXHR, textStatus, errorThrown) {
         $('body').hideLoading();
       }
     });
-  } 
+  } else {
+    $('input[name="nivel-endeudamiento-cuota"]').val(0);  
+    $('input[name="valor-cuota"]').val(0).trigger('change');
+    $('input[name="plazo"]').val(0);
+    $('input[name="valor"]').val(0);
+  }
 })
+
+$('select[id="tipo-linea-credito-detalle"]').on("change", function (e) {
+  var idTipoLineaCredito = $(this).val();
+  $.ajax({
+    type: 'GET',
+    async: true,
+    data: { idTipoLineaCredito: idTipoLineaCredito },
+    url: requestUrl + '/intranet/servicop/creditos/default/render-select-linea',
+    dataType: 'json',
+    beforeSend: function () {
+      $('body').showLoading();
+    },
+    complete: function (data) {
+      $('body').hideLoading();
+    },
+    success: function (data) {
+      $('#select-detalle-linea').html(data.response);
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  return false;
+});
 
 // Carga de documentos Creditos
 var forms = $('form.cargar-documento');
-if (forms != null) {
-  for (var i = 0; i < forms.length; i++) {
-    var form = forms[i];
-    form.addEventListener('submit', function(ev) {
-      var oData = new FormData(this);
-      $.ajax({
-        type: 'POST',
-        async: true,
-        data: oData,
-        url: requestUrl + '/intranet/servicop/creditos/solicitudes/cargar-documento',
-        dataType: 'json',
-        contentType: false,
-        processData: false,
-        beforeSend: function() {
-          $('body').showLoading();
-        },
-        complete: function(data) {
-          $('body').hideLoading();
-        },
-        success: function(data) {
-          console.log(data);
-          if (data.result == 'ok') {
-            alert('Se ha cargado correctamente el documento');
-          }
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-          $('body').hideLoading();
-        }
-      });
-      ev.preventDefault();
-    }, false)
-  };
-};
+forms.on('submit', function(ev) {
+  var oData = new FormData(this);
+  $.ajax({
+    type: 'POST',
+    async: true,
+    data: oData,
+    url: requestUrl + '/intranet/servicop/creditos/solicitudes/cargar-documento',
+    dataType: 'json',
+    contentType: false,
+    processData: false,
+    beforeSend: function() {
+      $('body').showLoading();
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      // console.log(oData.get('idSolicitud'));
+      if (data.result == 'ok') {
+        alert('Se ha cargado correctamente el documento');
+        $('button[data-id-documento="'+ oData.get('idSolitudDocumento') +'"]').removeClass('hidden');
+        // alert('Usted puede hacer seguimiento de su solicitud de crédito por la opción Historial de la solicitud de crédito');
+        // renderWidgetDocumentos(oData.get('idSolicitud'));
+
+        // console.log("renderizado");
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+  ev.preventDefault();
+  // return false;
+});
+
+// function asignarEventListenerDocumentosCreditos() {
+//   // forms = $('form.cargar-documento');
+//   // console.log("forms");
+//   forms.on('submit', function(ev) {
+//     var oData = new FormData(this);
+//     console.log(data.get('idSolicitud'));
+//     $.ajax({
+//       type: 'POST',
+//       async: true,
+//       data: oData,
+//       url: requestUrl + '/intranet/servicop/creditos/solicitudes/cargar-documento',
+//       dataType: 'json',
+//       contentType: false,
+//       processData: false,
+//       beforeSend: function() {
+//         $('body').showLoading();
+//       },
+//       complete: function(data) {
+//         $('body').hideLoading();
+//       },
+//       success: function(data) {
+//         // console.log(oData.get('idSolicitud'));
+//         if (data.result == 'ok') {
+//           alert('Se ha cargado correctamente el documento');
+//           // alert('Usted puede hacer seguimiento de su solicitud de crédito por la opción Historial de la solicitud de crédito');
+//           renderWidgetDocumentos(oData.get('idSolicitud'));
+//           // console.log("renderizado");
+//         }
+//       },
+//       error: function(jqXHR, textStatus, errorThrown) {
+//         $('body').hideLoading();
+//       }
+//     });
+//     ev.preventDefault();
+//     return false;
+//   });
+// }
+
+// asignarEventListenerDocumentosCreditos();
+
+function renderWidgetDocumentos(idSolicitud) {
+
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: requestUrl + '/intranet/servicop/creditos/solicitudes/render-widget-documentos?idSolicitud=' + idSolicitud,
+    dataType: 'json',
+    contentType: false,
+    processData: false,
+    beforeSend: function() {
+      $('body').showLoading();
+    },
+    complete: function(data) {
+      $('body').hideLoading();
+    },
+    success: function(data) {
+      // console.log(data);
+      if (data.result == 'ok') {
+        $('div[data-role="widgetDocumentosSolicitudCredito"').html(data.response);
+        // asignarEventListenerDocumentosCreditos();
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $('body').hideLoading();
+    }
+  });
+}
 
   
 $(document).ready(function () {
@@ -3120,34 +3534,37 @@ $(document).on('click', 'button[data-role="radicar-contribucion"]', function () 
 
 $(document).on('click', 'button[data-role="radicar-credito"]', function () {
   var idSolicitud = $(this).attr('data-id-solicitud');
-  $.ajax({
-      type: 'POST',
-      async: true,
-      data: {idSolicitud: idSolicitud},
-      url: requestUrl + '/intranet/servicop/creditos/solicitudes/radicar',
-      dataType: 'json',
-      beforeSend: function() {
-        $('body').showLoading();
-      },
-      complete: function(data) {
-        $('body').hideLoading();
-      },
-      success: function(data) {
-        alert(data.response);
-        if (data.result == 'ok') {
-          actualizarWidgetDocumentosSolicitudCredito();
+  if (confirm("¿Esta seguro que desea confirmar la solicitud?")) {
+    $.ajax({
+        type: 'POST',
+        async: true,
+        data: {idSolicitud: idSolicitud},
+        url: requestUrl + '/intranet/servicop/creditos/solicitudes/radicar',
+        dataType: 'json',
+        beforeSend: function() {
+          $('body').showLoading();
+        },
+        complete: function(data) {
+          $('body').hideLoading();
+        },
+        success: function(data) {
+          alert(data.response);
+          if (data.result == 'ok') {
+            actualizarWidgetDocumentosSolicitudCredito();
+          }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          $('body').hideLoading();
         }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-        $('body').hideLoading();
-      }
-    });
-  return false;
+      });
+    return false;
+  }
 });
 
 
 $(document).ready(function () {
-  $('input.formatear-numero').number(true,2);
+  $('input.formatear-numero').number(true,0);
+  $('a[data-pop-over="popover"').popover();
 });
 
 function actualizarWidgetDocumentosSolicitudCredito() {
@@ -3195,3 +3612,25 @@ function actualizarWidgetDocumentosSolicitudContribucion() {
       }
     });
 }
+
+$(document).on('click', 'button[data-role="descargar-documento-creditos"]', function (e) {
+  e.preventDefault();
+  var idSolicitudDocumento = $('button[data-role="descargar-documento-creditos"]').attr('data-id-documento');
+  window.location = requestUrl + '/intranet/servicop/creditos/solicitudes/descargar-archivo?idSolicitudDocumento=' + idSolicitudDocumento;
+  return false;
+})
+
+$(document).on('click', 'button[data-role="descargar-formato-creditos"]', function (e) {
+  e.preventDefault();
+  var idSolicitudDocumento = $(this).attr('data-id-documento');
+  window.location = requestUrl + '/intranet/servicop/creditos/solicitudes/descargar-formato?idSolicitudDocumento=' + idSolicitudDocumento;
+  return false;
+})
+
+
+$(document).on('click', 'button[data-role="descargar-documento-contribuciones"]', function (e) {
+  e.preventDefault();
+  var idSolicitudDocumento = $(this).attr('data-id-documento');
+  window.location = requestUrl + '/intranet/servicop/contribuciones/solicitudes/descargar-archivo?idSolicitudDocumento=' + idSolicitudDocumento;
+  return false;
+})

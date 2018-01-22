@@ -24,21 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ] ?>
 
 <div class="indicadores-container">
-    <div class="indicador">
-        <a href=<?= Url::toRoute('reportes/ranking-usuarios') ?> >
-            <div class="tiles blue text-center ">
-            <?php if ($indicadores['ranking'] != null): ?>
-                    <h2 class="semi-bold text-white text-primary weather-widget-big-text no-margin p-t-35 p-b-10"><?php echo $indicadores['ranking'] ?></h2>
-                    <div class="tiles-title text-white blend p-b-25"> DE <?php echo $indicadores['usuariosTotales']?> USUARIOS<br>RANKING NACIONAL </div>
-                    <div class="clearfix"></div>
-            <?php else: ?>
-                <h2 class="semi-bold text-white text-primary weather-widget-big-text no-margin p-t-35 p-b-10">N/A</h2>
-                <div class="tiles-title text-white blend p-b-25">ESTE MES NO HAS REALIZADO CURSOS</div>
-                <div class="clearfix"></div>    
-            <?php endif ?>
-            </div>
-        </a>
-    </div>
+    
     <div class="indicador">
         <a href=<?= Url::toRoute('contenido/pendientes-usuario') ?> >
             <div class="tiles red text-center ">

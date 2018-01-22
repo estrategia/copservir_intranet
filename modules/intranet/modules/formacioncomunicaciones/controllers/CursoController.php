@@ -384,9 +384,9 @@ class CursoController extends Controller
             'cursosHechos' => Indicadores::cursosHechos(),
             'cursosPendientes' => Indicadores::cursosPendientes(),
             'puntosObtenidos' => Indicadores::puntosObtenidos(),
-            'ranking' => Indicadores::ranking(),
+            // 'ranking' => Indicadores::ranking(),
             'puntosTotales' => Indicadores::puntosTotales(),
-            'usuariosTotales' => Indicadores::cantidadRanking(),
+            // 'usuariosTotales' => Indicadores::cantidadRanking(),
         ];
 
         return $this->render('misCursos', [
@@ -431,9 +431,9 @@ class CursoController extends Controller
             'cursosHechos' => Indicadores::cursosHechos(),
             'cursosPendientes' => Indicadores::cursosPendientes(),
             'puntosObtenidos' => Indicadores::puntosObtenidos(),
-            'ranking' => Indicadores::ranking(),
+            // 'ranking' => Indicadores::ranking(),
             'puntosTotales' => Indicadores::puntosTotales(),
-            'usuariosTotales' => Indicadores::cantidadRanking(),
+            // 'usuariosTotales' => Indicadores::cantidadRanking(),
         ];
 
         return $this->render('misCursos', [
@@ -477,9 +477,9 @@ class CursoController extends Controller
             'cursosHechos' => Indicadores::cursosHechos(),
             'cursosPendientes' => Indicadores::cursosPendientes(),
             'puntosObtenidos' => Indicadores::puntosObtenidos(),
-            'ranking' => Indicadores::ranking(),
+            // 'ranking' => Indicadores::ranking(),
             'puntosTotales' => Indicadores::puntosTotales(),
-            'usuariosTotales' => Indicadores::cantidadRanking(),
+            // 'usuariosTotales' => Indicadores::cantidadRanking(),
         ];
 
         return $this->render('misCursos', [

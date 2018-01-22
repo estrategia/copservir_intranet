@@ -125,7 +125,7 @@ $idEstados = ArrayHelper::map($estados, 'idEstadoSolicitud', 'nombreEstado');
 
                         <div class="form-group">
                             <?php if ($documento['rutaArchivo'] != ''): ?>
-                                <a id="<?php echo $documento['idSolicitudDocumento'] ?>" class="btn btn-primary" href="<?php echo $documento['rutaArchivo'] ?>" download >Descargar <?php echo $documento['nombreDocumento'] ?></a>
+                                <button data-id-documento="<?php echo $documento['idSolicitudDocumento'] ?>" class="btn btn-primary" data-role="descargar-documento-contribuciones">Descargar <?php echo $documento['nombreDocumento'] ?></button>
                             <?php endif ?>
                         </div>
                     </form>

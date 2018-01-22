@@ -10,6 +10,7 @@ use kartik\select2\Select2;
                 'data' => $selectContribuciones,
                 'options' => [
                     'placeholder' => 'Seleccione una contribución',
+                    'empty' => [NULL => 'Asociado']
                 ],
                 'pluginEvents' => [
 
