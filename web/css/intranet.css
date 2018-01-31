@@ -718,3 +718,16 @@ a.circle-avatar, div.circle-avatar{
     /*height: 80px;*/
     /*min-height: 100%;*/
 }
+
+.pre-simulador {
+    direction: ltr;
+    /* background-color: #1b1e24; */
+    color: #6f7b8a;
+    font-family: 'Arial';
+    font-size: 13px;
+    /*padding: 0px !important;*/
+    /*margin: 0px !important;*/
+    line-height: 1.5;
+    font-style: normal;
+    font-weight: normal;
+}

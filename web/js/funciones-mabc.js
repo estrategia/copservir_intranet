@@ -2689,20 +2689,27 @@ function desactivarInputs() {
   $('button[data-role="simular-credito"]').attr('disabled', true);
   $('button[data-role="simular-credito"]').removeClass('btn-primary');
   $('button[data-role="simular-credito"]').addClass('btn-default');
+  $('button[data-role="campo-siguiente"]').hide();
 
 }
 
 function activarSiguienteItemSimulador() {
-  console.log('Antes: ' + contadorFormularioSimulador);
+  // console.log('Antes: ' + contadorFormularioSimulador);
   if (contadorFormularioSimulador == (ordenItemsSimulador.length)) {
     $('button[data-role="simular-credito"]').attr('disabled', false);
     $('button[data-role="simular-credito"]').removeClass('btn-default');
     $('button[data-role="simular-credito"]').addClass('btn-primary');
   }
-  $(ordenItemsSimulador[contadorFormularioSimulador]).show();
-  $(ordenItemsSimulador[contadorFormularioSimulador] + ' input').show();
+  $(ordenItemsSimulador[contadorFormularioSimulador]).show().focus();
+  $(ordenItemsSimulador[contadorFormularioSimulador] + ' input').show().focus();
+  var nombre = $(ordenItemsSimulador[contadorFormularioSimulador]).attr('name');
+  if (nombre == undefined) {
+    nombre = $(ordenItemsSimulador[contadorFormularioSimulador] + ' input').attr('name');
+  }
+  $('button[data-role="campo-siguiente"][data-campo="' + nombre + '"]').show();
+  // $(ordenItemsSimulador[contadorFormularioSimulador] + ' input');
   contadorFormularioSimulador++;
-  console.log('Despues ' + contadorFormularioSimulador);
+  // console.log('Despues ' + contadorFormularioSimulador);
 }
 
 function inicializarFormularioSimulador() {
@@ -2710,6 +2717,11 @@ function inicializarFormularioSimulador() {
   contadorFormularioSimulador = 0;
   $(ordenItemsSimulador[contadorFormularioSimulador]).show();
   $(ordenItemsSimulador[contadorFormularioSimulador] + ' input').show();
+  var nombre = $(ordenItemsSimulador[contadorFormularioSimulador]).attr('name');
+  if (nombre == undefined) {
+    nombre = $(ordenItemsSimulador[contadorFormularioSimulador] + ' input').attr('name');
+  }
+  $('button[data-role="campo-siguiente"][data-campo="' + nombre + '"]').show();
   $.each(ordenItemsSimulador, function (index, selector) {
     var input = $(selector);
     var inputs = $(selector + ' input[type="text"]');
@@ -2792,6 +2804,11 @@ function validarAntiguedadCargo(idCredito) {
     }
   });
 }
+
+$('button[data-role="campo-siguiente"]').on("click", function (e) {
+  e.preventDefault();
+  activarSiguienteItemSimulador();
+});
 
 $('button[data-role="limpiar-formulario"]').on("click", function (e) {
   location.reload(true);
@@ -3073,7 +3090,7 @@ function ocultarSelectCodeudor() {
 }
 
 function crearFormCuota(idCuota) {
-  var plazo = $('input[name="plazoMaximo"]').val();
+  var plazo = $('input[name="plazo"]').val();
   $.ajax({
     type: 'GET',
     async: true,
@@ -3615,7 +3632,7 @@ function actualizarWidgetDocumentosSolicitudContribucion() {
 
 $(document).on('click', 'button[data-role="descargar-documento-creditos"]', function (e) {
   e.preventDefault();
-  var idSolicitudDocumento = $('button[data-role="descargar-documento-creditos"]').attr('data-id-documento');
+  var idSolicitudDocumento = $(this).attr('data-id-documento');
   window.location = requestUrl + '/intranet/servicop/creditos/solicitudes/descargar-archivo?idSolicitudDocumento=' + idSolicitudDocumento;
   return false;
 })
@@ -3626,7 +3643,6 @@ $(document).on('click', 'button[data-role="descargar-formato-creditos"]', functi
   window.location = requestUrl + '/intranet/servicop/creditos/solicitudes/descargar-formato?idSolicitudDocumento=' + idSolicitudDocumento;
   return false;
 })
-
 
 $(document).on('click', 'button[data-role="descargar-documento-contribuciones"]', function (e) {
   e.preventDefault();

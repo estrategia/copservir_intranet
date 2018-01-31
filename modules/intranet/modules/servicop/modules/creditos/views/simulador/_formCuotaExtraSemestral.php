@@ -2,8 +2,7 @@
     use yii\helpers\Html;
 ?>
 <div id="<?= "form-cuota-" . $tipoCuotaExtra['idTipoCuotaExtra'] ?>">
-<h4><?= $tipoCuotaExtra['nombreCuotaExtra'] ?></h4>
-    
+<h3><?= $tipoCuotaExtra['nombreCuotaExtra'] ?></h3>
 <?php foreach ($anios as $key => $anio): ?>
     <?php if (date('m', strtotime($anio)) == '06'): ?>
         

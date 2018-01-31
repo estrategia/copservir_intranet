@@ -12,13 +12,13 @@ use yii\helpers\ArrayHelper;
  */
 class SimuladorController extends Controller
 {
-    public function behaviors() {
-        return [
-            [
-                'class' => \app\components\AccessFilter::className(),
-            ],
-        ];
-    }
+    // public function behaviors() {
+    //     return [
+    //         [
+    //             'class' => \app\components\AccessFilter::className(),
+    //         ],
+    //     ];
+    // }
     
     public function actionIndex()
     {
@@ -291,8 +291,9 @@ class SimuladorController extends Controller
     // Periodo 1=>Anual, 2=>Semestral
     private function calcularPeriodosCuotas($quincenas, $periodo=1)
     {
-        $periodoAprobacion = 10;
+        $periodoAprobacion = 0;
         $dias = ($quincenas * 15);
+        $anios = $quincenas * 24;
         $fechaInicial = date('Y-m-d', strtotime("+ $periodoAprobacion days"));
         if (date('m') == '06' || date('m') == '12') {
             $mesSiguiente = $periodoAprobacion + 30;
@@ -314,12 +315,22 @@ class SimuladorController extends Controller
                 $fecha = date('Y-m-01', strtotime("+ 1 year", strtotime($fecha)));
             }
         } while ($fecha < $fechaFin);
+        if ($periodo == 2) {
+            if (sizeof($fechas) / 2 < $anios) {
+                $fechas[] = $fecha;
+            }
+        }
+        if($periodo == 1) {
+            if (sizeof($fechas) < $anios) {
+                $fechas[] = $fecha;
+            }
+        }
         return $fechas;
     }
 
     public function actionPrueba()
     {
-        return Json::encode($this->calcularPeriodosCuotas(24, 1));
+        return Json::encode($this->calcularPeriodosCuotas(288, 1));
     }
 
 }

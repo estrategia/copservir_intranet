@@ -52,14 +52,15 @@ use yii\helpers\Url;
     </div>
     <div class="col-md-6">
         <div class="row">
-            
             <div class="col-md-12">
                 <label for="plazo">Plazo (Quincenas)</label>
-                <input type="text" name="plazo" class="form-control formatear-numero">
+                <input type="text" name="plazo" class="formatear-numero">
+                <button class="btn btn-primary" data-campo="plazo" data-role="campo-siguiente">Siguiente</button>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-10">
                 <label for="valor">Valor a solicitar</label>
-                <input type="text" name="valor" class="form-control formatear-numero">
+                <input type="text" name="valor" class="formatear-numero">
+                <button class="btn btn-primary" data-campo="valor" data-role="campo-siguiente">Siguiente</button>
             </div>
         </div>
     </div>

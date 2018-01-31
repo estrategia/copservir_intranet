@@ -111,7 +111,7 @@ use yii\helpers\Url;
         </tr>
         <tr class="active">
             <td>DIFERENCIA ENTRE TOTAL INGRESOS MENOS TOTAL EGRESOS MÁS DESCUENTOS POR PRESTAMOS</td>
-            <td align="right"><?= $formatter->asDecimal($totalIngresos['valor'] - $totalEgresos['valor'] + $totalPrestamos['valor'],0)  ?></td>
+            <td align="right"><?= $formatter->asDecimal($totalIngresos['valor'] - ($totalEgresos['valor'] + $totalPrestamos['valor']),0)  ?></td>
         </tr>
         <tr class="active">
             <td>NIVEL DE ENDEUDAMIENTO MÁXIMO PERMITIDO POR EL REGLAMENTO</td>

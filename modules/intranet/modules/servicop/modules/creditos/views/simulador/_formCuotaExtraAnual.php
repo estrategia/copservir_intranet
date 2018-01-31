@@ -2,7 +2,7 @@
     use yii\helpers\Html;
 ?>
 <div id="<?= "form-cuota-" . $tipoCuotaExtra['idTipoCuotaExtra'] ?>">
-<h4><?= $tipoCuotaExtra['nombreCuotaExtra'] ?></h4>
+<h3><?= $tipoCuotaExtra['nombreCuotaExtra'] ?></h3>
 <?php foreach ($anios as $key => $fecha): ?>
     <div class="row">
         <div class="col-md-4">
